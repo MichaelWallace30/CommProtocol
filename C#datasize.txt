@@ -1,0 +1,22 @@
+Name	.NET Class	width	
+byte	Byte		8	
+sbyte	SByte		8	
+int	Int32		32	
+uint	UInt32		32	
+short	Int16		16	
+ushort	UInt16		16	
+long	Int64		64	
+ulong	UInt64		64	
+float	Single		32	
+double	Double		64	
+char	Char		16	
+bool	Boolean		8	
+	
+
+
+//C#
+// Convert char type to Byte
+Console.WriteLine("Convert Char type to Byte");
+char ch = 'M'; 
+byte charByte = Convert.ToByte(ch);
+Console.WriteLine("{0} converted to {1}.", ch, charByte);  
