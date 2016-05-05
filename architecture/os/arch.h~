@@ -1,0 +1,15 @@
+/**
+   Operating System Architecture Check.
+ */
+#ifndef __ARCH_H
+#define __ARCH_H
+
+#if defined(_WIN32)                           // Windows 
+ #define WINDOWS_COMNET
+#elif defined(__linux__)                      // Linux
+ #define LINUX_COMNET
+#elif defined(__APPLE__) && defined(__MACH__) // OS X
+ #define OSX_COMNET
+#endif // _WIN32
+
+#endif // __ARCH_H

@@ -1,0 +1,7 @@
+cmake_minimum_required( VERSION 3.0 )
+
+project( "NGCP-Comnet-v2" )
+
+include_directories(architecture/
+		    lib/
+		    tools/)
