@@ -1,84 +1,57 @@
 #include <stdint.h>
+#include <queue>
+#include <string>
 
-#define MAX_PACKET_SIZE 1024
-#define ENCRYPTION_BLOCK_BYTES 16
-#define MESSAGE_ID_SIZE 4
+#include "CommsPacket.h"//Header which declares packet structs
+
 #define MAX_CONNECTIONS 25
 
-/** include encryption header*/
-#include "aes.h"
-using CryptoPP::AES;
 
 #ifndef COMMS_H
 #define COMMS_H
-
-/** C# wrapper can not load fstream, to fix this problem if windows, then
-use managed c++ code to open and read file*/
-#ifdef _MANAGED
-    #using<system.dll>
-    using namespace System;
-    using namespace System::IO;
-    using namespace System::Runtime::InteropServices;
-#else
-    #include <fstream>
-    #include <string>
-#endif
-
 
 class Comms{
    
 
 private:
-    /**Add key to comnet class*/
-    uint8_t key[AES::DEFAULT_KEYLENGTH];
+    /** Add key to comnet class*/
+	uint8_t key[KEY_LENGTH];
     /** Method to read key form text file*/
     void loadKey();
-    
-    //read me Mario
-    //queue maybe two queues one for send and one for recive?
-    
-    //array of connections to match destID with address use max connections
+
+	/** Platform ID */
+	uint8_t plarformID;
+        
+	/** Queues for application layer to push message or pop messages */
+	std::queue<uint8_t*> recvQueue;
+	std::queue<uint8_t*> sendQeueu;
+
+	/** Array of connections to match destion ID to address string */
+	std::string connections[MAX_CONNECTIONS];
    
-   
-   //read me Mario
-   //thread methods
-        //recv: recv,build packet,  decrypt, and queue  
-        //send: deque , encrypt, seralize, send
+   //thread method
+        //recv: recv, build packet, decrypt, and queue  
+        //send: deque , encrypt, and send
    
     
     
 public:
     /** Constuctor */
-    Comms();
+    Comms(uint8_t platformID);
     /** Destcutor */
     ~Comms();
-    /** Packet header stcture for sending messages*/
-    struct header_t
-    {
-        uint8_t destID;
-        uint8_t sourceID;
-        uint8_t messaeID[MESSAGE_ID_SIZE];
-        uint8_t IV[ENCRYPTION_BLOCK_BYTES];//random init vector for encryption
-        uint16_t messageLength;    
-    }
-
-    /** Packet structure uses header strcut and fixed data size */
-    struct packet_t
-    {
-        header_t header;
-        uint8_t data[MAX_PACKET_SIZE];    
-    }
     
-    //init connections(port, baud rate = "")
-    //add connections(id, address)
-    //remove connections
-    //send  queue
-    //recv  dequeue
-    //run  start threads
-    //stop stop threads
-
+	//I love bool
+	//maybe enum paramter for connection type for init method?
+	bool initConnection(uint8_t port, uint32_t baudrate = 0);
+	bool addConnection(uint8_t destID, std::string address);
+	bool removeConnection(uint8_t destID);
     
+	bool send(uint8_t destID, char messageID[MESSAGE_ID_SIZE], uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);
+	bool recv(uint8_t &sourceID, char messageID[MESSAGE_ID_SIZE], uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);
+	
+	bool run();
+	bool stop();
     
-
 };//end Comms class
 #endif//end if COMMS_H
