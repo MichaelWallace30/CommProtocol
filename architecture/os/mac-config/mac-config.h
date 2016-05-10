@@ -1,7 +1,7 @@
 #ifndef __MAC_CONFIG_H_
 #define __MAC_CONFIG_H_
 
-#include <CommProtocol/architecture/os/arch.h>
+#include <architecture/os/arch.h>
 
 #if (COM_TARGET_OS == COM_OS_APPLE)
 

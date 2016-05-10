@@ -2,7 +2,7 @@
 #define __GENERIC_H
 
 
-#include <CommProtocol/architecture/os/include_defines.h>
+#include <architecture/os/include_defines.h>
 
 namespace Comnet {
 namespace DataStructure {
