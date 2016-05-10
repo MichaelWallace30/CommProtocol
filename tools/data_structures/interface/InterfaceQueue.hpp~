@@ -1,0 +1,29 @@
+#ifndef __INTERFACE_QUEUE_H
+#define __INTERFACE_QUEUE_H
+
+#include <CommProtocol/tools/data_structures/interface/generic.h>
+
+using namespace Comnet::DataStructure::Package;
+
+namespace Comnet {
+namespace DataStructure {
+
+/** Queue interface */
+template<typename T>
+class Queue : public Interface {
+public:
+  Queue();
+  virtual ~Queue();
+
+  int32_t getSize() { return size; }
+  DataStructureType() { return type; }
+  
+  virtual void enQueue(T data) = 0;
+  virtual void deQueue() = 0;
+  virtual T& front() = 0;
+private:
+  
+};
+} // DataStructure
+} // Comnet
+#endif // __INTERFACE_QUEUE_H

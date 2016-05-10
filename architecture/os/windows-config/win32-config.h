@@ -26,5 +26,4 @@
 #endif
 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS 
-
 #endif // __WIN32_CONFIG_H_

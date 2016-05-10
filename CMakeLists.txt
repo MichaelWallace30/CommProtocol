@@ -4,7 +4,8 @@ project( "NGCP-Comnet-v2" )
 
 get_filename_component( PARENT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY )
 
-include_directories(SYSTEM ../)
+include_directories(SYSTEM ../
+			   ./)
 
 set( TEST_SRCS main.cpp )		
 

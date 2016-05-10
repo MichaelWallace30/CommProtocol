@@ -8,6 +8,7 @@
 
 #if COM_TARGET_OS == COM_OS_WINDOWS
  #include <CommProtocol/architecture/os/windows-config/win32-config.h>
+ #include <stdint.h>
 #elif COM_TARGET_OS == COM_OS_LINUX
  #include <CommProtocol/architecture/os/linux-config/linux-config.h>
 #elif COM_TARGET_OS == COM_OS_APPLE

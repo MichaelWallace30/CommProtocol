@@ -24,10 +24,14 @@ enum DataStructureType {
 */
 class Interface {
 public:
+  Interface() { }
+  
+  int32_t getSize();
+  DataStructureType getDataStructType();
   
 private:
-  // size of data structure
-  // enum of data structure
+  int32_t size;// size of data structure
+  DataStructureType type;// enum of data structure
 }
 
 } // Package
