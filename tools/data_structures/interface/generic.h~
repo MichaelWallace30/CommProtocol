@@ -1,0 +1,16 @@
+#ifndef __GENERIC_H
+#define __GENERIC_H
+
+
+#include <CommProtocol/architecture/os/include_defines.h>
+
+namespace Comnet {
+namespace DataStructure {
+
+
+
+
+}
+}
+
+#endif // __GENERIC_H
