@@ -29,6 +29,10 @@ All of these files are structured in a certain way, so as to organize the librar
 | build        | Will hold our .lib/.a files or .dll/.so files for use   | Machine  |
 -------------------------------------------------------------------------------------
 
+target: Since UGV is currently using the oldest compiler, we will try to stick to using C++03 features, and as few
+        C++11 syntax as possible. We can write C++11-14 syntax, but will need to do too much work using CMake
+        to set up our source for compilation on older compilers.
+
 Should things go right, we shouldn't need to create any scripts (unless we decide to create an installer..) 
 to generate any more messages, only have the separate platforms do it instead, our job is mainly to create the protocol, 
 have it be sent securely and properly so that GCS and all other platforms can understand it on their end, and optimize the library so that it may run efficiently. 
