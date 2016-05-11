@@ -29,9 +29,9 @@ All of these files are structured in a certain way, so as to organize the librar
 | build        | Will hold our .lib/.a files or .dll/.so files for use   | Machine  |
 -------------------------------------------------------------------------------------
 
-Should things go right, we shouldn't need to create any scripts to generate any more messages, only have the 
-separate platforms do it instead, our job is mainly to create the protocol, have it be sent securely and propely so that
-GCS and all other platforms can understand it on their end, and optimize the library so that it may run efficiently. 
+Should things go right, we shouldn't need to create any scripts (unless we decide to create an installer..) 
+to generate any more messages, only have the separate platforms do it instead, our job is mainly to create the protocol, 
+have it be sent securely and properly so that GCS and all other platforms can understand it on their end, and optimize the library so that it may run efficiently. 
 
 Architecture Layout:
 
