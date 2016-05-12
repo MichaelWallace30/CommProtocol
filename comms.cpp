@@ -50,22 +50,22 @@ bool initConnection(uint8_t port, uint32_t baudrate = 0)
 	return true;
 }
 
-bool addConnection(uint8_t destID, std::string address)
+bool addAddress(uint8_t destID, std::string address)
 {
 	return true;
 }
 
-bool removeConnection(uint8_t destID)
+bool removeAddress(uint8_t destID)
 {
 	return true;
 }
 
-bool send(uint8_t destID, char messageID[MESSAGE_ID_SIZE], uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
+bool send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
 {
 	return true;
 }
 
-bool recv(uint8_t &sourceID, char messageID[MESSAGE_ID_SIZE], uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
+bool recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
 {
 	return true;
 }

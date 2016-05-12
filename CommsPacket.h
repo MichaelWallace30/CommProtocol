@@ -4,8 +4,8 @@
 #define COMMSPACKET_H
 
 #define MAX_PACKET_SIZE 1024
+#define HEADER_SIZE 22//not great way to do this
 #define ENCRYPTION_BLOCK_BYTES 16
-#define MESSAGE_ID_SIZE 4
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH
 
 /** Packet header stcture for sending messages*/
@@ -13,7 +13,7 @@ struct header_t
 {
 	uint8_t destID;
 	uint8_t sourceID;
-	uint8_t messaeID[MESSAGE_ID_SIZE];
+	uint16_t messaeID;
 	uint8_t IV[KEY_LENGTH];//random init vector for encryption
 	uint16_t messageLength;
 };

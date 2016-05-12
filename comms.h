@@ -12,14 +12,14 @@
 #include "commsLink.h"
 
 
-
+#define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE
 
 
 #include <iostream>
 using namespace std;
 
 
-#define MAX_DATA_SIZE 1024 //+header size
+
 typedef enum
 {
 	UDP_LINK,
@@ -39,7 +39,7 @@ private:
     void loadKey();
 
 	/** Data buffer to create packets with */
-	uint8_t data_Buf[MAX_DATA_SIZE];
+	uint8_t data_Buf[MAX_BUFFER_SIZE];
 
 	/** Platform ID */
 	uint8_t platformID;
@@ -78,11 +78,11 @@ public:
     
 	//I love bool
 	bool initConnection(commsLink_type_t connectionType, uint8_t port, uint32_t baudrate = 0);
-	bool addConnection(uint8_t destID, std::string address);
-	bool removeConnection(uint8_t destID);
+	bool addAddress(uint8_t destID, std::string address);
+	bool removeAddress(uint8_t destID);
     
-	bool send(uint8_t destID, char messageID[MESSAGE_ID_SIZE], uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);
-	bool recv(uint8_t &sourceID, char messageID[MESSAGE_ID_SIZE], uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);
+	bool send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);
+	bool recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);
 	
 	void run();
 	void stop();

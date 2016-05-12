@@ -15,7 +15,7 @@
 #define COM_TARGET_OS         COM_OS_UNKNOWN
 
 // WIN32 operating systems: Windows.
-#ifdef _WIN32
+#if defined( _WIN32)
  #undef COM_TARGET_OS
  #define COM_TARGET_OS        COM_OS_WINDOWS
 #endif // _WIN32 && WINDOWS
