@@ -5,16 +5,27 @@
 #include <queue>
 #include <string>
 
-#include "CommsPacket.h"//Header which declares packet structs
+#include "commsPacket.h"//Header which declares packet structs
 
 #include "architecture\os\include_defines.h"
+#include "osThreads.h"
+#include "commsLink.h"
 
-#define MAX_CONNECTIONS 25
 
 
-#include <temp.h>
+
+
 #include <iostream>
 using namespace std;
+
+
+#define MAX_DATA_SIZE 1024 //+header size
+typedef enum
+{
+	UDP_LINK,
+	SERIAL_LINK,
+	ZIGBEE_LINK
+}commsLink_type_t;
 
 class Comms{
    
@@ -26,6 +37,9 @@ private:
 	uint8_t key[KEY_LENGTH];
     /** Method to read key form text file*/
     void loadKey();
+
+	/** Data buffer to create packets with */
+	uint8_t data_Buf[MAX_DATA_SIZE];
 
 	/** Platform ID */
 	uint8_t platformID;
@@ -48,12 +62,7 @@ private:
    due to casting as a class member being incompatible with C style
    thread creation APIs. Static linkage helps with that.
    */
-   static void* commuincation_helper(void* context);
-
-   //thread method
-        //recv: recv, build packet, decrypt, and queue  
-        //send: deque , encrypt, and send
-   
+   static void* commuincation_helper(void* context);  
 
 public:
     Comms();
@@ -68,8 +77,7 @@ public:
     uint8_t getID(){return platformID;}
     
 	//I love bool
-	//maybe enum paramter for connection type for init method?
-	bool initConnection(uint8_t port, uint32_t baudrate = 0);
+	bool initConnection(commsLink_type_t connectionType, uint8_t port, uint32_t baudrate = 0);
 	bool addConnection(uint8_t destID, std::string address);
 	bool removeConnection(uint8_t destID);
     

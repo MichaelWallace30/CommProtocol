@@ -16,4 +16,6 @@
  #error "Target OS is unknown. OS may be incompatible with this software."
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
+
+
 #endif // __INCLUDE_DEFINES_H

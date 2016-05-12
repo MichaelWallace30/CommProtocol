@@ -15,13 +15,13 @@ void* Comms::commuincation_helper(void* context)
 	return ((Comms*)context)->commuincation_handler();
 }
 
-/** function to fun in commuincation thread */
+/** function for commuincation thread */
 void* Comms::commuincation_handler()
 {
 	while (isRunning)
 	{
 		cout << "Thread Running" << endl;
-		Sleep(200);
+		Sleep(200);//
 	}
 
 	return 0;

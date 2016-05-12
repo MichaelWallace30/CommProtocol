@@ -5,6 +5,9 @@
 
 #if (COM_TARGET_OS == COM_LINUX_OS)
 
+#include <pthread.h>
+/** Define Linux typedef of threading data type*/
+typedef pthread_t thread_t;
 #include <assert.h>
 
 #if (COM_DISABLE_ASSERT > 0)
