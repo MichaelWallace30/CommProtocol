@@ -25,10 +25,11 @@ enum DataStructureType {
 class Interface {
 public:
   Interface() { }
+  virtual ~Interface() { }
   
-  int32_t getSize();
-  DataStructureType getDataStructType();
-  
+  virtual int32_t getSize() = 0;
+  virtual DataStructureType getDataStructType() = 0;
+  virtual bool isEmpty() { return size == 0; }
 private:
   int32_t size;// size of data structure
   DataStructureType type;// enum of data structure

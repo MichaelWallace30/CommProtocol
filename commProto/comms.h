@@ -5,10 +5,10 @@
 #include <queue>
 #include <string>//needed for addresses
 
-#include "commsPacket.h"//Header which declares packet structs
+#include "CommsPacket.h"//Header which declares packet structs
 
-#include "architecture\os\include_defines.h"
-#include "architecture\os\osThreads.h"//method to create threads
+#include "architecture/os/include_defines.h"
+#include "architecture/os/osThreads.h"//method to create threads
 #include "commsLink.h"//commincation layer interface/abstract base class
 
 

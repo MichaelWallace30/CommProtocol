@@ -6,6 +6,6 @@ get_filename_component( PARENT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY )
 
 include_directories(SYSTEM ./)
 
-set( TEST_SRCS main.cpp )		
+set( TEST_SRCS "commProto/main.cpp" )		
 
 add_executable( NGCP_TEST ${TEST_SRCS} )

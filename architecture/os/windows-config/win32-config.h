@@ -7,7 +7,6 @@
 
 
 #include <assert.h>
-#include <Windows.h>
 
 #if (COM_DISABLE_ASSERT > 0)
  #define COM_ASSERT(cond)
@@ -25,9 +24,6 @@
   #define NULL ((void*)0)
  #endif
 #endif
-
-/* Redefine threads */
-typedef HANDLE thread_t;
 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS 
 #endif // __WIN32_CONFIG_H_

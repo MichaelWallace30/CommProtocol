@@ -9,7 +9,8 @@ namespace DataStructure {
 /* */
 class SingleLinkedQueue : public Interface { 
 public:
-  
+  SingleLinkedQueue() { 
+  }
 private:
 
   struct SingleLinkedNode {
