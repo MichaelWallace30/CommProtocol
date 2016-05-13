@@ -22,7 +22,7 @@ thread_t thread_get_self_id() {
 }
 
 unsigned Sleep(unsigned seconds) {
-  return sleep(seconds);
+  return sleep((seconds / 1000));
 }
 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
