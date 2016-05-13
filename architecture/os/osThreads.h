@@ -3,7 +3,7 @@
 #define OSTHREADS_H
 
 #include <architecture/os/include_defines.h>
-#include <architecture/os/threading.h>
+#include <architecture/os/thread-config.h>
 
 //posix \ window threading
 
