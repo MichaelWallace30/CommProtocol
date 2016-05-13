@@ -7,6 +7,10 @@ using namespace Comnet;
 namespace TestComparator {
 
 class Test : public Comparator<Test> {
+private:
+  int32_t number;
+  char letter;
+  
 public:
   Test() : number(0), letter('a') { }
   Test(int32_t number) : number(number), letter('a') { }
@@ -21,10 +25,6 @@ public:
       return -1;
     }
   }
-private:
-
-  int32_t number;
-  char letter;
 };
 } // TestComparator
 
