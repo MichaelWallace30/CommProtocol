@@ -1,6 +1,6 @@
 #include <architecture/os/osThreads.h>
 #include <architecture/os/arch.h>
-#include <architecture/os/thread-config.h>
+//#include <architecture/os/thread-config.h>
 
 #if COM_TARGET_OS == COM_OS_WINDOWS
 
