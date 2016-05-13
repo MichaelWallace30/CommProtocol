@@ -1,5 +1,3 @@
-Michael W.
-
 All of these files are structured in a certain way, so as to organize the library architecture, here is the layout:
 
 
