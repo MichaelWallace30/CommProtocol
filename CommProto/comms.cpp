@@ -1,4 +1,7 @@
-#include "comms.h"
+#include <CommProto/comms.h>
+extern "C" {
+#include <architecture/os/osThreads.h>
+}
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
@@ -43,7 +46,7 @@ Comms::Comms(uint8_t platformID)
 
 Comms::~Comms()
 {
-	isRunning = false;	
+	isRunning = false;
 }
 
 bool initConnection(uint8_t port, uint32_t baudrate = 0)

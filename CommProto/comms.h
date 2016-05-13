@@ -7,13 +7,14 @@
 
 #include "CommsPacket.h"//Header which declares packet structs
 
-#include "architecture/os/include_defines.h"
-#include "architecture/os/osThreads.h"//method to create threads
-#include "commsLink.h"//commincation layer interface/abstract base class
+#include <architecture/os/include_defines.h>
+extern "C" {
+#include <architecture/os/osThreads.h>//method to create threads
+}
+#include <CommProto/commsLink.h> //commincation layer interface/abstract base class
 
 
 #define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE
-
 
 #include <iostream>//testing only
 using namespace std;//testing only
@@ -25,7 +26,7 @@ typedef enum
 	ZIGBEE_LINK
 }commsLink_type_t;
 
-class Comms{
+class Comms {
    
 
 private:
