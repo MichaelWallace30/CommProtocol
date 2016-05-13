@@ -1,7 +1,7 @@
 #ifndef __LINUX_CONFIG_H_
 #define __LINUX_CONFIG_H_
 
-#include <CommProtocol/architecture/os/arch.h>
+#include <architecture/os/arch.h>
 
 #if (COM_TARGET_OS == COM_LINUX_OS)
 
@@ -22,7 +22,7 @@ typedef pthread_t thread_t;
  #ifdef __cplusplus
   #define NULL 0
  #else
-  #define NULL ((void*)0)
+#define NULL ((void*)0)
  #endif
 #endif
 
