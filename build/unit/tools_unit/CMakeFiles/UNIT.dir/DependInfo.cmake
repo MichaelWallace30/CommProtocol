@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/main.cpp" "/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CMakeFiles/NGCP_TEST.dir/main.cpp.o"
+  "/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/unit/Test.cpp" "/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/tools_unit/CMakeFiles/UNIT.dir/Test.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -14,8 +14,7 @@ set(CMAKE_TARGET_LINKED_INFO_FILES
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
-  ".."
-  "."
+  "/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/unit/.."
   )
 set(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
 set(CMAKE_Fortran_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})

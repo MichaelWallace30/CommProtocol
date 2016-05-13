@@ -14,7 +14,7 @@ class Comparator {
   typedef const _Ty& const_reference;
 public:
   Comparator() { }
-  virtual Comparator() { }
+  virtual ~Comparator() { }
 
   /** Overloaded operator to compare values */
   virtual int32_t operator()(const_reference obj1, const_reference obj2) {

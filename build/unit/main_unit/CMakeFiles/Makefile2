@@ -50,7 +50,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol
+CMAKE_BINARY_DIR = /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/main_unit
 
 #=============================================================================
 # Target rules for target CMakeFiles/NGCP_TEST.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto
 CMakeFiles/NGCP_TEST.dir/all:
 	$(MAKE) -f CMakeFiles/NGCP_TEST.dir/build.make CMakeFiles/NGCP_TEST.dir/depend
 	$(MAKE) -f CMakeFiles/NGCP_TEST.dir/build.make CMakeFiles/NGCP_TEST.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/main_unit/CMakeFiles  1 2 3 4
 	@echo "Built target NGCP_TEST"
 .PHONY : CMakeFiles/NGCP_TEST.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/NGCP_TEST.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/NGCP_TEST.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/main_unit/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/NGCP_TEST.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/main_unit/CMakeFiles 0
 .PHONY : CMakeFiles/NGCP_TEST.dir/rule
 
 # Convenience name for target.
