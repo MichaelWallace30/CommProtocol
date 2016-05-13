@@ -9,9 +9,9 @@ int main(int c, char** args) {
   Comms newComms = Comms();
 
   newComms.run();
-  Sleep(1000);
+  Sleep(10);
   newComms.stop();
-  Sleep(1000);
+  Sleep(5);
 
   return 0;
 }

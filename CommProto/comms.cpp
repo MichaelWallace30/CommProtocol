@@ -23,7 +23,7 @@ void* Comms::commuincation_handler()
 	while (isRunning)
 	{
 		cout << "Thread Running" << endl;
-		Sleep(200);//
+		Sleep(2);//
 	}
 
 	return 0;
