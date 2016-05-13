@@ -8,7 +8,7 @@
 #include "commsPacket.h"//Header which declares packet structs
 
 #include "architecture\os\include_defines.h"
-#include "osThreads.h"
+#include "architecture\os\osThreads.h"
 #include "commsLink.h"
 
 
@@ -17,6 +17,7 @@
 
 #include <iostream>
 using namespace std;
+
 
 
 

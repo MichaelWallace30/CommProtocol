@@ -41,8 +41,7 @@ Comms::Comms(uint8_t platformID)
 
 Comms::~Comms()
 {
-	isRunning = false;
-	Sleep(300);//change to proper sleep
+	isRunning = false;	
 }
 
 bool initConnection(uint8_t port, uint32_t baudrate = 0)
