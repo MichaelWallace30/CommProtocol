@@ -23,13 +23,8 @@ public:
 
   /** If comparator is needed, be sure to define any inherited classes with this 
       function. */
-  virtual int32_t compare(const_reference obj1, const_reference obj2) {
-    if (obj1 > obj2) {
-      return _GREATER_THAN;
-    } else {
-      return _LESS_THAN;
-    }
-  }
+  virtual int32_t compare(const_reference obj1, const_reference obj2) = 0;
+  
 private: 
 };
 
