@@ -11,7 +11,7 @@ int main(int c, char** args) {
   newComms.run();
   Sleep(1000);
   newComms.stop();
-  Sleep(1000);
+  Sleep(5000);
 
   return 0;
 }

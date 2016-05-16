@@ -23,7 +23,7 @@ void* Comms::commuincation_handler()
 	while (isRunning)
 	{
 		cout << "Thread Running" << endl;
-		Sleep(200);//
+		Sleep(250);//
 	}
 
 	return 0;
@@ -35,7 +35,8 @@ void* Comms::commuincation_handler()
 /***********************************************/
 Comms::Comms()
 {
-	isRunning = false;
+	isRunning = false;	
+	connectionLayer = NULL;
 }
 
 Comms::Comms(uint8_t platformID)
@@ -47,31 +48,58 @@ Comms::Comms(uint8_t platformID)
 Comms::~Comms()
 {
 	isRunning = false;
+	if(connectionLayer != NULL)
+	{
+		delete connectionLayer;
+	}
 }
 
-bool initConnection(uint8_t port, uint32_t baudrate = 0)
+bool Comms::initConnection(commsLink_type_t connectionType, uint8_t port, uint32_t baudrate)
 {
+	switch (connectionType)
+	{
+		case UDP_LINK:
+		{}
+		case SERIAL_LINK:
+		{}
+		case ZIGBEE_LINK:
+		{}
+		default:
+		{return false;}
+	}
 	return true;
 }
 
-bool addAddress(uint8_t destID, std::string address)
+bool Comms::addAddress(uint8_t destID, std::string address)
 {
-	return true;
+	if (connectionLayer == NULL)return false;
+	return connectionLayer->addAddress(destID, address);
 }
 
-bool removeAddress(uint8_t destID)
+bool Comms::removeAddress(uint8_t destID)
 {
-	return true;
+	if (connectionLayer == NULL)return false;
+	return connectionLayer->removeAddress(destID);
 }
 
-bool send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
+bool Comms::send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
 {
-	return true;
+	//parese headere packet here (serialize)
+
+	if (connectionLayer == NULL) return false;
+	return connectionLayer->send(messageID, buffer, messageLength);
 }
 
-bool recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
+bool Comms::recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint32_t &messageLength)
 {
-	return true;
+	if (connectionLayer == NULL) return false;
+	bool messageFound = connectionLayer->recv(buffer, &messageLength);
+	if (messageFound == true)
+	{
+		//need to parse header here and set source ID, messsage ID, and buffer length 
+	}
+
+	return messageFound;
 }
 
 void Comms::run()
