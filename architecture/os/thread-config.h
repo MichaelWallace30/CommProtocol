@@ -3,7 +3,7 @@
 
 #include <architecture/os/arch.h>
 
-#if COM_TARGET_OS == COM_WINDOWS_OS
+#if COM_TARGET_OS == COM_OS_WINDOWS
  #include <Windows.h>
  typedef HANDLE thread_t;
 #else
