@@ -139,6 +139,30 @@ Test.cpp.s:
 	$(MAKE) -f CMakeFiles/UNIT.dir/build.make CMakeFiles/UNIT.dir/Test.cpp.s
 .PHONY : Test.cpp.s
 
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.o: home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.o
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.o
+
+# target to build an object file
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.o:
+	$(MAKE) -f CMakeFiles/UNIT.dir/build.make CMakeFiles/UNIT.dir/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.o
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.o
+
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.i: home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.i
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.i
+
+# target to preprocess a source file
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.i:
+	$(MAKE) -f CMakeFiles/UNIT.dir/build.make CMakeFiles/UNIT.dir/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.i
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.i
+
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.s: home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.s
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.s
+
+# target to generate assembly for a file
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.s:
+	$(MAKE) -f CMakeFiles/UNIT.dir/build.make CMakeFiles/UNIT.dir/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.s
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -151,6 +175,9 @@ help:
 	@echo "... Test.o"
 	@echo "... Test.i"
 	@echo "... Test.s"
+	@echo "... home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.o"
+	@echo "... home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.i"
+	@echo "... home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/CommProto/Packets.s"
 .PHONY : help
 
 

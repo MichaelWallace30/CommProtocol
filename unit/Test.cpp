@@ -1,4 +1,6 @@
 #include <tools/Comparator.h>
+#include <CommProto/Packets.h>
+#include <tools/data_structures/SingleLinkedList.h>
 
 #include <stdio.h>
 
@@ -20,12 +22,13 @@ public:
 };
 
 class TestCompare : public Comparator<Test> {
+  typedef const Test& const_reference;
 public:
-  
+
   TestCompare() { }
   ~TestCompare() { }
   // Compare object.
-  int32_t compare(const Test& obj1, const Test& obj2) {
+  int32_t compare(const_reference obj1, const_reference obj2) {
     if (obj1.number > obj2.number) {
       return 1;
     } else if (obj1.number < obj2.number) {
@@ -35,20 +38,37 @@ public:
     }
   }
 
+  bool equal(const_reference obj1, const_reference obj2) {
+    return (obj1.number == obj2.number);
+  }
+
   //  int32_t operator()(const Test& obj1, const Test& obj2) {
   //  return compare(obj1, obj2);
   // }
 };
 } // TestComparator
 
-using namespace TestComparator;
+#include <iostream>
+#include <string>
 
+using namespace TestComparator;
+using namespace Comnet;
+using namespace std;
 int main(int c, char** args) {
   Test t1(10);
   Test t2(20);
+
+  CommsPacket packet(40, true);
+  AbstractPacket& aPacket = packet;
+
+  Comnet::DataStructure::SingleLinkedList<Test, TestCompare> testList;
+  cout << "List was created!!" << endl;
+  CommsPacket cff = dynamic_cast<CommsPacket&>(aPacket);
+  cout << cff.getId() << endl;
   //TestCompare tC;
   //Comparator<Test>& _cmp = tC;
-  TestCompare _cmp;
+  TestCompare tC;
+  Comparator<Test>& _cmp = tC;
   int32_t result = _cmp(t1, t2);
   printf("%d\n", result);
   return 0;
