@@ -8,6 +8,14 @@
 #define ENCRYPTION_BLOCK_BYTES 16
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH
 
+/** Will specify what type of packet we are sending. */
+enum PacketType {
+  NONE,
+  COMMS_PACKET,    // They don't have to be this analogous.
+  PONG_PACKET,     // Well defined and Specific.
+  PING_PACKET,
+};
+
 /** Packet header stcture for sending messages*/
 struct header_t
 {
@@ -22,9 +30,9 @@ struct header_t
 struct packet_t
 {
 	header_t header;
+	PacketType packetType;
 	uint8_t data[MAX_PACKET_SIZE];
 };
-
 
 // all platform packets could be declared or include from another file here
 // all platform structs should include a serialize and deserialze function

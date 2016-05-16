@@ -13,6 +13,8 @@ set(SOURCES
 	architecture/os/linux-config/linux-config.h
 	architecture/os/thread-config.h
 	"architecture/os/osThreads.c"
+	CommProto/AbstractPacket.hpp
+	CommProto/AbstractPacket.cpp
 	CommProto/comms.h
 	CommProto/comms.cpp
 	CommProto/commsLink.h

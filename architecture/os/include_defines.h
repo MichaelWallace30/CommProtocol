@@ -5,10 +5,10 @@
 #define __INCLUDE_DEFINES_H
 
 #include <architecture/os/arch.h>
+#include <stdint.h>
 
 #if COM_TARGET_OS == COM_OS_WINDOWS
  #include <architecture/os/windows-config/win32-config.h>
- #include <stdint.h>
 #elif COM_TARGET_OS == COM_OS_LINUX
  #include <architecture/os/linux-config/linux-config.h>
 #elif COM_TARGET_OS == COM_OS_APPLE
