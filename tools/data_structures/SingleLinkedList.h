@@ -4,8 +4,6 @@
 #include <tools/data_structures/interface/InterfaceList.h>
 #include <tools/Comparator.h>
 
-#define NULL 0
-
 namespace Comnet {
 namespace DataStructure {
 

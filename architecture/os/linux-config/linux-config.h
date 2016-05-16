@@ -3,7 +3,7 @@
 
 #include <architecture/os/arch.h>
 
-#if (COM_TARGET_OS == COM_LINUX_OS)
+#if (COM_TARGET_OS == COM_OS_LINUX)
 
 #include <assert.h>
 
@@ -23,6 +23,6 @@
  #endif
 #endif
 
-#endif // COM_TARGET_OS == COM_LINUX_OS
+#endif // COM_TARGET_OS == COM_OS_LINUX
 
 #endif
