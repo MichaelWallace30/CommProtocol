@@ -1,7 +1,7 @@
 #ifndef __AUTO_QUEUE_H
 #define __AUTO_QUEUE_H
 
-#include <tools/data_structures/interface/InterfaceQueue.hpp>
+#include <tools/data_structures/interface/InterfaceQueue.h>
 
 #include <queue>
 

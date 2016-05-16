@@ -1,4 +1,4 @@
-#include <tools/Comparator.hpp>
+#include <tools/Comparator.h>
 
 #include <stdio.h>
 

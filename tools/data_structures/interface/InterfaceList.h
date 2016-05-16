@@ -1,7 +1,7 @@
 #ifndef __INTERFACE_LIST_H
 #define __INTERFACE_LIST_H
 
-#include <tools/data_structures/interface/Generic.hpp>
+#include <tools/data_structures/interface/Generic.h>
 
 namespace Comnet::DataStructure::Package;
 

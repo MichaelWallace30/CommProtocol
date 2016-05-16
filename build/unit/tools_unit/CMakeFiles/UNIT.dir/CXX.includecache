@@ -36,12 +36,12 @@ architecture/os/arch.h
 assert.h
 -
 
-/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/unit/../tools/Comparator.hpp
+/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/unit/../tools/Comparator.h
 architecture/os/include_defines.h
 -
 
 /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/unit/Test.cpp
-tools/Comparator.hpp
+tools/Comparator.h
 -
 stdio.h
 -

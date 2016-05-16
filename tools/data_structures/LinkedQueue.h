@@ -1,7 +1,7 @@
 #ifndef __LINKED_QUEUE_H
 #define __LINKED_QUEUE_H
 
-#include <tools/data_structures/interface/InterfaceQueue.hpp>
+#include <tools/data_structures/interface/InterfaceQueue.h>
 
 namespace Comnet {
 namespace DataStructure {

@@ -1,0 +1,140 @@
+In order to further organize this library's code repository, we need to adopt a coding convention that will help us, as developers,
+easily write and use eachothers' code without having to guess at how they were named. This allows us to write code without creating
+files that contain multiple different programming styles, which may prove to be fatal in the long run. With this in mind, This is 
+the coding convention we will adopt, feel free to request any changes if you would like, but any changes done will require us to 
+restructure our code base just to satisfy these requirements. Have a look:
+
+
+PLEASE NOTE: You DO NOT have to follow these coding conventions all the time!!! But, it helps TREMENDOUSLY if you try to follow these
+	     guidelines.
+
+Code Convention:
+
+For C language files:
+All files and repositories holding .h (header files that are meant for C files)  and .c files will adopt this convention.
+This convention is common in the linux source repository, so if you need more examples on how this works, visit the github
+for linux.
+
+*     	All Directories, folders, will have lower case names, any spaces needed between characters will use an underscore. 
+	ex. some_directory
+*	All .c and .h (that are meant for C files) must be written same way as directories.
+*	All struct names will be named the same way as directories.
+*	All functions will be named the same way as structs and directories
+*	All variables will be named the same way as structs, directories, and functions.
+*	Documentation must have the /** */ syntax before each function, struct, variable for proper documentation. 
+	Comments with //, /* syntax are not documented.
+*	Any #define variables must be all upper case with underscores as spaces
+*	Any macro #define must be named the same way as functions (example below)
+*	All curly brackets must be used in the following way (note, this is also an example of how our .c and .h files will be written):
+
+
+
+	// This file is named: some_file.c
+	#include "some_file.h"
+	
+	// This is a define variable 
+	#define SOME_VARIABLE     0
+
+	// This is a macro
+	#define some_macro(var) 	\
+		{			\
+		  while (0)		\
+		  {			\
+		    var++;		\
+		  }   	              	\
+		}                   	\
+
+
+	/** Documenting this struct */	
+	struct some_struct_t
+	{
+	  int some_variable;
+	}
+	
+	/** Documenting this function. */
+	void some_function()
+	{
+	  if (true) 
+	  {
+	    // code
+	  } 
+	  else if (false) 
+	  {
+	    // code.
+          }
+	  else
+	  {
+	    // code.
+	  }
+	}
+
+
+For C++ language files:
+All files and repositories holding .h (header files that are meant for C++ files) and .cpp files will adopt this convention.
+This convention is similar to the way Javascript, Java, is written, and most C++ programs are written this way.
+
+*	All directories will be lower case, any spaces between characters must use an underscore.
+	ex. some_directory.
+
+*	The main directory we have is ComProto, which will remain with Capitalized C and P, this is to ensure that
+	most of the library functionality itself is going to be in here. All other directories follow the above discription.
+
+*	Classes and C++ structs must have a Capitalized first letter in the name. No spaces in between characters, you must 
+	capitalize the first letter to emphasize that it is a combination of multiple words. ex:    SomeClassObject
+
+*	Functions and variables must begin with lower case, multiple words in the name after the first word will have a capitalized
+	first letter.   ex:      (for function)  void getSize(int variableA).       (for variable)    int someVariableUsed
+
+* 	Preprocessor defines must be all capitalized, with underscores, similar to C style.
+*	Preprocessor macros must be lower cased, with underscores, similar to C style.
+
+*	All Curly Brackets must begin on the same line as the name of the Class or function that is being scoped. Same applies to flow control 
+	code and loops. : example is below. 
+
+Example:
+ 	// Some file called SomeClass.cpp
+	#include <iostream>
+	#include "SomeClass.h"
+
+	#define SAMPLE_NILL      0 
+
+	#define some_macro(var_a) {	\
+		  while (0) {		\
+		    var_a++;		\
+		  }			\
+		}    			
+
+
+	/** Documenting this variable */
+	int someVariableUsed = 6;
+
+	/** Documenting this function. */
+	int getCalculationsAndStuff(int a, int b) {
+	  if (true) {
+	    return a + b;
+	  } else if (false) {
+	    return b - a;
+	  } else {
+	    return b;
+	  }
+	}
+
+	/** Documenting this class. */
+	class SomeSecondaryClass : public SomeClass {
+	private:
+	  /** documenting this variable */
+	  int classVariable;
+	
+	public:
+	  /** Documenting this constructor. */
+	  SomeSecondaryClass() {
+	    classVariable = 0;
+	  }
+	
+	  /** Docuementing this function member */
+	  int getClassVariable() {
+	    return classVariable;
+	  }
+
+	};
+

@@ -1,7 +1,7 @@
 #ifndef __INTERFACE_QUEUE_H
 #define __INTERFACE_QUEUE_H
 
-#include <tools/data_structures/interface/Generic.hpp>
+#include <tools/data_structures/interface/Generic.h>
 
 using namespace Comnet::DataStructure::Package;
 
