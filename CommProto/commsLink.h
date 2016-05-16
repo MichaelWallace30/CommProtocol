@@ -11,18 +11,19 @@ class commsLink
 {
 private:
 
-
+	/** Array of connections to match destination ID to address string */
+	std::string connections[MAX_CONNECTIONS];
 
 public:
-	commsLink();
-	~commsLink();
+	commsLink(){};
+	~commsLink(){};
 	
-	virtual bool initConnection(uint8_t port, uint32_t baudrate = 0) = 0;
-	virtual bool addAddress(uint8_t destID, std::string address) = 0;
-	virtual bool removeAddress(uint8_t destID) = 0;
+	virtual bool initConnection(uint8_t port, uint32_t baudrate = 0){ return false; }
+	virtual bool addAddress(uint8_t destID, std::string address){ return false; }
+	virtual bool removeAddress(uint8_t destID){ return false; }
 	
-	virtual bool send(uint8_t pathID, uint8_t* txData, int32_t txLength) = 0;
-	virtual bool recv(uint8_t* rx_data, int32_t* rx_len) = 0;
+	virtual bool send(uint8_t pathID, uint8_t* txData, int32_t txLength){ return false; }
+	virtual bool recv(uint8_t* rx_data, uint32_t* rx_len){ return false; }
 };
 
 #endif

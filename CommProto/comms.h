@@ -46,10 +46,7 @@ private:
 	/** Queues for application layer to push messages or pop messages */
 	std::queue<uint8_t*> recvQueue;
 	std::queue<uint8_t*> sendQeueu;
-
-	/** Array of connections to match destination ID to address string */
-	std::string connections[MAX_CONNECTIONS];
-   
+  
    /** Thread to run commuincation data */
    thread_t communication_thread;
    
@@ -63,6 +60,15 @@ private:
    */
    static void* commuincation_helper(void* context);  
 
+   /** Virtual Commuincation link for connection code*/
+   commsLink *connectionLayer;
+
+
+   /** Parse header function deserialize header packet */
+   void deserializeHeader();
+   
+   /** Parse header funciton to seerialize header packet */
+   void serializeHeader();
 public:
     Comms();
     /** Constuctor */
@@ -90,7 +96,7 @@ public:
 	bool removeAddress(uint8_t destID);
     
 	bool send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);
-	bool recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);
+	bool recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint32_t &messageLength);
 	
 	/** Method to start communication*/
 	void run();
