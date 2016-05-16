@@ -7,7 +7,13 @@
 namespace Comnet {
 namespace DataStructure {
 
-template<typename _Ty, class _Compare = Comparator<_Ty> >
+/**
+   Single Linked List provides a basic data structure list to hold all values efficiently.
+   It provides O(1) inserstion, and fast removal of certain values. Best used when keeping
+   Track of a short list of objects.
+*/
+template<typename _Ty, 
+         class _Compare = Comparator<_Ty> >
 class SingleLinkedList : public List< _Ty > {
 private:
   /**
