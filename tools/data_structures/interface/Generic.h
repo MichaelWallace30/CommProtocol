@@ -24,14 +24,34 @@ enum DataStructureType {
 */
 class Interface {
 public:
+  /** 
+      Interface Constructor.
+  */
   Interface() { }
+  /**
+     Polymorphic Destruction.
+  */
   virtual ~Interface() { }
-  
+  /**
+     Grab the size of the data structure.
+  */
   virtual int32_t getSize() = 0;
+  /**
+     get the data structure type.
+  */
   virtual DataStructureType getDataStructType() = 0;
+  /**
+     Check if the data structure is empty.
+  */
   virtual bool isEmpty() { return size == 0; }
 private:
+  /**
+     The size of the data structure. 
+  */
   int32_t size;// size of data structure
+  /** 
+      The type of data structure.
+  */
   DataStructureType type;// enum of data structure
 }
 
