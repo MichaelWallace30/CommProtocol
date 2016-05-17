@@ -42,7 +42,7 @@ for linux.
 		  {			\
 		    var++;		\
 		  }   	              	\
-		}                   	\
+		}                   	
 
 
 	/** Documenting this struct */	
