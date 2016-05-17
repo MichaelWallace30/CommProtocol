@@ -48,12 +48,30 @@ public:
 };
 } // TestComparator
 
+class IntComparator : public Comparator<int> {
+public:
+  int32_t compare(const int& a, const int& b) {
+    if (a > b) {
+      return 1;
+    } else if (a < b) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  bool equal(const int& a, const int& b) {
+    return a == b;
+  }
+};
+
 #include <iostream>
 #include <string>
 
 using namespace TestComparator;
 using namespace Comnet;
 using namespace std;
+
 int main(int c, char** args) {
   Test t1(10);
   Test t2(20);
@@ -61,8 +79,16 @@ int main(int c, char** args) {
   CommsPacket packet(40, true);
   AbstractPacket& aPacket = packet;
 
-  Comnet::DataStructure::SingleLinkedList<Test, TestCompare> testList;
+  Comnet::DataStructure::SingleLinkedList<int, IntComparator> testList;
   cout << "List was created!!" << endl;
+  testList.insert(1);
+  testList.insert(4);
+  testList.insert(19);
+  cout << "List has added in values" << endl;
+  cout << "Removing 1: " << testList.remove(1) << endl;
+  cout << "Removing 10: " << testList.remove(10) << endl;
+
+
   CommsPacket cff = dynamic_cast<CommsPacket&>(aPacket);
   cout << cff.getId() << endl;
   //TestCompare tC;

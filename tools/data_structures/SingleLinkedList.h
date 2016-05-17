@@ -13,7 +13,7 @@ namespace DataStructure {
    Track of a short list of objects.
 */
 template<typename _Ty, 
-         class _Compare = Comparator<_Ty> >
+         class _Compare>
 class SingleLinkedList : public List< _Ty > {
 private:
   /**

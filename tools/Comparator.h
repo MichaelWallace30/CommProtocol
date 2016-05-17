@@ -38,15 +38,11 @@ public:
       If comparator is needed, be sure to define any inherited classes with this 
       function. 
   */
-  virtual int32_t compare(const_reference  obj1, const_reference obj2) {
-    return -100;
-  }
+  virtual int32_t compare(const_reference  obj1, const_reference obj2) = 0;
   /**
      Check if the objects are equal.
   */
-  virtual bool equal(const_reference obj1, const_reference obj2) {
-    return -100;
-  }
+  virtual bool equal(const_reference obj1, const_reference obj2) = 0;
 
 private: 
 };

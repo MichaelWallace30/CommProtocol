@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp
-CommProto/Packets.h
--
-
 /home/jessieeisenberg/Documents/GitHub/CommProtocol/unit/../CommProto/AbstractPacket.h
 CommProto/CommsPacket.h
 -
