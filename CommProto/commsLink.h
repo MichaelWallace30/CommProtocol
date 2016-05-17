@@ -11,8 +11,7 @@ class commsLink
 {
 private:
 
-	/** Array of connections to match destination ID to address string */
-	std::string connections[MAX_CONNECTIONS];
+
 
 public:
 	commsLink(){};
