@@ -9,7 +9,7 @@ namespace Comnet {
    Constructor for AbstractPacket.
 */
 AbstractPacket::AbstractPacket(const char* className)
-: typeID(std::hash<const char*>()(className)) {
+: typeId(std::hash<const char*>()(className)) {
 }
 
 /**

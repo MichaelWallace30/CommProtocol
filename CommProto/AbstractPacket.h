@@ -24,7 +24,7 @@ public:
   */
   virtual ~AbstractPacket();
 
-  uint32_t getID() { return typeID; }
+  uint32_t getId() { return typeId; }
 
   /**
      Packing should be defined by the user.
@@ -43,7 +43,7 @@ private:
   /**
      This id defines the type of object.
   */
-  uint32_t typeID;
+  uint32_t typeId;
 };
 } // Comnet namespace 
 #endif // __ABSTRACT_PACKET_H
