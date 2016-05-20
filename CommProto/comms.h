@@ -103,8 +103,6 @@ public:
 	/** Method to stop communication*/
 	void stop();
 
-
-
     
 };//end Comms class
 #endif//end if COMMS_H

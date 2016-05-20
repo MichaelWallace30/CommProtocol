@@ -8,13 +8,11 @@
 #define ENCRYPTION_BLOCK_BYTES 16
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH
 
-/** Will specify what type of packet we are sending. */
-enum PacketType {
-  NONE,
-  COMMS_PACKET,    // They don't have to be this analogous.
-  PONG_PACKET,     // Well defined and Specific.
-  PING_PACKET,
-};
+/** 
+    Will specify what type of packet we are sending. This will ensure that PacketType is out there somewhere
+    and that the user will specify the Class name.
+ */
+extern enum PacketType;
 
 /** Packet header stcture for sending messages*/
 struct header_t

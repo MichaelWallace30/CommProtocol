@@ -87,6 +87,7 @@ int main(int c, char** args) {
   cout << "List has added in values" << endl;
   cout << "Removing 1: " << testList.remove(1) << endl;
   cout << "Removing 10: " << testList.remove(10) << endl;
+  cout << "Size of list: " << testList.getSize() << endl;
 
 
   CommsPacket cff = dynamic_cast<CommsPacket&>(aPacket);
