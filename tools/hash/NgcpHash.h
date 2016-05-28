@@ -27,5 +27,39 @@
 #include <architecture/os/include-defines.h>
 #include <architecture/macros.h>
 
+#define HASH_BIT16                0X10
+#define HASH_BIT32                0x20
+#define HASH_BIT64                0x40
+#define HASH_BIT128               0x80
+
+#define HASH_SEED                 1
+#define HASH_VERSION              0
+
+#if HASH_VERSION > 0
+
+#define NGCP_PUBLIC_API
+
+typedef uint32_t ngcp_hash32_t;
+typedef utin64_t ngcp_hash64_t;
+typedef unsigned char byte;
+
+
+/**************************************************************************************
+ Public hash APIs used for hashing.
+***************************************************************************************/
+NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed);
+NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed);
+
+
+
+
+
+#undef NGCP_PUBLIC_API
+
+#else
+ #error "This hash version is no longer supported. Consider upgrading to prevent possible, incorrect hashing."
+
+#endif // HASH_VERSION > 0
+
 
 #endif // __NGCPHASH_H
