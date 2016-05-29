@@ -9,6 +9,6 @@
 #else
  #include <pthread.h>
  #include <unistd.h>
- typedef pthread_t mutex_t;
+ typedef pthread_mutex_t mutex_t;
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 #endif // __MUTEX_CONFIG_H

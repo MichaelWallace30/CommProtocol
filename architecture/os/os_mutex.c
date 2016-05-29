@@ -1,4 +1,4 @@
-#include <architecture/os/osMutex.h>
+#include <architecture/os/os_mutex.h>
 
 #if COM_TARGET_OS == COM_OS_WINDOWS
 /**

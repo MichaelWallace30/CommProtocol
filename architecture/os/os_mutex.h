@@ -1,7 +1,7 @@
 #ifndef __OS_MUTEX_H
 #define __OS_MUTEX_H
 
-#include <architecture/os/include-defines.h>
+#include <architecture/os/include_defines.h>
 #include <architecture/os/mutex-config.h>
 
 EXTERN_C
@@ -20,7 +20,7 @@ void mutex_unlock(mutex_t* mutex);
 /**
    Destroy the mutex.
 */
-void mutext_destroy(mutex* mutex);
+void mutex_destroy(mutex_t* mutex);
 
 END_EXTERN_C
 

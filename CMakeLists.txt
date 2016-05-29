@@ -68,8 +68,8 @@ else()
   message("This compiler was not detected by the cmake build, so it may not be compatible with this software. However, this build will continue.")
 endif()
 
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOUCE_PATH}/cmake/module/")
+# Add the cmake module path, for module build paths for this cmake file.
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOUCE_PATH}/cmake/")
 
 
 
@@ -86,20 +86,33 @@ include_directories(SYSTEM ./)
 # check for problems and situations arising from our code base. We will most likely
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
 # or linux and OS X.
-set(SOURCES
-  architecture/os/osThreads.h
+set(ARCHITECTURE_HEADERS 
   architecture/os/linux-config/linux-config.h
+  architecture/os/include_defines.h
+  architecture/os/arch.h
+  architecture/os/os_threads.h
   architecture/os/thread-config.h
-  "architecture/os/osThreads.c"
-  CommProto/AbstractPacket.h
-  CommProto/AbstractPacket.cpp
+  architecture/os/mutex-config.h
+  architecture/os/os_mutex.h)
+
+set(ARCHITECTURE_SOURCES
+  architecture/os/os_threads.c
+  architecture/os/os_mutex.c)
+
+set(COMMPROTO_HEADERS
   CommProto/comms.h
-  CommProto/comms.cpp
   CommProto/commsLink.h
+  CommProto/AbstractPacket.h
+  CommProto/CommsPacket.h)
+
+set(COMMPROTO_SOURCES
+  CommProto/AbstractPacket.cpp
+  CommProto/comms.cpp
   CommProto/commsLink.cpp
-  CommProto/CommsPacket.h
-  CommProto/main.cpp)
+  CommProto/main.cpp)		
 
-set( TEST_SRCS "commProto/main.cpp" )		
-
-add_executable( NGCP_TEST ${SOURCES} )
+add_executable( NGCP_TEST 
+  ${ARCHITECTURE_HEADERS}
+  ${ARCHITECTURE_SOURCES}
+  ${COMMPROTO_HEADERS}
+  ${COMMPROTO_SOURCES})
