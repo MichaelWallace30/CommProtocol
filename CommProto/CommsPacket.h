@@ -1,7 +1,7 @@
-#include <stdint.h>
-
 #ifndef COMMSPACKET_H
 #define COMMSPACKET_H
+
+#include <stdint.h>
 
 #define MAX_PACKET_SIZE 1024
 #define HEADER_SIZE 22//not great way to do this

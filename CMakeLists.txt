@@ -29,6 +29,7 @@ endif()
 # Set the compiler build options.
 # Will determine the architecture that this library will be built in.
 if (build64)
+  message("CommProtocol library 64-bit compile. x86-64 build enabled...")
   set(build32 OFF)
 endif()
 
@@ -77,7 +78,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOUCE_PATH}/cmake/")
 get_filename_component( PARENT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY )
 
 # Add some commands to the compiler.
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -pthread")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
 
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM ./)
