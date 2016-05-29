@@ -8,15 +8,15 @@
 
 // A loose string copy as an alternative to 
 // the C library strcpy.
+// NOTE: You can only copy into dynamically allocated (malloc, or new)  strings (char*). 
 #define loose_strcopy(dest, src, size) \
 	{                              \
-	  char* temp1 = (char*)dest;   \
 	  int32_t i = 0;               \
 	  while (i != size)            \
 	  {                            \
-	    temp1[i] = src[i++];       \
+	    dest[i] = src[i++];        \
 	  }                            \
-	  dest = (const char*)temp1;   \
+	  dest[0] = '\0';              \
 	}
 
 
