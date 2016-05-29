@@ -13,7 +13,6 @@ project( "NGCP-Comnet-v2" )
 option(build32 "Build library in 32 bit" ON)
 option(build64 "Build library in 64 bit" OFF)
 
-
 # Check the architecture variable. If the Architecture is 64 bit, we define a variable to state that we
 # are working with a 64-bit operating system architecture. 32-bit will also be defined as well.
 # Anything lower will not be compatible with this software. 
@@ -36,6 +35,9 @@ endif()
 if (build32 AND NOT build64)
   set(COMPILER_BUILD "-m32")
 elseif (build64 AND NOT build32)
+  if (ARCH_DIR NOT STREQUAL "64-bit")
+    message("NOTICE: This operating system does not support 64-bit applications, however, built will continue as 32-bit")
+  endif()
   set(COMPILER_BUILD "-m64")
 else()
   message(FATAL_ERROR "Attempting to build 64 and 32 bit builds. Build will now exit.")
