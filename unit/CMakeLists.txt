@@ -13,10 +13,6 @@ set (NGCP_UNIT
 	../tools/data_structures/interface/Generic.h
 	../tools/data_structures/interface/InterfaceList.h
 	../tools/data_structures/SingleLinkedList.h
-	../CommProto/AbstractPacket.h
-	../CommProto/Packets.h
-	../CommProto/Packets.cpp
-	../CommProto/CommsPacket.h
 	../unit/Test.cpp )
 
 add_executable( UNIT ${NGCP_UNIT} )

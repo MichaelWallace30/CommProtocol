@@ -24,7 +24,7 @@ public:
   /**
      Destructor for AutoQueue.
   */
-  ~AutotQueue() { }
+  ~AutoQueue() { }
   /**
      Grab the size of this queue.
   */

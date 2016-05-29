@@ -35,6 +35,10 @@
 #define HASH_SEED                 1
 #define HASH_VERSION              0
 
+namespace Comnet {
+namespace tools {
+namespace hash {
+
 #if HASH_VERSION > 0
 
 #define NGCP_PUBLIC_API
@@ -60,6 +64,7 @@ NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned
  #error "This hash version is no longer supported. Consider upgrading to prevent possible, incorrect hashing."
 
 #endif // HASH_VERSION > 0
-
-
+} // hash namespace 
+} // tools namespace  
+} // Comnet namespace 
 #endif // __NGCPHASH_H
