@@ -46,6 +46,7 @@ bool valueIsNull(void* input) {
 /**
    Hash experimental. Uses researched, custom, non-cryptographic hashing, with a bit of 
    Jenkins avalanche technique. Credit attributed to Jenkins hash. 
+   NOTE(): Seed still needs to be implemented...
 */
 ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
   ngcp_hash32_t hash = 0;
