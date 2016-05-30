@@ -24,7 +24,7 @@
 #ifndef __NGCPHASH_H
 #define __NGCPHASH_H
 
-#include <architecture/os/include-defines.h>
+#include <architecture/os/include_defines.h>
 #include <architecture/macros.h>
 
 #define HASH_BIT16                0X10
@@ -33,7 +33,7 @@
 #define HASH_BIT128               0x80
 
 #define HASH_SEED                 1
-#define HASH_VERSION              0
+#define HASH_VERSION              1
 
 namespace Comnet {
 namespace tools {
@@ -44,7 +44,7 @@ namespace hash {
 #define NGCP_PUBLIC_API
 
 typedef uint32_t ngcp_hash32_t;
-typedef utin64_t ngcp_hash64_t;
+typedef uint64_t ngcp_hash64_t;
 typedef unsigned char byte;
 
 

@@ -34,8 +34,53 @@ ngcp_hash32_t reverse_byte(byte* _byte) {
   return hash;
 }
 
-ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
+FORCE_INLINE
+bool valueIsNull(void* input) {
+  if (input == NULL) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
+/**
+   Hash experimental.
+*/
+ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
+  ngcp_hash32_t hash = 0;
+  if (valueIsNull(input)) {
+    return hash;
+  }
+  
+ unsigned int i = 0;
+ byte* p = (byte*)input;
+ hash = reverse_byte((p+0));
+
+ while (i < length) {
+   hash += *(p+i) << 7 | (hash >> 1);
+   i++;
+ }
+
+ hash += reverse_byte((p+0));
+ return hash;
+}
+
+ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
+  ngcp_hash64_t hash = 0;
+  if (valueIsNull(input)) {
+    return hash;
+  }
+
+  unsigned int i = 0;
+  byte* p = (byte*)input;
+  hash = reverse_byte((p+0));
+  
+  while (i < length) {
+    
+  }
+  
+  hash += reverse_byte((p+0));
+  return hash;
 }
 } // hash namespace
 } // tools namespace
