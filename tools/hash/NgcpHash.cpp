@@ -8,7 +8,7 @@
 #if COM_TARGET_OS == COM_OS_WINDOWS
  #define FORCE_INLINE
 #else
- #define FORCE_INLINE static __attributes__((__always_inline)) 
+ #define FORCE_INLINE static __attribute__((always_inline)) 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
 #define NGCP_PRIVATE_API
@@ -34,7 +34,9 @@ ngcp_hash32_t reverse_byte(byte* _byte) {
   return hash;
 }
 
+ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
 
-} // hash
-} // tools
-} // Comnet
+}
+} // hash namespace
+} // tools namespace
+} // Comnet namespace
