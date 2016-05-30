@@ -4,7 +4,7 @@
 #ifndef __MACROS_H
 #define __MACROS_H
 
-#include <architecture/os/include-defines.h>
+#include <architecture/os/include_defines.h>
 
 // A loose string copy as an alternative to 
 // the C library strcpy.

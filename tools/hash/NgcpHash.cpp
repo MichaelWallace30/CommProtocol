@@ -57,10 +57,13 @@ ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
  hash = reverse_byte((p+0));
 
  while (i < length) {
-   hash += *(p+i) << 7 | (hash >> 1);
+   hash += *(p+i) << 7 | (hash >> 15);
+   hash ^= (hash >> 6);
    i++;
  }
-
+ hash += (hash << 3);
+ hash ^= (hash >> 11);
+ hash += (hash << 15);
  hash += reverse_byte((p+0));
  return hash;
 }
@@ -76,9 +79,13 @@ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
   hash = reverse_byte((p+0));
   
   while (i < length) {
-    
+    hash += (*(p+i) << 7) | (hash >> 31);
+    hash ^= (hash >> 6);
+    i++;
   }
-  
+  hash += (hash << 3);
+  hash ^= (hash >> 11);
+  hash += (hash << 15);
   hash += reverse_byte((p+0));
   return hash;
 }
