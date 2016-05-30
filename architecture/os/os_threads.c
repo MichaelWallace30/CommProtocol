@@ -43,9 +43,9 @@ thread_t thread_get_self_id()
 /**
    Define Sleep method.
 */
-unsigned Sleep(unsigned seconds) 
+unsigned Sleep(unsigned useconds) 
 {
-  return sleep((seconds / 1000));
+  return usleep((useconds * 1000));
 }
 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
