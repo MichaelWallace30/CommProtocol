@@ -24,6 +24,7 @@ thread_t thread_get_self_id()
 
 #else
 
+#include <time.h>
 /**
    Create a pthread.
 */
@@ -43,9 +44,16 @@ thread_t thread_get_self_id()
 /**
    Define Sleep method.
 */
-unsigned Sleep(unsigned useconds) 
+unsigned Sleep(unsigned milliseconds) 
 {
-  return usleep((useconds * 1000));
+#if _POSIX_C_SOURCE >= 199309L
+  struct timespec ts;
+  ts.tv_sec = milliseconds / 1000;
+  ts.tv_nsec = (milliseconds * 1000) % 1000000;
+  nanosleep(&ts, NULL);
+#else
+  usleep(milliseconds * 1000);
+#endif // _POSIX_C_SOURCE >= 199309L
 }
 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
