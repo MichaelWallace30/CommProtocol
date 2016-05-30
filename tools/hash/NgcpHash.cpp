@@ -31,7 +31,7 @@ ngcp_hash32_t reverse_byte(byte* _byte) {
   hash |= (*_byte & 0x4) << 3;
   hash |= (*_byte & 0x2) << 5;
   hash |= (*_byte & 0x1) << 7;
-  return 0;
+  return hash;
 }
 
 
