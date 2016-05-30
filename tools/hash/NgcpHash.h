@@ -55,9 +55,6 @@ NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned
 NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed);
 
 
-
-
-
 #undef NGCP_PUBLIC_API
 
 #else
