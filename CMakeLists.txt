@@ -2,14 +2,16 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( "NGCP-Comnet-v2" )
 
-
 # define a few variables.
 
 # Set options at build time. These options will allow the user to build the file in which ever 
 # bit version they need.
 # Be sure to call in the cmake file: -Dbuild32=ON for 32bit build (enabled by default)
 #
-#                                    -Dbuild54=ON for 64bit build (will disable build32 build)
+#                                    -Dbuild64=ON for 64bit build (will disable build32 build)
+#
+# If you plan on changing build versions after making changes, such as changing the build from 64 to 32,
+# you must specify -Dbuild64=OFF -Dbuild32=ON along with the build.
 option(build32 "Build library in 32 bit" ON)
 option(build64 "Build library in 64 bit" OFF)
 
@@ -21,7 +23,7 @@ if (CMAKE_SIZEOF_VOID_P EQUAL 8)
 elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)
   set(ARCH_DIR "32-bit")
 else()
-  message("Operating system architecture is not compatible with this software. Exiting build.")
+  message(FATAL_ERROR "Operating system architecture is not compatible with this software. Exiting build.")
   return()
 endif()
 
@@ -30,19 +32,31 @@ endif()
 if (build64)
   message("CommProtocol library 64-bit compile. x86-64 build enabled...")
   set(build32 OFF)
+else()
+  message("CommProtocol library 32-bit compile. x86 build enabled...")
+  set(build32 ON)
+  set(build64 OFF)
 endif()
 
-if (build32 AND NOT build64)
+# Check for possible problems that may occur in the operating system's architecture.
+if (build32)
+  if (${ARCH_DIR} STREQUAL "32-bit")
+    message("32-bit build will commence...")
+  else()
+    message("NOTICE: This operating system supports both 64 and 32 bit applications...")
+    message(WARNING "WARNING: Before compiling, be sure you have 32-bit version of your compiler's libraries.")
+  endif()
   set(COMPILER_BUILD "-m32")
-elseif (build64 AND NOT build32)
+elseif (build64)
   if (${ARCH_DIR} STREQUAL "64-bit")
     message("64-bit build will commence...")
   else()
     message("NOTICE: This operating system is not able to run 64-bit libraries and applications. However, build will continue as 64-bit...")
+    message(WARNING "WARNING: Before compiling, be sure you have 32-bit version of your compiler's libraries.")
   endif()
   set(COMPILER_BUILD "-m64")
 else()
-  message(FATAL_ERROR "Attempting to build 64 and 32 bit builds. Build will now exit.")
+  message(FATAL_ERROR "Attempting to build both 64 and 32 bit builds. Build will now exit.")
   return()
 endif()
 
