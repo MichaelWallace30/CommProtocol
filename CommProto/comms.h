@@ -9,7 +9,7 @@
 
 #include <architecture/os/include_defines.h>
 #include <architecture/os/os_threads.h>//method to create threads
-#include <CommProto/commsLink.h> //commincation layer interface/abstract base class
+#include <CommProto/commsLink.h> //communication layer interface/abstract base class
 
 
 #define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE
@@ -30,7 +30,7 @@ class Comms {
 private:
 	/** Boolean if communication thread running*/
 	bool isRunning;
-    /** Encryotion key*/
+    /** Encryption key*/
 	uint8_t key[KEY_LENGTH];
     /** Method to read key form text file*/
     void loadKey();
@@ -45,10 +45,10 @@ private:
 	std::queue<uint8_t*> recvQueue;
 	std::queue<uint8_t*> sendQeueu;
   
-   /** Thread to run commuincation data */
+   /** Thread to run communication data */
    thread_t communication_thread;
    
-   /** Method to run in commuincation thread */
+   /** Method to run in communication thread */
    void* commuincation_handler();
    
    /**
@@ -58,39 +58,39 @@ private:
    */
    static void* commuincation_helper(void* context);  
 
-   /** Virtual Commuincation link for connection code*/
+   /** Virtual Communication link for connection code*/
    commsLink *connectionLayer;
 
 
-   /** Parse header function deserialize header packet */
+   /** Parse header function de-serialize header packet */
    void deserializeHeader();
    
-   /** Parse header funciton to seerialize header packet */
+   /** Parse header function to serialize header packet */
    void serializeHeader();
 public:
     Comms();
-    /** Constuctor */
+    /** Constructor */
     Comms(uint8_t platformID);
-    /** Destcutor */
+    /** Destructor */
     ~Comms();
     
     /** platform ID mutator */
     void setID(uint8_t platformID){this->platformID = platformID;}
-    /** platform ID accessor */
+    /** platform ID accessors */
     uint8_t getID(){return platformID;}
     
 	/** Method will init the connection device and return false if connection failed to init properly 
-	enum connection type to use serial, udp, zigbee, ect
-	port number is the comport or udp port used will differ from windwos and unix for comports COM05 or /dev/ttyUSB05
-	baudrate is not used for for udp which is not needed but for serial and zigbee it is needed for baud rate */	
+	enum connection type to use serial, UDP, zigbee, ect
+	port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
+	baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */	
 	bool initConnection(commsLink_type_t connectionType, uint8_t port, uint32_t baudrate = 0);
 
-	/** The address entered will be paired for commuincation by destination ID
-	Adding address can be a udp IPV4 or hex MAC address for zigbee
-	Adding an adress is not need for serial and will default to ""*/
+	/** The address entered will be paired for communication by destination ID
+	Adding address can be a UDP IPV4 or hex MAC address for zigbee
+	Adding an address is not need for serial and will default to ""*/
 	bool addAddress(uint8_t destID, std::string address = "");
 
-	/** Removing an address removes the known assocciation of address and destination ID by using id*/
+	/** Removing an address removes the known association of address and destination ID by using id*/
 	bool removeAddress(uint8_t destID);
     
 	bool send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength);

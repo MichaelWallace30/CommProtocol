@@ -16,7 +16,7 @@ void* Comms::commuincation_helper(void* context)
 	return ((Comms*)context)->commuincation_handler();
 }
 
-/** function for commuincation thread */
+/** function for communication thread */
 void* Comms::commuincation_handler()
 {
 	while (isRunning)
@@ -83,7 +83,7 @@ bool Comms::removeAddress(uint8_t destID)
 
 bool Comms::send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
 {
-	//parese headere packet here (serialize)
+	//parse header packet here (serialize)
 
 	if (connectionLayer == NULL) return false;
 	return connectionLayer->send(messageID, buffer, messageLength);
@@ -95,7 +95,7 @@ bool Comms::recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACK
 	bool messageFound = connectionLayer->recv(buffer, &messageLength);
 	if (messageFound == true)
 	{
-		//need to parse header here and set source ID, messsage ID, and buffer length 
+		//need to parse header here and set source ID, message ID, and buffer length 
 	}
 
 	return messageFound;
