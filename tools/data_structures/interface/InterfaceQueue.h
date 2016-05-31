@@ -3,9 +3,10 @@
 
 #include <tools/data_structures/interface/Generic.h>
 
-using namespace Comnet::DataStructures::Interface;
+using namespace Comnet::Tools::DataStructures::Interface;
 
 namespace Comnet {
+namespace Tools {
 namespace DataStructures {
 namespace Interface {
 
@@ -68,6 +69,7 @@ private:
   QueueType queueType;
 };
 } // Interface
-} // DataStructure
+} // DataStructures
+} // Tools
 } // Comnet
 #endif // __INTERFACE_QUEUE_H

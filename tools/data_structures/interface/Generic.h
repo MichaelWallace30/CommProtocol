@@ -5,6 +5,7 @@ extern "C" {
 #include <architecture/os/include_defines.h>
 }
 namespace Comnet {
+namespace Tools {
 namespace DataStructures {
 namespace Interface {
 
@@ -56,7 +57,8 @@ protected:
 };
 
 } // Interface
-} // DataStructure
+} // DataStructures
+} // Tools
 } // Comnet
 
 #endif // __GENERIC_H
