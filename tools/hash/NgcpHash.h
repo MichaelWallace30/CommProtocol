@@ -57,6 +57,34 @@ NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned
 NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed);
 
 
+/*************************************************************************************
+ Overloaded APIs used for specialization.
+**************************************************************************************/
+NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed);
+NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed);
+
+
+NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(unsigned int input, unsigned seed);
+NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(unsigned int input, unsigned seed);
+
+
+NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(int input, unsigned seed);
+NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(int input, unsigned seed);
+
+
+NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(unsigned long long input, unsigned seed);
+NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(unsigned long long input, unsigned seed);
+
+
+NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(float input, unsigned seed);
+NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(float input, unsigned seed);
+
+
+NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(double input, unsigned seed);
+NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(double input, unsigned seed);
+
+
+
 /**************************************************************************************
  Public API functions along with this hash interface.
 ***************************************************************************************/

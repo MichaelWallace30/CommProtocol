@@ -1,7 +1,9 @@
 #include <CommProto/AbstractPacket.h>
 
 // NOTE(): We will need to check this because g++ does not have functional like visual studio.
-#include <tr1/functional>
+//#include <tr1/functional>
+#include <tools/hash/NgcpHash.h>
+
 
 namespace Comnet {
 
@@ -9,7 +11,7 @@ namespace Comnet {
    Constructor for AbstractPacket.
 */
 AbstractPacket::AbstractPacket(const char* className)
-: typeId(std::tr1::hash<const char*>()(className)) {
+: typeId() {
 }
 
 /**

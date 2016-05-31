@@ -19,6 +19,13 @@
 	  dest[i] = '\0';              \
 	}
 
+// Count the number of characters in the string.
+#define str_length(str, length) {       \
+          length = 0;                   \
+	  while (str[length] != NULL) { \
+	    length++;                   \
+	  }                             \
+        }
 
 
 #endif // __MACROS_H

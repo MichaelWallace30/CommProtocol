@@ -48,7 +48,8 @@ bool valueIsNull(void* input) {
    Jenkins avalanche technique. Credit attributed to Jenkins hash. 
    NOTE(): Seed still needs to be implemented...
 */
-ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
+FORCE_INLINE
+ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed = 0) {
   ngcp_hash32_t hash = 0;
   if (valueIsNull(input)) {
     return hash;
@@ -70,7 +71,8 @@ ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
  return hash;
 }
 
-ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
+FORCE_INLINE
+ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed = 0) {
   ngcp_hash64_t hash = 0;
   if (valueIsNull(input)) {
     return hash;
@@ -91,6 +93,29 @@ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
   hash += reverse_byte((p+0));
   return hash;
 }
+
+ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed = 0) {
+  unsigned int length = 0;
+  if (valueIsNull(input)) {
+    return length;
+  }
+  
+  str_length(input, length);
+  
+  return (ngcp_hash32(input, length, seed));
+}
+
+ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed = 0) { 
+  unsigned int length = 0;
+  if (valueIsNull(input)) {
+    return length;
+  }
+  str_length(input, length);
+  return (ngcp_hash64(input, length, seed));
+}
 } // Hash namespace
 } // Tools namespace
 } // Comnet namespace
+
+
+#undef FORCE_INLINE
