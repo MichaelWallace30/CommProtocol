@@ -15,13 +15,13 @@ namespace DataStructures {
 */
 template<typename _Ty, 
          class _Compare>
-class SingleLinkedList : public List< _Ty > {
+class SingleLinkedList : public Interface::List< _Ty > {
 public:
   /**
      Constructor for the SingleLinkedList data structure.
   */
   SingleLinkedList() : root(NULL) { 
-    this->listType = SINGLE_LINKED_LIST;
+    this->listType = Interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
 
