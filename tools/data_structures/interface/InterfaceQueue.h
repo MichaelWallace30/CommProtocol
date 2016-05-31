@@ -3,10 +3,11 @@
 
 #include <tools/data_structures/interface/Generic.h>
 
-using namespace Comnet::DataStructure::Generic;
+using namespace Comnet::DataStructures::Interface;
 
 namespace Comnet {
-namespace DataStructure {
+namespace DataStructures {
+namespace Interface {
 
 /**
    QueueType holds the value of what ever the generic queue may be.
@@ -22,7 +23,7 @@ enum QueueType {
     Queue interface that must be inherited by all queue data structures. 
 */
 template<typename _Ty>
-class Queue : public Interface {
+class Queue : public Generic {
 public:
   /**
      Queue Constructor.
@@ -66,6 +67,7 @@ private:
   */
   QueueType queueType;
 };
+} // Interface
 } // DataStructure
 } // Comnet
 #endif // __INTERFACE_QUEUE_H

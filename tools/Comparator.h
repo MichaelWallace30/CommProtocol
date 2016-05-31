@@ -9,7 +9,7 @@
 #define _GREATER_THAN 1
 
 namespace Comnet { 
-namespace tools {
+namespace Tools {
 /**
    Comparator is an abstract class that compares to similar objects together.
    This class must be inherited by class intended on comparing to objects with
@@ -47,7 +47,7 @@ public:
 
 private: 
 };
-} // tools
+} // Tools
 } // Comnet 
 
 #endif // __COMPARATOR_H

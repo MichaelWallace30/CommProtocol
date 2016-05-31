@@ -2,22 +2,24 @@
 #define __LINKED_QUEUE_H
 
 #include <tools/data_structures/interface/InterfaceQueue.h>
+#include <tools/data_structures/SingleLinkedList.h>
 
 namespace Comnet {
-namespace DataStructure {
+namespace Tools {
+namespace DataStructures {
 
 /* */
-class SingleLinkedQueue : public Interface { 
+template<typename _Ty
+	 class _Compare>
+class SingleLinkedQueue : public SingleLinkedList<_Ty, _Compare>  { 
 public:
   SingleLinkedQueue() { 
   }
 private:
-
-  struct SingleLinkedNode {
-    
-  };
+  
 };
 
 } // DataStructures
+} // Tools
 } // Comnet
 #endif // __LINKED_QUEUE_H

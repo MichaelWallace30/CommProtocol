@@ -3,10 +3,11 @@
 
 #include <tools/data_structures/interface/Generic.h>
 
-using namespace Comnet::DataStructure::Generic;
+using namespace Comnet::DataStructures::Interface;
 
 namespace Comnet {
-namespace DataStructure {
+namespace DataStructures {
+namespace Interface {
 
 /** ListType contains value of the data structure being used. */
 enum ListType {
@@ -21,7 +22,7 @@ enum ListType {
     list data structures. It helps if we may need to store data
     structures together for certain functionality. */
 template<typename _Ty>
-class List : public Interface {
+class List : public Generic {
   typedef const _Ty* const_pointer;
   typedef const _Ty& const_reference;
   typedef _Ty& reference_type;
@@ -89,6 +90,7 @@ protected:
   */
   ListType listType;
 };
+} // Interface
 } // DataStructure
 } // Comnet
 #endif // __INTERFACE_LIST_H

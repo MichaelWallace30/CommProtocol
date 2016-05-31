@@ -21,7 +21,7 @@ public:
   Test(int32_t number, char letter) : number(number), letter(letter) { }
 };
 
-class TestCompare : public tools::Comparator<Test> {
+class TestCompare : public Tools::Comparator<Test> {
   typedef const Test& const_reference;
 public:
 
@@ -48,7 +48,7 @@ public:
 };
 } // TestComparator
 
-class IntComparator : public tools::Comparator<int> {
+class IntComparator : public Tools::Comparator<int> {
 public:
   int32_t compare(const int& a, const int& b) {
     if (a > b) {
@@ -70,7 +70,7 @@ public:
 
 using namespace TestComparator;
 using namespace Comnet;
-using namespace tools;
+using namespace Tools;
 using namespace std;
 
 int main(int c, char** args) {
@@ -80,7 +80,7 @@ int main(int c, char** args) {
   // CommsPacket packet(40, true);
   // AbstractPacket& aPacket = packet;
 
-  Comnet::DataStructure::SingleLinkedList<int, IntComparator> testList;
+  Comnet::Tools::DataStructures::SingleLinkedList<int, IntComparator> testList;
   cout << "List was created!!" << endl;
   testList.insert(1);
   testList.insert(4);

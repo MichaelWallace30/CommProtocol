@@ -5,7 +5,8 @@
 #include <tools/Comparator.h>
 
 namespace Comnet {
-namespace DataStructure {
+namespace Tools {
+namespace DataStructures {
 
 /**
    Single Linked List provides a basic data structure list to hold all values efficiently.
@@ -20,8 +21,8 @@ public:
      Constructor for the SingleLinkedList data structure.
   */
   SingleLinkedList() : root(NULL) { 
-    List<_Ty>::listType = SINGLE_LINKED_LIST;
-    Interface::size = 0;
+    this->listType = SINGLE_LINKED_LIST;
+    this->size = 0;
   }
 
   /**
@@ -33,13 +34,13 @@ public:
     newNode->next = NULL;
     newNode->value = value;
 
-    if ((root == NULL) && (Interface::size <= 0)) {
+    if ((root == NULL) && (this->size <= 0)) {
       root = tail = newNode;
-      newNode->index = Interface::size++;
+      newNode->index = this->size++;
     } else {
       tail->next = newNode;
       tail = tail->next;
-      newNode->index = Interface::size++;
+      newNode->index = this->size++;
     }
   }
 
@@ -48,7 +49,7 @@ public:
      value, false otherwise.
   */
   bool remove(const _Ty& value) {
-    if (List<_Ty>::isEmpty()) {
+    if (this->isEmpty()) {
       return false;
     }
     bool result = false;
@@ -76,14 +77,14 @@ public:
     
     if (remNode != NULL) {
       SNode* traverse = remNode->next;
-      for (int32_t i = remNode->index; i < Interface::size - 1; ++i) {
+      for (int32_t i = remNode->index; i < this->size - 1; ++i) {
 	traverse->index = i;
 	traverse = traverse->next;
       }
       
       delete remNode;
       remNode = NULL;
-      Interface::size--;
+      this->size--;
       result = true;
     }
 
@@ -95,7 +96,7 @@ public:
      index goes over the size limit or below zero.
   */
   bool removeAt(const int32_t index) {
-    if (index < 0 || index >= Interface::size) {
+    if (index < 0 || index >= this->size) {
       return false;
     }
 
@@ -124,14 +125,14 @@ public:
     
     if (remNode != NULL) {
       SNode* traverse = remNode->next;
-      for (int32_t i = remNode->index; i < Interface::size - 1; ++i) {
+      for (int32_t i = remNode->index; i < this->size - 1; ++i) {
 	traverse->index = i;
 	traverse = traverse->next;
       }
       
       delete remNode;
       remNode = NULL;
-      Interface::size--;
+      this->size--;
       result = true;
     } 
 
@@ -243,6 +244,7 @@ private:
   }
 }; 
 } // DataStructure
+} // Tools
 } // Comnet 
 
 #endif // __SINGLE_LINKED_LIST_H

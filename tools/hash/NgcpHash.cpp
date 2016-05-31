@@ -14,8 +14,8 @@
 #define NGCP_PRIVATE_API
 
 namespace Comnet {
-namespace tools {
-namespace hash {
+namespace Tools {
+namespace Hash {
 
 /**
    Reverse the byte binary values.
@@ -91,6 +91,6 @@ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
   hash += reverse_byte((p+0));
   return hash;
 }
-} // hash namespace
-} // tools namespace
+} // Hash namespace
+} // Tools namespace
 } // Comnet namespace

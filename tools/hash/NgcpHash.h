@@ -38,8 +38,8 @@
 #define HASH_VERSION              1
 
 namespace Comnet {
-namespace tools {
-namespace hash {
+namespace Tools {
+namespace Hash {
 
 #if HASH_VERSION > 0
 
@@ -69,7 +69,7 @@ NGCP_PUBLIC_API ngcp_hash32_t reverse_byte(byte* _byte);
  #error "This hash version is no longer supported. Consider upgrading to prevent possible, incorrect hashing."
 
 #endif // HASH_VERSION > 0
-} // hash namespace 
-} // tools namespace  
+} // Hash namespace 
+} // Tools namespace  
 } // Comnet namespace 
 #endif // __NGCPHASH_H

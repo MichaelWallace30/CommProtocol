@@ -6,7 +6,8 @@
 #include <queue>
 
 namespace Comnet {
-namespace DataStructure {
+namespace Tools {
+namespace DataStructures {
 
 /**
    AutoQueue is a wrapper implementation of the Standard Template
@@ -68,6 +69,7 @@ private:
   std::queue<_Ty> queue;
 };
 } // DataStructure
+} // Tools
 } // Comnet
 
 #endif // __AUTO_QUEUE_H

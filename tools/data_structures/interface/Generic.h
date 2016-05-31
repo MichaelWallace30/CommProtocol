@@ -5,8 +5,8 @@ extern "C" {
 #include <architecture/os/include_defines.h>
 }
 namespace Comnet {
-namespace DataStructure {
-namespace Generic {
+namespace DataStructures {
+namespace Interface {
 
 /**
  Handles the data structure type.
@@ -20,18 +20,18 @@ enum DataStructureType {
 };
     
 /**
-  Interface default for Information on the data structure at hand.
+  Generic default for Information on the data structure at hand.
 */
-class Interface {
+class Generic {
 public:
   /** 
       Interface Constructor.
   */
-  Interface() { }
+  Generic() { }
   /**
      Polymorphic Destruction.
   */
-  virtual ~Interface() { }
+  virtual ~Generic() { }
   /**
      Grab the size of the data structure.
   */
@@ -55,7 +55,7 @@ protected:
   DataStructureType type;// enum of data structure
 };
 
-} // Generic
+} // Interface
 } // DataStructure
 } // Comnet
 
