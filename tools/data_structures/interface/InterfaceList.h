@@ -3,7 +3,7 @@
 
 #include <tools/data_structures/interface/Generic.h>
 
-using namespace Comnet::Tools::DataStructures::Interface;
+//using namespace Comnet::Tools::DataStructures::Interface;
 
 namespace Comnet {
 namespace Tools {

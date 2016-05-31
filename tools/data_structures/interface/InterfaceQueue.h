@@ -18,7 +18,7 @@ enum QueueType {
   DOUBLE_LINKED_QUEUE,
   PRIORITY_QUEUE,
   AUTO_QUEUE,
-}
+};
   
 /** 
     Queue interface that must be inherited by all queue data structures. 
