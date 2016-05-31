@@ -36,7 +36,7 @@ bool UDP::udp_open(sock_fd_t* fd, udp_address_t* config)
 /***********************************************/
 /******************* Public  *******************/
 /***********************************************/
-UDP::UDP(uint16_t port, char address[ADDRESS_LENGTH]) :CommsLink()
+UDP::UDP(uint16_t port, char address[ADDRESS_LENGTH]) : CommsLink()
 {
 	//visual studio 2013 is having issues init array to 0
 	//error is "cannot specify initializer ofr arrays knwon issues with 2013

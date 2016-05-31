@@ -2,7 +2,7 @@
 #define UDP_H
 
 /* User Includes */
-#include "CommsLink.h"
+#include <CommProto/CommsLink.h>
 
 #ifndef _WIN32
 #include <unistd.h>

@@ -10,7 +10,7 @@
 
 #include <architecture/os/include_defines.h>
 #include <architecture/os/os_threads.h>//method to create threads
-#include <CommProto/CommsLink.h> //communication layer interface/abstract base class
+#include <CommProto/connection/CommsLink.h> //communication layer interface/abstract base class
 
 
 

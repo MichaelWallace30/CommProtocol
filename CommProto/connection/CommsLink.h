@@ -5,7 +5,8 @@
 #include <stdint.h>
 #include <string>
 
-#include "CommsPacket.h"
+#include <CommProto/CommsPacket.h>
+
 #define MAX_CONNECTIONS 25
 
 class CommsLink
