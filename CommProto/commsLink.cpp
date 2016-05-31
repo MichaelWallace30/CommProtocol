@@ -1,11 +1,11 @@
-#include "commsLink.h"
+#include "CommsLink.h"
 
 
-commsLink::commsLink()
+CommsLink::CommsLink()
 {
 }
 
 
-commsLink::~commsLink()
+CommsLink::~CommsLink()
 {
 }

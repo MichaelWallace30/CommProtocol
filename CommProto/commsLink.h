@@ -1,20 +1,21 @@
-#ifndef COMMSLINK_H
-#define COMMSLINK_H
+#ifndef CommsLink_H
+#define CommsLink_H
 
 
 #include <stdint.h>
 #include <string>
 
+#include "CommsPacket.h"
 #define MAX_CONNECTIONS 25
 
-class commsLink
+class CommsLink
 {
 public:
-	commsLink(){};
-	virtual ~commsLink(){};
+	CommsLink(){};
+	virtual ~CommsLink(){};
 	
-	virtual bool initConnection(uint8_t port, uint32_t baudrate = 0){ return false; }
-	virtual bool addAddress(uint8_t destID, std::string address){ return false; }
+	virtual bool initConnection(uint8_t port = 0, std::string address = "", uint32_t baudrate = 0){ return false; }
+	virtual bool addAddress(uint8_t destID, std::string address, uint16_t port = 0){ return false; }
 	virtual bool removeAddress(uint8_t destID){ return false; }
 	
 	virtual bool send(uint8_t pathID, uint8_t* txData, int32_t txLength){ return false; }

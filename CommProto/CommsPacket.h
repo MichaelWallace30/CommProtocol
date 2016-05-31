@@ -7,7 +7,7 @@
 #define HEADER_SIZE 22//not great way to do this
 #define ENCRYPTION_BLOCK_BYTES 16
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH
-
+#define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE
 /** 
     Will specify what type of packet we are sending. This will ensure that PacketType is out there somewhere
     and that the user will specify the Class name. This will likely turn into a
