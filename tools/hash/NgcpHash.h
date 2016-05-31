@@ -6,6 +6,8 @@
   an ongoing research, and we will hope to continue working on improving this 
   hash for the long run.
 
+  Non-cryptographic hash algorithm.
+
   Copyright (C) 2016  Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
@@ -53,6 +55,12 @@ typedef unsigned char byte;
 ***************************************************************************************/
 NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed);
 NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed);
+
+
+/**************************************************************************************
+ Public API functions along with this hash interface.
+***************************************************************************************/
+NGCP_PUBLIC_API ngcp_hash32_t reverse_byte(byte* _byte);
 
 
 #undef NGCP_PUBLIC_API
