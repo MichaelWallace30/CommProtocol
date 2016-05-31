@@ -1,9 +1,9 @@
 #ifndef __GENERIC_H
 #define __GENERIC_H
 
-
+extern "C" {
 #include <architecture/os/include_defines.h>
-
+}
 namespace Comnet {
 namespace DataStructure {
 namespace Package {
@@ -44,7 +44,7 @@ public:
      Check if the data structure is empty.
   */
   virtual bool isEmpty() { return size == 0; }
-private:
+protected:
   /**
      The size of the data structure. 
   */
@@ -53,7 +53,7 @@ private:
       The type of data structure.
   */
   DataStructureType type;// enum of data structure
-}
+};
 
 } // Package
 } // DataStructure

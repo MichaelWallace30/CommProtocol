@@ -1,4 +1,4 @@
-# Install script for directory: /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/unit
+# Install script for directory: /home/jessieeisenberg/Documents/GitHub/CommProtocol/unit
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ else()
   set(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 endif()
 
-file(WRITE "/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/tools_unit/${CMAKE_INSTALL_MANIFEST}" "")
+file(WRITE "/home/jessieeisenberg/Documents/GitHub/CommProtocol/build/unit/tools_unit/${CMAKE_INSTALL_MANIFEST}" "")
 foreach(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  file(APPEND "/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/tools_unit/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  file(APPEND "/home/jessieeisenberg/Documents/GitHub/CommProtocol/build/unit/tools_unit/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 endforeach()

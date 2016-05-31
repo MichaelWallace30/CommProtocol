@@ -3,7 +3,7 @@
 
 #include <tools/data_structures/interface/Generic.h>
 
-namespace Comnet::DataStructure::Package;
+using namespace Comnet::DataStructure::Package;
 
 namespace Comnet {
 namespace DataStructure {
@@ -50,21 +50,30 @@ public:
   bool isEmpty() { return size == 0; }
 
   /**
+      Get the number of values in the data structure.
+  */
+  int32_t getSize() { return size; }
+
+  /**
      Insert a value into the list.
   */
   virtual void insert(_Ty value) = 0;
   /** 
       Remove a value from the list.
   */
-  virtual reference_type remove(const _Ty& value) = 0;
+  virtual bool remove(const _Ty& value) = 0;
   /**
      Remove a value from a specified index.
   */
-  virtual reference_type removeAt(const int32_t index) = 0;
+  virtual bool removeAt(const int32_t index) = 0;
   /**
      Check the first index of this list.
   */
   virtual reference_type front() = 0;
+  /**
+     Check the last index of this list.
+  */
+  virtual reference_type back() = 0;
   /**
      Grab the value at the specified index.
   */
@@ -73,7 +82,7 @@ public:
      Check if the list contains this value.
   */
   virtual bool contains(const _Ty& value) = 0;
-private:
+protected:
 
   /** 
       The type of list this data structure is.

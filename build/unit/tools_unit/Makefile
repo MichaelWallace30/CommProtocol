@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/unit
+CMAKE_SOURCE_DIR = /home/jessieeisenberg/Documents/GitHub/CommProtocol/unit
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/tools_unit
+CMAKE_BINARY_DIR = /home/jessieeisenberg/Documents/GitHub/CommProtocol/build/unit/tools_unit
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -73,9 +73,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/tools_unit/CMakeFiles /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/tools_unit/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jessieeisenberg/Documents/GitHub/CommProtocol/build/unit/tools_unit/CMakeFiles /home/jessieeisenberg/Documents/GitHub/CommProtocol/build/unit/tools_unit/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProtocol/build/unit/tools_unit/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jessieeisenberg/Documents/GitHub/CommProtocol/build/unit/tools_unit/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -139,6 +139,30 @@ Test.cpp.s:
 	$(MAKE) -f CMakeFiles/UNIT.dir/build.make CMakeFiles/UNIT.dir/Test.cpp.s
 .PHONY : Test.cpp.s
 
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.o: home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.o
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.o
+
+# target to build an object file
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.o:
+	$(MAKE) -f CMakeFiles/UNIT.dir/build.make CMakeFiles/UNIT.dir/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.o
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.o
+
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.i: home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.i
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.i
+
+# target to preprocess a source file
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.i:
+	$(MAKE) -f CMakeFiles/UNIT.dir/build.make CMakeFiles/UNIT.dir/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.i
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.i
+
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.s: home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.s
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.s
+
+# target to generate assembly for a file
+home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.s:
+	$(MAKE) -f CMakeFiles/UNIT.dir/build.make CMakeFiles/UNIT.dir/home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.s
+.PHONY : home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -151,6 +175,9 @@ help:
 	@echo "... Test.o"
 	@echo "... Test.i"
 	@echo "... Test.s"
+	@echo "... home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.o"
+	@echo "... home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.i"
+	@echo "... home/jessieeisenberg/Documents/GitHub/CommProtocol/CommProto/Packets.s"
 .PHONY : help
 
 
