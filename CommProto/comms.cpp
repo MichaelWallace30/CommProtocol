@@ -1,5 +1,5 @@
 #include <CommProto/comms.h>
-#include <architecture/os/os_threads.h>
+#include <architecture/os/os_threads.c>
 
 /***********************************************/
 /******************* Private *******************/
@@ -53,12 +53,21 @@ Comms::~Comms()
 	}
 }
 
-bool Comms::initConnection(commsLink_type_t connectionType, uint8_t port, uint32_t baudrate)
+bool Comms::initConnection(CommsLink_type_t connectionType, uint8_t port, std::string address, uint32_t baudrate)
 {
 	switch (connectionType)
 	{
 		case UDP_LINK:
-		{}
+		{
+			char addr[ADDRESS_LENGTH];
+			if (address.length() < ADDRESS_LENGTH)
+			{
+				address.copy(addr, ADDRESS_LENGTH, 0);				
+				connectionLayer = new UDP(port, addr);
+				return connectionLayer->initConnection();
+			}
+			break;
+		}
 		case SERIAL_LINK:
 		{}
 		case ZIGBEE_LINK:
@@ -86,7 +95,7 @@ bool Comms::send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_S
 	//parse header packet here (serialize)
 
 	if (connectionLayer == NULL) return false;
-	return connectionLayer->send(messageID, buffer, messageLength);
+	return connectionLayer->send(destID, buffer, messageLength);
 }
 
 bool Comms::recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint32_t &messageLength)

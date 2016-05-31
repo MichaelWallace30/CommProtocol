@@ -5,7 +5,8 @@
 #include <architecture/os/include_defines.h>
 #include <architecture/os/thread-config.h>
 
-EXTERN_C
+extern "C"
+{
 
 //posix \ window threading
   /* Aside from the function pointer taking void* as argument and returning void*, nothing special here 
@@ -19,6 +20,6 @@ unsigned Sleep(unsigned seconds);
 #endif // COM_TARGET_OS != COM_OS_WINDOWS
 
 
-END_EXTERN_C
+}
 
 #endif//OSTHREAD_H

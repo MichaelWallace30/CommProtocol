@@ -6,13 +6,14 @@
 #include <string>//needed for addresses
 
 #include "CommsPacket.h"//Header which declares packet structs
+#include "UDP.h"
 
 #include <architecture/os/include_defines.h>
 #include <architecture/os/os_threads.h>//method to create threads
-#include <CommProto/commsLink.h> //communication layer interface/abstract base class
+#include <CommProto/CommsLink.h> //communication layer interface/abstract base class
 
 
-#define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE
+
 
 #include <iostream>//testing only
 using namespace std;//testing only
@@ -22,7 +23,7 @@ typedef enum
 	UDP_LINK,
 	SERIAL_LINK,
 	ZIGBEE_LINK
-}commsLink_type_t;
+}CommsLink_type_t;
 
 class Comms {
    
@@ -59,7 +60,7 @@ private:
    static void* commuincation_helper(void* context);  
 
    /** Virtual Communication link for connection code*/
-   commsLink *connectionLayer;
+   CommsLink *connectionLayer;
 
 
    /** Parse header function de-serialize header packet */
@@ -83,7 +84,7 @@ public:
 	enum connection type to use serial, UDP, zigbee, ect
 	port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
 	baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */	
-	bool initConnection(commsLink_type_t connectionType, uint8_t port, uint32_t baudrate = 0);
+	bool initConnection(CommsLink_type_t connectionType, uint8_t port, std::string address = "", uint32_t baudrate = 0);
 
 	/** The address entered will be paired for communication by destination ID
 	Adding address can be a UDP IPV4 or hex MAC address for zigbee
