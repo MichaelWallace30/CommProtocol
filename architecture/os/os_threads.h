@@ -5,7 +5,7 @@
 #include <architecture/os/include_defines.h>
 #include <architecture/os/thread-config.h>
 
-EXTERN_C
+COM_EXTERN_C 
 
 //posix \ window threading
   /* Aside from the function pointer taking void* as argument and returning void*, nothing special here 

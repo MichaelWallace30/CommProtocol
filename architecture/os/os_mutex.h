@@ -4,7 +4,7 @@
 #include <architecture/os/include_defines.h>
 #include <architecture/os/mutex-config.h>
 
-EXTERN_C
+COM_EXTERN_C
 /**
    initialize the mutex.
 */

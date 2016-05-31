@@ -11,7 +11,7 @@ void mutex_init(mutex_t* mutex)
 
 void mutex_lock(mutex_t* mutex)
 {
-  WaitForSingleObject(*mutex);
+  WaitForSingleObject(*mutex, INFINITE);
 }
 
 void mutex_unlock(mutex_t* mutex)
