@@ -41,10 +41,10 @@ UDP::UDP(uint16_t port, char address[ADDRESS_LENGTH]) :CommsLink()
 	//visual studio 2013 is having issues init array to 0
 	//error is "cannot specify initializer ofr arrays knwon issues with 2013
 	//make sure is node connected is set to false
-	//for (int index = 0; index < MAX_CONNECTIONS; index++)
-	//{
-	//	conn.node_connected[index] = 0;
-	//}
+	for (int index = 0; index < MAX_CONNECTIONS; index++)
+	{
+		conn.node_connected[index] = 0;
+	}
 
 	memset(&info, 0, sizeof(udp_connection_t));
 	memset(&config, 0, sizeof(udp_address_t));
@@ -62,8 +62,7 @@ UDP::~UDP()
 }
 
 bool UDP::initConnection(uint8_t port, std::string address, uint32_t baudrate)
-{
-	printf("In UDP\n");
+{	
 	if (udp_open(&fd, &config))
 	{		
 		connected = true;
@@ -90,16 +89,61 @@ bool UDP::addAddress(uint8_t destID, std::string address, uint16_t port)
 
 bool UDP::removeAddress(uint8_t destID)
 {
+
+	if (conn.node_connected[destID] == 1)
+	{
+
+		conn.node_connected[destID] = 0;
+		conn.node_addr[destID].port = 0;
+		strcpy(conn.node_addr[destID].serv, NULL);
+		return true;
+	}
 	return false;
 }
 
 bool UDP::send(uint8_t pathID, uint8_t* txData, int32_t txLength)
 {
+	if (connected)
+	{
+		struct sockaddr_in addr;
+		int32_t retval;
+		strlen(conn.node_addr[pathID].serv);
+		if (!strcmp(conn.node_addr[pathID].serv, "255.255.255.255"))
+		{
+			addr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+		}
+		else
+		{
+			addr.sin_addr.s_addr = inet_addr(conn.node_addr[pathID].serv);
+		}
+		addr.sin_family = AF_INET;
+
+		addr.sin_port = htons(conn.node_addr[pathID].port);
+		retval = sendto(fd, (char*)txData, txLength, 0, (struct sockaddr *)&addr, sizeof(addr));
+		return retval;
+	}
 	return false;
 }
 
 bool UDP::recv(uint8_t* rx_data, uint32_t* rx_len)
 {
+	if (connected)
+	{
+#ifdef _WIN32
+		int32_t addr_len;
+#endif
+#ifndef _WIN32
+		socklen_t addr_len;
+#endif
+		int32_t retval;
+		struct sockaddr_in addr;
+		addr_len = sizeof(addr);
+		retval = recvfrom(fd, (char*)rx_data, MAX_BUFFER_SIZE, 0, (struct sockaddr*)&addr, &addr_len);
+		*rx_len = retval;
+		rx_addr.port = ntohs(addr.sin_port);
+		strcpy(rx_addr.serv, inet_ntoa(addr.sin_addr));
+		return retval;
+	}
 	return false;
 }
 

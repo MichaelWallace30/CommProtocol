@@ -38,6 +38,8 @@ private:
 
 	/** Data buffer to create communication stream with */
 	uint8_t data_Buf[MAX_BUFFER_SIZE];
+	/** Length of data buffer for communication stream */
+	uint32_t rx_length;
 
 	/** Platform ID */
 	uint8_t platformID;
