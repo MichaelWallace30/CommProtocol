@@ -3,12 +3,13 @@
 
 #include <architecture/os/include_defines.h>
 
-namespace Comnet {
 
 #define _LESS_THAN   -1
 #define _EQUAL_TO     0
-#define _GREATER_THAN 1 
+#define _GREATER_THAN 1
 
+namespace Comnet { 
+namespace tools {
 /**
    Comparator is an abstract class that compares to similar objects together.
    This class must be inherited by class intended on comparing to objects with
@@ -46,7 +47,7 @@ public:
 
 private: 
 };
-
+} // tools
 } // Comnet 
 
 #endif // __COMPARATOR_H

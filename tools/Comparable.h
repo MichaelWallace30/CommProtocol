@@ -4,7 +4,7 @@
 #include <architecture/os/include_defines.h>
 
 namespace Comnet {
-
+namespace tools {
 /**
    Comparable is an interface that can be inherited by any object class that wishes to compare.
    The primary purpose of this class allows an object to compare itself to some other object of 
@@ -39,7 +39,7 @@ public:
 private:
 
 };
-
+} // tools namespace
 } // Comnet 
 
 #endif // __COMPARABLE_H

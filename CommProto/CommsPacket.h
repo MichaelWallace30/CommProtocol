@@ -1,37 +1,32 @@
-#include <stdint.h>
-
 #ifndef COMMSPACKET_H
 #define COMMSPACKET_H
+
+#include <stdint.h>
 
 #define MAX_PACKET_SIZE 1024
 #define HEADER_SIZE 22//not great way to do this
 #define ENCRYPTION_BLOCK_BYTES 16
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH
 
-/** Will specify what type of packet we are sending. */
-enum PacketType {
-  NONE,
-  COMMS_PACKET,    // They don't have to be this analogous.
-  PONG_PACKET,     // Well defined and Specific.
-  PING_PACKET,
-};
+/** 
+    Will specify what type of packet we are sending. This will ensure that PacketType is out there somewhere
+    and that the user will specify the Class name. This will likely turn into a
+ */
 
 /** Packet header stcture for sending messages*/
-struct header_t
-{
-	uint8_t destID;
-	uint8_t sourceID;
-	uint16_t messaeID;
-	uint8_t IV[KEY_LENGTH];//random init vector for encryption
-	uint16_t messageLength;
+struct header_t {
+  uint8_t destID;
+  uint8_t sourceID;
+  uint16_t messaeID;
+  uint8_t IV[KEY_LENGTH];//random init vector for encryption
+  uint16_t messageLength;
 };
 
 /** Packet structure uses header strcut and fixed data size */
-struct packet_t
-{
-	header_t header;
-	PacketType packetType;
-	uint8_t data[MAX_PACKET_SIZE];
+struct packet_t {
+  header_t header;
+  uint32_t typeId; 
+  uint8_t data[MAX_PACKET_SIZE];
 };
 
 // all platform packets could be declared or include from another file here

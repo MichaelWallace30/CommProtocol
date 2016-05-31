@@ -1,5 +1,5 @@
 #include <tools/Comparator.h>
-#include <CommProto/Packets.h>
+//#include <CommProto/Packets.h>
 #include <tools/data_structures/SingleLinkedList.h>
 
 #include <stdio.h>
@@ -21,7 +21,7 @@ public:
   Test(int32_t number, char letter) : number(number), letter(letter) { }
 };
 
-class TestCompare : public Comparator<Test> {
+class TestCompare : public tools::Comparator<Test> {
   typedef const Test& const_reference;
 public:
 
@@ -48,7 +48,7 @@ public:
 };
 } // TestComparator
 
-class IntComparator : public Comparator<int> {
+class IntComparator : public tools::Comparator<int> {
 public:
   int32_t compare(const int& a, const int& b) {
     if (a > b) {
@@ -70,14 +70,15 @@ public:
 
 using namespace TestComparator;
 using namespace Comnet;
+using namespace tools;
 using namespace std;
 
 int main(int c, char** args) {
   Test t1(10);
   Test t2(20);
 
-  CommsPacket packet(40, true);
-  AbstractPacket& aPacket = packet;
+  // CommsPacket packet(40, true);
+  // AbstractPacket& aPacket = packet;
 
   Comnet::DataStructure::SingleLinkedList<int, IntComparator> testList;
   cout << "List was created!!" << endl;
@@ -87,10 +88,11 @@ int main(int c, char** args) {
   cout << "List has added in values" << endl;
   cout << "Removing 1: " << testList.remove(1) << endl;
   cout << "Removing 10: " << testList.remove(10) << endl;
+  cout << "Size of list: " << testList.getSize() << endl;
 
 
-  CommsPacket cff = dynamic_cast<CommsPacket&>(aPacket);
-  cout << cff.getId() << endl;
+  //CommsPacket cff = dynamic_cast<CommsPacket&>(aPacket);
+  //cout << cff.getId() << endl;
   //TestCompare tC;
   //Comparator<Test>& _cmp = tC;
   TestCompare tC;

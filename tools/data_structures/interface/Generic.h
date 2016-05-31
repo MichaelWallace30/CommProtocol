@@ -6,7 +6,7 @@ extern "C" {
 }
 namespace Comnet {
 namespace DataStructure {
-namespace Package {
+namespace Generic {
 
 /**
  Handles the data structure type.
@@ -55,7 +55,7 @@ protected:
   DataStructureType type;// enum of data structure
 };
 
-} // Package
+} // Generic
 } // DataStructure
 } // Comnet
 

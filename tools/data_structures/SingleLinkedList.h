@@ -15,59 +15,6 @@ namespace DataStructure {
 template<typename _Ty, 
          class _Compare>
 class SingleLinkedList : public List< _Ty > {
-private:
-  /**
-     Secretive node used for this List.
-  */
-  struct SNode {
-    SNode* next;
-    
-    _Ty value;
-    
-    int32_t index;
-  };
-
-  /** 
-      Our root node.
-  */
-  SNode* root;
-  /**
-     Our tail node, which will be set at the last node of this list.
-  */
-  SNode* tail;
-  /**
-     Compare function.
-  */
-  _Compare _cmp;
-
-  /**
-     Handles the removal of the root node.
-  */
-  SNode* handleRootRemoval() {
-    SNode* remNode = root;
-    
-    if (root != NULL) {
-      root = root->next;
-    }
-    return remNode;
-  }
-  /** 
-      Handles the removal of the tail node.
-  */
-  SNode* handleTailRemoval() {
-    SNode* remNode = tail;
-    SNode* traverse = root;
-    
-    while (traverse->next != tail) {
-      traverse = traverse->next;
-    }
-    tail = traverse;
-    // Nullify the new tail's next value, since we are deleting it.
-    tail->next = NULL;
-
-    return remNode;
-  }
-
 public:
   /**
      Constructor for the SingleLinkedList data structure.
@@ -240,6 +187,59 @@ public:
   */
   _Ty& back() {
     return tail->value;
+  }
+
+private:
+  /**
+     Secretive node used for this List.
+  */
+  struct SNode {
+    SNode* next;
+    
+    _Ty value;
+    
+    int32_t index;
+  };
+
+  /** 
+      Our root node.
+  */
+  SNode* root;
+  /**
+     Our tail node, which will be set at the last node of this list.
+  */
+  SNode* tail;
+  /**
+     Compare function.
+  */
+  _Compare _cmp;
+
+  /**
+     Handles the removal of the root node.
+  */
+  SNode* handleRootRemoval() {
+    SNode* remNode = root;
+    
+    if (root != NULL) {
+      root = root->next;
+    }
+    return remNode;
+  }
+  /** 
+      Handles the removal of the tail node.
+  */
+  SNode* handleTailRemoval() {
+    SNode* remNode = tail;
+    SNode* traverse = root;
+    
+    while (traverse->next != tail) {
+      traverse = traverse->next;
+    }
+    tail = traverse;
+    // Nullify the new tail's next value, since we are deleting it.
+    tail->next = NULL;
+
+    return remNode;
   }
 }; 
 } // DataStructure

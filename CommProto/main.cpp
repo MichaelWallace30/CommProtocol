@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <CommProto/comms.h>
-extern "C" {
-#include <architecture/os/osThreads.h>
-}
+#include <architecture/os/os_threads.h>
 
 int main(int c, char** args) {
   printf("Hello World!");
