@@ -16,8 +16,9 @@
 	  {                            \
 	    dest[i] = src[i++];        \
 	  }                            \
-	  dest[0] = '\0';              \
+	  dest[i] = '\0';              \
 	}
+
 
 
 #endif // __MACROS_H
