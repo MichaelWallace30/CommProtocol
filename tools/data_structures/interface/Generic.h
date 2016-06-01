@@ -18,6 +18,7 @@ enum DataStructureType {
   QUEUE,
   HEAP,
   TREE,
+  MAP,
 };
     
 /**

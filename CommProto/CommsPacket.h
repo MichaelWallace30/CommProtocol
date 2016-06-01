@@ -17,9 +17,9 @@
 struct header_t {
   uint8_t destID;
   uint8_t sourceID;
+  uint16_t messageLength;
   uint16_t messaeID;
   uint8_t IV[KEY_LENGTH];//random init vector for encryption
-  uint16_t messageLength;
 };
 
 /** Packet structure uses header strcut and fixed data size */

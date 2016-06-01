@@ -10,7 +10,7 @@
 
 #include <architecture/os/include_defines.h>
 #include <architecture/os/os_threads.h>//method to create threads
-#include <CommProto/CommsLink.h> //communication layer interface/abstract base class
+#include <CommProto/connection/CommsLink.h> //communication layer interface/abstract base class
 
 
 
@@ -38,6 +38,8 @@ private:
 
 	/** Data buffer to create communication stream with */
 	uint8_t data_Buf[MAX_BUFFER_SIZE];
+	/** Length of data buffer for communication stream */
+	uint32_t rx_length;
 
 	/** Platform ID */
 	uint8_t platformID;

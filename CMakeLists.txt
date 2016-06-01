@@ -121,14 +121,14 @@ set(ARCHITECTURE_SOURCES
 
 set(COMMPROTO_HEADERS
   CommProto/comms.h
-  CommProto/commsLink.h
+  CommProto/connection/commsLink.h
   CommProto/AbstractPacket.h
   CommProto/CommsPacket.h)
 
 set(COMMPROTO_SOURCES
   CommProto/AbstractPacket.cpp
   CommProto/comms.cpp
-  CommProto/commsLink.cpp
+  CommProto/connection/commsLink.cpp
   CommProto/main.cpp)		
 
 add_executable( NGCP_TEST 

@@ -24,16 +24,16 @@ enum QueueType {
     Queue interface that must be inherited by all queue data structures. 
 */
 template<typename _Ty>
-class Queue : public Generic {
+class InterfaceQueue : public Generic {
 public:
   /**
      Queue Constructor.
   */
-  Queue() { type = QUEUE; }
+  InterfaceQueue() { type = QUEUE; }
   /**
      Polymorphc Queue destructor.
   */
-  virtual ~Queue()  { } 
+  virtual ~InterfaceQueue()  { } 
   /**
      Get the size of this queue.
   */
@@ -62,7 +62,7 @@ public:
      Check the back of this queue.
   */
   virtual const _Ty& back() = 0;
-private:
+protected:
   /**
      Holds the queue type value.
   */
