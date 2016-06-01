@@ -1,6 +1,7 @@
 #include <tools/Comparator.h>
 //#include <CommProto/Packets.h>
 #include <tools/data_structures/SingleLinkedList.h>
+#include <tools/data_structures/LinkedQueue.h>
 
 #include <stdio.h>
 
@@ -90,7 +91,18 @@ int main(int c, char** args) {
   cout << "Removing 10: " << testList.remove(10) << endl;
   cout << "Size of list: " << testList.getSize() << endl;
 
-
+  Comnet::Tools::DataStructures::LinkedQueue<int> testQueue;
+  cout << "Queue was created!!" << endl;
+  testQueue.enQueue(1);
+  testQueue.enQueue(2);
+  cout << "Queue was added with values" << endl;
+  testQueue.deQueue();
+  int removed = testQueue.front();
+  testQueue.deQueue();
+  cout << "Value of removed: " << removed << endl;
+  cout << "Size of queue: " << testQueue.getSize() << endl;
+  testQueue.enQueue(8);
+  cout << "Size of queue after adding value: " << testQueue.getSize() << endl;
   //CommsPacket cff = dynamic_cast<CommsPacket&>(aPacket);
   //cout << cff.getId() << endl;
   //TestCompare tC;

@@ -4,6 +4,8 @@ project( Unit_Test )
 
 set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-pthread" )
 
+get_filename_component(TEST_DIR ${CMAKE_SOURCE_DIR}/../. DIRECTORY)
+
 include_directories(AFTER SYSTEM ../ )
 
 set (NGCP_UNIT
@@ -12,6 +14,8 @@ set (NGCP_UNIT
 	../tools/Comparator.h
 	../tools/data_structures/interface/Generic.h
 	../tools/data_structures/interface/InterfaceList.h
+	../tools/data_structures/interface/InterfaceQueue.h
+	${TEST_DIR}/tools/data_structures/LinkedQueue.h
 	../tools/data_structures/SingleLinkedList.h
 	../unit/Test.cpp )
 

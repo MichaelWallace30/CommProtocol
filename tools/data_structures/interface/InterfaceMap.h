@@ -47,7 +47,7 @@ public:
 
   virtual bool replace(const_key_reference key, const_value_reference value) = 0;
 
-private:
+protected:
   MapType mapType;
 };
 
