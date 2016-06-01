@@ -2,7 +2,7 @@
 #define __SINGLE_LINKED_LIST_H
 
 #include <tools/data_structures/interface/InterfaceList.h>
-#include <tools/Comparator.h>
+#include <architecture/macros.h>
 
 namespace Comnet {
 namespace Tools {
@@ -23,6 +23,15 @@ public:
   SingleLinkedList() : root(NULL) { 
     this->listType = Interface::SINGLE_LINKED_LIST;
     this->size = 0;
+  }
+
+  /**
+     Single Linked List destructor.
+   */
+  ~SingleLinkedList() {
+    _delete_list(SNode, this->size);
+    root = NULL;
+    tail = NULL;
   }
 
   /**
