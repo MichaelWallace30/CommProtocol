@@ -22,6 +22,25 @@ void* Comms::commuincation_handler()
 	while (isRunning)
 	{
 		cout << "Thread Running" << endl;
+		if (!sendQeueu.empty())
+		{
+			uint8_t *tempPtr = sendQeueu.front();
+			//change to marshal this is bs way
+			uint16_t *tx_length;
+			memcpy(tx_length, (uint8_t*)&tempPtr[2], 2);
+
+			connectionLayer->send(tempPtr[0], tempPtr, *tx_length);
+		}
+		
+		
+		if (connectionLayer->recv(data_Buf, &rx_length))
+		{
+			//parse data
+			uint8_t* newBuff = new uint8_t[rx_length];
+			memcpy(newBuff, data_Buf, rx_length);
+			recvQueue.push(newBuff);
+		}
+		
 		Sleep(250);//
 	}
 
@@ -93,18 +112,21 @@ bool Comms::removeAddress(uint8_t destID)
 bool Comms::send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
 {
 	//parse header packet here (serialize)
+	
 
 	if (connectionLayer == NULL) return false;
-	return connectionLayer->send(destID, buffer, messageLength);
+	sendQeueu.push(buffer);
+	return true;
 }
 
 bool Comms::recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint32_t &messageLength)
 {
 	if (connectionLayer == NULL) return false;
-	bool messageFound = connectionLayer->recv(buffer, &messageLength);
+	bool messageFound = !recvQueue.empty();//connectionLayer->recv(buffer, &messageLength);
 	if (messageFound == true)
 	{
 		//need to parse header here and set source ID, message ID, and buffer length 
+		
 	}
 
 	return messageFound;
