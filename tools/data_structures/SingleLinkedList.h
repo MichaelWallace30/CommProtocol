@@ -20,7 +20,9 @@ public:
   /**
      Constructor for the SingleLinkedList data structure.
   */
-  SingleLinkedList() : root(NULL) { 
+  SingleLinkedList() 
+    : root(NULL)
+    , tail(NULL) { 
     this->listType = Interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
@@ -30,8 +32,8 @@ public:
    */
   ~SingleLinkedList() {
     _delete_list(SNode, this->size);
-    root = NULL;
-    tail = NULL;
+    nullify_pointer(root);
+    nullify_pointer(tail);
   }
 
   /**
@@ -40,7 +42,7 @@ public:
   */
   void insert(_Ty value) {
     SNode* newNode = new SNode();
-    newNode->next = NULL;
+    nullify_pointer(newNode->next);
     newNode->value = value;
 
     if ((root == NULL) && (this->size <= 0)) {
@@ -62,7 +64,8 @@ public:
       return false;
     }
     bool result = false;
-    SNode* remNode = NULL;
+    SNode* remNode;
+    nullify_pointer(remNode);
     
     if (_cmp.equal(value, root->value)) {
       remNode = handleRootRemoval();
@@ -92,7 +95,7 @@ public:
       }
       
       delete remNode;
-      remNode = NULL;
+      nullify_pointer(remNode);
       this->size--;
       result = true;
     }
@@ -110,7 +113,8 @@ public:
     }
 
     bool result = false;
-    SNode* remNode = NULL;
+    SNode* remNode;
+    nullify_pointer(remNode);
 
     if (root->index == index) {
       remNode = handleRootRemoval();
@@ -140,7 +144,7 @@ public:
       }
       
       delete remNode;
-      remNode = NULL;
+      nullify_pointer(remNode);
       this->size--;
       result = true;
     } 
@@ -247,8 +251,8 @@ private:
     }
     tail = traverse;
     // Nullify the new tail's next value, since we are deleting it.
-    tail->next = NULL;
 
+    nullify_pointer(tail->next);
     return remNode;
   }
 }; 

@@ -43,4 +43,9 @@
 	    }				      \
           }                                   \
         }
+
+// Nullify the pointer.
+#define nullify_pointer(pointer) { \
+          pointer = NULL;          \
+        }
 #endif // __MACROS_H

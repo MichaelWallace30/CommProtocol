@@ -22,6 +22,8 @@ public:
   LinkedQueue() { 
     this->queueType = Interface::SINGLE_LINKED_QUEUE;
     this->size = 0;
+    nullify_pointer(root);
+    nullify_pointer(tail);
   }
 
   /**
@@ -29,8 +31,8 @@ public:
    */
   virtual ~LinkedQueue() { 
     _delete_list(QueueNode, this->size);
-    root = NULL;
-    tail = NULL;
+    nullify_pointer(root);
+    nullify_pointer(tail);
   }
 
   /**
@@ -39,7 +41,7 @@ public:
   void enQueue(const _Ty& data) {
     QueueNode* newNode = new QueueNode();
     newNode->data = data;
-    newNode->next = NULL;
+    nullify_pointer(newNode->next);
     
     if (this->size <= 0) {
       root = newNode;
@@ -61,7 +63,7 @@ public:
       root = root->next;
       
       delete remNode;
-      remNode = NULL;
+      nullify_pointer(remNode);
       this->size--;
     }
   }
@@ -88,8 +90,13 @@ private:
     
     _Ty data;
   };
-
+  /**
+     The first node in the queue.
+   */
   QueueNode* root;
+  /**
+     The last node in the queue.
+   */
   QueueNode* tail;
 };
 
