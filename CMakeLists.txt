@@ -111,6 +111,7 @@ set(COMMPROTO_HEADERS
   CommProto/connection/CommsLink.h
   CommProto/AbstractPacket.h
   CommProto/CommsPacket.h
+  CommProto/connection/UDP.h
   CommProto/include/CommList.h
   CommProto/include/CommLinkedList.h
   CommProto/include/CommDoubleList.h)
@@ -118,10 +119,11 @@ set(COMMPROTO_HEADERS
 set(COMMPROTO_SOURCES
   CommProto/AbstractPacket.cpp
   CommProto/comms.cpp
+  CommProto/connection/UDP.cpp
   CommProto/connection/CommsLink.cpp
   CommProto/main.cpp)		
 
-add_executable( NGCP_TEST 
+add_library(NGCP_LIB STATIC 
   ${ARCHITECTURE_HEADERS}
   ${ARCHITECTURE_SOURCES}
   ${COMMPROTO_HEADERS}
