@@ -2,6 +2,7 @@
 #define __SINGLE_LINKED_LIST_H
 
 #include <tools/data_structures/interface/InterfaceList.h>
+#include <tools/StandardComparator.h>
 #include <architecture/macros.h>
 
 namespace Comnet {
@@ -14,7 +15,7 @@ namespace DataStructures {
    Track of a short list of objects.
 */
 template<typename _Ty, 
-         class _Compare>
+         class _Compare = StandardComparator<_Ty> >
 class SingleLinkedList : public Interface::List< _Ty > {
 public:
   /**

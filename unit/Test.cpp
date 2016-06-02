@@ -81,7 +81,7 @@ int main(int c, char** args) {
   // CommsPacket packet(40, true);
   // AbstractPacket& aPacket = packet;
 
-  Comnet::Tools::DataStructures::SingleLinkedList<int, IntComparator> testList;
+  Comnet::Tools::DataStructures::SingleLinkedList<int> testList;
   cout << "List was created!!" << endl;
   testList.insert(1);
   testList.insert(4);
