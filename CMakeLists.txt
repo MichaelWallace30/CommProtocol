@@ -89,9 +89,7 @@ else()
 endif()
 
 # Add the cmake module path, for module build paths for this cmake file.
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOUCE_PATH}/cmake/")
-
-
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 
 
 get_filename_component( PARENT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY )
@@ -106,31 +104,21 @@ include_directories(SYSTEM ./)
 # check for problems and situations arising from our code base. We will most likely
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
 # or linux and OS X.
-set(ARCHITECTURE_HEADERS 
-  architecture/os/linux-config/linux-config.h
-  architecture/os/include_defines.h
-  architecture/os/arch.h
-  architecture/os/os_threads.h
-  architecture/os/thread-config.h
-  architecture/os/mutex-config.h
-  architecture/os/os_mutex.h
-  architecture/api.h
-  architecture/macros.h)
-
-set(ARCHITECTURE_SOURCES
-  architecture/os/os_threads.c
-  architecture/os/os_mutex.c)
+include(cmake/archfiles.cmake)
 
 set(COMMPROTO_HEADERS
   CommProto/comms.h
-  CommProto/connection/commsLink.h
+  CommProto/connection/CommsLink.h
   CommProto/AbstractPacket.h
-  CommProto/CommsPacket.h)
+  CommProto/CommsPacket.h
+  CommProto/include/CommList.h
+  CommProto/include/CommLinkedList.h
+  CommProto/include/CommDoubleList.h)
 
 set(COMMPROTO_SOURCES
   CommProto/AbstractPacket.cpp
   CommProto/comms.cpp
-  CommProto/connection/commsLink.cpp
+  CommProto/connection/CommsLink.cpp
   CommProto/main.cpp)		
 
 add_executable( NGCP_TEST 
