@@ -10,14 +10,15 @@ Inside Directory: CommProto
 |              | This directory will hold most of the architecture of    |          |
 |              | the Communications Protocol.                            |          |
 -------------------------------------------------------------------------------------
-| lib          | Used for holding any libraries we may use (ex. Crypto++ | C/C++    |
-|              | , xbee, etc.).                                          |          |
+| connection   | Used for holding connection protocols and types.        | C/C++    |
 -------------------------------------------------------------------------------------
 | tools        | Contains custom made data structures, certain generic   | C/C++    |
 |              | allocators, possibly some algorithms and what not. We   |          |
 |              | Will most likely not need most of this crap, but just   |          |
 |              | the data structures.                                    |          |
 -------------------------------------------------------------------------------------
+There will be many more directories being added in to CommProto, all of them must 
+be involved in the internals of the library ONLY.
 
 
 
