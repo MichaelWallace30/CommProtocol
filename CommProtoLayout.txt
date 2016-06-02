@@ -18,8 +18,20 @@ Inside Directory: CommProto
 |              | Will most likely not need most of this crap, but just   |          |
 |              | the data structures.                                    |          |
 -------------------------------------------------------------------------------------
-| build        | Will hold our .lib/.a files or .dll/.so files for use   | Machine  |
+
+
+
+Outside of ComProto:
 -------------------------------------------------------------------------------------
+| build        | Will hold tests and  our project.                       | IDE      |
+-------------------------------------------------------------------------------------
+| cmake        | Any cmake modules that will be added to our build       | cmake    |
+|              | script.                                                 |          |
+-------------------------------------------------------------------------------------
+| external     | Any .lib, or .dll, or .a, or .so dependencies that will | Machine  |
+|              | be linked to the CommProto library.                     |          |
+-------------------------------------------------------------------------------------
+
 
 target: Since UGV is currently using the oldest compiler, we will try to stick to using C++03 features, and as few
         C++11 syntax as possible. We can write C++11-14 syntax, but will need to do too much work using CMake
