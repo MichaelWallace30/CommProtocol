@@ -2,6 +2,7 @@
 #define __COMPARABLE_H
 
 #include <architecture/os/include_defines.h>
+#include <architecture/api.h>
 
 namespace Comnet {
 namespace Tools {
@@ -10,6 +11,7 @@ namespace Tools {
    The primary purpose of this class allows an object to compare itself to some other object of 
    the same data type. Can be set to the user's specifications.
 */
+_COMNET_PUBLIC_API_
 template<typename _Ty>
 class Comparable {
   typedef const _Ty& const_reference;

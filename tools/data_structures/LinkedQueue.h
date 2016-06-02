@@ -31,6 +31,7 @@ namespace DataStructures {
    This queue is linked to the Comms interface, which allows for flexibility when
    creating data structure blocks.
  */
+_COMNET_PUBLIC_API_
 template<typename _Ty>
 class LinkedQueue : public Interface::InterfaceQueue<_Ty>  { 
 public:

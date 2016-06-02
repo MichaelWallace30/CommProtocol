@@ -29,6 +29,7 @@ namespace Interface {
 /**
    Map type to determine what type of map is being used.
 */
+_COMNET_PRIVATE_API_
 enum MapType {
   NONE,
   ORDERED_MAP,
@@ -42,6 +43,7 @@ enum MapType {
    retrieval, yet they suffer from space use. Best used if you have enough
    memory to hold maps, which shouldn't be a problem.
 */
+_COMNET_PRIVATE_API_
 template<typename _Ky,
 	 typename _Ty>
 class Map : public Generic {

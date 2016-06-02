@@ -19,9 +19,9 @@
 #ifndef __GENERIC_H
 #define __GENERIC_H
 
-extern "C" {
 #include <architecture/os/include_defines.h>
-}
+#include <architecture/api.h>
+
 namespace Comnet {
 namespace Tools {
 namespace DataStructures {
@@ -30,6 +30,7 @@ namespace Interface {
 /**
  Handles the data structure type.
 */
+_COMNET_PRIVATE_API_
 enum DataStructureType {
   NONE,
   LIST,
@@ -42,6 +43,7 @@ enum DataStructureType {
 /**
   Generic default for Information on the data structure at hand.
 */
+_COMNET_PRIVATE_API_
 class Generic {
 public:
   /** 

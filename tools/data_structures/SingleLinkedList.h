@@ -32,6 +32,7 @@ namespace DataStructures {
    It provides O(1) inserstion, and fast removal of certain values. Best used when keeping
    Track of a short list of objects.
 */
+_COMNET_PUBLIC_API_
 template<typename _Ty, 
          class _Compare = StandardComparator<_Ty> >
 class SingleLinkedList : public Interface::List< _Ty > {

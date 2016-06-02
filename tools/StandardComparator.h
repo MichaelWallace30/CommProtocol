@@ -20,6 +20,7 @@
 #define __STANDARD_COMPARATOR_H
 
 #include <architecture/macros.h>
+#include <architecture/api.h>
 #include <tools/Comparator.h>
 
 namespace Comnet {
@@ -30,6 +31,7 @@ namespace Tools {
    This includes, ints, unsigned ints, unsigned shorts, long longs, doubles, floats, 
    and chars. It is also specialized to handle char* strings.
 */
+_COMNET_PUBLIC_API_
 template<typename _Ty>
 class StandardComparator : public Comparator<_Ty> {
   typedef const _Ty& const_reference;

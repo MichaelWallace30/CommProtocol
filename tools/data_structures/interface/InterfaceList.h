@@ -29,6 +29,7 @@ namespace DataStructures {
 namespace Interface {
 
 /** ListType contains value of the data structure being used. */
+_COMNET_PRIVATE_API_
 enum ListType {
   SINGLE_LINKED_LIST,
   DOUBLE_LINKED_LIST,
@@ -40,6 +41,7 @@ enum ListType {
 /** ListInterface provides an interface that is common with all
     list data structures. It helps if we may need to store data
     structures together for certain functionality. */
+_COMNET_PRIVATE_API_
 template<typename _Ty>
 class List : public Generic {
   typedef const _Ty* const_pointer;

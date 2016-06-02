@@ -27,6 +27,7 @@
 #define __NGCPHASH_H
 
 #include <architecture/os/include_defines.h>
+#include <architecture/api.h>
 #include <architecture/macros.h>
 
 #define HASH_BIT16                0X10
@@ -53,42 +54,42 @@ typedef unsigned char byte;
 /**************************************************************************************
  Public hash APIs used for hashing.
 ***************************************************************************************/
-NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed);
-NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed);
 
 
 /*************************************************************************************
  Overloaded APIs used for specialization.
 **************************************************************************************/
-NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed);
-NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed);
 
 
-NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(unsigned int input, unsigned seed);
-NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(unsigned int input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash32_t ngcp_hash32(unsigned int input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(unsigned int input, unsigned seed);
 
 
-NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(int input, unsigned seed);
-NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(int input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash32_t ngcp_hash32(int input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(int input, unsigned seed);
 
 
-NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(unsigned long long input, unsigned seed);
-NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(unsigned long long input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash32_t ngcp_hash32(unsigned long long input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(unsigned long long input, unsigned seed);
 
 
-NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(float input, unsigned seed);
-NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(float input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash32_t ngcp_hash32(float input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(float input, unsigned seed);
 
 
-NGCP_PUBLIC_API ngcp_hash32_t ngcp_hash32(double input, unsigned seed);
-NGCP_PUBLIC_API ngcp_hash64_t ngcp_hash64(double input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash32_t ngcp_hash32(double input, unsigned seed);
+_COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(double input, unsigned seed);
 
 
 
 /**************************************************************************************
  Public API functions along with this hash interface.
 ***************************************************************************************/
-NGCP_PUBLIC_API ngcp_hash32_t reverse_byte(byte* _byte);
+_COMNET_PUBLIC_API_ ngcp_hash32_t reverse_byte(byte* _byte);
 
 
 #undef NGCP_PUBLIC_API

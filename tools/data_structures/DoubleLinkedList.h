@@ -20,6 +20,8 @@
 #define __DOUBLE_LINKED_QUEUE_H
 
 #include <tools/data_structures/interface/InterfaceList.h>
+#include <tools/StandardComparator.h>
+
 #include <architecture/macros.h>
 
 namespace Comnet {
@@ -33,9 +35,13 @@ namespace DataStructures {
    of it's complex nature, which involves allowing the nodes to be traversed forwards,
    as well as backtrack to find the specified node.
  */
+_COMNET_PUBLIC_API_
 template<typename _Ty,
-	 class    _Compare>
+	 class    _Compare = StandardComparator<_Ty> >
 class DoubleLinkedList : public Interface::List<_Ty> {
+  typedef const _Ty* const_pointer;
+  typedef const _Ty& const_reference;
+  typedef const _Ty const_data_type;
 public:
   
   DoubleLinkedList()
@@ -50,6 +56,8 @@ public:
     nullify_pointer(root);
     nullify_pointer(tail);
   }
+
+  
 
 private:
   

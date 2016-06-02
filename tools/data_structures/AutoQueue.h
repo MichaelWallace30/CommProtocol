@@ -33,6 +33,7 @@ namespace DataStructures {
    control the way it is used in our library so as to make it much
    easier to use.
 */
+_COMNET_PUBLIC_API_
 template<typename _Ty>
 class AutoQueue : public InterfaceQueue<_Ty> {
 public:

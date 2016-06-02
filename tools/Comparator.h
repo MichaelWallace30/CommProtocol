@@ -2,7 +2,7 @@
 #define __COMPARATOR_H
 
 #include <architecture/os/include_defines.h>
-
+#include <architecture/api.h>
 
 #define _LESS_THAN   -1
 #define _EQUAL_TO     0
@@ -15,6 +15,7 @@ namespace Tools {
    This class must be inherited by class intended on comparing to objects with
    similar data types.
 */
+_COMNET_PUBLIC_API_
 template<typename _Ty>
 class Comparator {
   typedef const _Ty& const_reference;

@@ -158,5 +158,5 @@ ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed = 0) {
 } // Tools namespace
 } // Comnet namespace
 
-
+#undef NGCP_PRIVATE_API
 #undef FORCE_INLINE

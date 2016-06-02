@@ -31,6 +31,7 @@ namespace Interface {
 /**
    QueueType holds the value of what ever the generic queue may be.
 */
+_COMNET_PRIVATE_API_
 enum QueueType {
   SINGLE_LINKED_QUEUE,
   DOUBLE_LINKED_QUEUE,
@@ -41,6 +42,7 @@ enum QueueType {
 /** 
     Queue interface that must be inherited by all queue data structures. 
 */
+_COMNET_PRIVATE_API_
 template<typename _Ty>
 class InterfaceQueue : public Generic {
 public:
@@ -55,11 +57,11 @@ public:
   /**
      Get the size of this queue.
   */
-  virtual int32_t getSize() { return size; }
+  int32_t getSize() { return size; }
   /**
      get the data structure type.
   */
-  virtual DataStructureType getDataStructType() { return type; }
+  DataStructureType getDataStructType() { return type; }
   /**
      Get the queue type.
   */
