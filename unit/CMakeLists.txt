@@ -16,6 +16,8 @@ set (NGCP_UNIT
 	../tools/data_structures/interface/InterfaceList.h
 	../tools/data_structures/interface/InterfaceQueue.h
 	${TEST_DIR}/tools/data_structures/LinkedQueue.h
+	${TEST_DIR}/architecture/macros.h
+	${TEST_DIR}/architecture/api.h
 	../tools/data_structures/SingleLinkedList.h
 	../unit/Test.cpp )
 

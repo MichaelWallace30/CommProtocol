@@ -113,7 +113,9 @@ set(ARCHITECTURE_HEADERS
   architecture/os/os_threads.h
   architecture/os/thread-config.h
   architecture/os/mutex-config.h
-  architecture/os/os_mutex.h)
+  architecture/os/os_mutex.h
+  architecture/api.h
+  architecture/macros.h)
 
 set(ARCHITECTURE_SOURCES
   architecture/os/os_threads.c
