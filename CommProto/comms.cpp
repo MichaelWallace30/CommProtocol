@@ -1,4 +1,4 @@
-#include <CommProto/comms.h>
+#include <comms.h>
 #include <architecture/os/os_threads.c>
 
 /***********************************************/

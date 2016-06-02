@@ -6,11 +6,11 @@
 #include <string>//needed for addresses
 
 #include "CommsPacket.h"//Header which declares packet structs
-#include <CommProto/connection/UDP.h>
+#include <connection/UDP.h>
 
 #include <architecture/os/include_defines.h>
 #include <architecture/os/os_threads.h>//method to create threads
-#include <CommProto/connection/CommsLink.h> //communication layer interface/abstract base class
+#include <connection/CommsLink.h> //communication layer interface/abstract base class
 
 
 

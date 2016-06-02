@@ -1,4 +1,4 @@
-#include <CommProto/AbstractPacket.h>
+#include <AbstractPacket.h>
 
 // NOTE(): We will need to check this because g++ does not have functional like visual studio.
 //#include <tr1/functional>

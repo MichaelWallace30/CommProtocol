@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <CommProto/comms.h>
+#include <comms.h>
 #include <architecture/os/os_threads.h>
 #include <architecture/os/include_defines.h>
 

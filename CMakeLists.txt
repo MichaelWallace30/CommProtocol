@@ -90,15 +90,16 @@ endif()
 
 # Add the cmake module path, for module build paths for this cmake file.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
+set(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/)
 
-
-get_filename_component( PARENT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY )
+message(${PARENT_DIR})
+# get_filename_component( PARENT_DIR ${DIR_PATH} DIRECTORY )
 
 # Add some commands to the compiler.
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
 
 # Don't forget to include the directories for the compiler to check for.
-include_directories(SYSTEM ./)
+include_directories(SYSTEM ./CommProto/)
 
 # Our sources, which will be included in the build. This is a test build, to 
 # check for problems and situations arising from our code base. We will most likely
@@ -107,21 +108,18 @@ include_directories(SYSTEM ./)
 include(cmake/archfiles.cmake)
 
 set(COMMPROTO_HEADERS
-  CommProto/comms.h
-  CommProto/connection/CommsLink.h
-  CommProto/AbstractPacket.h
-  CommProto/CommsPacket.h
-  CommProto/connection/UDP.h
-  CommProto/include/CommList.h
-  CommProto/include/CommLinkedList.h
-  CommProto/include/CommDoubleList.h)
+  ${PARENT_DIR}/comms.h
+  ${PARENT_DIR}/connection/CommsLink.h
+  ${PARENT_DIR}/AbstractPacket.h
+  ${PARENT_DIR}/CommsPacket.h
+  ${PARENT_DIR}/connection/UDP.h)
 
 set(COMMPROTO_SOURCES
-  CommProto/AbstractPacket.cpp
-  CommProto/comms.cpp
-  CommProto/connection/UDP.cpp
-  CommProto/connection/CommsLink.cpp
-  CommProto/main.cpp)		
+  ${PARENT_DIR}/AbstractPacket.cpp
+  ${PARENT_DIR}/comms.cpp
+  ${PARENT_DIR}/connection/UDP.cpp
+  ${PARENT_DIR}/connection/CommsLink.cpp
+  ${PARENT_DIR}/main.cpp)		
 
 add_library(NGCP_LIB STATIC 
   ${ARCHITECTURE_HEADERS}
