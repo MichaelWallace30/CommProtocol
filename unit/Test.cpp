@@ -1,7 +1,7 @@
-#include <tools/Comparator.h>
+#include <CommProto/tools/Comparator.h>
 //#include <CommProto/Packets.h>
-#include <tools/data_structures/SingleLinkedList.h>
-#include <tools/data_structures/LinkedQueue.h>
+#include <CommProto/tools/data_structures/SingleLinkedList.h>
+#include <CommProto/tools/data_structures/LinkedQueue.h>
 
 #include <stdio.h>
 

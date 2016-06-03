@@ -1,8 +1,8 @@
 #ifndef __COMPARABLE_H
 #define __COMPARABLE_H
 
-#include <architecture/os/include_defines.h>
-#include <architecture/api.h>
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 
 namespace Comnet {
 namespace Tools {

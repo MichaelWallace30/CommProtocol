@@ -19,9 +19,10 @@
 #ifndef __STANDARD_COMPARATOR_H
 #define __STANDARD_COMPARATOR_H
 
-#include <architecture/macros.h>
-#include <architecture/api.h>
-#include <tools/Comparator.h>
+#include <CommProto/architecture/macros.h>
+#include <CommProto/architecture/api.h>
+
+#include <CommProto/tools/Comparator.h>
 
 namespace Comnet {
 namespace Tools {

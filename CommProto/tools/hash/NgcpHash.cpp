@@ -23,10 +23,10 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <tools/hash/NgcpHash.h>
+#include <CommProto/tools/hash/NgcpHash.h>
 
-#include <architecture/macros.h>
-#include <architecture/os/arch.h>
+#include <CommProto/architecture/macros.h>
+#include <CommProto/architecture/os/arch.h>
 
 /* 
    TODO(): This will need to be defined with windows.

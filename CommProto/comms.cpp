@@ -1,5 +1,5 @@
-#include <comms.h>
-#include <architecture/os/os_threads.c>
+#include <CommProto/comms.h>
+#include <CommProto/architecture/os/os_threads.c>
 
 /***********************************************/
 /******************* Private *******************/

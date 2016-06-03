@@ -1,8 +1,8 @@
-#include <AbstractPacket.h>
+#include <CommProto/AbstractPacket.h>
 
 // NOTE(): We will need to check this because g++ does not have functional like visual studio.
 //#include <tr1/functional>
-#include <tools/hash/NgcpHash.h>
+#include <CommProto/tools/hash/NgcpHash.h>
 
 
 namespace Comnet {

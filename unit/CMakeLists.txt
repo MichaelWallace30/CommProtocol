@@ -6,9 +6,9 @@ set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-pthread" )
 
 # get_filename_component(TEST_DIR ${CMAKE_SOURCE_DIR}/../. DIRECTORY)
 
-set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../CommProto)
+set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../CommProto/)
 
-include_directories(AFTER SYSTEM ../CommProto/ )
+include_directories(AFTER SYSTEM ../ )
 
 set (NGCP_UNIT
 	${TEST_DIR}/architecture/os/linux-config/linux-config.h 

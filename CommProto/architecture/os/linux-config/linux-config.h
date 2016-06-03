@@ -1,7 +1,7 @@
 #ifndef __LINUX_CONFIG_H_
 #define __LINUX_CONFIG_H_
 
-#include <architecture/os/arch.h>
+#include <CommProto/architecture/os/arch.h>
 
 #if (COM_TARGET_OS == COM_OS_LINUX)
 

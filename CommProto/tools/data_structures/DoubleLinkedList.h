@@ -19,10 +19,10 @@
 #ifndef __DOUBLE_LINKED_QUEUE_H
 #define __DOUBLE_LINKED_QUEUE_H
 
-#include <tools/data_structures/interface/InterfaceList.h>
-#include <tools/StandardComparator.h>
+#include <CommProto/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/tools/StandardComparator.h>
 
-#include <architecture/macros.h>
+#include <CommProto/architecture/macros.h>
 
 namespace Comnet {
 namespace Tools {

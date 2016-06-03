@@ -99,7 +99,7 @@ message(${PARENT_DIR})
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
 
 # Don't forget to include the directories for the compiler to check for.
-include_directories(SYSTEM ./CommProto/)
+include_directories(SYSTEM ./)
 
 # Our sources, which will be included in the build. This is a test build, to 
 # check for problems and situations arising from our code base. We will most likely

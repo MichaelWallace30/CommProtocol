@@ -1,8 +1,8 @@
 #ifndef __OS_MUTEX_H
 #define __OS_MUTEX_H
 
-#include <architecture/os/include_defines.h>
-#include <architecture/os/mutex-config.h>
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/os/mutex-config.h>
 
 COM_EXTERN_C
 /**

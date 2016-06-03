@@ -2,8 +2,8 @@
 #define OSTHREADS_H 
  
  
-#include <architecture/os/include_defines.h> 
-#include <architecture/os/thread-config.h> 
+#include <CommProto/architecture/os/include_defines.h> 
+#include <CommProto/architecture/os/thread-config.h> 
  
  
 COM_EXTERN_C  

@@ -19,9 +19,9 @@
 #ifndef __SINGLE_LINKED_LIST_H
 #define __SINGLE_LINKED_LIST_H
 
-#include <tools/data_structures/interface/InterfaceList.h>
-#include <tools/StandardComparator.h>
-#include <architecture/macros.h>
+#include <CommProto/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/tools/StandardComparator.h>
+#include <CommProto/architecture/macros.h>
 
 namespace Comnet {
 namespace Tools {

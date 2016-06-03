@@ -1,8 +1,8 @@
 #ifndef __COMPARATOR_H
 #define __COMPARATOR_H
 
-#include <architecture/os/include_defines.h>
-#include <architecture/api.h>
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 
 #define _LESS_THAN   -1
 #define _EQUAL_TO     0

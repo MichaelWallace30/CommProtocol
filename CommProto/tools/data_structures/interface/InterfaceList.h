@@ -19,7 +19,7 @@
 #ifndef __INTERFACE_LIST_H
 #define __INTERFACE_LIST_H
 
-#include <tools/data_structures/interface/Generic.h>
+#include <CommProto/tools/data_structures/interface/Generic.h>
 
 //using namespace Comnet::Tools::DataStructures::Interface;
 

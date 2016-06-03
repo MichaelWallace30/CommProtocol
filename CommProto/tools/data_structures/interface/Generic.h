@@ -19,8 +19,8 @@
 #ifndef __GENERIC_H
 #define __GENERIC_H
 
-#include <architecture/os/include_defines.h>
-#include <architecture/api.h>
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 
 namespace Comnet {
 namespace Tools {
