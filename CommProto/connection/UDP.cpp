@@ -1,4 +1,4 @@
-#include "UDP.h"
+#include <CommProto/connection/UDP.h>
 
 /***********************************************/
 /******************* Private *******************/
@@ -48,7 +48,7 @@ UDP::UDP(uint16_t port, char address[ADDRESS_LENGTH]) : CommsLink()
 
 	memset(&info, 0, sizeof(udp_connection_t));
 	memset(&config, 0, sizeof(udp_address_t));
-	memset(&rx_addr, 0, sizeof(udp_address_t));
+	//memset(&rx_addr, 0, sizeof(udp_address_t));
 	memset(&fd, 0, sizeof(sock_fd_t));
 	memset(rx_buf, 0, sizeof(MAX_BUFFER_SIZE));
 	connected = false;
@@ -138,10 +138,12 @@ bool UDP::recv(uint8_t* rx_data, uint32_t* rx_len)
 		int32_t retval;
 		struct sockaddr_in addr;
 		addr_len = sizeof(addr);
-		retval = recvfrom(fd, (char*)rx_data, MAX_BUFFER_SIZE, 0, (struct sockaddr*)&addr, &addr_len);
-		*rx_len = retval;
+		retval = recvfrom(fd, (char*)rx_data, 1023, 0, (struct sockaddr*)&addr, &addr_len);
+		*rx_len = retval;		
 		rx_addr.port = ntohs(addr.sin_port);
 		strcpy(rx_addr.serv, inet_ntoa(addr.sin_addr));
+		printf("retval %d\n", retval);
+		if (retval < 0)retval = 0;
 		return retval;
 	}
 	return false;

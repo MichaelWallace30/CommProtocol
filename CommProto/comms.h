@@ -5,14 +5,13 @@
 #include <queue>
 #include <string>//needed for addresses
 
-#include "CommsPacket.h"//Header which declares packet structs
+#include <CommProto/CommsPacket.h>//Header which declares packet structs
 #include <CommProto/connection/UDP.h>
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/os_threads.h>//method to create threads
 #include <CommProto/connection/CommsLink.h> //communication layer interface/abstract base class
-
-
+#include <CommProto/architecture/os/os_mutex.h>
 
 
 #include <iostream>//testing only
@@ -29,6 +28,10 @@ class Comms {
    
 
 private:
+
+	mutex_t sendMutex;
+	mutex_t recvMutex;
+
 	/** Boolean if communication thread running*/
 	bool isRunning;
     /** Encryption key*/
@@ -44,22 +47,31 @@ private:
 	/** Platform ID */
 	uint8_t platformID;
         
+	struct messageStruct
+	{
+		uint8_t dataBuff[MAX_PACKET_SIZE];
+		header_t headerBuff;
+	};
+
 	/** Queues for application layer to push messages or pop messages */
-	std::queue<uint8_t*> recvQueue;
-	std::queue<uint8_t*> sendQeueu;
+	std::queue<messageStruct*> recvQueue;
+	std::queue<messageStruct*> sendQeueu;
   
    /** Thread to run communication data */
-   thread_t communication_thread;
+   thread_t communicationThreadSend;
+   thread_t communicationThreadRecv;
    
    /** Method to run in communication thread */
-   void* commuincation_handler();
+   void* commuincationHandlerSend();
+   void* commuincationHandlerRecv();
    
    /**
    Helper function to convert between C++ and C function signatures
    due to casting as a class member being incompatible with C style
    thread creation APIs. Static linkage helps with that.
    */
-   static void* commuincation_helper(void* context);  
+   static void* commuincationHelperSend(void* context);  
+   static void* commuincationHelperRecv(void* context);
 
    /** Virtual Communication link for connection code*/
    CommsLink *connectionLayer;
@@ -91,7 +103,7 @@ public:
 	/** The address entered will be paired for communication by destination ID
 	Adding address can be a UDP IPV4 or hex MAC address for zigbee
 	Adding an address is not need for serial and will default to ""*/
-	bool addAddress(uint8_t destID, std::string address = "");
+	bool addAddress(uint8_t destID, std::string address, uint16_t port = 0);
 
 	/** Removing an address removes the known association of address and destination ID by using id*/
 	bool removeAddress(uint8_t destID);

@@ -2,31 +2,18 @@
 #define UDP_H
 
 /* User Includes */
+#include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/connection/CommsLink.h>
+#include <CommProto/architecture/os/os_udp.h>
 
-#ifndef _WIN32
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <stdint.h>
-#include <string.h>
-/** Define generic socket types */
-typedef int32_t sock_fd_t;
-#endif
-
-#ifdef _WIN32
-/** Define generic socket types */
-#include <Windows.h>
-#pragma comment(lib,"ws2_32.lib")
-typedef SOCKET sock_fd_t;
-#endif
 
 #define ADDRESS_LENGTH 16
+
 class UDP: public CommsLink
 {
 private:
-	
+
+
 	struct udp_address_t
 	{
 		char serv[ADDRESS_LENGTH];
