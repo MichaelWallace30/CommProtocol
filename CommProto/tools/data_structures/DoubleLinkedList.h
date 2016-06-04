@@ -57,10 +57,26 @@ public:
     nullify_pointer(tail);
   }
 
-  
+  void insert(const_reference value) {
+    DNode* newNode = allocate_pointer(DNode);
+    nullify_pointer(newNode->next);
+    nullify_pointer(newNode->previous);
+    newNode->data = value;
+
+    if (this->size <= 0) {
+      root = tail = newNode;
+      newNode->index = this->size;
+    } else {
+      
+    }
+
+    this->size++;
+  }
 
 private:
-  
+  /**
+     Node used as data containers within this data structure.
+   */
   struct DNode {
     DNode* next;
     DNode* previous;
@@ -68,6 +84,9 @@ private:
     _Ty data;
     uint32_t index;
   };
+
+  DNode* root;
+  DNode* tail;
 };
 } // DataStructures namespace 
 } // Tools namespace

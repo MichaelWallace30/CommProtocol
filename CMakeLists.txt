@@ -91,9 +91,8 @@ endif()
 # Add the cmake module path, for module build paths for this cmake file.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 set(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/)
+set(TOOLS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/tools/)
 
-message(${PARENT_DIR})
-# get_filename_component( PARENT_DIR ${DIR_PATH} DIRECTORY )
 
 # Add some commands to the compiler.
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
@@ -106,6 +105,24 @@ include_directories(SYSTEM ./)
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
 # or linux and OS X.
 include(cmake/archfiles.cmake)
+
+set(COMMPROTO_TOOLS_HEADERS
+  ${TOOLS_DIR}/data_structures/AutoQueue.h
+  ${TOOLS_DIR}/data_structures/SingleLinkedList.h
+  ${TOOLS_DIR}/data_structures/LinkedQueue.h
+  ${TOOLS_DIR}/data_structures/DoubleLinkedList.h
+  ${TOOLS_DIR}/data_structures/interface/Generic.h
+  ${TOOLS_DIR}/data_structures/interface/InterfaceList.h
+  ${TOOLS_DIR}/data_structures/interface/InterfaceQueue.h
+  ${TOOLS_DIR}/data_structures/interface/InterfaceMap.h
+  ${TOOLS_DIR}/data_structures/interface/InterfaceTree.h
+  ${TOOLS_DIR}/Comparable.h
+  ${TOOLS_DIR}/Comparator.h
+  ${TOOLS_DIR}/StandardComparator.h
+  ${TOOLS_DIR}/hash/NgcpHash.h)
+
+set(COMMPROTO_TOOLS_SOURCES
+  ${TOOLS_DIR}/hash/NgcpHash.cpp)
 
 set(COMMPROTO_HEADERS
   ${PARENT_DIR}/comms.h
@@ -124,4 +141,6 @@ add_library(NGCP_LIB STATIC
   ${ARCHITECTURE_HEADERS}
   ${ARCHITECTURE_SOURCES}
   ${COMMPROTO_HEADERS}
-  ${COMMPROTO_SOURCES})
+  ${COMMPROTO_SOURCES}
+  ${COMMPROTO_TOOLS_HEADERS}
+  ${COMMPROTO_TOOLS_SOURCES})
