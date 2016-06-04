@@ -78,7 +78,7 @@ bool valueIsNull(void* input) {
    NOTE(): Seed still needs to be implemented...
 */
 FORCE_INLINE
-ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed = 0) {
+ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
   ngcp_hash32_t hash = 0;
   if (valueIsNull(input)) {
     return hash;
@@ -104,7 +104,7 @@ ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed = 0) {
    64-bit hash value, used if you do not need to include wider use of hashing.
  */
 FORCE_INLINE
-ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed = 0) {
+ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
   ngcp_hash64_t hash = 0;
   if (valueIsNull(input)) {
     return hash;
@@ -132,7 +132,7 @@ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed = 0) {
    be able to accurately determine the string size if null terminator was specified at the end of the 
    string.
  */
-ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed = 0) {
+ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed) {
   unsigned int length = 0;
   if (valueIsNull((void*)input)) {
     return length;
@@ -146,7 +146,7 @@ ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed = 0) {
 /**
    64-bit version of string hash.
  */
-ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed = 0) { 
+ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed) { 
   unsigned int length = 0;
   if (valueIsNull((void*)input)) {
     return length;
