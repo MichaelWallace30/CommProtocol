@@ -19,6 +19,8 @@
 #ifndef __NEW_ALLOCATOR_H
 #define __NEW_ALLOCATOR_H
 
+#include <stdlib.h>
+
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 #include <CommProto/architecture/macros.h>
@@ -27,11 +29,67 @@ namespace Comnet {
 namespace Tools {
 namespace Allocator {
 
-
+/**
+   Standard NewAllocator is an object oriented way of allocating objects and data types. It is
+   however, not very stable when it comes to handling the standard library pointers, so use this 
+   allocator for convenient methods.
+*/
 template<typename _Ty>
 class NewAllocator {
+  typedef _Ty& reference;
+  typedef const _Ty& const_reference;
+  typedef const _Ty* const_pointer;
+  typedef _Ty* pointer;
 public:
+  NewAllocator() { }
 
+  ~NewAllocator() { }
+
+  /**
+     Allocate space.
+   */
+  pointer allocate(uint32_t sizeN) {
+    pointer = (_Ty*)(::operator new(sizeN * sizeof(_Ty)));
+    return pointer;
+  }
+  
+  /**
+     Deallocate space that was provided.
+   */
+  void deallocate(pointer p) {
+    if (p != NULL) {
+      ::operator delete((void*)p);
+      p = NULL;
+    }
+  }
+
+  /**
+     Destroy the object or data type that was inside the pointer.
+   */
+  void destruct(pointer p) {
+    p->~_Ty();
+  }
+
+  /**
+     Construct the value in specified pointer.
+   */
+  void construct(pointer p, const_reference value) {
+    new((void*)p)_Ty(value);
+  }
+
+  /**
+     Get the pointer from reference.
+   */
+  pointer address(reference ref) {
+    return &ref;
+  }
+
+  /**
+     Get the constant pointer from constant reference.
+   */
+  const_pointer address(const_reference ref) const {
+    return &ref;
+  }
 private:
 };
 } // Allocator namespace
