@@ -11,7 +11,7 @@ namespace Comnet {
    Constructor for AbstractPacket.
 */
 AbstractPacket::AbstractPacket(const char* className)
-: typeId() {
+: typeId(Tools::Hash::ngcp_hash64((const char*)className)) {
 }
 
 /**

@@ -1,4 +1,4 @@
-#include <CommProto/Comms.h>
+#include <CommProto/comms.h>
 
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/os_mutex.h>
