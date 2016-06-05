@@ -62,7 +62,7 @@ public:
      Insert a value into the list, this will likely copy over the value
      and set it into the data structure.
   */
-  void insert(_Ty value) {
+  void insert(const _Ty& value) {
     SNode* newNode = new SNode();
     nullify_pointer(newNode->next);
     newNode->value = value;

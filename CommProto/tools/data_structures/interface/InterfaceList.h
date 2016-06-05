@@ -79,7 +79,7 @@ public:
   /**
      Insert a value into the list.
   */
-  virtual void insert(_Ty value) = 0;
+  virtual void insert(const _Ty& value) = 0;
   /** 
       Remove a value from the list.
   */

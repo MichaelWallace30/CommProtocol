@@ -174,7 +174,7 @@ public:
      Removes a node based on the specified value. This may be a greedy method, considering it will not
      remove all nodes similar to specified value.
    */
-  bool remove(cconst_reference value) {
+  bool remove(const_reference value) {
     bool success = false;
     if (this->isEmpty()) {
       return success;
