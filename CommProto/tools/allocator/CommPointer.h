@@ -48,21 +48,21 @@ public:
     : pointer(NULL)
     , isUnique(true) { }
   
-  CommPointer(reference ref)
+  CommPointer(const_reference ref)
     : isUnique(true) 
   {
     pointer = allocator.allocate(0);
     allocator.construct(pointer, ref);
   }
 
-  CommPointer(pointer_t ptr)
+  CommPointer(const_pointer ptr)
     : isUnique(true) 
   {
     pointer = allocator.allocate(0);
-    allocator.construct(pointer, ptr);
+    allocator.construct(pointer, *ptr);
   }
   
-  CommPointer(CommPointer<_Ty>& ptr) 
+  CommPointer(const CommPointer<_Ty>& ptr) 
   {
     ptr.insertPointerReference(this);
     insertPointerReference(&ptr);

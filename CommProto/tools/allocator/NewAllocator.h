@@ -49,8 +49,8 @@ public:
      Allocate space.
    */
   pointer allocate(uint32_t sizeN) {
-    pointer = (_Ty*)(::operator new(sizeN * sizeof(_Ty)));
-    return pointer;
+    pointer p = (_Ty*)(::operator new(sizeN * sizeof(_Ty)));
+    return p;
   }
   
   /**
