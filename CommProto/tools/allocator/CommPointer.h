@@ -48,9 +48,18 @@ public:
     : pointer(NULL)
     , isUnique(true) { }
   
-  CommPointer(reference ref) {
+  CommPointer(reference ref)
+    : isUnique(true) 
+  {
     pointer = allocator.allocate(0);
     allocator.construct(pointer, ref);
+  }
+
+  CommPointer(pointer_t ptr)
+    : isUnique(true) 
+  {
+    pointer = allocator.allocate(0);
+    allocator.construct(pointer, ptr);
   }
   
   CommPointer(CommPointer<_Ty>& ptr) 
