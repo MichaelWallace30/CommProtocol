@@ -218,7 +218,7 @@ public:
    */
   bool removeAt(const int32_t index) {
     bool success = false;
-    if (index >= this->size && index < 0) {
+    if (index >= this->size || index < 0) {
       return success;
     }
 
