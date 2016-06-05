@@ -45,7 +45,7 @@ class CommPointer {
   typedef const _Ty& const_reference;
 public:
   CommPointer() 
-    , pointer(NULL)
+    : pointer(NULL)
     , isUnique(true) { }
   
   CommPointer(reference ref) {
