@@ -102,7 +102,7 @@ private:
   const_pointer pointer;
   _Alloc allocator;
 
-  ::Tools::DataStructures::DoubleLinkedList<CommPointer<_Ty>* > pointers;
+  Tools::DataStructures::DoubleLinkedList<CommPointer<_Ty>* > pointers;
 };
 } // Allocator namespace
 } // Tools namespace
