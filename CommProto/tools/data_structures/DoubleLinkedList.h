@@ -47,6 +47,7 @@ class DoubleLinkedList : public Interface::List<_Ty> {
   typedef const _Ty* const_pointer;
   typedef const _Ty& const_reference;
   typedef const _Ty const_data_type;
+  typedef _Ty& reference_type;
 public:
   /**
      Default Constructor for data structure. 
@@ -273,13 +274,13 @@ public:
   /**
      Get the front root value of this data structure.
    */
-  const _Ty& front() {
+  reference_type front() {
     return root->data;
   }
   /**
      Get the back, tail, value of this data structure.
    */
-  const _Ty& back() { 
+  reference_type back() { 
     return tail->data;
   }
 
