@@ -51,22 +51,22 @@ public:
   CommPointer(const_reference ref)
     : isUnique(true) 
   {
-    pointer = allocator.allocate(0);
+    pointer = allocator.allocate(1);
     allocator.construct(pointer, ref);
   }
 
   CommPointer(const_pointer ptr)
     : isUnique(true) 
   {
-    pointer = allocator.allocate(0);
+    pointer = allocator.allocate(1);
     allocator.construct(pointer, *ptr);
   }
   
-  CommPointer(const CommPointer<_Ty>& ptr) 
+  CommPointer(CommPointer<_Ty>& ptr) 
   {
     ptr.insertPointerReference(this);
     insertPointerReference(&ptr);
-    pointer = &ptr.get();    
+    pointer = &((reference)ptr.get());    
   }
 
   ~CommPointer() {
@@ -108,7 +108,7 @@ protected:
   bool isUnique;
 private:
   
-  const_pointer pointer;
+  pointer_t pointer;
   _Alloc allocator;
 
   Tools::DataStructures::DoubleLinkedList<CommPointer<_Ty>* > pointers;
