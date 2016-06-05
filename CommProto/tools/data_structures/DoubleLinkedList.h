@@ -66,7 +66,7 @@ public:
   : root(NULL)
   , tail(NULL)
   , cursor(NULL) {
-    listType = Interface::DOUBLE_LINKED_LIST;
+    this->listType = Interface::DOUBLE_LINKED_LIST;
     this->size = 0;
   }
 

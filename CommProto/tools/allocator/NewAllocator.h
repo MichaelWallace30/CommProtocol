@@ -24,6 +24,7 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 #include <CommProto/architecture/macros.h>
+#include <new>
 
 namespace Comnet {
 namespace Tools {

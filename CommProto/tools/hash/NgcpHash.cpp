@@ -28,15 +28,6 @@
 #include <CommProto/architecture/macros.h>
 #include <CommProto/architecture/os/arch.h>
 
-/* 
-   TODO(): This will need to be defined with windows.
-*/ 
-#if COM_TARGET_OS == COM_OS_WINDOWS
- #define FORCE_INLINE
-#else
- #define FORCE_INLINE static __attribute__((always_inline)) 
-#endif // COM_TARGET_OS == COM_OS_WINDOWS
-
 #define NGCP_PRIVATE_API
 
 namespace Comnet {
@@ -77,7 +68,6 @@ bool valueIsNull(void* input) {
    Jenkins avalanche technique. Credit attributed to Jenkins hash. 
    NOTE(): Seed still needs to be implemented...
 */
-FORCE_INLINE
 ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
   ngcp_hash32_t hash = 0;
   if (valueIsNull(input)) {
@@ -103,7 +93,6 @@ ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
 /**
    64-bit hash value, used if you do not need to include wider use of hashing.
  */
-FORCE_INLINE
 ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
   ngcp_hash64_t hash = 0;
   if (valueIsNull(input)) {
