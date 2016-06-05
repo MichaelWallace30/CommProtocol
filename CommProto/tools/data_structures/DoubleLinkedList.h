@@ -110,15 +110,15 @@ private:
     
     if (cursor == remNode) {
       cursor = root;
-      nullify_pointer(cursor->previous);
     }
 
     if (tail == remNode) {
       tail = tail->next;
-      nullify_pointer(tail->previous);
     }
-
-    nullify_pointer(root->previous);
+    
+    if (root != NULL) {
+      nullify_pointer(root->previous);
+    }
     return remNode;
   }
   /**
