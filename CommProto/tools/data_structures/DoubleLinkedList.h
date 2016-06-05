@@ -39,7 +39,7 @@ namespace DataStructures {
 _COMNET_PUBLIC_API_
 template<typename _Ty,
 	 class    _Compare = StandardComparator<_Ty>,
-	 class    _Alloc = Tools::Allocator::NewAllocator<_Ty> >
+	 class    _Alloc   = Tools::Allocator::NewAllocator<_Ty> >
 class DoubleLinkedList : public Interface::List<_Ty> {
   /*
     TODO(Garcia): We will need to make use of the Allocator.
