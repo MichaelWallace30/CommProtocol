@@ -104,7 +104,7 @@ private:
   /**
      Handles the setup to remove the root value.
    */
-  void handleRootRemoval(DNode* remNode) {
+  DNode* handleRootRemoval(DNode* remNode) {
     remNode = root;
     root = root->next;
     
@@ -119,11 +119,12 @@ private:
     }
 
     nullify_pointer(root->previous);
+    return remNode;
   }
   /**
      Handles the setup to remove the tail value.
    */
-  void handleTailRemoval(DNode* remNode) {
+  DNode* handleTailRemoval(DNode* remNode) {
     remNode = tail;
     tail = tail->previous;
 
@@ -138,12 +139,13 @@ private:
     }
 
     nullify_pointer(tail->next);
+    return remNode;
   }
 
   /**
      Handles the setup to remove the cursor.
    */
-  void handleCursorRemoval(DNode* remNode) {
+  DNode* handleCursorRemoval(DNode* remNode) {
     remNode = cursor;
     
     if (cursor == tail) {
@@ -161,6 +163,8 @@ private:
       cursor->previous = remNode->previous;
       remNode->previous->next = cursor;
     }
+    
+    return remNode;
   }
 
   /**
@@ -193,11 +197,11 @@ public:
     DNode* remNode = NULL;
     
     if (cmp.equal(root->data, value)) {
-      handleRootRemoval(remNode);
+      remNode = handleRootRemoval(remNode);
     } else if (cmp.equal(tail->data , value)) {
-      handleTailRemoval(remNode);
+      remNode = handleTailRemoval(remNode);
     } else if (cmp.equal(cursor->data, value)) {
-      handleCursorRemoval(remNode);
+      remNode = handleCursorRemoval(remNode);
     } else {
       cursor = root->next;
       
@@ -237,11 +241,11 @@ public:
     nullify_pointer(remNode);
     
     if (index == root->index) {
-      handleRootRemoval(remNode);
+      remNode = handleRootRemoval(remNode);
     } else if (index == tail->index) {
-      handleTailRemoval(remNode);
+      remNode = handleTailRemoval(remNode);
     } else if (index == cursor->index) {
-      handleCursorRemoval(remNode);
+      remNode = handleCursorRemoval(remNode);
     } else {
       if (cursor->index > index) {
 	cursor = cursor->previous;
