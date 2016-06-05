@@ -191,7 +191,7 @@ ngcp_hash32_t ngcp_hash32(unsigned long long input, unsigned seed) {
    Specialization for ngcp hash function, specifically for unsigned long long int.
  */
 ngcp_hash64_t ngcp_hash64(unsigned long long input, unsigned seed) {
-  return (ngcp)hash64((void*)&input, 8, seed));
+  return (ngcp_hash64((void*)&input, 8, seed));
 }
 
 
@@ -222,7 +222,7 @@ ngcp_hash32_t ngcp_hash32(double input, unsigned seed) {
    Specialization for ngcp hash function, specifically for double.
  */
 ngcp_hash64_t ngcp_hash64(double input, unsigned seed) {
-  return (ngcp_hash64(void*)&input, 8, seed));
+  return (ngcp_hash64((void*)&input, 8, seed));
 }
 } // Hash namespace
 } // Tools namespace
