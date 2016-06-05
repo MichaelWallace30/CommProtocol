@@ -116,6 +116,8 @@ set(COMMPROTO_TOOLS_HEADERS
   ${TOOLS_DIR}/data_structures/interface/InterfaceQueue.h
   ${TOOLS_DIR}/data_structures/interface/InterfaceMap.h
   ${TOOLS_DIR}/data_structures/interface/InterfaceTree.h
+  ${TOOLS_DIR}/allocator/NewAllocator.h
+  ${TOOLS_DIR}/allocator/CommPointer.h
   ${TOOLS_DIR}/Comparable.h
   ${TOOLS_DIR}/Comparator.h
   ${TOOLS_DIR}/StandardComparator.h
