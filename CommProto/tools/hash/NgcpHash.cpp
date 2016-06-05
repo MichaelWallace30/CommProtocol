@@ -154,6 +154,76 @@ ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed) {
   str_length(input, length);
   return (ngcp_hash64((void*)input, length, seed));
 }
+
+
+/**
+   Specialization for ngcp hash function, specifically for unsigned int.
+ */
+ngcp_hash64_t ngcp_hash64(unsigned int input, unsigned seed) {
+  return (ngcp_hash64((void*)&input, 4, seed));
+}
+
+
+/**
+   Specialization for ngcp hash function, specifically for int.
+ */
+ngcp_hash32_t ngcp_hash32(int input, unsigned seed) {
+  return (ngcp_hash32((void*)&input, 4, seed));
+}
+
+
+/**
+   Specialization for ngcp hash function, specifically for int.
+ */
+ngcp_hash64_t ngcp_hash64(int input, unsigned seed) {
+  return (ngcp_hash64((void*)&input, 4, seed));
+}
+
+/**
+   Specialization for ngcp hash function, specifically for unsigned long long int.
+ */
+ngcp_hash32_t ngcp_hash32(unsigned long long input, unsigned seed) {
+  return (ngcp_hash32((void*)&input, 8, seed));
+}
+
+
+/**
+   Specialization for ngcp hash function, specifically for unsigned long long int.
+ */
+ngcp_hash64_t ngcp_hash64(unsigned long long input, unsigned seed) {
+  return (ngcp)hash64((void*)&input, 8, seed));
+}
+
+
+/**
+   Specialization for ngcp hash function, specifically for float.
+ */
+ngcp_hash32_t ngcp_hash32(float input, unsigned seed) {
+  return (ngcp_hash32((void*)&input, 4, seed));
+}
+
+/**
+   Specialization for ngcp hash function, specifically for float.
+ */
+ngcp_hash64_t ngcp_hash64(float input, unsigned seed) {
+  return (ngcp_hash64((void*)&input, 4, seed));
+}
+
+
+/**
+   Specialization for ngcp hash function, specifically for double.
+ */
+ngcp_hash32_t ngcp_hash32(double input, unsigned seed) {
+  return (ngcp_hash32((void*)&input, 8, seed));
+}
+
+
+/**
+   Specialization for ngcp hash function, specifically for double.
+ */
+ngcp_hash64_t ngcp_hash64(double input, unsigned seed) {
+  return (ngcp_hash64(void*)&input, 8, seed));
+}
 } // Hash namespace
 } // Tools namespace
 } // Comnet namespace

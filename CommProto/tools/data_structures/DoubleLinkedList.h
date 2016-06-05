@@ -46,7 +46,8 @@ public:
   
   DoubleLinkedList()
   : root(NULL)
-  , tail(NULL) {
+  , tail(NULL)
+  , cursor(NULL) {
     listType = Interface::DOUBLE_LINKED_LIST;
     this->size = 0;
   }
@@ -55,6 +56,7 @@ public:
     _delete_list(DNode, this->size);
     nullify_pointer(root);
     nullify_pointer(tail);
+    nullify_pointer(cursor);
   }
 
   void insert(const_reference value) {
@@ -64,13 +66,14 @@ public:
     newNode->data = value;
 
     if (this->size <= 0) {
-      root = tail = newNode;
-      newNode->index = this->size;
+      root = tail = cursor = newNode;
     } else {
-      
+      tail->next = newNode;
+      newNode->previous = tail;
+      tail = newNode;
     }
 
-    this->size++;
+    newNode->index = this->size++;
   }
 
 private:
@@ -87,6 +90,7 @@ private:
 
   DNode* root;
   DNode* tail;
+  DNode* cursor;
 };
 } // DataStructures namespace 
 } // Tools namespace

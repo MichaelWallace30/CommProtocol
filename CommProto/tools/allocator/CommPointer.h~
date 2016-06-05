@@ -1,0 +1,13 @@
+#ifndef __COMM_POINTER_H
+#define __COMM_POINTER_H
+
+namespace Comnet {
+namespace Tools {
+namespace Allocator {
+
+
+}
+}
+}
+
+#endif // __COMM_POINTER_H
