@@ -12,8 +12,8 @@
 class CommsLink
 {
 public:
-	CommsLink();
-	virtual ~CommsLink();
+	CommsLink(){ ; }
+	virtual ~CommsLink(){ ; }
 	
 	virtual bool initConnection(uint8_t port = 0, std::string address = "", uint32_t baudrate = 0){ return false; }
 	virtual bool addAddress(uint8_t destID, std::string address, uint16_t port = 0){ return false; }
