@@ -48,6 +48,16 @@ class DoubleLinkedList : public Interface::List<_Ty> {
   typedef const _Ty& const_reference;
   typedef const _Ty const_data_type;
   typedef _Ty& reference_type;
+  /**
+  Node used as data containers within this data structure.
+  */
+  struct DNode {
+    DNode* next;
+    DNode* previous;
+
+    _Ty data;
+    uint32_t index;
+  };
 public:
   /**
      Default Constructor for data structure. 
@@ -344,17 +354,6 @@ public:
     return cursor->data;
   }
 private:
-  /**
-     Node used as data containers within this data structure.
-   */
-  struct DNode {
-    DNode* next;
-    DNode* previous;
-    
-    _Ty data;
-    uint32_t index;
-  };
-
   /**
      Root node, the front, head, of the data structure.
    */
