@@ -16,8 +16,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __DOUBLE_LINKED_QUEUE_H
-#define __DOUBLE_LINKED_QUEUE_H
+#ifndef __DOUBLE_LINKED_LIST_H
+#define __DOUBLE_LINKED_LIST_H
 
 #include <CommProto/tools/data_structures/interface/InterfaceList.h>
 #include <CommProto/tools/StandardComparator.h>
@@ -384,4 +384,4 @@ private:
 } // DataStructures namespace 
 } // Tools namespace
 } // Comnet namespace
-#endif // __DOUBLE_LINKED_QUEUE_H
+#endif // __DOUBLE_LINKED_LIST_H
