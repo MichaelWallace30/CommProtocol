@@ -21,6 +21,7 @@
 
 #include <CommProto/tools/data_structures/interface/InterfaceList.h>
 #include <CommProto/tools/StandardComparator.h>
+#include <CommProto/tools/allocator/NewAllocator.h>
 
 #include <CommProto/architecture/macros.h>
 
@@ -37,8 +38,12 @@ namespace DataStructures {
  */
 _COMNET_PUBLIC_API_
 template<typename _Ty,
-	 class    _Compare = StandardComparator<_Ty> >
+	 class    _Compare = StandardComparator<_Ty>,
+	 class    _Alloc = Tools::Allocator::NewAllocator<_Ty> >
 class DoubleLinkedList : public Interface::List<_Ty> {
+  /*
+    TODO(Garcia): We will need to make use of the Allocator.
+   */
   typedef const _Ty* const_pointer;
   typedef const _Ty& const_reference;
   typedef const _Ty const_data_type;
@@ -77,6 +82,113 @@ public:
   }
 
 private:
+  
+  void handleRootRemoval(DNode* remNode) {
+    remNode = root;
+    root = root->next;
+    
+    if (cursor == remNode) {
+      cursor = root;
+      nullify_pointer(cursor->previous);
+    }
+
+    if (tail == remNode) {
+      tail = tail->next;
+      nullify_pointer(tail->previous);
+    }
+
+    nullify_pointer(root->previous);
+  }
+  
+  void handleTailRemoval(DNode* remNode) {
+    remNode = tail;
+    tail = tail->previous;
+
+    if (cursor == remNode) {
+      cursor = cursor->previous;
+      nullify_pointer(cursor->next);
+    }
+
+    if (root == remNode) {
+      root = root->previous;
+      nullify_pointer(root->next);
+    }
+
+    nullify_pointer(tail->next);
+  }
+
+  void handleCursorRemoval(DNode* remNode) {
+    remNode = cursor;
+    
+    if (cursor == tail) {
+      cursor = cursor->previous;
+  
+      nullify_pointer(cursor->next);
+    } else if (cursor == root) {
+      cursor = cursor->next;
+      root = root->next;
+
+      nullify_pointer(cursor->previous);
+      nullify_pointer(root->previous);
+    } else {
+      cursor = cursor->next;
+      cursor->previous = remNode->previous;
+      remNode->previous->next = cursor;
+    }
+  }
+  
+
+public:
+  bool remove(cconst_reference value) {
+    bool success = false;
+    if (this->isEmpty()) {
+      return success;
+    }
+
+    DNode* remNode = NULL;
+    
+    if (cmp.equal(root->data, value)) {
+      handleRootRemoval(remNode);
+    } else if (cmp.equal(tail->data , value)) {
+      handleTailRemoval(remNode);
+    } else if (cmp.equal(cursor->data, value)) {
+      handleCursorRemoval(remNode);
+    } else {
+      cursor = root->next;
+      
+      while (cursor != tail) {
+	if (cmp.equal(cursor->data , value)) {
+	  remNode = cursor;
+	  cursor = cursor->next;
+	  
+	  cursor->previous = remNode->previous;
+	  remNode->previous->next = cursor;
+	  break;
+	}
+	
+	cursor = cursor->next;
+      }
+    }
+
+    if (remNode != NULL) {
+      DNode* traverse = remNode->next;
+      for (int i = remNode->index; i < this->size - 1; ++i) {
+	traverse->index = i;
+	traverse = traverse->next;
+      }
+
+      free_pointer(remNode);
+      this->size--;
+      success = true;
+    }
+
+    return success;
+  }
+
+  bool removeAt(const int32_t index) {
+    bool success = false;
+  }
+private:
   /**
      Node used as data containers within this data structure.
    */
@@ -91,6 +203,9 @@ private:
   DNode* root;
   DNode* tail;
   DNode* cursor;
+
+  _Compare cmp;
+  _Alloc  alloc;
 };
 } // DataStructures namespace 
 } // Tools namespace

@@ -20,6 +20,7 @@
 #define __SINGLE_LINKED_LIST_H
 
 #include <CommProto/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/tools/allocator/NewAllocator.h>
 #include <CommProto/tools/StandardComparator.h>
 #include <CommProto/architecture/macros.h>
 
@@ -34,7 +35,8 @@ namespace DataStructures {
 */
 _COMNET_PUBLIC_API_
 template<typename _Ty, 
-         class _Compare = StandardComparator<_Ty> >
+         class _Compare = StandardComparator<_Ty>,
+	 class _Alloc = Tools::Allocator::NewAllocator<_Ty> >
 class SingleLinkedList : public Interface::List< _Ty > {
 public:
   /**
@@ -247,6 +249,11 @@ private:
      Compare function.
   */
   _Compare _cmp;
+
+  /**
+     Special allocator unit.
+   */
+  _Alloc alloc;
 
   /**
      Handles the removal of the root node.
