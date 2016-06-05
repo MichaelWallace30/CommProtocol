@@ -284,7 +284,7 @@ public:
     return tail->data;
   }
 
-  const _Ty& at(const int32_t index) {
+  reference_type at(const int32_t index) {
     if (root->index == index) {
       return root->data;
     } else if (tail->index == index) {
