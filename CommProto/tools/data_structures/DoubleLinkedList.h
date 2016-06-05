@@ -48,7 +48,9 @@ class DoubleLinkedList : public Interface::List<_Ty> {
   typedef const _Ty& const_reference;
   typedef const _Ty const_data_type;
 public:
-  
+  /**
+     Default Constructor for data structure. 
+   */
   DoubleLinkedList()
   : root(NULL)
   , tail(NULL)
@@ -57,13 +59,18 @@ public:
     this->size = 0;
   }
 
+  /**
+     Default destructor for the data structure.
+   */
   ~DoubleLinkedList() {
     _delete_list(DNode, this->size);
     nullify_pointer(root);
     nullify_pointer(tail);
     nullify_pointer(cursor);
   }
-
+  /**
+     Inserts a value into the data structure.
+   */
   void insert(const_reference value) {
     DNode* newNode = allocate_pointer(DNode);
     nullify_pointer(newNode->next);
@@ -83,6 +90,9 @@ public:
 
 private:
   
+  /**
+     Handles the setup to remove the root value.
+   */
   void handleRootRemoval(DNode* remNode) {
     remNode = root;
     root = root->next;
@@ -99,7 +109,9 @@ private:
 
     nullify_pointer(root->previous);
   }
-  
+  /**
+     Handles the setup to remove the tail value.
+   */
   void handleTailRemoval(DNode* remNode) {
     remNode = tail;
     tail = tail->previous;
@@ -117,6 +129,9 @@ private:
     nullify_pointer(tail->next);
   }
 
+  /**
+     Handles the setup to remove the cursor.
+   */
   void handleCursorRemoval(DNode* remNode) {
     remNode = cursor;
     
@@ -136,9 +151,28 @@ private:
       remNode->previous->next = cursor;
     }
   }
+
+  /**
+     Handles the setup to remove the selected node. Indices are reorganized so 
+     as to keep the stability of the index for each remaining nodes in the data structure.
+   */
+  inline
+  void handleRemNodeDelete(DNode* remNode) {
+    DNode* traverse = remNode->next;
+    for (int i = remNode->index; i < this->size - 1; ++i) {
+      traverse->index = i;
+      traverse = traverse->next;
+    }
+    
+    free_pointer(remNode);
+  }
   
 
 public:
+  /**
+     Removes a node based on the specified value. This may be a greedy method, considering it will not
+     remove all nodes similar to specified value.
+   */
   bool remove(cconst_reference value) {
     bool success = false;
     if (this->isEmpty()) {
@@ -171,13 +205,7 @@ public:
     }
 
     if (remNode != NULL) {
-      DNode* traverse = remNode->next;
-      for (int i = remNode->index; i < this->size - 1; ++i) {
-	traverse->index = i;
-	traverse = traverse->next;
-      }
-
-      free_pointer(remNode);
+      handleRemNodeDelete(remNode);
       this->size--;
       success = true;
     }
@@ -185,8 +213,134 @@ public:
     return success;
   }
 
+  /**
+     Remove a node from the list on the specified index.
+   */
   bool removeAt(const int32_t index) {
     bool success = false;
+    if (index >= this->size && index < 0) {
+      return success;
+    }
+
+    DNode* remNode;
+    nullify_pointer(remNode);
+    
+    if (index == root->index) {
+      handleRootRemoval(remNode);
+    } else if (index == tail->index) {
+      handleTailRemoval(remNode);
+    } else if (index == cursor->index) {
+      handleCursorRemoval(remNode);
+    } else {
+      if (cursor->index > index) {
+	cursor = cursor->previous;
+	while (cursor != NULL) {
+	  if (cursor->index == index) {
+	    remNode = cursor;
+	    cursor = cursor->next;
+	    
+	    cursor->previous = remNode->previous;
+	    remNode->previous->next = cursor;
+	    break;
+	  }
+	  cursor->previous;
+	}
+      } else {
+	cursor = cursor->next;
+	while (cursor != NULL) {
+	  if (cursor->index == index) {
+	    remNode = cursor;
+	    cursor = cursor->next;
+	    
+	    cursor->previous = remNode->previous;
+	    remNode->previous->next = cursor;
+	    break;
+	  }
+	  cursor = cursor->next;
+	}
+      }
+    }
+
+    if (remNode != NULL) {
+      handleRemNodeDelete(remNode);
+      this->size--;
+      success = true;
+    }
+    
+    return success;
+  }
+
+  /**
+     Get the front root value of this data structure.
+   */
+  const _Ty& front() {
+    return root->data;
+  }
+  /**
+     Get the back, tail, value of this data structure.
+   */
+  const _Ty& back() { 
+    return tail->data;
+  }
+
+  const _Ty& at(const int32_t index) {
+    if (root->index == index) {
+      return root->data;
+    } else if (tail->index == index) {
+      return tail->data;
+    } else if (cursor->index == index) {
+      return cursor->data;
+    } else {
+      if (cursor->index > index) {
+	cursor = cursor->previous;
+	while (cursor != NULL) {
+	  if (cursor->index == index) {
+	    return cursor->data;
+	  } else {
+	    cursor = cursor->previous;
+	  }
+	}
+      } else {
+	cursor = cursor->next;
+	while (cursor != NULL) {
+	  if (cursor->index == index) {
+	    return cursor->data;
+	  } else {
+	    cursor = cursor->next;
+	  }
+	}
+      }
+    }
+  }
+
+  /**
+     Checks if the specified value is in this data structure.
+   */
+  bool contains(const_reference value) {
+    bool success = false;
+    
+    if (cmp.equal(root->data, value) ||
+	cmp.equal(tail->data, value) ||
+	cmp.equal(cursor->data, value)) {
+      success = true;
+    } else {
+      cursor = root->next;
+      while (cursor != NULL) {
+	if (cmp.equal(cursor->data, value)) {
+	  success = true;
+	  break;
+	}
+	cursor = cursor->next;
+      }
+    }
+
+    return success;
+  }
+  /**
+     Get the cursor value.
+   */
+  const _Ty& getCurrent() {
+    return cursor->data;
   }
 private:
   /**
@@ -200,11 +354,27 @@ private:
     uint32_t index;
   };
 
+  /**
+     Root node, the front, head, of the data structure.
+   */
   DNode* root;
+  /**
+     Tail node, the back, tail, of the data structure.
+   */
   DNode* tail;
+  /**
+     Cursor node, the current node in the data structure.
+   */
   DNode* cursor;
-
+  /**
+     Compare object, used to compare values in the data structure. This can be customized as to 
+     make this structure more dynamic.
+   */
   _Compare cmp;
+  /**
+     Allocator object, used to allocate values in the data structure. This can be customized as to make this
+     structure more dynamic.
+   */
   _Alloc  alloc;
 };
 } // DataStructures namespace 
