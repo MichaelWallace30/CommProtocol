@@ -9,7 +9,8 @@ set(ARCHITECTURE_HEADERS
   ${PARENT_DIR}/architecture/os/mutex-config.h
   ${PARENT_DIR}/architecture/os/os_mutex.h
   ${PARENT_DIR}/architecture/api.h
-  ${PARENT_DIR}/architecture/macros.h)
+  ${PARENT_DIR}/architecture/macros.h
+  ${PARENT_DIR}/architecture/connection/socket-config.h)
 
 set(ARCHITECTURE_SOURCES
   ${PARENT_DIR}/architecture/os/os_threads.c

@@ -128,18 +128,18 @@ set(COMMPROTO_TOOLS_SOURCES
 
 set(COMMPROTO_HEADERS
   ${PARENT_DIR}/comms.h
-  ${PARENT_DIR}/connection/CommsLink.h
+  ${PARENT_DIR}/network/CommsLink.h
   ${PARENT_DIR}/AbstractPacket.h
   ${PARENT_DIR}/CommsPacket.h
-  ${PARENT_DIR}/connection/UDP.h)
+  ${PARENT_DIR}/network/UDP.h)
 
 set(COMMPROTO_SOURCES
   ${PARENT_DIR}/AbstractPacket.cpp
   ${PARENT_DIR}/comms.cpp
-  ${PARENT_DIR}/connection/UDP.cpp
-  ${PARENT_DIR}/connection/CommsLink.cpp)		
+  ${PARENT_DIR}/network/UDP.cpp
+  ${PARENT_DIR}/network/CommsLink.cpp)		
 
-add_library(NGCP_LIB STATIC 
+add_executable(NGCP_LIB 
   ${ARCHITECTURE_HEADERS}
   ${ARCHITECTURE_SOURCES}
   ${COMMPROTO_HEADERS}
