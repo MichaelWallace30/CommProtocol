@@ -3,8 +3,8 @@
 
 /* User Includes */
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/connection/CommsLink.h>
-#include <CommProto/architecture/os/os_udp.h>
+#include <CommProto/network/CommsLink.h>
+#include <CommProto/architecture/connection/socket-config.h>
 
 #define UDP_DEBUG
 #define ADDRESS_LENGTH 16
@@ -45,7 +45,7 @@ private:
 	bool udp_open(int* fd);
 
 	/** Deep copy of string to char array */
-	void UDP::stringToChar(char cPtr[ADDRESS_LENGTH], std::string str);
+	void stringToChar(char cPtr[ADDRESS_LENGTH], std::string str);
 
 
 public:

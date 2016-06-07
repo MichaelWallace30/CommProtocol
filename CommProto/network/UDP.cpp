@@ -1,4 +1,4 @@
-#include <CommProto/connection/UDP.h>
+#include <CommProto/network/UDP.h>
 
 /***********************************************/
 /******************* Private *******************/
