@@ -4,56 +4,60 @@
 /******************* Private *******************/
 /***********************************************/
 
-bool UDP::udp_open(sock_fd_t* fd, udp_address_t* config)
+bool UDP::udp_open(int* fd)
 {
-
-	int32_t broadcast_enabled = 1;
-	char reuse;
-	struct sockaddr_in addr;
-	int32_t ret;
-#ifdef _WIN32
-	struct WSAData* wd = (struct WSAData*)malloc(sizeof(struct WSAData));
-	ret = WSAStartup(MAKEWORD(2, 0), wd);
-	free(wd);
-	if (ret)
+#ifdef WIN32//windows bs
+	WSADATA wsa;
+	//Initialise winsock
+	printf("\nInitialising Winsock...");
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 	{
-		return false;
+		printf("Failed. Error Code : %d", WSAGetLastError());
+		return 0;
 	}
+	printf("Initialised.\n");
 #endif
 
-	memset(&addr, 0, sizeof(addr));
-	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = inet_addr(config->serv);
-	addr.sin_port = htons(config->port);
+	
+	/** attempts to open socket 
+		returns false if fails*/
+	if ((*fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+	{
+		printf("socket() failed\n");
+		return false;
+	}
 
 
-	*fd = socket(AF_INET, SOCK_DGRAM, 0);
-	setsockopt(*fd, SOL_SOCKET, SO_BROADCAST, (const char*)&broadcast_enabled, sizeof(int32_t));
-	setsockopt(*fd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse));
 	return true;
 }
+
+void UDP::stringToChar(char cPtr[ADDRESS_LENGTH], std::string str)
+{
+	memset(cPtr, 0, ADDRESS_LENGTH);
+	int maxChar;
+	(str.length() > ADDRESS_LENGTH) ? maxChar = ADDRESS_LENGTH : maxChar = str.length();
+	for (int index = 0; index < maxChar; index++)
+	{
+		cPtr[index] = str[index];
+	}
+}
+
 
 /***********************************************/
 /******************* Public  *******************/
 /***********************************************/
-UDP::UDP(uint16_t port, char address[ADDRESS_LENGTH]) : CommsLink()
+UDP::UDP() : CommsLink()
 {
 	//visual studio 2013 is having issues init array to 0
 	//error is "cannot specify initializer ofr arrays knwon issues with 2013
 	//make sure is node connected is set to false
 	for (int index = 0; index < MAX_CONNECTIONS; index++)
 	{
-		conn.node_connected[index] = 0;
+		conn[index].node_connected = false;
 	}
 
-	memset(&info, 0, sizeof(udp_connection_t));
-	memset(&config, 0, sizeof(udp_address_t));
-	//memset(&rx_addr, 0, sizeof(udp_address_t));
-	memset(&fd, 0, sizeof(sock_fd_t));
-	memset(rx_buf, 0, sizeof(MAX_BUFFER_SIZE));
 	connected = false;
-	config.port = port;
-	strcpy(config.serv, address);
+
 }
 
 
@@ -61,91 +65,115 @@ UDP::~UDP()
 {	
 }
 
-bool UDP::initConnection(uint8_t port, std::string address, uint32_t baudrate)
+bool UDP::initConnection(uint16_t port, std::string address, uint32_t baudrate)
 {	
-	if (udp_open(&fd, &config))
-	{		
+	//open socket and  check if socket is not already connected
+	if (!connected && udp_open(&fd))
+	{	
+		char tempChar[ADDRESS_LENGTH];
+		stringToChar(tempChar, address);
+
+		//setup address structure
+		memset((char *)&sockaddr, 0, sizeof(sockaddr));
+		sockaddr.sin_family = AF_INET;
+		sockaddr.sin_port = htons(port);
+		sockaddr.sin_addr.S_un.S_addr = inet_addr(tempChar);
+
+		//bind socket
+		if (bind(fd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)) < 0) {
+			printf("bind failed");
+			return false;
+		}
+
+		//set size of address
+		slen = sizeof(sockaddr);
+		//set connected to true
 		connected = true;
 		return true;
 	}
-
+	//already connected or failed to open socket
 	return false;
 }
 
 
 bool UDP::addAddress(uint8_t destID, std::string address, uint16_t port)
 {
-	if (conn.node_connected[destID] == 0 && address.length() < ADDRESS_LENGTH)
+	if (conn[destID].node_connected == 0 && address.length() < ADDRESS_LENGTH)
 	{
+		//convert string to char*
+		char tempChar[ADDRESS_LENGTH];
+		stringToChar(tempChar, address);
 		
-		conn.node_connected[destID] = 1;
-		conn.node_addr[destID].port = port;
-		address.copy(conn.node_addr[destID].serv, ADDRESS_LENGTH,0);
+		//setup address structure
+		memset((char *)&conn[destID].sockaddr, 0, sizeof(conn[destID].sockaddr));
+		conn[destID].sockaddr.sin_family = AF_INET;
+		conn[destID].sockaddr.sin_port = htons(port);
+		conn[destID].sockaddr.sin_addr.S_un.S_addr = inet_addr(tempChar);
+		conn[destID].node_connected = true;
 		return true;
 	}
 	
+	//already connected node or address is invalid
 	return false;	
 }
 
 bool UDP::removeAddress(uint8_t destID)
 {
 
-	if (conn.node_connected[destID] == 1)
+	if (conn[destID].node_connected)
 	{
-
-		conn.node_connected[destID] = 0;
-		conn.node_addr[destID].port = 0;
-		strcpy(conn.node_addr[destID].serv, NULL);
+		conn[destID].node_connected = false;
 		return true;
 	}
 	return false;
 }
 
-bool UDP::send(uint8_t pathID, uint8_t* txData, int32_t txLength)
+bool UDP::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 {
 	if (connected)
 	{
-		struct sockaddr_in addr;
-		int32_t retval;
-		strlen(conn.node_addr[pathID].serv);
-		if (!strcmp(conn.node_addr[pathID].serv, "255.255.255.255"))
+		int slenSend = sizeof(conn[destID].sockaddr);
+		if (sendto(fd, (char*)txData, txLength, 0, (struct sockaddr *) &conn[destID].sockaddr, slen) < 0)
 		{
-			addr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+			printf("sendto() failed\n");
+			return false;
 		}
 		else
 		{
-			addr.sin_addr.s_addr = inet_addr(conn.node_addr[pathID].serv);
-		}
-		addr.sin_family = AF_INET;
 
-		addr.sin_port = htons(conn.node_addr[pathID].port);
-		retval = sendto(fd, (char*)txData, txLength, 0, (struct sockaddr *)&addr, sizeof(addr));
-		return retval;
+#ifdef UDP_DEBUG
+			int port = ntohs(conn[destID].sockaddr.sin_port);				
+			printf("**  Sent\t Length: %d, Port: %d, IP: %s **\n", txLength, port, inet_ntoa(conn[destID].sockaddr.sin_addr));
+#endif
+
+		}
 	}
 	return false;
 }
-
+		  
 bool UDP::recv(uint8_t* rx_data, uint32_t* rx_len)
 {
+	int length = 0;
+	*rx_len = 0;
 	if (connected)
 	{
-#ifdef _WIN32
-		int32_t addr_len;
-#endif
-#ifndef _WIN32
-		socklen_t addr_len;
-#endif
-		int32_t retval;
-		struct sockaddr_in addr;
-		addr_len = sizeof(addr);
-		retval = recvfrom(fd, (char*)rx_data, 1023, 0, (struct sockaddr*)&addr, &addr_len);
-		*rx_len = retval;		
-		rx_addr.port = ntohs(addr.sin_port);
-		strcpy(rx_addr.serv, inet_ntoa(addr.sin_addr));
-		printf("retval %d\n", retval);
-		if (retval < 0)retval = 0;
-		return retval;
+		
+		length = recvfrom(fd, (char*)rx_data, MAX_BUFFER_SIZE, 0, (struct sockaddr *) &si_other, &slen);
 	}
-	return false;
+	else
+	{
+		printf("UDP not connected can't receive\n");
+		return false;//not connected
+	}
+
+	if (length < 0) return false;
+
+#ifdef UDP_DEBUG
+	int port = ntohs(si_other.sin_port);
+	printf("**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, port, inet_ntoa(si_other.sin_addr));
+#endif
+
+	*rx_len = (uint32_t)length;
+	return true;
 }
 

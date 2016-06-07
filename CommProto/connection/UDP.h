@@ -6,52 +6,70 @@
 #include <CommProto/connection/CommsLink.h>
 #include <CommProto/architecture/os/os_udp.h>
 
-
+#define UDP_DEBUG
 #define ADDRESS_LENGTH 16
 
 class UDP: public CommsLink
 {
 private:
 
-
-	struct udp_address_t
-	{
-		char serv[ADDRESS_LENGTH];
-		uint16_t port;
-	};
-
+	
+	/**Struct
+		-sockaddr_in: IP address & port
+		-node_connected: if node is conneted than true*/
 	struct udp_connection_t
 	{		
-		sock_fd_t fd;
-		udp_address_t config;
-		/** Keeps track of received message */
-		udp_address_t last_addr;
-		udp_address_t node_addr[MAX_CONNECTIONS];
-		uint8_t node_connected[MAX_CONNECTIONS];
+		struct sockaddr_in sockaddr;			
+		bool node_connected;
 	};
 
-	udp_connection_t conn;	
+	/** Array of connections: address, port, and if connceted*/
+	udp_connection_t conn[MAX_CONNECTIONS];
 
-	sock_fd_t fd;	
-	udp_address_t config;	
-	udp_connection_t info;	
-	udp_address_t rx_addr;	
+	/** Socket id (socket descriptor returned by socket)*/
+	int fd;	
+	/** Local address & port */
+	struct sockaddr_in sockaddr;
+	/** recieved address & port */
+	struct sockaddr_in si_other;
+	/** Local address length */
+	int slen;
+
+	/** message buffer */
 	uint8_t rx_buf[MAX_BUFFER_SIZE];	
+
+	/** Is local socket connected */
 	bool connected;
 
-	bool udp_open(sock_fd_t* fd, udp_address_t* config);
+	/** Opens udp socket returns false if socket open fails*/
+	bool udp_open(int* fd);
+
+	/** Deep copy of string to char array */
+	void UDP::stringToChar(char cPtr[ADDRESS_LENGTH], std::string str);
+
 
 public:
 
-	UDP(uint16_t port, char address[ADDRESS_LENGTH]);
+	/**Constuctor*/
+	UDP();
 	~UDP();
 	
-	bool initConnection(uint8_t port = 0, std::string address = "", uint32_t baudrate = 0);
+	/** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
+		Returns false if open socket or bind fails*/
+	bool initConnection(uint16_t port = 0, std::string address = "", uint32_t baudrate = 0);
+	/** Adds Address & port to destID value of array of aviable connections
+		Returns false if connection is already connected*/
 	virtual bool addAddress(uint8_t destID, std::string address, uint16_t port);
+	/** Sets connection to not available
+		Returns false is no connection is found*/
 	virtual bool removeAddress(uint8_t destID);
-
-	virtual bool send(uint8_t pathID, uint8_t* txData, int32_t txLength);
+	/** Sends txData using its length of bytes through the destID connection which is establish through add adress
+		Return false if no proper connection is establish*/
+	virtual bool send(uint8_t destID, uint8_t* txData, int32_t txLength);
+	/** Sets recieved data to rx_data and sets the length of the data to rx_len
+		Returns false if not aviable connection or no data is recieved*/
 	virtual bool recv(uint8_t* rx_data, uint32_t* rx_len);
+				 
 };
 
 
