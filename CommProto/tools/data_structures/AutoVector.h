@@ -39,7 +39,7 @@ namespace DataStructures {
    having to look through lines of code figuring out why this vector function doesn't work.
 */
 template<typename _Ty>
-AutoVector : public Interface::InterfaceList<_Ty> {
+AutoVector : public Interface::List<_Ty> {
 public:
   AutoVector() { }
   
