@@ -49,7 +49,7 @@ void UDP::stringToChar(char cPtr[ADDRESS_LENGTH], std::string str)
 UDP::UDP() : CommsLink()
 {
 	//visual studio 2013 is having issues init array to 0
-	//error is "cannot specify initializer ofr arrays knwon issues with 2013
+	//error is "cannot specify initializer of arrays knwon issues with 2013
 	//make sure is node connected is set to false
 	for (int index = 0; index < MAX_CONNECTIONS; index++)
 	{
@@ -63,6 +63,7 @@ UDP::UDP() : CommsLink()
 
 UDP::~UDP()
 {	
+	closSocket(fd);
 }
 
 bool UDP::initConnection(uint16_t port, std::string address, uint32_t baudrate)
@@ -77,7 +78,7 @@ bool UDP::initConnection(uint16_t port, std::string address, uint32_t baudrate)
 		memset((char *)&sockaddr, 0, sizeof(sockaddr));
 		sockaddr.sin_family = AF_INET;
 		sockaddr.sin_port = htons(port);
-		sockaddr.sin_addr.S_un.S_addr = inet_addr(tempChar);
+		sockaddr.sin_addr.s_addr = inet_addr(tempChar);
 
 		//bind socket
 		if (bind(fd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)) < 0) {
@@ -108,10 +109,7 @@ bool UDP::addAddress(uint8_t destID, std::string address, uint16_t port)
 		memset((char *)&conn[destID].sockaddr, 0, sizeof(conn[destID].sockaddr));
 		conn[destID].sockaddr.sin_family = AF_INET;
 		conn[destID].sockaddr.sin_port = htons(port);
-
-		// S_un and S_addr do not exist in Linux struct in_addr.
-
-		conn[destID].sockaddr.sin_addr.S_un.S_addr = inet_addr(tempChar);
+		conn[destID].sockaddr.sin_addr.s_addr = inet_addr(tempChar);
 		conn[destID].node_connected = true;
 		return true;
 	}

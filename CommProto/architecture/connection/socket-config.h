@@ -25,6 +25,8 @@
 #if (COM_TARGET_OS == COM_OS_WINDOWS)    
  #include <Windows.h>
  #pragma comment(lib,"ws2_32.lib")    
+ #define s_addr  S_un.S_addr 
+ #define closSocket(x)	closesocket(x); WSACleanup()
 #else
  #include <unistd.h>
  #include <sys/types.h>
@@ -38,6 +40,7 @@
  #define SOCKET_ERROR   -1
  #define INVALID_SOCKET -1
  typedef int SOCKET;   
+ #define closSocket(x)	close(x)
 #endif
 
 typedef int16_t PORT;
