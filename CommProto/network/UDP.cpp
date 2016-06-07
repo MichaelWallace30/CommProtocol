@@ -159,7 +159,7 @@ bool UDP::recv(uint8_t* rx_data, uint32_t* rx_len)
 	if (connected)
 	{
 		
-		length = recvfrom(fd, (char*)rx_data, MAX_BUFFER_SIZE, 0, (struct sockaddr *) &si_other, &slen);
+		length = recvfrom(fd, (char*)rx_data, MAX_BUFFER_SIZE, 0, (struct sockaddr *) &si_other, (socklen_t*)&slen);
 	}
 	else
 	{

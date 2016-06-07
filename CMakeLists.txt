@@ -136,8 +136,7 @@ set(COMMPROTO_HEADERS
 set(COMMPROTO_SOURCES
   ${PARENT_DIR}/AbstractPacket.cpp
   ${PARENT_DIR}/comms.cpp
-  ${PARENT_DIR}/network/UDP.cpp
-  ${PARENT_DIR}/network/CommsLink.cpp)		
+  ${PARENT_DIR}/network/UDP.cpp)		
 
 add_executable(NGCP_LIB 
   ${ARCHITECTURE_HEADERS}
@@ -145,4 +144,5 @@ add_executable(NGCP_LIB
   ${COMMPROTO_HEADERS}
   ${COMMPROTO_SOURCES}
   ${COMMPROTO_TOOLS_HEADERS}
-  ${COMMPROTO_TOOLS_SOURCES})
+  ${COMMPROTO_TOOLS_SOURCES}
+  CommProto/main.cpp)
