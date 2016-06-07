@@ -44,16 +44,16 @@ enum QueueType {
 */
 _COMNET_PRIVATE_API_
 template<typename _Ty>
-class InterfaceQueue : public Generic {
+class Queue : public Generic {
 public:
   /**
      Queue Constructor.
   */
-  InterfaceQueue() { type = QUEUE; }
+  Queue() { type = QUEUE; }
   /**
      Polymorphc Queue destructor.
   */
-  virtual ~InterfaceQueue()  { } 
+  virtual ~Queue()  { } 
   /**
      Get the size of this queue.
   */

@@ -37,7 +37,7 @@ namespace Allocator {
    first referenced the object, if you wish to add a reference to the same object.
  */
 template<typename _Ty,
-	 class _Alloc = NewAllocator<_Ty> >
+	 class    _Alloc = NewAllocator<_Ty> >
 class CommPointer {
   typedef _Ty* pointer_t;
   typedef _Ty& reference;
