@@ -38,6 +38,7 @@ enum DataStructureType {
   HEAP,
   TREE,
   MAP,
+  STACK,
 };
     
 /**

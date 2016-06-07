@@ -33,7 +33,7 @@ namespace DataStructures {
  */
 _COMNET_PUBLIC_API_
 template<typename _Ty>
-class LinkedQueue : public Interface::InterfaceQueue<_Ty>  { 
+class LinkedQueue : public Interface::Queue<_Ty>  { 
 public:
   /**
      Constructor for the Linked Queue. 
