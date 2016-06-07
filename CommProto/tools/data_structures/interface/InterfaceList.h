@@ -69,12 +69,12 @@ public:
       Check if this data structure is empty. 
       @returns True if empty, false otherwise.
   */
-  bool isEmpty() { return size == 0; }
+  virtual bool isEmpty() { return size == 0; }
 
   /**
       Get the number of values in the data structure.
   */
-  int32_t getSize() { return size; }
+  virtual int32_t getSize() { return size; }
 
   /**
      Insert a value into the list.

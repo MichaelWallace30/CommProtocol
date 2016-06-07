@@ -65,8 +65,9 @@ public:
   /**
      Get the current number of key-value pairs in the map.
    */
-  int32_t getSize() { return this->size; }
+  virtual int32_t getSize() { return this->size; }
   
+  virtual bool isEmpty() { return this->size == 0; }
   /**
      Get the type of map being used.
    */
