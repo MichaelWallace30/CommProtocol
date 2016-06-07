@@ -108,6 +108,9 @@ bool UDP::addAddress(uint8_t destID, std::string address, uint16_t port)
 		memset((char *)&conn[destID].sockaddr, 0, sizeof(conn[destID].sockaddr));
 		conn[destID].sockaddr.sin_family = AF_INET;
 		conn[destID].sockaddr.sin_port = htons(port);
+
+		// S_un and S_addr do not exist in Linux struct in_addr.
+
 		conn[destID].sockaddr.sin_addr.S_un.S_addr = inet_addr(tempChar);
 		conn[destID].node_connected = true;
 		return true;

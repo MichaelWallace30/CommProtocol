@@ -65,6 +65,10 @@ enum packet_data_status_t {
   PACKET_DISCONNECTED,
 };
 
+/**
+   This will be fixed, need to make this socket type generic for both windows and linux. 
+   Both os'es use struct sockaddr_in, but they implement struct in_addr differently...
+ */ 
 struct socket_t {
   SOCKET socket;
   PORT port;
