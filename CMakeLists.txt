@@ -90,15 +90,18 @@ endif()
 
 # Add the cmake module path, for module build paths for this cmake file.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
-set(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/)
-set(TOOLS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/tools/)
 
+set(PARENT_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/)
+set(PARENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/)
+
+set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
+set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
 
 # Add some commands to the compiler.
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
 
 # Don't forget to include the directories for the compiler to check for.
-include_directories(SYSTEM ./)
+include_directories(SYSTEM CommProto/include/)
 
 # Our sources, which will be included in the build. This is a test build, to 
 # check for problems and situations arising from our code base. We will most likely
@@ -107,36 +110,36 @@ include_directories(SYSTEM ./)
 include(cmake/archfiles.cmake)
 
 set(COMMPROTO_TOOLS_HEADERS
-  ${TOOLS_DIR}/data_structures/AutoQueue.h
-  ${TOOLS_DIR}/data_structures/SingleLinkedList.h
-  ${TOOLS_DIR}/data_structures/LinkedQueue.h
-  ${TOOLS_DIR}/data_structures/DoubleLinkedList.h
-  ${TOOLS_DIR}/data_structures/interface/Generic.h
-  ${TOOLS_DIR}/data_structures/interface/InterfaceList.h
-  ${TOOLS_DIR}/data_structures/interface/InterfaceQueue.h
-  ${TOOLS_DIR}/data_structures/interface/InterfaceMap.h
-  ${TOOLS_DIR}/data_structures/interface/InterfaceTree.h
-  ${TOOLS_DIR}/allocator/NewAllocator.h
-  ${TOOLS_DIR}/allocator/CommPointer.h
-  ${TOOLS_DIR}/Comparable.h
-  ${TOOLS_DIR}/Comparator.h
-  ${TOOLS_DIR}/StandardComparator.h
-  ${TOOLS_DIR}/hash/NgcpHash.h)
+  ${TOOLS_HEADER_DIR}/data_structures/AutoQueue.h
+  ${TOOLS_HEADER_DIR}/data_structures/SingleLinkedList.h
+  ${TOOLS_HEADER_DIR}/data_structures/LinkedQueue.h
+  ${TOOLS_HEADER_DIR}/data_structures/DoubleLinkedList.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/Generic.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceList.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceQueue.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceMap.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceTree.h
+  ${TOOLS_HEADER_DIR}/allocator/NewAllocator.h
+  ${TOOLS_HEADER_DIR}/allocator/CommPointer.h
+  ${TOOLS_HEADER_DIR}/Comparable.h
+  ${TOOLS_HEADER_DIR}/Comparator.h
+  ${TOOLS_HEADER_DIR}/StandardComparator.h
+  ${TOOLS_HEADER_DIR}/hash/NgcpHash.h)
 
 set(COMMPROTO_TOOLS_SOURCES
-  ${TOOLS_DIR}/hash/NgcpHash.cpp)
+  ${TOOLS_SOURCE_DIR}/hash/NgcpHash.cpp)
 
 set(COMMPROTO_HEADERS
-  ${PARENT_DIR}/comms.h
-  ${PARENT_DIR}/network/CommsLink.h
-  ${PARENT_DIR}/AbstractPacket.h
-  ${PARENT_DIR}/CommsPacket.h
-  ${PARENT_DIR}/network/UDP.h)
+  ${PARENT_HEADER_DIR}/comms.h
+  ${PARENT_HEADER_DIR}/network/CommsLink.h
+  ${PARENT_HEADER_DIR}/AbstractPacket.h
+  ${PARENT_HEADER_DIR}/CommsPacket.h
+  ${PARENT_HEADER_DIR}/network/UDP.h)
 
 set(COMMPROTO_SOURCES
-  ${PARENT_DIR}/AbstractPacket.cpp
-  ${PARENT_DIR}/comms.cpp
-  ${PARENT_DIR}/network/UDP.cpp)		
+  ${PARENT_SOURCE_DIR}/AbstractPacket.cpp
+  ${PARENT_SOURCE_DIR}/comms.cpp
+  ${PARENT_SOURCE_DIR}/network/UDP.cpp)		
 
 add_executable(NGCP_LIB 
   ${ARCHITECTURE_HEADERS}
@@ -145,4 +148,4 @@ add_executable(NGCP_LIB
   ${COMMPROTO_SOURCES}
   ${COMMPROTO_TOOLS_HEADERS}
   ${COMMPROTO_TOOLS_SOURCES}
-  CommProto/main.cpp)
+  CommProto/src/main.cpp)
