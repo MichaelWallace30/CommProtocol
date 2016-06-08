@@ -27,7 +27,7 @@
  #include <Windows.h>
  #pragma comment(lib,"ws2_32.lib")    
  #define s_addr  S_un.S_addr 
- #define closSocket(x)	closesocket(x); WSACleanup() 
+ #define closSocket(x)	closesocket(x); WSACleanup()
 #else
  #include <unistd.h>
  #include <sys/types.h>

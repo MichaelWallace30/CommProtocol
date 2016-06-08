@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(CPP_TEST)
 
-set(TOOLS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../CommProto/tools/)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../)
+set(TOOLS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../CommProto/include/CommProto/tools/)
+set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../CommProto/src/tools/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../CommProto/include/)
 
 set(COMMPROTO_TOOLS_HEADERS
   ${TOOLS_DIR}/data_structures/AutoQueue.h
@@ -23,7 +23,7 @@ set(COMMPROTO_TOOLS_HEADERS
   ${TOOLS_DIR}/hash/NgcpHash.h)
 
 set(COMMPROTO_TOOLS_SOURCES
-  ${TOOLS_DIR}/hash/NgcpHash.cpp)
+  ${TOOLS_SOURCE_DIR}/hash/NgcpHash.cpp)
 
 add_executable(TESTING_MAIN
   ${COMMPROTO_TOOLS_HEADERS}
