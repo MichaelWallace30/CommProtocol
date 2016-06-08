@@ -139,21 +139,19 @@ bool UDP::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 		 txLength, 0, 
 		 (struct sockaddr *) 
 		 &conn[destID].sockaddr, slen) < 0)
-	{
-	  printf("sendto() failed\n");
-	  return false;
-	}
-      else
-	{
-	  
-#ifdef UDP_DEBUG
-	  int port = ntohs(conn[destID].sockaddr.sin_port);				
-	  printf("**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
-		 txLength, port, 
-		 inet_ntoa(conn[destID].sockaddr.sin_addr));
-#endif
-	  
-	}
+		{
+			printf("sendto() failed\n");
+			return false;
+		}
+		else
+		{	  
+		#ifdef UDP_DEBUG
+			int port = ntohs(conn[destID].sockaddr.sin_port);				
+			printf("**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
+				txLength, port, 
+				inet_ntoa(conn[destID].sockaddr.sin_addr));
+		#endif	  
+		}
     }
   return false;
 }
@@ -170,12 +168,12 @@ bool UDP::recv(uint8_t* rx_data, uint32_t* rx_len)
 			0, 
 			(struct sockaddr *) &si_other, 
 			(socklen_t*)&slen);
-    }
-  else
-    {
-      printf("UDP not connected can't receive\n");
-      return false;//not connected
-    }
+			}
+			else
+			{
+				printf("UDP not connected can't receive\n");
+				return false;//not connected
+			}
   
   if (length < 0) return false;
   
