@@ -1,4 +1,4 @@
-/*
+/* 
   Socket configuration.
 
   Copyright (C) 2016  Michael Wallace, Mario Garcia.
@@ -22,13 +22,12 @@
 #include <CommProto/architecture/os/include_defines.h>
 
 // Declare our libraries.
-#if (COM_TARGET_OS == COM_OS_WINDOWS)   
+#if (COM_TARGET_OS == COM_OS_WINDOWS)    
  #include <WS2tcpip.h>
  #include <Windows.h>
  #pragma comment(lib,"ws2_32.lib")    
  #define s_addr  S_un.S_addr 
  #define closSocket(x)	closesocket(x); WSACleanup()
- 
 #else
  #include <unistd.h>
  #include <sys/types.h>
