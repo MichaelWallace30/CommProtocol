@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <string>
 
-#include <CommProto/CommsPacket.h>
+#include <CommProto/include/CommsPacket.h>
 
 #define MAX_CONNECTIONS 25
 

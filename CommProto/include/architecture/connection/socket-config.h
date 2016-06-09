@@ -19,7 +19,7 @@
 #ifndef __SOCKET_CONFIG_H
 #define __SOCKET_CONFIG_H
 
-#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/include/architecture/os/include_defines.h>
 
 // Declare our libraries.
 #if (COM_TARGET_OS == COM_OS_WINDOWS)    

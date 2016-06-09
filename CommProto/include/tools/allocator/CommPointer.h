@@ -19,12 +19,12 @@
 #ifndef __COMM_POINTER_H
 #define __COMM_POINTER_H
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
-#include <CommProto/architecture/macros.h>
+#include <CommProto/include/architecture/os/include_defines.h>
+#include <CommProto/include/architecture/api.h>
+#include <CommProto/include/architecture/macros.h>
 
-#include <CommProto/tools/allocator/NewAllocator.h>
-#include <CommProto/tools/data_structures/DoubleLinkedList.h>
+#include <CommProto/include/tools/allocator/NewAllocator.h>
+#include <CommProto/include/tools/data_structures/DoubleLinkedList.h>
 
 namespace Comnet {
 namespace Tools {

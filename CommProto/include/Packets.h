@@ -15,7 +15,7 @@
 #ifndef __PACKETS_H
 #define __PACKETS_H
 
-#include <CommProto/AbstractPacket.h>
+#include <CommProto/include/AbstractPacket.h>
 
 
 namespace Comnet {

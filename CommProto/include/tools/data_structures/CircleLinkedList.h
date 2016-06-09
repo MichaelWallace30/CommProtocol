@@ -19,13 +19,13 @@
 #ifndef __CIRCLE_LINKED_LIST_H
 #define __CIRCLE_LINKED_LIST_H
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
-#include <CommProto/architecture/macros.h>
+#include <CommProto/include/architecture/os/include_defines.h>
+#include <CommProto/include/architecture/api.h>
+#include <CommProto/include/architecture/macros.h>
 
-#include <CommProto/tools/data_structures/interface/InterfaceList.h>
-#include <CommProto/tools/StandardComparator.h>
-#include <CommProto/tools/allocator/NewAllocator.h>
+#include <CommProto/include/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/include/tools/StandardComparator.h>
+#include <CommProto/include/tools/allocator/NewAllocator.h>
 
 namespace Comnet {
 namespace Tools {

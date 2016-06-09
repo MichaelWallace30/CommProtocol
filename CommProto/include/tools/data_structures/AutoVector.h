@@ -19,11 +19,11 @@
 #ifndef __AUTO_VECTOR_H
 #define __AUTO_VECTOR_H
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
-#include <CommProto/architecture/macros.h>
+#include <CommProto/include/architecture/os/include_defines.h>
+#include <CommProto/include/architecture/api.h>
+#include <CommProto/include/architecture/macros.h>
 
-#include <CommProto/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/include/tools/data_structures/interface/InterfaceList.h>
 // Standard library vector.
 #include <vector>
 

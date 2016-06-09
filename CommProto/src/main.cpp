@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <CommProto/comms.h>
-#include <CommProto/architecture/os/os_threads.h>
-#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/include/comms.h>
+#include <CommProto/include/architecture/os/os_threads.h>
+#include <CommProto/include/architecture/os/include_defines.h>
 
 
 int main(int c, char** args) {

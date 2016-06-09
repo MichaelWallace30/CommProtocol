@@ -21,9 +21,9 @@
 
 #include <stdlib.h>
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
-#include <CommProto/architecture/macros.h>
+#include <CommProto/include/architecture/os/include_defines.h>
+#include <CommProto/include/architecture/api.h>
+#include <CommProto/include/architecture/macros.h>
 #include <new>
 
 namespace Comnet {
