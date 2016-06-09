@@ -66,10 +66,11 @@ public:
   DoubleLinkedList()
   : root(NULL)
   , tail(NULL)
-  , cursor(NULL) {
+  , cursor(NULL)
+  , alloc( _Allocator() ) 
+  {
     this->listType = Interface::DOUBLE_LINKED_LIST;
     this->size = 0;
-    alloc = _Allocator();
   }
 
   /**
