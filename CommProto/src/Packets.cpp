@@ -1,4 +1,4 @@
-#include <CommProto/Packets.h>
+#include <CommProto/include/Packets.h>
 
 namespace Comnet {
 

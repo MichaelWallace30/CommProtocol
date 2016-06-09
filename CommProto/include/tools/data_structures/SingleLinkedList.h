@@ -19,10 +19,10 @@
 #ifndef __SINGLE_LINKED_LIST_H
 #define __SINGLE_LINKED_LIST_H
 
-#include <CommProto/tools/data_structures/interface/InterfaceList.h>
-#include <CommProto/tools/allocator/NewAllocator.h>
-#include <CommProto/tools/StandardComparator.h>
-#include <CommProto/architecture/macros.h>
+#include <CommProto/include/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/include/tools/allocator/NewAllocator.h>
+#include <CommProto/include/tools/StandardComparator.h>
+#include <CommProto/include/architecture/macros.h>
 
 namespace Comnet {
 namespace Tools {

@@ -26,9 +26,11 @@
 #ifndef __NGCPHASH_H
 #define __NGCPHASH_H
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
-#include <CommProto/architecture/macros.h>
+
+#include <CommProto/include/architecture/os/include_defines.h>
+#include <CommProto/include/architecture/api.h>
+#include <CommProto/include/architecture/macros.h>
+
 
 #define HASH_BIT16                0X10
 #define HASH_BIT32                0x20

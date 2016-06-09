@@ -4,8 +4,9 @@
 #ifndef __MACROS_H
 #define __MACROS_H
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
+#include <CommProto/include/architecture/os/include_defines.h>
+#include <CommProto/include/architecture/api.h>
+
 
 // A loose string copy as an alternative to 
 // the C library strcpy.

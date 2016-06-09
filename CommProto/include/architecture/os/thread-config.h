@@ -1,7 +1,7 @@
 // Thread handling header.
 #ifndef __THREADING_H
 
-#include <CommProto/architecture/os/arch.h>
+#include <CommProto/include/architecture/os/arch.h>
 
 #if COM_TARGET_OS == COM_OS_WINDOWS
  #include <Windows.h>

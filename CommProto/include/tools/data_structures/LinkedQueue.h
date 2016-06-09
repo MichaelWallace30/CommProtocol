@@ -19,8 +19,8 @@
 #ifndef __LINKED_QUEUE_H
 #define __LINKED_QUEUE_H
 
-#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
-#include <CommProto/architecture/macros.h>
+#include <CommProto/include/tools/data_structures/interface/InterfaceQueue.h>
+#include <CommProto/include/architecture/macros.h>
 
 namespace Comnet {
 namespace Tools {

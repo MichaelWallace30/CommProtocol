@@ -2,9 +2,9 @@
 #define UDP_H
 
 /* User Includes */
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/network/CommsLink.h>
-#include <CommProto/architecture/connection/socket-config.h>
+#include <CommProto/include/architecture/os/include_defines.h>
+#include <CommProto/include/network/CommsLink.h>
+#include <CommProto/include/architecture/connection/socket-config.h>
 
 #define UDP_DEBUG
 #define ADDRESS_LENGTH 16
