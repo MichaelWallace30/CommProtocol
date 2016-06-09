@@ -24,8 +24,8 @@
    allow us to properly check for error.
  */
 enum comm_bool {
-  _FALSE,
-  _TRUE,
+  _FALSE = 0,
+  _TRUE  = 1,
 };
 
 //////////////////////////////////////////////////////////////////
