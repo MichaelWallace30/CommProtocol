@@ -19,11 +19,7 @@
 #ifndef __NEW_ALLOCATOR_H
 #define __NEW_ALLOCATOR_H
 
-#include <stdlib.h>
-
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
-#include <CommProto/architecture/macros.h>
+#include <CommProto/tools/allocator/Allocator.h>
 #include <new>
 
 namespace Comnet {
@@ -36,7 +32,7 @@ namespace Allocator {
    allocator for convenient methods.
 */
 template<typename _Ty>
-class NewAllocator {
+class NewAllocator : public Allocator<_Ty> {
   typedef _Ty& reference;
   typedef const _Ty& const_reference;
   typedef const _Ty* const_pointer;
