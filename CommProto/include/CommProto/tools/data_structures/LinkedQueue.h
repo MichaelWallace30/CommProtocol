@@ -20,6 +20,7 @@
 #define __LINKED_QUEUE_H
 
 #include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
+#include <CommProto/tools/allocator/NewAllocator.h>
 #include <CommProto/architecture/macros.h>
 
 namespace Comnet {
@@ -32,17 +33,21 @@ namespace DataStructures {
    creating data structure blocks.
  */
 _COMNET_PUBLIC_API_
-template<typename _Ty>
+template<typename _Ty,
+	 class    _Alloc = Tools::Allocator::Allocator<_Ty> >
 class LinkedQueue : public Interface::Queue<_Ty>  { 
 public:
   /**
      Constructor for the Linked Queue. 
    */
-  LinkedQueue() { 
+  template<typename _Allocator = Tools::Allocator::NewAllocator<_Ty> >
+  LinkedQueue(_Allocator allocator = _Allocator() )
+    : alloc(allocator)
+    , root(NULL)
+    , tail(NULL)
+  { 
     this->queueType = Interface::SINGLE_LINKED_QUEUE;
     this->size = 0;
-    nullify_pointer(root);
-    nullify_pointer(tail);
   }
 
   /**
@@ -117,6 +122,11 @@ private:
      The last node in the queue.
    */
   QueueNode* tail;
+
+  /**
+     Allocator for this data structure.
+   */
+  _Alloc& alloc;
 };
 
 } // DataStructures

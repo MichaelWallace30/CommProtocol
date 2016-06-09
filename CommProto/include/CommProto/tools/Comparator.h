@@ -3,10 +3,13 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
+#include <CommProto/architecture/comm_types.h>
 
-#define _LESS_THAN   -1
-#define _EQUAL_TO     0
-#define _GREATER_THAN 1
+#define COMPARATOR_NOT_DEFINED -999
+
+#define _LESS_THAN                -1
+#define _EQUAL_TO                  0
+#define _GREATER_THAN              1
 
 namespace Comnet { 
 namespace Tools {
@@ -40,11 +43,15 @@ public:
       If comparator is needed, be sure to define any inherited classes with this 
       function. 
   */
-  virtual int32_t compare(const_reference  obj1, const_reference obj2) = 0;
+  virtual int32_t compare(const_reference  obj1, const_reference obj2) {
+    return COMPARATOR_NOT_DEFINED;
+  }
   /**
      Check if the objects are equal.
   */
-  virtual bool equal(const_reference obj1, const_reference obj2) = 0;
+  virtual comm_bool equal(const_reference obj1, const_reference obj2) {
+    return (comm_bool)COMPARATOR_NOT_DEFINED;
+  }
 
 private: 
 };

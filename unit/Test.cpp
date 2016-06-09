@@ -38,8 +38,8 @@ public:
     }
   }
 
-  bool equal(const_reference obj1, const_reference obj2) {
-    return (obj1.number == obj2.number);
+  comm_bool equal(const_reference obj1, const_reference obj2) {
+    return (comm_bool)(obj1.number == obj2.number);
   }
 
   //  int32_t operator()(const Test& obj1, const Test& obj2) {
@@ -60,8 +60,8 @@ public:
     }
   }
 
-  bool equal(const int& a, const int& b) {
-    return a == b;
+  comm_bool equal(const int& a, const int& b) {
+    return (comm_bool)(a == b);
   }
 };
 
@@ -111,5 +111,9 @@ int main(int c, char** args) {
   Comparator<Test>& _cmp = tC;
   int32_t result = _cmp(t1, t2);
   printf("%d\n", result);
+  int a = 1;
+  int b = 22;
+  Comparator<int> cmpp;
+  printf("%d\n", cmpp.equal(b, a));
   return 0;
 }

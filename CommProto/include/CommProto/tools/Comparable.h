@@ -1,6 +1,7 @@
 #ifndef __COMPARABLE_H
 #define __COMPARABLE_H
 
+#include <CommProto/architecture/comm_types.h>
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
@@ -37,7 +38,7 @@ public:
   /** 
       Check if this object equals the object being compared to.
   */
-  virtual bool equals(const_reference obj1) = 0;
+  virtual comm_bool equals(const_reference obj1) = 0;
 private:
 
 };
