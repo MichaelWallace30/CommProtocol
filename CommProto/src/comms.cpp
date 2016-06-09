@@ -1,7 +1,7 @@
-#include <CommProto/include/comms.h>
+#include <CommProto/comms.h>
 
-#include <CommProto/include/architecture/os/os_threads.h>
-#include <CommProto/include/architecture/os/os_mutex.h>
+#include <CommProto/architecture/os/os_threads.h>
+#include <CommProto/architecture/os/os_mutex.h>
 
 /***********************************************/
 /******************* Private *******************/
