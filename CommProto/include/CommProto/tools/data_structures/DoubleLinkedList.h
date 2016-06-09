@@ -39,7 +39,7 @@ namespace DataStructures {
 _COMNET_PUBLIC_API_
 template<typename _Ty,
 	 class    _Compare = StandardComparator<_Ty>,
-	 class    _Alloc   = Tools::Allocator::NewAllocator<_Ty> >
+	 class    _Alloc   = Tools::Allocator::Allocator<_Ty> >
 class DoubleLinkedList : public Interface::List<_Ty> {
   /*
     TODO(Garcia): We will need to make use of the Allocator.
@@ -62,12 +62,14 @@ public:
   /**
      Default Constructor for data structure. 
    */
+  template<typename _Allocator = Tools::Allocator::NewAllocator<_Ty> >
   DoubleLinkedList()
   : root(NULL)
   , tail(NULL)
   , cursor(NULL) {
     this->listType = Interface::DOUBLE_LINKED_LIST;
     this->size = 0;
+    alloc = _Allocator();
   }
 
   /**
@@ -379,7 +381,7 @@ private:
      Allocator object, used to allocate values in the data structure. This can be customized as to make this
      structure more dynamic.
    */
-  _Alloc  alloc;
+  _Alloc&  alloc;
 };
 } // DataStructures namespace 
 } // Tools namespace
