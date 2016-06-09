@@ -27,6 +27,12 @@ namespace Comnet {
 namespace Tools {
 namespace Allocator {
 
+/**
+   Base class Allocator, which allows users to inherit from, creating their own allocators
+   and cleaning them up as they wish. Allocator is inherited by all allocator types, in which
+   will be used for the purpose of this library. Simply extend this interface to your allocator and 
+   build your allocator based on the needs for your application, or for this library.
+ */
 template<typename _Ty>
 class Allocator {
   typedef _Ty& reference;
@@ -34,19 +40,40 @@ class Allocator {
   typedef const _Ty& const_reference;
   typedef _Ty* pointer;
 public:
+  /**
+     Base Constructor for this allocator.
+   */
   Allocator() { }
-  virtual Allocator() { }
-
+  /**
+     Polymorphic destructor for this allocator base class.
+   */
+  virtual ~Allocator() { }
+  /**
+     Allocate memory for your object, or data.
+   */
   virtual pointer allocate(uint32_t sizeN) = 0;
 
+  /**
+     Deallocate memory, which will return that memory back to the operating system.
+   */
   virtual void deallocate(pointer p) = 0;
-
-  virtual destruct(pointer p) = 0;
-
-  virtual construct(pointer p, const_reference value) = 0;
-
+  /**
+     Destroy the object, this will not deallocate your memory however. IF memory was allocated on the heap,
+     be sure to destroy it first before deallocating.
+   */
+  virtual void destruct(pointer p) = 0;
+  /**
+     Construct value into your allocated pointer. Be sure to allocate first before constructing.
+   */
+  virtual void construct(pointer p, const_reference value) = 0;
+  /**
+     Grab the pointer to a value.
+   */
   virtual pointer address(reference ref) = 0;
 
+  /**
+     Get the pointer to a value.
+   */
   virtual const_pointer address(const_reference ref) const = 0;
 private:
 };
