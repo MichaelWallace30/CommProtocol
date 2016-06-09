@@ -141,6 +141,15 @@ set(COMMPROTO_SOURCES
   ${PARENT_SOURCE_DIR}/comms.cpp
   ${PARENT_SOURCE_DIR}/network/UDP.cpp)		
 
+
+if (${CMAKE_CXX_COMPILER_ID})    
+    source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
+    source_group("Header Files\\tools" FILES ${COMMPROTO_TOOLS_HEADERS})
+    source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
+    source_group("Source Files\\tools" FILES ${COMMPROTO_TOOLS_SOURCES})
+endif()
+
+
 add_executable(NGCP_LIB 
   ${ARCHITECTURE_HEADERS}
   ${ARCHITECTURE_SOURCES}
