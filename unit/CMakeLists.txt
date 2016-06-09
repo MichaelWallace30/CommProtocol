@@ -4,19 +4,23 @@ project( Unit_Test )
 
 set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-pthread" )
 
-get_filename_component(TEST_DIR ${CMAKE_SOURCE_DIR}/../. DIRECTORY)
+# get_filename_component(TEST_DIR ${CMAKE_SOURCE_DIR}/../. DIRECTORY)
+
+set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../CommProto/)
 
 include_directories(AFTER SYSTEM ../ )
 
 set (NGCP_UNIT
-	../architecture/os/linux-config/linux-config.h 
-	../architecture/os/include_defines.h
-	../tools/Comparator.h
-	../tools/data_structures/interface/Generic.h
-	../tools/data_structures/interface/InterfaceList.h
-	../tools/data_structures/interface/InterfaceQueue.h
+	${TEST_DIR}/architecture/os/linux-config/linux-config.h 
+	${TEST_DIR}/architecture/os/include_defines.h
+	${TEST_DIR}/tools/Comparator.h
+	${TEST_DIR}/tools/data_structures/interface/Generic.h
+	${TEST_DIR}/tools/data_structures/interface/InterfaceList.h
+	${TEST_DIR}/tools/data_structures/interface/InterfaceQueue.h
 	${TEST_DIR}/tools/data_structures/LinkedQueue.h
-	../tools/data_structures/SingleLinkedList.h
-	../unit/Test.cpp )
+	${TEST_DIR}/architecture/macros.h
+	${TEST_DIR}/architecture/api.h
+	${TEST_DIR}/tools/data_structures/SingleLinkedList.h
+	Test.cpp )
 
 add_executable( UNIT ${NGCP_UNIT} )

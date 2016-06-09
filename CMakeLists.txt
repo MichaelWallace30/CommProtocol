@@ -89,50 +89,63 @@ else()
 endif()
 
 # Add the cmake module path, for module build paths for this cmake file.
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOUCE_PATH}/cmake/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 
+set(PARENT_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/)
+set(PARENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/)
 
-
-
-get_filename_component( PARENT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY )
+set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
+set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
 
 # Add some commands to the compiler.
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
 
 # Don't forget to include the directories for the compiler to check for.
-include_directories(SYSTEM ./)
+include_directories(SYSTEM CommProto/include/)
 
 # Our sources, which will be included in the build. This is a test build, to 
 # check for problems and situations arising from our code base. We will most likely
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
 # or linux and OS X.
-set(ARCHITECTURE_HEADERS 
-  architecture/os/linux-config/linux-config.h
-  architecture/os/include_defines.h
-  architecture/os/arch.h
-  architecture/os/os_threads.h
-  architecture/os/thread-config.h
-  architecture/os/mutex-config.h
-  architecture/os/os_mutex.h)
+include(cmake/archfiles.cmake)
 
-set(ARCHITECTURE_SOURCES
-  architecture/os/os_threads.c
-  architecture/os/os_mutex.c)
+set(COMMPROTO_TOOLS_HEADERS
+  ${TOOLS_HEADER_DIR}/data_structures/AutoQueue.h
+  ${TOOLS_HEADER_DIR}/data_structures/SingleLinkedList.h
+  ${TOOLS_HEADER_DIR}/data_structures/LinkedQueue.h
+  ${TOOLS_HEADER_DIR}/data_structures/DoubleLinkedList.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/Generic.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceList.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceQueue.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceMap.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceTree.h
+  ${TOOLS_HEADER_DIR}/allocator/NewAllocator.h
+  ${TOOLS_HEADER_DIR}/allocator/CommPointer.h
+  ${TOOLS_HEADER_DIR}/Comparable.h
+  ${TOOLS_HEADER_DIR}/Comparator.h
+  ${TOOLS_HEADER_DIR}/StandardComparator.h
+  ${TOOLS_HEADER_DIR}/hash/NgcpHash.h)
+
+set(COMMPROTO_TOOLS_SOURCES
+  ${TOOLS_SOURCE_DIR}/hash/NgcpHash.cpp)
 
 set(COMMPROTO_HEADERS
-  CommProto/comms.h
-  CommProto/connection/commsLink.h
-  CommProto/AbstractPacket.h
-  CommProto/CommsPacket.h)
+  ${PARENT_HEADER_DIR}/comms.h
+  ${PARENT_HEADER_DIR}/network/CommsLink.h
+  ${PARENT_HEADER_DIR}/AbstractPacket.h
+  ${PARENT_HEADER_DIR}/CommsPacket.h
+  ${PARENT_HEADER_DIR}/network/UDP.h)
 
 set(COMMPROTO_SOURCES
-  CommProto/AbstractPacket.cpp
-  CommProto/comms.cpp
-  CommProto/connection/commsLink.cpp
-  CommProto/main.cpp)		
+  ${PARENT_SOURCE_DIR}/AbstractPacket.cpp
+  ${PARENT_SOURCE_DIR}/comms.cpp
+  ${PARENT_SOURCE_DIR}/network/UDP.cpp)		
 
-add_executable( NGCP_TEST 
+add_executable(NGCP_LIB 
   ${ARCHITECTURE_HEADERS}
   ${ARCHITECTURE_SOURCES}
   ${COMMPROTO_HEADERS}
-  ${COMMPROTO_SOURCES})
+  ${COMMPROTO_SOURCES}
+  ${COMMPROTO_TOOLS_HEADERS}
+  ${COMMPROTO_TOOLS_SOURCES}
+  CommProto/src/main.cpp)
