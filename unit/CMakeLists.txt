@@ -2,13 +2,13 @@ cmake_minimum_required( VERSION  2.8 )
  
 project( Unit_Test )
 
-set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-pthread" )
+set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -pthread" )
 
 # get_filename_component(TEST_DIR ${CMAKE_SOURCE_DIR}/../. DIRECTORY)
 
-set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../CommProto/)
+set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../CommProto/include/CommProto)
 
-include_directories(AFTER SYSTEM ../ )
+include_directories(AFTER SYSTEM ../CommProto/include/ )
 
 set (NGCP_UNIT
 	${TEST_DIR}/architecture/os/linux-config/linux-config.h 
@@ -21,6 +21,7 @@ set (NGCP_UNIT
 	${TEST_DIR}/architecture/macros.h
 	${TEST_DIR}/architecture/api.h
 	${TEST_DIR}/tools/data_structures/SingleLinkedList.h
+	${TEST_DIR}/tools/data_structures/DoubleLinkedList.h
 	Test.cpp )
 
 add_executable( UNIT ${NGCP_UNIT} )

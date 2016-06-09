@@ -1,8 +1,7 @@
 #include <CommProto/tools/Comparator.h>
-//#include <CommProto/Packets.h>
 #include <CommProto/tools/data_structures/SingleLinkedList.h>
 #include <CommProto/tools/data_structures/LinkedQueue.h>
-
+#include <CommProto/tools/data_structures/DoubleLinkedList.h>
 #include <stdio.h>
 
 using namespace Comnet;
@@ -92,6 +91,7 @@ int main(int c, char** args) {
   cout << "Size of list: " << testList.getSize() << endl;
 
   Comnet::Tools::DataStructures::LinkedQueue<int> testQueue;
+  Comnet::Tools::DataStructures::DoubleLinkedList<int> doubleTest;
   cout << "Queue was created!!" << endl;
   testQueue.enQueue(1);
   testQueue.enQueue(2);

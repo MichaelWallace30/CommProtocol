@@ -63,11 +63,11 @@ public:
      Default Constructor for data structure. 
    */
   template<typename _Allocator = Tools::Allocator::NewAllocator<_Ty> >
-  DoubleLinkedList()
+  DoubleLinkedList(_Allocator allocator = _Allocator() )
   : root(NULL)
   , tail(NULL)
   , cursor(NULL)
-  , alloc( _Allocator() ) 
+  , alloc(allocator) 
   {
     this->listType = Interface::DOUBLE_LINKED_LIST;
     this->size = 0;
