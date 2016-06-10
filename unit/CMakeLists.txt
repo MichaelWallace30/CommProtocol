@@ -13,7 +13,6 @@ include_directories(AFTER SYSTEM ../CommProto/include/ )
 set (NGCP_UNIT
 	${TEST_DIR}/architecture/os/linux-config/linux-config.h 
 	${TEST_DIR}/architecture/os/include_defines.h
-	${TEST_DIR}/architecture/comm_types.h
 	${TEST_DIR}/tools/Comparator.h
 	${TEST_DIR}/tools/data_structures/interface/Generic.h
 	${TEST_DIR}/tools/data_structures/interface/InterfaceList.h

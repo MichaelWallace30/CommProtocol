@@ -51,11 +51,11 @@ public:
     }
   }
 
-  comm_bool equal(const_reference obj1, const_reference obj2) {
+  bool equal(const_reference obj1, const_reference obj2) {
     if (obj1 == obj2) {
-      return comm_bool::_TRUE;
+      return true;
     } else {
-      return comm_bool::_FALSE;
+      return false;
     }
   }
 private:
@@ -76,8 +76,8 @@ public:
     return 0;
   }
 
-  comm_bool equal(const_CString string1, const_CString string2) {
-    return comm_bool::_FALSE;
+  bool equal(const_CString string1, const_CString string2) {
+    return false;
   }
 private:
 };

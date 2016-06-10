@@ -341,7 +341,7 @@ public:
     if (cmp.equal(root->data, value) ||
 	cmp.equal(tail->data, value) ||
 	cmp.equal(cursor->data, value)) {
-      success = comm_bool::_TRUE;
+      success = true;
     } else {
       cursor = root->next;
       while (cursor != NULL) {

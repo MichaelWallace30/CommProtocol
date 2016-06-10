@@ -70,7 +70,7 @@ public:
       Check if this data structure is empty. 
       @returns True if empty, false otherwise.
   */
-  virtual bool isEmpty() { return (comm_bool)(size == 0); }
+  virtual bool isEmpty() { return (size == 0); }
 
   /**
       Get the number of values in the data structure.

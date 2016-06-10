@@ -3,7 +3,6 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
-#include <CommProto/architecture/comm_types.h>
 
 #define COMPARATOR_NOT_DEFINED -999
 
@@ -43,16 +42,11 @@ public:
       If comparator is needed, be sure to define any inherited classes with this 
       function. 
   */
-  virtual int32_t compare(const_reference  obj1, const_reference obj2) {
-    return COMPARATOR_NOT_DEFINED;
-  }
+  virtual int32_t compare(const_reference  obj1, const_reference obj2) = 0;
   /**
      Check if the objects are equal.
   */
-  virtual comm_bool equal(const_reference obj1, const_reference obj2) {
-    return (comm_bool)COMPARATOR_NOT_DEFINED;
-  }
-
+  virtual bool equal(const_reference obj1, const_reference obj2) = 0;
 private: 
 };
 } // Tools

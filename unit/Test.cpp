@@ -38,8 +38,8 @@ public:
     }
   }
 
-  comm_bool equal(const_reference obj1, const_reference obj2) {
-    return (comm_bool)(obj1.number == obj2.number);
+  bool equal(const_reference obj1, const_reference obj2) {
+    return (obj1.number == obj2.number);
   }
 
   //  int32_t operator()(const Test& obj1, const Test& obj2) {
@@ -60,8 +60,8 @@ public:
     }
   }
 
-  comm_bool equal(const int& a, const int& b) {
-    return (comm_bool)(a == b);
+  bool equal(const int& a, const int& b) {
+    return (a == b);
   }
 };
 
@@ -100,6 +100,15 @@ int main(int c, char** args) {
   }
   Comnet::Tools::DataStructures::LinkedQueue<int> testQueue;
   Comnet::Tools::DataStructures::DoubleLinkedList<int> doubleTest;
+
+
+  cout << "doubleTest added!" << endl;
+  doubleTest.insert(12);
+  cout << "Is empty? " << doubleTest.isEmpty() << endl;
+  cout << "Size of double list: " << doubleTest.getSize() << endl;
+  doubleTest.insert(1);
+  cout << "removing 12: " << doubleTest.remove(12) << endl;
+  cout << "Size now: " << doubleTest.getSize() << endl;
   cout << "Queue was created!!" << endl;
   testQueue.enQueue(1);
   testQueue.enQueue(2);
@@ -120,9 +129,5 @@ int main(int c, char** args) {
   Comparator<Test>& _cmp = tC;
   int32_t result = _cmp(t1, t2);
   printf("%d\n", result);
-  int a = 1;
-  int b = 22;
-  Comparator<int> cmpp;
-  printf("%d\n", cmpp.equal(b, a));
   return 0;
 }
