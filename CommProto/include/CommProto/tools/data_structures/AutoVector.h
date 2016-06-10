@@ -39,7 +39,7 @@ namespace DataStructures {
    having to look through lines of code figuring out why this vector function doesn't work.
 */
 template<typename _Ty,
-	 typename _Alloc = std::Allocator<_Ty> >
+	 typename _Alloc = std::allocator<_Ty> >
 class AutoVector : public Interface::List<_Ty> {
   typedef const _Ty&                                        const_reference;
   typedef const _Ty*                                        const_pointer;
