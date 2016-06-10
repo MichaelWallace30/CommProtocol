@@ -21,7 +21,6 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
-#include <CommProto/architecture/comm_types.h>
 
 namespace Comnet {
 namespace Tools {
