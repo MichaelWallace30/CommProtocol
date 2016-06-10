@@ -22,6 +22,7 @@ set (NGCP_UNIT
 	${TEST_DIR}/architecture/api.h
 	${TEST_DIR}/tools/data_structures/SingleLinkedList.h
 	${TEST_DIR}/tools/data_structures/DoubleLinkedList.h
+	${TEST_DIR}/tools/data_structures/AutoVector.h
 	Test.cpp )
 
 add_executable( UNIT ${NGCP_UNIT} )

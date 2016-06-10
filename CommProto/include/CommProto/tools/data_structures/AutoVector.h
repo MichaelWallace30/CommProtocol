@@ -26,6 +26,7 @@
 #include <CommProto/tools/data_structures/interface/InterfaceList.h>
 // Standard library vector.
 #include <vector>
+#include <algorithm>
 
 namespace Comnet {
 namespace Tools {
@@ -51,18 +52,61 @@ class AutoVector : public Interface::List<_Ty> {
   typedef typename std::vector<_Ty>::const_iterator         const_iter;
   typedef std::size_t                                       size_type;
 public:
-  AutoVector(const _Alloc& allocator = Allocator() ) { 
+  /**
+     Default constructor for the standard vector in c++.
+   */
+  AutoVector(const _Alloc& allocator = _Alloc() ) 
+    : _vector(std::vector<_Ty, _Alloc>(allocator))
+  { 
     this->listType = Interface::AUTO_VECTOR;  
     this->size = 0;
-    _vector(allocator);
   }
-  
+
+  /**
+     Set the size of the vector during construction.
+   */
+  AutoVector(size_type count)
+    : _vector(std::vector<_Ty, _Alloc>(count))
+  {
+    this->listType = Interface::AUTO_VECTOR;
+    this->size = 0;
+  }
+
+  /**
+     Set Size and allocator for during construction of the vector.
+   */
+  AutoVector(size_type count, const _Alloc& allocator = _Alloc() ) 
+    : _vector(std::vector<_Ty, _Alloc>(count, allocator) )
+  {
+    this->listType = Interface::AUTO_VECTOR;
+    this->size = 0;
+  }
+
+  /**
+     Copy constructor to this vector wrapper.
+   */
+  AutoVector(const AutoVector<_Ty, _Alloc>& other) 
+    : _vector(std::vector<_Ty, _Alloc>(other._vector) )
+  {
+    this->listType = Interface::AUTO_VECTOR;
+    this->size = 0;
+  }
+
+  /**
+     Destructor for the Vector and AutoVector class.
+   */
   ~AutoVector() { }
 
+  /**
+     Get the size of this vector.
+   */
   int32_t getSize() {
     return _vector.size();
   }
 
+  /**
+     Check if this Auto Vector is empty.
+   */
   bool isEmpty() { 
     return _vector.empty();
   }
@@ -70,71 +114,143 @@ public:
   void insert(const_reference value) {
     push_back(value);
   }
-
+  /**
+     Push a value at the end of this AutoVector.
+   */
   void push_back(const_reference value) {
-    _vector.pop_back(value);
+    _vector.push_back(value);
   }
-  
+  /**
+     Move a value into the back of this AutoVector.
+   */
   void push_back(_Ty&& value) {
-    _vector.pop_back(value);
+    _vector.push_back(value);
   }
 
+  /**
+     Pop a value from the back of this Vector.
+   */
   void pop_back() {
     _vector.pop_back();
   }
   
+  /**
+     Remove a value from the vector. This value is specified by the user.
+   */
   bool remove(const_reference value) {
+    if (_vector.empty()) {
+      return false;
+    }
+   
+    bool result = false;
+    iter pos = std::find(_vector.begin(), _vector.end(), value);
+
+    if (pos != _vector.end()) {
+      _vector.erase(pos);
+      result = true;
+    }
+
+    return result;
   }
-  
+  /**
+     Remove a value from the specified index. We should probably check if index goes over the size.
+   */
   bool removeAt(const int32_t index) {
     bool result = false;
-    
-    
+    iter pos = _vector.erase(_vector.begin() + index);
+    if (pos != _vector.end()) {
+      result = true;
+    }
+    return result;
   }
 
+  /**
+     Get the reverse end iterator for this vector.
+   */
   reverse_iter rend() {
     return _vector.rend();
   }
-
-  reverse_item rbegin() {
+  /**
+     Get the reverse begin iterator for this vector.
+   */
+  reverse_iter rbegin() {
     return _vector.rbegin();
   }
-
+  /**
+     Swap this vector with another.
+   */
   void swap(AutoVector<_Ty>& other) {
+    _vector.swap(other._vector);
+  }
+
+  /**
+     Swap this vector with another vector that is not wrapped with AutoVector.
+   */
+  void swap(std::vector<_Ty, _Alloc> other) {
     _vector.swap(other);
   }
   
-  reference_type front() {
+  /**
+     Grab the front value of this vector.
+   */
+  reference front() {
     return _vector.front();
   }
-
+  /**
+     Grab the max size that this vector holds.
+   */
   size_type max_size() const {
     return _vector.max_size();
   }
-
-  reference_type back() {
+  /**
+     Get the back value of this vector.
+   */
+  reference back() {
     return _vector.back();
   }
-
-  reference_type at(const int32_t index) {
+  /**
+     Grab a value at the specified index. 
+   */
+  reference at(const int32_t index) {
     return _vector.at((size_type)index);
   }
   
+  /**
+     Check if this vector contains the said value.
+   */
   bool contains(const _Ty& value) {
+    bool result = false;
+    if (_vector.empty()) {
+      return result;
+    }
+
+    iter pos = std::find(_vector.begin(), _vector.end(), value);
+
+    if (pos != _vector.end()) {
+      result = true;
+    }
+
+    return result;
   }
 
+  /**
+     Grab the beginning iterator of this vector.
+   */
   iter begin() {
     return _vector.begin();
   }
-  
+  /**
+     Grab the end iterator of this vector.
+   */
   iter end() {
     return _vector.end();
   }
-private:
+
+protected:
   /**
      The vector we are wrapping.
   */
-  std::vector<_Ty> _vector;
+  std::vector<_Ty, _Alloc> _vector;
 };
 } // DataStructures namespace
 } // Tools namespace

@@ -111,6 +111,7 @@ include(cmake/archfiles.cmake)
 
 set(COMMPROTO_TOOLS_HEADERS
   ${TOOLS_HEADER_DIR}/data_structures/AutoQueue.h
+  ${TOOLS_HEADER_DIR}/data_structures/AutoVector.h
   ${TOOLS_HEADER_DIR}/data_structures/SingleLinkedList.h
   ${TOOLS_HEADER_DIR}/data_structures/LinkedQueue.h
   ${TOOLS_HEADER_DIR}/data_structures/DoubleLinkedList.h

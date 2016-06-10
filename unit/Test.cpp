@@ -2,6 +2,7 @@
 #include <CommProto/tools/data_structures/SingleLinkedList.h>
 #include <CommProto/tools/data_structures/LinkedQueue.h>
 #include <CommProto/tools/data_structures/DoubleLinkedList.h>
+#include <CommProto/tools/data_structures/AutoVector.h>
 #include <stdio.h>
 
 using namespace Comnet;
@@ -129,5 +130,13 @@ int main(int c, char** args) {
   Comparator<Test>& _cmp = tC;
   int32_t result = _cmp(t1, t2);
   printf("%d\n", result);
+
+  Comnet::Tools::DataStructures::AutoVector<int> testVector;
+  testVector.insert(12);
+  cout << "Vector added 12" << endl;
+  testVector.insert(11);
+  cout << "Vector added 11" << endl;
+  cout << "Vector current size: " << testVector.getSize() << endl;
+  cout << "Vector remove 12: " << testVector.remove(12) << endl;
   return 0;
 }
