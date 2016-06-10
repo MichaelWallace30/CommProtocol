@@ -41,10 +41,15 @@ namespace DataStructures {
 template<typename _Ty,
 	 typename _Alloc = std::Allocator<_Ty> >
 AutoVector : public Interface::List<_Ty> {
-  typedef const _Ty& const_reference;
-  typedef const _Ty* const_pointer;
-  typedef _Ty* pointer;
-  typedef _Ty& reference;
+  typedef const _Ty&                                        const_reference;
+  typedef const _Ty*                                        const_pointer;
+  typedef _Ty*                                              pointer;
+  typedef _Ty&                                              reference;
+  typedef typename std::vector<_Ty>::iterator               iter;
+  typedef typename std::vector<_Ty>::reverse_iterator       reverse_iter;
+  typedef typename std::vector<_Ty>::const_reverse_iterator const_reverse_iter;
+  typedef typename std::vector<_Ty>::const_iterator         const_iter;
+  typedef std::size_t                                       size_type;
 public:
   AutoVector(const _Alloc& allocator = Allocator() ) { 
     this->listType = Interface::AUTO_VECTOR;  
@@ -58,29 +63,72 @@ public:
     return _vector.size();
   }
 
-  comm_bool isEmpty() { 
-    
+  bool isEmpty() { 
+    return _vector.empty();
   }
 
   void insert(const_reference value) {
+    push_back(value);
+  }
+
+  void push_back(const_reference value) {
+    _vector.pop_back(value);
   }
   
-  comm_bool remove(const_reference value) {
+  void push_back(_Ty&& value) {
+    _vector.pop_back(value);
+  }
+
+  void pop_back() {
+    _vector.pop_back();
   }
   
-  comm_bool removeAt(const int32_t index) {
+  bool remove(const_reference value) {
+  }
+  
+  bool removeAt(const int32_t index) {
+    bool result = false;
+    
+    
+  }
+
+  reverse_iter rend() {
+    return _vector.rend();
+  }
+
+  reverse_item rbegin() {
+    return _vector.rbegin();
+  }
+
+  void swap(AutoVector<_Ty>& other) {
+    _vector.swap(other);
   }
   
   reference_type front() {
+    return _vector.front();
+  }
+
+  size_type max_size() const {
+    return _vector.max_size();
   }
 
   reference_type back() {
+    return _vector.back();
   }
 
   reference_type at(const int32_t index) {
+    return _vector.at((size_type)index);
   }
   
-  comm_bool contains(const _Ty& value) {
+  bool contains(const _Ty& value) {
+  }
+
+  iter begin() {
+    return _vector.begin();
+  }
+  
+  iter end() {
+    return _vector.end();
   }
 private:
   /**

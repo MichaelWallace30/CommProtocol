@@ -68,11 +68,11 @@ public:
   /**
      Check if this queue is empty.
   */
-  comm_bool isEmpty() { return (comm_bool)(queue.empty()); }
+  bool isEmpty() { return queue.empty(); }
   /**
      Check if queue is empty. Similar to isEmpty().
   */
-  comm_bool empty() { return isEmpty(); }
+  bool empty() { return isEmpty(); }
   /**
      Push a value into the front of the queue. Similar to enQueue().
   */

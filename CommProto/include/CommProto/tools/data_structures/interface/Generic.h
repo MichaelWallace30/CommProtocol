@@ -67,7 +67,7 @@ public:
   /**
      Check if the data structure is empty.
   */
-  virtual comm_bool isEmpty() { return (comm_bool)(size == 0); }
+  virtual bool isEmpty() { return (comm_bool)(size == 0); }
 protected:
   /**
      The size of the data structure. 

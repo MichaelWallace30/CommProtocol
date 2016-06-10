@@ -85,11 +85,11 @@ public:
      Remove a value from the list. Returns true if the list has removed the specified
      value, false otherwise.
   */
-  comm_bool remove(const _Ty& value) {
+  bool remove(const _Ty& value) {
     if (this->isEmpty()) {
-      return comm_bool::_FALSE;
+      return false;
     }
-    comm_bool result = comm_bool::_FALSE;
+    bool result = false;
     SNode* remNode;
     nullify_pointer(remNode);
     
@@ -123,7 +123,7 @@ public:
       delete remNode;
       nullify_pointer(remNode);
       this->size--;
-      result = comm_bool::_TRUE;
+      result = true;
     }
 
     return result;
@@ -133,12 +133,12 @@ public:
      Removes a value from the list at the specified index. Will return false if the 
      index goes over the size limit or below zero.
   */
-  comm_bool removeAt(const int32_t index) {
+  bool removeAt(const int32_t index) {
     if (index < 0 || index >= this->size) {
-      return comm_bool::_FALSE;
+      return false;
     }
 
-    comm_bool result = comm_bool::_FALSE;
+    bool result = false;
     SNode* remNode;
     nullify_pointer(remNode);
 
@@ -172,7 +172,7 @@ public:
       delete remNode;
       nullify_pointer(remNode);
       this->size--;
-      result = comm_bool::_TRUE;
+      result = true;
     } 
 
     return result;
@@ -192,18 +192,18 @@ public:
   /**
      Check if this list contains the value specified.
   */
-  comm_bool contains(const _Ty& value) {
-    comm_bool result = comm_bool::_FALSE;
+  bool contains(const _Ty& value) {
+    bool result = false;
     
     if (_cmp.equal(root->value, value) 
 	|| _cmp.equal(tail->value, value)) {
-      result = comm_bool::_TRUE;
+      result = true;
     } else {
       SNode* traverse = root->next;
       
       while (traverse != tail) {
 	if (_cmp.equal(traverse->value, value)) {
-	  result = comm_bool::_TRUE;
+	  result = true;
 	  break;
 	}
 	
