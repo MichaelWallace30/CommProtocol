@@ -20,11 +20,12 @@ private:
   struct udp_connection_t
   {		
     struct sockaddr_in sockaddr;			
-    bool node_connected;
+    
+    socket_status_t socket_status;
   };
   
   /** Array of connections: address, port, and if connceted*/
-  udp_connection_t conn[MAX_CONNECTIONS];
+  socket_t conn[MAX_CONNECTIONS];
   
   /** Socket id (socket descriptor returned by socket)*/
   int fd;	

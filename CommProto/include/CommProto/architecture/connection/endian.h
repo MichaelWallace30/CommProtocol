@@ -26,9 +26,11 @@
 
 #endif
 
-#ifedefine COM_TARGET_OS        COM_OS_WINDOWS
+#if COM_TARGET_OS == COM_OS_WINDOWS
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+
 #else
+
 #endif
 
 #define htonll(x) (

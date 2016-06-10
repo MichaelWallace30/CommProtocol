@@ -40,11 +40,11 @@
 
  #define SOCKET_ERROR   -1
  #define INVALID_SOCKET -1
- typedef int SOCKET;   
+ typedef uint32_t SOCKET;   
  #define closSocket(x)	close(x)
 #endif
 
-typedef int16_t PORT;
+typedef uint32_t PORT;
 /**
    socket_status allows us to determine the current status of our sockets.
  */
@@ -73,11 +73,16 @@ enum packet_data_status_t {
    This will be fixed, need to make this socket type generic for both windows and linux. 
    Both os'es use struct sockaddr_in, but they implement struct in_addr differently...
  */ 
-struct socket_t {
+struct socket_info {
   SOCKET socket;
-  PORT port;
+  PORT   port;
 
   socket_status_t socket_status;
+
+  struct sockaddr_in socket_address;
+  
 };
+
+typedef struct socket_info socket_t;
 
 #endif // __SOCKET_CONFIG_H
