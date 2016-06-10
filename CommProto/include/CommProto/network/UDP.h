@@ -56,19 +56,19 @@ private:
   
   /** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
       Returns false if open socket or bind fails*/
-  bool initConnection(uint16_t port = 0, std::string address = "", uint32_t baudrate = 0);
+  bool initConnection(std::string port = "", std::string address = "", uint32_t baudrate = 0);
   /** Adds Address & port to destID value of array of aviable connections
       Returns false if connection is already connected*/
-  virtual bool addAddress(uint8_t destID, std::string address, uint16_t port);
+  virtual bool addAddress(uint8_t destID, std::string address ="", uint16_t port = 0);
   /** Sets connection to not available
       Returns false is no connection is found*/
   virtual bool removeAddress(uint8_t destID);
   /** Sends txData using its length of bytes through the destID connection which is establish through add adress
       Return false if no proper connection is establish*/
   virtual bool send(uint8_t destID, uint8_t* txData, int32_t txLength);
-  /** Sets recieved data to rx_data and sets the length of the data to rx_len
+  /** Sets recieved data to rxData and sets the length of the data to rxLength
       Returns false if not aviable connection or no data is recieved*/
-  virtual bool recv(uint8_t* rx_data, uint32_t* rx_len);
+  virtual bool recv(uint8_t* rxData, uint32_t* rxLength);
   
 };
 
