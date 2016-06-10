@@ -67,7 +67,7 @@ public:
    */
   virtual int32_t getSize() { return this->size; }
   
-  virtual bool isEmpty() { return this->size == 0; }
+  virtual comm_bool isEmpty() { return (comm_bool)(this->size == 0); }
   /**
      Get the type of map being used.
    */
@@ -76,13 +76,13 @@ public:
   /**
      Insert a value into the map.
    */
-  virtual bool insert(const_key_reference key, const_value_reference value) = 0;
+  virtual comm_bool insert(const_key_reference key, const_value_reference value) = 0;
   /**
      Remove a value from the map.
      @param key 
      @return True, if value was removed, false otherwise.
    */
-  virtual bool remove(const_key_reference key) = 0;
+  virtual comm_bool remove(const_key_reference key) = 0;
 
   /**
      Get the value using the key specified.
@@ -91,7 +91,7 @@ public:
   /**
      Replace a value with the specified key.
    */
-  virtual bool replace(const_key_reference key, const_value_reference value) = 0;
+  virtual comm_bool replace(const_key_reference key, const_value_reference value) = 0;
 
 protected:
   /**

@@ -82,14 +82,22 @@ int main(int c, char** args) {
 
   Comnet::Tools::DataStructures::SingleLinkedList<int> testList;
   cout << "List was created!!" << endl;
+   if (testList.isEmpty()) {
+    cout << "Test list is empty!!" << endl;
+  }
+ 
   testList.insert(1);
   testList.insert(4);
   testList.insert(19);
+
   cout << "List has added in values" << endl;
   cout << "Removing 1: " << testList.remove(1) << endl;
   cout << "Removing 10: " << testList.remove(10) << endl;
   cout << "Size of list: " << testList.getSize() << endl;
-
+  cout << "Is list empty? " << testList.isEmpty() << endl;
+  if (!testList.isEmpty()) {
+    cout << "List is not empty!!" << endl;
+  }
   Comnet::Tools::DataStructures::LinkedQueue<int> testQueue;
   Comnet::Tools::DataStructures::DoubleLinkedList<int> doubleTest;
   cout << "Queue was created!!" << endl;
@@ -101,6 +109,7 @@ int main(int c, char** args) {
   testQueue.deQueue();
   cout << "Value of removed: " << removed << endl;
   cout << "Size of queue: " << testQueue.getSize() << endl;
+  cout << "Is queue empty? " << testQueue.isEmpty() << endl;
   testQueue.enQueue(8);
   cout << "Size of queue after adding value: " << testQueue.getSize() << endl;
   //CommsPacket cff = dynamic_cast<CommsPacket&>(aPacket);

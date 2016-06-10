@@ -61,7 +61,7 @@ public:
   /**
      Check if the stack is empty.
    */
-  bool isEmpty() { return size == 0; }
+  comm_bool isEmpty() { return (comm_bool)(size == 0); }
   /**
      Get the current size of the stack.
    */

@@ -41,7 +41,10 @@ namespace DataStructures {
 template<typename _Ty>
 AutoVector : public Interface::List<_Ty> {
 public:
-  AutoVector() { }
+  AutoVector() { 
+    this->listType = Interface::AUTO_VECTOR;  
+    this->size = 0;
+  }
   
   ~AutoVector() { }
 

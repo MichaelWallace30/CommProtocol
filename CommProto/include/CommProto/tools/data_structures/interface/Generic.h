@@ -21,6 +21,7 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
+#include <CommProto/architecture/comm_types.h>
 
 namespace Comnet {
 namespace Tools {
@@ -66,7 +67,7 @@ public:
   /**
      Check if the data structure is empty.
   */
-  virtual bool isEmpty() { return size == 0; }
+  virtual comm_bool isEmpty() { return (comm_bool)(size == 0); }
 protected:
   /**
      The size of the data structure. 

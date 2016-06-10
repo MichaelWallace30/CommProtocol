@@ -193,8 +193,8 @@ public:
      Removes a node based on the specified value. This may be a greedy method, considering it will not
      remove all nodes similar to specified value.
    */
-  bool remove(const_reference value) {
-    bool success = false;
+  comm_bool remove(const_reference value) {
+    comm_bool success = comm_bool::_FALSE;
     if (this->isEmpty()) {
       return success;
     }
@@ -227,7 +227,7 @@ public:
     if (remNode != NULL) {
       handleRemNodeDelete(remNode);
       this->size--;
-      success = true;
+      success = comm_bool::_TRUE;
     }
 
     return success;
@@ -236,8 +236,8 @@ public:
   /**
      Remove a node from the list on the specified index.
    */
-  bool removeAt(const int32_t index) {
-    bool success = false;
+  comm_bool removeAt(const int32_t index) {
+    comm_bool success = comm_bool::_FALSE;
     if (index >= this->size || index < 0) {
       return success;
     }
@@ -284,7 +284,7 @@ public:
     if (remNode != NULL) {
       handleRemNodeDelete(remNode);
       this->size--;
-      success = true;
+      success = comm_bool::_TRUE;
     }
     
     return success;
@@ -336,18 +336,18 @@ public:
   /**
      Checks if the specified value is in this data structure.
    */
-  bool contains(const_reference value) {
-    bool success = false;
+  comm_bool contains(const_reference value) {
+    comm_bool success = comm_bool::_FALSE;
     
     if (cmp.equal(root->data, value) ||
 	cmp.equal(tail->data, value) ||
 	cmp.equal(cursor->data, value)) {
-      success = true;
+      success = comm_bool::_TRUE;
     } else {
       cursor = root->next;
       while (cursor != NULL) {
 	if (cmp.equal(cursor->data, value)) {
-	  success = true;
+	  success = comm_bool::_TRUE;
 	  break;
 	}
 	cursor = cursor->next;

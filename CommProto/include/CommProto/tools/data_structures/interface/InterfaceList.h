@@ -36,6 +36,7 @@ enum ListType {
   CIRCULAR_LINKED_LIST,
   VECTOR_LIST,
   ARRAY_LIST,
+  AUTO_VECTOR,
 };
 
 /** ListInterface provides an interface that is common with all
@@ -69,7 +70,7 @@ public:
       Check if this data structure is empty. 
       @returns True if empty, false otherwise.
   */
-  virtual bool isEmpty() { return size == 0; }
+  virtual comm_bool isEmpty() { return (comm_bool)(size == 0); }
 
   /**
       Get the number of values in the data structure.
@@ -83,11 +84,11 @@ public:
   /** 
       Remove a value from the list.
   */
-  virtual bool remove(const _Ty& value) = 0;
+  virtual comm_bool remove(const _Ty& value) = 0;
   /**
      Remove a value from a specified index.
   */
-  virtual bool removeAt(const int32_t index) = 0;
+  virtual comm_bool removeAt(const int32_t index) = 0;
   /**
      Check the first index of this list.
   */
@@ -103,7 +104,7 @@ public:
   /**
      Check if the list contains this value.
   */
-  virtual bool contains(const _Ty& value) = 0;
+  virtual comm_bool contains(const _Ty& value) = 0;
 protected:
 
   /** 
