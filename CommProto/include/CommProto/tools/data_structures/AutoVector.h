@@ -38,6 +38,8 @@ namespace DataStructures {
    the standard library is not at all entirely supported on any platform, we must ensure
    that this wrapper class will garauntee that we are using the vector correctly, without
    having to look through lines of code figuring out why this vector function doesn't work.
+   Not only this, AutoVector inherits from InterfaceList, so now vector can be related to all 
+   other lists within this library.
 */
 template<typename _Ty,
 	 typename _Alloc = std::allocator<_Ty> >
