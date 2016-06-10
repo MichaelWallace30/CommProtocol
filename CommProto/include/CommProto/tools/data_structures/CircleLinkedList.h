@@ -40,7 +40,7 @@ namespace DataStructures {
  */
 template<typename _Ty,
 	 typename _Compare = StandardComparator<_Ty>,
-	 typename _Alloc   = Allocator::Allocator<_Ty> >
+	 typename _Alloc   = Allocator::NewAllocator<_Ty> >
 class CircleLinkedList : public Interface::InterfaceList<_Ty> {
   typedef _Ty* pointer;
   typedef _T& reference;
@@ -55,8 +55,7 @@ class CircleLinkedList : public Interface::InterfaceList<_Ty> {
     int32_t index;
   };
 public:
-  template<typename _Allocator = Allocator::NewAllocator<_Ty> >
-  CircleLinkedList(_Allocator allocator = _Allocator() )
+  CircleLinkedList(const _Alloc& allocator = _Alloc() )
     : root(NULL)
     , cursor(NULL)
     , alloc(allocator)
@@ -69,7 +68,7 @@ private:
   CNode* root;
   CNode* cursor;
 
-  _Alloc& alloc;
+  _Alloc alloc;
 };
 } // DataStructures namespace
 } // Tools namespace

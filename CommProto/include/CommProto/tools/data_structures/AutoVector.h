@@ -38,18 +38,50 @@ namespace DataStructures {
    that this wrapper class will garauntee that we are using the vector correctly, without
    having to look through lines of code figuring out why this vector function doesn't work.
 */
-template<typename _Ty>
+template<typename _Ty,
+	 typename _Alloc = std::Allocator<_Ty> >
 AutoVector : public Interface::List<_Ty> {
+  typedef const _Ty& const_reference;
+  typedef const _Ty* const_pointer;
+  typedef _Ty* pointer;
+  typedef _Ty& reference;
 public:
-  AutoVector() { 
+  AutoVector(const _Alloc& allocator = Allocator() ) { 
     this->listType = Interface::AUTO_VECTOR;  
     this->size = 0;
+    _vector(allocator);
   }
   
   ~AutoVector() { }
 
-  
+  int32_t getSize() {
+    return _vector.size();
+  }
 
+  comm_bool isEmpty() { 
+    
+  }
+
+  void insert(const_reference value) {
+  }
+  
+  comm_bool remove(const_reference value) {
+  }
+  
+  comm_bool removeAt(const int32_t index) {
+  }
+  
+  reference_type front() {
+  }
+
+  reference_type back() {
+  }
+
+  reference_type at(const int32_t index) {
+  }
+  
+  comm_bool contains(const _Ty& value) {
+  }
 private:
   /**
      The vector we are wrapping.

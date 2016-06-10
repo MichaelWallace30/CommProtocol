@@ -35,20 +35,20 @@ namespace DataStructures {
 */
 _COMNET_PUBLIC_API_
 template<typename _Ty, 
-         class    _Compare = Comparator<_Ty>,
-	 class    _Alloc   = Tools::Allocator::Allocator<_Ty> >
+         class    _Compare = StandardComparator<_Ty>,
+	 class    _Alloc   = Tools::Allocator::NewAllocator<_Ty> >
 class SingleLinkedList : public Interface::List< _Ty > {
 public:
   /**
      Constructor for the SingleLinkedList data structure.
   */
-  template<typename _Comparator = StandardComparator<_Ty>,
-	   typename _Allocator  = Tools::Allocator::NewAllocator<_Ty> >
-  SingleLinkedList(_Comparator comparator = _Comparator(), _Allocator allocator = _Allocator() ) 
+  SingleLinkedList(const _Compare& comparator = _Compare(), 
+		   const _Alloc& allocator = _Alloc() ) 
     : root(NULL)
     , tail(NULL)
     , alloc(allocator)
-    , _cmp(comparator)  { 
+    , _cmp(comparator)  
+  { 
     this->listType = Interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
@@ -251,12 +251,12 @@ private:
   /**
      Compare function.
   */
-  _Compare& _cmp;
+  _Compare _cmp;
 
   /**
      Special allocator unit.
    */
-  _Alloc& alloc;
+  _Alloc alloc;
 
   /**
      Handles the removal of the root node.

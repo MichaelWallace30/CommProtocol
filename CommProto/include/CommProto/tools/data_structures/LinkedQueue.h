@@ -34,14 +34,13 @@ namespace DataStructures {
  */
 _COMNET_PUBLIC_API_
 template<typename _Ty,
-	 class    _Alloc = Tools::Allocator::Allocator<_Ty> >
+	 class    _Alloc = Tools::Allocator::NewAllocator<_Ty> >
 class LinkedQueue : public Interface::Queue<_Ty>  { 
 public:
   /**
      Constructor for the Linked Queue. 
    */
-  template<typename _Allocator = Tools::Allocator::NewAllocator<_Ty> >
-  LinkedQueue(_Allocator allocator = _Allocator() )
+  LinkedQueue(const _Alloc& allocator = _Alloc() )
     : alloc(allocator)
     , root(NULL)
     , tail(NULL)
@@ -126,7 +125,7 @@ private:
   /**
      Allocator for this data structure.
    */
-  _Alloc& alloc;
+  _Alloc alloc;
 };
 
 } // DataStructures
