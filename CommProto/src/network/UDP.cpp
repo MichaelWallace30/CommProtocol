@@ -23,7 +23,7 @@ bool UDP::udp_open(int* fd)
   /** attempts to open socket 
       returns false if fails*/
   if ((*fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-    {
+	{
       printf("socket() failed\n");
       return false;
     }
@@ -67,18 +67,33 @@ UDP::~UDP()
   closSocket(fd);
 }
 
-bool UDP::initConnection(uint16_t port, std::string address, uint32_t baudrate)
+bool UDP::initConnection(std::string port, std::string address, uint32_t baudrate)
 {	
   //open socket and  check if socket is not already connected
   if (!connected && udp_open(&fd))
-    {	
+    {
+
+
+	  ///check if port in number
+		for (int x = 0; x < port.length(); x++)
+		{
+
+			if (!isdigit(port[x]))
+			{
+				printf("initConnection 'port' argument is not a numerical digit for udp connection\n");
+				return false;
+			}
+		}
+	  uint32_t portInt = atoi(port.c_str());
+
+
       char tempChar[ADDRESS_LENGTH];
       stringToChar(tempChar, address);
       
       //setup address structure
       memset((char *)&sockaddr, 0, sizeof(sockaddr));
       sockaddr.sin_family = AF_INET;
-      sockaddr.sin_port = htons(port);
+      sockaddr.sin_port = htons(portInt);
       sockaddr.sin_addr.s_addr = inet_addr(tempChar);
       
       //bind socket
@@ -157,15 +172,15 @@ bool UDP::send(uint8_t destID, uint8_t* txData, int32_t txLength)
   return false;
 }
 
-bool UDP::recv(uint8_t* rx_data, uint32_t* rx_len)
+bool UDP::recv(uint8_t* rxData, uint32_t* rxLength)
 {
   int length = 0;
-  *rx_len = 0;
+  *rxLength = 0;
   if (connected)
     {
       
       length = recvfrom(fd, 
-			(char*)rx_data, MAX_BUFFER_SIZE, 
+			(char*)rxData, MAX_BUFFER_SIZE, 
 			0, 
 			(struct sockaddr *) &si_other, 
 			(socklen_t*)&slen);
@@ -183,7 +198,7 @@ bool UDP::recv(uint8_t* rx_data, uint32_t* rx_len)
   printf("**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, port, inet_ntoa(si_other.sin_addr));
 #endif
   
-  *rx_len = (uint32_t)length;
+  *rxLength = (uint32_t)length;
   return true;
 }
 

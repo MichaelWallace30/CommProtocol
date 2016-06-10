@@ -98,7 +98,7 @@ public:
 	enum connection type to use serial, UDP, zigbee, ect
 	port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
 	baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */	
-	bool initConnection(CommsLink_type_t connectionType, uint16_t port, std::string address = "", uint32_t baudrate = 0);
+	bool initConnection(CommsLink_type_t connectionType, std::string port, std::string address = "", uint32_t baudrate = 0);
 
 	/** The address entered will be paired for communication by destination ID
 	Adding address can be a UDP IPV4 or hex MAC address for zigbee
