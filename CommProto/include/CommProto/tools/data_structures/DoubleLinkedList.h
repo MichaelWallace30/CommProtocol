@@ -56,7 +56,7 @@ class DoubleLinkedList : public Interface::List<_Ty> {
     DNode* previous;
 
     _Ty data;
-    uint32_t index;
+    int32_t index;
   };
 public:
   /**
