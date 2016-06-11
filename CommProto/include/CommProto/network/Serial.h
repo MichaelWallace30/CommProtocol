@@ -16,8 +16,6 @@ private:
 
 	//serial private data
 	bool connectionEstablished;
-	std::string comPort;
-	uint16_t baudrate;
 
 public:
 
