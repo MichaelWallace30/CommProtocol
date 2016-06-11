@@ -66,7 +66,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
 		return false;
 	}
 
-	dcbSerialParams.BaudRate = baudrate;
+	dcbSerialParams.BaudRate = (DWORD)baudrate;
 	dcbSerialParams.ByteSize = 8;
 	dcbSerialParams.StopBits = ONESTOPBIT;
 	dcbSerialParams.Parity = NOPARITY;

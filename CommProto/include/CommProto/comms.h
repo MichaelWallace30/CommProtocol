@@ -7,6 +7,7 @@
 
 #include <CommProto/CommsPacket.h>//Header which declares packet structs
 #include <CommProto/network/UDP.h>
+#include <CommProto/network/Serial.h>
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/os_threads.h>//method to create threads
@@ -103,7 +104,7 @@ public:
 	/** The address entered will be paired for communication by destination ID
 	Adding address can be a UDP IPV4 or hex MAC address for zigbee
 	Adding an address is not need for serial and will default to ""*/
-	bool addAddress(uint8_t destID, std::string address, uint16_t port = 0);
+	bool addAddress(uint8_t destID, std::string address="", uint16_t port = 0);
 
 	/** Removing an address removes the known association of address and destination ID by using id*/
 	bool removeAddress(uint8_t destID);
