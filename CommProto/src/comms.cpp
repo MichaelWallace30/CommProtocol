@@ -107,8 +107,8 @@ bool Comms::initConnection(CommsLink_type_t connectionType, std::string port, st
 		{
 			if (address.length() < ADDRESS_LENGTH)
 			{
-				connectionLayer = new Serial();
-				return connectionLayer->initConnection(port, "", baudrate);
+				//connectionLayer = new Serial();
+				//return connectionLayer->initConnection(port, "", baudrate);
 			}
 			break;
 		

@@ -17,12 +17,12 @@ private:
   /**Struct
      -sockaddr_in: IP address & port
      -node_connected: if node is conneted than true*/
-  struct udp_connection_t
-  {		
-    struct sockaddr_in sockaddr;			
-    
-    socket_status_t socket_status;
-  };
+//  struct udp_connection_t
+//  {		
+//    struct sockaddr_in sockaddr;			
+//    
+//    socket_status_t socket_status;
+//  };
   
   /** Array of connections: address, port, and if connceted*/
   socket_t conn[MAX_CONNECTIONS];
@@ -30,9 +30,11 @@ private:
   /** Socket id (socket descriptor returned by socket)*/
   int fd;	
   /** Local address & port */
-  struct sockaddr_in sockaddr;
+  //struct sockaddr_in sockaddr;
+  socket_t sockaddr;
   /** recieved address & port */
-  struct sockaddr_in si_other;
+  //struct sockaddr_in si_other;
+  socket_t si_other;
   /** Local address length */
   int slen;
   
@@ -40,7 +42,7 @@ private:
   uint8_t rx_buf[MAX_BUFFER_SIZE];	
   
   /** Is local socket connected */
-  bool connected;
+//  bool connected;
   
   /** Opens udp socket returns false if socket open fails*/
   bool udp_open(int* fd);

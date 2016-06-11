@@ -57,8 +57,8 @@ UDP::UDP() : CommsLink()
       conn[index].socket_status = SOCKET_OPEN;
     }
   
-  connected = false;
-  
+//  connected = false;
+  sockaddr.socket_status = SOCKET_OPEN;
 }
 
 
@@ -70,7 +70,7 @@ UDP::~UDP()
 bool UDP::initConnection(std::string port, std::string address, uint32_t baudrate)
 {	
   //open socket and  check if socket is not already connected
-  if (!connected && udp_open(&fd))
+  if (sockaddr.socket_status != SOCKET_CONNECTED && udp_open(&fd))
     {
 
 
@@ -91,21 +91,21 @@ bool UDP::initConnection(std::string port, std::string address, uint32_t baudrat
       stringToChar(tempChar, address);
       
       //setup address structure
-      memset((char *)&sockaddr, 0, sizeof(sockaddr));
-      sockaddr.sin_family = AF_INET;
-      sockaddr.sin_port = htons(portInt);
-      sockaddr.sin_addr.s_addr = inet_addr(tempChar);
+      memset((char *)&sockaddr.socket_address, 0, sizeof(sockaddr.socket_address));
+      sockaddr.socket_address.sin_family = AF_INET;
+      sockaddr.socket_address.sin_port = htons(portInt);
+      sockaddr.socket_address.sin_addr.s_addr = inet_addr(tempChar);
       
       //bind socket
-      if (bind(fd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)) < 0) {
+      if (bind(fd, (struct sockaddr *)&sockaddr.socket_address, sizeof(sockaddr.socket_address)) < 0) {
 	printf("bind failed");
 	return false;
       }
       
       //set size of address
-      slen = sizeof(sockaddr);
+      slen = sizeof(sockaddr.socket_address);
       //set connected to true
-      connected = true;
+      sockaddr.socket_status = SOCKET_CONNECTED;
       return true;
     }
   //already connected or failed to open socket
@@ -147,7 +147,7 @@ bool UDP::removeAddress(uint8_t destID)
 
 bool UDP::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 {
-  if (connected)
+  if (sockaddr.socket_status == SOCKET_CONNECTED)
     {
       int slenSend = sizeof(conn[destID].socket_address);
       if (sendto(fd, 
@@ -176,13 +176,13 @@ bool UDP::recv(uint8_t* rxData, uint32_t* rxLength)
 {
   int length = 0;
   *rxLength = 0;
-  if (connected)
+  if (sockaddr.socket_status == SOCKET_CONNECTED)
     {
       
       length = recvfrom(fd, 
 			(char*)rxData, MAX_BUFFER_SIZE, 
 			0, 
-			(struct sockaddr *) &si_other, 
+			(struct sockaddr *) &si_other.socket_address, 
 			(socklen_t*)&slen);
 			}
 			else
@@ -194,8 +194,8 @@ bool UDP::recv(uint8_t* rxData, uint32_t* rxLength)
   if (length < 0) return false;
   
 #ifdef UDP_DEBUG
-  int port = ntohs(si_other.sin_port);
-  printf("**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, port, inet_ntoa(si_other.sin_addr));
+  int port = ntohs(si_other.socket_address.sin_port);
+  printf("**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, port, inet_ntoa(si_other.socket_address.sin_addr));
 #endif
   
   *rxLength = (uint32_t)length;
