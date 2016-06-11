@@ -63,12 +63,22 @@ public:
     this->listType = Interface::CIRCULAR_LINKED_LIST;
     this->size = 0;
   }
+
+  CircleLinkedList(const _Alloc& allocator = _Alloc() )
+    : root(NULL)
+    , cursor(NULL)
+    , alloc(allocator)
+  {
+    this->listType = Interface::CIRCLAR_LINKED_LIST;
+    this->size = 0;
+  }
   
 private:
   CNode* root;
   CNode* cursor;
 
   _Alloc alloc;
+  _Compare _cmp;
 };
 } // DataStructures namespace
 } // Tools namespace
