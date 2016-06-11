@@ -66,7 +66,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
 		return false;
 	}
 
-	dcbSerialParams.BaudRate = CBR_19200;
+	dcbSerialParams.BaudRate = (DWORD)baudrate;
 	dcbSerialParams.ByteSize = 8;
 	dcbSerialParams.StopBits = ONESTOPBIT;
 	dcbSerialParams.Parity = NOPARITY;
@@ -121,7 +121,7 @@ bool Serial::initConnection(std::string port, std::string address, uint32_t baud
 { 
 
 	//check os here
-	connectionEstablished = initWindows(this->comPort, this->baudrate);
+	connectionEstablished = initWindows(port,baudrate);
 
 	return connectionEstablished;
 }

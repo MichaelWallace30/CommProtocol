@@ -8,12 +8,12 @@ int main(int c, char** args) {
   printf("Hello World!");
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);
-  newComms1.initConnection(UDP_LINK, "1337", "127.0.0.1");
-  newComms2.initConnection(UDP_LINK, "1338", "127.0.0.1");
+  newComms1.initConnection(SERIAL_LINK, "COM2", "", 9600);
+  newComms2.initConnection(SERIAL_LINK, "COM3", "", 9600);
   
 
-  newComms1.addAddress(2, "127.0.0.1", 1338);
-  newComms2.addAddress(1, "127.0.0.1", 1337);
+  newComms1.addAddress(2);
+  newComms2.addAddress(1);
 
 
 	uint8_t buf[1024] = { 1 };
