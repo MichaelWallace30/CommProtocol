@@ -25,8 +25,8 @@ int main(int c, char** args) {
 
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);
-  newComms1.initConnection(SERIAL_LINK, "COM3", "", 9600);
-  newComms2.initConnection(SERIAL_LINK, "COM4", "", 9600);
+  newComms1.initConnection(SERIAL_LINK, "/dev/ttyS0", "", 9600);
+  newComms2.initConnection(SERIAL_LINK, "/dev/ttyS1", "", 9600);
 
 
   newComms1.addAddress(2);

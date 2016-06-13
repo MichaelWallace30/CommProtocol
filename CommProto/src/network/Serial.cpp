@@ -3,24 +3,25 @@
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
+#if COM_TARGET_OS == COM_OS_WINDOWS
+
+#define WINDOWS_SERIAL
+
 bool Serial::initWindows(std::string comPort, uint16_t baudrate)
 {
   if (comPort[0] != '\\') {
       // "\\\\.\\"  allows windows ports above 9
       comPort = "\\\\.\\" + comPort;
   } 
+
 #ifdef UNICODE	//convert multybyte string to LPCWSTR
   wchar_t* str = new wchar_t[comPortInput.length() * 2];
   MultiByteToWideChar(CP_ACP, 0, comPortInput.c_str(), -1, str, comPortInput.length() * 2);
   LPCWSTR comport = str;
 #else
-  //open up serial port
-  
-  
+  //open up serial port  
   const char* comport =  comPort.c_str();
 #endif
-  
-  
   hSerial.h_serial = CreateFile(comport,
 				GENERIC_READ | GENERIC_WRITE,
 				0,
@@ -28,7 +29,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
 				OPEN_EXISTING,
 				FILE_ATTRIBUTE_NORMAL,
 				0);
-  
+
 #ifdef UNICODE //clean up multybyte string to LPCWSTR
   delete str;
 #endif
@@ -104,6 +105,173 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
 }
 
 
+static inline bool
+Serial::windowsSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
+  unsigned long sentData = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
+  if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL)) {
+    //error reading file
+    printf("Failed to write serial\n");
+    return false;
+  }
+  else {
+#ifdef SERIAL_DEBUG
+    printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
+#endif	
+    return true;
+  }		
+
+  return false;
+}
+
+static inline bool
+Serial::windowsRead(uint8_t* rx_data, uint32_t* rx_len) {    
+  unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
+  if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL)) {
+    //error reading file
+    printf("Failed to read serial\n"); // This may print too much data might need to change. 
+                                       // Im not sure if time out will return false for ReadFile
+    return false;
+  } else {
+#ifdef SERIAL_DEBUG
+    printf("**  Recieved\t Length: %d  **\n", recvData);
+#endif	
+    if (recvData > 0) {
+      *rx_len = recvData;
+      return true;
+    }
+  }
+  
+  return false;//no error, no data recieved, connection timmed out, will retry next time.
+}
+
+#else 
+
+#define UNIX_SERIAL 
+
+static inline bool
+Serial::initUnixSerial(const char* port, uint16_t baudrate) {
+  bool result = false;
+
+  hSerial.fd = open(port, (O_RDWR | O_NOCTTY | O_NDELAY));
+
+  if (hSerial.fd == -1) {
+    printf("port failed to open\n");
+  } else {
+    struct termios options;
+     fcntl(hSerial.fd, F_SETFL, 0);
+    
+    tcgetattr(hSerial.fd, &options);
+    speed_t speed = B115200;
+    switch (baudrate) {
+      case 0:      { speed = B0;      break; }
+      case 50:     { speed = B50;     break; }
+      case 75:     { speed = B75;     break; } 
+      case 110:    { speed = B110;    break; }
+      case 134:    { speed = B134;    break; }
+      case 150:    { speed = B150;    break; }
+      case 200:    { speed = B200;    break; }
+      case 300:    { speed = B300;    break; }
+      case 600:    { speed = B600;    break; }
+      case 1200:   { speed = B1200;   break; }
+      case 1800:   { speed = B1800;   break; }
+      case 2400:   { speed = B2400;   break; }
+      case 4800:   { speed = B4800;   break; }
+      case 9600:   { speed = B9600;   break; }
+      case 19200:  { speed = B19200;  break; }
+      case 38400:  { speed = B38400;  break; }
+      case 57600:  { speed = B57600;  break; }
+      case 76800:  { speed = B76800;  break; }
+      case 115200: { speed = B115200; break; }
+    }
+    
+    cfsetispeed(&options, speed);
+    cfsetospeed(&options, speed);
+
+    // Since we are going with 8 bit size, one stop parity...
+    options.c_cflag |= (CLOCAL | CREAD | CS8);
+    options.c_iflag = (IGNBRK | IGNPAR);
+    options.c_oflag = 0;
+    // timeout properties
+    options.c_cc[VMIN] = 1;
+    tcflush(hSerial.fd, TCIFLUSH);
+    tcsetattr(hSerial.fs, TCSANOW, &options);
+
+    result = true;
+  }
+
+  return result;
+}
+
+static inline bool
+Serial::unixSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
+  bool result = false;
+  
+  int32_t bytesWritten = write(hSerial.fd, txData, txLength);
+  if (bytesWritten < 0) {
+    printf("write() has failed to send!");
+  } else {
+#ifdef SERIAL_DEBUG
+      printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
+#endif	
+    result = true;
+  }
+  
+  return result;
+}
+
+static inline bool
+Serial::unixRead(uint8_t* rx_data, uint32_t* rx_len) {
+  bool result = false;
+  
+  int32_t bytesRead = read(hSerial.fd, rx_data, 512);
+  if (bytesRead < 0) {
+    printf("Failed to read from package.");
+  } else {
+    *rx_len = bytesRead;
+#ifdef SERIAL_DEBUG
+    printf("**  Recieved\t Length: %d  **\n", recvData);
+#endif	    
+    result = true;
+  }
+
+  return result;
+}
+
+#endif // COM_TARGET_OS == COM_OS_WINDOWS
+
+static inline bool
+Serial::openPort(std::string comPort, uint16_t baudrate) {
+#if defined WINDOWS_SERIAL
+  return initWindows(comPort, baudrate);
+#elif defined UNIX_SERIAL
+  return initUnixSerial(comPort.c_str(), baudrate);
+#endif
+}
+
+static inline bool
+Serial::sendToPort(uint8_t destID, uint8_t* txData, int32_t txLength) {
+  if (hSerial.serial_s == SERIAL_CONNECTED) {
+#if defined WINDOWS_SERIAL
+    return windowsSend(destID, txData, txLength);
+#elif defined UNIX_SERIAL
+    return unixSend(destID, txData, txLength);
+#endif
+  }
+
+  return false;
+}
+
+static inline bool
+Serial::readFromPort(uint8_t* rx_data, uint32_t* rx_len) {
+  if (hSerial.serial_s == SERIAL_CONNECTED) {
+#if defined WINDOWS_SERIAL
+    return windowsRead(rx_data, rx_len);
+#elif defined UNIX_SERIAL
+    return unixRead(rx_data, rx_len);
+#endif
+  }
+  return false;
+}
 
 
 /***********************************************/
@@ -121,58 +289,18 @@ bool Serial::initConnection(std::string port, std::string address, uint32_t baud
 { 
   
   //check os here
-  connectionEstablished = initWindows(port,baudrate);
+  connectionEstablished = openPort(port,baudrate);
   hSerial.serial_s = SERIAL_CONNECTED;
   
   return connectionEstablished;
 }
 
-
 bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 { 
-  if (hSerial.serial_s == SERIAL_CONNECTED)
-    {
-      unsigned long sentData = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
-      if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL))
-	{
-	  //error reading file
-	  printf("Failed to write serial\n");
-	  return false;
-	}
-      else
-	{
-#ifdef SERIAL_DEBUG
-	  printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
-#endif	
-	  return true;
-	}		
-    }
-  return false;
+  return sendToPort(destID, txData, txLength);
 }
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len)
 { 
-  if (hSerial.serial_s == SERIAL_CONNECTED)
-    {
-      
-      unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
-      if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL))
-	{
-	  //error reading file
-	  printf("Failed to read serial\n");//this my print too much data might need to change. Im not sure if time out will return false for ReadFile
-	  return false;
-	}
-      else
-	{
-#ifdef SERIAL_DEBUG
-	  printf("**  Recieved\t Length: %d  **\n", recvData);
-#endif	
-	  if (recvData > 0)
-	    {
-	      *rx_len = recvData;
-	      return true;
-	    }
-	}
-    }
-  return false;//no error, no data recieved, connection timmed out, will retry next time.
+  return readFromPort(rx_data, rx_len);
 }
