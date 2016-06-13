@@ -65,7 +65,13 @@ class CircleLinkedList : public Interface::List<_Ty> {
       root = NULL;
     } else {
       root = root->next;
+      root->previous = remNode->previous;
+      remNode->previous->next = root;
     }
+
+    if (cursor == remNode) {
+      cursor = root;  
+    } 
 
     return remNode;
   }
@@ -116,8 +122,19 @@ public:
       cursor->next = newNode;
       newNode->next->previous = newNode;
     }
-
-    newNode->index = this->size++;
+     
+    if (newNode->next != root) {
+      int32_t i = newNode->next->index;
+      newNode->index = i++;
+      CNode* traversal = newNode->next;
+      while(traversal != root) {
+        traversal->index = i++;
+        traversal = traversal->next;
+      }
+    } else {
+      newNode->index = size;
+    } 
+    this->size++;
   }
 
   bool remove(const_reference value) {
@@ -133,17 +150,14 @@ public:
 
     if (_cmp.equal(root->data, value)) {
       remNode = handleRootRemoval(remNode);
-      iteratorNode = root;
     } else if (_cmp.equal(cursor->data, value)) {
       remNode = handleCursorRemoval(remNode);
-      iteratorNode = cursor;
     } else {
       CNode* startNode = cursor;
       cursor = cursor->next;
       while (cursor != startNode) {
 	if (_cmp.equal(cursor->data, value)) {
 	  remNode = handleCursorRemoval(remNode);
-	  iteratorNode = cursor;
 	  break;
 	}
 	cursor = cursor->next;
@@ -151,11 +165,14 @@ public:
     }
 
     if (remNode != NULL) {
-      int32_t i = remNode->index;
-      iteratorNode->index = i++;
-      while (iteratorNode != root) {
-	iteratorNode->index = i++;
-	iteratorNode = iteratorNode->next;
+      if ((this->size - 1) > 0) {
+        iteratorNode = remNode->next;
+        int32_t i = remNode->index;
+        iteratorNode->index = i++;
+        while (iteratorNode != root) {
+	        iteratorNode->index = i++;
+	        iteratorNode = iteratorNode->next;
+        }
       }
 
       free_pointer(remNode);
@@ -283,6 +300,18 @@ public:
 
     return result;
   }
+
+  void cursorNext() {
+    cursor = cursor->next;
+  } 
+
+  void cursorBack() {
+    cursor = cursor->previous;
+  } 
+
+  reference getCursor() {
+    return cursor->data;
+  } 
 private:
   CNode* root;
   CNode* cursor;
