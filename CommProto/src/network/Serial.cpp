@@ -193,7 +193,7 @@ Serial::initUnixSerial(const char* port, uint16_t baudrate) {
     // timeout properties
     options.c_cc[VMIN] = 1;
     tcflush(hSerial.fd, TCIFLUSH);
-    tcsetattr(hSerial.fs, TCSANOW, &options);
+    tcsetattr(hSerial.fd, TCSANOW, &options);
 
     result = true;
   }
@@ -210,7 +210,7 @@ Serial::unixSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
     printf("write() has failed to send!");
   } else {
 #ifdef SERIAL_DEBUG
-      printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
+      printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
 #endif	
     result = true;
   }
@@ -218,7 +218,7 @@ Serial::unixSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
   return result;
 }
 
-static inline bool
+inline bool
 Serial::unixRead(uint8_t* rx_data, uint32_t* rx_len) {
   bool result = false;
   
@@ -228,7 +228,7 @@ Serial::unixRead(uint8_t* rx_data, uint32_t* rx_len) {
   } else {
     *rx_len = bytesRead;
 #ifdef SERIAL_DEBUG
-    printf("**  Recieved\t Length: %d  **\n", recvData);
+    printf("**  Recieved\t Length: %d  **\n", bytesRead);
 #endif	    
     result = true;
   }
