@@ -150,14 +150,15 @@ Serial::windowsRead(uint8_t* rx_data, uint32_t* rx_len) {
 inline bool
 Serial::initUnixSerial(const char* port, uint32_t baudrate) {
   bool result = false;
-  printf("port: %s\n connecting...\n", port);
-  hSerial.fd = open(port, (O_RDWR | O_NOCTTY));
+  printf("port: %s\n connecting...", port);
+  hSerial.fd = open(port, (O_RDWR | O_NOCTTY | O_NDELAY));
 
   if (hSerial.fd == -1) {
     printf("port failed to open: err number %d\n", errno);
   } else {
     struct termios options;
-    fcntl(hSerial.fd, F_SETFL, 0);
+     fcntl(hSerial.fd, F_SETFL, 0);
+    
     tcgetattr(hSerial.fd, &options);
     speed_t speed = B115200;
     switch (baudrate) {
@@ -184,7 +185,7 @@ Serial::initUnixSerial(const char* port, uint32_t baudrate) {
     cfsetispeed(&options, speed);
     cfsetospeed(&options, speed);
 
-    // Since we are going with 8 bit size, ignoring parity...
+    // Since we are going with 8 bit size, one stop parity...
     options.c_cflag |= (CLOCAL | CREAD | CS8);
     options.c_iflag = (IGNBRK | IGNPAR);
     options.c_oflag = 0;
@@ -194,7 +195,6 @@ Serial::initUnixSerial(const char* port, uint32_t baudrate) {
     tcsetattr(hSerial.fd, TCSANOW, &options);
 
     result = true;
-    printf("Connected\n");
   }
 
   return result;
@@ -206,7 +206,7 @@ Serial::unixSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
   
   int32_t bytesWritten = write(hSerial.fd, txData, txLength);
   if (bytesWritten < 0) {
-    printf("write() has failed to send!\n");
+    printf("write() has failed to send!");
   } else {
 #ifdef SERIAL_DEBUG
       printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
@@ -220,12 +220,10 @@ Serial::unixSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
 inline bool
 Serial::unixRead(uint8_t* rx_data, uint32_t* rx_len) {
   bool result = false;
-#ifdef SERIAL_DEBUG
-  printf("\n\nReading serial\n\n");
-#endif
-  int32_t bytesRead = read(hSerial.fd, rx_data, 256);
+  
+  int32_t bytesRead = read(hSerial.fd, rx_data, 512);
   if (bytesRead < 0) {
-    printf("Failed to read from package. erro number %d\n", errno);
+    printf("Failed to read from package.");
   } else {
     *rx_len = bytesRead;
 #ifdef SERIAL_DEBUG
