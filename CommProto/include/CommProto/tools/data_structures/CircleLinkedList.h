@@ -111,10 +111,10 @@ public:
       root->previous = root;
       cursor = root;
     } else {
-      newNode->prev = cursor;
+      newNode->previous = cursor;
       newNode->next = cursor->next;
       cursor->next = newNode;
-      newNode->next->prev = newNode;
+      newNode->next->previous = newNode;
     }
 
     newNode->index = this->size++;
@@ -126,7 +126,8 @@ public:
       return result;
     }
 
-    CNode* remNode, iteratorNode;
+    CNode* remNode; 
+    CNode* iteratorNode;
     nullify_pointer(remNode);
     nullify_pointer(iteratorNode);
 
@@ -174,15 +175,16 @@ public:
       return result;
     }
 
-    CNode* remNode, iteratorNode;
+    CNode* remNode; 
+    CNode* iteratorNode;
     nullify_pointer(remNode);
     nullify_pointer(iteratorNode);
 
     if (index == root->index) {
-      remNode = handleRootRemove(remNode);
+      remNode = handleRootRemoval(remNode);
       iteratorNode = root;
     } else if (index == cursor->index) {
-      remNode = handleCursorRemove(remNode);
+      remNode = handleCursorRemoval(remNode);
       iteratorNode = cursor;
     } else {
       CNode* startNode = cursor;
@@ -265,7 +267,7 @@ public:
     bool result =false;
     if (_cmp.equal(value, root->data)) {
       result = true;
-    } else if (_cmp.equal(value, cursor, cursor->data)) {
+    } else if (_cmp.equal(value, cursor->data)) {
       result = true;
     } else {
       CNode* startNode = cursor;
