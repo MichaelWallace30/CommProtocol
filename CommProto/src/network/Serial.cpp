@@ -7,7 +7,7 @@
 
 #define WINDOWS_SERIAL
 
-bool Serial::initWindows(std::string comPort, uint16_t baudrate)
+bool Serial::initWindows(std::string comPort, uint32_t baudrate)
 {
   if (comPort[0] != '\\') {
       // "\\\\.\\"  allows windows ports above 9
@@ -148,7 +148,7 @@ Serial::windowsRead(uint8_t* rx_data, uint32_t* rx_len) {
 #define UNIX_SERIAL 
 
 inline bool
-Serial::initUnixSerial(const char* port, uint16_t baudrate) {
+Serial::initUnixSerial(const char* port, uint32_t baudrate) {
   bool result = false;
 
   hSerial.fd = open(port, (O_RDWR | O_NOCTTY | O_NDELAY));
@@ -179,7 +179,6 @@ Serial::initUnixSerial(const char* port, uint16_t baudrate) {
       case 19200:  { speed = B19200;  break; }
       case 38400:  { speed = B38400;  break; }
       case 57600:  { speed = B57600;  break; }
-      case 76800:  { speed = B76800;  break; }
       case 115200: { speed = B115200; break; }
     }
     
@@ -239,7 +238,7 @@ Serial::unixRead(uint8_t* rx_data, uint32_t* rx_len) {
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
 inline bool
-Serial::openPort(std::string comPort, uint16_t baudrate) {
+Serial::openPort(std::string comPort, uint32_t baudrate) {
 #if defined WINDOWS_SERIAL
   return initWindows(comPort, baudrate);
 #elif defined UNIX_SERIAL

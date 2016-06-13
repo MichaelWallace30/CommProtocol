@@ -12,8 +12,8 @@ class Serial : public CommsLink
 private:
   serial_t hSerial;
   
-  bool initWindows(std::string comPort, uint16_t baudrate);
-  bool initUnixSerial(const char* port, uint16_t baudrate);
+  bool initWindows(std::string comPort, uint32_t baudrate);
+  bool initUnixSerial(const char* port, uint32_t baudrate);
   bool windowsSend(uint8_t destID, uint8_t* txData, int32_t txLength);
   bool windowsRead(uint8_t* rx_data, uint32_t* rx_len);
   bool unixSend(uint8_t destID, uint8_t* txData, int32_t txLength);
@@ -22,7 +22,7 @@ private:
   bool sendToPort(uint8_t destID, uint8_t* txData, uint32_t txLength);
   bool readFromPort(uint8_t* rx_Data, uint32_t* rx_len);
 
-  bool openPort(std::string comPort, uint16_t baudrate);
+  bool openPort(std::string comPort, uint32_t baudrate);
 
   //serial private data
   bool connectionEstablished;
