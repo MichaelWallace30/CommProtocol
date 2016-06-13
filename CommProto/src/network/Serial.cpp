@@ -104,8 +104,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
   return true;
 }
 
-
-static inline bool
+inline bool
 Serial::windowsSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
   unsigned long sentData = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
   if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL)) {
@@ -123,7 +122,7 @@ Serial::windowsSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
   return false;
 }
 
-static inline bool
+inline bool
 Serial::windowsRead(uint8_t* rx_data, uint32_t* rx_len) {    
   unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
   if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL)) {
@@ -148,7 +147,7 @@ Serial::windowsRead(uint8_t* rx_data, uint32_t* rx_len) {
 
 #define UNIX_SERIAL 
 
-static inline bool
+inline bool
 Serial::initUnixSerial(const char* port, uint16_t baudrate) {
   bool result = false;
 
@@ -202,7 +201,7 @@ Serial::initUnixSerial(const char* port, uint16_t baudrate) {
   return result;
 }
 
-static inline bool
+inline bool
 Serial::unixSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
   bool result = false;
   
@@ -239,7 +238,7 @@ Serial::unixRead(uint8_t* rx_data, uint32_t* rx_len) {
 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
-static inline bool
+inline bool
 Serial::openPort(std::string comPort, uint16_t baudrate) {
 #if defined WINDOWS_SERIAL
   return initWindows(comPort, baudrate);
@@ -248,8 +247,8 @@ Serial::openPort(std::string comPort, uint16_t baudrate) {
 #endif
 }
 
-static inline bool
-Serial::sendToPort(uint8_t destID, uint8_t* txData, int32_t txLength) {
+inline bool
+Serial::sendToPort(uint8_t destID, uint8_t* txData, uint32_t txLength) {
   if (hSerial.serial_s == SERIAL_CONNECTED) {
 #if defined WINDOWS_SERIAL
     return windowsSend(destID, txData, txLength);
@@ -261,7 +260,7 @@ Serial::sendToPort(uint8_t destID, uint8_t* txData, int32_t txLength) {
   return false;
 }
 
-static inline bool
+inline bool
 Serial::readFromPort(uint8_t* rx_data, uint32_t* rx_len) {
   if (hSerial.serial_s == SERIAL_CONNECTED) {
 #if defined WINDOWS_SERIAL
