@@ -159,7 +159,6 @@ Serial::initUnixSerial(const char* port, uint32_t baudrate) {
     struct termios options;
     fcntl(hSerial.fd, F_SETFL, 0);
     tcgetattr(hSerial.fd, &options);
-    memset(&options, 0, sizeof(options));
     speed_t speed = B115200;
     switch (baudrate) {
       case 0:      { speed = B0;      break; }
