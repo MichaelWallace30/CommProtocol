@@ -111,6 +111,7 @@ include(cmake/archfiles.cmake)
 
 set(COMMPROTO_TOOLS_HEADERS
   ${TOOLS_HEADER_DIR}/data_structures/AutoQueue.h
+  ${TOOLS_HEADER_DIR}/data_structures/AutoVector.h
   ${TOOLS_HEADER_DIR}/data_structures/SingleLinkedList.h
   ${TOOLS_HEADER_DIR}/data_structures/LinkedQueue.h
   ${TOOLS_HEADER_DIR}/data_structures/DoubleLinkedList.h
@@ -119,6 +120,7 @@ set(COMMPROTO_TOOLS_HEADERS
   ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceQueue.h
   ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceMap.h
   ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceTree.h
+  ${TOOLS_HEADER_DIR}/allocator/Allocator.h
   ${TOOLS_HEADER_DIR}/allocator/NewAllocator.h
   ${TOOLS_HEADER_DIR}/allocator/CommPointer.h
   ${TOOLS_HEADER_DIR}/Comparable.h
@@ -134,12 +136,23 @@ set(COMMPROTO_HEADERS
   ${PARENT_HEADER_DIR}/network/CommsLink.h
   ${PARENT_HEADER_DIR}/AbstractPacket.h
   ${PARENT_HEADER_DIR}/CommsPacket.h
-  ${PARENT_HEADER_DIR}/network/UDP.h)
+  ${PARENT_HEADER_DIR}/network/UDP.h
+  ${PARENT_HEADER_DIR}/network/Serial.h)
 
 set(COMMPROTO_SOURCES
   ${PARENT_SOURCE_DIR}/AbstractPacket.cpp
   ${PARENT_SOURCE_DIR}/comms.cpp
-  ${PARENT_SOURCE_DIR}/network/UDP.cpp)		
+  ${PARENT_SOURCE_DIR}/network/UDP.cpp
+  ${PARENT_SOURCE_DIR}/network/Serial.cpp)		
+
+
+if (${CMAKE_CXX_COMPILER_ID})    
+    source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
+    source_group("Header Files\\tools" FILES ${COMMPROTO_TOOLS_HEADERS})
+    source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
+    source_group("Source Files\\tools" FILES ${COMMPROTO_TOOLS_SOURCES})
+endif()
+
 
 add_executable(NGCP_LIB 
   ${ARCHITECTURE_HEADERS}

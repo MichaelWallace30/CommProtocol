@@ -4,9 +4,11 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
-#define _LESS_THAN   -1
-#define _EQUAL_TO     0
-#define _GREATER_THAN 1
+#define COMPARATOR_NOT_DEFINED -999
+
+#define _LESS_THAN                -1
+#define _EQUAL_TO                  0
+#define _GREATER_THAN              1
 
 namespace Comnet { 
 namespace Tools {
@@ -45,7 +47,6 @@ public:
      Check if the objects are equal.
   */
   virtual bool equal(const_reference obj1, const_reference obj2) = 0;
-
 private: 
 };
 } // Tools

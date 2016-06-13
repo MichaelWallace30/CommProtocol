@@ -25,6 +25,7 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 
+
 #define _COMNET_MINIMUM_API_VERSION  0
 #define _COMNET_API_VERSION_         1
 

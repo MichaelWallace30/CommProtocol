@@ -1,7 +1,7 @@
-/* 
-  Macintosh specific configuration.
+/*
+  Stack method  allocator.
 
-  Copyright (C) 2016  Michael Wallace, Mario Garcia.
+  Copyright (C) 2016  Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,30 +16,22 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __MAC_CONFIG_H_
-#define __MAC_CONFIG_H_
+#ifndef __STACK_ALLOCATOR_H
+#define __STACK_ALLOCATOR_H
 
-#include <CommProto/architecture/os/arch.h>
+#include <CommProto/tools/allocator/Allocator.h>
 
-#if (COM_TARGET_OS == COM_OS_APPLE)
+namespace Comnet {
+namespace Tools {
+namespace Allocator {
 
-#if (COM_DISABLE_ASSERT > 0)
- #define COM_ASSERT(cond)
-#else
- #define COM_ASSERT(cond)        assert(cond)
-#endif
+template<typename _Ty>
+class StackAllocator : public Allocator<_Ty>  {
 
-#define COM_UNUSEDPARAM(unusedparam)  (void)unusedparam
-
-/* Define NULL value */
-#ifndef NULL
- #ifdef __cplusplus
-  #define NULL 0
- #else
-  #define NULL ((void*)0)
- #endif
-#endif
-
-#endif
-
-#endif // __MAC_CONFIG_H_
+public:
+private:
+};
+} // Allocator namespace
+} // Tools namespace
+} // Comnet namespace
+#endif // __STACK_ALLOCATOR_H

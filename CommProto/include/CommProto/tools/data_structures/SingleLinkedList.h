@@ -42,9 +42,22 @@ public:
   /**
      Constructor for the SingleLinkedList data structure.
   */
-  SingleLinkedList() 
+  SingleLinkedList(const _Compare& comparator = _Compare(), 
+		   const _Alloc& allocator = _Alloc() ) 
     : root(NULL)
-    , tail(NULL) { 
+    , tail(NULL)
+    , alloc(allocator)
+    , _cmp(comparator)  
+  { 
+    this->listType = Interface::SINGLE_LINKED_LIST;
+    this->size = 0;
+  }
+  
+  SingleLinkedList(const _Alloc& allocator = _Alloc() ) 
+    : alloc(allocator)
+    , root(NULL)
+    , tail(NULL)
+  {
     this->listType = Interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
@@ -191,9 +204,8 @@ public:
   bool contains(const _Ty& value) {
     bool result = false;
     
-    if (_cmp.equal(root->value, value)) {
-      result = true;
-    } else if (_cmp.equal(tail->value, value)) {
+    if (_cmp.equal(root->value, value) 
+	|| _cmp.equal(tail->value, value)) {
       result = true;
     } else {
       SNode* traverse = root->next;

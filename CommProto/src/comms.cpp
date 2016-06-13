@@ -1,8 +1,7 @@
 #include <CommProto/comms.h>
 
-#include <CommProto/architecture/os/os_threads.h>
-#include <CommProto/architecture/os/os_mutex.h>
-
+#include <CommProto/network/UDP.h>
+#include <CommProto/network/Serial.h>
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
@@ -90,13 +89,12 @@ Comms::~Comms()
 	mutex_destroy(&recvMutex);
 }
 
-bool Comms::initConnection(CommsLink_type_t connectionType, uint16_t port, std::string address, uint32_t baudrate)
+bool Comms::initConnection(CommsLink_type_t connectionType, std::string port, std::string address, uint32_t baudrate)
 {
 	switch (connectionType)
 	{
 		case UDP_LINK:
-		{
-			char addr[ADDRESS_LENGTH];
+		{			
 			if (address.length() < ADDRESS_LENGTH)
 			{							
 				connectionLayer = new UDP();
@@ -105,7 +103,15 @@ bool Comms::initConnection(CommsLink_type_t connectionType, uint16_t port, std::
 			break;
 		}
 		case SERIAL_LINK:
-		{}
+		{
+			if (address.length() < ADDRESS_LENGTH)
+			{
+				connectionLayer = new Serial();
+				return connectionLayer->initConnection(port, "", baudrate);
+			}
+			break;
+		
+		}
 		case ZIGBEE_LINK:
 		{}
 		default:

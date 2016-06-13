@@ -1,8 +1,8 @@
 #include <CommProto/tools/Comparator.h>
-//#include <CommProto/Packets.h>
 #include <CommProto/tools/data_structures/SingleLinkedList.h>
 #include <CommProto/tools/data_structures/LinkedQueue.h>
-
+#include <CommProto/tools/data_structures/DoubleLinkedList.h>
+#include <CommProto/tools/data_structures/AutoVector.h>
 #include <stdio.h>
 
 using namespace Comnet;
@@ -62,7 +62,7 @@ public:
   }
 
   bool equal(const int& a, const int& b) {
-    return a == b;
+    return (a == b);
   }
 };
 
@@ -83,15 +83,33 @@ int main(int c, char** args) {
 
   Comnet::Tools::DataStructures::SingleLinkedList<int> testList;
   cout << "List was created!!" << endl;
+   if (testList.isEmpty()) {
+    cout << "Test list is empty!!" << endl;
+  }
+ 
   testList.insert(1);
   testList.insert(4);
   testList.insert(19);
+
   cout << "List has added in values" << endl;
   cout << "Removing 1: " << testList.remove(1) << endl;
   cout << "Removing 10: " << testList.remove(10) << endl;
   cout << "Size of list: " << testList.getSize() << endl;
-
+  cout << "Is list empty? " << testList.isEmpty() << endl;
+  if (!testList.isEmpty()) {
+    cout << "List is not empty!!" << endl;
+  }
   Comnet::Tools::DataStructures::LinkedQueue<int> testQueue;
+  Comnet::Tools::DataStructures::DoubleLinkedList<int> doubleTest;
+
+
+  cout << "doubleTest added!" << endl;
+  doubleTest.insert(12);
+  cout << "Is empty? " << doubleTest.isEmpty() << endl;
+  cout << "Size of double list: " << doubleTest.getSize() << endl;
+  doubleTest.insert(1);
+  cout << "removing 12: " << doubleTest.remove(12) << endl;
+  cout << "Size now: " << doubleTest.getSize() << endl;
   cout << "Queue was created!!" << endl;
   testQueue.enQueue(1);
   testQueue.enQueue(2);
@@ -101,6 +119,7 @@ int main(int c, char** args) {
   testQueue.deQueue();
   cout << "Value of removed: " << removed << endl;
   cout << "Size of queue: " << testQueue.getSize() << endl;
+  cout << "Is queue empty? " << testQueue.isEmpty() << endl;
   testQueue.enQueue(8);
   cout << "Size of queue after adding value: " << testQueue.getSize() << endl;
   //CommsPacket cff = dynamic_cast<CommsPacket&>(aPacket);
@@ -111,5 +130,13 @@ int main(int c, char** args) {
   Comparator<Test>& _cmp = tC;
   int32_t result = _cmp(t1, t2);
   printf("%d\n", result);
+
+  Comnet::Tools::DataStructures::AutoVector<int> testVector;
+  testVector.insert(12);
+  cout << "Vector added 12" << endl;
+  testVector.insert(11);
+  cout << "Vector added 11" << endl;
+  cout << "Vector current size: " << testVector.getSize() << endl;
+  cout << "Vector remove 12: " << testVector.remove(12) << endl;
   return 0;
 }

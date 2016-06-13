@@ -28,7 +28,9 @@ namespace Tools {
 namespace DataStructures {
 namespace Interface {
 
-/** ListType contains value of the data structure being used. */
+/** 
+    ListType contains value of the data structure being used. 
+*/
 _COMNET_PRIVATE_API_
 enum ListType {
   SINGLE_LINKED_LIST,
@@ -36,11 +38,14 @@ enum ListType {
   CIRCULAR_LINKED_LIST,
   VECTOR_LIST,
   ARRAY_LIST,
+  AUTO_VECTOR,
 };
 
-/** ListInterface provides an interface that is common with all
+/** 
+    ListInterface provides an interface that is common with all
     list data structures. It helps if we may need to store data
-    structures together for certain functionality. */
+    structures together for certain functionality. 
+*/
 _COMNET_PRIVATE_API_
 template<typename _Ty>
 class List : public Generic {
@@ -69,7 +74,7 @@ public:
       Check if this data structure is empty. 
       @returns True if empty, false otherwise.
   */
-  virtual bool isEmpty() { return size == 0; }
+  virtual bool isEmpty() { return (size == 0); }
 
   /**
       Get the number of values in the data structure.

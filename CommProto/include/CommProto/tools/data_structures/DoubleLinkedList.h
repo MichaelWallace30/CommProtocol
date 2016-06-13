@@ -56,16 +56,30 @@ class DoubleLinkedList : public Interface::List<_Ty> {
     DNode* previous;
 
     _Ty data;
-    uint32_t index;
+    int32_t index;
   };
 public:
   /**
      Default Constructor for data structure. 
    */
-  DoubleLinkedList()
+  DoubleLinkedList(const _Compare& comparator = _Compare(),
+		   const _Alloc& allocator = _Alloc() )
   : root(NULL)
   , tail(NULL)
-  , cursor(NULL) {
+  , cursor(NULL)
+  , alloc(allocator) 
+  , cmp(comparator)
+  {
+    this->listType = Interface::DOUBLE_LINKED_LIST;
+    this->size = 0;
+  }
+
+  DoubleLinkedList(const _Alloc& allocator = _Alloc() ) 
+    : alloc(allocator)
+    , root(NULL)
+    , tail(NULL)
+    , cursor(NULL)
+  {
     this->listType = Interface::DOUBLE_LINKED_LIST;
     this->size = 0;
   }

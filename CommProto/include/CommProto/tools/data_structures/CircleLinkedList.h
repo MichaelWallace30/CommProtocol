@@ -54,18 +54,87 @@ class CircleLinkedList : public Interface::InterfaceList<_Ty> {
     _Ty data;
     int32_t index;
   };
+
+  CNode* handleRootRemoval(CNode* remNode) {
+    
+  }
 public:
-  CircleLinkedList()
+  CircleLinkedList(const _Alloc& allocator = _Alloc() )
     : root(NULL)
     , cursor(NULL)
+    , alloc(allocator)
   { 
     this->listType = Interface::CIRCULAR_LINKED_LIST;
     this->size = 0;
   }
+
+  CircleLinkedList(const _Alloc& allocator = _Alloc() )
+    : root(NULL)
+    , cursor(NULL)
+    , alloc(allocator)
+  {
+    this->listType = Interface::CIRCLAR_LINKED_LIST;
+    this->size = 0;
+  }
+
+  void insert(const_reference value) {
+    CNode* newNode = allocate_pointer(CNode);
+    nullify_pointer(newNode->next);
+    nullify_pointer(newNode->previous);
+    newNode->data = value;
+
+    if ((this->isEmpty()) || (root == NULL) ) {
+      root = newNode;
+      root->next = root;
+      root->previous = root;
+      cursor = root;
+    } else {
+      newNode->prev = cursor;
+      newNode->next = cursor->next;
+      cursor->next = newNode;
+      newNode->next->prev = newNode;
+    }
+
+    newNode->index = this->size++;
+  }
+
+  bool remove(const_reference value) {
+    bool result = false;
+    if (this->isEmpty()) {
+      return result;
+    }
+
+    CNode* remNode;
+    nullify_pointer(remNode);
+    if (_cmp.equal(root->data, value)) {
+      remNode = handleRootRemoval(remNode);
+    } else {
+      
+    }
+  }
+
+  bool removeAt(const int32_t index) {
+  }
+
+  reference front() {
+    return root->data;
+  }
+
+  reference back() {
+    return root->previous->data;
+  }
+
+  reference at(const int32_t index) {
+  }
   
+  bool contains(const_reference value) {
+  }
 private:
   CNode* root;
   CNode* cursor;
+
+  _Alloc alloc;
+  _Compare _cmp;
 };
 } // DataStructures namespace
 } // Tools namespace

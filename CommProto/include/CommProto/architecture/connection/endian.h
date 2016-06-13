@@ -1,7 +1,7 @@
 /* 
-  Windows specific configuration.
+  Endianness for network byte order.
 
-  Copyright (C) 2016  Michael Wallace, Mario Garcia.
+  Copyright (C) 2016  Michael Wallace.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,35 +16,25 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __WIN32_CONFIG_H
-#define __WIN32_CONFIG_H
+#include <architecture/os/include_defines.h>
 
-#include <CommProto/architecture/os/arch.h>
+#if COM_TARGET_OS == COM_OS_WINDOWS
 
+#else   //COM_TRAGET_OS == COM_OS_LINUX || COM_TARGET_OS == COM_OS_APPLE
 
-#if (COM_TARGET_OS == COM_OS_WINDOWS)
+#include <arpa/inet.h>
 
+#endif
 
-#include <assert.h>
+#if COM_TARGET_OS == COM_OS_WINDOWS
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 
-#define WIN32_LEAN_AND_MEAN
-
-#if (COM_DISABLE_ASSERT > 0)
- #define COM_ASSERT(cond)
 #else
- #define COM_ASSERT(cond)             assert(cond)
-#endif
-#define COM_UNUSED_PARAM(unusedparam) (void)unusedparam
 
-
-/* Define NULL pointer value */
-#ifndef NULL
- #ifdef __cplusplus
-  #define NULL 0
- #else
-  #define NULL ((void*)0)
- #endif
 #endif
 
-#endif // COM_TARGET_OS == COM_OS_WINDOWS 
-#endif // __WIN32_CONFIG_H_
+#define htonll(x) (
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+(((uint64_t)htonl(x)) << 32) + htonl((x) >> 32)
+#endif
+)

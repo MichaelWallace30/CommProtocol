@@ -67,7 +67,7 @@ public:
    */
   virtual int32_t getSize() { return this->size; }
   
-  virtual bool isEmpty() { return this->size == 0; }
+  virtual bool isEmpty() { return (comm_bool)(this->size == 0); }
   /**
      Get the type of map being used.
    */
