@@ -5,8 +5,14 @@
 /***********************************************/
 #if COM_TARGET_OS == COM_OS_WINDOWS
 
+
+// Defines the Serial keyword for the preprocessor, allows us to focus on only one 
+// set of serial functions in an operating system.
 #define WINDOWS_SERIAL
 
+/**
+  Initializes windows serial port.
+*/
 bool Serial::initWindows(std::string comPort, uint32_t baudrate)
 {
   if (comPort[0] != '\\') {
