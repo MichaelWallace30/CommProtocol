@@ -24,9 +24,6 @@ initializeWSAStartup() {
 
 bool UDP::udp_open(int* fd)
 {
-#ifdef WIN32//windows bs
-  initializeWSAStartup();
-#endif
   /** attempts to open socket 
       returns false if fails*/
   if ((*fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
@@ -55,6 +52,9 @@ void UDP::stringToChar(char cPtr[ADDRESS_LENGTH], std::string str)
 /***********************************************/
 UDP::UDP() : CommsLink()
 {
+#ifdef WIN32//windows bs
+  initializeWSAStartup();
+#endif
   //visual studio 2013 is having issues init array to 0
   //error is "cannot specify initializer of arrays knwon issues with 2013
   //make sure is node connected is set to false
