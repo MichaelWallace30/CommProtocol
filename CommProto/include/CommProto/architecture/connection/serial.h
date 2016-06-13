@@ -9,6 +9,7 @@
 
  typedef uint32_t speed_t;
  typedef HANDLE serial_h;
+ typedef int32_t port_id;
 #else
  #include <stdio.h>
  #include <string.h>
