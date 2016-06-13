@@ -41,9 +41,9 @@ namespace DataStructures {
 template<typename _Ty,
 	 typename _Compare = StandardComparator<_Ty>,
 	 typename _Alloc   = Allocator::NewAllocator<_Ty> >
-class CircleLinkedList : public Interface::InterfaceList<_Ty> {
+class CircleLinkedList : public Interface::List<_Ty> {
   typedef _Ty* pointer;
-  typedef _T& reference;
+  typedef _Ty& reference;
   typedef const _Ty* const_pointer;
   typedef const _Ty& const_reference;
 
@@ -80,10 +80,11 @@ class CircleLinkedList : public Interface::InterfaceList<_Ty> {
     return remNode;
   }
 public:
-  CircleLinkedList(const _Alloc& allocator = _Alloc() )
+  CircleLinkedList(const _Compare& comparator = _Compare(), const _Alloc& allocator = _Alloc() )
     : root(NULL)
     , cursor(NULL)
     , alloc(allocator)
+    , _cmp(comparator)
   { 
     this->listType = Interface::CIRCULAR_LINKED_LIST;
     this->size = 0;
