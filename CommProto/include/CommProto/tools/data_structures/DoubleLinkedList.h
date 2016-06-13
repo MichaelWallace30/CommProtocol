@@ -74,6 +74,16 @@ public:
     this->size = 0;
   }
 
+  DoubleLinkedList(const _Alloc& allocator = _Alloc() ) 
+    : alloc(allocator)
+    , root(NULL)
+    , tail(NULL)
+    , cursor(NULL)
+  {
+    this->listType = Interface::DOUBLE_LINKED_LIST;
+    this->size = 0;
+  }
+
   /**
      Default destructor for the data structure.
    */

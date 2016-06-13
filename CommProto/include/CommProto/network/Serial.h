@@ -1,17 +1,16 @@
 #ifndef SERIAL_H
 #define SERIAL_H
+
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/connection/serial.h> 
 #include <CommProto/network/CommsLink.h>
 
 #define SERIAL_DEBUG
-//windows
-#include <Windows.h>
 
-class Serial: public CommsLink
+class Serial : public CommsLink
 {
 private:
-	//windows
-	HANDLE hSerial;
+	serial_t hSerial;
 	bool initWindows(std::string comPort, uint16_t baudrate);
 
 	//serial private data

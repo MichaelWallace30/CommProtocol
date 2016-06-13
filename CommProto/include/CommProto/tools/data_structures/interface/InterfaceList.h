@@ -28,7 +28,9 @@ namespace Tools {
 namespace DataStructures {
 namespace Interface {
 
-/** ListType contains value of the data structure being used. */
+/** 
+    ListType contains value of the data structure being used. 
+*/
 _COMNET_PRIVATE_API_
 enum ListType {
   SINGLE_LINKED_LIST,
@@ -39,9 +41,11 @@ enum ListType {
   AUTO_VECTOR,
 };
 
-/** ListInterface provides an interface that is common with all
+/** 
+    ListInterface provides an interface that is common with all
     list data structures. It helps if we may need to store data
-    structures together for certain functionality. */
+    structures together for certain functionality. 
+*/
 _COMNET_PRIVATE_API_
 template<typename _Ty>
 class List : public Generic {

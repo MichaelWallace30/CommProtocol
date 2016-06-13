@@ -52,6 +52,15 @@ public:
     this->listType = Interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
+  
+  SingleLinkedList(const _Alloc& allocator = _Alloc() ) 
+    : alloc(allocator)
+    , root(NULL)
+    , tail(NULL)
+  {
+    this->listType = Interface::SINGLE_LINKED_LIST;
+    this->size = 0;
+  }
 
   /**
      Single Linked List destructor.
