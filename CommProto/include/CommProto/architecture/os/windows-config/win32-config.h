@@ -27,6 +27,8 @@
 
 #include <assert.h>
 
+#define WIN32_LEAN_AND_MEAN
+
 #if (COM_DISABLE_ASSERT > 0)
  #define COM_ASSERT(cond)
 #else

@@ -5,13 +5,11 @@
 #include <queue>
 #include <string>//needed for addresses
 
-#include <CommProto/CommsPacket.h>//Header which declares packet structs
-#include <CommProto/network/UDP.h>
-#include <CommProto/network/Serial.h>
+#include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 
+#include <CommProto/CommsPacket.h>//Header which declares packet structs
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/os_threads.h>//method to create threads
-#include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 #include <CommProto/architecture/os/os_mutex.h>
 
 

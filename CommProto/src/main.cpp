@@ -3,7 +3,6 @@
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/include_defines.h>
 
-
 int main(int c, char** args) {
   printf("Hello World!");
 /*

@@ -4,9 +4,8 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
-#if COM_TARGET_OS == COM_OS_WINDOWS 
+#if COM_TARGET_OS == COM_OS_WINDOWS
  #include <Windows.h>
-
  typedef uint32_t speed_t;
  typedef HANDLE serial_h;
  typedef int32_t port_id;

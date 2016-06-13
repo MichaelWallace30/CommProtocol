@@ -22,10 +22,13 @@
 #include <CommProto/architecture/os/include_defines.h>
 
 // Declare our libraries.
-#if (COM_TARGET_OS == COM_OS_WINDOWS)    
+#if (COM_TARGET_OS == COM_OS_WINDOWS)  
+ #include <WinSock2.h>
  #include <WS2tcpip.h>
- #include <Windows.h>
- #pragma comment(lib,"ws2_32.lib")    
+ #include <iphlpapi.h>
+ #define WIN32_LEAN_AND_MEAN 
+ #include <Windows.h>  
+ #pragma comment(lib ,"Ws2_32.lib")    
  #define s_addr  S_un.S_addr 
  #define closSocket(x)	closesocket(x); WSACleanup()
 #else

@@ -1,8 +1,7 @@
 #include <CommProto/comms.h>
 
-#include <CommProto/architecture/os/os_threads.h>
-#include <CommProto/architecture/os/os_mutex.h>
-
+#include <CommProto/network/UDP.h>
+#include <CommProto/network/Serial.h>
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/

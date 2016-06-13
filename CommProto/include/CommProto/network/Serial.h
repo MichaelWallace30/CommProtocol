@@ -2,7 +2,7 @@
 #define SERIAL_H
 
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/connection/serial.h> 
+#include <CommProto/architecture/connection/serial-config.h> 
 #include <CommProto/network/CommsLink.h>
 
 #define SERIAL_DEBUG
