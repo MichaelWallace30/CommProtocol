@@ -56,7 +56,28 @@ class CircleLinkedList : public Interface::InterfaceList<_Ty> {
   };
 
   CNode* handleRootRemoval(CNode* remNode) {
+    CNode* next = root->next;
+    CNode* previous = root->previous;
+    remNode = root;
+
+    if ((root->next == root) &&
+	(root->previous == root)) {
+      root = NULL;
+    } else {
+      root = root->next;
+    }
+
+    return remNode;
+  }
+
+  CNode* handleCursorRemoval(CNode* remNode) {
+    remNode = cursor;
+    remNode = cursor; 
+    cursor = cursor->next;
     
+    cursor->previous = remNode->previous;
+    remNode->previous->next = cursor;
+    return remNode;
   }
 public:
   CircleLinkedList(const _Alloc& allocator = _Alloc() )
@@ -104,16 +125,104 @@ public:
       return result;
     }
 
-    CNode* remNode;
+    CNode* remNode, iteratorNode;
     nullify_pointer(remNode);
+    nullify_pointer(iteratorNode);
+
     if (_cmp.equal(root->data, value)) {
       remNode = handleRootRemoval(remNode);
+      iteratorNode = root;
+    } else if (_cmp.equal(cursor->data, value)) {
+      remNode = handleCursorRemoval(remNode);
+      iteratorNode = cursor;
     } else {
-      
+      CNode* startNode = cursor;
+      cursor = cursor->next;
+      while (cursor != startNode) {
+	if (_cmp.equal(cursor->data, value)) {
+	  remNode = handleCursorRemoval(remNode);
+	  iteratorNode = cursor;
+	  break;
+	}
+	cursor = cursor->next;
+      }
     }
+
+    if (remNode != NULL) {
+      int32_t i = remNode->index;
+      iteratorNode->index = i++;
+      while (iteratorNode != root) {
+	iteratorNode->index = i++;
+	iteratorNode = iteratorNode->next;
+      }
+
+      free_pointer(remNode);
+      nullify_pointer(remNode);
+      size--;
+      result = true;
+    }
+
+    return result;
   }
 
   bool removeAt(const int32_t index) {
+    bool result = false;
+    if (this->isEmpty() || 
+	(index < 0) ||
+	(index >= this->size)) {
+      return result;
+    }
+
+    CNode* remNode, iteratorNode;
+    nullify_pointer(remNode);
+    nullify_pointer(iteratorNode);
+
+    if (index == root->index) {
+      remNode = handleRootRemove(remNode);
+      iteratorNode = root;
+    } else if (index == cursor->index) {
+      remNode = handleCursorRemove(remNode);
+      iteratorNode = cursor;
+    } else {
+      CNode* startNode = cursor;
+      if (index > cursor->index) {
+	cursor = cursor->next;
+	while (cursor != startNode) {
+	  if (index == cursor->index) {
+	    remNode = handleCursorRemoval(remNode);
+	    iteratorNode = cursor;
+	    break;	    
+	  }
+	  cursor = cursor->next;
+	}
+      } else {
+	cursor = cursor->previous;
+	while (cursor != startNode) {
+	  if (index == cursor->index) {
+	    remNode = handleCursorRemoval(remNode);
+	    iteratorNode = cursor;
+	    break;
+	  }
+	  cursor = cursor->previous;
+	}
+      }
+    }
+
+    if (remNode != NULL) {
+      int32_t i = remNode->index;
+      iteratorNode->index = i++;
+      while (iteratorNode != root) {
+	iteratorNode->index = i++;
+	iteratorNode = iteratorNode->next;
+      }
+
+      free_pointer(remNode);
+      nullify_pointer(remNode);
+      size--;
+      result = true;
+    }
+    
+    return result;
   }
 
   reference front() {
@@ -125,9 +234,51 @@ public:
   }
 
   reference at(const int32_t index) {
+    if (index == root->index) {
+      return root->data;
+    } else if (index == cursor->index) {
+      return cursor->data;
+    } else {
+      CNode* startNode = cursor;
+      if (index > cursor->index) {
+	cursor = cursor->next;
+	while (cursor != startNode) {
+	  if (index == cursor->index) {
+	    return cursor->data;
+	  }
+	  cursor = cursor->next;
+	}
+      } else {
+	cursor = cursor->previous;
+	while (cursor != startNode) {
+	  if (index == cursor->index) {
+	    return cursor->data;
+	  }
+	  cursor = cursor->previous;
+	}
+      }
+    }
   }
   
   bool contains(const_reference value) {
+    bool result =false;
+    if (_cmp.equal(value, root->data)) {
+      result = true;
+    } else if (_cmp.equal(value, cursor, cursor->data)) {
+      result = true;
+    } else {
+      CNode* startNode = cursor;
+      cursor = cursor->next;
+      while (cursor != startNode) {
+	if (_cmp.equal(cursor->data, value)) {
+	  result = true;
+	  break;
+	}
+	cursor = cursor->next;
+      }
+    }
+
+    return result;
   }
 private:
   CNode* root;
