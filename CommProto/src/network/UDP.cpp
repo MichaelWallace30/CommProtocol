@@ -3,31 +3,37 @@
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
+#ifdef WIN32
+static inline bool 
+initializeWSAStartup() {
+  bool result = true;
+  WSADATA wsa;
+  //Initialise winsock
+  printf("\nInitialising Winsock...");
+
+  if(WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
+  {
+    printf("Failed. Error Code : %d", WSAGetLastError());
+    result = false;
+  }
+  
+  return result;
+}  
+#endif
+
 
 bool UDP::udp_open(int* fd)
 {
 #ifdef WIN32//windows bs
-  WSADATA wsa;
-  //Initialise winsock
-  printf("\nInitialising Winsock...");
-  
-  if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-    {
-      printf("Failed. Error Code : %d", WSAGetLastError());
-      return 0;
-    }
-  printf("Initialised.\n");
+  initializeWSAStartup();
 #endif
-
-	
   /** attempts to open socket 
       returns false if fails*/
   if ((*fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 	{
       printf("socket() failed\n");
       return false;
-    }
-  
+  }
   
   return true;
 }
