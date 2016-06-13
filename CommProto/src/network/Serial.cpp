@@ -58,7 +58,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
   
   dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
   
-  if (!GetCommState(hSerial, &dcbSerialParams))
+  if (!GetCommState(hSerial.h_serial, &dcbSerialParams))
     {
       //error getting state
       printf( "Error getting state\n");
@@ -70,7 +70,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
   dcbSerialParams.StopBits = ONESTOPBIT;
   dcbSerialParams.Parity = NOPARITY;
   
-  if (!SetCommState(hSerial, &dcbSerialParams))
+  if (!SetCommState(hSerial.h_serial, &dcbSerialParams))
     {
       //error setting serial port state
       printf( "Error setting serial port state\n");
@@ -91,7 +91,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
   timeouts.WriteTotalTimeoutConstant = 50;
   timeouts.WriteTotalTimeoutMultiplier = 10;
   
-  if (!SetCommTimeouts(hSerial, &timeouts))
+  if (!SetCommTimeouts(hSerial.h_serial, &timeouts))
     {
       //error occureeed
       printf( "Setting up times outs failed\n");
@@ -99,7 +99,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
     }
   
   printf( "Completed setting up time outs\n");
-  hSerial.serial_status = SERIAL_CONNECTED;
+  hSerial.serial_s = SERIAL_CONNECTED;
   return true;
 }
 
@@ -112,7 +112,7 @@ bool Serial::initWindows(std::string comPort, uint16_t baudrate)
 Serial::Serial():CommsLink()
 {		
   connectionEstablished = false;
-  hSerial.serial_status = SERIAL_OPEN;
+  hSerial.serial_s = SERIAL_OPEN;
 }
 
 Serial::~Serial() {  }
@@ -122,7 +122,7 @@ bool Serial::initConnection(std::string port, std::string address, uint32_t baud
   
   //check os here
   connectionEstablished = initWindows(port,baudrate);
-  hSerial.serial_status = SERIAL_CONNECTED;
+  hSerial.serial_s = SERIAL_CONNECTED;
   
   return connectionEstablished;
 }
@@ -130,7 +130,7 @@ bool Serial::initConnection(std::string port, std::string address, uint32_t baud
 
 bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 { 
-  if (hSerial.serial_status == SERIAL_CONNECTED)
+  if (hSerial.serial_s == SERIAL_CONNECTED)
     {
       unsigned long sentData = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
       if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL))
@@ -152,7 +152,7 @@ bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len)
 { 
-  if (hSerial.serial_status == SERIAL_CONNECTED)
+  if (hSerial.serial_s == SERIAL_CONNECTED)
     {
       
       unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
