@@ -32,8 +32,7 @@ void* Comms::commuincationHandlerSend()
 		{
 			uint8_t buff[10] = { 1 };
 			connectionLayer->send(2, buff, 10);
-			Sleep(250);
-			
+			Sleep(1500);
 		}
 
 	}
@@ -50,6 +49,7 @@ void* Comms::commuincationHandlerRecv()
 		{
 
 			connectionLayer->recv(data_Buf, &rx_length);
+			Sleep(1500);
 			if (rx_length > 0)
 			{
 				
