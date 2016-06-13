@@ -25,13 +25,13 @@ int main(int c, char** args) {
 
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);
-  newComms1.initConnection(SERIAL_LINK, "/dev/ttyS0", "", 9600);
-  newComms2.initConnection(SERIAL_LINK, "/dev/ttyS1", "", 9600);
+  newComms1.initConnection(SERIAL_LINK, "/dev/ttyS0", "", 115200);
+  newComms2.initConnection(SERIAL_LINK, "/dev/ttyS1", "", 115200);
 
 
   newComms1.addAddress(2);
   newComms2.addAddress(1);
-
+  std::cin.ignore();
 
   uint8_t buf[1024] = {1};
   newComms1.send(2, 1, buf, 10);

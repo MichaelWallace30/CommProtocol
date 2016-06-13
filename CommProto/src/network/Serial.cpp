@@ -150,7 +150,7 @@ Serial::windowsRead(uint8_t* rx_data, uint32_t* rx_len) {
 inline bool
 Serial::initUnixSerial(const char* port, uint32_t baudrate) {
   bool result = false;
-
+  printf("port: %s\n connecting...", port);
   hSerial.fd = open(port, (O_RDWR | O_NOCTTY | O_NDELAY));
 
   if (hSerial.fd == -1) {
