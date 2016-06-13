@@ -90,7 +90,7 @@ public:
     this->size = 0;
   }
 
-  CircleLinkedList(const _Alloc& allocator = _Alloc() )
+  CircleLinkedList(const _Alloc& allocator )
     : root(NULL)
     , cursor(NULL)
     , alloc(allocator)
