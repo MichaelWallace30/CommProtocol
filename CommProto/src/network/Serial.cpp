@@ -154,7 +154,7 @@ Serial::initUnixSerial(const char* port, uint32_t baudrate) {
   hSerial.fd = open(port, (O_RDWR | O_NOCTTY | O_NDELAY));
 
   if (hSerial.fd == -1) {
-    printf("port failed to open\n");
+    printf("port failed to open: err number %d\n", errno);
   } else {
     struct termios options;
      fcntl(hSerial.fd, F_SETFL, 0);
