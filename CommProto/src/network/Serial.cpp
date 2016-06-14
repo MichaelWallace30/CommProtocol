@@ -13,8 +13,9 @@
 /**
   Initializes windows serial port.
 */
-bool Serial::initWindows(std::string comPort, uint32_t baudrate)
+bool initWindows(Serial& serial, std::string comPort, uint32_t baudrate)
 {
+  serial_t& hSerial = serial.getSerialPort();
   if (comPort[0] != '\\') {
       // "\\\\.\\"  allows windows ports above 9
       comPort = "\\\\.\\" + comPort;
@@ -111,8 +112,10 @@ bool Serial::initWindows(std::string comPort, uint32_t baudrate)
 }
 
 inline bool
-Serial::windowsSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
+windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   unsigned long sentData = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
+  serial_t& hSerial = serial.getSerialPort();
+  
   if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL)) {
     //error reading file
     printf("Failed to write serial\n");
@@ -129,7 +132,8 @@ Serial::windowsSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
 }
 
 inline bool
-Serial::windowsRead(uint8_t* rx_data, uint32_t* rx_len) {    
+windowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
+  serial_t& hSerial = serial.getSerialPort();
   unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
   if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL)) {
     //error reading file
@@ -154,8 +158,10 @@ Serial::windowsRead(uint8_t* rx_data, uint32_t* rx_len) {
 #define UNIX_SERIAL 
 
 inline bool
-Serial::initUnixSerial(const char* port, uint32_t baudrate) {
+initUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
   bool result = false;
+  serial_t& hSerial = serial.getSerialPort();
+
   printf("port: %s\n connecting...\n", port);
   hSerial.fd = open(port, (O_RDWR | O_NOCTTY));
 
@@ -208,9 +214,10 @@ Serial::initUnixSerial(const char* port, uint32_t baudrate) {
 }
 
 inline bool
-Serial::unixSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
+unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   bool result = false;
-  
+  serial_t& hSerial = serial.getSerialPort();
+
   int32_t bytesWritten = write(hSerial.fd, txData, txLength);
   if (bytesWritten < 0) {
     printf("write() has failed to send!\n");
@@ -225,8 +232,9 @@ Serial::unixSend(uint8_t destID, uint8_t* txData, int32_t txLength) {
 }
 
 inline bool
-Serial::unixRead(uint8_t* rx_data, uint32_t* rx_len) {
+unixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   bool result = false;
+  serial_t& hSerial = serial.getSerialPort();
 #ifdef SERIAL_DEBUG
   printf("\n\nReading serial\n\n");
 #endif
@@ -247,21 +255,22 @@ Serial::unixRead(uint8_t* rx_data, uint32_t* rx_len) {
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
 inline bool
-Serial::openPort(std::string comPort, uint32_t baudrate) {
+openPort(Serial& serial, std::string comPort, uint32_t baudrate) {
 #if defined WINDOWS_SERIAL
-  return initWindows(comPort, baudrate);
+  return initWindows(serial, comPort, baudrate);
 #elif defined UNIX_SERIAL
-  return initUnixSerial(comPort.c_str(), baudrate);
+  return initUnixSerial(serial, comPort.c_str(), baudrate);
 #endif
 }
 
 inline bool
-Serial::sendToPort(uint8_t destID, uint8_t* txData, uint32_t txLength) {
+sendToPort(Serial& serial, uint8_t destID, uint8_t* txData, uint32_t txLength) {
+  serial_t& hSerial = serial.getSerialPort();
   if (hSerial.serial_s == SERIAL_CONNECTED) {
 #if defined WINDOWS_SERIAL
-    return windowsSend(destID, txData, txLength);
+    return windowsSend(serial, destID, txData, txLength);
 #elif defined UNIX_SERIAL
-    return unixSend(destID, txData, txLength);
+    return unixSend(serial, destID, txData, txLength);
 #endif
   }
 
@@ -269,17 +278,28 @@ Serial::sendToPort(uint8_t destID, uint8_t* txData, uint32_t txLength) {
 }
 
 inline bool
-Serial::readFromPort(uint8_t* rx_data, uint32_t* rx_len) {
+readFromPort(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
+  serial_t& hSerial = serial.getSerialPort();
   if (hSerial.serial_s == SERIAL_CONNECTED) {
 #if defined WINDOWS_SERIAL
-    return windowsRead(rx_data, rx_len);
+    return windowsRead(serial, rx_data, rx_len);
 #elif defined UNIX_SERIAL
-    return unixRead(rx_data, rx_len);
+    return unixRead(serial, rx_data, rx_len);
 #endif
   }
   return false;
 }
 
+inline bool 
+closePortHelper(Serial& serial) {
+  serial_t& hSerial = serial.getSerialPort();
+#if defined WINDOWS_SERIAL
+  close(hSerial.h_serial);
+#elif defined UNIX_SERIAL
+  close(hSerial.fd);
+#endif 
+  return true;
+}
 
 /***********************************************/
 /******************* Public  *******************/
@@ -296,18 +316,31 @@ bool Serial::initConnection(std::string port, std::string address, uint32_t baud
 { 
   
   //check os here
-  connectionEstablished = openPort(port,baudrate);
+  connectionEstablished = openPort(*this, port, baudrate);
   hSerial.serial_s = SERIAL_CONNECTED;
-  
+  printf("Port is now: %d\n", hSerial.fd);
   return connectionEstablished;
 }
 
 bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 { 
-  return sendToPort(destID, txData, txLength);
-}
+  printf("Port send is: %d\n", hSerial.fd); 
+  return sendToPort(*this, destID, txData, txLength);}
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len)
-{ 
-  return readFromPort(rx_data, rx_len);
+{
+  printf("Port recv is: %d\n", hSerial.fd); 
+  return readFromPort(*this, rx_data, rx_len);
+}
+
+serial_status Serial::getStatus() {
+  return hSerial.serial_s;
+}
+
+bool Serial::closePort() {
+  return closePortHelper(*this);
+}
+
+serial_t& Serial::getSerialPort() {
+  return hSerial;
 }

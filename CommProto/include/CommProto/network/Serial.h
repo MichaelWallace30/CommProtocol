@@ -11,19 +11,6 @@ class Serial : public CommsLink
 {
 private:
   serial_t hSerial;
-  
-  bool initWindows(std::string comPort, uint32_t baudrate);
-  bool initUnixSerial(const char* port, uint32_t baudrate);
-  bool windowsSend(uint8_t destID, uint8_t* txData, int32_t txLength);
-  bool windowsRead(uint8_t* rx_data, uint32_t* rx_len);
-  bool unixSend(uint8_t destID, uint8_t* txData, int32_t txLength);
-  bool unixRead(uint8_t* rx_data, uint32_t* rx_len);
-
-  bool sendToPort(uint8_t destID, uint8_t* txData, uint32_t txLength);
-  bool readFromPort(uint8_t* rx_Data, uint32_t* rx_len);
-
-  bool openPort(std::string comPort, uint32_t baudrate);
-
   //serial private data
   bool connectionEstablished;
 
@@ -31,7 +18,7 @@ public:
 
 	
   Serial();
-  ~Serial();
+  virtual ~Serial();
   
   /** Opens comport sets if it is connected on scucces, address is not need just use "" argument
       Returns false if opening comport fails*/
@@ -48,6 +35,12 @@ public:
   /** Sets recieved data to rxData and sets the length of the data to rxLength
       Returns false if not aviable connection, No data is recieved, or time out*/
   virtual bool recv(uint8_t* rxData, uint32_t* rxLength);
+
+  serial_status getStatus();
+
+  bool closePort();
+
+  serial_t& getSerialPort();
 };
 
 #endif

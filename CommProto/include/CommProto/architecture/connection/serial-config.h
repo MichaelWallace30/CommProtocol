@@ -9,6 +9,7 @@
  typedef uint32_t speed_t;
  typedef HANDLE serial_h;
  typedef int32_t port_id;
+ #define ClosePort CloseHandle
 #else
  #include <stdio.h>
  #include <string.h>
@@ -16,7 +17,7 @@
  #include <fcntl.h>
  #include <errno.h>
  #include <termios.h>
-
+ #define ClosePort close
  typedef int32_t port_id;
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
