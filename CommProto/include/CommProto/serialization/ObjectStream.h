@@ -17,7 +17,7 @@ public:
 
   int32_t getSize();
   
-  ObjectStream& operator<<(string& data);
+  ObjectStream& operator<<(string_t& data);
   ObjectStream& operator<<(uint8& data);
   ObjectStream& operator<<(int8& data);
   ObjectStream& operator<<(uint16& data);
@@ -30,7 +30,7 @@ public:
   ObjectStream& operator<<(real32& data);
   ObjectStream& operator<<(real64& data);
 
-  ObjectStream& operator>>(string& data);
+  ObjectStream& operator>>(string_t& data);
   ObjectStream& operator>>(uint8& data);
   ObjectStream& operator>>(int8& data);
   ObjectStream& operator>>(uint16& data);
@@ -43,7 +43,7 @@ public:
   ObjectStream& operator>>(real64& data);
 
 private:
-  Tools::DataStructures::Interface::List<unsigned char*> stream;
+  Tools::DataStructures::Interface::List<unsigned char*>& stream;
 };
 } // Serialization namespace
 } // Comnet namespace
