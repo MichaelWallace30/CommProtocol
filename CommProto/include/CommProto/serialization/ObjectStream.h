@@ -2,7 +2,7 @@
 #define __OBJECT_STREAM_H
 
 #include <CommProto/tools/data_structures/interface/InterfaceList.h>
-#include <CommProto/serialization/marshall.h>
+#include <CommProto/serialization/Marshal.h>
 
 namespace Comnet {
 namespace Serialization {
