@@ -294,9 +294,9 @@ inline bool
 closePortHelper(Serial& serial) {
   serial_t& hSerial = serial.getSerialPort();
 #if defined WINDOWS_SERIAL
-  close(hSerial.h_serial);
+  ClosePort(hSerial.h_serial);
 #elif defined UNIX_SERIAL
-  close(hSerial.fd);
+  ClosePort(hSerial.fd);
 #endif 
   return true;
 }
