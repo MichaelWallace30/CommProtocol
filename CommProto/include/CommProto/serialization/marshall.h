@@ -24,8 +24,8 @@ typedef double real64;
 
 // Marshalling values.
 
-marshall_t pack_string(string data, int16 len, marshall_t input);
-string unpack_string(marshall_t input, int16 len);
+marshall_t pack_string(string_t data, int16 len, marshall_t input);
+string_t unpack_string(marshall_t input, int16 len);
 
 marshall_t pack_byte(uint8 data, marshall_t input);
 uint8 unpack_byte(marshall_t input);
@@ -48,10 +48,10 @@ uint64 unpack_uint64(marshall_t input);
 marshall_t pack_int64(int64 data, marshall_t input);
 int64 unpack_int64(marshall_t input);
 
-mashall_t pack_real32(real32 data, marshall_t input);
+marshall_t pack_real32(real32 data, marshall_t input);
 real32 unpack_real32(marshall_t input);
 
-mashall_t pack_real64(real64, marshall_t input);
+marshall_t pack_real64(real64, marshall_t input);
 real64 unpack_real64(marshall_t input);
 } // Serialization namespace
 } // Comnet namespace
