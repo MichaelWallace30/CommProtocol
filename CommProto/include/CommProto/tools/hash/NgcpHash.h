@@ -40,16 +40,6 @@
 #define HASH_SEED                 1
 #define HASH_VERSION              1
 
-/* 
-   TODO(): This will need to be defined with windows.
-*/ 
-#if COM_TARGET_OS == COM_OS_WINDOWS
- #define FORCE_INLINE __forceinline
-#else
- #define FORCE_INLINE static inline  __attribute__((always_inline)) 
-#endif // COM_TARGET_OS == COM_OS_WINDOWS
-
-
 namespace Comnet {
 namespace Tools {
 namespace Hash {
@@ -66,8 +56,8 @@ typedef unsigned char byte;
 /**************************************************************************************
  Public hash APIs used for hashing.
 ***************************************************************************************/
-_COMNET_PUBLIC_API_ FORCE_INLINE ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed = 0);
-_COMNET_PUBLIC_API_ FORCE_INLINE ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed = 0);
+_COMNET_PUBLIC_API_ ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed = 0);
+_COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed = 0);
 
 
 /*************************************************************************************
