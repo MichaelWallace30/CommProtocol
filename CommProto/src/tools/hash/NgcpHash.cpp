@@ -109,7 +109,17 @@ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
     hash += (*(p+i) << 7) | (hash >> 31);
     hash ^= (hash >> 6);
     
-    hash ^= 0xfffffff;
+    hash ^= 0xffff;
+    if (hash <= 0xff000000) {
+      hash += 0x00000000000000ff;
+      hash += 0x000000000000ff00;
+      hash += 0x0000000000ff0000;
+      hash += 0x00000000ff000000;
+      hash += 0x000000ff00000000;
+      hash += 0x0000ff0000000000;
+      hash += 0x00ff000000000000;
+      hash ^= 0xff00000000000000;
+    }
     i++;
   }
   hash += (hash << 3);
