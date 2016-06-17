@@ -1,7 +1,7 @@
 #include <CommProto/console/Console.h>
 
 namespace Comnet {
-namepace Console {
+namespace Console {
 
 } // Console namespace
 } // Comnet namespace
