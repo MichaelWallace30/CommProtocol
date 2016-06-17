@@ -89,4 +89,14 @@ _COMNET_PUBLIC_API_
 	  }                      \
         }
 
+#define is_number(string, result) { \
+          result = true; \
+          for (int i = 0; i < string.length(); ++i) { \
+            if (!isdigit(string[i])) { \
+              result = false; \
+              break; \
+            } \
+          } \
+        }
+
 #endif // __MACROS_H

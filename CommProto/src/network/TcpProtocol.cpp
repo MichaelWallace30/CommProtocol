@@ -1,4 +1,6 @@
 #include <CommProto/network/TcpProtocol.h>
+#include <iostream>
+#include <stdio.h>
 
 // unique code for the message identifier.
 #define MESSAGE_CODE 1024
@@ -18,24 +20,24 @@ TcpProtocol::~TcpProtocol() {
   closePort();
 }
 #define ADDRESS_LENGTH 64
-bool TcpProtocol::initConnection(std::string port, std::string address, uint32_t baudrate) {
+bool TcpProtocol::initConnection(const char* port, const char* address, uint32_t baudrate) {
   bool result = false;
   initializeSockAPI(result);
-  for (int x = 0; x < port.length(); ++x) {
+  for (int x = 0; port[x] != '\0'; ++x) {
     if (!isdigit(port[x])) {
       printf("initConnection \'port\' argument is not a numerical digit for tcp connection");
       return false;
     }
   }
 
-  uint32_t portInt = atoi(port.c_str());
+  uint32_t portInt = atoi(port);
 
   tcpSocket.socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   
   memset((char*)&tcpSocket.socket_address, 0, sizeof(tcpSocket.socket_address));
   tcpSocket.socket_address.sin_family = AF_INET;
   tcpSocket.socket_address.sin_port = htons(portInt);
-  tcpSocket.socket_address.sin_addr.s_addr = inet_addr(address.c_str());
+  tcpSocket.socket_address.sin_addr.s_addr = inet_addr(address);
 
   if (tcpSocket.socket == -1) {
     printf("socket failed to initialize\n");
@@ -68,7 +70,7 @@ bool TcpProtocol::initConnection(std::string port, std::string address, uint32_t
   return result;
 }
 
-bool TcpProtocol::addAddress(uint8_t destID, std::string addr, uint16_t port) {
+bool TcpProtocol::addAddress(uint8_t destID, const char* addr, uint16_t port) {
   return true;
 }
 

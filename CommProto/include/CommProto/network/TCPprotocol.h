@@ -1,8 +1,6 @@
 #ifndef __TCP_PROTOCOL_H
 #define __TCP_PROTOCOL_H
 
-#include <CommProto/network/CommsLink.h>
-
 #include <CommProto/architecture/connection/socket-config.h>
 
 namespace Comnet {
@@ -13,15 +11,19 @@ enum TcpType {
   SERVER = 0601,
 };
 
-class TcpProtocol : public CommsLink {  
+/**
+  TCP connection class, intended for single connections purposes, however, setting 
+  the tcpType as SERVER will allow the class to accept multiple connections. 
+*/
+class TcpProtocol {  
 public:
   TcpProtocol(TcpType type = CLIENT);
 
   ~TcpProtocol();
 
-  bool initConnection(std::string port = "", std::string address = "", uint32_t baudrate = 0);
+  bool initConnection(const char* port = "", const char* address = "", uint32_t baudrate = 0);
   
-  bool addAddress(uint8_t destID, std::string address = "", uint16_t port = 0);
+  bool addAddress(uint8_t destID, const char* address = "", uint16_t port = 0);
   
   bool removeAddress(uint8_t destID);
 
