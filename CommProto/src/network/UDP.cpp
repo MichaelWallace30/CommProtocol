@@ -3,36 +3,21 @@
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
-#ifdef WIN32
-static inline bool 
-initializeWSAStartup() {
-  bool result = true;
-  WSADATA wsa;
-  //Initialise winsock
-  printf("\nInitialising Winsock...");
-
-  if(WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-  {
-    printf("Failed. Error Code : %d", WSAGetLastError());
-    result = false;
-  }
-  
-  return result;
-}  
-#endif
 
 
 bool UDP::udp_open(int* fd)
 {
+  bool result = false;
+  initializeWSAStartup(result);
   /** attempts to open socket 
       returns false if fails*/
   if ((*fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 	{
       printf("socket() failed\n");
-      return false;
+      result = false;;
   }
   
-  return true;
+  return result;
 }
 
 void UDP::stringToChar(char cPtr[ADDRESS_LENGTH], std::string str)
@@ -52,9 +37,6 @@ void UDP::stringToChar(char cPtr[ADDRESS_LENGTH], std::string str)
 /***********************************************/
 UDP::UDP() : CommsLink()
 {
-#ifdef WIN32//windows bs
-  initializeWSAStartup();
-#endif
   //visual studio 2013 is having issues init array to 0
   //error is "cannot specify initializer of arrays knwon issues with 2013
   //make sure is node connected is set to false
@@ -70,7 +52,7 @@ UDP::UDP() : CommsLink()
 
 UDP::~UDP()
 {	
-  closSocket(fd);
+  closeSocket(fd);
 }
 
 bool UDP::initConnection(std::string port, std::string address, uint32_t baudrate)

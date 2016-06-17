@@ -30,7 +30,17 @@
  #include <Windows.h>  
  #pragma comment(lib ,"Ws2_32.lib")    
  #define s_addr  S_un.S_addr 
- #define closSocket(x)	closesocket(x); WSACleanup()
+ #define closeSocket(x)	closesocket(x); WSACleanup()
+
+ #define initializeWSAStartup(result) { \
+           WSADATA wsa; \
+           if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) { \
+             result = false; \
+           } else { \
+             result = true; \
+           } \
+         }
+  #define initializeSockAPI(status) initializeWSAStartup(status)
 #else
  #include <unistd.h>
  #include <sys/types.h>
@@ -44,7 +54,8 @@
  #define SOCKET_ERROR   -1
  #define INVALID_SOCKET -1
  typedef uint32_t SOCKET;   
- #define closSocket(x)	close(x)
+ #define closeSocket(x)	close(x)
+ #define initializeSockAPI(status) status = false;
 #endif
 
 typedef uint32_t PORT;

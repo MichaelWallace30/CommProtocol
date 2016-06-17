@@ -8,12 +8,14 @@
 namespace Comnet {
 namespace Network {
 
-class TcpProtocol : public CommsLink {
-private:
-  socket_t socket;
-  
+enum TcpType {
+  CLIENT,
+  SERVER = 0601,
+};
+
+class TcpProtocol : public CommsLink {  
 public:
-  TcpProtocol();
+  TcpProtocol(TcpType type = CLIENT);
 
   ~TcpProtocol();
 
@@ -27,17 +29,25 @@ public:
 
   bool recv(uint8_t* rxData, uint32_t* rxLength);
 
-  socket_status_t getSocketStatus() { return socket.socket_status; }
+  socket_status_t getSocketStatus() { return tcpSocket.socket_status; }
 
-  struct sockaddr_in& getSocketInput() { return socket.socket_address; }
+  struct sockaddr_in& getSocketInput() { return tcpSocket.socket_address; }
 
-  PORT getPortNumber() { return socket.port; }
+  PORT getPortNumber() { return tcpSocket.port; }
 
-  SOCKET getSocketNumber() { return socket.socket; }
-
-  PORT openPort(std::string port);
+  SOCKET getSocketNumber() { return tcpSocket.socket; }
 
   bool closePort();
+
+  TcpType getType() { return tcpType; }
+
+protected:
+  
+  void bindSocket();
+
+private:
+  socket_t tcpSocket;
+  TcpType tcpType;
 };
 } // Network namespace
 } // Comnet namespace
