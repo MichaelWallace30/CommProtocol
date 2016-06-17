@@ -53,7 +53,7 @@ public:
     this->size = 0;
   }
   
-  SingleLinkedList(const _Alloc& allocator = _Alloc() ) 
+  SingleLinkedList(const _Alloc& allocator ) 
     : alloc(allocator)
     , root(NULL)
     , tail(NULL)

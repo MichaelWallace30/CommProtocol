@@ -74,7 +74,7 @@ public:
     this->size = 0;
   }
 
-  DoubleLinkedList(const _Alloc& allocator = _Alloc() ) 
+  DoubleLinkedList(const _Alloc& allocator ) 
     : alloc(allocator)
     , root(NULL)
     , tail(NULL)
