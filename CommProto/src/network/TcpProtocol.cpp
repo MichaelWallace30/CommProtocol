@@ -70,7 +70,18 @@ bool TcpProtocol::initConnection(const char* port, const char* address, uint32_t
   return result;
 }
 
-bool TcpProtocol::addAddress(uint8_t destID, const char* addr, uint16_t port) {
+bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
+  printf("Client trying to connect to host...\n");
+  socket_t target;
+  target.socket_address.sin_family = AF_INET;
+  target.socket_address.sin_addr.s_addr =  inet_addr(addr);
+  target.socket_address.sin_port = htons(port);
+
+  if (connect(tcpSocket.socket, (struct sockaddr*)&target.socket_address, sizeof(target.socket_address)) == SOCKET_ERROR) {
+    printf("FAILED CONNECTION\n");
+  } else {
+    printf("CONNECTION SUCCESS!!\n");
+  }
   return true;
 }
 

@@ -23,7 +23,7 @@ public:
 
   bool initConnection(const char* port = "", const char* address = "", uint32_t baudrate = 0);
   
-  bool addAddress(uint8_t destID, const char* address = "", uint16_t port = 0);
+  bool connectToHost(const char* address = "", uint16_t port = 0);
   
   bool removeAddress(uint8_t destID);
 
