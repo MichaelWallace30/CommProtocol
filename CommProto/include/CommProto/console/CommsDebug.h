@@ -3,7 +3,11 @@
 
 #include <stdio.h>
 
-#ifdef __COMMS_DEBUG__LOG
+// Controls logging information. Set this to 1, if you wish to 
+// display debug information from comms_debug_log.
+#define __COMMS_DEBUG_LOG 0
+
+#if __COMMS_DEBUG_LOG
  #define comms_debug_log(debug) printf("%s\n", debug);
 #else
  #define comms_debug_log(debug)

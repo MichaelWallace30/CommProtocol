@@ -1,5 +1,6 @@
 #include <CommProto/network/TcpProtocol.h>
 #include <CommProto/tools/data_structures/DoubleLinkedList.h>
+#include <CommProto/console/CommsDebug.h>
 
 #include <iostream>
 #include <stdio.h>
@@ -55,7 +56,7 @@ bool TcpProtocol::initConnection(uint8_t id, const char* port, const char* addre
   initializeSockAPI(result);
   for (int x = 0; port[x] != '\0'; ++x) {
     if (!isdigit(port[x])) {
-      printf("initConnection \'port\' argument is not a numerical digit for tcp connection");
+      comms_debug_log("initConnection \'port\' argument is not a numerical digit for tcp connection");
       return false;
     }
   }
@@ -71,7 +72,7 @@ bool TcpProtocol::initConnection(uint8_t id, const char* port, const char* addre
   tcpSocket.id = id;
 
   if (tcpSocket.socket == -1) {
-    printf("socket failed to initialize\n");
+    comms_debug_log("socket failed to initialize\n");
     result = false;
   } else {
     if (tcpType == SERVER) {
@@ -92,10 +93,10 @@ bool TcpProtocol::acceptConnection() {
   SOCKET sock = accept(tcpSocket.socket, (struct sockaddr*)&temp.socket_address , NULL);
   temp.socket = sock;
   if (sock == INVALID_SOCKET) {
-    printf("Socket failed\n"); 
+    comms_debug_log("Socket failed\n"); 
     closePort();
   } else {
-    printf("Socket succeeded!\n");
+    comms_debug_log("Socket succeeded!\n");
     sockets->insert(temp);
   }
   
@@ -103,7 +104,7 @@ bool TcpProtocol::acceptConnection() {
 }
 
 bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
-  printf("Client trying to connect to host...\n");
+  comms_debug_log("Client trying to connect to host...\n");
   socket_t target;
   target.socket_address.sin_family = AF_INET;
   target.socket_address.sin_addr.s_addr =  inet_addr(addr);
@@ -114,10 +115,10 @@ bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
               , (struct sockaddr*)&target.socket_address
               , sizeof(target.socket_address)) == -1) 
   {
-    printf("FAILED CONNECTION\n");
+    comms_debug_log("FAILED CONNECTION\n");
     closePort();
   } else {
-    printf("CONNECTION SUCCESS!!\n");
+    comms_debug_log("CONNECTION SUCCESS!!\n");
     
     sockets->insert(target);
   }
@@ -140,10 +141,10 @@ bool TcpProtocol::sendTo(uint8_t destID, uint8_t* txData, int32_t txLength) {
   } 
   
   if (send(tcpSocket.socket, (const char*)txData, txLength, 0) != -1) {
-    printf("Message Sent!\n");
+    comms_debug_log("Message Sent!\n");
     result = true;
   } else {
-    printf("Message not sent! %d\n", GetLastError());
+    comms_debug_log("Message not sent!\n");
   }
   return result;
 }
@@ -153,7 +154,7 @@ bool TcpProtocol::receive(uint8_t* rxData, uint32_t* rxLength) {
   for (int i = 0; i < sockets->getSize(); ++i) {
     socket_t& temp = sockets->at(i);
     if (recv(temp.socket, (char*)rxData, *rxLength, 0) != -1) {
-      printf("Successfull Retrieval\n");
+      comms_debug_log("Successfull Retrieval\n");
       break;
     }
   } 
@@ -167,12 +168,12 @@ bool TcpProtocol::bindSocket() {
      , (struct sockaddr *)&tcpSocket.socket_address
      , sizeof(tcpSocket.socket_address)) == SOCKET_ERROR)
   {
-    printf("Error in binding socket, code: %d\n", GetLastError());
+    comms_debug_log("Error in binding socket\n");
     tcpSocket.socket_status = SOCKET_FAILED;
   } else {
     listen(tcpSocket.socket, SOMAXCONN);
 
-    printf("Listening for connections...\n");
+    comms_debug_log("Listening for connections...\n");
 
     result = true;
   }
