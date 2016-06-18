@@ -27,9 +27,45 @@ namespace Allocator {
 
 template<typename _Ty>
 class StackAllocator : public Allocator<_Ty>  {
-
+  typedef const _Ty* const_pointer;
+  typedef const _Ty& const_reference;
+  typedef _Ty& reference;
+  typedef _Ty* pointer;
 public:
+  StackAllocator(void* start)
+    : __current_pos(start)
+    , __start_pos(start)
+    , __size(0)
+    , __used_memory(0)
+    , __num_allocations(0)
+  { 
+  }
+
+  pointer allocate(uint32_t size_n) {
+    __size += size_n;
+    
+  }
+
+  void deallocate(pointer p) {
+  }
+
+  void destruct(pointer p) {
+  }
+  
+  void construct(pointer p, const_reference value) {
+  }
+  
+  pointer address(reference ref) {
+  }
+
+  const_pointer address(const_reference ref) {
+  }
 private:
+  void*   __start_pos;
+  void*   __current_pos;
+  int32_t __size;
+  int32_t __used_memory;
+  int32_t __num_allocations;
 };
 } // Allocator namespace
 } // Tools namespace
