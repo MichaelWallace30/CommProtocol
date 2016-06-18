@@ -139,7 +139,6 @@ set(COMMPROTO_HEADERS
   ${PARENT_HEADER_DIR}/CommsPacket.h
   ${PARENT_HEADER_DIR}/network/UDP.h
   ${PARENT_HEADER_DIR}/network/Serial.h
-  ${PARENT_HEADER_DIR}/console/CommsDebug.h
   ${PARENT_HEADER_DIR}/network/TcpProtocol.h)
 
 set(COMMPROTO_SOURCES
