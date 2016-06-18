@@ -122,7 +122,6 @@ bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
               , sizeof(target.socket_address)) == -1) 
   {
     comms_debug_log("FAILED CONNECTION\n");
-    printf("code: %d\n", GetLastError());
     tcpSocket.socket_status = SOCKET_FAILED;
   } else {
     comms_debug_log("CONNECTION SUCCESS!!\n");
