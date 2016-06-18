@@ -134,7 +134,7 @@ bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
 bool TcpProtocol::disconnect() {
   bool result = false;
 
-  if (shutdown(tcpSocket.socket, SD_SEND) == SOCKET_ERROR) {
+  if (shutdown(tcpSocket.socket, SHUT_WR) == SOCKET_ERROR) {
     comms_debug_log("Shutdown failed.");
   } else {
     tcpSocket.socket_status = SOCKET_CLOSED;
@@ -206,10 +206,14 @@ bool TcpProtocol::closePort() {
 
 bool TcpProtocol::setNonBlocking(SOCKET socket, bool on) {
   bool result = false;
-  
+#if defined _WIN32  
   u_long nonBlocking = on;
   result = ioctlsocket(socket, FIONBIO, &nonBlocking);
-  
+#else
+  int flags = fcntl(socket, F_GETFL, 0);
+  result = fcntl(socket, F_SETFL, on ? (flags | O_NONBLOCK) : (flags & ~O_NONBLOCK)) == 0;
+#endif
+
   return result;
 }
 } // Network namespace
