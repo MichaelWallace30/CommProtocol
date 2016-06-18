@@ -59,6 +59,7 @@
 #endif
 
 typedef uint32_t PORT;
+typedef uint32_t ID_T;
 /**
    socket_status allows us to determine the current status of our sockets.
  */
@@ -91,6 +92,7 @@ enum packet_data_status_t {
 struct socket_info {
   SOCKET socket;
   PORT   port;
+  ID_T   id;
 
   socket_status_t socket_status;
 

@@ -3,8 +3,12 @@
 
 #include <CommProto/architecture/connection/socket-config.h>
 
+#include <CommProto/tools/data_structures/interface/InterfaceList.h>
+
 namespace Comnet {
 namespace Network {
+
+using namespace Comnet::Tools::DataStructures::Interface;
 
 enum TcpType {
   CLIENT,
@@ -21,15 +25,17 @@ public:
 
   ~TcpProtocol();
 
-  bool initConnection(const char* port = "", const char* address = "", uint32_t baudrate = 0);
+  bool initConnection(uint8_t id, const char* port = "", const char* address = "", uint32_t baudrate = 0);
   
   bool connectToHost(const char* address = "", uint16_t port = 0);
   
-  bool removeAddress(uint8_t destID);
+  bool disconnect(uint16_t port, const char* address);
 
-  bool sent(uint8_t destID, uint8_t* txData, int32_t txLength);
+  bool sendTo(uint8_t destID, uint8_t* txData, int32_t txLength);
 
-  bool recv(uint8_t* rxData, uint32_t* rxLength);
+  bool receive(uint8_t* rxData, uint32_t* rxLength);
+
+  bool acceptConnection();
 
   socket_status_t getSocketStatus() { return tcpSocket.socket_status; }
 
@@ -50,6 +56,8 @@ protected:
 private:
   socket_t tcpSocket;
   TcpType tcpType;
+  SOCKET sock;
+  List<socket_t>* sockets;
 };
 } // Network namespace
 } // Comnet namespace
