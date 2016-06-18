@@ -109,46 +109,9 @@ include_directories(SYSTEM CommProto/include/)
 # or linux and OS X.
 include(cmake/archfiles.cmake)
 
-set(COMMPROTO_TOOLS_HEADERS
-  ${TOOLS_HEADER_DIR}/data_structures/AutoQueue.h
-  ${TOOLS_HEADER_DIR}/data_structures/AutoVector.h
-  ${TOOLS_HEADER_DIR}/data_structures/SingleLinkedList.h
-  ${TOOLS_HEADER_DIR}/data_structures/LinkedQueue.h
-  ${TOOLS_HEADER_DIR}/data_structures/DoubleLinkedList.h
-  ${TOOLS_HEADER_DIR}/data_structures/CircleLinkedList.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/Generic.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceList.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceQueue.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceMap.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceTree.h
-  ${TOOLS_HEADER_DIR}/allocator/Allocator.h
-  ${TOOLS_HEADER_DIR}/allocator/NewAllocator.h
-  ${TOOLS_HEADER_DIR}/allocator/CommPointer.h
-  ${TOOLS_HEADER_DIR}/Comparable.h
-  ${TOOLS_HEADER_DIR}/Comparator.h
-  ${TOOLS_HEADER_DIR}/StandardComparator.h
-  ${TOOLS_HEADER_DIR}/hash/NgcpHash.h)
+include(cmake/tools-config.cmake)
 
-set(COMMPROTO_TOOLS_SOURCES
-  ${TOOLS_SOURCE_DIR}/hash/NgcpHash.cpp)
-
-set(COMMPROTO_HEADERS
-  ${PARENT_HEADER_DIR}/console/CommsDebug.h
-  ${PARENT_HEADER_DIR}/comms.h
-  ${PARENT_HEADER_DIR}/network/CommsLink.h
-  ${PARENT_HEADER_DIR}/AbstractPacket.h
-  ${PARENT_HEADER_DIR}/CommsPacket.h
-  ${PARENT_HEADER_DIR}/network/UDP.h
-  ${PARENT_HEADER_DIR}/network/Serial.h
-  ${PARENT_HEADER_DIR}/network/TcpProtocol.h)
-
-set(COMMPROTO_SOURCES
-  ${PARENT_SOURCE_DIR}/AbstractPacket.cpp
-  ${PARENT_SOURCE_DIR}/comms.cpp
-  ${PARENT_SOURCE_DIR}/network/UDP.cpp
-  ${PARENT_SOURCE_DIR}/network/Serial.cpp
-  ${PARENT_SOURCE_DIR}/network/TcpProtocol.cpp)		
-
+include(cmake/CommProto-config.cmake)
 
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
