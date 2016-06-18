@@ -51,12 +51,11 @@ public:
 
 protected:
   
-  void bindSocket();
+  bool bindSocket();
 
 private:
   socket_t tcpSocket;
   TcpType tcpType;
-  SOCKET sock;
   List<socket_t>* sockets;
 };
 } // Network namespace

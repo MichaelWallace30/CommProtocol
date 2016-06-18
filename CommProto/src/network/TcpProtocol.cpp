@@ -49,7 +49,7 @@ TcpProtocol::~TcpProtocol() {
   delete sockets;
   sockets = NULL;
 }
-#define ADDRESS_LENGTH 64
+
 bool TcpProtocol::initConnection(uint8_t id, const char* port, const char* address, uint32_t baudrate) {
   bool result = false;
   initializeSockAPI(result);
@@ -75,22 +75,11 @@ bool TcpProtocol::initConnection(uint8_t id, const char* port, const char* addre
     result = false;
   } else {
     if (tcpType == SERVER) {
-      if (bind(tcpSocket.socket
-          , (struct sockaddr *)&tcpSocket.socket_address
-          , sizeof(tcpSocket.socket_address)) == SOCKET_ERROR) 
-      {
-        printf("Error in binding socket, code: %d\n", GetLastError()); 
-        tcpSocket.socket_status = SOCKET_FAILED;
-        result = false;
-      } else {
-        listen(tcpSocket.socket, SOMAXCONN);
-
-        printf("Listening for connections...\n");
-
-        result = true;
-      }
+      result = bindSocket();
+    } else {
+      result = true;
+      tcpSocket.socket_status = SOCKET_OPEN;
     }
-    tcpSocket.socket_status = SOCKET_OPEN;
   }
 
   return result;
@@ -100,7 +89,7 @@ bool TcpProtocol::acceptConnection() {
   bool result = false;
   socket_t temp;
   int size = 0;
-  sock = accept(tcpSocket.socket, (struct sockaddr*)&temp.socket_address , NULL);
+  SOCKET sock = accept(tcpSocket.socket, (struct sockaddr*)&temp.socket_address , NULL);
   temp.socket = sock;
   if (sock == INVALID_SOCKET) {
     printf("Socket failed\n"); 
@@ -123,7 +112,7 @@ bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
 
   if (connect(tcpSocket.socket
               , (struct sockaddr*)&target.socket_address
-              , sizeof(target.socket_address)) == SOCKET_ERROR) 
+              , sizeof(target.socket_address)) == -1) 
   {
     printf("FAILED CONNECTION\n");
     closePort();
@@ -149,8 +138,8 @@ bool TcpProtocol::sendTo(uint8_t destID, uint8_t* txData, int32_t txLength) {
       break;
     }
   } 
-
-  if (send(tcpSocket.socket, (const char*)txData, txLength, 0) != SOCKET_ERROR) {
+  
+  if (send(tcpSocket.socket, (const char*)txData, txLength, 0) != -1) {
     printf("Message Sent!\n");
     result = true;
   } else {
@@ -163,16 +152,31 @@ bool TcpProtocol::receive(uint8_t* rxData, uint32_t* rxLength) {
   bool result = false;
   for (int i = 0; i < sockets->getSize(); ++i) {
     socket_t& temp = sockets->at(i);
-    if (recv(temp.socket, (char*)rxData, *rxLength, 0) != SOCKET_ERROR) {
+    if (recv(temp.socket, (char*)rxData, *rxLength, 0) != -1) {
       printf("Successfull Retrieval\n");
       break;
     }
   } 
+
   return result;
 }
 
-void TcpProtocol::bindSocket() {
-  
+bool TcpProtocol::bindSocket() {
+  bool result = false;
+  if(bind(tcpSocket.socket
+     , (struct sockaddr *)&tcpSocket.socket_address
+     , sizeof(tcpSocket.socket_address)) == SOCKET_ERROR)
+  {
+    printf("Error in binding socket, code: %d\n", GetLastError());
+    tcpSocket.socket_status = SOCKET_FAILED;
+  } else {
+    listen(tcpSocket.socket, SOMAXCONN);
+
+    printf("Listening for connections...\n");
+
+    result = true;
+  }
+  return result;
 }
 
 bool TcpProtocol::closePort() {

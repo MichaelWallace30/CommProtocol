@@ -56,6 +56,7 @@
  typedef uint32_t SOCKET;   
  #define closeSocket(x)	close(x)
  #define initializeSockAPI(status) status = false;
+ #define INVALID_SOCKET (SOCKET)(~0)
 #endif
 
 typedef uint32_t PORT;
