@@ -133,6 +133,7 @@ set(COMMPROTO_TOOLS_SOURCES
   ${TOOLS_SOURCE_DIR}/hash/NgcpHash.cpp)
 
 set(COMMPROTO_HEADERS
+  ${PARENT_HEADER_DIR}/console/CommsDebug.h
   ${PARENT_HEADER_DIR}/comms.h
   ${PARENT_HEADER_DIR}/network/CommsLink.h
   ${PARENT_HEADER_DIR}/AbstractPacket.h
