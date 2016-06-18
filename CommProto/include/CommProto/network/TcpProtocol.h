@@ -29,7 +29,7 @@ public:
   
   bool connectToHost(const char* address = "", uint16_t port = 0);
   
-  bool disconnect(uint16_t port, const char* address);
+  bool disconnect();
 
   bool sendTo(uint8_t destID, uint8_t* txData, int32_t txLength);
 
@@ -49,9 +49,12 @@ public:
 
   TcpType getType() { return tcpType; }
 
+  void setSocketStatus(socket_status_t status) { tcpSocket.socket_status = status; }
+
 protected:
   
   bool bindSocket();
+  bool setNonBlocking(SOCKET socket, bool on);
 
 private:
   socket_t tcpSocket;

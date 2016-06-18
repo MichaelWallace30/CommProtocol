@@ -36,6 +36,10 @@ public:
 
 using namespace Comnet::Tools::DataStructures;
 
+
+/**
+  Tcp/ip connections, constructor.
+*/
 TcpProtocol::TcpProtocol(TcpType type) 
   : tcpType(type)
   , sockets(new DoubleLinkedList<socket_t, SocketComparator>())
@@ -46,7 +50,9 @@ TcpProtocol::TcpProtocol(TcpType type)
 }
 
 TcpProtocol::~TcpProtocol() {
-  closePort();  
+  if (disconnect()) {
+    closePort();
+  }
   delete sockets;
   sockets = NULL;
 }
@@ -54,12 +60,6 @@ TcpProtocol::~TcpProtocol() {
 bool TcpProtocol::initConnection(uint8_t id, const char* port, const char* address, uint32_t baudrate) {
   bool result = false;
   initializeSockAPI(result);
-  for (int x = 0; port[x] != '\0'; ++x) {
-    if (!isdigit(port[x])) {
-      comms_debug_log("initConnection \'port\' argument is not a numerical digit for tcp connection");
-      return false;
-    }
-  }
 
   uint32_t portInt = atoi(port);
 
@@ -80,6 +80,10 @@ bool TcpProtocol::initConnection(uint8_t id, const char* port, const char* addre
     } else {
       result = true;
       tcpSocket.socket_status = SOCKET_OPEN;
+    }
+    
+    if (!setNonBlocking(tcpSocket.socket, true)) {
+      comms_debug_log("Non blocking error");
     }
   }
 
@@ -106,6 +110,7 @@ bool TcpProtocol::acceptConnection() {
 
 bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
   comms_debug_log("Client trying to connect to host...\n");
+  tcpSocket.socket_status = SOCKET_CONNECTING;
   socket_t target;
   target.socket_address.sin_family = AF_INET;
   target.socket_address.sin_addr.s_addr =  inet_addr(addr);
@@ -117,17 +122,27 @@ bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
               , sizeof(target.socket_address)) == -1) 
   {
     comms_debug_log("FAILED CONNECTION\n");
-    closePort();
+    printf("code: %d\n", GetLastError());
+    tcpSocket.socket_status = SOCKET_FAILED;
   } else {
     comms_debug_log("CONNECTION SUCCESS!!\n");
-    
+    tcpSocket.socket_status = SOCKET_CONNECTED;
     sockets->insert(target);
   }
   return true;
 }
 
-bool TcpProtocol::disconnect(uint16_t port, const char* address) {
-  return false;
+bool TcpProtocol::disconnect() {
+  bool result = false;
+
+  if (shutdown(tcpSocket.socket, SD_SEND) == SOCKET_ERROR) {
+    comms_debug_log("Shutdown failed.");
+  } else {
+    tcpSocket.socket_status = SOCKET_CLOSED;
+    result = true;
+  }
+  
+  return result;
 }
 
 bool TcpProtocol::sendTo(uint8_t destID, uint8_t* txData, int32_t txLength) {
@@ -188,6 +203,15 @@ bool TcpProtocol::closePort() {
   } else {
     return true;
   } 
+}
+
+bool TcpProtocol::setNonBlocking(SOCKET socket, bool on) {
+  bool result = false;
+  
+  u_long nonBlocking = on;
+  result = ioctlsocket(socket, FIONBIO, &nonBlocking);
+  
+  return result;
 }
 } // Network namespace
 } // Comnet namespace
