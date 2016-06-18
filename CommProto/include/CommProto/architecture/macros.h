@@ -44,6 +44,7 @@ _COMNET_PUBLIC_API_
 	  while (str[length] != NULL) { \
 	    length++;                   \
 	  }                             \
+    length += 1; \
         }
 
 

@@ -74,17 +74,15 @@ TcpProtocol::~TcpProtocol() {
   sockets = NULL;
 }
 
-bool TcpProtocol::initConnection(uint8_t id, const char* port, const char* address, uint32_t baudrate) {
+bool TcpProtocol::initConnection(uint8_t id, PORT port, const char* address, uint32_t baudrate) {
   bool result = false;
   initializeSockAPI(result);
-
-  uint32_t portInt = atoi(port);
 
   tcpSocket.socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   
   memset((char*)&tcpSocket.socket_address, 0, sizeof(tcpSocket.socket_address));
   tcpSocket.socket_address.sin_family = AF_INET;
-  tcpSocket.socket_address.sin_port = htons(portInt);
+  tcpSocket.socket_address.sin_port = htons(port);
   tcpSocket.socket_address.sin_addr.s_addr = inet_addr(address);
   tcpSocket.id = id;
 

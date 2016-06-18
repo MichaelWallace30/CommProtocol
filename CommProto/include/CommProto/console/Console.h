@@ -1,9 +1,15 @@
 #ifndef __CONSOLE_H
 #define __CONSOLE_H
 
+#define MAX_PATH 260
+#define DEFAULT_HELPER_EXE "cmd"
+
+#include <CommProto/network/TcpProtocol.h>
+
 namespace Comnet {
 namespace Console {
 
+using namespace Comnet::Network;
 /**
    Console commands for use with the debug, administration console.
 */
@@ -24,19 +30,32 @@ enum ConsoleCommands {
 };
 
 /**
-   Basic console interface. Intended to call Either UNIX or Windows style console. 
+  Keep track on the number of consoles currently open.
+*/
+static int consoles = 0;
+
+/**
+   Basic console interface. Intended to call a console device. 
    this will allow user to administrate connection handling, import sheets during runtime (if possible), as 
    well as perform numerous, safe options to will offer better performance to the user's specifications.
+
+  This console object does not create a separate process, instead it creates a thread that will allow the user
+  to enter as a means to check the communication signal and quality, as well as perform certain commands.
+
+  In order to create separate processes for use of this console namely for remote access to this library, 
+  be sure to call this class within another project folder, and call the process from the hosting program.
+
+  calling processes is done by function within a program, for windows it is CreateProcess, for linux it is fork().
 */
 class Console {
 public:
-  Console();
+  Console(const char* address, PORT port);
   virtual ~Console();
 
   /**
      Create the console via TCP connection.
    */
-  virtual bool createConsole(const char* address = "127.0.0.1");
+  virtual bool createConsole();
   /**
      Write into the console. This will allow the user to send commands to the program, by means of a buffer.
    */
@@ -45,7 +64,12 @@ public:
   /**
      Reads output from the program, back to the user for evaluation.
    */
-  virtual char* read();
+  virtual bool read(char* buffer, int* intBuf);
+
+  /**
+    Start the connection via tcp.
+   */
+  virtual bool startConnect(const char* address, PORT port);
   
   /**
      Display, which will display information back to the user. Acts as a refresher to update the console.
@@ -56,13 +80,20 @@ public:
    */
   virtual void clr();
 
+  /** 
+    Starts the console thread.
+   */
+  virtual void start();
 protected:
   /**
      Update the console window.
    */
   virtual void update();
 
-private:
+protected:
+  char* console_title;
+  
+  TcpProtocol tcp;
 };
 }
 }

@@ -43,7 +43,7 @@ public:
 
   ~TcpProtocol();
 
-  bool initConnection(uint8_t id, const char* port = "", const char* address = "", uint32_t baudrate = 0);
+  bool initConnection(uint8_t id, PORT port, const char* address = "", uint32_t baudrate = 0);
   
   bool connectToHost(const char* address = "", uint16_t port = 0);
   

@@ -7,6 +7,8 @@
 
 #include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 
+#include <CommProto/network/TcpProtocol.h> // 
+
 #include <CommProto/CommsPacket.h>//Header which declares packet structs
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/os_threads.h>//method to create threads
@@ -24,12 +26,10 @@ typedef enum
 }CommsLink_type_t;
 
 class Comms {
-   
-
 private:
-
-	mutex_t sendMutex;
-	mutex_t recvMutex;
+  Comnet::Network::TcpProtocol consoleServer;
+  mutex_t sendMutex;
+  mutex_t recvMutex;
 
 	/** Boolean if communication thread running*/
 	bool isRunning;
@@ -89,9 +89,11 @@ public:
     ~Comms();
     
     /** platform ID mutator */
-    void setID(uint8_t platformID){this->platformID = platformID;}
+    void setID(uint8_t platformID)
+      {this->platformID = platformID;}
     /** platform ID accessors */
-    uint8_t getID(){return platformID;}
+    uint8_t getID() 
+      {return platformID;}
     
 	/** Method will init the connection device and return false if connection failed to init properly 
 	enum connection type to use serial, UDP, zigbee, ect
@@ -115,6 +117,9 @@ public:
 	/** Method to stop communication*/
 	void stop();
 
-    
+protected:
+    // Nothing yet.
+    void logToConsoles() 
+      { }
 };//end Comms class
 #endif//end if COMMS_H
