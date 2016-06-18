@@ -17,7 +17,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 // Thread handling header.
-#ifndef __THREADING_H
+#ifndef __THREAD_CONFIG_H
+#define __THREAD_CONFIG_H
 
 #include <CommProto/architecture/os/arch.h>
 
@@ -30,4 +31,4 @@
  typedef pthread_t thread_t;
 #endif // COM_TARGET_OS == COM_WINDOWS_OS
 
-#endif // __THREADING_H
+#endif // __THREAD_CONFIG_H
