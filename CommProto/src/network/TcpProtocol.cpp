@@ -89,9 +89,9 @@ bool TcpProtocol::initConnection(uint8_t id, const char* port, const char* addre
 bool TcpProtocol::acceptConnection() {
   bool result = false;
   socket_t temp;
-  int size = 0;
-  SOCKET sock = accept(tcpSocket.socket, (struct sockaddr*)&temp.socket_address , NULL);
-  temp.socket = sock;
+  socklen_t size = sizeof(temp.socket_address);
+  SOCKET sock = accept(tcpSocket.socket, (struct sockaddr*)&temp.socket_address , &size);
+
   if (sock == INVALID_SOCKET) {
     comms_debug_log("Socket failed\n"); 
     closePort();

@@ -3,7 +3,7 @@
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/tools/hash/NgcpHash.h>
-#include <CommProto/network/TCPprotocol.h>
+#include <CommProto/network/TcpProtocol.h>
 
 #define GHOST 0100
 
