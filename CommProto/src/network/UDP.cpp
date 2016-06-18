@@ -8,7 +8,7 @@
 bool UDP::udp_open(int* fd)
 {
   bool result = false;
-  initializeWSAStartup(result);
+  initializeSockAPI(result);
   /** attempts to open socket 
       returns false if fails*/
   if ((*fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)

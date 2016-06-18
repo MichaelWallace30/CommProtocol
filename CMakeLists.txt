@@ -115,6 +115,7 @@ set(COMMPROTO_TOOLS_HEADERS
   ${TOOLS_HEADER_DIR}/data_structures/SingleLinkedList.h
   ${TOOLS_HEADER_DIR}/data_structures/LinkedQueue.h
   ${TOOLS_HEADER_DIR}/data_structures/DoubleLinkedList.h
+  ${TOOLS_HEADER_DIR}/data_structures/CircleLinkedList.h
   ${TOOLS_HEADER_DIR}/data_structures/interface/Generic.h
   ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceList.h
   ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceQueue.h
@@ -137,13 +138,15 @@ set(COMMPROTO_HEADERS
   ${PARENT_HEADER_DIR}/AbstractPacket.h
   ${PARENT_HEADER_DIR}/CommsPacket.h
   ${PARENT_HEADER_DIR}/network/UDP.h
-  ${PARENT_HEADER_DIR}/network/Serial.h)
+  ${PARENT_HEADER_DIR}/network/Serial.h
+  ${PARENT_HEADER_DIR}/network/TcpProtocol.h)
 
 set(COMMPROTO_SOURCES
   ${PARENT_SOURCE_DIR}/AbstractPacket.cpp
   ${PARENT_SOURCE_DIR}/comms.cpp
   ${PARENT_SOURCE_DIR}/network/UDP.cpp
-  ${PARENT_SOURCE_DIR}/network/Serial.cpp)		
+  ${PARENT_SOURCE_DIR}/network/Serial.cpp
+  ${PARENT_SOURCE_DIR}/network/TcpProtocol.cpp)		
 
 
 if (${CMAKE_CXX_COMPILER_ID})    
