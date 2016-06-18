@@ -24,7 +24,27 @@
 namespace Comnet {
 namespace Tools {
 namespace Allocator {
+/**
+   StackAllocator works like a stack, push in some memory, and then pop out some of it.
+   It works by allocating given space, from the heap, for the user to use. In order to successfully
+   achieve fast performance, without doing anything dangerous such as allocating on the stack without
+   proper memory management, be sure to malloc a certain amount of space for use.
+   
+   malloc *
+   ------------------------------------------------------------------------------------------
+   |    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+   ------------------------------------------------------------------------------------------
+   ^ 
+   pointer
 
+   StackAllocator
+   ------------------------------------------------------------------------------------------
+   |    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+   ------------------------------------------------------------------------------------------
+   ^      ^
+   |	  pointer pushed
+   memory returned
+*/
 template<typename _Ty>
 class StackAllocator : public Allocator<_Ty>  {
   typedef const _Ty* const_pointer;
@@ -38,15 +58,18 @@ public:
     , __size(0)
     , __used_memory(0)
     , __num_allocations(0)
-  { 
+  {
   }
 
   pointer allocate(uint32_t size_n) {
     __size += size_n;
-    
+    _Ty* _pointer = (_Ty*)__current_pos;
+    __current_pos = (void*)((int32_t)__current_pos + size_n);
+    return _pointer;
   }
 
   void deallocate(pointer p) {
+    
   }
 
   void destruct(pointer p) {
