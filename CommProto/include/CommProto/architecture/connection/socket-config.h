@@ -40,7 +40,10 @@
              result = true; \
            } \
          }
-  #define initializeSockAPI(status) initializeWSAStartup(status)
+ #define initializeSockAPI(status) initializeWSAStartup(status)
+ #ifndef SHUT_RDWR
+  #define SHUT_RDWR SD_BOTH
+ #endif
 #else
  #include <unistd.h>
  #include <sys/types.h>

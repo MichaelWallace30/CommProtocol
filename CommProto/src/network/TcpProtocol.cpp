@@ -134,7 +134,7 @@ bool TcpProtocol::connectToHost(const char* addr, uint16_t port) {
 bool TcpProtocol::disconnect() {
   bool result = false;
 
-  if (shutdown(tcpSocket.socket, SHUT_WR) == SOCKET_ERROR) {
+  if (shutdown(tcpSocket.socket, SHUT_RDWR) == SOCKET_ERROR) {
     comms_debug_log("Shutdown failed.");
   } else {
     tcpSocket.socket_status = SOCKET_CLOSED;
