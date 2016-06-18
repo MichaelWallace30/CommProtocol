@@ -3,6 +3,9 @@
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/tools/hash/NgcpHash.h>
+#include <CommProto/network/TCPprotocol.h>
+
+#define GHOST 0100
 
 using namespace Comnet::Tools::Hash;
 
@@ -41,9 +44,27 @@ int testCharHash() {
   return 0;
 } 
 
+using namespace Comnet::Network;
+
 int main(int c, char** args) {
   printf("Hello World!\n");
   testCharHash();
+
+  TcpProtocol g = TcpProtocol(SERVER);
+  TcpProtocol h = TcpProtocol(CLIENT);
+  g.initConnection(1, "1338", "127.0.0.2", 0);
+  h.initConnection(2, "1337", "127.0.0.1", 0);
+
+  h.connectToHost("127.0.0.2", 1338);
+  g.acceptConnection();
+  char* a = "I was a joker";
+  h.sendTo(1, (uint8_t*)&a, 15); 
+//  g.sendTo(1, (uint8_t*)&a, 4);
+  char* r = new char[15];
+  int len = 15;
+  g.receive((uint8_t*)&r, (uint32_t*)&len);
+  printf("Received this: %s\n", r);
+//  h.receive((uint8_t*)&r, (uint32_t*)&len);
 /*
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);
@@ -61,7 +82,7 @@ int main(int c, char** args) {
 	newComms2.run();
 	newComms1.run();
 */
-
+/*
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);
   newComms1.initConnection(SERIAL_LINK, "/dev/ttyS0", "", 115200);
@@ -77,7 +98,7 @@ int main(int c, char** args) {
 
   newComms2.run();
   newComms1.run();
-
+*/
 	uint8_t sourceID;
 	uint16_t messageID;
   uint32_t messageLength;
@@ -85,7 +106,8 @@ int main(int c, char** args) {
 	while (true)
 	{
 
-
+    printf("I am a cat...\n");
+    Sleep(1000);
   }
   return 0;
 }
