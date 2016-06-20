@@ -115,9 +115,9 @@ include(cmake/CommProto-config.cmake)
 
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
-    source_group("Header Files\\tools" FILES ${COMMPROTO_HASH_HEADERS})
+    source_group("Header Files\\hash" FILES ${COMMPROTO_HASH_HEADERS})
     source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
-    source_group("Source Files\\tools" FILES ${COMMPROTO_HASH_SOURCES})
+    source_group("Source Files\\hash" FILES ${COMMPROTO_HASH_SOURCES})
 endif()
 
 
