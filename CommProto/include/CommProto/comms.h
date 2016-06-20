@@ -7,7 +7,7 @@
 
 #include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 
-#include <CommProto/network/TcpProtocol.h> // 
+#include <CommProto/network/TcpSocket.h> // 
 
 #include <CommProto/CommsPacket.h>//Header which declares packet structs
 #include <CommProto/architecture/os/include_defines.h>
@@ -27,7 +27,6 @@ typedef enum
 
 class Comms {
 private:
-  Comnet::Network::TcpProtocol consoleServer;
   mutex_t sendMutex;
   mutex_t recvMutex;
 

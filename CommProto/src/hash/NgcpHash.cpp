@@ -23,7 +23,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/tools/hash/NgcpHash.h>
+#include <CommProto/hash/NgcpHash.h>
 
 #include <CommProto/architecture/macros.h>
 #include <CommProto/architecture/os/arch.h>
@@ -43,7 +43,6 @@
 
 
 namespace Comnet {
-namespace Tools {
 namespace Hash {
 
 /**
@@ -240,7 +239,6 @@ ngcp_hash64_t ngcp_hash64(double input, unsigned seed) {
   return (ngcp_hash64((void*)&input, 8, seed));
 }
 } // Hash namespace
-} // Tools namespace
 } // Comnet namespace
 
 #undef NGCP_PRIVATE_API

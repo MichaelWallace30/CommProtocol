@@ -94,8 +94,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 set(PARENT_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/)
 set(PARENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/)
 
-set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
-set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
+set(HASH_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/hash/)
+set(HASH_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/hash/)
 
 # Add some commands to the compiler.
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
@@ -115,9 +115,9 @@ include(cmake/CommProto-config.cmake)
 
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
-    source_group("Header Files\\tools" FILES ${COMMPROTO_TOOLS_HEADERS})
+    source_group("Header Files\\tools" FILES ${COMMPROTO_HASH_HEADERS})
     source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
-    source_group("Source Files\\tools" FILES ${COMMPROTO_TOOLS_SOURCES})
+    source_group("Source Files\\tools" FILES ${COMMPROTO_HASH_SOURCES})
 endif()
 
 
@@ -126,6 +126,6 @@ add_executable(NGCP_LIB
   ${ARCHITECTURE_SOURCES}
   ${COMMPROTO_HEADERS}
   ${COMMPROTO_SOURCES}
-  ${COMMPROTO_TOOLS_HEADERS}
-  ${COMMPROTO_TOOLS_SOURCES}
+  ${COMMPROTO_HASH_HEADERS}
+  ${COMMPROTO_HASH_SOURCES}
   CommProto/src/main.cpp)

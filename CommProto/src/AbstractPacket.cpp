@@ -3,7 +3,7 @@
 
 // NOTE(): We will need to check this because g++ does not have functional like visual studio.
 //#include <tr1/functional>
-#include <CommProto/tools/hash/NgcpHash.h>
+#include <CommProto/hash/NgcpHash.h>
 
 
 namespace Comnet {
@@ -12,7 +12,7 @@ namespace Comnet {
    Constructor for AbstractPacket.
 */
 AbstractPacket::AbstractPacket(const char* className)
-: typeId(Tools::Hash::ngcp_hash64((const char*)className)) {
+: typeId(Hash::ngcp_hash64((const char*)className)) {
 }
 
 /**

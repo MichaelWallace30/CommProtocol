@@ -41,7 +41,6 @@
 #define HASH_VERSION              1
 
 namespace Comnet {
-namespace Tools {
 namespace Hash {
 
 #if HASH_VERSION > 0
@@ -95,6 +94,5 @@ _COMNET_PUBLIC_API_ ngcp_hash64_t ngcp_hash64(double input, unsigned seed = 0);
 
 #endif // HASH_VERSION > 0
 } // Hash namespace 
-} // Tools namespace  
 } // Comnet namespace 
 #endif // __NGCPHASH_H

@@ -29,6 +29,9 @@
  #define WIN32_LEAN_AND_MEAN 
  #include <Windows.h>  
  #pragma comment(lib ,"Ws2_32.lib")    
+
+ #undef EWOULDBLOCK
+ #define EWOULDBLOCK WSAEWOULDBLOCK
  #define s_addr  S_un.S_addr 
  #define closeSocket(x)	closesocket(x); WSACleanup()
 
@@ -44,6 +47,7 @@
  #ifndef SHUT_RDWR
   #define SHUT_RDWR SD_BOTH
  #endif
+ #define GET_LAST_ERROR GetLastError()
 #else
  #include <unistd.h>
  #include <sys/types.h>
@@ -60,6 +64,7 @@
  #define closeSocket(x)	close(x)
  #define initializeSockAPI(status) status = false;
  #define INVALID_SOCKET (SOCKET)(~0)
+ #define GET_LAST_ERROR errno
 #endif
 
 typedef uint32_t PORT;

@@ -9,8 +9,7 @@
 namespace Comnet {
 namespace Console {
 
-Console::Console(const char* address, PORT port) {
-  tcp.initConnection(consoles, port, address, 0);
+Console::Console(const char* address, uint16_t port) {
   consoles++;
 }
 
@@ -27,15 +26,15 @@ bool Console::createConsole()
 bool Console::write(const char* command) {
   int length = 0;
   str_length(command, length);
-  return tcp.sendTo(1, (uint8_t*)command, length);
+  return false;
 }
 
-bool Console::startConnect(const char* address, PORT port) {
-  return tcp.connectToHost(address, port);
+bool Console::startConnect(const char* address, uint16_t port) {
+  return true;
 }
 
 bool Console::read(char* buffer, int* intBuf) {
-  return tcp.receive((uint8_t*)buffer, (uint32_t*)intBuf); 
+  return false; 
 }
 
 void Console::display() {
@@ -43,9 +42,15 @@ void Console::display() {
 }
 
 void Console::clr() {
+#if defined _WIN32
+  system("cls");
+#else
+  system("clear");
+#endif
 }
 
 void Console::update() {
+
 }
 
 void Console::start() {

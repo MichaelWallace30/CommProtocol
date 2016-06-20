@@ -4,7 +4,7 @@
 #define MAX_PATH 260
 #define DEFAULT_HELPER_EXE "cmd"
 
-#include <CommProto/network/TcpProtocol.h>
+#include <CommProto/network/TcpSocket.h>
 
 namespace Comnet {
 namespace Console {
@@ -49,7 +49,7 @@ static int consoles = 0;
 */
 class Console {
 public:
-  Console(const char* address, PORT port);
+  Console(const char* address, uint16_t port);
   virtual ~Console();
 
   /**
@@ -69,7 +69,7 @@ public:
   /**
     Start the connection via tcp.
    */
-  virtual bool startConnect(const char* address, PORT port);
+  virtual bool startConnect(const char* address, uint16_t port);
   
   /**
      Display, which will display information back to the user. Acts as a refresher to update the console.
@@ -92,8 +92,6 @@ protected:
 
 protected:
   char* console_title;
-  
-  TcpProtocol tcp;
 };
 }
 }
