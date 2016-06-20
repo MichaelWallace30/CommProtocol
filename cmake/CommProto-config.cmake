@@ -8,7 +8,7 @@ set(COMMPROTO_HEADERS
   ${PARENT_HEADER_DIR}/CommsPacket.h
   ${PARENT_HEADER_DIR}/network/UDP.h
   ${PARENT_HEADER_DIR}/network/Serial.h
-  ${PARENT_HEADER_DIR}/network/TcpSocket.h)
+  ${PARENT_HEADER_DIR}/network/CommSocket.h)
 
 set(COMMPROTO_SOURCES
   ${PARENT_SOURCE_DIR}/AbstractPacket.cpp

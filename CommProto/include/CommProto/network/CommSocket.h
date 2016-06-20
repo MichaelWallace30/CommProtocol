@@ -29,9 +29,9 @@ namespace Network {
 /**
   Basic Socket Interface to handle TCP and UDP sockets.
 */
-INTERFACE TcpSocket {
+INTERFACE CommSocket {
 public:
-  virtual ~TcpSocket() 
+  virtual ~CommSocket() 
   { }
 
   virtual uint32_t sockSend(const char* buffer, uint32_t len, const char* address = "", uint16_t port = 0) = 0;
@@ -46,9 +46,14 @@ public:
 
   virtual uint32_t sockListen(uint16_t port) = 0;
 
-  virtual TcpSocket* sockAccept() = 0;
+  virtual CommSocket* sockAccept() = 0;
+
+  virtual void sockDisconnect() = 0;
+  virtual void sockClose() = 0;
 };
 
+CommSocket* createTcpSocket();
+CommSocket* createUdpSocket();
 } // Network namespace
 } // Comnet namespace
 #endif // __COMMSOCKET_H

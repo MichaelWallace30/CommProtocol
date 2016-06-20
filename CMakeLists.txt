@@ -97,6 +97,9 @@ set(PARENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/)
 set(HASH_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/hash/)
 set(HASH_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/hash/)
 
+set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
+set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
+
 # Add some commands to the compiler.
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
 
@@ -113,9 +116,12 @@ include(cmake/tools-config.cmake)
 
 include(cmake/CommProto-config.cmake)
 
+include(cmake/hash-config.cmake)
+
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
     source_group("Header Files\\hash" FILES ${COMMPROTO_HASH_HEADERS})
+    source_group("Header Files\\tools" FILES ${TOOLS_HEADERS})
     source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
     source_group("Source Files\\hash" FILES ${COMMPROTO_HASH_SOURCES})
 endif()
@@ -128,4 +134,6 @@ add_executable(NGCP_LIB
   ${COMMPROTO_SOURCES}
   ${COMMPROTO_HASH_HEADERS}
   ${COMMPROTO_HASH_SOURCES}
+  ${TOOLS_HEADERS}
+  ${TOOLS_SOURCES}
   CommProto/src/main.cpp)

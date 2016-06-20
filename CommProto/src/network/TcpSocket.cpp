@@ -16,12 +16,13 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/network/TcpSocket.h>
+#include <CommProto/network/CommSocket.h>
 
 #include <CommProto/console/CommsDebug.h>
 
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/os_mutex.h>
+#include <CommProto/architecture/connection/socket-config.h>
 
 #include <stdlib.h>
 #include <ctime>
@@ -29,6 +30,13 @@
 namespace Comnet {
 namespace Network {
 
+class TcpSocket : public CommSocket {
+public:
 
+private:
+  mutex_t mutex;
+  
+  socket_t _socket;
+};
 } // Network namespace
 } // Comnet namespace
