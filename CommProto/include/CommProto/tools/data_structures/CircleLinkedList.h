@@ -49,12 +49,36 @@ class CircleLinkedList : public Interface::List<_Ty> {
   /**
      CNode struct, used as containers for the list.
    */
-  struct CNode {
+  class CNode {
+  public:
+    CircleLinkedList<_Ty, _Compare, _Alloc>& ref;
     CNode* next;
     CNode* previous;
     
-    _Ty data;
+    _Ty* data;
     int32_t index;
+    
+    CNode(CircleLinkedList<_Ty, _Compare, _Alloc>& r)
+      : next(NULL)
+      , previous(NULL)
+      , data(NULL)
+      , index(0)
+      , ref(r)
+    { }
+    
+    void allocateValue(const _Ty& value) {
+      data = ref.alloc.allocate(0);
+      ref.alloc.construct(data, value);
+    }
+
+    void deallocateValue() {
+      ref.alloc.destruct(data);
+      ref.alloc.deallocate(data);
+    }
+
+    ~CNode() {
+      deallocateValue();
+    }
   };
 
   /**
@@ -120,14 +144,25 @@ public:
     this->size = 0;
   }
 
+  ~CircleLinkedList() {
+    CNode* traverse = root;
+    CNode* prev = NULL;
+    for (int i = root->index; i < this->getSize(); ++i) {
+      prev = traverse;
+      traverse = traverse->next;
+      delete prev;
+      prev = NULL;
+    }
+  }
+
   /**
      Insert value into the list.
    */
   void insert(const_reference value) {
-    CNode* newNode = allocate_pointer(CNode);
+    CNode* newNode = new CNode(*this);
     nullify_pointer(newNode->next);
     nullify_pointer(newNode->previous);
-    newNode->data = value;
+    newNode->allocateValue(value);
 
     if ((this->isEmpty()) || (root == NULL) ) {
       root = newNode;
@@ -169,15 +204,15 @@ public:
     nullify_pointer(remNode);
     nullify_pointer(iteratorNode);
 
-    if (_cmp.equal(root->data, value)) {
+    if (_cmp.equal(*root->data, value)) {
       remNode = handleRootRemoval(remNode);
-    } else if (_cmp.equal(cursor->data, value)) {
+    } else if (_cmp.equal(*cursor->data, value)) {
       remNode = handleCursorRemoval(remNode);
     } else {
       CNode* startNode = cursor;
       cursor = cursor->next;
       while (cursor != startNode) {
-	if (_cmp.equal(cursor->data, value)) {
+	if (_cmp.equal(*cursor->data, value)) {
 	  remNode = handleCursorRemoval(remNode);
 	  break;
 	}
@@ -274,14 +309,14 @@ public:
      this is the root value that will be returned.
    */
   reference front() {
-    return root->data;
+    return *root->data;
   }
   /**
      Return the previous value that is next to the root. This is the last
      value before wrapping back to the root.
    */
   reference back() {
-    return root->previous->data;
+    return *root->previous->data;
   }
 
   /**
@@ -289,16 +324,16 @@ public:
    */
   reference at(const int32_t index) {
     if (index == root->index) {
-      return root->data;
+      return *root->data;
     } else if (index == cursor->index) {
-      return cursor->data;
+      return *cursor->data;
     } else {
       CNode* startNode = cursor;
       if (index > cursor->index) {
 	cursor = cursor->next;
 	while (cursor != startNode) {
 	  if (index == cursor->index) {
-	    return cursor->data;
+	    return *cursor->data;
 	  }
 	  cursor = cursor->next;
 	}
@@ -306,7 +341,7 @@ public:
 	cursor = cursor->previous;
 	while (cursor != startNode) {
 	  if (index == cursor->index) {
-	    return cursor->data;
+	    return *cursor->data;
 	  }
 	  cursor = cursor->previous;
 	}
@@ -320,15 +355,15 @@ public:
    */
   bool contains(const_reference value) {
     bool result =false;
-    if (_cmp.equal(value, root->data)) {
+    if (_cmp.equal(value, *root->data)) {
       result = true;
-    } else if (_cmp.equal(value, cursor->data)) {
+    } else if (_cmp.equal(value, *cursor->data)) {
       result = true;
     } else {
       CNode* startNode = cursor;
       cursor = cursor->next;
       while (cursor != startNode) {
-	if (_cmp.equal(cursor->data, value)) {
+	if (_cmp.equal(*cursor->data, value)) {
 	  result = true;
 	  break;
 	}
@@ -357,7 +392,7 @@ public:
      Returns the value at the cursor node.
    */
   reference getCursor() {
-    return cursor->data;
+    return *cursor->data;
   } 
 private:
   /**
