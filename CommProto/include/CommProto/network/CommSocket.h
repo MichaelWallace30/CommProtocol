@@ -34,17 +34,17 @@ public:
   virtual ~CommSocket() 
   { }
 
-  virtual uint32_t sockSend(const char* buffer, uint32_t len, const char* address = "", uint16_t port = 0) = 0;
+  virtual uint32_t sockSend(const char* buffer, uint32_t len, const char* address = "", uint32_t port = 0) = 0;
 
-  virtual uint32_t sockReceive(const char* buffer, uint32_t len, const char* address = "", uint16_t port = 0) = 0;
+  virtual uint32_t sockReceive(const char* buffer, uint32_t len, const char* address = "", uint32_t port = 0) = 0;
   
-  virtual uint32_t sockConnect(const char* address, uint16_t port) = 0;
+  virtual uint32_t sockConnect(const char* address, uint32_t port) = 0;
   
-  virtual uint32_t sockAsyncConnect(const char* address, uint16_t port) = 0;
+  virtual uint32_t sockAsyncConnect(const char* address, uint32_t port) = 0;
 
-  virtual uint32_t sockListen(const char* address, uint16_t port) = 0;
+  virtual uint32_t sockListen(const char* address, uint32_t port) = 0;
 
-  virtual uint32_t sockListen(uint16_t port) = 0;
+  virtual uint32_t sockListen(uint32_t port) = 0;
 
   virtual CommSocket* sockAccept() = 0;
 

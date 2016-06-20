@@ -48,15 +48,50 @@ class DoubleLinkedList : public Interface::List<_Ty> {
   typedef const _Ty& const_reference;
   typedef const _Ty const_data_type;
   typedef _Ty& reference_type;
+
+  /**
+  Compare object, used to compare values in the data structure. This can be customized as to
+  make this structure more dynamic.
+  */
+  _Compare cmp;
+  /**
+  Allocator object, used to allocate values in the data structure. This can be customized as to make this
+  structure more dynamic.
+  */
+  _Alloc  alloc;
   /**
   Node used as data containers within this data structure.
   */
-  struct DNode {
+  class DNode {
+  public:
+    DoubleLinkedList<_Ty, _Compare, _Alloc>& ref;
     DNode* next;
     DNode* previous;
 
-    _Ty data;
+    _Ty* data;
     int32_t index;
+
+    DNode(DoubleLinkedList<_Ty, _Compare, _Alloc>& r) 
+      : data(NULL)
+      , index(0)
+      , next(NULL)
+      , previous(NULL)
+      , ref(r) 
+    { }
+    
+    void allocateValue(const _Ty& value) {
+      data = ref.alloc.allocate(0);
+      ref.alloc.construct(data, value);
+    }
+
+    void deallocateValue() {
+      ref.alloc.destruct(data);
+      ref.alloc.deallocate(data);
+    }
+
+    ~DNode() {
+      deallocateValue();
+    }
   };
 public:
   /**
@@ -97,10 +132,10 @@ public:
      Inserts a value into the data structure.
    */
   void insert(const_reference value) {
-    DNode* newNode = allocate_pointer(DNode);
+    DNode* newNode = new DNode(*this);
     nullify_pointer(newNode->next);
     nullify_pointer(newNode->previous);
-    newNode->data = value;
+    newNode->allocateValue(value);
 
     if (this->size <= 0) {
       root = tail = cursor = newNode;
@@ -210,17 +245,17 @@ public:
 
     DNode* remNode = NULL;
     
-    if (cmp.equal(root->data, value)) {
+    if (cmp.equal(*root->data, value)) {
       remNode = handleRootRemoval(remNode);
-    } else if (cmp.equal(tail->data , value)) {
+    } else if (cmp.equal(*tail->data , value)) {
       remNode = handleTailRemoval(remNode);
-    } else if (cmp.equal(cursor->data, value)) {
+    } else if (cmp.equal(*cursor->data, value)) {
       remNode = handleCursorRemoval(remNode);
     } else {
       cursor = root->next;
       
-      while (cursor != tail) {
-	if (cmp.equal(cursor->data , value)) {
+      while (cursor != tail && cursor != NULL) {
+	if (cmp.equal(*cursor->data , value)) {
 	  remNode = cursor;
 	  cursor = cursor->next;
 	  
@@ -303,28 +338,28 @@ public:
      Get the front root value of this data structure.
    */
   reference_type front() {
-    return root->data;
+    return *root->data;
   }
   /**
      Get the back, tail, value of this data structure.
    */
   reference_type back() { 
-    return tail->data;
+    return *tail->data;
   }
 
   reference_type at(const int32_t index) {
     if (root->index == index) {
-      return root->data;
+      return *root->data;
     } else if (tail->index == index) {
-      return tail->data;
+      return *tail->data;
     } else if (cursor->index == index) {
-      return cursor->data;
+      return *cursor->data;
     } else {
       if (cursor->index > index) {
 	cursor = cursor->previous;
 	while (cursor != NULL) {
 	  if (cursor->index == index) {
-	    return cursor->data;
+	    return *cursor->data;
 	  } else {
 	    cursor = cursor->previous;
 	  }
@@ -333,7 +368,7 @@ public:
 	cursor = cursor->next;
 	while (cursor != NULL) {
 	  if (cursor->index == index) {
-	    return cursor->data;
+	    return *cursor->data;
 	  } else {
 	    cursor = cursor->next;
 	  }
@@ -348,14 +383,14 @@ public:
   bool contains(const_reference value) {
     bool success = false;
     
-    if (cmp.equal(root->data, value) ||
-	cmp.equal(tail->data, value) ||
-	cmp.equal(cursor->data, value)) {
+    if (cmp.equal(*root->data, value) ||
+	cmp.equal(*tail->data, value) ||
+	cmp.equal(*cursor->data, value)) {
       success = true;
     } else {
       cursor = root->next;
       while (cursor != NULL) {
-	if (cmp.equal(cursor->data, value)) {
+	if (cmp.equal(*cursor->data, value)) {
 	  success = true;
 	  break;
 	}
@@ -369,7 +404,7 @@ public:
      Get the cursor value.
    */
   const _Ty& getCurrent() {
-    return cursor->data;
+    return *cursor->data;
   }
 private:
   /**
@@ -384,16 +419,6 @@ private:
      Cursor node, the current node in the data structure.
    */
   DNode* cursor;
-  /**
-     Compare object, used to compare values in the data structure. This can be customized as to 
-     make this structure more dynamic.
-   */
-  _Compare cmp;
-  /**
-     Allocator object, used to allocate values in the data structure. This can be customized as to make this
-     structure more dynamic.
-   */
-  _Alloc  alloc;
 };
 } // DataStructures namespace 
 } // Tools namespace

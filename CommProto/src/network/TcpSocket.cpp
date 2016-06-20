@@ -32,7 +32,24 @@ namespace Network {
 
 class TcpSocket : public CommSocket {
 public:
+  TcpSocket() {
 
+    mutex_init(&mutex);
+    _socket.socket_status = SOCKET_CLOSED;
+    _socket.socket = INVALID_SOCKET;
+    _socket.port =  -1;
+    _socket.id = -1;
+
+  }
+
+  uint32_t sockConnect(const char* address, PORT port) {
+    uint32_t error = -1;
+    if (_socket.socket != INVALID_SOCKET) {
+      return error;
+    }
+    
+    
+  }
 private:
   mutex_t mutex;
   

@@ -4,7 +4,7 @@
 #define MAX_PATH 260
 #define DEFAULT_HELPER_EXE "cmd"
 
-#include <CommProto/network/TcpSocket.h>
+#include <CommProto/network/CommSocket.h>
 
 namespace Comnet {
 namespace Console {

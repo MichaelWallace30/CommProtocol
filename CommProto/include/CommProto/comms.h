@@ -7,7 +7,7 @@
 
 #include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 
-#include <CommProto/network/TcpSocket.h> // 
+#include <CommProto/network/CommSocket.h> // 
 
 #include <CommProto/CommsPacket.h>//Header which declares packet structs
 #include <CommProto/architecture/os/include_defines.h>
