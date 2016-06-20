@@ -76,9 +76,9 @@ public:
      and set it into the data structure.
   */
   void insert(const _Ty& value) {
-    SNode* newNode = new SNode();
+    SNode* newNode = new SNode(*this);
     nullify_pointer(newNode->next);
-    newNode->value = value;
+    newNode->allocateValue(value);
 
     if ((root == NULL) && (this->size <= 0)) {
       root = tail = newNode;
@@ -102,16 +102,16 @@ public:
     SNode* remNode;
     nullify_pointer(remNode);
     
-    if (_cmp.equal(value, root->value)) {
+    if (_cmp.equal(value, *root->value)) {
       remNode = handleRootRemoval();
-    } else if (_cmp.equal(value, tail->value)) {
+    } else if (_cmp.equal(value, *tail->value)) {
       remNode = handleTailRemoval();
     } else {
       SNode* traverse = root->next;
       SNode* previous = root;
       
       while (traverse != NULL) {
-	if (_cmp.equal(traverse->value, value)) {
+	if (_cmp.equal(*traverse->value, value)) {
 	  previous->next = traverse->next;
 	  remNode = traverse;
 	  break;
@@ -195,7 +195,7 @@ public:
     while (traverse->index != index) {
       traverse = traverse->next;
     }
-    return traverse->value;
+    return *traverse->value;
   }
 
   /**
@@ -204,14 +204,14 @@ public:
   bool contains(const _Ty& value) {
     bool result = false;
     
-    if (_cmp.equal(root->value, value) 
-	|| _cmp.equal(tail->value, value)) {
+    if (_cmp.equal(*root->value, value) 
+	|| _cmp.equal(*tail->value, value)) {
       result = true;
     } else {
       SNode* traverse = root->next;
       
       while (traverse != tail) {
-	if (_cmp.equal(traverse->value, value)) {
+	if (_cmp.equal(*traverse->value, value)) {
 	  result = true;
 	  break;
 	}
@@ -227,26 +227,49 @@ public:
      Return the front most value of the list.
   */
   _Ty& front() {
-    return root->value;
+    return *root->value;
   }
 
   /**
      Return the last value that was added.
   */
   _Ty& back() {
-    return tail->value;
+    return *tail->value;
   }
 
 private:
   /**
      Secretive node used for this List.
   */
-  struct SNode {
+  class SNode {
+  public:
+    SingleLinkedList<_Ty, _Compare, _Alloc>& ref;
     SNode* next;
     
-    _Ty value;
+    _Ty* value;
     
     int32_t index;
+
+    SNode(SingleLinkedList<_Ty, _Compare, _Alloc>& r) 
+      : value(NULL)
+      , next(NULL)
+      , index(0)
+      , ref(r)
+    { }
+
+    void allocateValue(const _Ty& value) {
+      this->value = ref.alloc.allocate(0);
+      ref.alloc.construct(this->value, value);
+    }
+
+    void deallocateValue() {
+      ref.alloc.destruct(value);
+      ref.alloc.deallocate(value);
+    }
+
+    ~SNode() {
+      deallocateValue();
+    }
   };
 
   /** 
