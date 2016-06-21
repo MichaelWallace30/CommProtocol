@@ -26,7 +26,6 @@
 
 #include <stdlib.h>
 #include <ctime>
-#include <errno.h>
 
 
 #if COM_TARGET_OS != COM_OS_WINDOWS
