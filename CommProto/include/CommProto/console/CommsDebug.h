@@ -2,17 +2,22 @@
 #define __COMMS_DEBUG_H
 
 #include <stdio.h>
+#include <cstdarg>
 
 // Controls logging information. Set this to 1, if you wish to 
 // display debug information from comms_debug_log.
 #define __COMMS_DEBUG_LOG 1
 
 #if __COMMS_DEBUG_LOG
+ #define __COMMS_DEBUG_PRINT
  #define comms_debug_log(debug) printf("%s\n", debug);
 #else
  #define comms_debug_log(debug)
 #endif // __COMMS_DEBUG
 
+#if defined __COMMS_DEBUG_PRINT
+ #define COMMS_DEBUG(debug, bug, ...) printf(debug, bug, __VA_ARGS__);
+#endif // __COMMS_DEBUG_PRINT
 
 #ifdef __COMMS_DEBUG_FATAL_EXIT
  #ifdef __COMMS_DEBUG_LOG
