@@ -43,9 +43,8 @@ _COMNET_PUBLIC_API_
           length = 0;                   \
 	  while (str[length] != NULL) { \
 	    length++;                   \
-	  }                             \
-    length += 1; \
-        }
+	  }         \
+	}	\
 
 
 // Delete a list, consisting of the node data type, 

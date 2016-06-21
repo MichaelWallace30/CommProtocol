@@ -23,9 +23,13 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/network/CommsLink.h>
 #include <CommProto/architecture/connection/socket-config.h>
+#include <CommProto/architecture/macros.h>//str_length(char*,int)
+#include <stdio.h>//printf
+#include <cstdlib>//atoi
 
 #define UDP_DEBUG
 #define ADDRESS_LENGTH 16
+
 
 class UDP: public CommsLink
 {
@@ -65,9 +69,6 @@ private:
   /** Opens udp socket returns false if socket open fails*/
   bool udp_open(int* fd);
   
-  /** Deep copy of string to char array */
-  void stringToChar(char cPtr[ADDRESS_LENGTH], std::string str);
-  
   
  public:
   
@@ -77,10 +78,10 @@ private:
   
   /** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
       Returns false if open socket or bind fails*/
-  bool initConnection(std::string port = "", std::string address = "", uint32_t baudrate = 0);
+  bool initConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /** Adds Address & port to destID value of array of aviable connections
       Returns false if connection is already connected*/
-  virtual bool addAddress(uint8_t destID, std::string address ="", uint16_t port = 0);
+  virtual bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0);
   /** Sets connection to not available
       Returns false is no connection is found*/
   virtual bool removeAddress(uint8_t destID);

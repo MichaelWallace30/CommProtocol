@@ -3,7 +3,7 @@
 
 #include <stdint.h>//needed for bit size variables
 #include <queue>
-#include <string>//needed for addresses
+
 
 #include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 
@@ -13,6 +13,8 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/os_threads.h>//method to create threads
 #include <CommProto/architecture/os/os_mutex.h>
+
+#include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
 
 
 #include <iostream>//testing only
@@ -98,12 +100,12 @@ public:
 	enum connection type to use serial, UDP, zigbee, ect
 	port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
 	baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */	
-	bool initConnection(CommsLink_type_t connectionType, std::string port, std::string address = "", uint32_t baudrate = 0);
+	bool initConnection(CommsLink_type_t connectionType, const char* port, const char* address = NULL, uint32_t baudrate = 0);
 
 	/** The address entered will be paired for communication by destination ID
 	Adding address can be a UDP IPV4 or hex MAC address for zigbee
 	Adding an address is not need for serial and will default to ""*/
-	bool addAddress(uint8_t destID, std::string address="", uint16_t port = 0);
+	bool addAddress(uint8_t destID, const char* address= NULL, uint16_t port = 0);
 
 	/** Removing an address removes the known association of address and destination ID by using id*/
 	bool removeAddress(uint8_t destID);

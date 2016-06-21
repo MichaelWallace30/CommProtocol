@@ -38,17 +38,6 @@ bool UDP::udp_open(int* fd)
   return result;
 }
 
-void UDP::stringToChar(char cPtr[ADDRESS_LENGTH], std::string str)
-{
-  memset(cPtr, 0, ADDRESS_LENGTH);
-  int maxChar;
-  (str.length() > ADDRESS_LENGTH) ? maxChar = ADDRESS_LENGTH : maxChar = str.length();
-  for (int index = 0; index < maxChar; index++)
-    {
-      cPtr[index] = str[index];
-    }
-}
-
 
 /***********************************************/
 /******************* Public  *******************/
@@ -73,34 +62,32 @@ UDP::~UDP()
   closeSocket(fd);
 }
 
-bool UDP::initConnection(std::string port, std::string address, uint32_t baudrate)
+bool UDP::initConnection(const char* port, const char* address, uint32_t baudrate)
 {	
   //open socket and  check if socket is not already connected
   if (sockaddr.socket_status != SOCKET_CONNECTED && udp_open(&fd))
     {
 
+	  uint16_t length = 0;
 
+	  str_length(port, length);
 	  ///check if port in number
-		for (int x = 0; x < port.length(); x++)
+	  for (int x = 0; x < length; x++)
 		{
-
 			if (!isdigit(port[x]))
 			{
 				printf("initConnection 'port' argument is not a numerical digit for udp connection\n");
 				return false;
 			}
 		}
-	  uint32_t portInt = atoi(port.c_str());
-
-
-      char tempChar[ADDRESS_LENGTH];
-      stringToChar(tempChar, address);
+	  uint32_t portInt = atoi((char*)port);
+	         
       
       //setup address structure
       memset((char *)&sockaddr.socket_address, 0, sizeof(sockaddr.socket_address));
       sockaddr.socket_address.sin_family = AF_INET;
       sockaddr.socket_address.sin_port = htons(portInt);
-      sockaddr.socket_address.sin_addr.s_addr = inet_addr(tempChar);
+      sockaddr.socket_address.sin_addr.s_addr = inet_addr((char*)address);
       
       //bind socket
       if (bind(fd, (struct sockaddr *)&sockaddr.socket_address, sizeof(sockaddr.socket_address)) < 0) {
@@ -119,19 +106,19 @@ bool UDP::initConnection(std::string port, std::string address, uint32_t baudrat
 }
 
 
-bool UDP::addAddress(uint8_t destID, std::string address, uint16_t port)
+bool UDP::addAddress(uint8_t destID, const char* address, uint16_t port)
 {
-  if (conn[destID].socket_status == SOCKET_OPEN && address.length() < ADDRESS_LENGTH)
+
+	uint16_t length = 0;
+	str_length(address, length);
+  if (conn[destID].socket_status == SOCKET_OPEN && length < ADDRESS_LENGTH)
     {
-      //convert string to char*
-      char tempChar[ADDRESS_LENGTH];
-      stringToChar(tempChar, address);
-      
+            
       //setup address structure
       memset((char *)&conn[destID].socket_address, 0, sizeof(conn[destID].socket_address));
       conn[destID].socket_address.sin_family = AF_INET;
       conn[destID].socket_address.sin_port = htons(port);
-      conn[destID].socket_address.sin_addr.s_addr = inet_addr(tempChar);
+      conn[destID].socket_address.sin_addr.s_addr = inet_addr((char*)address);
       conn[destID].socket_status = SOCKET_CONNECTED;
       return true;
     }

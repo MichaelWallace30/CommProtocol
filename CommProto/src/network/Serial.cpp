@@ -31,21 +31,28 @@
 /**
   Initializes windows serial port.
 */
-bool initWindows(Serial& serial, std::string comPort, uint32_t baudrate)
+bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
 {
   serial_t& hSerial = serial.getSerialPort();
+
+  char comPortCat[80];
+  strcpy(comPortCat, (char*)comPort);
+
   if (comPort[0] != '\\') {
       // "\\\\.\\"  allows windows ports above 9
-      comPort = "\\\\.\\" + comPort;
+	  strcat(comPortCat, "\\\\.\\");
   } 
 
+
 #ifdef UNICODE	//convert multybyte string to LPCWSTR
-  wchar_t* str = new wchar_t[comPortInput.length() * 2];
-  MultiByteToWideChar(CP_ACP, 0, comPortInput.c_str(), -1, str, comPortInput.length() * 2);
+  uint16_t length = 0;
+  str_length(comPortCat, length);
+  wchar_t* str = new wchar_t[length * 2];
+  MultiByteToWideChar(CP_ACP, 0, comPortCat, -1, str, length * 2);
   LPCWSTR comport = str;
 #else
   //open up serial port  
-  const char* comport =  comPort.c_str();
+  const char* comport = comPortCat;
 #endif
   hSerial.h_serial = CreateFile(comport,
 				GENERIC_READ | GENERIC_WRITE,
@@ -273,7 +280,7 @@ unixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
 inline bool
-openPort(Serial& serial, std::string comPort, uint32_t baudrate) {
+openPort(Serial& serial, const char* comPort, uint32_t baudrate) {
 #if defined WINDOWS_SERIAL
   return initWindows(serial, comPort, baudrate);
 #elif defined UNIX_SERIAL
@@ -330,7 +337,7 @@ Serial::Serial():CommsLink()
 
 Serial::~Serial() {  }
 
-bool Serial::initConnection(std::string port, std::string address, uint32_t baudrate)
+bool Serial::initConnection(const char* port, const char* address, uint32_t baudrate)
 { 
   
   //check os here

@@ -22,6 +22,8 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/connection/serial-config.h> 
 #include <CommProto/network/CommsLink.h>
+#include <CommProto/architecture/macros.h>//str_length(char*, int)
+#include <stdio.h>//printf
 
 #define SERIAL_DEBUG
 
@@ -40,9 +42,9 @@ public:
   
   /** Opens comport sets if it is connected on scucces, address is not need just use "" argument
       Returns false if opening comport fails*/
-  virtual bool initConnection(std::string port ="", std::string address = "", uint32_t baudrate = 0);
+  virtual bool initConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /** Add serial address returns true does nothing */
-  virtual bool addAddress(uint8_t destID, std::string address = "", uint16_t port = 0) { return true; }
+  virtual bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0) { return true; }
   /** Remove serial address returns true does nothing */
   virtual bool removeAddress(uint8_t destID) { return true; }
   /**

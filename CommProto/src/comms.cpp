@@ -89,13 +89,16 @@ Comms::~Comms()
 	mutex_destroy(&recvMutex);
 }
 
-bool Comms::initConnection(CommsLink_type_t connectionType, std::string port, std::string address, uint32_t baudrate)
+bool Comms::initConnection(CommsLink_type_t connectionType, const char* port, const char* address, uint32_t baudrate)
 {
+	uint16_t length = 0;
 	switch (connectionType)
 	{
 		case UDP_LINK:
 		{			
-			if (address.length() < ADDRESS_LENGTH)
+			
+			str_length(address, length);
+			if (length < ADDRESS_LENGTH)
 			{							
 				connectionLayer = new UDP();
 				return connectionLayer->initConnection(port, address);
@@ -104,10 +107,12 @@ bool Comms::initConnection(CommsLink_type_t connectionType, std::string port, st
 		}
 		case SERIAL_LINK:
 		{
-			if (address.length() < ADDRESS_LENGTH)
+			
+			str_length(address, length);
+			if (length < ADDRESS_LENGTH)
 			{
 				connectionLayer = new Serial();
-				return connectionLayer->initConnection(port, "", baudrate);
+				return connectionLayer->initConnection(port, NULL, baudrate);
 			}
 			break;
 		
@@ -120,7 +125,7 @@ bool Comms::initConnection(CommsLink_type_t connectionType, std::string port, st
 	return true;
 }
 
-bool Comms::addAddress(uint8_t destID, std::string address, uint16_t port)
+bool Comms::addAddress(uint8_t destID, const char* address , uint16_t port)
 {
 	if (connectionLayer == NULL)return false;
 	return connectionLayer->addAddress(destID, address, port);
