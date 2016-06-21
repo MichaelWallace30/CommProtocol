@@ -4,6 +4,7 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/hash/NgcpHash.h>
 #include <CommProto/console/Console.h>
+#include <CommProto/network/CommSocket.h>
 #include <stdlib.h>
 
 #define GHOST 0100
@@ -49,6 +50,13 @@ using namespace Comnet::Network;
 int main(int c, char** args) {
   printf("Hello World!\n");
   testCharHash();
+
+  CommSocket* serv = createTcpSocket();
+  CommSocket* cli = createTcpSocket();
+
+  serv->sockListen("127.0.0.2", 1337);
+  cli->sockConnect("127.0.0.2", 1337);
+
 /*
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);

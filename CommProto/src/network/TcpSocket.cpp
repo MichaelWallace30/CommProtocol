@@ -27,6 +27,10 @@
 #include <stdlib.h>
 #include <ctime>
 
+#if COM_TARGET_OS != COM_OS_WINDOWS
+ #include <netinet/tcp.h>
+#endif
+
 #define MAX_TICK 5
 
 namespace Comnet {
@@ -77,7 +81,7 @@ public:
           do {
             Sleep(500);
             int errLen = sizeof(error);
-            if (getsockopt(_socket.socket, SOL_SOCKET, SO_ERROR, (char*)&error, &errLen) != 0) {
+            if (getsockopt(_socket.socket, SOL_SOCKET, SO_ERROR, (char*)&error, (socklen_t*)&errLen) != 0) {
               comms_debug_log("error in getsockopt");
               break;
             } 
@@ -188,8 +192,8 @@ protected:
 #ifdef _WIN32
     return ioctlsocket(sock, FIONBIO, (u_long*)&on) == 0;
 #else
-    // We will figure this out on unix.
-    return false;
+    int flags = fcntl(sock, F_GETFL, 0);
+    return fcntl(sock, F_SETFL, on ? (flags | O_NONBLOCK) : (flags & ~O_NONBLOCK)) == 0;
 #endif
   }
 

@@ -49,6 +49,7 @@
  #endif
  #define GET_LAST_ERROR GetLastError()
 #else
+ #include <errno.h>
  #include <unistd.h>
  #include <sys/types.h>
  #include <sys/socket.h>
