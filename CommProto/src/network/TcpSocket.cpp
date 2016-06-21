@@ -27,13 +27,16 @@
 #include <stdlib.h>
 #include <ctime>
 
+#define MAX_TICK 5
+
 namespace Comnet {
 namespace Network {
 
 class TcpSocket : public CommSocket {
 public:
   TcpSocket() {
-
+    bool du = false;
+    initializeSockAPI(du);
     mutex_init(&mutex);
     _socket.socket_status = SOCKET_CLOSED;
     _socket.socket = INVALID_SOCKET;
@@ -42,18 +45,171 @@ public:
 
   }
 
-  uint32_t sockConnect(const char* address, PORT port) {
-    uint32_t error = -1;
+  int32_t sockConnect(const char* address, PORT port) {
+    int32_t error = -1;
     if (_socket.socket != INVALID_SOCKET) {
       return error;
     }
+
+    _socket.socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+    if (_socket.socket == INVALID_SOCKET) {
+      comms_debug_log("Invalid socket..."); 
+    } else {
+      if (!setNonBlocking(_socket.socket, true)) {
+          comms_debug_log("Failed to set socket to non blocking mode...");
+        } else {
+        struct sockaddr_in host = { 0 };
+        initializeSockAddr(address, port, &host);
+
+        _socket.socket_status = SOCKET_CONNECTING;
+        int32_t connResult = connect(_socket.socket, (struct sockaddr*)&host, sizeof (host));
+        if (connResult != INVALID_SOCKET || 
+            (GET_LAST_ERROR != EWOULDBLOCK && 
+            GET_LAST_ERROR != EINPROGRESS)) 
+        {
+          comms_debug_log("Cannot initiate connection");
+        } else {
+          time_t start_time, end_time;
+
+          start_time = time(0);
+          end_time = start_time;
+          do {
+            Sleep(500);
+            int errLen = sizeof(error);
+            if (getsockopt(_socket.socket, SOL_SOCKET, SO_ERROR, (char*)&error, &errLen) != 0) {
+              comms_debug_log("error in getsockopt");
+              break;
+            } 
+            if (error == 0) {
+              comms_debug_log("Successful connection!");
+              _socket.socket_status = SOCKET_CONNECTED;
+              break;
+            }
+            end_time = time(0);
+            printf("Timer: %d\n", (end_time - start_time));
+          } while ((abs(end_time - start_time)) <= MAX_TICK);
+        }
+      }
+    }
+
+    return error;
+  }
+
+  int32_t sockSend(const char* buffer,
+                    uint32_t len,
+                    const char* address,
+                    uint32_t port)
+  {
+    return 0;
+  }
+
+  packet_data_status_t sockReceive(const char* buffer,
+                                   uint32_t len,
+                                   const char* address,
+                                   uint32_t port)
+  {
+    return PACKET_NO_DATA;
+  }
+
+  int32_t sockAsyncConnect(const char* address, uint32_t port) {
+    return 0;
+  }
+
+  int32_t sockListen(const char* address, uint32_t port) {
+    int32_t error = -1;
+    if (_socket.socket_status != SOCKET_CLOSED) {
+      comms_debug_log("Socket is not closed before listening...");
+      return error;
+    }
+
+    _socket.socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (_socket.socket == INVALID_SOCKET) {
+      comms_debug_log("Unsuccessful socket creation...");
+    } else {
+      struct sockaddr_in host;
+      initializeSockAddr(address, port, &host);
+      if (bind(_socket.socket, (struct sockaddr*)&host, sizeof(host)) < 0) {
+        comms_debug_log("Failed to bind socket...");
+      } else {
+        if (listen(_socket.socket, SOMAXCONN) < 0) {
+          comms_debug_log("Failed in listen function...");
+        } else {
+          if (!setNonBlocking(_socket.socket, true)) {
+            comms_debug_log("Failed to set non blocking socket...");
+          } else {
+            comms_debug_log("Socket is successfully listening...");
+            error = 0;
+            _socket.socket_status = SOCKET_LISTENING;
+            _socket.port = port;
+          }
+        }
+      }
+    }
+    return error;
+  }
+
+  int32_t sockListen(uint32_t port) {
+    return 0;
+  }
+
+  CommSocket* sockAccept() {
+    if (_socket.socket_status != SOCKET_LISTENING) {
+      comms_debug_log("socket is not listening...");
+      return NULL;
+    }
     
-    
+    CommSocket* tcpSock = NULL;
+    SOCKET s = accept(_socket.socket, NULL, NULL);
+    if (s == INVALID_SOCKET) {
+      comms_debug_log("Failed to accept...");
+    } else {
+      setTcpNoDelay(s, true);
+      tcpSock = new TcpSocket(s);
+    }
+    return tcpSock;
+  }
+
+  void sockDisconnect() {
+  }
+
+  void sockClose() {
+    closeSocket(_socket.socket);
+  }
+
+protected:
+  void initializeSockAddr(const char* address, PORT port, struct sockaddr_in* s) {
+    s->sin_family = AF_INET;
+    s->sin_port = htons(port);
+    s->sin_addr.s_addr = inet_addr(address);
+  }
+
+  bool setNonBlocking(SOCKET sock, bool on) {
+#ifdef _WIN32
+    return ioctlsocket(sock, FIONBIO, (u_long*)&on) == 0;
+#else
+    // We will figure this out on unix.
+    return false;
+#endif
+  }
+
+  bool setTcpNoDelay(SOCKET sock, bool on) {
+    return setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (const char*)&on, sizeof(on)) == 0;
   }
 private:
+  TcpSocket(SOCKET socket) {
+    bool du = false;
+    _socket.socket_status = SOCKET_CONNECTED;
+    _socket.socket = socket;
+  }
+
   mutex_t mutex;
   
   socket_t _socket;
 };
+
+CommSocket* createTcpSocket() {
+  return new TcpSocket();
+}
 } // Network namespace
 } // Comnet namespace

@@ -80,18 +80,6 @@ enum socket_status_t {
   SOCKET_CONNECTED,
   SOCKET_LISTENING,
   SOCKET_FAILED,
-  SOCKET_UNINITIALIZED,
-};
-
-/**
-   packet_data_status determines current state of the data that is currently being read.
-   Any action done onto our packet, will notify us of what is currently happening.
- */
-enum packet_data_status_t {
-  PACKET_SUCCESSFUL,
-  PACKET_NO_DATA,
-  PACKET_READING_DATA,
-  PACKET_DISCONNECTED,
 };
 
 /**

@@ -27,6 +27,17 @@ namespace Comnet {
 namespace Network {
 
 /**
+packet_data_status determines current state of the data that is currently being read.
+Any action done onto our packet, will notify us of what is currently happening.
+*/
+enum packet_data_status_t {
+  PACKET_SUCCESSFUL,
+  PACKET_NO_DATA,
+  PACKET_MORE_DATA,
+  PACKET_DISCONNECTED,
+};
+
+/**
   Basic Socket Interface to handle TCP and UDP sockets.
 */
 INTERFACE CommSocket {
@@ -34,21 +45,28 @@ public:
   virtual ~CommSocket() 
   { }
 
-  virtual uint32_t sockSend(const char* buffer, uint32_t len, const char* address = "", uint32_t port = 0) = 0;
+  virtual int32_t sockSend(const char* buffer, 
+                            uint32_t len, 
+                            const char* address = "", 
+                            uint32_t port = 0) = 0;
 
-  virtual uint32_t sockReceive(const char* buffer, uint32_t len, const char* address = "", uint32_t port = 0) = 0;
+  virtual packet_data_status_t sockReceive(const char* buffer,
+                                      uint32_t len, 
+                                      const char* address = "", 
+                                      uint32_t port = 0) = 0;
   
-  virtual uint32_t sockConnect(const char* address, uint32_t port) = 0;
+  virtual int32_t sockConnect(const char* address, uint32_t port) = 0;
   
-  virtual uint32_t sockAsyncConnect(const char* address, uint32_t port) = 0;
+  virtual int32_t sockAsyncConnect(const char* address, uint32_t port) = 0;
 
-  virtual uint32_t sockListen(const char* address, uint32_t port) = 0;
+  virtual int32_t sockListen(const char* address, uint32_t port) = 0;
 
-  virtual uint32_t sockListen(uint32_t port) = 0;
+  virtual int32_t sockListen(uint32_t port) = 0;
 
   virtual CommSocket* sockAccept() = 0;
 
   virtual void sockDisconnect() = 0;
+
   virtual void sockClose() = 0;
 };
 
