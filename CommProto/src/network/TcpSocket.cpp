@@ -46,7 +46,7 @@ namespace Network {
 */
 class TcpSocket : public CommSocket {
 public:
-  /*
+  /**
     Constructor method for initializing this socket.
    */
   TcpSocket() {
@@ -59,7 +59,7 @@ public:
     _socket.id = -1;
 
   }
-  /*
+  /**
     Closes the socket and destroyes the tcp node, along with the mutex.
   */  
   ~TcpSocket() {
@@ -68,7 +68,7 @@ public:
     mutex_destroy(&mutex);
   }
 
-  /*
+  /**
     Connection function, from which a socket is created for the purpose of sending data
     to the server and back. This will create a client socket syncronously.
   */
@@ -126,7 +126,7 @@ public:
     return error;
   }
 
-  /*
+  /**
     Sends information over the connecting socket, in this case, the socket that 
     is initialized in this tcp connection.
     @param buffer
@@ -155,7 +155,7 @@ public:
     return error;
   }
 
-  /*
+  /**
     Recieve information over the connecting socket, in this case, the socket that is
     initialized in this tcp connection.
    */
@@ -181,7 +181,7 @@ public:
     return packetStatus;
   }
 
-  /*
+  /**
     Connect to socket asyncronously, without having to wait for the time tick.
     Instead, the connection is handled via a thread.
   */
@@ -189,7 +189,7 @@ public:
     return 0;
   }
 
-  /*
+  /**
     Set the listening server for this connection, in this case, the tcpsocket
     will initialize a server socket. 
   */
@@ -230,7 +230,7 @@ public:
     return 0;
   }
 
-  /*
+  /**
     Accept a connection from any client. If a connection was successfully accepted,
     A new TcpSocket will be created, along with initializing the client socket that was accepted into 
     the new TcpSocket, and returned. Otherwise, NULL will be returned. 
@@ -253,7 +253,7 @@ public:
     return tcpSock;
   }
 
-  /*
+  /**
     Close the socket.
   */
   void sockClose() {
@@ -265,7 +265,7 @@ public:
   }
 
 protected:
-  /*
+  /**
     Initialize the sockaddr struct with tcp protocol signatures.
   */
   void initializeSockAddr(const char* address, PORT port, struct sockaddr_in* s) {
@@ -273,7 +273,7 @@ protected:
     s->sin_port = htons(port);
     s->sin_addr.s_addr = inet_addr(address);
   }
-  /*
+  /**
     Set this socket to asyncronous io, that way it does not stop the thread just to wait for 
     a function to complete its call. 
   */
@@ -286,7 +286,7 @@ protected:
 #endif
   }
 
-  /*
+  /**
     Set the tcp connection to have no delay (disables Nagle's Algorithm) in betweeen reading messages. 
     The packet is recieved instantly, otherwise an error is quickly returned. This is similar to 
     using UDP conneciton.
@@ -295,7 +295,7 @@ protected:
     return setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (const char*)&on, sizeof(on)) == 0;
   }
 private:
-  /*
+  /**
     Private constructor, only used to create a new socket from accept().
   */
   TcpSocket(SOCKET socket) {
@@ -303,17 +303,17 @@ private:
     _socket.socket_status = SOCKET_CONNECTED;
     _socket.socket = socket;
   }
-  /*
+  /**
     Mutex used to prevent multiple threads from running into race conditions inside asyncConnect().
   */
   mutex_t mutex;
-  /*
+  /**
     The connected client socket (if used connect()) or server socket (if used listen()).
   */
   socket_t _socket;
 };
 
-/*
+/**
   Creates a tcp socket for CommSocket.
 */
 CommSocket* createTcpSocket() {
