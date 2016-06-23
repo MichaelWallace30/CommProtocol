@@ -2,7 +2,7 @@
 #define __COMMS_DEBUG_H
 
 #include <stdio.h>
-#include <cstdarg>
+#include <stdarg.h>
 
 // Controls logging information. Set this to 1, if you wish to 
 // display debug information from comms_debug_log.
