@@ -139,11 +139,11 @@ public:
                     const char* address,
                     uint32_t port)
   {
+    int32_t error = -1;
     if (_socket.socket == INVALID_SOCKET) {
       COMMS_DEBUG("socket is not connected...\n");
-      return -1;
+      return error;
     }
-    int32_t error = -1;
 
     if (send(_socket.socket, buffer, len, 0) < 0) {
       COMMS_DEBUG("Socket failed to send with error: %d\n", GET_LAST_ERROR);

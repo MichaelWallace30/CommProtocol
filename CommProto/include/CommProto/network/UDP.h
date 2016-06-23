@@ -20,12 +20,11 @@
 #define UDP_H
 
 /* User Includes */
-#include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/network/CommsLink.h>
 #include <CommProto/architecture/connection/socket-config.h>
 #include <CommProto/architecture/macros.h>//str_length(char*,int)
 #include <stdio.h>//printf
-#include <cstdlib>//atoi
+#include <stdlib.h>//atoi
 
 #define UDP_DEBUG
 #define ADDRESS_LENGTH 16

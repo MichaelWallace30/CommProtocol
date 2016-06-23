@@ -284,7 +284,7 @@ openPort(Serial& serial, const char* comPort, uint32_t baudrate) {
 #if defined WINDOWS_SERIAL
   return initWindows(serial, comPort, baudrate);
 #elif defined UNIX_SERIAL
-  return initUnixSerial(serial, comPort.c_str(), baudrate);
+  return initUnixSerial(serial, comPort, baudrate);
 #endif
 }
 
