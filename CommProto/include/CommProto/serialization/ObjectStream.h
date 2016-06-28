@@ -18,29 +18,29 @@ public:
   int32_t getSize();
   
   ObjectStream& operator<<(string_t& data);
-  ObjectStream& operator<<(uint8& data);
-  ObjectStream& operator<<(int8& data);
-  ObjectStream& operator<<(uint16& data);
-  ObjectStream& operator<<(int16& data);
-  ObjectStream& operator<<(uint16& data);
-  ObjectStream& operator<<(int32& data);
-  ObjectStream& operator<<(uint32& data);
-  ObjectStream& operator<<(int64& data);
-  ObjectStream& operator<<(uint64& data);
-  ObjectStream& operator<<(real32& data);
-  ObjectStream& operator<<(real64& data);
+  ObjectStream& operator<<(uint8_t& data);
+  ObjectStream& operator<<(int8_t& data);
+  ObjectStream& operator<<(uint16_t& data);
+  ObjectStream& operator<<(int16_t);
+  ObjectStream& operator<<(uint16_t& data);
+  ObjectStream& operator<<(int32_t& data);
+  ObjectStream& operator<<(uint32_t& data);
+  ObjectStream& operator<<(int64_t& data);
+  ObjectStream& operator<<(uint64_t& data);
+  ObjectStream& operator<<(real32_t& data);
+  ObjectStream& operator<<(real64_t& data);
 
   ObjectStream& operator>>(string_t& data);
-  ObjectStream& operator>>(uint8& data);
-  ObjectStream& operator>>(int8& data);
-  ObjectStream& operator>>(uint16& data);
-  ObjectStream& operator>>(int16& data);
-  ObjectStream& operator>>(uint32& data);
-  ObjectStream& operator>>(int32& data);
-  ObjectStream& operator>>(uint64& data);
-  ObjectStream& operator>>(int64& data);
-  ObjectStream& operator>>(real32& data);
-  ObjectStream& operator>>(real64& data);
+  ObjectStream& operator>>(uint8_t& data);
+  ObjectStream& operator>>(int8_t& data);
+  ObjectStream& operator>>(uint16_t& data);
+  ObjectStream& operator>>(int16_t& data);
+  ObjectStream& operator>>(uint32_t& data);
+  ObjectStream& operator>>(int32_t& data);
+  ObjectStream& operator>>(uint6_t4& data);
+  ObjectStream& operator>>(int64_t& data);
+  ObjectStream& operator>>(real32_t& data);
+  ObjectStream& operator>>(real64_t& data);
 
 private:
   Tools::DataStructures::Interface::List<unsigned char*>& stream;

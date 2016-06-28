@@ -5,8 +5,32 @@
 #include <CommProto/hash/NgcpHash.h>
 #include <CommProto/console/Console.h>
 #include <CommProto/network/CommSocket.h>
+#include <CommProto/serialization/Marshal.h>
 #include <stdlib.h>
+
+#include <iostream>
+using namespace std;
+using namespace Comnet::Serialization;
+
+
 int main(int c, char** args) {
+
+	uint8_t buffer[100];
+
+	uint16_t value = 125;
+
+
+	cout << "Packed uint16_t: \t" << value << endl;
+
+	cout << buffer[0] << " " << buffer[1] << endl;
+	packUint16(value, buffer);
+	cout << buffer[0] << " " << buffer[1] << endl;
+	
+	value = unpackUint16(buffer);
+	cout << "Unpacked uint16_t: \t" << (uint16_t)value << endl;
+	cout << buffer[0] << " " << buffer[1] << endl;
+
+	/*
   printf("Hello World!\n");
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);
@@ -35,5 +59,6 @@ int main(int c, char** args) {
     
     Sleep(1000);
   }
+  */
   return 0;
 }
