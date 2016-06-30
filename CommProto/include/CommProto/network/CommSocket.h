@@ -65,8 +65,6 @@ public:
 
   virtual CommSocket* sockAccept() = 0;
 
-  virtual void sockDisconnect() = 0;
-
   virtual void sockClose() = 0;
 };
 

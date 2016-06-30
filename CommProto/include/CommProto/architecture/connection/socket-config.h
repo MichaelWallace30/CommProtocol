@@ -20,6 +20,7 @@
 #define __SOCKET_CONFIG_H
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <errno.h>
 
 // Declare our libraries.
 #if (COM_TARGET_OS == COM_OS_WINDOWS)  
@@ -49,7 +50,6 @@
  #endif
  #define GET_LAST_ERROR GetLastError()
 #else
- #include <errno.h>
  #include <unistd.h>
  #include <sys/types.h>
  #include <sys/socket.h>
