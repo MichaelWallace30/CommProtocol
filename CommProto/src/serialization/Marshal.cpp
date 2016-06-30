@@ -16,7 +16,7 @@ namespace Serialization {
 		return len;	
 	}
 
-	string_t unpackString(marshall_t input, int16_t len)
+	void unpackString(marshall_t input, int16_t len)
 	{
 		return NULL;//memory leaks?
 	}

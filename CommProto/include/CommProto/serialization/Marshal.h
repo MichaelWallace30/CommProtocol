@@ -18,7 +18,7 @@ typedef double real64_t;
 
 
 uint32_t packString(string_t data, int16_t len, marshall_t input);
-string_t unpackString(marshall_t input, int16_t len);
+uint32_t unpackString(string_t data, int16_t maxLen, marshall_t input);
 
 uint32_t packWideString(wideString_t data, int16_t len, marshall_t input);
 wideString_t unpackWideString(marshall_t input, int16_t len);
