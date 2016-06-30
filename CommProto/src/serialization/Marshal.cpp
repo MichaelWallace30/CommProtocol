@@ -10,24 +10,23 @@ namespace Serialization {
 
 
 
-	uint32_t packString(string_t data, int16_t len, marshall_t input) 
+	uint32_t packString(string_t data, int16_t len, marshall_t input)
 	{
-		memcpy(input, &data, len);
-		return len;	
+		return NULL;
 	}
 
-	void unpackString(marshall_t input, int16_t len)
+	void unpackString(string_t data, int16_t len, marshall_t input)
 	{
-		return NULL;//memory leaks?
+		return;
 	}
+
 	uint32_t packWideString(wideString_t data, int16_t len, marshall_t input)
 	{
 		return NULL;
 	}
-
-	wideString_t unpackWideString(marshall_t input, int16_t len)
+	void unpackWideString(wideString_t data, int16_t len, marshall_t input)
 	{
-		return NULL;
+		return;
 	}
 
 	uint32_t packByte(uint8_t data, marshall_t input) 
