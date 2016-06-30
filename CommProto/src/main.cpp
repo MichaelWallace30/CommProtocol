@@ -15,20 +15,23 @@ using namespace Comnet::Serialization;
 
 int main(int c, char** args) {
 
-	uint8_t buffer[100];
+	uint8_t buffer[100] = { 0 };
 
 	uint16_t value = 125;
 
+	
+	cout << "Normal uint16_t: \t" << value << endl;
+
+	
+	packGeneric<uint16_t>(value, buffer);
+	memcpy(&value, buffer, 2);
 
 	cout << "Packed uint16_t: \t" << value << endl;
-
-	cout << buffer[0] << " " << buffer[1] << endl;
-	packUint16(value, buffer);
-	cout << buffer[0] << " " << buffer[1] << endl;
 	
-	value = unpackUint16(buffer);
-	cout << "Unpacked uint16_t: \t" << (uint16_t)value << endl;
-	cout << buffer[0] << " " << buffer[1] << endl;
+	
+	value = unpackGeneric<uint16_t>(buffer);
+	cout << "Unpacked uint16_t: \t" << value << endl;
+	
 
 	/*
   printf("Hello World!\n");
