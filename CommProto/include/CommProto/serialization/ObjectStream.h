@@ -37,7 +37,7 @@ public:
   ObjectStream& operator>>(int16_t& data);
   ObjectStream& operator>>(uint32_t& data);
   ObjectStream& operator>>(int32_t& data);
-  ObjectStream& operator>>(uint6_t4& data);
+  ObjectStream& operator>>(uint64_t& data);
   ObjectStream& operator>>(int64_t& data);
   ObjectStream& operator>>(real32_t& data);
   ObjectStream& operator>>(real64_t& data);

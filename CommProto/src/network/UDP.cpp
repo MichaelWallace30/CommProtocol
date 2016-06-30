@@ -17,7 +17,6 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/UDP.h>
-
 #include <ctype.h>
 
 /***********************************************/
@@ -33,10 +32,9 @@ bool UDP::udp_open(int* fd)
       returns false if fails*/
   if ((*fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 	{
-      printf("socket() failed\n");
+      COMMS_DEBUG("socket() failed\n");
       result = false;;
-  }
-  
+  }  
   return result;
 }
 
@@ -78,7 +76,7 @@ bool UDP::initConnection(const char* port, const char* address, uint32_t baudrat
 		{
 			if (!isdigit(port[x]))
 			{
-				printf("initConnection 'port' argument is not a numerical digit for udp connection\n");
+				COMMS_DEBUG("initConnection 'port' argument is not a numerical digit for udp connection\n");
 				return false;
 			}
 		}
@@ -93,7 +91,7 @@ bool UDP::initConnection(const char* port, const char* address, uint32_t baudrat
       
       //bind socket
       if (bind(fd, (struct sockaddr *)&sockaddr.socket_address, sizeof(sockaddr.socket_address)) < 0) {
-	printf("bind failed");
+	COMMS_DEBUG("bind failed");
 	return false;
       }
       
@@ -110,7 +108,6 @@ bool UDP::initConnection(const char* port, const char* address, uint32_t baudrat
 
 bool UDP::addAddress(uint8_t destID, const char* address, uint16_t port)
 {
-
 	uint16_t length = 0;
 	str_length(address, length);
   if (conn[destID].socket_status == SOCKET_OPEN && length < ADDRESS_LENGTH)
@@ -151,17 +148,14 @@ bool UDP::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 		 (struct sockaddr *) 
 		 &conn[destID].socket_address, slen) < 0)
 		{
-			printf("sendto() failed\n");
+			COMMS_DEBUG("sendto() failed\n");
 			return false;
 		}
 		else
-		{	  
-		#ifdef UDP_DEBUG
-			int port = ntohs(conn[destID].socket_address.sin_port);				
-			printf("**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
-				txLength, port, 
-				inet_ntoa(conn[destID].socket_address.sin_addr));
-		#endif	  
+		{	  						
+			COMMS_DEBUG("**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
+				txLength, ntohs(conn[destID].socket_address.sin_port),
+				inet_ntoa(conn[destID].socket_address.sin_addr));		  
 		}
     }
   return false;
@@ -182,17 +176,14 @@ bool UDP::recv(uint8_t* rxData, uint32_t* rxLength)
 			}
 			else
 			{
-				printf("UDP not connected can't receive\n");
+				COMMS_DEBUG("UDP not connected can't receive\n");
 				return false;//not connected
 			}
   
   if (length < 0) return false;
-  
-#ifdef UDP_DEBUG
-  int port = ntohs(si_other.socket_address.sin_port);
-  printf("**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, port, inet_ntoa(si_other.socket_address.sin_addr));
-#endif
-  
+    
+  COMMS_DEBUG("**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, ntohs(si_other.socket_address.sin_port) , inet_ntoa(si_other.socket_address.sin_addr));
+    
   *rxLength = (uint32_t)length;
   return true;
 }
