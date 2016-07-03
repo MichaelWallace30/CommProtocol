@@ -6,6 +6,7 @@
 #include <CommProto/console/Console.h>
 #include <CommProto/network/CommSocket.h>
 #include <CommProto/serialization/Marshal.h>
+#include <CommProto/serialization/ObjectStream.h>
 #include <stdlib.h>
 
 #include <iostream>
@@ -15,18 +16,17 @@ using namespace Comnet::Serialization;
 
 int main(int c, char** args) {
 
-	uint8_t buffer[100] = { 0 };
+	ObjectStream newObjectStream = ObjectStream();
 
-	uint16_t value = 125;	
-	cout << "Normal uint16_t: \t" << value << endl;
-	packGeneric<uint16_t>(value, buffer);
-	memcpy(&value, buffer, 2);
+	uint8_t value1 = 110;
+	cout << value1 << endl;
+	newObjectStream >> value1;
 
-	cout << "Packed uint16_t: \t" << value << endl;
-	
-	
-	value = unpackGeneric<uint16_t>(buffer);
-	cout << "Unpacked uint16_t: \t" << value << endl;
+	uint8_t value2 = 50;
+
+	newObjectStream << value2;
+
+	cout << value2 << endl;
 	
 
 	/*
