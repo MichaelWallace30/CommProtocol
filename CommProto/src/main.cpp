@@ -17,16 +17,20 @@ using namespace Comnet::Serialization;
 int main(int c, char** args) {
 
 	ObjectStream newObjectStream = ObjectStream();
-
-	uint8_t value1 = 110;
-	cout << value1 << endl;
-	newObjectStream << value1;
-
-	uint8_t value2 = 50;
 	
-	newObjectStream >> value2;
+	double value1A = 64.2;
+	int value2A = 12;
 
-	cout << (int)value2 << endl;
+	newObjectStream << value1A << value2A;
+
+
+	double value1B;
+	int value2B;
+		
+	newObjectStream >> value2B >> value1B;
+
+	cout << value1B <<" "<< value2B<< endl;
+	
 	
 
 	/*

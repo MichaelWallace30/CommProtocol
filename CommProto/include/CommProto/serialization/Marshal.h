@@ -47,7 +47,7 @@ int64_t unpackInt64(marshall_t input);
 uint32_t packReal32(real32_t data, marshall_t input);
 real32_t unpackReal32(marshall_t input);
 
-uint32_t packReal64(real64_t, marshall_t input);
+uint32_t packReal64(real64_t data, marshall_t input);
 real64_t unpackReal64(marshall_t input);
 
 
