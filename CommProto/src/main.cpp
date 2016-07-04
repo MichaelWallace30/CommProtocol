@@ -20,13 +20,13 @@ int main(int c, char** args) {
 
 	uint8_t value1 = 110;
 	cout << value1 << endl;
-	newObjectStream >> value1;
+	newObjectStream << value1;
 
 	uint8_t value2 = 50;
+	
+	newObjectStream >> value2;
 
-	newObjectStream << value2;
-
-	cout << value2 << endl;
+	cout << (int)value2 << endl;
 	
 
 	/*

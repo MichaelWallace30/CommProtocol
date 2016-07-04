@@ -2,24 +2,29 @@
 
 using namespace Comnet::Serialization;
 
-ObjectStream::ObjectStream()
+ObjectStream::ObjectStream():bufferSize(0)
 {
-	streamBuffer = new uint8_t[100];
+	streamBuffer = new uint8_t[STREAM_BUFFER_MAX_SIZE];	
 }
 
 ObjectStream::~ObjectStream()
 {
-	delete streamBuffer;
+	delete[] streamBuffer;
+	streamBuffer = NULL;
 }
 
+
+//input
 ObjectStream& ObjectStream::operator<<(uint8_t& data)
 {
-	data = unpackByte(streamBuffer);
+	packByte(data, streamBuffer);
 	return *this;
 }
 
+
+//output
 ObjectStream& ObjectStream::operator>>(uint8_t& data)
 {
-	packByte(data, streamBuffer);
+	data = unpackByte(streamBuffer);
 	return *this;
 }

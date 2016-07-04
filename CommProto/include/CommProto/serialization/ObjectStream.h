@@ -6,20 +6,22 @@
 
 namespace Comnet {
 namespace Serialization {
-  
-
 /**
 */
+
+#define STREAM_BUFFER_MAX_SIZE 1014
 class ObjectStream {
-private:
-	
+private:	
 	marshall_t streamBuffer;
+	uint32_t bufferSize;
+
 public:
   ObjectStream();
   ~ObjectStream();
   
   int32_t getSize();
   
+  /** Overloaded input stream operators to put variables into the object stream*/
   ObjectStream& operator<<(string_t& data);
   ObjectStream& operator<<(uint8_t& data);
   ObjectStream& operator<<(int8_t& data);
@@ -32,6 +34,7 @@ public:
   ObjectStream& operator<<(real32_t& data);
   ObjectStream& operator<<(real64_t& data);
 
+  /** OVerloaded output stream operators to output variables to a variable from the object stream*/
   ObjectStream& operator>>(string_t& data);
   ObjectStream& operator>>(uint8_t& data);
   ObjectStream& operator>>(int8_t& data);

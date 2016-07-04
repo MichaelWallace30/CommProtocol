@@ -10,8 +10,7 @@ namespace Serialization {
 	uint32_t packString(string_t data, int16_t len, marshall_t input)
 	{
 		memcpy(input, data, len);
-		return len;
-		
+		return len;		
 	}
 
 	void unpackString(string_t data, int16_t len, marshall_t input)
@@ -22,13 +21,21 @@ namespace Serialization {
 
 	uint32_t packWideString(wideString_t data, int16_t len, marshall_t input)
 	{
+		for (int x = 0; x < len; x++)
+		{
+			swap_endian<wchar_t>(data[x]);
+		}
 		memcpy(input, data, len * 2);
-		return len;
+		return len * 2;
 		
 	}
 	void unpackWideString(wideString_t data, int16_t len, marshall_t input)
 	{
 		memcpy(data, input, len * 2);
+		for (int x = 0; x < len; x++)
+		{
+			swap_endian<wchar_t>(data[x]);
+		}
 		return;
 	}
 
