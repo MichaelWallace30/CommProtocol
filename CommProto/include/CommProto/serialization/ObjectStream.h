@@ -6,33 +6,41 @@
 
 namespace Comnet {
 namespace Serialization {
-  
-
 /**
 */
+
+#define STREAM_BUFFER_MAX_SIZE 1014
 class ObjectStream {
-private:
-	
+private:	
 	marshall_t streamBuffer;
+	uint32_t currentPostion;
+
 public:
   ObjectStream();
   ~ObjectStream();
   
-  int32_t getSize();
+  int32_t getSize(){ return currentPostion; }
+  
+  /** Overloaded input stream operators to put variables into the object stream*/
   
   ObjectStream& operator<<(string_t& data);
-  ObjectStream& operator<<(uint8_t& data);
+  ObjectStream& operator<<(wideString_t& data);
+  ObjectStream& operator<<(uint8_t& data);  
   ObjectStream& operator<<(int8_t& data);
   ObjectStream& operator<<(uint16_t& data);
-  ObjectStream& operator<<(int16_t);  
+  ObjectStream& operator<<(int16_t& data);  
   ObjectStream& operator<<(int32_t& data);
   ObjectStream& operator<<(uint32_t& data);
   ObjectStream& operator<<(int64_t& data);
   ObjectStream& operator<<(uint64_t& data);
   ObjectStream& operator<<(real32_t& data);
   ObjectStream& operator<<(real64_t& data);
+  
 
+  /** OVerloaded output stream operators to output variables to a variable from the object stream*/
+  
   ObjectStream& operator>>(string_t& data);
+  ObjectStream& operator>>(wideString_t& data);
   ObjectStream& operator>>(uint8_t& data);
   ObjectStream& operator>>(int8_t& data);
   ObjectStream& operator>>(uint16_t& data);
@@ -43,10 +51,8 @@ public:
   ObjectStream& operator>>(int64_t& data);
   ObjectStream& operator>>(real32_t& data);
   ObjectStream& operator>>(real64_t& data);
+  
 
-private:
-  //Tools::DataStructures::Interface::List<unsigned char*>& stream;
-	//I cant figure out how to init this says default constructor is not allowed
 };
 } // Serialization namespace
 } // Comnet namespace
