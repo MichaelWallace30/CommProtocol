@@ -20,12 +20,12 @@ int main(int c, char** args) {
 	
 	double value1A = 64.2;
 	int value2A = 12;
-	string_t strData = "H";
+	string_t strData = "Hello World!!!";
 	uint8_t valueA = 1;
 
 
 
-	newObjectStream << valueA << strData << value1A;
+	newObjectStream << valueA << strData << value2A << value1A;
 	
 	double value1B;
 	int value2B; 
@@ -33,12 +33,14 @@ int main(int c, char** args) {
 	
 	string_t strDataB = (string_t)malloc(25);
 
-	newObjectStream >> value1B >>strDataB >> valueB;// >> value2B >> value1B;
+	newObjectStream >> value1B >> value2B>>strDataB >> valueB;// >> value2B >> value1B;
 
 	
 	cout << strDataB << endl;
 	
-
+	cout << (int)valueB << endl;
+	cout << value1B << endl;
+	cout << value2B << endl;
 	
 	
 

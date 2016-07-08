@@ -192,7 +192,7 @@ ObjectStream& ObjectStream::operator>>(string_t& data)
 	// + 1 for null termination + 1 for storing length of string as byte
 	currentPostion -= (strLen + 2);
 
-	strLen = unpackString(data,strLen,streamBuffer);
+	strLen = unpackString(data,strLen,streamBuffer + currentPostion);
 
 	
 		 
@@ -206,7 +206,7 @@ ObjectStream& ObjectStream::operator>>(wideString_t& data)
 
 	// + 2 for null termination + 1 for storing length of string as byte
 	currentPostion -=( (strLen *2) + 3);
-	strLen = unpackWideString(data, strLen,streamBuffer);
+	strLen = unpackWideString(data, strLen,streamBuffer + currentPostion);
 	
 	
 	return *this;
