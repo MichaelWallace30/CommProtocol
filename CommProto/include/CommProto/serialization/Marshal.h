@@ -18,11 +18,11 @@ typedef float real32_t;
 typedef double real64_t;
 
 
-uint32_t packString(string_t data, marshall_t input);
-uint8_t unpackString(string_t data, marshall_t input);
+uint32_t packString(string_t data, uint8_t len,marshall_t input);
+uint32_t unpackString(string_t data, uint8_t len, marshall_t input);
 
-uint32_t packWideString(wideString_t data, marshall_t input);
-uint8_t unpackWideString(wideString_t data, marshall_t input);
+uint32_t packWideString(wideString_t data, uint8_t len, marshall_t input);
+uint32_t unpackWideString(wideString_t data, uint8_t len, marshall_t input);
 
 uint32_t packByte(uint8_t data, marshall_t input);
 uint8_t unpackByte(marshall_t input);

@@ -20,17 +20,25 @@ int main(int c, char** args) {
 	
 	double value1A = 64.2;
 	int value2A = 12;
+	string_t strData = "H";
+	uint8_t valueA = 1;
 
-	newObjectStream << value1A;
 
 
+	newObjectStream << valueA << strData << value1A;
+	
 	double value1B;
-	int value2B;
-	newObjectStream.resetPostion();
-		
-	newObjectStream >> value1B;
+	int value2B; 
+	uint8_t valueB;
+	
+	string_t strDataB = (string_t)malloc(25);
 
-	cout << value1B << endl;
+	newObjectStream >> value1B >>strDataB >> valueB;// >> value2B >> value1B;
+
+	
+	cout << strDataB << endl;
+	
+
 	
 	
 

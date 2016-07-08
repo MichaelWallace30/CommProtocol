@@ -7,41 +7,37 @@
 namespace Comnet {
 namespace Serialization {
 	
-	uint32_t packString(string_t data, marshall_t input)
-	{
-		uint8_t len = 0;
-		str_length(data,len);
-		memcpy(input, &len, 1);
-		memcpy(input + 1, data, len +1);
-		return len + 2;		
+	uint32_t packString(string_t data, uint8_t len, marshall_t input)
+	{			
+		//+1 for null termination
+		memcpy(input, data, len + 1);
+		//pack length at the end use length out side of this function
+		memcpy(input + len + 1, &len, sizeof(uint8_t));
+		return len + 1 + sizeof(uint8_t);		
 	}
 
-	uint8_t unpackString(string_t data, marshall_t input)
-	{
-		uint8_t len = 0;
-		memcpy(&len, input, 1);
-		memcpy(data, input + 1, len +1);		
+	uint32_t unpackString(string_t data, uint8_t len, marshall_t input)
+	{			
+		memcpy(data, input, len +1);		
 		return len;
 	}
 
-	uint32_t packWideString(wideString_t data, marshall_t input)
+	uint32_t packWideString(wideString_t data, uint8_t len, marshall_t input)
 	{
-		uint8_t len = 0;
-		str_length(data, len);
+		//+2 for null termination
 		for (int x = 0; x < len; x++)
 		{
 			swap_endian<wchar_t>(data[x]);
-		}
-		memcpy(input, &len, 1);
-		memcpy(input + 1, data, (len * 2) +2);
-		return (len * 2) + 3;
+		}		
+		memcpy(input, data, (len * 2) +2);
+		memcpy(input + len + 2, &len, sizeof(uint8_t));
+		return (len * 2) + 2 + sizeof(uint8_t);
 		
 	}
-	uint8_t unpackWideString(wideString_t data,  marshall_t input)
-	{
-		uint8_t len = 0;
-		memcpy(&len, input, 1);
-		memcpy(data, input + 1, (len * 2) +2);
+	uint32_t unpackWideString(wideString_t data, uint8_t len, marshall_t input)
+	{		
+		
+		memcpy(data, input, (len * 2) +2);
 		for (int x = 0; x < len; x++)
 		{
 			swap_endian<wchar_t>(data[x]);
@@ -52,7 +48,7 @@ namespace Serialization {
 	uint32_t packByte(uint8_t data, marshall_t input) 
 	{
 		memcpy(input, &data, 1);
-		return NULL;
+		return sizeof(uint8_t);
 	}
 
 	uint8_t unpackByte(marshall_t input)

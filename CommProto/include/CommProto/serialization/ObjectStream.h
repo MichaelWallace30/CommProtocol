@@ -1,8 +1,9 @@
 #ifndef __OBJECT_STREAM_H
 #define __OBJECT_STREAM_H
 
-#include <CommProto/tools/data_structures/interface/InterfaceList.h>
 #include <CommProto/serialization/Marshal.h>
+#include <CommProto/console/CommsDebug.h>
+
 
 namespace Comnet {
 namespace Serialization {
@@ -13,17 +14,14 @@ namespace Serialization {
 class ObjectStream {
 private:	
 	marshall_t streamBuffer;
-	uint32_t currentPostion;
-	uint32_t size;
+	int32_t currentPostion;
+	void printErrorUnderFlow(){COMMS_DEBUG("ERROR:\t Source: ObjectStream\t Message: Buffer too small\n");}
+	void printErrorOverFlow(){ COMMS_DEBUG("ERROR:\t Source: ObjectStream\t Message: Buffer full\n"); }
 
 public:
   ObjectStream();
   ~ObjectStream();
-  
-  int32_t getSize(){ return size; }
   int32_t getPostion(){ return currentPostion; }
-  void setPostion(int32_t pos){ currentPostion = pos; }
-  void resetPostion(){ currentPostion = 0; }
   
   /** Overloaded input stream operators to put variables into the object stream*/
   
