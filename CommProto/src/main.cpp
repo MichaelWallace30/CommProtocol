@@ -21,15 +21,16 @@ int main(int c, char** args) {
 	double value1A = 64.2;
 	int value2A = 12;
 
-	newObjectStream << value1A << value2A;
+	newObjectStream << value1A;
 
 
 	double value1B;
 	int value2B;
+	newObjectStream.resetPostion();
 		
-	newObjectStream >> value2B >> value1B;
+	newObjectStream >> value1B;
 
-	cout << value1B <<" "<< value2B<< endl;
+	cout << value1B << endl;
 	
 	
 

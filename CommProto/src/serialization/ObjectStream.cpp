@@ -17,12 +17,12 @@ ObjectStream::~ObjectStream()
 
 ObjectStream& ObjectStream::operator<<(string_t& data)
 {
-
-	//needs string leng
-	uint32_t strLen = 0;
-	if (currentPostion + strLen < STREAM_BUFFER_MAX_SIZE)
+	uint8_t strLen = 0;
+	str_length(data, strLen);
+	
+	if (currentPostion + strLen + 2 < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packString(data, strLen, streamBuffer + currentPostion);
+		size = currentPostion += packString(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -33,9 +33,10 @@ ObjectStream& ObjectStream::operator<<(wideString_t& data)
 
 	//needs string leng
 	uint32_t strLen = 0;
-	if (currentPostion + (strLen * 2) < STREAM_BUFFER_MAX_SIZE)
+	str_length(data, strLen);	
+	if (currentPostion + (strLen * 2) + 3< STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packWideString(data, strLen, streamBuffer + currentPostion);
+		size = currentPostion += packWideString(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -45,7 +46,7 @@ ObjectStream& ObjectStream::operator<<(uint8_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packByte(data, streamBuffer + currentPostion);
+		size = currentPostion += packByte(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -55,7 +56,7 @@ ObjectStream& ObjectStream::operator<<(int8_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packByte(data, streamBuffer + currentPostion);
+		size = currentPostion += packByte(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -65,7 +66,7 @@ ObjectStream& ObjectStream::operator<<(uint16_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packUint16(data, streamBuffer + currentPostion);
+		size = currentPostion += packUint16(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -74,7 +75,7 @@ ObjectStream& ObjectStream::operator<<(int16_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packInt16(data, streamBuffer + currentPostion);
+		size = currentPostion += packInt16(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -83,7 +84,7 @@ ObjectStream& ObjectStream::operator<<(int32_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packInt32(data, streamBuffer + currentPostion);
+		size = currentPostion += packInt32(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -93,7 +94,7 @@ ObjectStream& ObjectStream::operator<<(uint32_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packUint32(data, streamBuffer + currentPostion);
+		size = currentPostion += packUint32(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -101,7 +102,7 @@ ObjectStream& ObjectStream::operator<<(int64_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packInt64(data, streamBuffer + currentPostion);
+		size = currentPostion += packInt64(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -109,7 +110,7 @@ ObjectStream& ObjectStream::operator<<(uint64_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packUint64(data, streamBuffer + currentPostion);
+		size = currentPostion += packUint64(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -117,7 +118,7 @@ ObjectStream& ObjectStream::operator<<(real32_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packReal32(data, streamBuffer + currentPostion);
+		size = currentPostion += packReal32(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -126,7 +127,7 @@ ObjectStream& ObjectStream::operator<<(real64_t& data)
 {
 	if (currentPostion + sizeof(data) < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packReal64(data, streamBuffer + currentPostion);
+		size = currentPostion += packReal64(data, streamBuffer + currentPostion);
 	}
 	return *this;
 }
@@ -136,21 +137,22 @@ ObjectStream& ObjectStream::operator<<(real64_t& data)
 //output
 ObjectStream& ObjectStream::operator>>(string_t& data)
 {
-	uint32_t strLen = 0;
-	if ((currentPostion -= strLen) >= 0)
-	{
-		 unpackString(data, strLen,streamBuffer);
-	}
+	uint32_t strLen = 0;//this is dangerous I don't know a soutlion
+
+	strLen = unpackString(data,streamBuffer);
+
+	currentPostion += strLen + 2;
+		 
 	return *this;
 }
 
 ObjectStream& ObjectStream::operator>>(wideString_t& data)
 {
-	uint32_t strLen = 0;
-	if ((currentPostion -= (strLen * 2)) >= 0)
-	{
-		unpackWideString(data, strLen, streamBuffer);
-	}
+	uint32_t strLen = 0;//this is dangerous I don't know a soultion
+
+	strLen = unpackWideString(data, streamBuffer);
+	currentPostion += strLen + 3;
+	
 	return *this;
 }
 
@@ -228,18 +230,20 @@ ObjectStream& ObjectStream::operator>>(int64_t& data)
 
 ObjectStream& ObjectStream::operator>>(real32_t& data)
 {
-	if ((currentPostion -= sizeof(data)) >= 0)
+	if ((currentPostion + sizeof(data)) <= getSize())
 	{
 		data = unpackReal32(streamBuffer + currentPostion);
+		currentPostion += sizeof(data);
 	}
 	return *this;
 }
 
 ObjectStream& ObjectStream::operator>>(real64_t& data)
 {
-	if ((currentPostion -= sizeof(data)) >= 0)
+	if ((currentPostion + sizeof(data)) <= getSize())
 	{
 		data = unpackReal64(streamBuffer + currentPostion);
+		currentPostion += sizeof(data);
 	}
 	return *this;
 }

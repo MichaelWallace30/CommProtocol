@@ -14,12 +14,16 @@ class ObjectStream {
 private:	
 	marshall_t streamBuffer;
 	uint32_t currentPostion;
+	uint32_t size;
 
 public:
   ObjectStream();
   ~ObjectStream();
   
-  int32_t getSize(){ return currentPostion; }
+  int32_t getSize(){ return size; }
+  int32_t getPostion(){ return currentPostion; }
+  void setPostion(int32_t pos){ currentPostion = pos; }
+  void resetPostion(){ currentPostion = 0; }
   
   /** Overloaded input stream operators to put variables into the object stream*/
   

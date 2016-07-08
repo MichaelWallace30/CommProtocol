@@ -5,6 +5,7 @@
 #define LITTLE_ENDIAN_COMNET
 
 #include <CommProto\architecture\os\include_defines.h>
+#include <CommProto\architecture\macros.h>//str_length()
 
 namespace Comnet {
 namespace Serialization {
@@ -17,11 +18,11 @@ typedef float real32_t;
 typedef double real64_t;
 
 
-uint32_t packString(string_t data, int16_t len, marshall_t input);
-void unpackString(string_t data, int16_t len, marshall_t input);
+uint32_t packString(string_t data, marshall_t input);
+uint8_t unpackString(string_t data, marshall_t input);
 
-uint32_t packWideString(wideString_t data, int16_t len, marshall_t input);
-void unpackWideString(wideString_t data, int16_t len, marshall_t input);
+uint32_t packWideString(wideString_t data, marshall_t input);
+uint8_t unpackWideString(wideString_t data, marshall_t input);
 
 uint32_t packByte(uint8_t data, marshall_t input);
 uint8_t unpackByte(marshall_t input);

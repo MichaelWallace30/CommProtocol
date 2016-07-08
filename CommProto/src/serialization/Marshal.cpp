@@ -7,36 +7,46 @@
 namespace Comnet {
 namespace Serialization {
 	
-	uint32_t packString(string_t data, int16_t len, marshall_t input)
+	uint32_t packString(string_t data, marshall_t input)
 	{
-		memcpy(input, data, len);
-		return len;		
+		uint8_t len = 0;
+		str_length(data,len);
+		memcpy(input, &len, 1);
+		memcpy(input + 1, data, len +1);
+		return len + 2;		
 	}
 
-	void unpackString(string_t data, int16_t len, marshall_t input)
+	uint8_t unpackString(string_t data, marshall_t input)
 	{
-		memcpy(data, input, len);
-		return;
+		uint8_t len = 0;
+		memcpy(&len, input, 1);
+		memcpy(data, input + 1, len +1);		
+		return len;
 	}
 
-	uint32_t packWideString(wideString_t data, int16_t len, marshall_t input)
+	uint32_t packWideString(wideString_t data, marshall_t input)
 	{
+		uint8_t len = 0;
+		str_length(data, len);
 		for (int x = 0; x < len; x++)
 		{
 			swap_endian<wchar_t>(data[x]);
 		}
-		memcpy(input, data, len * 2);
-		return len * 2;
+		memcpy(input, &len, 1);
+		memcpy(input + 1, data, (len * 2) +2);
+		return (len * 2) + 3;
 		
 	}
-	void unpackWideString(wideString_t data, int16_t len, marshall_t input)
+	uint8_t unpackWideString(wideString_t data,  marshall_t input)
 	{
-		memcpy(data, input, len * 2);
+		uint8_t len = 0;
+		memcpy(&len, input, 1);
+		memcpy(data, input + 1, (len * 2) +2);
 		for (int x = 0; x < len; x++)
 		{
 			swap_endian<wchar_t>(data[x]);
 		}
-		return;
+		return len;
 	}
 
 	uint32_t packByte(uint8_t data, marshall_t input) 
