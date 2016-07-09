@@ -22,30 +22,29 @@ namespace Serialization {
 		return len;
 	}
 
-	uint32_t packWideString(wideString_t data, uint8_t len, marshall_t input)
+	uint32_t packWideString(std::wstring &data, uint8_t len, marshall_t input)
 	{
-		//+2 for null termination
-		wchar_t temp[256];
-		wcscpy(temp, data);
-
-		//data = (wideString_t)malloc(len * sizeof(wchar_t)+1);
+		
+		wchar_t temp[512];		
 		for (int x = 0; x < len; x++)
 		{
-			// data[x] = temp[x];// swap_endian_copy<wchar_t>(temp[x]);
-		}		
-		memcpy(input, data, (len * 2) +2);
-		memcpy((input + (len*2) + 2), &len, sizeof(uint8_t));
+			temp[x] = swap_endian_copy<wchar_t>(data[x]);
+		}	
+		temp[len] = '\0';
+		memcpy(input, temp, (len * sizeof(wchar_t)) + sizeof(wchar_t));
+		memcpy(input + (len * sizeof(wchar_t)) + sizeof(wchar_t), &len, sizeof(uint8_t));
 		return ((len * sizeof(wchar_t)) + 2 + sizeof(uint8_t));
 		
 	}
-	uint32_t unpackWideString(wideString_t data, uint8_t len, marshall_t input)
+	uint32_t unpackWideString(std::wstring &data, uint8_t len, marshall_t input)
 	{		
-		
-		memcpy(data, input, (len * 2) +2);
+		wchar_t temp[512];
+		memcpy(temp, input, (len * sizeof(wchar_t)) +sizeof(wchar_t));
 		for (int x = 0; x < len; x++)
 		{
-			//swap_endian<wchar_t>(data[x]);
+			data[x] = swap_endian_copy<wchar_t>(temp[x]);
 		}
+		data[len] = '\0';
 		return len;
 	}
 

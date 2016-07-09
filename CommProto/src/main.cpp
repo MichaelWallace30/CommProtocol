@@ -24,29 +24,23 @@ int main(int c, char** args) {
 	int value2A = 12;
 	string_t strData = "Hello World!!!";
 	uint8_t valueA = 1;
-	wideString_t wStr = L"Hello";
+	std::wstring wStrA = L"Hello Wide???";
 
-	
+	std::wcout << wStrA << endl;
+	newObjectStream << wStrA;
 
-	char arr[10] = { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' };
-
-	ObjectStream newObjectStream2 = ObjectStream();
-	newObjectStream2.copyBuffer(arr, 10);
-
-	uint8_t a, b, c1, d, e, f, g, h, i, j, k, l, m,n;
-
-	newObjectStream2 >> a >> b >> c1 >> d >> e >> f >> g >> h >> j >> k>>n;
-
-	cout << a << " " << b << " " << c1 << " " << d << " " << e << " " << f <<g<<h<<j<<k<< endl;
-	
 
 	//newObjectStream << valueA << strData << value2A << value1A;
 	
 	double value1B;
 	int value2B; 
 	uint8_t valueB;
+	std::wstring wStrB;
+
+
+	newObjectStream >> wStrB;
+	wcout << wStrB << endl;
 	
-	wideString_t strDataB = (wideString_t)malloc(100);
 
 	//newObjectStream >> value1B >> value2B>>strDataB >> valueB;// >> value2B >> value1B;
 

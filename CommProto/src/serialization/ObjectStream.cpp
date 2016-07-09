@@ -41,12 +41,11 @@ ObjectStream& ObjectStream::operator<<(string_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(wideString_t& data)
+ObjectStream& ObjectStream::operator<<(std::wstring& data)
 {
 
 	//needs string leng
-	uint32_t strLen = 0;
-	str_length(data, strLen);	
+	uint32_t strLen = data.length();	
 	// + 2 for null termination + 1 for storing length of string as byte
 	if (currentPostion + (strLen * sizeof(wchar_t)) + sizeof(wchar_t) + sizeof(uint8_t)< STREAM_BUFFER_MAX_SIZE)
 	{
@@ -208,10 +207,11 @@ ObjectStream& ObjectStream::operator>>(string_t& data)
 	return *this;
 }
 
-ObjectStream& ObjectStream::operator>>(wideString_t& data)
+ObjectStream& ObjectStream::operator>>(std::wstring& data)
 {
-	uint32_t strLen = 0;
-	strLen = unpackByte(streamBuffer + currentPostion - 1);
+	
+	uint32_t strLen = unpackByte(streamBuffer + currentPostion - 1);
+	data.resize(strLen +1);
 
 	// + 2 for null termination + 1 for storing length of string as byte
 	currentPostion -=( (strLen *2) + 3);

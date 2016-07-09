@@ -6,13 +6,14 @@
 
 #include <CommProto\architecture\os\include_defines.h>
 #include <CommProto\architecture\macros.h>//str_length()
+#include <string>
 
 namespace Comnet {
 namespace Serialization {
 
 typedef uint8_t* marshall_t;
 typedef char* string_t;
-typedef wchar_t* wideString_t;
+
 
 typedef float real32_t;
 typedef double real64_t;
@@ -21,8 +22,8 @@ typedef double real64_t;
 uint32_t packString(string_t data, uint8_t len,marshall_t input);
 uint32_t unpackString(string_t data, uint8_t len, marshall_t input);
 
-uint32_t packWideString(wideString_t data, uint8_t len, marshall_t input);
-uint32_t unpackWideString(wideString_t data, uint8_t len, marshall_t input);
+uint32_t packWideString(std::wstring  &data, uint8_t len, marshall_t input);
+uint32_t unpackWideString(std::wstring &data, uint8_t len, marshall_t input);
 
 uint32_t packByte(uint8_t data, marshall_t input);
 uint8_t unpackByte(marshall_t input);

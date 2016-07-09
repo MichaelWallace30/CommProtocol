@@ -3,7 +3,7 @@
 
 #include <CommProto/serialization/Marshal.h>
 #include <CommProto/console/CommsDebug.h>
-
+#include <string>
 
 namespace Comnet {
 namespace Serialization {
@@ -27,7 +27,7 @@ public:
   /** Overloaded input stream operators to put variables into the object stream*/
   
   ObjectStream& operator<<(string_t& data);
-  ObjectStream& operator<<(wideString_t& data);
+  ObjectStream& operator<<(std::wstring& data);
   ObjectStream& operator<<(uint8_t& data);  
   ObjectStream& operator<<(int8_t& data);
   ObjectStream& operator<<(uint16_t& data);
@@ -43,7 +43,7 @@ public:
   /** OVerloaded output stream operators to output variables to a variable from the object stream*/
   
   ObjectStream& operator>>(string_t& data);
-  ObjectStream& operator>>(wideString_t& data);
+  ObjectStream& operator>>(std::wstring& data);
   ObjectStream& operator>>(uint8_t& data);
   ObjectStream& operator>>(int8_t& data);
   ObjectStream& operator>>(uint16_t& data);
