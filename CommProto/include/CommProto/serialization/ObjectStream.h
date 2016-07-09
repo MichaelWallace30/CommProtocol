@@ -21,7 +21,8 @@ private:
 public:
   ObjectStream();
   ~ObjectStream();
-  int32_t getPostion(){ return currentPostion; }
+  int32_t getPostion(){ return currentPostion;}
+  void copyBuffer(char* buffer, int len);
   
   /** Overloaded input stream operators to put variables into the object stream*/
   

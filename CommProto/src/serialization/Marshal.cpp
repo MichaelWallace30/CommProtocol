@@ -25,13 +25,17 @@ namespace Serialization {
 	uint32_t packWideString(wideString_t data, uint8_t len, marshall_t input)
 	{
 		//+2 for null termination
+		wchar_t temp[256];
+		wcscpy(temp, data);
+
+		//data = (wideString_t)malloc(len * sizeof(wchar_t)+1);
 		for (int x = 0; x < len; x++)
 		{
-			swap_endian<wchar_t>(data[x]);
+			// data[x] = temp[x];// swap_endian_copy<wchar_t>(temp[x]);
 		}		
 		memcpy(input, data, (len * 2) +2);
-		memcpy(input + len + 2, &len, sizeof(uint8_t));
-		return (len * 2) + 2 + sizeof(uint8_t);
+		memcpy((input + (len*2) + 2), &len, sizeof(uint8_t));
+		return ((len * sizeof(wchar_t)) + 2 + sizeof(uint8_t));
 		
 	}
 	uint32_t unpackWideString(wideString_t data, uint8_t len, marshall_t input)
@@ -40,7 +44,7 @@ namespace Serialization {
 		memcpy(data, input, (len * 2) +2);
 		for (int x = 0; x < len; x++)
 		{
-			swap_endian<wchar_t>(data[x]);
+			//swap_endian<wchar_t>(data[x]);
 		}
 		return len;
 	}
