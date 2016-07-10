@@ -16,43 +16,36 @@ using namespace Comnet::Serialization;
 
 int main(int c, char** args) {
 
-
-
 	ObjectStream newObjectStream = ObjectStream();
 	
 	double value1A = 64.2;
 	int value2A = 12;
-	string_t strData = "Hello World!!!";
+	string_t strData = "Hello Slim!!!";
 	uint8_t valueA = 1;
 	std::wstring wStrA = L"Hello Wide???";
-
-	std::wcout << wStrA << endl;
-	newObjectStream << wStrA;
-
-
-	//newObjectStream << valueA << strData << value2A << value1A;
+	
+	newObjectStream << valueA << strData << wStrA<<value2A << value1A;
 	
 	double value1B;
 	int value2B; 
 	uint8_t valueB;
 	std::wstring wStrB;
+	string_t strDataB = (string_t)malloc(25);	
 
-
-	newObjectStream >> wStrB;
+	//extra varible
+	int extraVar;
+	
+	newObjectStream >> value1B >> value2B >> wStrB >> strDataB >>  valueB;
+	
+	cout << (int)valueB << endl;
+	cout << value1B << endl;
+	cout << value2B << endl;
+	cout << strDataB << endl;
 	wcout << wStrB << endl;
+
+	//prints error does not crash
+	newObjectStream >> extraVar;
 	
-
-	//newObjectStream >> value1B >> value2B>>strDataB >> valueB;// >> value2B >> value1B;
-
-
-	
-	//cout << (int)valueB << endl;
-	//cout << value1B << endl;
-	//cout << value2B << endl;
-
-		
-	
-
 	/*
   printf("Hello World!\n");
   Comms newComms1 = Comms(1);
