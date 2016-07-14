@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define LITTLE_ENDIAN_COMNET
 
-#include <CommProto\architecture\os\include_defines.h>
-#include <CommProto\architecture\macros.h>//str_length()
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/macros.h>//str_length()
 #include <string>//wstring
 #include <algorithm>//reverse
 
