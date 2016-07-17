@@ -6,7 +6,15 @@
 
 // Controls logging information. Set this to 1, if you wish to 
 // display debug information from comms_debug_log.
-#define __COMMS_DEBUG_LOG 1
+#ifdef _WIN32
+ #ifdef _DEBUG
+  #define __COMMS_DEBUG_LOG 1
+ #else
+  #define __COMMS_DEBUG_LOG 0
+ #endif
+#else // LINUX OR OS X
+ #define __COMMS_DEBUG_LOG 0
+#endif
 
 #if __COMMS_DEBUG_LOG
  #define __COMMS_DEBUG_PRINT
