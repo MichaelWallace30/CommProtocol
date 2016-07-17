@@ -93,12 +93,16 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 
 set(PARENT_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/)
 set(PARENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/)
-
 set(HASH_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/hash/)
 set(HASH_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/hash/)
-
 set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
 set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
+set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
+set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
+set(NETWORK_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/network/)
+set(NETWORK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/network/)
+set(SERIALIZATION_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/serialization/)
+set(SERIALIZATION_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/serialization/)
 
 # Add some commands to the compiler.
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
@@ -111,19 +115,22 @@ include_directories(SYSTEM CommProto/include/)
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
 # or linux and OS X.
 include(cmake/archfiles.cmake)
-
 include(cmake/tools-config.cmake)
-
 include(cmake/CommProto-config.cmake)
-
 include(cmake/hash-config.cmake)
+include(cmake/network-config.cmake)
+include(cmake/serialization-config.cmake)
 
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
     source_group("Header Files\\hash" FILES ${COMMPROTO_HASH_HEADERS})
     source_group("Header Files\\tools" FILES ${TOOLS_HEADERS})
+    source_group("Header Files\\network" FILES ${NETWORK_HEADERS})
+    source_group("Header Files\\serialization" FILES ${SERIALIZATION_HEADERS})
     source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
     source_group("Source Files\\hash" FILES ${COMMPROTO_HASH_SOURCES})
+    source_group("Source Files\\network" FILES ${NETWORK_SOURCES})
+    source_group("Source Files\\serialization" FILES ${SERIALIZATION_SOURCES})   
 endif()
 
 
@@ -136,4 +143,8 @@ add_executable(NGCP_LIB
   ${COMMPROTO_HASH_SOURCES}
   ${TOOLS_HEADERS}
   ${TOOLS_SOURCES}
+  ${NETWORK_HEADERS}
+  ${NETWORK_SOURCES}
+  ${SERIALIZATION_HEADERS}
+  ${SERIALIZATION_SOURCES}
   CommProto/src/main.cpp)
