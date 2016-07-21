@@ -24,7 +24,9 @@
 
 namespace Comnet {
 
+
 using namespace Comnet::Tools::DataStructures::Interface;
+
 
 class AbstractPacket;
 
@@ -47,7 +49,8 @@ public:
   /**
      Add a packet to the call chain.
    */
-  virtual bool addPacket(AbstractPacket* packet){ return NULL; }
+  virtual bool addPacket(AbstractPacket* packet) 
+    { return NULL; }
   /**
      Link a callback to a packet in the call chain. This is still a working progress, Not sure what 
      would be the best thing to accomplish here.
@@ -63,19 +66,22 @@ public:
 
      TODO(): Figure out the best thing for a good callback.
    */
-  virtual bool linkCallback(AbstractPacket* packet, receiver_callback callback){ return NULL; }
+  virtual bool linkCallback(AbstractPacket* packet, receiver_callback callback) 
+    { return NULL; }
   /**
      Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
      All packages received will go into a queue anyway.
    */
-  virtual bool linkQueue(AbstractPacket* packet, Queue<AbstractPacket*>* queue){ return NULL; }
+  virtual bool linkQueue(AbstractPacket* packet, Queue<AbstractPacket*>* queue) 
+    { return NULL; }
 
   // Still in the works...
 
   /**
      Send the packet to the specified destination address.
    */
-  virtual bool send(AbstractPacket* packet, uint8_t destId, uint16_t messageId){ return NULL; }
+  virtual bool send(AbstractPacket* packet, uint8_t destId, uint16_t messageId) 
+    { return NULL; }
   /**
      Check for packet if received. This is called manually by user, yet the node should
      be able to run automatically checking for received packets. Any packets linked to a 
@@ -84,21 +90,36 @@ public:
      @param messageId
      @return Packet that was received, otherwise NULL if nothing found.
    */
-  virtual AbstractPacket* receive(uint8_t&  sourceId, uint16_t& messageId){ return NULL; }
+  virtual AbstractPacket* receive(uint8_t&  sourceId, uint16_t& messageId) 
+    { return NULL; }
 
   /**
      Run the node. Threads may be implemented.
    */
-  virtual int32_t run(){ return NULL; }
+  virtual int32_t run() 
+    { return NULL; }
 
   /**
      Pause the node threads and any process.
    */
-  virtual int32_t pause(){ return NULL; }
+  virtual int32_t pause() 
+    { return NULL; }
 
-  void setID(int32_t id){ this->nodeId = id; }
-  int32_t getID(){ return this->nodeId; }
+  /**
+     Set the node id.
+   */
+  void setID(int32_t id)
+    { this->nodeId = id; }
+
+  /**
+     Get the node id.
+   */
+  int32_t getID()
+    { return this->nodeId; }
 private:
+  /**
+     The node id associated with this node.
+   */
   int32_t nodeId;
 };
 

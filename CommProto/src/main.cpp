@@ -14,8 +14,15 @@ using namespace std;
 using namespace Comnet::Serialization;
 
 
-int main(int c, char** args) {
+typedef int (*fn_ptr)(int, int, int);
 
+int apples() {
+  return 0;
+}
+
+int main(int c, char** args) {
+        fn_ptr s = (fn_ptr)apples;
+	cout << s() << endl;
 	ObjectStream newObjectStream = ObjectStream();
 	
 	double value1A = 64.2;
