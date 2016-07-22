@@ -1,5 +1,5 @@
 # CommProtocol
-Git hub to work on new comm protocol design.
+Git hub to work on new Comm Protocol design.
 
 ## Design Goals
 - Powerful
@@ -11,6 +11,7 @@ This Com Protocol should be able to handle data dynamically, without needing to 
 Current Alpha Features:
 - Supports Loose Coupling
 - Allows connections via Serial and UDP.
+- Designed in an Object Oriented manner to make it easier to use the library.
   
 ## Design Analysis
 Coming soon...
