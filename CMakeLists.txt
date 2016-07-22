@@ -13,8 +13,8 @@ project( "NGCP-Comnet-v2" )
 # If you plan on changing build versions after making changes, such as changing the build from 64 to 32,
 # you must specify -Dbuild64=OFF -Dbuild32=ON along with the build. You can instead just use -Dbuild64=ON (or OFF) to 
 # switch between building 64bit or 32bit.
-option(build32 "Build library in 32 bit" ON)
-option(build64 "Build library in 64 bit" OFF)
+option(build32 "Build library in 32 bit" OFF)
+option(build64 "Build library in 64 bit" ON)
 
 # Check the architecture variable. If the Architecture is 64 bit, we define a variable to state that we
 # are working with a 64-bit operating system architecture. 32-bit will also be defined as well.

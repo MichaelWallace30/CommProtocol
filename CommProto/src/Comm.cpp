@@ -1,4 +1,4 @@
-#include "Comm.h"
+#include "CommProto/Comm.h"
 namespace Comnet {
 
 	Comm::Comm()

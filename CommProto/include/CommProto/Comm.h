@@ -1,6 +1,6 @@
 #ifndef COMM_H
 #define COMM_H
-#include <CommProto\CommNode.h>
+#include <CommProto/CommNode.h>
 
 namespace Comnet {
 	class Comm :public CommNode

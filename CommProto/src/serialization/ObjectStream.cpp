@@ -22,7 +22,7 @@ using namespace Comnet::Serialization;
 
 ObjectStream::ObjectStream():currentPostion(0)
 {
-	streamBuffer = new uint8_t[STREAM_BUFFER_MAX_SIZE];	
+	streamBuffer = new uint8_t[STREAM_BUFFER_MAX_SIZE];
 }
 
 ObjectStream::~ObjectStream()
@@ -33,7 +33,7 @@ ObjectStream::~ObjectStream()
 
 
 void ObjectStream::setBuffer(const char* buffer, int len)
-{	
+{
 	for (currentPostion = 0; currentPostion < len; currentPostion++)
 	{
 		streamBuffer[currentPostion] = buffer[currentPostion];
@@ -69,7 +69,7 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 {
 
 	//needs string leng
-	uint32_t strLen = data.length();	
+	uint32_t strLen = data.length();
 	// + 2 for null termination + 1 for storing length of string as byte
 	if (currentPostion + (strLen * sizeof(wchar_t)) + sizeof(wchar_t) + sizeof(uint8_t)< STREAM_BUFFER_MAX_SIZE)
 	{
@@ -233,22 +233,22 @@ ObjectStream& ObjectStream::operator>>(string_t& data)
 
 	strLen = unpackString(data,strLen,streamBuffer + currentPostion);
 
-	
-		 
+
+
 	return *this;
 }
 
 ObjectStream& ObjectStream::operator>>(std::wstring& data)
 {
-	
+
 	uint32_t strLen = unpackByte(streamBuffer + currentPostion - 1);
 	data.resize(strLen +1);
 
 	// + 2 for null termination + 1 for storing length of string as byte
-	currentPostion -=( (strLen *2) + 3);
+	currentPostion -=( (strLen * (sizeof(wchar_t))) + (sizeof(wchar_t))+1);
 	strLen = unpackWideString(data, strLen,streamBuffer + currentPostion);
-	
-	
+
+
 	return *this;
 }
 
@@ -368,7 +368,7 @@ ObjectStream& ObjectStream::operator>>(real32_t& data)
 {
 	if ((currentPostion -= sizeof(real32_t)) >= 0)
 	{
-		data = unpackReal32(streamBuffer + currentPostion);		
+		data = unpackReal32(streamBuffer + currentPostion);
 	}
 	else
 	{
@@ -382,7 +382,7 @@ ObjectStream& ObjectStream::operator>>(real64_t& data)
 {
 	if ((currentPostion -= sizeof(real64_t)) >= 0)
 	{
-		data = unpackReal64(streamBuffer + currentPostion);		
+		data = unpackReal64(streamBuffer + currentPostion);
 	}
 	else
 	{
