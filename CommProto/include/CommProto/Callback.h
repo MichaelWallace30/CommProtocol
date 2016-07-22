@@ -8,7 +8,7 @@
 namespace Comnet {
 
 
-typedef int error_t
+typedef int error_t;
 typedef error_t (*callback_t)(const header_t&, const AbstractPacket&);
 
 
