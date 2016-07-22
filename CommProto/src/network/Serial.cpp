@@ -136,6 +136,7 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   return true;
 }
 
+
 inline bool
 windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   unsigned long sentData = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
@@ -155,6 +156,7 @@ windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
 
   return false;
 }
+
 
 inline bool
 windowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
@@ -181,6 +183,7 @@ windowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
 #else 
 
 #define UNIX_SERIAL 
+
 
 inline bool
 initUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
@@ -238,6 +241,7 @@ initUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
   return result;
 }
 
+
 inline bool
 unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   bool result = false;
@@ -255,6 +259,7 @@ unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   
   return result;
 }
+
 
 inline bool
 unixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
@@ -279,6 +284,7 @@ unixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
+
 inline bool
 openPort(Serial& serial, const char* comPort, uint32_t baudrate) {
 #if defined WINDOWS_SERIAL
@@ -302,6 +308,7 @@ sendToPort(Serial& serial, uint8_t destID, uint8_t* txData, uint32_t txLength) {
   return false;
 }
 
+
 inline bool
 readFromPort(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   serial_t& hSerial = serial.getSerialPort();
@@ -315,6 +322,7 @@ readFromPort(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   return false;
 }
 
+
 inline bool 
 closePortHelper(Serial& serial) {
   serial_t& hSerial = serial.getSerialPort();
@@ -326,6 +334,7 @@ closePortHelper(Serial& serial) {
   return true;
 }
 
+
 /***********************************************/
 /******************* Public  *******************/
 /***********************************************/
@@ -335,7 +344,9 @@ Serial::Serial():CommsLink()
   hSerial.serial_s = SERIAL_OPEN;
 }
 
+
 Serial::~Serial() {  }
+
 
 bool Serial::initConnection(const char* port, const char* address, uint32_t baudrate)
 { 
@@ -347,24 +358,28 @@ bool Serial::initConnection(const char* port, const char* address, uint32_t baud
   return connectionEstablished;
 }
 
+
 bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 { 
   printf("Port send is: %d\n", hSerial.fd); 
   return sendToPort(*this, destID, txData, txLength);}
 
-bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len)
-{
+
+bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
   printf("Port recv is: %d\n", hSerial.fd); 
   return readFromPort(*this, rx_data, rx_len);
 }
+
 
 serial_status Serial::getStatus() {
   return hSerial.serial_s;
 }
 
+
 bool Serial::closePort() {
   return closePortHelper(*this);
 }
+
 
 serial_t& Serial::getSerialPort() {
   return hSerial;
