@@ -18,12 +18,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <CommProto/serialization/Marshal.h>
+#include <CommProto/console/CommsDebug.h>
 
 #include <string.h>
+#include <string>
+#include <typeinfo>
+
+#include <iostream>
 
 namespace Comnet {
 namespace Serialization {
 	
+
 	uint32_t packString(string_t data, uint8_t len, marshall_t input)
 	{			
 		//+1 for null termination
@@ -33,35 +39,46 @@ namespace Serialization {
 		return len + 1 + sizeof(uint8_t);		
 	}
 
+
 	uint32_t unpackString(string_t data, uint8_t len, marshall_t input)
 	{			
 		memcpy(data, input, len +1);		
 		return len;
 	}
 
+
 	uint32_t packWideString(std::wstring &data, uint8_t len, marshall_t input)
 	{
-		
-		wchar_t temp[512];		
-		for (int x = 0; x < len; x++)
-		{
-			temp[x] = swap_endian_copy<wchar_t>(data[x]);
-		}	
-		temp[len] = '\0';
-		memcpy(input, temp, (len * sizeof(wchar_t)) + sizeof(wchar_t));
-		memcpy(input + (len * sizeof(wchar_t)) + sizeof(wchar_t), &len, sizeof(uint8_t));
-		return ((len * sizeof(wchar_t)) + 2 + sizeof(uint8_t));
-		
+		uint32_t temp[512];
+		for (int i = 0; i < len; ++i) {
+		  temp[i] = (uint32_t)swap_endian_copy<wchar_t>(data[i]);
+		  COMMS_DEBUG("Output: %d\n", temp[i]);
+		}
+
+		temp[len] = (uint32_t)'\0';
+
+		memcpy(input, temp, (len * sizeof(uint32_t)));
+		memcpy(input + (len * sizeof(uint32_t)) + 1, &len, sizeof(uint8_t));
+
+		return (len * sizeof(wchar_t)) + 1 + sizeof(uint8_t);
 	}
+
+
 	uint32_t unpackWideString(std::wstring &data, uint8_t len, marshall_t input)
 	{		
-		wchar_t temp[512];
-		memcpy(temp, input, (len * sizeof(wchar_t)) +sizeof(wchar_t));
-		for (int x = 0; x < len; x++)
+		uint32_t temp[512];
+		memcpy(temp, input, (len * sizeof(uint32_t)) + sizeof(uint32_t));
+		COMMS_DEBUG("NOW UNPACKING, SIZE: %d\n", len);
+	       
+		for (int x = 0; x < len; ++x)
 		{
-			data[x] = swap_endian_copy<wchar_t>(temp[x]);
+			data[x] = (wchar_t)swap_endian_copy<wchar_t>((uint32_t)temp[x]);
+			std::wcout << (wchar_t)data[x] << std::endl;
 		}
+		
+		COMMS_DEBUG("Fully out!!\n");
 		data[len] = '\0';
+		
 		return len;
 	}
 

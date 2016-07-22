@@ -13,7 +13,7 @@
   #define __COMMS_DEBUG_LOG 0
  #endif
 #else // LINUX OR OS X
- #define __COMMS_DEBUG_LOG 0
+ #define __COMMS_DEBUG_LOG 1
 #endif
 
 #if __COMMS_DEBUG_LOG

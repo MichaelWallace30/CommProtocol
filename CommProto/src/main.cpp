@@ -38,7 +38,11 @@ int main(int c, char** args) {
 	uint8_t valueA = 1;
 	std::wstring wStrA = L"Hello Wide???";
 	
-	newObjectStream << valueA << strData << wStrA<<value2A << value1A;
+	newObjectStream << valueA;
+	newObjectStream << strData;
+	newObjectStream << wStrA;
+	newObjectStream << value2A;
+	newObjectStream << value1A;
 	
 	double value1B;
 	int value2B; 
@@ -49,12 +53,17 @@ int main(int c, char** args) {
 	//extra varible
 	int extraVar;
 	
-	newObjectStream >> value1B >> value2B >> wStrB >> strDataB >>  valueB;
+	newObjectStream >> value1B;
+	newObjectStream >> value2B;
+	newObjectStream >> wStrB;
+	newObjectStream >> strDataB;
+	newObjectStream >>  valueB;
 	
 	cout << (int)valueB << endl;
 	cout << value1B << endl;
 	cout << value2B << endl;
 	cout << strDataB << endl;
+	cout << "Length of wStrB: " << wStrB.size() << endl;
 	wcout << wStrB << endl;
 
 	//prints error does not crash

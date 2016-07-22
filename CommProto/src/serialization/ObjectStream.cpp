@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <CommProto/serialization/ObjectStream.h>
+#include <CommProto/console/CommsDebug.h>
+
 using namespace Comnet::Serialization;
 
 ObjectStream::ObjectStream():currentPostion(0)
@@ -55,7 +57,9 @@ ObjectStream& ObjectStream::operator<<(string_t& data)
 	// + 1 for null termination + 1 for storing length of string as byte
 	if (currentPostion + strLen + 2 < STREAM_BUFFER_MAX_SIZE)
 	{
-		currentPostion += packString(data,strLen, streamBuffer + currentPostion);
+	        //COMMS_DEBUG("STRING BEFORE: %d\n", currentPostion);
+		currentPostion += packString(data, strLen, streamBuffer + currentPostion);
+		//COMMS_DEBUG("STRING AFTER: %d\n", currentPostion);
 	}
 	else
 	{
@@ -71,9 +75,11 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 	//needs string leng
 	uint32_t strLen = data.length();	
 	// + 2 for null termination + 1 for storing length of string as byte
-	if (currentPostion + (strLen * sizeof(wchar_t)) + sizeof(wchar_t) + sizeof(uint8_t)< STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + (strLen * sizeof(uint32_t)) + sizeof(uint32_t) + sizeof(uint8_t)< STREAM_BUFFER_MAX_SIZE)
 	{
+	        COMMS_DEBUG("SIZE BEFORE: %d\n", currentPostion);
 		currentPostion += packWideString(data,strLen, streamBuffer + currentPostion);
+		COMMS_DEBUG("SIZE AFTER: %d\n", currentPostion);
 	}
 	else
 	{
@@ -227,7 +233,6 @@ ObjectStream& ObjectStream::operator>>(string_t& data)
 {
 	uint8_t strLen = 0;
 	strLen = unpackByte(streamBuffer + currentPostion - 1);
-
 	// + 1 for null termination + 1 for storing length of string as byte
 	currentPostion -= (strLen + 2);
 
@@ -240,13 +245,14 @@ ObjectStream& ObjectStream::operator>>(string_t& data)
 
 ObjectStream& ObjectStream::operator>>(std::wstring& data)
 {
-	
+	COMMS_DEBUG("Current Position: %d\n", currentPostion);
 	uint32_t strLen = unpackByte(streamBuffer + currentPostion - 1);
-	data.resize(strLen +1);
+	data.resize(strLen + 1);
 
 	// + 2 for null termination + 1 for storing length of string as byte
-	currentPostion -=( (strLen *2) + 3);
-	strLen = unpackWideString(data, strLen,streamBuffer + currentPostion);
+	currentPostion -=( (strLen * 4 ) + 3);
+	COMMS_DEBUG("Size before unpack: %d\n", strLen);
+	strLen = unpackWideString(data, strLen, streamBuffer + currentPostion);
 	
 	
 	return *this;
