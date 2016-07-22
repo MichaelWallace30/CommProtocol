@@ -17,9 +17,16 @@ using namespace std;
 using namespace Comnet::Serialization;
 using namespace Comnet;
 
+int apple(const header_t& gho, const Ping& pl) {
+  return pl.num;
+}
 
 int main(int c, char** args) {
-
+        Ping d(12);
+	header_t head;
+        Callback call;
+	call.setCallbackListener((callback_t)apple);
+	cout << "Call: " << call.callFunction(head, d) << endl;
 
 	ObjectStream newObjectStream = ObjectStream();
 

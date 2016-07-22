@@ -35,7 +35,7 @@ public:
   void pack(ObjectStream& obj);
   void unpack(ObjectStream& obj);
 
-private:
+public:
  uint32_t num;
 };
 
