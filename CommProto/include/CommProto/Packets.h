@@ -28,6 +28,7 @@ class Ping : public AbstractPacket {
 public:
   Ping(uint32_t num);
   
+  ~Ping() { }
   /**
      Must implement pack and unpack.
   */
@@ -45,6 +46,8 @@ class Pong : public AbstractPacket {
 public:
   Pong(char letter);
   
+  ~Pong() { }
+
   void pack(ObjectStream& obj);
   void unpack(ObjectStream& obj);
 

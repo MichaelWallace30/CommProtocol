@@ -7,12 +7,14 @@
 #include <CommProto/network/CommSocket.h>
 #include <CommProto/serialization/Marshal.h>
 #include <CommProto/serialization/ObjectStream.h>
+#include <CommProto/Callback.h>
+#include <CommProto/Packets.h>
 #include <stdlib.h>
 
 #include <iostream>
 using namespace std;
 using namespace Comnet::Serialization;
-
+using namespace Comnet;
 
 typedef int (*fn_ptr)(int, int, int);
 
@@ -21,8 +23,13 @@ int apples() {
 }
 
 int main(int c, char** args) {
-        fn_ptr s = (fn_ptr)apples;
-	cout << s() << endl;
+        header_t head;
+	Comnet::Ping ping(12);
+        Callback cal;
+
+	cal.setCallbackListener((callback_t)apples);
+	cout << cal.callFunction(head, ping) << endl;
+
 	ObjectStream newObjectStream = ObjectStream();
 	
 	double value1A = 64.2;

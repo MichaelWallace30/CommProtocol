@@ -3,12 +3,13 @@
 #define __ABSTRACT_PACKET_H
 
 #include <CommProto/CommsPacket.h>
+#include <CommProto/serialization/ObjectStream.h>
 
 namespace Comnet {
 
 
 // This class needs to be created by us. An Object stream will need to be serializing and deserializing.
-class ObjectStream;
+using namespace Serialization;
 
 /** 
     Use this AbstractPacket when it comes to packing, sending , and receiving

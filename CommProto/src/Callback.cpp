@@ -16,36 +16,33 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __CALLBACK_H
-#define __CALLBACK_H
+#include <CommProto/Callback.h>
+#include <CommProto/console/CommsDebug.h>
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/AbstractPacket.h>
-#include <CommProto/CommsPacket.h>
+#include <stdlib.h>
+
 
 namespace Comnet {
 
-// The error number data type.
-typedef int error_t;
-// Callback function pointer, it is not generic, it is just used as 
-// a reference to user defined callback functions.
-typedef error_t (*callback_t)(const header_t&, const AbstractPacket&);
+
+Callback::Callback(callback_t call)
+: callback((callback_t)call)
+  { }
 
 
-class Callback {
-public:
-  Callback();
-  Callback(callback_t call);
+Callback::Callback()
+: callback(NULL)
+  { }
 
-  ~Callback();
 
-  void setCallbackListener(callback_t call);
-  /**
-     Calls the function associated with a packet.
-   */
-  error_t callFunction(const header_t& header, const AbstractPacket& abPacket);
-private:
-  callback_t callback;
-};
+Callback::~Callback() 
+  { }
+
+
+void Callback::setCallbackListener(callback_t call) 
+  { callback = call; }
+
+
+error_t Callback::callFunction(const header_t& header, const AbstractPacket& abPacket) 
+  { return callback(header, abPacket); }
 } // namespace Comnet
-#endif // __CALLBACK_H
