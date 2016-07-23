@@ -41,28 +41,25 @@ namespace Serialization {
 
 	uint32_t packWideString(std::wstring &data, uint8_t len, marshall_t input)
 	{
-
-		wchar_t temp[512];
-		for (int x = 0; x < len; x++)
-		{
-			temp[x] = swap_endian_copy<wchar_t>(data[x]);
-		}
-		temp[len] = '\0';
-		memcpy(input, temp, (len * sizeof(wchar_t)) + sizeof(wchar_t));
-		memcpy(input + (len * sizeof(wchar_t)) + sizeof(wchar_t), &len, sizeof(uint8_t));
-		return ((len * sizeof(wchar_t)) + sizeof(wchar_t) + sizeof(uint8_t));
-
+		string_t temp = (string_t)malloc(len);
+		const wchar_t* wtemp = data.c_str();
+		wcstombs(temp, wtemp, len);
+		int newLen = packString(temp, len, input);
+		free(temp);
+		
+		return newLen;
 	}
 	uint32_t unpackWideString(std::wstring &data, uint8_t len, marshall_t input)
 	{
-		wchar_t temp[512];
-		memcpy(temp, input, (len * sizeof(wchar_t)) +sizeof(wchar_t));
-		for (int x = 0; x < len; x++)
-		{
-			data[x] = swap_endian_copy<wchar_t>(temp[x]);
-		}
-		data[len] = '\0';
-		return len;
+		string_t tempMB = (string_t)malloc(len);
+		int newLen = unpackString(tempMB, len, input);
+		wchar_t tempW[512];
+		mbstowcs(tempW, tempMB, len);
+		free(tempMB);
+
+		data = tempW;
+		
+		return newLen;
 	}
 
 	uint32_t packByte(uint8_t data, marshall_t input)

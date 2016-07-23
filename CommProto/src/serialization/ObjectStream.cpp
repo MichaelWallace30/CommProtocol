@@ -71,7 +71,7 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 	//needs string leng
 	uint32_t strLen = data.length();
 	// + 2 for null termination + 1 for storing length of string as byte
-	if (currentPostion + (strLen * sizeof(wchar_t)) + sizeof(wchar_t) + sizeof(uint8_t)< STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + strLen + 2 < STREAM_BUFFER_MAX_SIZE)
 	{
 		currentPostion += packWideString(data,strLen, streamBuffer + currentPostion);
 	}
@@ -245,7 +245,7 @@ ObjectStream& ObjectStream::operator>>(std::wstring& data)
 	data.resize(strLen +1);
 
 	// + 2 for null termination + 1 for storing length of string as byte
-	currentPostion -=( (strLen * (sizeof(wchar_t))) + (sizeof(wchar_t))+1);
+	currentPostion -= (strLen + 2);
 	strLen = unpackWideString(data, strLen,streamBuffer + currentPostion);
 
 
