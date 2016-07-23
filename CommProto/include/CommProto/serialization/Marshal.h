@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/architecture/macros.h>//str_length()
 #include <string>//wstring
 #include <algorithm>//reverse
+#include <cstdlib>//malloc, free, mbtowcs, wcstombs
 
 namespace Comnet {
 namespace Serialization {
