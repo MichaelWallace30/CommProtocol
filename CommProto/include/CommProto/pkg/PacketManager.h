@@ -19,13 +19,22 @@
 #ifndef __PACKET_MANAGER_H
 #define __PACKET_MANAGER_H
 
+#include <CommProto/AbstractPacket.h>
+#include <CommProto/Callback.h>
+
 namespace Comnet {
 namespace Pkg {
 
+/**
+   PackageManager is a hashtable, designed specifically to implement
+   packets and associate them to Callbacks. If no callback is associated with
+   a callback, null should be returned.
+*/
 class PackageManager {
 public:
   
 private:
+  
 };
 
 } // namespace Pkg

@@ -20,10 +20,11 @@
 #define __CALLBACK_H
 
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/AbstractPacket.h>
 #include <CommProto/CommsPacket.h>
 
 namespace Comnet {
+
+class AbstractPacket;
 
 // The error number data type.
 typedef int error_t;
@@ -31,14 +32,25 @@ typedef int error_t;
 // a reference to user defined callback functions.
 typedef error_t (*callback_t)(const header_t&, const AbstractPacket&);
 
-
+/**
+   Callback is a class intended to be used for storing functions that request 
+   callbacks from within the protocol library.
+*/
 class Callback {
 public:
+  /**
+     Default Constructor.
+   */
   Callback();
+  /**
+     Call Constructor.
+   */
   Callback(callback_t call);
 
   ~Callback();
-
+  /**
+     Set the callback listener in this class.
+   */
   void setCallbackListener(callback_t call);
   /**
      Calls the function associated with a packet.

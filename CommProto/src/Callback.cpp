@@ -43,6 +43,10 @@ void Callback::setCallbackListener(callback_t call)
   { callback = call; }
 
 
-error_t Callback::callFunction(const header_t& header, const AbstractPacket& abPacket) 
-  { return callback(header, abPacket); }
+error_t Callback::callFunction(const header_t& header, const AbstractPacket& abPacket) { 
+  if (!callback) {
+    return -1;
+  }
+  return callback(header, abPacket); 
+}
 } // namespace Comnet
