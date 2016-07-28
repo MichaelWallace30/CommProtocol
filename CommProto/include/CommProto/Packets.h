@@ -35,6 +35,7 @@ public:
   void pack(ObjectStream& obj);
   void unpack(ObjectStream& obj);
 
+  AbstractPacket* create();
 public:
  uint32_t num;
 };
@@ -51,6 +52,7 @@ public:
   void pack(ObjectStream& obj);
   void unpack(ObjectStream& obj);
 
+  AbstractPacket* create();
 private:
   char letter;
 };

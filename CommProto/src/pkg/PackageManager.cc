@@ -46,5 +46,7 @@ bool PackageManager::insert(const AbstractPacket* key, const Callback* callback)
 
   return success;
 }
+
+Callback* get
 } // namespace Pkg
 } // namespace Comnet
