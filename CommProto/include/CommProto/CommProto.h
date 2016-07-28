@@ -6,7 +6,7 @@
    increase in executable binary size, but at least you will have the entire library at your disposal.
 */
 
-#include <CommProto/comms.h>
+#include <CommProto/Comms.h>
 #include <CommProto/AbstractPacket.h>
 
 /*

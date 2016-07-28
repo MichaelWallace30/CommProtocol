@@ -44,8 +44,7 @@ public:
   /**
      Polymorphic Destructor.
    */
-  virtual ~CommNode()
-    { }
+	virtual ~CommNode(){};
   /**
      Add a packet to the call chain.
    */
@@ -80,8 +79,7 @@ public:
   /**
      Send the packet to the specified destination address.
    */
-  virtual bool send(AbstractPacket* packet, uint8_t destId, uint16_t messageId) 
-    { return NULL; }
+  virtual bool send(AbstractPacket* packet, uint8_t destId, uint16_t messageId) = 0;
   /**
      Check for packet if received. This is called manually by user, yet the node should
      be able to run automatically checking for received packets. Any packets linked to a 
@@ -90,20 +88,22 @@ public:
      @param messageId
      @return Packet that was received, otherwise NULL if nothing found.
    */
-  virtual AbstractPacket* receive(uint8_t&  sourceId, uint16_t& messageId) 
-    { return NULL; }
+  virtual AbstractPacket* receive(uint8_t&  sourceId, uint16_t& messageId) = 0;
 
   /**
      Run the node. Threads may be implemented.
    */
-  virtual int32_t run() 
-    { return NULL; }
+  virtual int32_t run() = 0;
 
   /**
      Pause the node threads and any process.
    */
-  virtual int32_t pause() 
-    { return NULL; }
+  virtual int32_t pause() = 0;
+
+  /**
+  Stop the node threads and any process.
+  */
+  virtual int32_t stop() = 0;
 
   /**
      Set the node id.

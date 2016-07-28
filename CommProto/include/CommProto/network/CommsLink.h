@@ -23,7 +23,7 @@
 #include <stdint.h>
 
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/CommsPacket.h>
+#include <CommProto/HeaderPacket.h>
 
 #define MAX_CONNECTIONS 25
 

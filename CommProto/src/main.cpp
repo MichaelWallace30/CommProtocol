@@ -1,6 +1,6 @@
 #define _DEBUG
 #include <stdio.h>
-#include <CommProto/comms.h>
+#include <CommProto/Comms.h>
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/hash/NgcpHash.h>
