@@ -1,7 +1,10 @@
-#include <CommProto/comms.h>
+#include <CommProto/Comms.h>
 
 #include <CommProto/network/UDP.h>
 #include <CommProto/network/Serial.h>
+
+using namespace Comnet;
+
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
@@ -28,15 +31,12 @@ void* Comms::commuincationHandlerSend()
 {
 	while (isRunning)
 	{
-		if (platformID == 1)
+		if (!isPaused)
 		{
-			uint8_t buff[10] = { 1 };
-			connectionLayer->send(2, buff, 10);
-			Sleep(1500);
+			//send data here
 		}
 
 	}
-
 	return 0;
 }
 
@@ -44,20 +44,13 @@ void* Comms::commuincationHandlerSend()
 void* Comms::commuincationHandlerRecv()
 {
 	while (isRunning)
-	{		
-		if (platformID == 2)
+	{
+		if (!isPaused)
 		{
-
-			connectionLayer->recv(data_Buf, &rx_length);
-			Sleep(1500);
-			if (rx_length > 0)
-			{
-				
-			}
+			//recv data here
 		}
 
 	}
-
 	return 0;
 }
 
@@ -67,6 +60,7 @@ void* Comms::commuincationHandlerRecv()
 Comms::Comms()
 {
 	isRunning = false;	
+	isPaused = false;
 	mutex_init(&sendMutex);
 	mutex_init(&recvMutex);	
 	connectionLayer = NULL;
@@ -137,32 +131,40 @@ bool Comms::removeAddress(uint8_t destID)
 	return connectionLayer->removeAddress(destID);
 }
 
-bool Comms::send(uint8_t destID, uint16_t messageID, uint8_t buffer[MAX_PACKET_SIZE], uint8_t messageLength)
+bool Comms::send(AbstractPacket* packet, uint8_t destId, uint16_t messageId)
 {
 	if (connectionLayer == NULL) return false;
+	//add message to send queue
 
 	return true;
 }
 
-bool Comms::recv(uint8_t &sourceID, uint16_t &messageID, uint8_t buffer[MAX_PACKET_SIZE], uint32_t &messageLength)
+AbstractPacket* Comms::receive(uint8_t&  sourceId, uint16_t& messageId)
 {
 	if (connectionLayer == NULL) return false;
-	
-	
-
-	return true;
+	//remove meesage if aviable from receive queue
+	return NULL;
 }
 
-void Comms::run()
+int32_t Comms::run()
 {
 	thread_create(&this->communicationThreadSend, commuincationHelperSend, this);
 	thread_create(&this->communicationThreadRecv, commuincationHelperRecv, this);
 	isRunning = true;
+
+	return 1;
 }
 
-void Comms::stop()
+int32_t Comms::pause()
+{
+	isPasued = !isPaused;
+	return 1;
+}
+
+int32_t Comms::stop()
 {
 	isRunning = false;
+	return 1;
 }
 
 

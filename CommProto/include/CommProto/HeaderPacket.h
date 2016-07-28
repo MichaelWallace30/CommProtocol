@@ -1,5 +1,5 @@
-#ifndef COMMSPACKET_H
-#define COMMSPACKET_H
+#ifndef HEADERPACKET_H
+#define HEADERPACKET_H
 
 #include <stdint.h>
 
