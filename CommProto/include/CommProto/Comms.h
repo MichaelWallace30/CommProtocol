@@ -2,9 +2,7 @@
 #define COMMS_H
 
 #include <stdint.h>//needed for bit size variables
-#include <queue>
-
-
+#include <CommProto/tools/data_structures/AutoQueue.h>//marios wrapper of queue
 #include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 #include <CommProto/network/CommSocket.h> // 
 #include <CommProto/HeaderPacket.h>//Header which declares packet structs
@@ -13,6 +11,7 @@
 #include <CommProto/architecture/os/os_mutex.h>
 #include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
 #include <CommProto/CommNode.h>
+
 
 
 #include <iostream>//testing only
@@ -34,6 +33,8 @@ namespace Comnet
 
 		/** Boolean if communication thread running*/
 		bool isRunning;
+		/** Check if the program is paused*/
+		bool isPaused;
 		/** Encryption key*/
 		uint8_t key[KEY_LENGTH];
 		/** Method to read key form text file*/
@@ -51,8 +52,9 @@ namespace Comnet
 		};
 
 		/** Queues for application layer to push messages or pop messages */
-		std::queue<messageStruct*> recvQueue;
-		std::queue<messageStruct*> sendQeueu;
+
+		Comnet::Tools::DataStructures::AutoQueue <messageStruct*> recvQueue;
+		Comnet::Tools::DataStructures::AutoQueue <messageStruct*> sendQeueu;
 
 		/** Thread to run communication data */
 		thread_t communicationThreadSend;
@@ -114,6 +116,6 @@ namespace Comnet
 		// Nothing yet.
 		void logToConsoles()
 		{ }
-	};//end Comms class
+	};//end Comms class      
 }
 #endif//end if COMMS_H
