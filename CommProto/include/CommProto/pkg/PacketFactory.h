@@ -18,8 +18,7 @@ class PacketFactory {
 public:  
   PacketFactory() { }
 
-  AbstractPacket* produceNewPacket(AbstractPacket* ref) 
-    { return ref->create(); }
+  AbstractPacket* produceNewPacket(AbstractPacket* ref);
  
   
 private:
