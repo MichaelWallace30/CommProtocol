@@ -40,7 +40,7 @@ void Pong::unpack(ObjectStream& obj) {
 }
 
 
-AbstractPacket* Pong::Pong() {
+AbstractPacket* Pong::create() {
   return new Pong(0);
 }
 

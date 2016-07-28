@@ -103,6 +103,8 @@ set(NETWORK_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/n
 set(NETWORK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/network/)
 set(SERIALIZATION_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/serialization/)
 set(SERIALIZATION_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/serialization/)
+set(PKG_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/pkg/)
+set(PKG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/pkg/)
 
 # Add some commands to the compiler.
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
@@ -120,6 +122,7 @@ include(cmake/CommProto-config.cmake)
 include(cmake/hash-config.cmake)
 include(cmake/network-config.cmake)
 include(cmake/serialization-config.cmake)
+include(cmake/pkg.cmake)
 
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
@@ -127,10 +130,12 @@ if (${CMAKE_CXX_COMPILER_ID})
     source_group("Header Files\\tools" FILES ${TOOLS_HEADERS})
     source_group("Header Files\\network" FILES ${NETWORK_HEADERS})
     source_group("Header Files\\serialization" FILES ${SERIALIZATION_HEADERS})
+    source_group("Header Files\\pkg" FILES ${COMMPROTO_PKG_HEADERS})
     source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
     source_group("Source Files\\hash" FILES ${COMMPROTO_HASH_SOURCES})
     source_group("Source Files\\network" FILES ${NETWORK_SOURCES})
-    source_group("Source Files\\serialization" FILES ${SERIALIZATION_SOURCES})   
+    source_group("Source Files\\serialization" FILES ${SERIALIZATION_SOURCES})
+    source_group("Source Files\\pkg" FILES ${COMMPROTO_PKG_SOURCES})
 endif()
 
 
@@ -147,4 +152,6 @@ add_executable(NGCP_LIB
   ${NETWORK_SOURCES}
   ${SERIALIZATION_HEADERS}
   ${SERIALIZATION_SOURCES}
+  ${COMMPROTO_PKG_HEADERS}
+  ${COMMPROTO_PKG_SOURCES}
   CommProto/src/main.cpp)
