@@ -26,28 +26,31 @@ namespace Pkg {
 
 class Callback;
 class AbstractPacket;
+class PacketFactory;
+class PacketHashTable;
+
 /**
    PackageManager is an ADT, designed specifically to implement
    packets and associate them to Callbacks. If no callback is associated with
    a Packet, null should be returned.
 */
-class PackageManager {
+class PacketManager {
 public:
 
   /**
      Default package manager.
    */
-  PackageManager();
+  PacketManager();
 
   /**
      Declare a specific size for the table, before constuction.
    */
-  PackageManager(uint32_t setSize);
+  PacketManager(uint32_t setSize);
 
   /**
      Default Destructor.
    */
-  ~PackageManager();
+  ~PacketManager();
 
   /**
      Inserts an object into the PackageManager, simply call:
@@ -87,19 +90,14 @@ public:
      pairs relative to the overall size of the table.
    */
   void resize();
+  /**
+     Will produce a Packet from the provided id.
+   */
+  AbstractPacket* produceFromId(uint32_t key);
 private:
-  /**
-     The Pair struct is private, since it should not be created outside this 
-     class. Intended to be the internal workings of this PackageManager.
-   */
-  struct Pair {
-    Callback* callback;
-    uint32_t key;
-  };
-  /**
-     The table.
-   */
-  Pair** table;
+  PacketFactory factory;
+
+  PacketHashTable* table;
   /**
      The current number of Pairs in this table.
    */

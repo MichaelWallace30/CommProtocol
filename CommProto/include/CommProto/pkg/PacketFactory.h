@@ -8,12 +8,25 @@ namespace Commet {
 namespace Pkg {
 
 
-class PacketFactory {
-public:
-  
-  PacketFactory()
-private:
+class AbstractPacket;
 
+/**
+   PacketFactory will be allow to handle the creation of the 
+   Packet.
+*/
+class PacketFactory {
+public:  
+  PacketFactory() { }
+
+  AbstractPacket* produceNewPacket(AbstractPacket* ref) 
+    { return ref->create(); }
+ 
+  
+private:
+  /**
+     PacketFactory id.
+   */
+  uint32_t id;
 };
 } // namespace Pkg
 } // namespace Comnet
