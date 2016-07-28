@@ -52,7 +52,7 @@ public:
   /**
      Inserts an object into the PackageManager, simply call:
      
-     insert(AbstractPacket, new Callback(funct));
+     insert(new AbstractPacket()(has to be specialized though), new Callback(funct));
 
    */
   bool insert(const AbstractPacket* key, const Callback* callback);
@@ -104,6 +104,10 @@ private:
      The current number of Pairs in this table.
    */
   int32_t size;
+  /**
+     The max overall size of the table.
+   */
+  int32_t maxSize;
 };
 
 } // namespace Pkg

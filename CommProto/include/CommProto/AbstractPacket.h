@@ -24,7 +24,10 @@ public:
      Make this abstract class polymorphic.
   */
   virtual ~AbstractPacket();
-
+  /**
+     Get the id of the AbstractPacket. This will specialize what type of 
+     packet it is.
+   */
   uint32_t getId() { return typeId; }
 
   /**

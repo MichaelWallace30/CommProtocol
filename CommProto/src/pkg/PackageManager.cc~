@@ -1,9 +1,0 @@
-#include <CommProto/pkg/PackageManager.h>
-
-namespace Comnet {
-namespace Pkg {
-
-
-
-} // namespace Pkg
-} // namespace Comnet
