@@ -22,13 +22,19 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/pkg/PacketFactory.h>
-#include <CommProto/pkg/PacketTable.h>
-#include <CommProto/Callback.h>
-#include <CommProto/AbstractPacket.h>
 
 
 namespace Comnet {
+
+
+class AbstractPacket;
+class Callback;
+
+
 namespace Pkg {
+
+
+class PacketTable;
 
 /**
    PackageManager is an ADT, designed specifically to implement
