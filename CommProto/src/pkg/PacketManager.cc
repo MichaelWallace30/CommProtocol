@@ -1,4 +1,5 @@
-#include <CommProto/pkg/PackageManager.h>
+#include <CommProto/pkg/PacketManager.h>
+#include <CommProto/pkg/PacketTable.h>
 #include <CommProto/AbstractPacket.h>
 #include <CommProto/Callback.h>
 
@@ -9,13 +10,13 @@ namespace Pkg {
 
 
 PacketManager::PacketManager()
-  : table(new PacketHashTable(DEFAULT_TABLE_SIZE))
+  : table(new PacketTable(DEFAULT_TABLE_SIZE))
 {
 }
 
 
 PacketManager::PacketManager(uint32_t setSize)
-  : table(new PacketHashTable(setSize))
+  : table(new PacketTable(setSize))
 {
 }
 

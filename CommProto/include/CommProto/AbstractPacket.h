@@ -31,7 +31,7 @@ public:
      Get the id of the AbstractPacket. This will specialize what type of 
      packet it is.
    */
-  uint32_t getId() 
+  uint32_t getId() const
     { return typeId; }
 
   /**

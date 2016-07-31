@@ -3,18 +3,19 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/macros.h>
+#include <CommProto/AbstractPacket.h>
+#include <CommProto/Callback.h>
 
 namespace Comnet {
 namespace Pkg {
 
 
-class AbstractPacket;
-class Callback;
-
-
 class PacketTable {
 public:
   PacketTable(uint32_t setSize);
+  PacketTable();
+
+  ~PacketTable();
 
   bool insert(const AbstractPacket* key, const Callback* callback);
 

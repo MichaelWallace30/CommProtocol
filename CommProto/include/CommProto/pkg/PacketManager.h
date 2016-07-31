@@ -20,14 +20,15 @@
 #define __PACKET_MANAGER_H
 
 
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/pkg/PacketFactory.h>
+#include <CommProto/pkg/PacketTable.h>
+#include <CommProto/Callback.h>
+#include <CommProto/AbstractPacket.h>
+
+
 namespace Comnet {
 namespace Pkg {
-
-
-class Callback;
-class AbstractPacket;
-class PacketFactory;
-class PacketHashTable;
 
 /**
    PackageManager is an ADT, designed specifically to implement
@@ -78,7 +79,7 @@ public:
   /**
      Check if the table containes this callback.
    */
-  bool contains(callback_t call);
+  bool contains(Callback* call);
 
   /**
      Get the number of Packet-callback pairs in this table.
@@ -95,9 +96,10 @@ public:
    */
   AbstractPacket* produceFromId(uint32_t key);
 private:
+
   PacketFactory factory;
 
-  PacketHashTable* table;
+  PacketTable* table;
   /**
      The current number of Pairs in this table.
    */

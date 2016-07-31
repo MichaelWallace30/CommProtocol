@@ -4,11 +4,11 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/macros.h>
 
-namespace Commet {
+#include <CommProto/AbstractPacket.h>
+
+namespace Comnet {
 namespace Pkg {
 
-
-class AbstractPacket;
 
 /**
    PacketFactory will be allow to handle the creation of the 
@@ -16,9 +16,9 @@ class AbstractPacket;
 */
 class PacketFactory {
 public:  
-  PacketFactory() { }
+  PacketFactory() : id(1) { }
 
-  AbstractPacket* produceNewPacket(AbstractPacket* ref);
+  AbstractPacket* produceNewPacket(AbstractPacket* ref) { return NULL; }
  
   
 private:
