@@ -1,5 +1,5 @@
-#ifndef __PACKET_HASH_TABLE_H
-#define __PACKET_HASH_TABLE_H
+#ifndef __PACKET_TABLE_H
+#define __PACKET_TABLE_H
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/macros.h>
@@ -12,9 +12,9 @@ class AbstractPacket;
 class Callback;
 
 
-class PacketHashTable {
+class PacketTable {
 public:
-  PacketHashTable(uint32_t setSize);
+  PacketTable(uint32_t setSize);
 
   bool insert(const AbstractPacket* key, const Callback* callback);
 
@@ -33,9 +33,12 @@ private:
   };
 
   Pair** table;
+
+  uint32_t numOfPairs;
+  uint32_t tableSize;
 };
 
 } // namespace Pkg
 } // namespace Comnet
 
-#endif // __PACKET_HASH_TABLE_H
+#endif // __PACKET_TABLE_H
