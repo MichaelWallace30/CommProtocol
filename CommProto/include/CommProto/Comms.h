@@ -107,7 +107,7 @@ namespace Comnet
 
 		/** Method to start communication*/
 		int32_t run();
-		/** Method to pause communication*/
+		/** Method to toggle pause communication*/
 		int32_t pause();
 		/** Method to stop communication*/
 		int32_t stop();

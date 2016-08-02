@@ -53,46 +53,46 @@ namespace Serialization {
 		ObjectStream();
 		/** Destructor*/
 		~ObjectStream();
-		/** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
-		void setBuffer(const char* buffer, int len);
 		/** getPostion returns the postion of the stream buffer*/
 		int32_t getPostion(){ return currentPostion; }
 		/** getSize return the size of the current buffer*/
 		int32_t getSize(){ return currentPostion; }
 		/** getBuffer returns a pionter to the buffer stream*/
 		marshall_t getBuffer(){return streamBuffer;}
+		/** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
+		void setBuffer(const char* buffer, int len);
   
   
   
-  /** Overloaded input stream operators to put variables into the object stream*/  
-  ObjectStream& operator<<(string_t& data);
-  ObjectStream& operator<<(std::wstring& data);
-  ObjectStream& operator<<(uint8_t& data);  
-  ObjectStream& operator<<(int8_t& data);
-  ObjectStream& operator<<(uint16_t& data);
-  ObjectStream& operator<<(int16_t& data);  
-  ObjectStream& operator<<(int32_t& data);
-  ObjectStream& operator<<(uint32_t& data);
-  ObjectStream& operator<<(int64_t& data);
-  ObjectStream& operator<<(uint64_t& data);
-  ObjectStream& operator<<(real32_t& data);
-  ObjectStream& operator<<(real64_t& data);
+	  /** Overloaded input stream operators to put variables into the object stream*/  
+	  ObjectStream& operator<<(string_t& data);
+	  ObjectStream& operator<<(std::wstring& data);
+	  ObjectStream& operator<<(uint8_t& data);  
+	  ObjectStream& operator<<(int8_t& data);
+	  ObjectStream& operator<<(uint16_t& data);
+	  ObjectStream& operator<<(int16_t& data);  
+	  ObjectStream& operator<<(int32_t& data);
+	  ObjectStream& operator<<(uint32_t& data);
+	  ObjectStream& operator<<(int64_t& data);
+	  ObjectStream& operator<<(uint64_t& data);
+	  ObjectStream& operator<<(real32_t& data);
+	  ObjectStream& operator<<(real64_t& data);
   
 
-  /** OVerloaded output stream operators to output variables to a variable from the object stream
-	  string_t (char*) must use malloc when inputing data into new c-string variable*/  
-  ObjectStream& operator>>(string_t& data);
-  ObjectStream& operator>>(std::wstring& data);
-  ObjectStream& operator>>(uint8_t& data);
-  ObjectStream& operator>>(int8_t& data);
-  ObjectStream& operator>>(uint16_t& data);
-  ObjectStream& operator>>(int16_t& data);
-  ObjectStream& operator>>(uint32_t& data);
-  ObjectStream& operator>>(int32_t& data);
-  ObjectStream& operator>>(uint64_t& data);
-  ObjectStream& operator>>(int64_t& data);
-  ObjectStream& operator>>(real32_t& data);
-  ObjectStream& operator>>(real64_t& data); 
+	  /** OVerloaded output stream operators to output variables to a variable from the object stream
+		  string_t (char*) must use malloc when inputing data into new c-string variable*/  
+	  ObjectStream& operator>>(string_t& data);
+	  ObjectStream& operator>>(std::wstring& data);
+	  ObjectStream& operator>>(uint8_t& data);
+	  ObjectStream& operator>>(int8_t& data);
+	  ObjectStream& operator>>(uint16_t& data);
+	  ObjectStream& operator>>(int16_t& data);
+	  ObjectStream& operator>>(uint32_t& data);
+	  ObjectStream& operator>>(int32_t& data);
+	  ObjectStream& operator>>(uint64_t& data);
+	  ObjectStream& operator>>(int64_t& data);
+	  ObjectStream& operator>>(real32_t& data);
+	  ObjectStream& operator>>(real64_t& data); 
 
 };
 } // Serialization namespace

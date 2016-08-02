@@ -157,7 +157,7 @@ int32_t Comms::run()
 
 int32_t Comms::pause()
 {
-	isPasued = !isPaused;
+	isPaused = !isPaused;
 	return 1;
 }
 
