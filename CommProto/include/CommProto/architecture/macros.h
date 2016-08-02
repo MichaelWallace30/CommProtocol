@@ -44,7 +44,7 @@ _COMNET_PUBLIC_API_
 	  while (str[length] != NULL) { \
 	    length++;                   \
 	  }         \
-	}	\
+	}	
 
 
 // Delete a list, consisting of the node data type, 
@@ -89,6 +89,8 @@ _COMNET_PUBLIC_API_
 	  }                      \
         }
 
+_COMNET_PUBLIC_API_
+// Check if number
 #define is_number(string, result) { \
           result = true; \
           for (int i = 0; i < string.length(); ++i) { \
@@ -98,5 +100,14 @@ _COMNET_PUBLIC_API_
             } \
           } \
         }
+
+_COMNET_PUBLIC_API_
+// Nullify the indices in the table.
+#define nullifyAttributesInTable(theTable, size) { \
+          for (int i = 0; i < size; ++i) { \
+	    theTable[i] = NULL; \
+	  } \
+        }
+
 
 #endif // __MACROS_H

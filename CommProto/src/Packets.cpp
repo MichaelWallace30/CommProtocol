@@ -12,12 +12,18 @@ Ping::Ping(uint32_t num)
  
 }
 
+
 void Ping::pack(ObjectStream& obj) { 
 }
+
+
 void Ping::unpack(ObjectStream& obj) { 
 }
 
 
+AbstractPacket* Ping::create() {
+  return new Ping(0);
+}
 // Same must be done with all other classes that extend AbstractPacket.
 Pong::Pong(char letter)
 : letter(letter)
@@ -25,10 +31,17 @@ Pong::Pong(char letter)
 
 }
 
+
 void Pong::pack(ObjectStream& obj) {
 }
 
+
 void Pong::unpack(ObjectStream& obj) {
+}
+
+
+AbstractPacket* Pong::create() {
+  return new Pong(0);
 }
 
 } // Comnet

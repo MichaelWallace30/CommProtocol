@@ -40,7 +40,7 @@ public:
   /**
      Constructor for AutoQueue.
   */
-  AutoQueue() { queueType = AUTO_QUEUE; }
+  AutoQueue() { this->queueType = AUTO_QUEUE; }
   /**
      Destructor for AutoQueue.
   */

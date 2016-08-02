@@ -12,7 +12,10 @@ namespace Comnet {
 using namespace Serialization;
 
 /** 
-    Use this AbstractPacket when it comes to packing, sending , and receiving
+    Use this AbstractPacket when it comes to packing, sending , receiving, and creating.
+
+    To define an abstract packet functions pack, unpack, and create must be defined. 
+    ALSO!!!!! Before your constructor, you must define name of the packet you are creating.
 */
 class AbstractPacket {
 public:
@@ -24,8 +27,12 @@ public:
      Make this abstract class polymorphic.
   */
   virtual ~AbstractPacket();
-
-  uint32_t getId() { return typeId; }
+  /**
+     Get the id of the AbstractPacket. This will specialize what type of 
+     packet it is.
+   */
+  uint32_t getId() const
+    { return typeId; }
 
   /**
      Packing should be defined by the user.
@@ -35,6 +42,10 @@ public:
      Unpacking should be defined by the user.
   */
   virtual void unpack(ObjectStream& obj) = 0;
+  /**
+     Creates a packet.
+   */
+  virtual AbstractPacket* create() = 0;
 
 private:
   /**

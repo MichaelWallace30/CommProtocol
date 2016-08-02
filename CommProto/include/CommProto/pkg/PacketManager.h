@@ -20,39 +20,49 @@
 #define __PACKET_MANAGER_H
 
 
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/pkg/PacketFactory.h>
+
+
 namespace Comnet {
+
+
+class AbstractPacket;
+class Callback;
+
+
 namespace Pkg {
 
 
-class Callback;
-class AbstractPacket;
+class PacketTable;
+
 /**
    PackageManager is an ADT, designed specifically to implement
    packets and associate them to Callbacks. If no callback is associated with
    a Packet, null should be returned.
 */
-class PackageManager {
+class PacketManager {
 public:
 
   /**
      Default package manager.
    */
-  PackageManager();
+  PacketManager();
 
   /**
      Declare a specific size for the table, before constuction.
    */
-  PackageManager(uint32_t setSize);
+  PacketManager(uint32_t setSize);
 
   /**
      Default Destructor.
    */
-  ~PackageManager();
+  ~PacketManager();
 
   /**
      Inserts an object into the PackageManager, simply call:
      
-     insert(AbstractPacket, new Callback(funct));
+     insert(new AbstractPacket()(has to be specialized though), new Callback(funct));
 
    */
   bool insert(const AbstractPacket* key, const Callback* callback);
@@ -75,7 +85,7 @@ public:
   /**
      Check if the table containes this callback.
    */
-  bool contains(callback_t call);
+  bool contains(Callback* call);
 
   /**
      Get the number of Packet-callback pairs in this table.
@@ -87,23 +97,23 @@ public:
      pairs relative to the overall size of the table.
    */
   void resize();
+  /**
+     Will produce a Packet from the provided id.
+   */
+  AbstractPacket* produceFromId(uint32_t key);
 private:
-  /**
-     The Pair struct is private, since it should not be created outside this 
-     class. Intended to be the internal workings of this PackageManager.
-   */
-  struct Pair {
-    Callback* callback;
-    uint32_t key;
-  };
-  /**
-     The table.
-   */
-  Pair** table;
+
+  PacketFactory factory;
+
+  PacketTable* table;
   /**
      The current number of Pairs in this table.
    */
   int32_t size;
+  /**
+     The max overall size of the table.
+   */
+  int32_t maxSize;
 };
 
 } // namespace Pkg

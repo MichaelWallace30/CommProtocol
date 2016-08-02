@@ -5,7 +5,7 @@ set(COMMPROTO_HEADERS
   ${PARENT_HEADER_DIR}/Comms.h  
   ${PARENT_HEADER_DIR}/AbstractPacket.h
   ${PARENT_HEADER_DIR}/Packets.h
-  ${PARENT_HEADER_DIR}/CommsPacket.h
+  ${PARENT_HEADER_DIR}/HeaderPacket.h
   ${PARENT_HEADER_DIR}/Callback.h)
 
 set(COMMPROTO_SOURCES
