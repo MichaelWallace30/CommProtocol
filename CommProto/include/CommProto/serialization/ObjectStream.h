@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CommProto/serialization/Marshal.h>
 #include <CommProto/console/CommsDebug.h>
+#include <CommProto/HeaderPacket.h>
 #include <string>
 
 namespace Comnet {
@@ -41,6 +42,8 @@ namespace Serialization {
 	private:
 		/** Data stream to hold input as an array of bytes*/
 		marshall_t streamBuffer;
+		/** Header packet for communication*/
+		header_t headerPacket;
 		/** Current postion of streamBuffer and also size of streamBuffer*/
 		int32_t currentPostion;
 		/** Error Handingling methods*/
@@ -49,6 +52,8 @@ namespace Serialization {
 		void printErrorOverFlow(){ COMMS_DEBUG("ERROR:\t Source: ObjectStream\t Message: Buffer full\n"); }
 
 	public:
+
+		
 		/** Constructor*/
 		ObjectStream();
 		/** Destructor*/
@@ -62,7 +67,9 @@ namespace Serialization {
 		/** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
 		void setBuffer(const char* buffer, int len);
   
-  
+		void ObjectStream::serializeHeader(header_t header);
+		header_t ObjectStream::deserializeHeder();
+		
   
 	  /** Overloaded input stream operators to put variables into the object stream*/  
 	  ObjectStream& operator<<(string_t& data);

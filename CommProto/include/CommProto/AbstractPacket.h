@@ -56,6 +56,8 @@ private:
      This id defines the type of object.
   */
   uint32_t typeId;
+
+  ObjectStream objStream;
 };
 } // Comnet namespace 
 #endif // __ABSTRACT_PACKET_H
