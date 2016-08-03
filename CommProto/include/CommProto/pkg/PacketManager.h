@@ -115,7 +115,6 @@ private:
    */
   int32_t maxSize;
 };
-
 } // namespace Pkg
 } // namespace Comnet
 #endif // __PACKET_MANAGER_H
