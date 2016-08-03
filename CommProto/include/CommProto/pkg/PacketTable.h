@@ -21,11 +21,13 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/macros.h>
-#include <CommProto/AbstractPacket.h>
-#include <CommProto/Callback.h>
 
 
 namespace Comnet {
+
+class AbstractPacket;
+class Callback;
+
 namespace Pkg {
 
 /**

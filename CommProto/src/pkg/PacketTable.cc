@@ -21,6 +21,7 @@
 #include <CommProto/AbstractPacket.h>
 #include <CommProto/Callback.h>
 
+
 #if COM_TARGET_OS != COM_OS_WINDOWS
  #include <tr1/functional>
  #define COMMSTD std::tr1
