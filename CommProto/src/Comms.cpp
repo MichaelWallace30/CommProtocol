@@ -31,11 +31,15 @@ void* Comms::commuincationHandlerSend()
 {
 	while (isRunning)
 	{
-		if (!isPaused)
+		if (!sendQueue.isEmpty())
 		{
 			//send data here
+			ObjectStream *temp = sendQueue.front();
+			sendQueue.pop();//damn you mario!!!
+			connectionLayer->send(temp->headerPacket.destID, temp->getBuffer(), temp->getSize());
+			delete temp;
+			temp = NULL;
 		}
-
 	}
 	return 0;
 }
@@ -45,11 +49,13 @@ void* Comms::commuincationHandlerRecv()
 {
 	while (isRunning)
 	{
-		if (!isPaused)
-		{
-			//recv data here
-		}
-
+		//send data here
+		uint8_t streamBuffer[MAX_PACKET_SIZE];
+		uint32_t recvLen = 0;
+		connectionLayer->recv(streamBuffer, &recvLen);
+		ObjectStream *temp = new ObjectStream();
+		temp->setBuffer((char*)streamBuffer, recvLen);
+		recvQueue.enQueue(temp);						
 	}
 	return 0;
 }
@@ -64,6 +70,7 @@ Comms::Comms()
 	mutex_init(&sendMutex);
 	mutex_init(&recvMutex);	
 	connectionLayer = NULL;
+	
 }
 
 Comms::Comms(uint8_t platformID)
@@ -131,18 +138,39 @@ bool Comms::removeAddress(uint8_t destID)
 	return connectionLayer->removeAddress(destID);
 }
 
-bool Comms::send(AbstractPacket* packet, uint8_t destId, uint16_t messageId)
+bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID)
 {
 	if (connectionLayer == NULL) return false;
-	//add message to send queue
+	{
+		ObjectStream *temp = new ObjectStream();
+		//
+		//packet->unpack(*temp);
+		//
+		header_t header;
+		header.destID = destID;
+		header.sourceID = this->getID();
+		header.messageID = messageID;
+		header.messageLength = temp->getSize();
+		//
+		//SET aes encryption here
+		//
+		temp->serializeHeader(header);
+		sendQueue.enQueue(temp);
+	}
 
 	return true;
 }
 
-AbstractPacket* Comms::receive(uint8_t&  sourceId, uint16_t& messageId)
+AbstractPacket* Comms::receive(uint8_t&  sourceID, uint16_t& messageID)
 {
 	if (connectionLayer == NULL) return false;
-	//remove meesage if aviable from receive queue
+	{
+		if (!recvQueue.isEmpty())
+		{
+			cout << "Message recv in Comms" << endl;
+			recvQueue.pop();
+		}
+	}
 	return NULL;
 }
 
@@ -155,11 +183,6 @@ int32_t Comms::run()
 	return 1;
 }
 
-int32_t Comms::pause()
-{
-	isPaused = !isPaused;
-	return 1;
-}
 
 int32_t Comms::stop()
 {

@@ -42,8 +42,7 @@ namespace Serialization {
 	private:
 		/** Data stream to hold input as an array of bytes*/
 		marshall_t streamBuffer;
-		/** Header packet for communication*/
-		header_t headerPacket;
+
 		/** Current postion of streamBuffer and also size of streamBuffer*/
 		int32_t currentPostion;
 		/** Error Handingling methods*/
@@ -53,7 +52,9 @@ namespace Serialization {
 
 	public:
 
-		
+		/** Header packet for communication*/
+		header_t headerPacket;
+
 		/** Constructor*/
 		ObjectStream();
 		/** Destructor*/
@@ -66,6 +67,8 @@ namespace Serialization {
 		marshall_t getBuffer(){return streamBuffer;}
 		/** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
 		void setBuffer(const char* buffer, int len);
+
+		
   
 		void ObjectStream::serializeHeader(header_t header);
 		header_t ObjectStream::deserializeHeder();

@@ -57,7 +57,6 @@ private:
   */
   uint32_t typeId;
 
-  ObjectStream objStream;
 };
 } // Comnet namespace 
 #endif // __ABSTRACT_PACKET_H

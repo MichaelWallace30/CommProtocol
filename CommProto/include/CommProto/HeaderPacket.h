@@ -23,12 +23,6 @@ struct header_t {
   uint8_t IV[KEY_LENGTH];//random init vector for encryption
 };
 
-/** Packet structure uses header strcut and fixed data size */
-struct packet_t {
-  header_t header;  
-  uint8_t data[MAX_PACKET_SIZE];
-};
-
 
 
 // all platform packets could be declared or include from another file here

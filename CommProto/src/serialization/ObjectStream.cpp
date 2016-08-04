@@ -36,7 +36,7 @@ ObjectStream::~ObjectStream()
 
 void ObjectStream::setBuffer(const char* buffer, int len)
 {
-	for (currentPostion = HEADER_SIZE; currentPostion < len; currentPostion++)
+	for (currentPostion = 0; currentPostion < len; currentPostion++)
 	{
 		streamBuffer[currentPostion] = buffer[currentPostion];
 	}
@@ -44,7 +44,9 @@ void ObjectStream::setBuffer(const char* buffer, int len)
 
 void ObjectStream::serializeHeader(header_t header)
 {
-	
+	//not sure if more is needed kind of a waste of space
+	headerPacket.destID = header.destID;
+
 	int offset = 0;
 	memcpy(streamBuffer + (offset++), &(header.destID), 1);
 	memcpy(streamBuffer + (offset++), &(header.sourceID), 1);
