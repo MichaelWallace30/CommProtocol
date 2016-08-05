@@ -123,13 +123,11 @@ Callback* PacketTable::getCallback(uint32_t key) {
   Callback* result = NULL;
 
   int32_t saved = hash;
-  bool found = true;
   
   while ( *(table+hash) != NULL  && (*(table+hash))->packet->getId() != key ) {
     hash = traverseIndex(hash);
     
     if (hash == saved) {
-      found = false;
       break;
     }
   }
