@@ -27,6 +27,7 @@ int apple(const header_t& gho, const Ping& pl) {
 int main(int c, char** args) {
   Ping d(12);
   Ping a(122);
+  Pong ponger('1');
 	header_t head;
   Callback call;
 	call.setCallbackListener((callback_t)apple);
@@ -35,7 +36,11 @@ int main(int c, char** args) {
   PacketManager packageManager;
   // Sample test of storing Ping Callback pair. Should be done this way.
   packageManager.insert(new Ping(0), new Callback((callback_t)apple));
-  Callback* callResult = packageManager.get(d);
+  Callback* callResult = packageManager.get(a);
+  if (!callResult) {
+    cout << "NULL" << endl;
+    cin.ignore();
+  }
   int value = callResult->callFunction(head, a);
   cout << "This is the result... " << value << endl;
   cin.ignore();

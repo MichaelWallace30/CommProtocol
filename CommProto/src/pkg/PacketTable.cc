@@ -134,7 +134,7 @@ Callback* PacketTable::getCallback(uint32_t key) {
     }
   }
 
-  if (found) {
+  if ( *(table+hash) != NULL ) {
     result = (*(table+hash))->callback;
   }
   
