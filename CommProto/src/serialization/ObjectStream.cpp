@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace Comnet::Serialization;
 
-ObjectStream::ObjectStream():currentPostion(0)
+ObjectStream::ObjectStream():currentPostion(HEADER_SIZE)
 {
 	streamBuffer = new uint8_t[STREAM_BUFFER_MAX_SIZE];
 }
@@ -40,6 +40,44 @@ void ObjectStream::setBuffer(const char* buffer, int len)
 	{
 		streamBuffer[currentPostion] = buffer[currentPostion];
 	}
+}
+
+void ObjectStream::serializeHeader(header_t header)
+{
+	//not sure if more is needed kind of a waste of space
+	headerPacket.destID = header.destID;
+
+	int offset = 0;
+	memcpy(streamBuffer + (offset++), &(header.destID), 1);
+	memcpy(streamBuffer + (offset++), &(header.sourceID), 1);
+	memcpy(streamBuffer + offset, &(header.messageLength), 2);
+	offset += 2;
+	memcpy(streamBuffer + offset, &(header.messageID), 2);
+	offset += 2;
+
+	for (int x = 0; x < KEY_LENGTH; x++)
+	{
+		memcpy(streamBuffer + (offset++), &header.IV[x], 1);
+	}
+}
+
+header_t ObjectStream::deserializeHeder()
+{
+	header_t header;
+	int offset = 0;
+	memcpy(&(header.destID), streamBuffer + (offset++), 1);
+	memcpy(&(header.sourceID), streamBuffer + (offset++), 1);
+	memcpy(&(header.messageLength), streamBuffer + offset, 2);
+	offset += 2;
+	memcpy(&(header.messageID), streamBuffer + offset, 2);
+	offset += 2;
+
+	for (int x = 0; x < KEY_LENGTH; x++)
+	{
+		memcpy(&header.IV[x], streamBuffer + (offset++), 1);
+	}
+	
+	return header;
 }
 
 /*******************************************************/
@@ -257,7 +295,7 @@ ObjectStream& ObjectStream::operator>>(std::wstring& data)
 
 ObjectStream& ObjectStream::operator>>(uint8_t& data)
 {
-	if ((currentPostion -= sizeof(uint8_t)) >= 0)
+	if ((currentPostion -= sizeof(uint8_t)) >= HEADER_SIZE)
 	{
 		data = unpackByte(streamBuffer + currentPostion);
 	}
@@ -271,7 +309,7 @@ ObjectStream& ObjectStream::operator>>(uint8_t& data)
 
 ObjectStream& ObjectStream::operator>>(int8_t& data)
 {
-	if ((currentPostion -= sizeof(int8_t)) >= 0)
+	if ((currentPostion -= sizeof(int8_t)) >= HEADER_SIZE)
 	{
 		data = unpackByte(streamBuffer + currentPostion);
 	}
@@ -285,7 +323,7 @@ ObjectStream& ObjectStream::operator>>(int8_t& data)
 
 ObjectStream& ObjectStream::operator>>(uint16_t& data)
 {
-	if ((currentPostion -= sizeof(uint16_t)) >= 0)
+	if ((currentPostion -= sizeof(uint16_t)) >= HEADER_SIZE)
 	{
 		data = unpackUint16(streamBuffer + currentPostion);
 	}
@@ -299,7 +337,7 @@ ObjectStream& ObjectStream::operator>>(uint16_t& data)
 
 ObjectStream& ObjectStream::operator>>(int16_t& data)
 {
-	if ((currentPostion -= sizeof(int16_t)) >= 0)
+	if ((currentPostion -= sizeof(int16_t)) >= HEADER_SIZE)
 	{
 		data = unpackInt16(streamBuffer + currentPostion);
 	}
@@ -313,7 +351,7 @@ ObjectStream& ObjectStream::operator>>(int16_t& data)
 
 ObjectStream& ObjectStream::operator>>(uint32_t& data)
 {
-	if ((currentPostion -= sizeof(uint32_t)) >= 0)
+	if ((currentPostion -= sizeof(uint32_t)) >= HEADER_SIZE)
 	{
 		data = unpackUint32(streamBuffer + currentPostion);
 	}
@@ -327,7 +365,7 @@ ObjectStream& ObjectStream::operator>>(uint32_t& data)
 
 ObjectStream& ObjectStream::operator>>(int32_t& data)
 {
-	if ((currentPostion -= sizeof(int32_t)) >= 0)
+	if ((currentPostion -= sizeof(int32_t)) >= HEADER_SIZE)
 	{
 		data = unpackInt32(streamBuffer + currentPostion);
 	}
@@ -341,7 +379,7 @@ ObjectStream& ObjectStream::operator>>(int32_t& data)
 
 ObjectStream& ObjectStream::operator>>(uint64_t& data)
 {
-	if ((currentPostion -= sizeof(uint64_t)) >= 0)
+	if ((currentPostion -= sizeof(uint64_t)) >= HEADER_SIZE)
 	{
 		data = unpackUint64(streamBuffer + currentPostion);
 	}
@@ -355,7 +393,7 @@ ObjectStream& ObjectStream::operator>>(uint64_t& data)
 
 ObjectStream& ObjectStream::operator>>(int64_t& data)
 {
-	if ((currentPostion -= sizeof(int64_t)) >= 0)
+	if ((currentPostion -= sizeof(int64_t)) >= HEADER_SIZE)
 	{
 		data = unpackInt64(streamBuffer + currentPostion);
 	}
@@ -369,7 +407,7 @@ ObjectStream& ObjectStream::operator>>(int64_t& data)
 
 ObjectStream& ObjectStream::operator>>(real32_t& data)
 {
-	if ((currentPostion -= sizeof(real32_t)) >= 0)
+	if ((currentPostion -= sizeof(real32_t)) >= HEADER_SIZE)
 	{
 		data = unpackReal32(streamBuffer + currentPostion);
 	}
@@ -383,7 +421,7 @@ ObjectStream& ObjectStream::operator>>(real32_t& data)
 
 ObjectStream& ObjectStream::operator>>(real64_t& data)
 {
-	if ((currentPostion -= sizeof(real64_t)) >= 0)
+	if ((currentPostion -= sizeof(real64_t)) >= HEADER_SIZE)
 	{
 		data = unpackReal64(streamBuffer + currentPostion);
 	}

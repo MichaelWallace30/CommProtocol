@@ -3,6 +3,7 @@
 
 #include <stdint.h>//needed for bit size variables
 #include <CommProto/tools/data_structures/AutoQueue.h>//marios wrapper of queue
+#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
 #include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 #include <CommProto/network/CommSocket.h> // 
 #include <CommProto/HeaderPacket.h>//Header which declares packet structs
@@ -10,6 +11,8 @@
 #include <CommProto/architecture/os/os_threads.h>//method to create threads
 #include <CommProto/architecture/os/os_mutex.h>
 #include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
+#include <CommProto/serialization/ObjectStream.h>
+#include <CommProto/AbstractPacket.h>
 #include <CommProto/CommNode.h>
 
 
@@ -40,21 +43,13 @@ namespace Comnet
 		/** Method to read key form text file*/
 		void loadKey();
 
-		/** Data buffer to create communication stream with */
-		uint8_t data_Buf[MAX_BUFFER_SIZE];
 		/** Length of data buffer for communication stream */
 		uint32_t rx_length;
 
-		struct messageStruct
-		{
-			uint8_t dataBuff[MAX_PACKET_SIZE];
-			header_t headerBuff;
-		};
-
 		/** Queues for application layer to push messages or pop messages */
 
-		Comnet::Tools::DataStructures::AutoQueue <messageStruct*> recvQueue;
-		Comnet::Tools::DataStructures::AutoQueue <messageStruct*> sendQeueu;
+		Comnet::Tools::DataStructures::Interface::Queue <Serialization::ObjectStream*> *recvQueue;
+		Comnet::Tools::DataStructures::Interface::Queue <Serialization::ObjectStream*> *sendQueue;
 
 		/** Thread to run communication data */
 		thread_t communicationThreadSend;
@@ -76,13 +71,7 @@ namespace Comnet
 		CommsLink *connectionLayer;
 
 
-		/** Parse header function de-serialize header packet */
-		void deserializeHeader();
-
-		/** Parse header function to serialize header packet */
-		void serializeHeader();
-	public:
-		Comms();
+	public:		
 		/** Constructor */
 		Comms(uint8_t platformID);
 		/** Destructor */
@@ -102,13 +91,13 @@ namespace Comnet
 		/** Removing an address removes the known association of address and destination ID by using id*/
 		bool removeAddress(uint8_t destID);
 
-		bool send(AbstractPacket* packet, uint8_t destId, uint16_t messageId);
-		AbstractPacket* receive(uint8_t&  sourceId, uint16_t& messageId);
+		bool send(AbstractPacket* packet, uint8_t destID, uint16_t messageID);
+		AbstractPacket* receive(uint8_t&  sourceID, uint16_t& messageID);
 
 		/** Method to start communication*/
 		int32_t run();
-		/** Method to pause communication*/
-		int32_t pause();
+		/** Method to toggle pause communication*/
+		int32_t pause(){ return 0; }
 		/** Method to stop communication*/
 		int32_t stop();
 

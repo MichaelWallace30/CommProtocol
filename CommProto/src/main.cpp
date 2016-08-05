@@ -22,44 +22,7 @@ int apple(const header_t& gho, const Ping& pl) {
 }
 
 int main(int c, char** args) {
-        Ping d(12);
-	header_t head;
-        Callback call;
-	call.setCallbackListener((callback_t)apple);
-	cout << "Call: " << call.callFunction(head, d) << endl;
-
-	ObjectStream newObjectStream = ObjectStream();
-
-	double value1A = 64.2;
-	int value2A = 12;
-	string_t strData = (char*)"Hello Slim!!!";
-	uint8_t valueA = 1;
-
-	std::wstring wStrA = L"Hello World Wide????";
-
-	newObjectStream << valueA << strData << wStrA << value2A << value1A;
-
-	double value1B;
-	int value2B;
-	uint8_t valueB;
-	std::wstring wStrB;
-	string_t strDataB = (string_t)malloc(25);
-
-	//extra varible
-	int extraVar;
-
-	newObjectStream >> value1B >> value2B >> wStrB >> strDataB >> valueB;
-
-    cout<<(int)valueB<<endl;
-    cout<<value1B<<endl;
-    cout << value2B <<endl;
-    cout << strDataB <<endl;
-    wcout << wStrB << endl;
-
-	//prints error does not crash
-	newObjectStream >> extraVar;
-
-	/*
+       
   printf("Hello World!\n");
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);
@@ -71,23 +34,21 @@ int main(int c, char** args) {
   newComms2.addAddress(1, "127.0.0.1", 1337);
 
 
-	uint8_t buf[1024] = { 1 };
-	newComms1.send(2, 1, buf, 10);
+	
 
 	newComms2.run();
 	newComms1.run();
 
+	Ping ping = Ping(1);
+	uint8_t source;
+	uint16_t message;
 
-	uint8_t sourceID;
-	uint16_t messageID;
-  uint32_t messageLength;
-	uint8_t buffer[10];
 	while (true)
 	{
-
-
-    Sleep(1000);
-  }
-  */
+		newComms1.send(&ping, 2, 1);
+	    Sleep(1000);
+		newComms2.receive(source, message);
+	}
+  
   return 0;
 }

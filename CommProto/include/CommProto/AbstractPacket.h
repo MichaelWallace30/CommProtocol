@@ -56,6 +56,7 @@ private:
      This id defines the type of object.
   */
   uint32_t typeId;
+
 };
 } // Comnet namespace 
 #endif // __ABSTRACT_PACKET_H

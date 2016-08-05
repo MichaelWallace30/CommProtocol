@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+
 #define MAX_PACKET_SIZE 1024
 #define HEADER_SIZE 22//not great way to do this
 #define ENCRYPTION_BLOCK_BYTES 16
@@ -18,16 +19,11 @@ struct header_t {
   uint8_t destID;
   uint8_t sourceID;
   uint16_t messageLength;
-  uint16_t messaeID;
+  uint16_t messageID;
   uint8_t IV[KEY_LENGTH];//random init vector for encryption
 };
 
-/** Packet structure uses header strcut and fixed data size */
-struct packet_t {
-  header_t header;
-  uint32_t typeId; 
-  uint8_t data[MAX_PACKET_SIZE];
-};
+
 
 // all platform packets could be declared or include from another file here
 // all platform structs should include a serialize and deserialze function
