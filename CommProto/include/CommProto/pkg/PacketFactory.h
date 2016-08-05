@@ -42,7 +42,13 @@ public:
   /**
      Produces a packet from the associated table.
    */
-  AbstractPacket* produceNewPacket(AbstractPacket* ref) { return NULL; }
+  AbstractPacket* produceNewPacket(AbstractPacket* ref) { 
+    if (!ref) {
+      return NULL;
+    }
+
+    return ref->create(); 
+  }
  
   
 private:

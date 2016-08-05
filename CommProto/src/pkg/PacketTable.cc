@@ -145,18 +145,16 @@ AbstractPacket* PacketTable::getPacket(uint32_t key) {
   AbstractPacket* result = NULL;
 
   int32_t saved = hash;
-  bool found = true;
   
   while ( *(table+hash) != NULL  && (*(table+hash))->packet->getId() != key ) {
     hash = traverseIndex(hash);
     
     if (hash == saved) {
-      found = false;
       break;
     }
   }
 
-  if (found) {
+  if ( *(table+hash) != NULL) {
     result = (*(table+hash))->packet;
   }
   

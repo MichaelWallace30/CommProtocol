@@ -40,7 +40,6 @@ Callback* PacketManager::get(const AbstractPacket& key) {
 
 AbstractPacket* PacketManager::produceFromId(uint32_t key) {
   AbstractPacket* packet = table->getPacket(key);
-  
   return factory.produceNewPacket(packet);
 }
 
