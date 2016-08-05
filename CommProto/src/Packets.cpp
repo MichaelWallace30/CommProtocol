@@ -12,6 +12,12 @@ Ping::Ping(uint32_t num)
  
 }
 
+Ping::Ping()
+: num(10)
+, AbstractPacket("Ping")
+{
+}
+
 
 void Ping::pack(ObjectStream& obj) { 
 }

@@ -26,6 +26,7 @@ namespace Comnet {
 */
 class Ping : public AbstractPacket {
 public:
+  Ping();
   Ping(uint32_t num);
   
   ~Ping() { }
