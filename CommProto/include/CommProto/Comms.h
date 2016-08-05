@@ -3,6 +3,7 @@
 
 #include <stdint.h>//needed for bit size variables
 #include <CommProto/tools/data_structures/AutoQueue.h>//marios wrapper of queue
+#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
 #include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 #include <CommProto/network/CommSocket.h> // 
 #include <CommProto/HeaderPacket.h>//Header which declares packet structs
@@ -47,8 +48,8 @@ namespace Comnet
 
 		/** Queues for application layer to push messages or pop messages */
 
-		Comnet::Tools::DataStructures::AutoQueue <Serialization::ObjectStream*> recvQueue;
-		Comnet::Tools::DataStructures::AutoQueue <Serialization::ObjectStream*> sendQueue;
+		Comnet::Tools::DataStructures::Interface::Queue <Serialization::ObjectStream*> *recvQueue;
+		Comnet::Tools::DataStructures::Interface::Queue <Serialization::ObjectStream*> *sendQueue;
 
 		/** Thread to run communication data */
 		thread_t communicationThreadSend;
@@ -70,8 +71,7 @@ namespace Comnet
 		CommsLink *connectionLayer;
 
 
-	public:
-		Comms();
+	public:		
 		/** Constructor */
 		Comms(uint8_t platformID);
 		/** Destructor */

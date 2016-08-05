@@ -31,11 +31,11 @@ void* Comms::commuincationHandlerSend()
 {
 	while (isRunning)
 	{
-		if (!sendQueue.isEmpty())
+		if (!sendQueue->isEmpty())
 		{
 			//send data here
-			ObjectStream *temp = sendQueue.front();
-			sendQueue.pop();//damn you mario!!!
+			ObjectStream *temp = sendQueue->front();
+			sendQueue->deQueue();
 			connectionLayer->send(temp->headerPacket.destID, temp->getBuffer(), temp->getSize());
 			delete temp;
 			temp = NULL;
@@ -76,7 +76,7 @@ void* Comms::commuincationHandlerRecv()
 		
 
 
-		recvQueue.enQueue(temp);						
+		recvQueue->enQueue(temp);						
 	}
 	return 0;
 }
@@ -84,20 +84,17 @@ void* Comms::commuincationHandlerRecv()
 /***********************************************/
 /******************* Public  *******************/
 /***********************************************/
-Comms::Comms()
-{
-	isRunning = false;	
-	isPaused = false;
-	mutex_init(&sendMutex);
-	mutex_init(&recvMutex);	
-	connectionLayer = NULL;
-	
-}
-
 Comms::Comms(uint8_t platformID)
 {
-	Comms();	
+	recvQueue = new Comnet::Tools::DataStructures::AutoQueue <Serialization::ObjectStream*>;
+	sendQueue = new Comnet::Tools::DataStructures::AutoQueue <Serialization::ObjectStream*>;
+	isRunning = false;
+	isPaused = false;
+	mutex_init(&sendMutex);
+	mutex_init(&recvMutex);
+	connectionLayer = NULL;
 	setID(platformID);
+	
 }
 
 Comms::~Comms()
@@ -109,6 +106,9 @@ Comms::~Comms()
 	}
 	mutex_destroy(&sendMutex);
 	mutex_destroy(&recvMutex);
+
+	delete recvQueue;
+	delete sendQueue;
 }
 
 bool Comms::initConnection(CommsLink_type_t connectionType, const char* port, const char* address, uint32_t baudrate)
@@ -174,7 +174,7 @@ bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID)
 		//call encryption here
 		//
 		temp->serializeHeader(header);
-		sendQueue.enQueue(temp);
+		sendQueue->enQueue(temp);
 	}
 
 	return true;
@@ -184,10 +184,10 @@ AbstractPacket* Comms::receive(uint8_t&  sourceID, uint16_t& messageID)
 {
 	if (connectionLayer == NULL) return false;
 	{
-		if (!recvQueue.isEmpty())
+		if (!recvQueue->isEmpty())
 		{
 			cout << "Message recv in Comms" << endl;
-			recvQueue.pop();
+			recvQueue->deQueue();
 		}
 	}
 	return NULL;
