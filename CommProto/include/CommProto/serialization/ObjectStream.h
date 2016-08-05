@@ -72,6 +72,10 @@ namespace Serialization {
   
 		void ObjectStream::serializeHeader(header_t header);
 		header_t ObjectStream::deserializeHeder();
+
+		//
+		//decrypt and encrypt header here
+		//
 		
   
 	  /** Overloaded input stream operators to put variables into the object stream*/  

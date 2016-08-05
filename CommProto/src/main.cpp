@@ -39,12 +39,13 @@ int main(int c, char** args) {
 	newComms2.run();
 	newComms1.run();
 
+	Ping ping = Ping(1);
 	uint8_t source;
 	uint16_t message;
 
 	while (true)
 	{
-		newComms1.send(NULL, 2, 1);
+		newComms1.send(&ping, 2, 1);
 	    Sleep(1000);
 		newComms2.receive(source, message);
 	}

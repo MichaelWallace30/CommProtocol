@@ -55,6 +55,27 @@ void* Comms::commuincationHandlerRecv()
 		connectionLayer->recv(streamBuffer, &recvLen);
 		ObjectStream *temp = new ObjectStream();
 		temp->setBuffer((char*)streamBuffer, recvLen);
+
+		temp->deserializeHeder();
+
+		//
+		// decrtyp object stream here with call
+		//
+
+		//create abstract data
+		//figure out packet type
+		//unpack abstract data
+
+		//
+		// call linker here
+		//
+
+		//
+		// decide if orphan figure out about delteing temp if not orphan
+		//
+		
+
+
 		recvQueue.enQueue(temp);						
 	}
 	return 0;
@@ -142,17 +163,15 @@ bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID)
 {
 	if (connectionLayer == NULL) return false;
 	{
-		ObjectStream *temp = new ObjectStream();
-		//
-		//packet->unpack(*temp);
-		//
+		ObjectStream *temp = new ObjectStream();		
+		//packet->unpack(*temp);		
 		header_t header;
 		header.destID = destID;
 		header.sourceID = this->getID();
 		header.messageID = messageID;
 		header.messageLength = temp->getSize();
 		//
-		//SET aes encryption here
+		//call encryption here
 		//
 		temp->serializeHeader(header);
 		sendQueue.enQueue(temp);
