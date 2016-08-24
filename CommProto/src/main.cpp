@@ -75,7 +75,6 @@ int main(int c, char** args) {
 
 	//prints error does not crash
 	newObjectStream >> extraVar;
-
 	/*
   printf("Hello World!\n");
   Comms newComms1 = Comms(1);

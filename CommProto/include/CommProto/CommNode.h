@@ -29,9 +29,8 @@ using namespace Comnet::Tools::DataStructures::Interface;
 
 
 class AbstractPacket;
+class Callback;
 
-
-typedef void* (*receiver_callback)(void);
 /**
    CommNode is the interface used to determine node types that are constructed by the 
    library. We use this in extension for our nodes that will be implemented. This will be so
@@ -65,7 +64,7 @@ public:
 
      TODO(): Figure out the best thing for a good callback.
    */
-  virtual bool linkCallback(AbstractPacket* packet, receiver_callback callback) 
+  virtual bool linkCallback(AbstractPacket* packet, Callback* callback) 
     { return NULL; }
   /**
      Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
