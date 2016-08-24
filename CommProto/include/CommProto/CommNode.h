@@ -47,7 +47,7 @@ public:
   /**
      Add a packet to the call chain.
    */
-  virtual bool addPacket(AbstractPacket* packet) 
+  virtual bool addPacket(const AbstractPacket* packet) 
     { return NULL; }
   /**
      Link a callback to a packet in the call chain. This is still a working progress, Not sure what 
@@ -64,13 +64,13 @@ public:
 
      TODO(): Figure out the best thing for a good callback.
    */
-  virtual bool linkCallback(AbstractPacket* packet, Callback* callback) 
+  virtual bool linkCallback(const AbstractPacket* packet, const Callback* callback) 
     { return NULL; }
   /**
      Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
      All packages received will go into a queue anyway.
    */
-  virtual bool linkQueue(AbstractPacket* packet, Queue<AbstractPacket*>* queue) 
+  virtual bool linkQueue(const AbstractPacket* packet, const Queue<AbstractPacket*>* queue) 
     { return NULL; }
 
   // Still in the works...
