@@ -70,8 +70,8 @@ namespace Serialization {
 
 		
   
-		void ObjectStream::serializeHeader(header_t header);
-		header_t ObjectStream::deserializeHeder();
+		void serializeHeader(header_t header);
+		header_t deserializeHeder();
 
 		//
 		//decrypt and encrypt header here

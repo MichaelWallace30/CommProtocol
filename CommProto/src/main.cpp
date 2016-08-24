@@ -73,9 +73,11 @@ int main(int c, char** args) {
     cout << strDataB <<endl;
     wcout << wStrB << endl;
 
-	//prints error does not crash
-	newObjectStream >> extraVar;
-	/*
+    //prints error does not crash
+    newObjectStream >> extraVar;
+    Comms comms(1);
+    comms.linkCallback(new Ping(1), new Callback((callback_t)apple));
+    /*
   printf("Hello World!\n");
   Comms newComms1 = Comms(1);
   Comms newComms2 = Comms(2);

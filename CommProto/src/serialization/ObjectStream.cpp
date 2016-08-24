@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/serialization/ObjectStream.h>
 #include <CommProto/console/CommsDebug.h>
 
+#include <string.h>
+
 using namespace Comnet::Serialization;
 
 ObjectStream::ObjectStream():currentPostion(HEADER_SIZE)
