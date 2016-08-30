@@ -36,7 +36,7 @@ class AbstractPacket;
 class Callback;
 
 /**
-  Currently supports about 65,355 nodes.
+  Currently supports about 65,536 nodes.
  */
 static uint16_t numberOfNodes = 0;
 /**
