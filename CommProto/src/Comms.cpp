@@ -46,10 +46,8 @@ void* Comms::commuincationHandlerSend()
 }
 
 /** function for communication thread */
-void* Comms::commuincationHandlerRecv()
-{
-	while (isRunning)
-	{
+void* Comms::commuincationHandlerRecv() {
+  while (isRunning) {
     //
     // decrtyp object stream here with call
     //
@@ -66,18 +64,18 @@ void* Comms::commuincationHandlerRecv()
     // decide if orphan figure out about delteing temp if not orphan
     //
     AbstractPacket* packet = NULL;
-		//send data here
-		uint8_t streamBuffer[MAX_PACKET_SIZE];
-		uint32_t recvLen = 0;
-		connectionLayer->recv(streamBuffer, &recvLen);
-		ObjectStream *temp = new ObjectStream();
-		temp->setBuffer((char*)streamBuffer, recvLen);
+    //send data here
+    uint8_t streamBuffer[MAX_PACKET_SIZE];
+    uint32_t recvLen = 0;
+    connectionLayer->recv(streamBuffer, &recvLen);
+    ObjectStream *temp = new ObjectStream();
+    temp->setBuffer((char*)streamBuffer, recvLen);
 
     /*
       Algorithm should get the header, get the message id from header, then
       produce the packet from the header, finally get the callback.
      */
-		header_t header = temp->deserializeHeader();
+    header_t header = temp->deserializeHeader();
     // Create the packet.
     packet = this->packetManager.produceFromId(header.messageID);
     
