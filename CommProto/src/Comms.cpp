@@ -86,11 +86,13 @@ void* Comms::commuincationHandlerRecv() {
       callback = this->packetManager.get(*packet);
 
       if (callback) {
+        error_t error;
         /*
           TODO(Wallace): This might need to run on a separate thread, or 
           on a new thread, to prevent it from stopping the receive handler.
          */
-        callback->callFunction(header, *packet);
+        error = callback->callFunction(header, *packet);
+        // Handle error.
         // Determine what to do with the packet... Probably destroy it since it is being called.
       }
       // Store the packet into the receive queue.
