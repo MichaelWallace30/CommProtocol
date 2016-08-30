@@ -28,7 +28,7 @@
 
 #define _COMNET_MINIMUM_API_VERSION_            0x1000
 #define _COMNET_COMPATIBLE_API_VERSION_         0x1001
-#define _COMNET_CURRENT_API_VERSION_            0x1002
+#define _COMNET_CURRENT_API_VERSION_            0x1000
 
 #define obtain_api_version(_api_version) _api_version
 
@@ -57,7 +57,12 @@
 #if (_COMNET_CURRENT_API_VERSION_ < _COMNET_MINIMUM_API_VERSION_)
  #error "This CommProtocol version will no longer work with other modules. Please update CommProtocol to the latest version."
 #elif (_COMNET_CURRENT_API_VERSION_ < _COMNET_COMPATIBLE_API_VERSION_)
- #warning "This CommProtocol version is not recommended for use, as some features may be deprecated, or no longer supported."
- #warning "Consider updating your CommProtocol Library to the latest version."
+ #if COM_TARGET_OS == COM_OS_WINDOWS
+  #pragma message ("This CommProtocol version is not recommended for use, as some features may be deprecated, or no longer supported.")
+  #pragma message ("Consider updating your CommProtocol Library to the latest version.")
+ #else
+   #warning "This CommProtocol version is not recommended for use, as some features may be deprecated, or no longer supported."
+  #warning "Consider updating your CommProtocol Library to the latest version."
+ #endif // COM_TARGET_OS == COM_OS_WINDOWS
 #endif
 #endif // __API_H
