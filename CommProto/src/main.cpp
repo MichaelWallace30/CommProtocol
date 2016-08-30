@@ -68,13 +68,14 @@ int main(int c, char** args) {
 
 	newObjectStream >> value1B >> value2B >> wStrB >> strDataB >> valueB;
 
-    cout<<(int)valueB<<endl;
-    cout<<value1B<<endl;
+    cout<< (int)valueB << endl;
+    cout<< value1B << endl;
     cout << value2B <<endl;
     cout << strDataB <<endl;
     wcout << wStrB << endl;
 
-    //prints error does not crash
+    // prints error does not crash
+    COMMS_DEBUG("\nTesting error runtime.\n");
     newObjectStream >> extraVar;
     Comms comms(1);
     comms.linkCallback(new Ping(1), new Callback((callback_t)apple));

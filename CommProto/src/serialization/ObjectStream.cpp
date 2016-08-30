@@ -63,7 +63,7 @@ void ObjectStream::serializeHeader(header_t header)
 	}
 }
 
-header_t ObjectStream::deserializeHeder()
+header_t ObjectStream::deserializeHeader()
 {
 	header_t header;
 	int offset = 0;

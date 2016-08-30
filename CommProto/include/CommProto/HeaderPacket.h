@@ -5,7 +5,7 @@
 
 
 #define MAX_PACKET_SIZE 1024
-#define HEADER_SIZE 22//not great way to do this
+#define HEADER_SIZE 22 //not great way to do this
 #define ENCRYPTION_BLOCK_BYTES 16
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH
 #define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE

@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace Comnet {
 namespace Serialization {
 /** Buffer Limit predefinded */
-#define STREAM_BUFFER_MAX_SIZE 1014
+#define STREAM_BUFFER_MAX_SIZE 1024
 
 	/** Object Stream Class will hold an array of data as a stream. 
 		All data will be put into the stream with the overloaded operators '<<' 
@@ -46,9 +46,9 @@ namespace Serialization {
 		/** Current postion of streamBuffer and also size of streamBuffer*/
 		int32_t currentPostion;
 		/** Error Handingling methods*/
-		void printErrorUnderFlow(){ COMMS_DEBUG("ERROR:\t Source: ObjectStream\t Message: Buffer too small\n"); }
+		void printErrorUnderFlow(){ COMMS_DEBUG("\nERROR:\t Source: ObjectStream\t Message: Buffer too small\n"); }
 		/** Error Handingling methods*/
-		void printErrorOverFlow(){ COMMS_DEBUG("ERROR:\t Source: ObjectStream\t Message: Buffer full\n"); }
+		void printErrorOverFlow(){ COMMS_DEBUG("\nERROR:\t Source: ObjectStream\t Message: Buffer full\n"); }
 
 	public:
 
@@ -71,7 +71,7 @@ namespace Serialization {
 		
   
 		void serializeHeader(header_t header);
-		header_t deserializeHeder();
+		header_t deserializeHeader();
 
 		//
 		//decrypt and encrypt header here

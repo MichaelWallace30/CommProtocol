@@ -81,14 +81,15 @@ public:
 
      TODO(): Figure out the best thing for a good callback.
    */
-  virtual bool linkCallback(const AbstractPacket* packet, const Callback* callback) 
-    { return NULL; }
+  virtual bool linkCallback(const AbstractPacket* packet, const Callback* callback) {
+    return this->packetManager.insert(packet, callback);
+  }
   /**
      Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
      All packages received will go into a queue anyway.
    */
   virtual bool linkQueue(const AbstractPacket* packet, const Queue<AbstractPacket*>* queue) 
-    { return NULL; }
+    { return ~0; }
 
   // Still in the works...
 
@@ -138,6 +139,13 @@ public:
    */
   int32_t getUniqueId() const 
     { return this->uniqueId; }
+
+protected:
+  /**
+  Packet Manager is a manager controller, designed to hold packets for the node.
+  */
+  PacketManager packetManager;
+
 private:
   /**
      The node id associated with this node. This id is used for outside communications.
@@ -148,10 +156,6 @@ private:
     The unique id used for inside communications. This id CANNOT be changed.
    */  
   const int32_t uniqueId;
-  /**
-    Packet Manager is a manager controller, designed to hold packets for the node.
-   */
-  PacketManager packetManager;
 };
 
 } // Comnet namespace

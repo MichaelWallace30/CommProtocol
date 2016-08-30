@@ -50,7 +50,7 @@ namespace Comnet {
 
 		/** Queues for application layer to push messages or pop messages */
 
-		Interface::Queue <ObjectStream*> *recvQueue;
+		Interface::Queue <AbstractPacket*> *recvQueue;
 		Interface::Queue <ObjectStream*> *sendQueue;
 
 		/** Thread to run communication data */

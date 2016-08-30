@@ -1,7 +1,9 @@
 #include <CommProto/Comms.h>
+#include <CommProto/architecture/macros.h>
 
 #include <CommProto/network/UDP.h>
 #include <CommProto/network/Serial.h>
+#include <CommProto/Callback.h>
 
 using namespace Comnet;
 
@@ -37,8 +39,7 @@ void* Comms::commuincationHandlerSend()
 			ObjectStream *temp = sendQueue->front();
 			sendQueue->deQueue();
 			connectionLayer->send(temp->headerPacket.destID, temp->getBuffer(), temp->getSize());
-			delete temp;
-			temp = NULL;
+			free_pointer(temp);
 		}
 	}
 	return 0;
@@ -49,6 +50,22 @@ void* Comms::commuincationHandlerRecv()
 {
 	while (isRunning)
 	{
+    //
+    // decrtyp object stream here with call
+    //
+
+    //create abstract data
+    //figure out packet type
+    //unpack abstract data
+
+    //
+    // call linker here
+    //
+
+    //
+    // decide if orphan figure out about delteing temp if not orphan
+    //
+    AbstractPacket* packet = NULL;
 		//send data here
 		uint8_t streamBuffer[MAX_PACKET_SIZE];
 		uint32_t recvLen = 0;
@@ -56,27 +73,33 @@ void* Comms::commuincationHandlerRecv()
 		ObjectStream *temp = new ObjectStream();
 		temp->setBuffer((char*)streamBuffer, recvLen);
 
-		temp->deserializeHeder();
+    /*
+      Algorithm should get the header, get the message id from header, then
+      produce the packet from the header, finally get the callback.
+     */
+		header_t header = temp->deserializeHeader();
+    // Create the packet.
+    packet = this->packetManager.produceFromId(header.messageID);
+    
+    if (packet) {
+      // Unpack the object stream.
+      packet->unpack(*temp);
+      Callback* callback = NULL;
+      callback = this->packetManager.get(*packet);
 
-		//
-		// decrtyp object stream here with call
-		//
-
-		//create abstract data
-		//figure out packet type
-		//unpack abstract data
-
-		//
-		// call linker here
-		//
-
-		//
-		// decide if orphan figure out about delteing temp if not orphan
-		//
-		
-
-
-		recvQueue->enQueue(temp);						
+      if (callback) {
+        /*
+          TODO(Wallace): This might need to run on a separate thread, or 
+          on a new thread, to prevent it from stopping the receive handler.
+         */
+        callback->callFunction(header, *packet);
+        // Determine what to do with the packet... Probably destroy it since it is being called.
+      }
+      // Store the packet into the receive queue.
+      recvQueue->enQueue(packet);
+    } else {
+      COMMS_DEBUG("Unknown packet recieved.");
+    }					
 	}
 	return 0;
 }
@@ -87,7 +110,7 @@ void* Comms::commuincationHandlerRecv()
 Comms::Comms(uint8_t platformID)
 : CommNode(platformID)
 {
-	recvQueue = new Comnet::Tools::DataStructures::AutoQueue <Serialization::ObjectStream*>;
+	recvQueue = new Comnet::Tools::DataStructures::AutoQueue <AbstractPacket*>;
 	sendQueue = new Comnet::Tools::DataStructures::AutoQueue <Serialization::ObjectStream*>;
 	isRunning = false;
 	isPaused = false;
@@ -146,11 +169,13 @@ bool Comms::initConnection(CommsLink_type_t connectionType, const char* port, co
 	return true;
 }
 
+
 bool Comms::addAddress(uint8_t destID, const char* address , uint16_t port)
 {
 	if (connectionLayer == NULL)return false;
 	return connectionLayer->addAddress(destID, address, port);
 }
+
 
 bool Comms::removeAddress(uint8_t destID)
 {
@@ -158,38 +183,41 @@ bool Comms::removeAddress(uint8_t destID)
 	return connectionLayer->removeAddress(destID);
 }
 
-bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID)
-{
-	if (connectionLayer == NULL) return false;
-	{
-		ObjectStream *temp = new ObjectStream();		
-		//packet->unpack(*temp);		
-		header_t header;
-		header.destID = destID;
-		header.sourceID = this->getNodeId();
-		header.messageID = messageID;
-		header.messageLength = temp->getSize();
-		//
-		//call encryption here
-		//
-		temp->serializeHeader(header);
-		sendQueue->enQueue(temp);
-	}
 
-	return true;
+bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID) {
+	if (connectionLayer == NULL) { 
+    return false;
+  }
+
+  ObjectStream *stream = new ObjectStream();
+  // Pack the stream with the packet.		
+  packet->pack(*stream);		
+  header_t header;
+
+  header.destID = destID;
+  header.sourceID = this->getNodeId();
+  header.messageID = messageID;
+  header.messageLength = stream->getSize();
+  //
+  //call encryption here
+  //
+  stream->serializeHeader(header);
+  sendQueue->enQueue(stream);
+
+  return true;
 }
 
-AbstractPacket* Comms::receive(uint8_t&  sourceID, uint16_t& messageID)
-{
-	if (connectionLayer == NULL) return false;
-	{
-		if (!recvQueue->isEmpty())
-		{
-			cout << "Message recv in Comms" << endl;
-			recvQueue->deQueue();
-		}
-	}
-	return NULL;
+AbstractPacket* Comms::receive(uint8_t&  sourceID, uint16_t& messageID) {
+  if (connectionLayer == NULL) return false;
+  if (!recvQueue->isEmpty()) {
+    cout << "Message recv in Comms" << endl;
+    // This does not need to be done manually.
+    // However, the user's program may need to do so, otherwise they will
+    // specify a Callback for the packet.
+    recvQueue->deQueue();  
+  }
+	
+  return NULL;
 }
 
 int32_t Comms::run()
