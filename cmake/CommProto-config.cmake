@@ -1,7 +1,6 @@
 # CommProto configuration files
 
 set(COMMPROTO_HEADERS
-  ${PARENT_HEADER_DIR}/console/CommsDebug.h
   ${PARENT_HEADER_DIR}/Comms.h  
   ${PARENT_HEADER_DIR}/AbstractPacket.h
   ${PARENT_HEADER_DIR}/Packets.h

@@ -43,6 +43,7 @@
 #define _COMNET_API_LEVEL_4_         4
 #define _COMNET_API_LEVEL_5_         5
 
+#define _COMNET_INTERFACE_           class
 
 #define current_api_version obtain_api_version(_COMNET_API_VERSION_)
 

@@ -105,6 +105,7 @@ set(SERIALIZATION_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommP
 set(SERIALIZATION_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/serialization/)
 set(PKG_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/pkg/)
 set(PKG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/pkg/)
+set(DEBUG_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/debug/)
 
 # Add some commands to the compiler.
 if (CXX_COMPILER MATCHES "MSVC")
@@ -127,6 +128,7 @@ include(cmake/hash-config.cmake)
 include(cmake/network-config.cmake)
 include(cmake/serialization-config.cmake)
 include(cmake/pkg.cmake)
+include(cmake/comnet_debug.cmake)
 
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
@@ -135,6 +137,7 @@ if (${CMAKE_CXX_COMPILER_ID})
     source_group("Header Files\\network" FILES ${NETWORK_HEADERS})
     source_group("Header Files\\serialization" FILES ${SERIALIZATION_HEADERS})
     source_group("Header Files\\pkg" FILES ${COMMPROTO_PKG_HEADERS})
+    source_group("Header Files\\debug" FILES ${DEBUG_HEADERS})
     source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
     source_group("Source Files\\hash" FILES ${COMMPROTO_HASH_SOURCES})
     source_group("Source Files\\network" FILES ${NETWORK_SOURCES})
@@ -158,4 +161,5 @@ add_executable(NGCP_LIB
   ${SERIALIZATION_SOURCES}
   ${COMMPROTO_PKG_HEADERS}
   ${COMMPROTO_PKG_SOURCES}
+  ${DEBUG_HEADERS}
   CommProto/src/main.cpp)
