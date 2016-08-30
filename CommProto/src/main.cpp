@@ -25,6 +25,11 @@ int apple(const header_t& gho, const Ping& pl) {
   return pl.num;
 }
 
+int testingFunction(const header_t& header, const Ping& ping) {
+  cout << "I am a new testing function" << endl;
+  return ping.num;
+}
+
 int main(int c, char** args) {
   Ping d(12);
   Ping a(122);
@@ -36,14 +41,19 @@ int main(int c, char** args) {
 
   PacketManager packageManager;
   // Sample test of storing Ping Callback pair. Should be done this way.
-  packageManager.insert(new Ping(0), new Callback((callback_t)apple));
+  packageManager.insert(new Ping(0), NULL);
+  int value;
   Callback* callResult = packageManager.get(a);
-  if (!callResult) {
-    cout << "NULL" << endl;
+  if (callResult) {
+    value = callResult->callFunction(head, a);
+    cout << "This is the result... " << value << endl;
     cin.ignore();
   }
-  int value = callResult->callFunction(head, a);
-  cout << "This is the result... " << value << endl;
+
+  packageManager.insert(new Ping(1), new Callback((callback_t)testingFunction));
+  delete callResult; callResult = NULL;
+  callResult = packageManager.get(a);
+  value = callResult->callFunction(head, a);
   cin.ignore();
 
 	ObjectStream newObjectStream = ObjectStream();
