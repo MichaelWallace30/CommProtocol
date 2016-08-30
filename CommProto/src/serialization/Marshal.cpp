@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <CommProto/serialization/Marshal.h>
-#include <CommProto/console/CommsDebug.h>
+#include <CommProto/debug/CommsDebug.h>
 
 #include <string.h>
 #include <string>

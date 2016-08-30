@@ -5,6 +5,9 @@
 //#include <tr1/functional>
 #include <CommProto/hash/NgcpHash.h>
 
+// Type info from std library.
+#include <typeinfo>
+
 namespace Comnet {
 
 

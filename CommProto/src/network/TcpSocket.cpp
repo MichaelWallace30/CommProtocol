@@ -18,7 +18,7 @@
 */
 #include <CommProto/network/CommSocket.h>
 
-#include <CommProto/console/CommsDebug.h>
+#include <CommProto/debug/CommsDebug.h>
 
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/os_mutex.h>

@@ -25,7 +25,7 @@
 #include <CommProto/architecture/macros.h>//str_length(char*,int)
 #include <stdio.h>//printf
 #include <stdlib.h>//atoi
-#include <CommProto/console/CommsDebug.h>
+#include <CommProto/debug/CommsDebug.h>
 
 #define ADDRESS_LENGTH 16
 

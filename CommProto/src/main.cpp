@@ -13,6 +13,7 @@
 #include <CommProto/pkg/PacketManager.h>
 #include <stdlib.h>
 
+#include <typeinfo>
 #include <iostream>
 using namespace std;
 using namespace Comnet::Serialization;
@@ -77,6 +78,7 @@ int main(int c, char** args) {
     newObjectStream >> extraVar;
     Comms comms(1);
     comms.linkCallback(new Ping(1), new Callback((callback_t)apple));
+    cin.ignore();
     /*
   printf("Hello World!\n");
   Comms newComms1 = Comms(1);
