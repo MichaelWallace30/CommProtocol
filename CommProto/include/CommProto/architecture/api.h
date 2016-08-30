@@ -26,8 +26,9 @@
 #include <CommProto/architecture/os/include_defines.h>
 
 
-#define _COMNET_MINIMUM_API_VERSION  0
-#define _COMNET_API_VERSION_         1
+#define _COMNET_MINIMUM_API_VERSION_            0x1000
+#define _COMNET_COMPATIBLE_API_VERSION_         0x1001
+#define _COMNET_CURRENT_API_VERSION_            0x1002
 
 #define obtain_api_version(_api_version) _api_version
 
@@ -47,6 +48,16 @@
 #define _COMNET_INTERFACE_           
 #define _COMNET_ABSTRACT_
 
-#define current_api_version obtain_api_version(_COMNET_API_VERSION_)
+#define current_api_version obtain_api_version(_COMNET_CURRENT_API_VERSION_)
 
+//////////////////////////////////////////////////////////////////////////////////////
+// Post testing for the latest API Version.
+//
+//////////////////////////////////////////////////////////////////////////////////////
+#if (_COMNET_CURRENT_API_VERSION_ < _COMNET_MINIMUM_API_VERSION_)
+ #error "This CommProtocol version will no longer work with other modules. Please update CommProtocol to the latest version."
+#elif (_COMNET_CURRENT_API_VERSION_ < _COMNET_COMPATIBLE_API_VERSION_)
+ #warning "This CommProtocol version is not recommended for use, as some features may be deprecated, or no longer supported."
+ #warning "Consider updating your CommProtocol Library to the latest version."
+#endif
 #endif // __API_H
