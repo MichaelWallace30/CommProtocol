@@ -20,6 +20,8 @@
 #define __COMMNODE_H
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
+
 #include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
 
 namespace Comnet {
@@ -37,7 +39,7 @@ class Callback;
    that we can make easier adjustments for node changing and style, but we must always go
    by this interface if we want to keep our nodes the same.
  */
-class CommNode {
+class _COMNET_ABSTRACT_ CommNode {
 public:
 
   /**

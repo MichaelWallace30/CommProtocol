@@ -24,7 +24,7 @@ enum LogStatus {
    Log interface is a notifier. It provides notifications to the Logger Manager, 
    which in turn will determine what to do with the message received.
 */
-_COMNET_INTERFACE_ Log {
+class _COMNET_INTERFACE_ Log {
 public:
   /**
      Default Constructor.
