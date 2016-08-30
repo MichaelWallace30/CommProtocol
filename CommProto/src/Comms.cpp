@@ -85,6 +85,7 @@ void* Comms::commuincationHandlerRecv()
 /******************* Public  *******************/
 /***********************************************/
 Comms::Comms(uint8_t platformID)
+: CommNode(platformID)
 {
 	recvQueue = new Comnet::Tools::DataStructures::AutoQueue <Serialization::ObjectStream*>;
 	sendQueue = new Comnet::Tools::DataStructures::AutoQueue <Serialization::ObjectStream*>;
@@ -93,8 +94,6 @@ Comms::Comms(uint8_t platformID)
 	mutex_init(&sendMutex);
 	mutex_init(&recvMutex);
 	connectionLayer = NULL;
-	setID(platformID);
-	
 }
 
 Comms::~Comms()
@@ -167,7 +166,7 @@ bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID)
 		//packet->unpack(*temp);		
 		header_t header;
 		header.destID = destID;
-		header.sourceID = this->getID();
+		header.sourceID = this->getNodeId();
 		header.messageID = messageID;
 		header.messageLength = temp->getSize();
 		//

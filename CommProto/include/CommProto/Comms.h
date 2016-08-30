@@ -20,16 +20,18 @@
 #include <iostream>//testing only
 using namespace std;//testing only
 
-namespace Comnet
-{
-	typedef enum
-	{
+namespace Comnet {
+  
+  using namespace Comnet::Tools::DataStructures;
+  using namespace Comnet::Serialization;
+	
+  typedef enum {
 		UDP_LINK,
 		SERIAL_LINK,
 		ZIGBEE_LINK
-	}CommsLink_type_t;
+	} CommsLink_type_t;
 
-	class Comms: public CommNode {
+	class Comms : public CommNode {
 	private:
 		mutex_t sendMutex;
 		mutex_t recvMutex;
@@ -48,8 +50,8 @@ namespace Comnet
 
 		/** Queues for application layer to push messages or pop messages */
 
-		Comnet::Tools::DataStructures::Interface::Queue <Serialization::ObjectStream*> *recvQueue;
-		Comnet::Tools::DataStructures::Interface::Queue <Serialization::ObjectStream*> *sendQueue;
+		Interface::Queue <ObjectStream*> *recvQueue;
+		Interface::Queue <ObjectStream*> *sendQueue;
 
 		/** Thread to run communication data */
 		thread_t communicationThreadSend;

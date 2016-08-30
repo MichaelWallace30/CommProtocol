@@ -22,17 +22,23 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
+#include <CommProto/pkg/PacketManager.h>
+
 #include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
 
 namespace Comnet {
 
 
 using namespace Comnet::Tools::DataStructures::Interface;
-
+using namespace Comnet::Pkg;
 
 class AbstractPacket;
 class Callback;
 
+/**
+  Currently supports about 65,355 nodes.
+ */
+static uint16_t numberOfNodes = 0;
 /**
    CommNode is the interface used to determine node types that are constructed by the 
    library. We use this in extension for our nodes that will be implemented. This will be so
@@ -41,11 +47,20 @@ class Callback;
  */
 class _COMNET_ABSTRACT_ CommNode {
 public:
+  CommNode()
+  : uniqueId(numberOfNodes++)
+  , nodeId(0)
+    { }
 
+  CommNode(const uint32_t platformId)
+  : uniqueId(numberOfNodes++)
+  , nodeId(platformId)
+    { }
   /**
      Polymorphic Destructor.
    */
-	virtual ~CommNode(){};
+	virtual ~CommNode()
+    { }
   /**
      Add a packet to the call chain.
    */
@@ -109,19 +124,34 @@ public:
   /**
      Set the node id.
    */
-  void setID(int32_t id)
+  void setNodeId(int32_t id)
     { this->nodeId = id; }
 
   /**
      Get the node id.
    */
-  int32_t getID()
+  int32_t getNodeId() const
     { return this->nodeId; }
+  
+  /**
+    Returns the unique id of this node (the id used for inside communications).
+   */
+  int32_t getUniqueId() const 
+    { return this->uniqueId; }
 private:
   /**
-     The node id associated with this node.
+     The node id associated with this node. This id is used for outside communications.
+     Be sure to set an id that would most likely be identifiable with your node.
    */
   int32_t nodeId;
+  /**
+    The unique id used for inside communications. This id CANNOT be changed.
+   */  
+  const int32_t uniqueId;
+  /**
+    Packet Manager is a manager controller, designed to hold packets for the node.
+   */
+  PacketManager packetManager;
 };
 
 } // Comnet namespace
