@@ -100,8 +100,9 @@ void* Comms::commuincationHandlerRecv() {
     } else {
       COMMS_DEBUG("Unknown packet recieved.");
     }					
-	}
-	return 0;
+  }
+
+  return 0;
 }
 
 /***********************************************/
