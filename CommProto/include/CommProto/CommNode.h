@@ -64,8 +64,9 @@ public:
   /**
      Add a packet to the call chain.
    */
-  virtual bool addPacket(const AbstractPacket* packet) 
-    { return NULL; }
+  virtual bool addPacket(const AbstractPacket* packet) { 
+    return this->packetManager.insert(packet, NULL); 
+  }
   /**
      Link a callback to a packet in the call chain. This is still a working progress, Not sure what 
      would be the best thing to accomplish here.
