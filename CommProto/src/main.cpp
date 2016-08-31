@@ -91,8 +91,11 @@ int main(int c, char** args) {
     // prints error does not crash
     COMMS_DEBUG("\nTesting error runtime.\n");
     newObjectStream >> extraVar;
-    Comms comms(1);
-    comms.linkCallback(new Ping(1), new Callback((callback_t)apple));
+    COMMS_DEBUG("\nTesting Abstract Object CommNode\n");
+    CommNode& node = Comms(1);
+    node.linkCallback(new Ping(1), new Callback((callback_t)apple));
+    cout << "Node id:\t" << node.getNodeId() << endl;
+    cout << "Unique id:\t" << node.getUniqueId() << endl;
     cin.ignore();
     /*
   printf("Hello World!\n");
