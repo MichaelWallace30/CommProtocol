@@ -98,6 +98,15 @@ bool PacketTable::insert(const AbstractPacket* key, const Callback* callback) {
   pair->packet = (AbstractPacket* )key;
   pair->callback = (Callback* )callback;
 
+  while ( (*(table+hash)) != NULL  || (*(table+hash))->packet->getId() != key ) {
+    hash = traverseIndex(hash);
+    
+    if (hash == saved) {
+      break;
+    }
+  }
+
+
   if ( *(table+hash) == NULL ) {
     *(table+hash) = pair;
     numOfPairs++;
