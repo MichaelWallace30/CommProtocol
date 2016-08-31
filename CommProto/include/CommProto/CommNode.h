@@ -21,6 +21,7 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
+#include <CommProto/architecture/connection/transport_type.h>
 
 #include <CommProto/pkg/PacketManager.h>
 
@@ -34,6 +35,7 @@ using namespace Comnet::Pkg;
 
 class AbstractPacket;
 class Callback;
+
 
 /**
   Currently supports about 65,536 nodes.
@@ -107,7 +109,22 @@ public:
      @return Packet that was received, otherwise NULL if nothing found.
    */
   virtual AbstractPacket* receive(uint8_t&  sourceId, uint16_t& messageId) = 0;
+  /**
+     Initialize connection.
+   */
+  virtual bool initConnection(transport_protocol_t connType,
+			      const char* port, 
+			      const char* address, 
+			      uint32_t baudRate = 0) = 0;
 
+  /**
+     Add a communication address.
+   */
+  virtual bool addAddress(uint8_t destID, const char* address, uint16_t port = 0) = 0;
+  /**
+     remove an Address.
+   */
+  virtual bool removeAddress(uint8_t destID) = 0;
   /**
      Run the node. Threads may be implemented.
    */

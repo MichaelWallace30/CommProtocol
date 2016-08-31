@@ -1,6 +1,6 @@
 # Architecture files defined and configured in this .cmake file.
 
-set(ARCHITECTURE_HEADERS 
+set(ARCHITECTURE_HEADERS
   ${PARENT_HEADER_DIR}/architecture/os/linux-config/linux-config.h
   ${PARENT_HEADER_DIR}/architecture/os/include_defines.h
   ${PARENT_HEADER_DIR}/architecture/os/arch.h
@@ -11,7 +11,8 @@ set(ARCHITECTURE_HEADERS
   ${PARENT_HEADER_DIR}/architecture/api.h
   ${PARENT_HEADER_DIR}/architecture/macros.h
   ${PARENT_HEADER_DIR}/architecture/connection/socket-config.h
-  ${PARENT_HEADER_DIR}/architecture/connection/serial-config.h)
+  ${PARENT_HEADER_DIR}/architecture/connection/serial-config.h
+  ${PARENT_HEADER_DIR}/architecture/connection/transport_type.h)
 
 set(ARCHITECTURE_SOURCES
   ${PARENT_SOURCE_DIR}/architecture/os/os_threads.c

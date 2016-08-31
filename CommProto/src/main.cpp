@@ -40,10 +40,14 @@ int main(int c, char** args) {
 	cout << "Call: " << call.callFunction(head, d) << endl;
 
   PacketManager packageManager;
+  cout << "inserting..." << endl;
   // Sample test of storing Ping Callback pair. Should be done this way.
   packageManager.insert(new Ping(0), NULL);
+  cout << "finished inserting" << endl;
   int value;
+  cout << "Yep" << endl;
   Callback* callResult = packageManager.get(a);
+  cout << "finished" << endl;
   if (callResult) {
     value = callResult->callFunction(head, a);
     cout << "This is the result... " << value << endl;

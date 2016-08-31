@@ -134,7 +134,7 @@ Comms::~Comms()
 	delete sendQueue;
 }
 
-bool Comms::initConnection(CommsLink_type_t connectionType, const char* port, const char* address, uint32_t baudrate)
+bool Comms::initConnection(transport_protocol_t connectionType, const char* port, const char* address, uint32_t baudrate)
 {
 	uint16_t length = 0;
 	switch (connectionType)

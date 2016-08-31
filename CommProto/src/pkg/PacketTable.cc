@@ -92,16 +92,19 @@ bool PacketTable::insert(const AbstractPacket* key, const Callback* callback) {
   }
 
   bool stored = false;
+  bool willStore = true;
   uint32_t hash = keyHash(key->getId());
   Pair* pair = allocate_pointer(Pair);
 
   pair->packet = (AbstractPacket* )key;
   pair->callback = (Callback* )callback;
 
-  while ( (*(table+hash)) != NULL  || (*(table+hash))->packet->getId() != key ) {
+  int saved = hash;
+  while ( (*(table+hash)) != NULL  && (*(table+hash))->packet->getId() != key->getId() ) {
     hash = traverseIndex(hash);
     
     if (hash == saved) {
+      willStore = false;
       break;
     }
   }
@@ -111,7 +114,7 @@ bool PacketTable::insert(const AbstractPacket* key, const Callback* callback) {
     *(table+hash) = pair;
     numOfPairs++;
     stored = true;
-  } else {
+  } else if (willStore) {
     free_pointer(pair->packet);
     free_pointer(pair);
     free_pointer((*(table+hash))->callback);
