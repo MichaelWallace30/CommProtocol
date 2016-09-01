@@ -106,7 +106,9 @@ int main(int c, char** args) {
     COMMS_DEBUG("\nSuccessfully added!\n");
   }
   
+  COMMS_DEBUG("Adding callback\n");
   newComms1.linkCallback(new Ping(0), new Callback((callback_t) apple));
+  COMMS_DEBUG("Callback added!\n");
   newComms1.initConnection(UDP_LINK, "1337", "127.0.0.1");
   newComms2.initConnection(UDP_LINK, "1338", "127.0.0.1");
 
@@ -116,7 +118,7 @@ int main(int c, char** args) {
 
 
 	
-
+  COMMS_DEBUG("RUNNING!");
 	newComms2.run();
 	newComms1.run();
 
