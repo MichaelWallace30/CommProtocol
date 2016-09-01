@@ -70,11 +70,11 @@ bool UDP::initConnection(const char* port, const char* address, uint32_t baudrat
   //open socket and  check if socket is not already connected
   if (sockaddr.socket_status != SOCKET_CONNECTED && udp_open(&fd)) {
 
-	  uint16_t length = 0;
+    uint16_t length = 0;
 
-	  str_length(port, length);
-	  ///check if port in number
-	  for (int x = 0; x < length; x++) {
+    str_length(port, length);
+    // check if port in number
+    for (int x = 0; x < length; x++) {
       if (!isdigit(port[x])) {
         COMMS_DEBUG("initConnection 'port' argument is not a numerical digit for udp connection\n");
 
