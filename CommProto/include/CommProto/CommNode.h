@@ -47,7 +47,7 @@ static uint16_t numberOfNodes = 0;
    that we can make easier adjustments for node changing and style, but we must always go
    by this interface if we want to keep our nodes the same.
  */
-class _COMNET_ABSTRACT_ CommNode {
+_COMNET_ABSTRACT_ class CommNode {
 public:
   CommNode()
   : uniqueId(numberOfNodes++)
