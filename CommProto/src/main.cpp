@@ -94,16 +94,19 @@ int main(int c, char** args) {
     COMMS_DEBUG("\nTesting error runtime.\n");
     newObjectStream >> extraVar;
     COMMS_DEBUG("\nTesting Abstract Object CommNode\n");
-    Comms comms(1);
-    CommNode& node = comms;
-    node.linkCallback(new Ping(1), new Callback((callback_t)apple));
-    cout << "Node id:\t" << node.getNodeId() << endl;
-    cout << "Unique id:\t" << node.getUniqueId() << endl;
     cin.ignore();
-    /*
+    
   printf("Hello World!\n");
-  Comms newComms1 = Comms(1);
-  Comms newComms2 = Comms(2);
+  Comms comm1(1);
+  Comms comm2(2);
+  CommNode& newComms1 = comm1;
+  CommNode& newComms2 = comm2;
+  bool success = newComms2.linkCallback(new Ping(0), new Callback((callback_t) apple));
+  if (success) {
+    COMMS_DEBUG("\nSuccessfully added!\n");
+  }
+  
+  newComms1.linkCallback(new Ping(0), new Callback((callback_t) apple));
   newComms1.initConnection(UDP_LINK, "1337", "127.0.0.1");
   newComms2.initConnection(UDP_LINK, "1338", "127.0.0.1");
 
@@ -124,9 +127,11 @@ int main(int c, char** args) {
 	while (true)
 	{
 		newComms1.send(&ping, 2, 1);
-	    Sleep(1000);
-		newComms2.receive(source, message);
+	  Sleep(1000);
+    // This is not needed unless the user hasn't specified a callback for the packet, and
+    // they need to get the packet manually.
+		//newComms2.receive(source, message);
 	}
-  */
+  
   return 0;
 }

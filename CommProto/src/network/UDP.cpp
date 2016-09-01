@@ -152,7 +152,7 @@ bool UDP::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 
       return false;
 		} else {	  						
-        COMMS_DEBUG("**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
+        COMMS_DEBUG("\n**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
         txLength, ntohs(conn[destID].socket_address.sin_port),
         inet_ntoa(conn[destID].socket_address.sin_addr));		  
 		}
@@ -178,7 +178,7 @@ bool UDP::recv(uint8_t* rxData, uint32_t* rxLength)
   
   if (length < 0) return false;
     
-  COMMS_DEBUG("**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, ntohs(si_other.socket_address.sin_port) , inet_ntoa(si_other.socket_address.sin_addr));    
+  COMMS_DEBUG("\n**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, ntohs(si_other.socket_address.sin_port) , inet_ntoa(si_other.socket_address.sin_addr));    
   *rxLength = (uint32_t)length;
 
   return true;

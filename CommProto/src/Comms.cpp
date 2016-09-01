@@ -197,7 +197,7 @@ bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID) {
 
   header.destID = destID;
   header.sourceID = this->getNodeId();
-  header.messageID = messageID;
+  header.messageID = packet->getId();
   header.messageLength = stream->getSize();
   //
   //call encryption here
