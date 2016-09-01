@@ -20,10 +20,12 @@ using namespace Comnet::Serialization;
 using namespace Comnet;
 using namespace Comnet::Pkg;
 
+
 int apple(const header_t& gho, const Ping& pl) {
   cout << "I got an apple" << endl;
   return pl.num;
 }
+
 
 int testingFunction(const header_t& header, const Ping& ping) {
   cout << "I am a new testing function" << endl;

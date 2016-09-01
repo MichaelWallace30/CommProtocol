@@ -19,6 +19,10 @@
 #include <CommProto/network/UDP.h>
 #include <ctype.h>
 
+namespace Comnet {
+namespace Network {
+
+
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
@@ -187,4 +191,5 @@ bool UDP::recv(uint8_t* rxData, uint32_t* rxLength)
   *rxLength = (uint32_t)length;
   return true;
 }
-
+} // namespace Network
+} // namespace Comnet

@@ -29,9 +29,11 @@
 
 #define ADDRESS_LENGTH 16
 
+namespace Comnet {
+namespace Network {
 
-class UDP: public CommsLink
-{
+
+class UDP : public CommsLink {
 private:
   
   
@@ -92,6 +94,6 @@ private:
   virtual bool recv(uint8_t* rxData, uint32_t* rxLength);
   
 };
-
-
+} // namespace Network
+} // namespace Comnet
 #endif

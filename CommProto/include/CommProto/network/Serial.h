@@ -30,8 +30,11 @@
 
 #define SERIAL_DEBUG
 
-class Serial : public CommsLink
-{
+namespace Comnet {
+namespace Network {
+
+
+class Serial : public CommsLink {
 private:
   serial_t hSerial;
   //serial private data
@@ -65,5 +68,6 @@ public:
 
   serial_t& getSerialPort();
 };
-
+} // namespace Network
+} // namespace Comnet
 #endif

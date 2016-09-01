@@ -27,19 +27,49 @@
 
 #define MAX_CONNECTIONS 25
 
-class CommsLink
-{
+namespace Comnet {
+namespace Network {
+
+
+/**
+  CommsLink is an Interface that is responsible for the storage of connection addresses.
+  Designed in this interface standard, the Connection of the node responsible with this 
+  adapter-like interface will hold protocols to this specified object.
+ */
+class CommsLink {
 public:
-  CommsLink(){ ; }
-  virtual ~CommsLink(){ ; }
-  
-  virtual bool initConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0){ return false; }
-  virtual bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0){ return false; }
-  virtual bool removeAddress(uint8_t destID){ return false; }
-  
-  virtual bool send(uint8_t destID, uint8_t* txData, int32_t txLength){ return false; }
-  virtual bool recv(uint8_t* rxData, uint32_t* rxLength){ return false; }
+  /**
+    Default Constuctor.
+  */  
+  CommsLink()
+    { }
+  /**
+    Polymorphic Destructor.
+  */  
+  virtual ~CommsLink()
+    { }  
+  /**
+    Initialize the connection.
+  */
+  virtual bool initConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0) = 0;
+  /**
+    Add an address to the link.
+  */  
+  virtual bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0) = 0;
+  /**
+    Remove an address from the link.
+  */  
+  virtual bool removeAddress(uint8_t destID) = 0;
+  /**
+    Send a message to the specified id of which an address is associated with.
+  */
+  virtual bool send(uint8_t destID, uint8_t* txData, int32_t txLength) = 0;
+  /**
+    Receive a message from a protocol id.
+  */
+  virtual bool recv(uint8_t* rxData, uint32_t* rxLength) = 0;
 private:
 };
-
+} // namespace Network
+} // namespace Comnet
 #endif

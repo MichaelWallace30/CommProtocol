@@ -1,32 +1,57 @@
+/*
+  Standard Comms Node.
+
+  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef COMMS_H
 #define COMMS_H
 
-#include <stdint.h>//needed for bit size variables
 #include <CommProto/tools/data_structures/AutoQueue.h>//marios wrapper of queue
 #include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
+
 #include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
 #include <CommProto/network/CommSocket.h> // 
-#include <CommProto/HeaderPacket.h>//Header which declares packet structs
+
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/os_threads.h>//method to create threads
 #include <CommProto/architecture/os/os_mutex.h>
 #include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
+
 #include <CommProto/serialization/ObjectStream.h>
+
 #include <CommProto/AbstractPacket.h>
 #include <CommProto/CommNode.h>
-
-
+#include <CommProto/HeaderPacket.h>//Header which declares packet structs
 
 #include <iostream>//testing only
-using namespace std;//testing only
+#include <stdint.h>//needed for bit size variables
+
 
 namespace Comnet {
   
+
+  using namespace std;
   using namespace Comnet::Tools::DataStructures;
   using namespace Comnet::Serialization;
-	
-
-	class Comms : public CommNode {
+  using namespace Comnet::Network;	
+  /**
+    Comms is a standard CommNode node object. It handles elementary and intermediate 
+    commands and functionality in order to work to the user's specifications of communications.
+  */  
+  _COMNET_PUBLIC_API_ class Comms : public CommNode {
 	private:
 		mutex_t sendMutex;
 		mutex_t recvMutex;
@@ -103,5 +128,5 @@ namespace Comnet {
 		void logToConsoles()
 		{ }
 	};//end Comms class      
-}
+} // namespace Comnet
 #endif//end if COMMS_H

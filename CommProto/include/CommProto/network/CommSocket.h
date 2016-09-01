@@ -20,8 +20,7 @@
 #define __COMMSOCKET_H
 
 #include <CommProto/architecture/os/include_defines.h>
-
-#define INTERFACE class
+#include <CommProto/architecture/api.h>
 
 namespace Comnet {
 namespace Network {
@@ -40,7 +39,7 @@ enum packet_data_status_t {
 /**
   Basic Socket Interface to handle TCP and UDP sockets.
 */
-INTERFACE CommSocket {
+_COMNET_PUBLIC_API_ class _COMNET_INTERFACE_ CommSocket {
 public:
   virtual ~CommSocket() 
   { }

@@ -18,6 +18,11 @@
 */
 #include <CommProto/network/Serial.h>
 
+
+namespace Comnet {
+namespace Network {
+
+
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
@@ -384,3 +389,6 @@ bool Serial::closePort() {
 serial_t& Serial::getSerialPort() {
   return hSerial;
 }
+
+} // namespace Network
+} // namespace Comnet 
