@@ -109,26 +109,31 @@ int main(int c, char** args) {
   COMMS_DEBUG("Adding callback\n");
   newComms1.linkCallback(new Ping(0), new Callback((callback_t) apple));
   COMMS_DEBUG("Callback added!\n");
-  newComms1.initConnection(UDP_LINK, "1337", "127.0.0.1");
-  newComms2.initConnection(UDP_LINK, "1338", "127.0.0.1");
+  success = newComms1.initConnection(UDP_LINK, "1337", "127.0.0.1");
+  cout << "newComms1 init: " << success << endl;
+  success = newComms2.initConnection(UDP_LINK, "1338", "127.0.0.1");
+  cout << "newComms2 init: " << success << endl;
+  cin.ignore();
 
-
-  newComms1.addAddress(2, "127.0.0.1", 1338);
-  newComms2.addAddress(1, "127.0.0.1", 1337);
-
+  success = newComms1.addAddress(2, "127.0.0.1", 1338);
+  cout << "newComms1 add: " << success << endl;
+  success = newComms2.addAddress(1, "127.0.0.1", 1337);
+  cout << "newComms2 add: " << success << endl;
 
 	
   COMMS_DEBUG("RUNNING!");
+  cin.ignore();
+  cout << newComms2.getNodeId() << endl;
 	newComms2.run();
 	newComms1.run();
-
-	Ping ping = Ping(100);
+	cout << newComms1.getNodeId() << endl;
+	Ping ping(100);
 	uint8_t source;
 	uint16_t message;
 
 	while (true)
 	{
-		newComms1.send(&ping, 2, 1);
+	  newComms1.send(&ping, 2, 1);
 	  Sleep(1000);
     // This is not needed unless the user hasn't specified a callback for the packet, and
     // they need to get the packet manually.

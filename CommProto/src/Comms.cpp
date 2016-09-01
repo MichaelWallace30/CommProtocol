@@ -3,6 +3,9 @@
 
 #include <CommProto/network/UDP.h>
 #include <CommProto/network/Serial.h>
+
+#include <CommProto/debug/CommsDebug.h>
+
 #include <CommProto/Callback.h>
 
 using namespace Comnet;
@@ -98,7 +101,7 @@ void* Comms::commuincationHandlerRecv() {
       // Store the packet into the receive queue.
       recvQueue->enQueue(packet);
     } else {
-      COMMS_DEBUG("Unknown packet recieved.");
+      COMMS_DEBUG("Unknown packet recieved.\n");
     }					
   }
 
@@ -144,7 +147,8 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 			
 			str_length(address, length);
 			if (length < ADDRESS_LENGTH)
-			{							
+			{	
+			  COMMS_DEBUG("UDP connection.\n");
 				connectionLayer = new UDP();
 				return connectionLayer->initConnection(port, address);
 			}
@@ -165,6 +169,7 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 		case ZIGBEE_LINK:
 		{}
 		default:
+		  COMMS_DEBUG("NO CONNECTION\n");
 		{return false;}
 	}
 	return true;
@@ -186,10 +191,10 @@ bool Comms::removeAddress(uint8_t destID)
 
 
 bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID) {
-	if (connectionLayer == NULL) { 
+  if (connectionLayer == NULL) { 
     return false;
   }
-
+  
   ObjectStream *stream = new ObjectStream();
   // Pack the stream with the packet.		
   packet->pack(*stream);		
@@ -210,7 +215,7 @@ bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID) {
 
 
 AbstractPacket* Comms::receive(uint8_t&  sourceID, uint16_t& messageID) {
-  if (connectionLayer == NULL) return false;
+  if (connectionLayer == NULL) return NULL;
   if (!recvQueue->isEmpty()) {
     cout << "Message recv in Comms" << endl;
     // This is a manual receive function. The user does not need to call this function,

@@ -106,6 +106,7 @@ bool UDP::initConnection(const char* port, const char* address, uint32_t baudrat
     return true;
   }
 
+  COMMS_DEBUG("Connection failed, error %d\n", GET_LAST_ERROR);
   //already connected or failed to open socket
   return false;
 }

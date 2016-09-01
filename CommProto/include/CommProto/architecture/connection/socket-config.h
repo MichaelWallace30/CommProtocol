@@ -63,7 +63,7 @@
  #define INVALID_SOCKET -1
  typedef uint32_t SOCKET;   
  #define closeSocket(x)	close(x)
- #define initializeSockAPI(status) status = false;
+ #define initializeSockAPI(status) status = true;
  #define INVALID_SOCKET (SOCKET)(~0)
  #define GET_LAST_ERROR errno
 #endif
