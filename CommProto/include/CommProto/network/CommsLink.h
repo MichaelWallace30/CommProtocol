@@ -23,6 +23,7 @@
 #include <stdint.h>
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 #include <CommProto/HeaderPacket.h>
 
 #define MAX_CONNECTIONS 25
@@ -36,7 +37,7 @@ namespace Network {
   Designed in this interface standard, the Connection of the node responsible with this 
   adapter-like interface will hold protocols to this specified object.
  */
-class CommsLink {
+_COMNET_INTERFACE_ class CommsLink {
 public:
   /**
     Default Constuctor.
