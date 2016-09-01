@@ -208,13 +208,13 @@ bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID) {
   return true;
 }
 
+
 AbstractPacket* Comms::receive(uint8_t&  sourceID, uint16_t& messageID) {
   if (connectionLayer == NULL) return false;
   if (!recvQueue->isEmpty()) {
     cout << "Message recv in Comms" << endl;
-    // This does not need to be done manually.
-    // However, the user's program may need to do so, otherwise they will
-    // specify a Callback for the packet.
+    // This is a manual receive function. The user does not need to call this function,
+    // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
     recvQueue->deQueue();  
   }
 	
