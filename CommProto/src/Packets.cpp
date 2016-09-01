@@ -9,7 +9,7 @@ namespace Comnet {
 Ping::Ping(uint32_t num) 
 : num(num)
 , AbstractPacket("Ping") {
- 
+  test = "cat";
 }
 
 Ping::Ping()
@@ -21,10 +21,12 @@ Ping::Ping()
 
 void Ping::pack(ObjectStream& obj) { 
   obj << num;
+  obj << test;
 }
 
 
 void Ping::unpack(ObjectStream& obj) { 
+  obj >> test;
   obj >> num;
 }
 

@@ -16,7 +16,7 @@
 #define __PACKETS_H
 
 #include <CommProto/AbstractPacket.h>
-
+#include <string>
 
 namespace Comnet {
 
@@ -39,6 +39,7 @@ public:
   AbstractPacket* create();
 public:
  uint32_t num;
+ std::string test;
 };
 
 /**

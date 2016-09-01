@@ -81,6 +81,7 @@ namespace Serialization {
 	  /** Overloaded input stream operators to put variables into the object stream*/  
 	  ObjectStream& operator<<(string_t& data);
 	  ObjectStream& operator<<(std::wstring& data);
+    ObjectStream& operator<<(std::string& data);
 	  ObjectStream& operator<<(uint8_t& data);  
 	  ObjectStream& operator<<(int8_t& data);
 	  ObjectStream& operator<<(uint16_t& data);
@@ -97,6 +98,7 @@ namespace Serialization {
 		  string_t (char*) must use malloc when inputing data into new c-string variable*/  
 	  ObjectStream& operator>>(string_t& data);
 	  ObjectStream& operator>>(std::wstring& data);
+    ObjectStream& operator>>(std::string& data);
 	  ObjectStream& operator>>(uint8_t& data);
 	  ObjectStream& operator>>(int8_t& data);
 	  ObjectStream& operator>>(uint16_t& data);

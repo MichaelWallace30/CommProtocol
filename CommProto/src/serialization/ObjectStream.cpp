@@ -129,6 +129,19 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 }
 
 
+ObjectStream& ObjectStream::operator<<(std::string& data) 
+{
+  uint32_t strLen = data.size();
+  if (currentPostion + strLen + 2 < STREAM_BUFFER_MAX_SIZE) {
+    currentPostion += packString((string_t)data.c_str(), strLen, streamBuffer + currentPostion);
+  } else {
+    printErrorOverFlow();
+  }
+
+  return *this;
+}
+
+
 ObjectStream& ObjectStream::operator<<(uint8_t& data)
 {
 	if (currentPostion + sizeof(uint8_t) < STREAM_BUFFER_MAX_SIZE)
@@ -260,7 +273,6 @@ ObjectStream& ObjectStream::operator<<(real64_t& data)
 }
 
 
-
 /*******************************************************/
 /*******************************************************/
 /*******************************************************/
@@ -293,6 +305,18 @@ ObjectStream& ObjectStream::operator>>(std::wstring& data)
 	strLen = unpackWideString(data, strLen,streamBuffer + currentPostion);
 
 	return *this;
+}
+
+ObjectStream& ObjectStream::operator>>(std::string& data) 
+{
+  uint32_t strLen = unpackByte(streamBuffer + currentPostion - 1);
+  data.resize(strLen + 1);
+  currentPostion -= (strLen + 2);
+  string_t temp = (string_t) malloc(data.size());
+  strLen = unpackString(temp, strLen, streamBuffer + currentPostion);
+  data = temp;
+  free_pointer(temp);
+  return *this;
 }
 
 ObjectStream& ObjectStream::operator>>(uint8_t& data)

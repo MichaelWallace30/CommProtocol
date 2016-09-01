@@ -23,6 +23,7 @@ using namespace Comnet::Pkg;
 
 int apple(const header_t& gho, const Ping& pl) {
   cout << "I got an apple " << pl.num << endl;
+  cout << "Test: " << pl.test << endl;
   return pl.num;
 }
 
@@ -66,7 +67,7 @@ int main(int c, char** args) {
 
 	double value1A = 64.2;
 	int value2A = 12;
-	string_t strData = (char*)"Hello Slim!!!";
+	std::string strData = "Hello Slim!!!";
 	uint8_t valueA = 1;
 
 	std::wstring wStrA = L"Hello World Wide????";
@@ -77,7 +78,7 @@ int main(int c, char** args) {
 	int value2B;
 	uint8_t valueB;
 	std::wstring wStrB;
-	string_t strDataB = (string_t)malloc(25);
+	std::string strDataB;
 
 	//extra varible
 	int extraVar;
