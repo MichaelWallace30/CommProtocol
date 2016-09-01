@@ -94,7 +94,8 @@ int main(int c, char** args) {
     COMMS_DEBUG("\nTesting error runtime.\n");
     newObjectStream >> extraVar;
     COMMS_DEBUG("\nTesting Abstract Object CommNode\n");
-    CommNode& node = Comms(1);
+    Comms comms(1);
+    CommNode& node = comms;
     node.linkCallback(new Ping(1), new Callback((callback_t)apple));
     cout << "Node id:\t" << node.getNodeId() << endl;
     cout << "Unique id:\t" << node.getUniqueId() << endl;
