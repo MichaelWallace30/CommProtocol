@@ -61,7 +61,7 @@ public:
   /**
      Polymorphic Destructor.
    */
-	virtual ~CommNode()
+  virtual ~CommNode()
     { }
   /**
      Add a packet to the call chain.
