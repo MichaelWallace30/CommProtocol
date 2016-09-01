@@ -1,4 +1,4 @@
-#define _DEBUG
+#define _DEBUG 1
 #include <stdio.h>
 #include <CommProto/Comms.h>
 #include <CommProto/architecture/os/os_threads.h>

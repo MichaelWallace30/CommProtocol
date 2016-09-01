@@ -24,7 +24,7 @@
 
 // Controls logging information. Set this to 1, if you wish to 
 // display debug information from comms_debug_log.
-#if defined(_DEBUG)
+#if defined(_DEBUG) && _DEBUG
  #define __COMMS_DEBUG_LOG 1
 #else
  #define __COMMS_DEBUG_LOG 0
