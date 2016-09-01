@@ -113,8 +113,8 @@ bool UDP::initConnection(const char* port, const char* address, uint32_t baudrat
 
 bool UDP::addAddress(uint8_t destID, const char* address, uint16_t port)
 {
-	uint16_t length = 0;
-	str_length(address, length);
+  uint16_t length = 0;
+  str_length(address, length);
   if (conn[destID].socket_status == SOCKET_OPEN && length < ADDRESS_LENGTH) {
     //setup address structure
     memset((char *)&conn[destID].socket_address, 0, sizeof(conn[destID].socket_address));
