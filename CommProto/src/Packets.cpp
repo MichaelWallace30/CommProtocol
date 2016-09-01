@@ -20,10 +20,12 @@ Ping::Ping()
 
 
 void Ping::pack(ObjectStream& obj) { 
+  obj << num;
 }
 
 
 void Ping::unpack(ObjectStream& obj) { 
+  obj >> num;
 }
 
 

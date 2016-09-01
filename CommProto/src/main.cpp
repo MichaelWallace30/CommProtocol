@@ -22,7 +22,7 @@ using namespace Comnet::Pkg;
 
 
 int apple(const header_t& gho, const Ping& pl) {
-  cout << "I got an apple" << endl;
+  cout << "I got an apple " << pl.num << endl;
   return pl.num;
 }
 
@@ -120,7 +120,7 @@ int main(int c, char** args) {
 	newComms2.run();
 	newComms1.run();
 
-	Ping ping = Ping(1);
+	Ping ping = Ping(100);
 	uint8_t source;
 	uint16_t message;
 
