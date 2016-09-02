@@ -126,10 +126,7 @@ Comms::Comms(uint8_t platformID)
 Comms::~Comms()
 {
 	isRunning = false;
-	if(connectionLayer != NULL)
-	{
-		delete connectionLayer;
-	}
+	free_pointer(connectionLayer);
 	mutex_destroy(&sendMutex);
 	mutex_destroy(&recvMutex);
 
@@ -190,7 +187,7 @@ bool Comms::removeAddress(uint8_t destID)
 }
 
 
-bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID) {
+bool Comms::send(AbstractPacket* packet, uint8_t destID) {
   if (connectionLayer == NULL) { 
     return false;
   }
@@ -214,7 +211,7 @@ bool Comms::send(AbstractPacket* packet, uint8_t destID, uint16_t messageID) {
 }
 
 
-AbstractPacket* Comms::receive(uint8_t&  sourceID, uint16_t& messageID) {
+AbstractPacket* Comms::receive(uint8_t&  sourceID) {
   if (connectionLayer == NULL) return NULL;
   if (!recvQueue->isEmpty()) {
     cout << "Message recv in Comms" << endl;

@@ -108,8 +108,8 @@ namespace Comnet {
 		/** Removing an address removes the known association of address and destination ID by using id*/
 		bool removeAddress(uint8_t destID);
 
-		bool send(AbstractPacket* packet, uint8_t destID, uint16_t messageID);
-		AbstractPacket* receive(uint8_t&  sourceID, uint16_t& messageID);
+		bool send(AbstractPacket* packet, uint8_t destID);
+		AbstractPacket* receive(uint8_t&  sourceID);
 
 		/** Method to start communication*/
 		int32_t run();

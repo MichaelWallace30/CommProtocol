@@ -99,7 +99,7 @@ public:
   /**
      Send the packet to the specified destination address.
    */
-  virtual bool send(AbstractPacket* packet, uint8_t destId, uint16_t messageId) = 0;
+  virtual bool send(AbstractPacket* packet, uint8_t destId) = 0;
   /**
      Check for packet if received. This is called manually by user, yet the node should
      be able to run automatically checking for received packets. Any packets linked to a 
@@ -108,7 +108,7 @@ public:
      @param messageId
      @return Packet that was received, otherwise NULL if nothing found.
    */
-  virtual AbstractPacket* receive(uint8_t&  sourceId, uint16_t& messageId) = 0;
+  virtual AbstractPacket* receive(uint8_t&  sourceId) = 0;
   /**
      Initialize connection.
    */

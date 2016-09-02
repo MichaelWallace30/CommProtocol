@@ -134,7 +134,7 @@ int main(int c, char** args) {
 
 	while (true)
 	{
-	  newComms1.send(&ping, 2, 1);
+	  newComms1.send(&ping, 2);
 	  Sleep(1000);
     // This is not needed unless the user hasn't specified a callback for the packet, and
     // they need to get the packet manually.
