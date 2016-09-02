@@ -114,8 +114,8 @@ void* Comms::commuincationHandlerRecv() {
 Comms::Comms(uint8_t platformID)
 : CommNode(platformID)
 {
-	recvQueue = new AutoQueue <AbstractPacket*>;
-	sendQueue = new AutoQueue <ObjectStream*>;
+	this->recvQueue = new AutoQueue <AbstractPacket*>;
+	this->sendQueue = new AutoQueue <ObjectStream*>;
 	isRunning = false;
 	isPaused = false;
 	mutex_init(&sendMutex);

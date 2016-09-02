@@ -163,7 +163,14 @@ protected:
   Packet Manager is a manager controller, designed to hold packets for the node.
   */
   PacketManager packetManager;
-
+  /**
+    Queue that holds AbstractPacket types for receiving.
+  */  
+  Queue<AbstractPacket*>* recvQueue;
+  /**
+    Queue that holds ObjectStreams used for sending out.
+  */
+  Queue<ObjectStream*>* sendQueue;
 private:
   /**
      The node id associated with this node. This id is used for outside communications.

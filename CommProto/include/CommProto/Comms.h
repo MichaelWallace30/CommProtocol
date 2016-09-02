@@ -68,11 +68,6 @@ namespace Comnet {
 		/** Length of data buffer for communication stream */
 		uint32_t rx_length;
 
-		/** Queues for application layer to push messages or pop messages */
-
-		Interface::Queue <AbstractPacket*> *recvQueue;
-		Interface::Queue <ObjectStream*> *sendQueue;
-
 		/** Thread to run communication data */
 		thread_t communicationThreadSend;
 		thread_t communicationThreadRecv;
