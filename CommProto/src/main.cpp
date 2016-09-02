@@ -11,11 +11,13 @@
 #include <CommProto/Callback.h>
 #include <CommProto/Packets.h>
 #include <CommProto/pkg/PacketManager.h>
+#include <CommProto/tools/data_structures/LinkedQueue.h>
 #include <stdlib.h>
 
 #include <typeinfo>
 #include <iostream>
 using namespace std;
+using namespace Comnet::Tools::DataStructures;
 using namespace Comnet::Serialization;
 using namespace Comnet;
 using namespace Comnet::Pkg;
@@ -102,6 +104,8 @@ int main(int c, char** args) {
   Comms comm2(2);
   CommNode& newComms1 = comm1;
   CommNode& newComms2 = comm2;
+  // Can now replace queues.
+  newComms2.replaceReceiveQueue(new LinkedQueue<AbstractPacket*>());
   bool success = newComms2.linkCallback(new Ping(0), new Callback((callback_t) apple));
   if (success) {
     COMMS_DEBUG("\nSuccessfully added!\n");
