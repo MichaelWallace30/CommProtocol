@@ -94,8 +94,23 @@ public:
   virtual bool linkQueue(const AbstractPacket* packet, const Queue<AbstractPacket*>* queue) 
     { return ~0; }
 
-  // Still in the works...
-
+  /**
+    Replace the send queue of this node.
+  */
+  virtual bool replaceSendQueue(const Queue<ObjectStream*>* queue) {
+    free_pointer(sendQueue);
+    sendQueue = (Queue<ObjectStream*> *) queue;
+    return true;
+  }
+  
+  /**
+    Replace the recv queue of this node.
+  */
+  virtual bool replaceReceiveQueue(const Queue<AbstractPacket*>* queue) {
+    free_pointer(recvQueue);
+    recvQueue = (Queue<AbstractPacket*> *) queue;
+    return true;
+  }
   /**
      Send the packet to the specified destination address.
    */
@@ -108,7 +123,7 @@ public:
      @param messageId
      @return Packet that was received, otherwise NULL if nothing found.
    */
-  virtual AbstractPacket* receive(uint8_t&  sourceId) = 0;
+  virtual AbstractPacket* receive(uint8_t& sourceId) = 0;
   /**
      Initialize connection.
    */
