@@ -31,57 +31,76 @@ class Callback;
 namespace Pkg {
 
 /**
+  Normal Packet table used for mapping packets in association of 
+  Callbacks with Packets.
 */
 class PacketTable {
 public:
   /**
-     
+    Constructor of set size.
    */
   PacketTable(uint32_t setSize);
   /**
+    Default constructor.
    */
   PacketTable();
   /**
+    Default destructor.
    */
   ~PacketTable();
   /**
+    Inserts a Packet with a Callback associated with it.
    */
   bool insert(const AbstractPacket* key, const Callback* callback);
   /**
+    Returns the callback with the associated distinct key from the packet.
    */
   Callback* getCallback(uint32_t key);
   /**
+    Grab the packet that is associated with the key.
    */
   AbstractPacket* getPacket(uint32_t key);
   /**
+    Remove a packet-Callback pair in the table.
    */
   bool remove(uint32_t key);
   /**
+    Resize the table when needed, or if the table is getting to big.
    */
   bool resize(uint32_t newSize);
 
 private:
-
+  /**
+    Traverse the table.
+   */  
   int32_t traverseIndex(int32_t i);
-
+  /**
+    The benevolent key hasher. 
+   */  
   uint32_t keyHash(uint32_t key);
   /**
+    Creates a pair.
    */
   struct Pair {
     /**
+      The callback associated with this pair.
      */
     Callback* callback;
     /**
+      The packet associated with this pair.
      */
     AbstractPacket* packet;
   };
   /**
+    The table that houses AbstractPacket-Callback pairs.
    */
   Pair** table;
   /**
+    Keeps track of the number of pairs in the table.
    */
   uint32_t numOfPairs;
   /**
+    Keeps track of the table size.
    */
   uint32_t tableSize;
 };

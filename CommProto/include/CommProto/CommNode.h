@@ -61,8 +61,10 @@ public:
   /**
      Polymorphic Destructor.
    */
-  virtual ~CommNode()
-    { }
+  virtual ~CommNode() { 
+    free_pointer(recvQueue);
+    free_pointer(sendQueue);
+  }
   /**
      Add a packet to the call chain.
    */
