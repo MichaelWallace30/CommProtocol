@@ -22,6 +22,7 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 
+#include <CommProto/network/CommsLink.h>
 
 namespace Comnet {
 namespace Network {
