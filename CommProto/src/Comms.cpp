@@ -99,10 +99,12 @@ void* Comms::commuincationHandlerRecv() {
         // Determine what to do with the packet... Probably destroy it since it is being called.
       }
       // Store the packet into the receive queue.
-      recvQueue->enQueue(packet);
+      //recvQueue->enQueue(packet);
     } else {
       COMMS_DEBUG("Unknown packet recieved.\n");
-    }					
+    }	
+
+    free_pointer(temp);				
   }
 
   return 0;
