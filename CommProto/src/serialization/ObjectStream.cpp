@@ -48,37 +48,13 @@ void ObjectStream::serializeHeader(header_t header)
 {
 	//not sure if more is needed kind of a waste of space
 	headerPacket.destID = header.destID;
-
-	int offset = 0;
-	memcpy(streamBuffer + (offset++), &(header.destID), 1);
-	memcpy(streamBuffer + (offset++), &(header.sourceID), 1);
-	memcpy(streamBuffer + offset, &(header.messageLength), 2);
-	offset += 2;
-	memcpy(streamBuffer + offset, &(header.messageID), 2);
-	offset += 2;
-
-	for (int x = 0; x < KEY_LENGTH; x++)
-	{
-		memcpy(streamBuffer + (offset++), &header.IV[x], 1);
-	}
+	header.serialize(streamBuffer, 0);
 }
 
 header_t ObjectStream::deserializeHeader()
 {
 	header_t header;
-	int offset = 0;
-	memcpy(&(header.destID), streamBuffer + (offset++), 1);
-	memcpy(&(header.sourceID), streamBuffer + (offset++), 1);
-	memcpy(&(header.messageLength), streamBuffer + offset, 2);
-	offset += 2;
-	memcpy(&(header.messageID), streamBuffer + offset, 2);
-	offset += 2;
-
-	for (int x = 0; x < KEY_LENGTH; x++)
-	{
-		memcpy(&header.IV[x], streamBuffer + (offset++), 1);
-	}
-	
+	header.deserialize(streamBuffer, 0);	
 	return header;
 }
 
