@@ -27,6 +27,7 @@
 #include <CommProto/network/CommsLink.h>
 #include <CommProto/architecture/macros.h>//str_length(char*, int)
 #include <stdio.h>//printf
+#include <CommProto/serialization/Marshal.h>//endianess
 
 #define SERIAL_DEBUG
 
@@ -67,6 +68,8 @@ public:
   bool closePort();
 
   serial_t& getSerialPort();
+
+  unsigned int crc32(unsigned char *message, int length);
 };
 } // namespace Network
 } // namespace Comnet

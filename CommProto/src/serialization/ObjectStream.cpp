@@ -26,7 +26,7 @@ using namespace Comnet::Serialization;
 
 ObjectStream::ObjectStream():currentPostion(HEADER_SIZE)
 {
-	streamBuffer = new uint8_t[STREAM_BUFFER_MAX_SIZE];
+	streamBuffer = new uint8_t[MAX_BUFFER_SIZE];
 }
 
 ObjectStream::~ObjectStream()
@@ -71,7 +71,7 @@ ObjectStream& ObjectStream::operator<<(string_t& data)
 	uint8_t strLen = 0;
 	str_length(data, strLen);
 	// + 1 for null termination + 1 for storing length of string as byte
-	if (currentPostion + strLen + 2 < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + strLen + 2 < MAX_PACKET_SIZE)
 	{
 	        //COMMS_DEBUG("STRING BEFORE: %d\n", currentPostion);
 		currentPostion += packString(data, strLen, streamBuffer + currentPostion);
@@ -91,7 +91,7 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 	//needs string leng
 	uint32_t strLen = data.length();
 	// + 2 for null termination + 1 for storing length of string as byte
-	if (currentPostion + strLen + 2 < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + strLen + 2 < MAX_PACKET_SIZE)
 	{
 	        COMMS_DEBUG("SIZE BEFORE: %d\n", currentPostion);
 		currentPostion += packWideString(data,strLen, streamBuffer + currentPostion);
@@ -108,7 +108,7 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 ObjectStream& ObjectStream::operator<<(std::string& data) 
 {
   uint32_t strLen = data.size();
-  if (currentPostion + strLen + 2 < STREAM_BUFFER_MAX_SIZE) {
+  if (currentPostion + strLen + 2 < MAX_PACKET_SIZE) {
     currentPostion += packString((string_t)data.c_str(), strLen, streamBuffer + currentPostion);
   } else {
     printErrorOverFlow();
@@ -120,7 +120,7 @@ ObjectStream& ObjectStream::operator<<(std::string& data)
 
 ObjectStream& ObjectStream::operator<<(uint8_t& data)
 {
-	if (currentPostion + sizeof(uint8_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(uint8_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packByte(data, streamBuffer + currentPostion);
 	}
@@ -134,7 +134,7 @@ ObjectStream& ObjectStream::operator<<(uint8_t& data)
 
 ObjectStream& ObjectStream::operator<<(int8_t& data)
 {
-	if (currentPostion + sizeof(int8_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(int8_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packByte(data, streamBuffer + currentPostion);
 	}
@@ -148,7 +148,7 @@ ObjectStream& ObjectStream::operator<<(int8_t& data)
 
 ObjectStream& ObjectStream::operator<<(uint16_t& data)
 {
-	if (currentPostion + sizeof(uint16_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(uint16_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packUint16(data, streamBuffer + currentPostion);
 	}
@@ -161,7 +161,7 @@ ObjectStream& ObjectStream::operator<<(uint16_t& data)
 
 ObjectStream& ObjectStream::operator<<(int16_t& data)
 {
-	if (currentPostion + sizeof(int16_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(int16_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packInt16(data, streamBuffer + currentPostion);
 	}
@@ -174,7 +174,7 @@ ObjectStream& ObjectStream::operator<<(int16_t& data)
 
 ObjectStream& ObjectStream::operator<<(int32_t& data)
 {
-	if (currentPostion + sizeof(int32_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(int32_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packInt32(data, streamBuffer + currentPostion);
 	}
@@ -188,7 +188,7 @@ ObjectStream& ObjectStream::operator<<(int32_t& data)
 
 ObjectStream& ObjectStream::operator<<(uint32_t& data)
 {
-	if (currentPostion + sizeof(uint32_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(uint32_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packUint32(data, streamBuffer + currentPostion);
 	}
@@ -200,7 +200,7 @@ ObjectStream& ObjectStream::operator<<(uint32_t& data)
 }
 ObjectStream& ObjectStream::operator<<(int64_t& data)
 {
-	if (currentPostion + sizeof(int64_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(int64_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packInt64(data, streamBuffer + currentPostion);
 	}
@@ -212,7 +212,7 @@ ObjectStream& ObjectStream::operator<<(int64_t& data)
 }
 ObjectStream& ObjectStream::operator<<(uint64_t& data)
 {
-	if (currentPostion + sizeof(uint64_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(uint64_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packUint64(data, streamBuffer + currentPostion);
 	}
@@ -224,7 +224,7 @@ ObjectStream& ObjectStream::operator<<(uint64_t& data)
 }
 ObjectStream& ObjectStream::operator<<(real32_t& data)
 {
-	if (currentPostion + sizeof(real32_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(real32_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packReal32(data, streamBuffer + currentPostion);
 	}
@@ -237,7 +237,7 @@ ObjectStream& ObjectStream::operator<<(real32_t& data)
 
 ObjectStream& ObjectStream::operator<<(real64_t& data)
 {
-	if (currentPostion + sizeof(real64_t) < STREAM_BUFFER_MAX_SIZE)
+	if (currentPostion + sizeof(real64_t) < MAX_PACKET_SIZE)
 	{
 		currentPostion += packReal64(data, streamBuffer + currentPostion);
 	}

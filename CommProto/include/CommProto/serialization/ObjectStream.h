@@ -27,8 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Comnet {
 namespace Serialization {
-/** Buffer Limit predefinded */
-#define STREAM_BUFFER_MAX_SIZE 1024
+
 
 	/** Object Stream Class will hold an array of data as a stream. 
 		All data will be put into the stream with the overloaded operators '<<' 
@@ -81,7 +80,7 @@ namespace Serialization {
 	  /** Overloaded input stream operators to put variables into the object stream*/  
 	  ObjectStream& operator<<(string_t& data);
 	  ObjectStream& operator<<(std::wstring& data);
-    ObjectStream& operator<<(std::string& data);
+      ObjectStream& operator<<(std::string& data);
 	  ObjectStream& operator<<(uint8_t& data);  
 	  ObjectStream& operator<<(int8_t& data);
 	  ObjectStream& operator<<(uint16_t& data);
@@ -98,7 +97,7 @@ namespace Serialization {
 		  string_t (char*) must use malloc when inputing data into new c-string variable*/  
 	  ObjectStream& operator>>(string_t& data);
 	  ObjectStream& operator>>(std::wstring& data);
-    ObjectStream& operator>>(std::string& data);
+      ObjectStream& operator>>(std::string& data);
 	  ObjectStream& operator>>(uint8_t& data);
 	  ObjectStream& operator>>(int8_t& data);
 	  ObjectStream& operator>>(uint16_t& data);

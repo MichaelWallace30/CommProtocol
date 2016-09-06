@@ -68,7 +68,7 @@ void* Comms::commuincationHandlerRecv() {
     //
     AbstractPacket* packet = NULL;
     //send data here
-    uint8_t streamBuffer[MAX_PACKET_SIZE];
+	uint8_t streamBuffer[MAX_BUFFER_SIZE];
     uint32_t recvLen = 0;
     connectionLayer->recv(streamBuffer, &recvLen);
     ObjectStream *temp = new ObjectStream();
