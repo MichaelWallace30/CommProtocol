@@ -41,7 +41,7 @@ _COMNET_PUBLIC_API_
 _COMNET_PUBLIC_API_
 #define str_length(str, length) {       \
           length = 0;                   \
-	  while (str[length] != NULL) { \
+	  while (str[length]) { \
 	    length++;                   \
 	  }         \
 	}	
