@@ -397,7 +397,9 @@ bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 			unsigned int crc = crc32(rx_data, *rx_len);
 			return crcRecv == crc;
 		}
-		valid = false;
+		else{
+			return false;
+		}
 	}		
 	
   return valid;
