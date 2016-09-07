@@ -17,8 +17,6 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/Serial.h>
-;
-
 
 namespace Comnet {
 namespace Network {
@@ -80,17 +78,17 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
       if (GetLastError() == ERROR_FILE_NOT_FOUND)
 	{
 	  //serial port does not exist.
-	  printf( "comport not found\n");
+	  COMMS_DEBUG( "comport not found\n");
 	  return false;
 	}
       // some other error occured.
-      printf( "Unknown error\n");
+      COMMS_DEBUG( "Unknown error\n");
       return false;
     }
   else
     {
       
-      printf( "Serial port created\n");
+      COMMS_DEBUG( "Serial port created\n");
     }
   
   
@@ -103,7 +101,7 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!GetCommState(hSerial.h_serial, &dcbSerialParams))
     {
       //error getting state
-      printf( "Error getting state\n");
+      COMMS_DEBUG( "Error getting state\n");
       return false;
     }
   
@@ -115,12 +113,12 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!SetCommState(hSerial.h_serial, &dcbSerialParams))
     {
       //error setting serial port state
-      printf( "Error setting serial port state\n");
+      COMMS_DEBUG( "Error setting serial port state\n");
       return false;
     }
   
   
-  printf( "Completed setting serial port state\n");
+  COMMS_DEBUG( "Completed setting serial port state\n");
   
 
   //time out code not needed?
@@ -136,11 +134,11 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!SetCommTimeouts(hSerial.h_serial, &timeouts))
     {
       //error occureeed
-      printf( "Setting up times outs failed\n");
+      COMMS_DEBUG( "Setting up times outs failed\n");
       return false;
     }
   
-  printf( "Completed setting up time outs\n");
+  COMMS_DEBUG( "Completed setting up time outs\n");
   hSerial.serial_s = SERIAL_CONNECTED;
   return true;
 }
@@ -153,12 +151,12 @@ windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   
   if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL)) {
     //error reading file
-    printf("Failed to write serial\n");
+    COMMS_DEBUG("Failed to write serial\n");
     return false;
   }
   else {
 #ifdef SERIAL_DEBUG
-    printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
+    COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
 #endif	
     return true;
   }		
@@ -173,12 +171,12 @@ windowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
   if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL)) {
     //error reading file
-    printf("Failed to read serial\n"); // This may print too much data might need to change. 
+    COMMS_DEBUG("Failed to read serial\n"); // This may print too much data might need to change. 
                                        // Im not sure if time out will return false for ReadFile
     return false;
   } else {
 #ifdef SERIAL_DEBUG
-    printf("**  Recieved\t Length: %d  **\n", recvData);
+    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recvData);
 #endif	
     if (recvData > 0) {
       *rx_len = recvData;
@@ -199,11 +197,11 @@ initUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
   bool result = false;
   serial_t& hSerial = serial.getSerialPort();
 
-  printf("port: %s\n connecting...\n", port);
+  COMMS_DEBUG("port: %s\n connecting...\n", port);
   hSerial.fd = open(port, (O_RDWR | O_NOCTTY));
 
   if (hSerial.fd == -1) {
-    printf("port failed to open: err number %d\n", errno);
+    COMMS_DEBUG("port failed to open: err number %d\n", errno);
   } else {
     struct termios options;
     fcntl(hSerial.fd, F_SETFL, 0);
@@ -244,7 +242,7 @@ initUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
     tcsetattr(hSerial.fd, TCSANOW, &options);
 
     result = true;
-    printf("Connected\n");
+    COMMS_DEBUG("Connected\n");
   }
 
   return result;
@@ -258,10 +256,10 @@ unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
 
   int32_t bytesWritten = write(hSerial.fd, txData, txLength);
   if (bytesWritten < 0) {
-    printf("write() has failed to send!\n");
+    COMMS_DEBUG("write() has failed to send!\n");
   } else {
 #ifdef SERIAL_DEBUG
-      printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
+      COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
 #endif	
     result = true;
   }
@@ -275,15 +273,15 @@ unixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   bool result = false;
   serial_t& hSerial = serial.getSerialPort();
 #ifdef SERIAL_DEBUG
-  printf("\n\nReading serial\n\n");
+  COMMS_DEBUG("\n\nReading serial\n\n");
 #endif
   int32_t bytesRead = read(hSerial.fd, rx_data, 256);
   if (bytesRead < 0) {
-    printf("Failed to read from package. erro number %d\n", errno);
+    COMMS_DEBUG("Failed to read from package. erro number %d\n", errno);
   } else {
     *rx_len = bytesRead;
 #ifdef SERIAL_DEBUG
-    printf("**  Recieved\t Length: %d  **\n", bytesRead);
+    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", bytesRead);
 #endif	    
     result = true;
   }
@@ -365,16 +363,16 @@ bool Serial::initConnection(const char* port, const char* address, uint32_t baud
   //check os here
   connectionEstablished = openPort(*this, port, baudrate);
   hSerial.serial_s = SERIAL_CONNECTED;
-  printf("Port is now: %d\n", hSerial.fd);
+  COMMS_DEBUG("Port is now: %d\n", hSerial.fd);
   return connectionEstablished;
 }
 
 
 bool Serial::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
 { 
-  printf("Port send is: %d\n", hSerial.fd); 
-  //crc32
-  
+  COMMS_DEBUG("Port send is: %d\n", hSerial.fd); 
+  unsigned int crc = crc32(txData, txLength);
+  appendCrc32(txData, &txLength);  
   parser.parseSend(txData, txLength, bufferSend);//length adjusted
   return sendToPort(*this, destID, bufferSend, txLength);
 }
@@ -384,19 +382,24 @@ bool Serial::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 	
 	bool valid = true;
-//	printf("Parser Postion %d\n", parserPosition);
-	//printf("Last recieved Length %d\n", lastRecievedLength);
+//	COMMS_DEBUG("Parser Postion %d\n", parserPosition);
+	//COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
 	//get new message if parser is done
 	if (parser.parseReceiveDone()){		
-		printf("Port recv is: %d\n", hSerial.fd);			
+		COMMS_DEBUG("Port recv is: %d\n", hSerial.fd);			
 		valid = readFromPort(*this, bufferReceive, rx_len);
 	}
 	//parse data
 	if (valid){
 		valid = parser.parseReceive(rx_data, *rx_len, bufferReceive);
-	}
-		
-	if (*rx_len == 0)return false;
+		if (*rx_len > 0){
+			unsigned int crcRecv = truncateCrc32(rx_data, rx_len);
+			unsigned int crc = crc32(rx_data, *rx_len);
+			return crcRecv == crc;
+		}
+		valid = false;
+	}		
+	
   return valid;
 }
 

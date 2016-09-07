@@ -26,9 +26,8 @@
 #include <CommProto/architecture/connection/serial-config.h> 
 #include <CommProto/network/CommsLink.h>
 #include <CommProto/architecture/macros.h>//str_length(char*, int)
-#include <stdio.h>//printf
-
-
+#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/network/Crc32.h>
 #include <CommProto/network/Parser.h>
 
 #define SERIAL_DEBUG
