@@ -20,11 +20,7 @@ namespace Network{
 
 
 	bool Parser::parseReceive(uint8_t* rxData, uint32_t &rxLength, uint8_t *parsedData){
-		//this could be better
-		if (parserPosition == 0 || parserPosition >= lastReceivedLength - 1){
-			parserPosition = 0;
-			lastReceivedLength = rxLength;
-		}
+
 
 
 		bool parsed = false;
@@ -32,10 +28,10 @@ namespace Network{
 		while (!parsed && lastReceivedLength > 0){
 
 			//check for sequence
-			//printf("ParserPosition: %d\n", parserPosition);
+			printf("ParserPosition: %d\n", parserPosition);
 			if ((char)parsedData[parserPosition] == '*' && (char)parsedData[parserPosition + 1] == '&' && (char)parsedData[parserPosition + 2] == '*'){
 				parserPosition += TERMINAL_SEQUENCE_SIZE;
-				//printf("ParserPosition: %d\n", parserPosition);
+				printf("ParserPosition: %d\n", parserPosition);
 				bool done = false;
 				while (!done && messageLength < 516){
 					rxData[messageLength++] = parsedData[parserPosition++];
@@ -45,13 +41,13 @@ namespace Network{
 					if (a == '*' && b == '&' && c == '*')done = true;
 
 				}
-				//printf("%c\n", (char)serialBufferRecv[parserPosition + 1]);
-				//printf("%c\n", (char)serialBufferRecv[parserPosition + 2]);
-				//printf("%c\n", (char)serialBufferRecv[parserPosition + 3]);
-				//printf("Message Length %d\n", messageLength);
+				printf("%c\n", (char)parsedData[parserPosition + 1]);
+				printf("%c\n", (char)parsedData[parserPosition + 2]);
+				printf("%c\n", (char)parsedData[parserPosition + 3]);
+				printf("Message Length %d\n", messageLength);
 				rxLength = messageLength;
 				parserPosition += TERMINAL_SEQUENCE_SIZE;
-				//printf("ParserPosition: %d\n", parserPosition);
+				printf("ParserPosition: %d\n", parserPosition);
 				parsed = true;
 			}
 			else

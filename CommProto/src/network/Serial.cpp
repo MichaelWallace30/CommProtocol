@@ -387,7 +387,11 @@ bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 //	printf("Parser Postion %d\n", parserPosition);
 	//printf("Last recieved Length %d\n", lastRecievedLength);
 	//get new message if parser is done
-	if (parser.parseReceiveDone()){		
+	//this could be better
+	if (parser.parserPosition == 0 || parser.parserPosition >= parser.lastReceivedLength - 1){
+		parser.parserPosition = 0;
+		parser.lastReceivedLength = *rx_len;
+	
 		printf("Port recv is: %d\n", hSerial.fd);			
 		valid = readFromPort(*this, bufferReceive, rx_len);
 	}
