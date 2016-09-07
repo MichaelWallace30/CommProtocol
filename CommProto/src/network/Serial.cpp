@@ -348,8 +348,11 @@ closePortHelper(Serial& serial) {
 /***********************************************/
 Serial::Serial():CommsLink()
 {		
+  strcpy(terminal_sequence, "***");
   connectionEstablished = false;
   hSerial.serial_s = SERIAL_OPEN;
+  parserPosition = 0;
+  lastRecievedLength = 0;
 }
 
 
@@ -370,7 +373,7 @@ bool Serial::initConnection(const char* port, const char* address, uint32_t baud
 bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 { 
   printf("Port send is: %d\n", hSerial.fd); 
-
+  /*
   unsigned int crc = crc32(txData, txLength);//calculate crc32
   unsigned char a = (crc >> 24) & 0xff;//leftmost
   unsigned char b = (crc >> 16) & 0xff;//next byte
@@ -393,44 +396,78 @@ bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
   txData[txLength++] = b;
   txData[txLength++] = c;
   txData[txLength++] = d;
+  */
   
-  return sendToPort(*this, destID, txData, txLength);}
+  sendToPort(*this, destID, (uint8_t*)terminal_sequence, TERMINAL_SEQUENCE_SIZE);
+  bool valid = sendToPort(*this, destID, txData, txLength);
+  sendToPort(*this, destID, (uint8_t*)terminal_sequence, TERMINAL_SEQUENCE_SIZE);
+
+ return valid;
+}
+
 
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
-  printf("Port recv is: %d\n", hSerial.fd); 
-  bool valid = readFromPort(*this, rx_data, rx_len);
+	
+	bool valid = false;
 
-  if (valid){
-	  unsigned char a = rx_data[--(*rx_len)];
-	  unsigned char b = rx_data[--(*rx_len)];
-	  unsigned char c = rx_data[--(*rx_len)];
-	  unsigned char d = rx_data[--(*rx_len)];
-#ifdef LITTLE_ENDIAN_COMNET
-	  //swap outter two
-	  unsigned char e = a;
-	  a = d;
-	  d = a;
-	  //swap middle two
-	  e = b;
-	  b = c;
-	  c = b;
-#endif
-	  //store bytes into crcRecv
-	  unsigned int crcRecv = 0;
-	  ((char*)&crcRecv)[0] = a;
-	  ((char*)&crcRecv)[1] = b;
-	  ((char*)&crcRecv)[2] = c;
-	  ((char*)&crcRecv)[3] = d;
+	if (parserPosition == 0 || parserPosition >= lastRecievedLength){
+		printf("Port recv is: %d\n", hSerial.fd);
+		parserPosition = 0;		
+		valid = readFromPort(*this, serialBuffer, rx_len);
+		lastRecievedLength = *rx_len;
+		/*
+		if (valid){
+		unsigned char a = rx_data[--(*rx_len)];
+		unsigned char b = rx_data[--(*rx_len)];
+		unsigned char c = rx_data[--(*rx_len)];
+		unsigned char d = rx_data[--(*rx_len)];
+		#ifdef LITTLE_ENDIAN_COMNET
+		//swap outter two
+		unsigned char e = a;
+		a = d;
+		d = a;
+		//swap middle two
+		e = b;
+		b = c;
+		c = b;
+		#endif
+		//store bytes into crcRecv
+		unsigned int crcRecv = 0;
+		((char*)&crcRecv)[0] = a;
+		((char*)&crcRecv)[1] = b;
+		((char*)&crcRecv)[2] = c;
+		((char*)&crcRecv)[3] = d;
 
-	  //get new crc
-	  unsigned int crc = crc32(rx_data, *rx_len);
+		//get new crc
+		unsigned int crc = crc32(rx_data, *rx_len);
 
-	  //compare and return results
-	  return crc == crcRecv;	  
-  }
-  
-  return false;
+		//compare and return results
+		return crc == crcRecv;
+		}
+		*/
+	}
+
+	bool parsed = false;
+	uint32_t messageLength = 0;
+	while (!parsed){
+		//check for sequence
+		if (serialBuffer[parserPosition] == '*' && serialBuffer[parserPosition + 1] == '*' && serialBuffer[parserPosition + 2] == '*'){
+			parserPosition += TERMINAL_SEQUENCE_SIZE;
+			while (serialBuffer[parserPosition] != '*' && serialBuffer[parserPosition + 1] != '*' && serialBuffer[parserPosition + 2] != '*'){
+				rx_data[messageLength++] = serialBuffer[parserPosition];
+			}
+			parserPosition += TERMINAL_SEQUENCE_SIZE +1;
+			parsed = true;
+		}
+		else
+		{
+			parserPosition++;
+			if (parserPosition > lastRecievedLength)parsed = true;
+		}
+	}
+
+  return valid;
 }
 
 
