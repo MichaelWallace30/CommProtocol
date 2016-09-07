@@ -49,7 +49,8 @@ private:
   /** last recieveed length for parser information*/
   uint32_t lastRecievedLength;
   /** serial buffer to hold recieved data for parsing messages*/
-  uint8_t serialBuffer[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  uint8_t serialBufferRecv[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  uint8_t serialBufferSend[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
   /** CRC32 checksum function*/
   unsigned int crc32(unsigned char *message, int length);
 

@@ -397,12 +397,11 @@ bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
   txData[txLength++] = c;
   txData[txLength++] = d;
   */
-  
-  sendToPort(*this, destID, (uint8_t*)terminal_sequence, TERMINAL_SEQUENCE_SIZE);
-  bool valid = sendToPort(*this, destID, txData, txLength);
-  sendToPort(*this, destID, (uint8_t*)terminal_sequence, TERMINAL_SEQUENCE_SIZE);
-
- return valid;
+  const char* terminal = terminal_sequence;
+  memcpy(serialBufferSend, terminal, TERMINAL_SEQUENCE_SIZE);
+  memcpy(serialBufferSend + TERMINAL_SEQUENCE_SIZE, txData, txLength);
+  memcpy(serialBufferSend + TERMINAL_SEQUENCE_SIZE + txLength, terminal, TERMINAL_SEQUENCE_SIZE);
+  return sendToPort(*this, destID, serialBufferSend, txLength + (2 * TERMINAL_SEQUENCE_SIZE));
 }
 
 
@@ -414,7 +413,7 @@ bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 	if (parserPosition == 0 || parserPosition >= lastRecievedLength){
 		printf("Port recv is: %d\n", hSerial.fd);
 		parserPosition = 0;		
-		valid = readFromPort(*this, serialBuffer, rx_len);
+		valid = readFromPort(*this, serialBufferRecv, rx_len);
 		lastRecievedLength = *rx_len;
 		/*
 		if (valid){
@@ -452,10 +451,10 @@ bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 	uint32_t messageLength = 0;
 	while (!parsed){
 		//check for sequence
-		if (serialBuffer[parserPosition] == '*' && serialBuffer[parserPosition + 1] == '*' && serialBuffer[parserPosition + 2] == '*'){
+		if (serialBufferRecv[parserPosition] == '*' && serialBufferRecv[parserPosition + 1] == '*' && serialBufferRecv[parserPosition + 2] == '*'){
 			parserPosition += TERMINAL_SEQUENCE_SIZE;
-			while (serialBuffer[parserPosition] != '*' && serialBuffer[parserPosition + 1] != '*' && serialBuffer[parserPosition + 2] != '*'){
-				rx_data[messageLength++] = serialBuffer[parserPosition];
+			while (serialBufferRecv[parserPosition] != '*' && serialBufferRecv[parserPosition + 1] != '*' && serialBufferRecv[parserPosition + 2] != '*'){
+				rx_data[messageLength++] = serialBufferRecv[parserPosition];
 			}
 			parserPosition += TERMINAL_SEQUENCE_SIZE +1;
 			parsed = true;
