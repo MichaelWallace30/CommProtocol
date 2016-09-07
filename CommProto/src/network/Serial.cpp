@@ -383,7 +383,7 @@ bool Serial::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 	
-	bool valid = false;
+	bool valid = true;
 //	printf("Parser Postion %d\n", parserPosition);
 	//printf("Last recieved Length %d\n", lastRecievedLength);
 	//get new message if parser is done
@@ -396,7 +396,7 @@ bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 		valid = parser.parseReceive(rx_data, *rx_len, bufferReceive);
 	}
 		
-	
+	if (*rx_len == 0)return false;
   return valid;
 }
 
