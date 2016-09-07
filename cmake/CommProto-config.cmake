@@ -10,6 +10,7 @@ set(COMMPROTO_HEADERS
 set(COMMPROTO_SOURCES
   ${PARENT_SOURCE_DIR}/Packets.cpp
   ${PARENT_SOURCE_DIR}/AbstractPacket.cpp
+  ${PARENT_SOURCE_DIR}/HeaderPacket.cc
   ${PARENT_SOURCE_DIR}/Comms.cpp
   ${PARENT_SOURCE_DIR}/Callback.cpp)		
 
