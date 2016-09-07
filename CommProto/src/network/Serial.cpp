@@ -255,13 +255,7 @@ unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   if (bytesWritten < 0) {
     COMMS_DEBUG("write() has failed to send!\n");
   } else {
-<<<<<<< HEAD
       COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
-=======
-#ifdef SERIAL_DEBUG
-      COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
-#endif	
->>>>>>> master
     result = true;
   }
   
@@ -273,21 +267,13 @@ inline bool
 unixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   bool result = false;
   serial_t& hSerial = serial.getSerialPort();
-#ifdef SERIAL_DEBUG
   COMMS_DEBUG("\n\nReading serial\n\n");
-#endif
   int32_t bytesRead = read(hSerial.fd, rx_data, 256);
   if (bytesRead < 0) {
     COMMS_DEBUG("Failed to read from package. erro number %d\n", errno);
   } else {
     *rx_len = bytesRead;
-<<<<<<< HEAD
     COMMS_DEBUG("**  Recieved\t Length: %d  **\n", bytesRead);
-=======
-#ifdef SERIAL_DEBUG
-    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", bytesRead);
-#endif	    
->>>>>>> master
     result = true;
   }
 
