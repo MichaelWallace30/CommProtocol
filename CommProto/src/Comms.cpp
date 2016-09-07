@@ -78,31 +78,33 @@ void* Comms::commuincationHandlerRecv() {
       Algorithm should get the header, get the message id from header, then
       produce the packet from the header, finally get the callback.
      */
-    header_t header = temp->deserializeHeader();
-    // Create the packet.
-    packet = this->packetManager.produceFromId(header.messageID);
+    if (temp->getSize() > 0) {
+      header_t header = temp->deserializeHeader();
+      // Create the packet.
+      packet = this->packetManager.produceFromId(header.messageID);
     
-    if (packet) {
-      // Unpack the object stream.
-      packet->unpack(*temp);
-      Callback* callback = NULL;
-      callback = this->packetManager.get(*packet);
+      if (packet) {
+        // Unpack the object stream.
+        packet->unpack(*temp);
+        Callback* callback = NULL;
+        callback = this->packetManager.get(*packet);
 
-      if (callback) {
-        error_t error;
-        /*
-          TODO(Wallace): This might need to run on a separate thread, or 
-          on a new thread, to prevent it from stopping the receive handler.
-         */
-        error = callback->callFunction(header, *packet);
-        // Handle error.
-        // Determine what to do with the packet... Probably destroy it since it is being called.
-      }
-      // Store the packet into the receive queue.
-      //recvQueue->enQueue(packet);
-    } else {
-      COMMS_DEBUG("Unknown packet recieved.\n");
-    }	
+        if (callback) {
+          error_t error;
+          /*
+            TODO(Wallace): This might need to run on a separate thread, or 
+            on a new thread, to prevent it from stopping the receive handler.
+          */
+          error = callback->callFunction(header, *packet);
+          // Handle error.
+          // Determine what to do with the packet... Probably destroy it since it is being called.
+        }
+        // Store the packet into the receive queue.
+        //recvQueue->enQueue(packet);
+      } else {
+        COMMS_DEBUG("Unknown packet recieved.\n");
+      }	
+    }
 
     free_pointer(temp);				
   }

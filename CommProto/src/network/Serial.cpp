@@ -17,7 +17,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/Serial.h>
-
+#include <CommProto/architecture/connection/socket-config.h>
+#include <CommProto/debug/CommsDebug.h>
 
 namespace Comnet {
 namespace Network {
@@ -41,13 +42,13 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   serial_t& hSerial = serial.getSerialPort();
 
   char comPortCat[80];
-  strcpy(comPortCat, (char*)comPort);
 
   if (comPort[0] != '\\') {
       // "\\\\.\\"  allows windows ports above 9
-	  strcat(comPortCat, "\\\\.\\");
+	  strcpy(comPortCat, "\\\\.\\");
   } 
 
+  strcat(comPortCat, (char*)comPort);
 
 #ifdef UNICODE	//convert multybyte string to LPCWSTR
   uint16_t length = 0;
@@ -76,11 +77,11 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
       if (GetLastError() == ERROR_FILE_NOT_FOUND)
 	{
 	  //serial port does not exist.
-	  printf( "comport not found\n");
+	  COMMS_DEBUG( "comport not found\n");
 	  return false;
 	}
       // some other error occured.
-      printf( "Unknown error\n");
+      COMMS_DEBUG( "Unknown error\n");
       return false;
     }
   else
@@ -145,6 +146,7 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
 inline bool
 windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   unsigned long sentData = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
+  COMMS_DEBUG("Sending packet\n.");
   serial_t& hSerial = serial.getSerialPort();
   
   if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL)) {
@@ -169,13 +171,13 @@ windowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
   if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL)) {
     //error reading file
-    printf("Failed to read serial\n"); // This may print too much data might need to change. 
+    
+    COMMS_DEBUG("Failed to read serial, error code %d\n", GET_LAST_ERROR); // This may print too much data might need to change. 
                                        // Im not sure if time out will return false for ReadFile
     return false;
   } else {
-#ifdef SERIAL_DEBUG
-    printf("**  Recieved\t Length: %d  **\n", recvData);
-#endif	
+    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recvData);
+    
     if (recvData > 0) {
       *rx_len = recvData;
       return true;
@@ -367,7 +369,7 @@ bool Serial::initConnection(const char* port, const char* address, uint32_t baud
 bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 { 
   printf("Port send is: %d\n", hSerial.fd); 
-
+/*
   unsigned int crc = crc32(txData, txLength);//calculate crc32
   unsigned char a = (crc >> 24) & 0xff;//leftmost
   unsigned char b = (crc >> 16) & 0xff;//next byte
@@ -390,14 +392,14 @@ bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
   txData[txLength++] = b;
   txData[txLength++] = c;
   txData[txLength++] = d;
-  
+  */
   return sendToPort(*this, destID, txData, txLength);}
 
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
   printf("Port recv is: %d\n", hSerial.fd); 
   bool valid = readFromPort(*this, rx_data, rx_len);
-
+/*
   if (valid){
 	  unsigned char a = rx_data[--(*rx_len)];
 	  unsigned char b = rx_data[--(*rx_len)];
@@ -426,7 +428,7 @@ bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 	  //compare and return results
 	  return crc == crcRecv;	  
   }
-  
+  */
   return false;
 }
 
