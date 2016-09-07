@@ -137,7 +137,7 @@ public:
   /**
      Add a communication address.
    */
-  virtual bool addAddress(uint8_t destID, const char* address, uint16_t port = 0) = 0;
+  virtual bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0) = 0;
   /**
      remove an Address.
    */

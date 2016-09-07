@@ -144,15 +144,15 @@ int main(int c, char** args) {
   COMMS_DEBUG("Adding callback\n");
   newComms1.linkCallback(new Ping(0), new Callback((callback_t) Storage::storeFunction));
   COMMS_DEBUG("Callback added!\n");
-  success = newComms1.initConnection(UDP_LINK, "1337", "127.0.0.1");
+  success = newComms1.initConnection(SERIAL_LINK, "/dev/ttyS0", "115200");
   cout << "newComms1 init: " << success << endl;
-  success = newComms2.initConnection(UDP_LINK, "1338", "127.0.0.1");
+  success = newComms2.initConnection(SERIAL_LINK, "/dev/ttyS1", "115200");
   cout << "newComms2 init: " << success << endl;
   cin.ignore();
 
-  success = newComms1.addAddress(2, "127.0.0.1", 1338);
+  success = newComms1.addAddress(2);
   cout << "newComms1 add: " << success << endl;
-  success = newComms2.addAddress(1, "127.0.0.1", 1337);
+  success = newComms2.addAddress(1);
   cout << "newComms2 add: " << success << endl;
 
 	
