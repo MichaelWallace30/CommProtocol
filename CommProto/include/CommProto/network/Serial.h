@@ -30,6 +30,7 @@
 #include <CommProto/serialization/Marshal.h>//endianess
 
 #define SERIAL_DEBUG
+#define TERMINAL_SEQUENCE_SIZE 3
 
 namespace Comnet {
 namespace Network {
@@ -40,6 +41,18 @@ private:
   serial_t hSerial;
   //serial private data
   bool connectionEstablished;
+
+  /** terminal sequence for start and stop of message data*/
+  char terminal_sequence[TERMINAL_SEQUENCE_SIZE];
+  /** Holds current position or parsed data used for reading serial data*/
+  uint32_t parserPosition;
+  /** last recieveed length for parser information*/
+  uint32_t lastRecievedLength;
+  /** serial buffer to hold recieved data for parsing messages*/
+  uint8_t serialBufferRecv[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  uint8_t serialBufferSend[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  /** CRC32 checksum function*/
+  unsigned int crc32(unsigned char *message, int length);
 
 public:
 
@@ -69,7 +82,7 @@ public:
 
   serial_t& getSerialPort();
 
-  unsigned int crc32(unsigned char *message, int length);
+
 };
 } // namespace Network
 } // namespace Comnet

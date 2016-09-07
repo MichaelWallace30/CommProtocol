@@ -17,7 +17,6 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/Serial.h>
-#include <CommProto/architecture/connection/socket-config.h>
 #include <CommProto/debug/CommsDebug.h>
 
 namespace Comnet {
@@ -124,9 +123,9 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   
   COMMTIMEOUTS timeouts = { 0 };
   
-  timeouts.ReadIntervalTimeout = 50;
-  timeouts.ReadTotalTimeoutConstant = 50;
-  timeouts.ReadTotalTimeoutMultiplier = 10;
+  timeouts.ReadIntervalTimeout = 5;
+  timeouts.ReadTotalTimeoutConstant = 5;
+  timeouts.ReadTotalTimeoutMultiplier = 1;
   timeouts.WriteTotalTimeoutConstant = 50;
   timeouts.WriteTotalTimeoutMultiplier = 10;
   
@@ -172,7 +171,7 @@ windowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL)) {
     //error reading file
     
-    COMMS_DEBUG("Failed to read serial, error code %d\n", GET_LAST_ERROR); // This may print too much data might need to change. 
+    COMMS_DEBUG("Failed to read serial.\n"); // This may print too much data might need to change. 
                                        // Im not sure if time out will return false for ReadFile
     return false;
   } else {
@@ -347,8 +346,11 @@ closePortHelper(Serial& serial) {
 /***********************************************/
 Serial::Serial():CommsLink()
 {		
+  strcpy(terminal_sequence, "*&*");
   connectionEstablished = false;
   hSerial.serial_s = SERIAL_OPEN;
+  parserPosition = 0;
+  lastRecievedLength = 0;
 }
 
 
@@ -393,43 +395,93 @@ bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
   txData[txLength++] = c;
   txData[txLength++] = d;
   */
-  return sendToPort(*this, destID, txData, txLength);}
+  memset(serialBufferSend, 0, sizeof(serialBufferSend));
+  memcpy(serialBufferSend, terminal_sequence, TERMINAL_SEQUENCE_SIZE);
+  memcpy((serialBufferSend + TERMINAL_SEQUENCE_SIZE), txData, txLength);
+  memcpy((serialBufferSend + TERMINAL_SEQUENCE_SIZE + txLength), terminal_sequence, TERMINAL_SEQUENCE_SIZE);
+  return sendToPort(*this, destID, serialBufferSend, txLength + (2 * TERMINAL_SEQUENCE_SIZE));
+}
 
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
-  printf("Port recv is: %d\n", hSerial.fd); 
-  bool valid = readFromPort(*this, rx_data, rx_len);
-/*
-  if (valid){
-	  unsigned char a = rx_data[--(*rx_len)];
-	  unsigned char b = rx_data[--(*rx_len)];
-	  unsigned char c = rx_data[--(*rx_len)];
-	  unsigned char d = rx_data[--(*rx_len)];
-#ifdef LITTLE_ENDIAN_COMNET
-	  //swap outter two
-	  unsigned char e = a;
-	  a = d;
-	  d = a;
-	  //swap middle two
-	  e = b;
-	  b = c;
-	  c = b;
-#endif
-	  //store bytes into crcRecv
-	  unsigned int crcRecv = 0;
-	  ((char*)&crcRecv)[0] = a;
-	  ((char*)&crcRecv)[1] = b;
-	  ((char*)&crcRecv)[2] = c;
-	  ((char*)&crcRecv)[3] = d;
+	
+	bool valid = false;
+	printf("Parser Postion %d\n", parserPosition);
+	printf("Last recieved Length %d\n", lastRecievedLength);
+	if (parserPosition == 0 || parserPosition >= lastRecievedLength -1){
+		
+		printf("Port recv is: %d\n", hSerial.fd);
+		parserPosition = 0;		
+		valid = readFromPort(*this, serialBufferRecv, rx_len);
 
-	  //get new crc
-	  unsigned int crc = crc32(rx_data, *rx_len);
+		lastRecievedLength = *rx_len;
+		/*
+		if (valid){
+		unsigned char a = rx_data[--(*rx_len)];
+		unsigned char b = rx_data[--(*rx_len)];
+		unsigned char c = rx_data[--(*rx_len)];
+		unsigned char d = rx_data[--(*rx_len)];
+		#ifdef LITTLE_ENDIAN_COMNET
+		//swap outter two
+		unsigned char e = a;
+		a = d;
+		d = a;
+		//swap middle two
+		e = b;
+		b = c;
+		c = b;
+		#endif
+		//store bytes into crcRecv
+		unsigned int crcRecv = 0;
+		((char*)&crcRecv)[0] = a;
+		((char*)&crcRecv)[1] = b;
+		((char*)&crcRecv)[2] = c;
+		((char*)&crcRecv)[3] = d;
 
-	  //compare and return results
-	  return crc == crcRecv;	  
-  }
-  */
-  return false;
+		//get new crc
+		unsigned int crc = crc32(rx_data, *rx_len);
+
+		//compare and return results
+		return crc == crcRecv;
+		}
+		*/
+	}
+
+	bool parsed = false;
+	uint32_t messageLength = 0;
+	while (!parsed && lastRecievedLength > 0){
+		
+		//check for sequence
+		printf("ParserPosition: %d\n", parserPosition);
+		if ((char)serialBufferRecv[parserPosition] == '*' && (char)serialBufferRecv[parserPosition + 1] == '&' && (char)serialBufferRecv[parserPosition + 2] == '*'){
+			parserPosition += TERMINAL_SEQUENCE_SIZE;
+			printf("ParserPosition: %d\n", parserPosition);
+			bool done = false;
+			while (!done && messageLength < 516){
+				rx_data[messageLength++] = serialBufferRecv[parserPosition++];
+				char a = serialBufferRecv[parserPosition];
+				char b = serialBufferRecv[parserPosition + 1];
+				char c = serialBufferRecv[parserPosition + 2];
+				if (a == '*' && b == '&' && c == '*')done = true;
+				
+			}
+			printf("%c\n", (char)serialBufferRecv[parserPosition+ 1]);
+			printf("%c\n", (char)serialBufferRecv[parserPosition + 2]);
+			printf("%c\n", (char)serialBufferRecv[parserPosition + 3]);
+			printf("Message Length %d\n", messageLength);
+			*rx_len = messageLength;
+			parserPosition += TERMINAL_SEQUENCE_SIZE;
+			printf("ParserPosition: %d\n", parserPosition);
+			parsed = true;
+		}
+		else
+		{
+			parserPosition++;
+			if (parserPosition > lastRecievedLength)parsed = true;
+		}
+	}
+	
+  return valid;
 }
 
 
