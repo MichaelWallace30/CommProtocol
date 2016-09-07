@@ -45,7 +45,10 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
 
   if (comPort[0] != '\\') {
       // "\\\\.\\"  allows windows ports above 9
-	  strcat(comPortCat, "\\\\.\\");
+	  char temp[80];
+	  strcpy(temp, comPortCat);
+	  strcpy(comPortCat, "\\\\.\\");
+	  strcat(comPortCat, temp);
   } 
 
 
