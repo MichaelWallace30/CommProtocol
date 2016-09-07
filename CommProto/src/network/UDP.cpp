@@ -140,7 +140,7 @@ bool UDP::removeAddress(uint8_t destID)
   return false;
 }
 
-bool UDP::send(uint8_t destID, uint8_t* txData, int32_t txLength)
+bool UDP::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
 {
   if (sockaddr.socket_status == SOCKET_CONNECTED) {
     int slenSend = sizeof(conn[destID].socket_address);

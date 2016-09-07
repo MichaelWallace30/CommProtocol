@@ -19,6 +19,7 @@
 #include <CommProto/network/Serial.h>
 #include <CommProto/debug/CommsDebug.h>
 
+
 namespace Comnet {
 namespace Network {
 
@@ -86,7 +87,7 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   else
     {
       
-      printf( "Serial port created\n");
+      COMMS_DEBUG( "Serial port created\n");
     }
   
   
@@ -99,7 +100,7 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!GetCommState(hSerial.h_serial, &dcbSerialParams))
     {
       //error getting state
-      printf( "Error getting state\n");
+      COMMS_DEBUG( "Error getting state\n");
       return false;
     }
   
@@ -168,13 +169,12 @@ windowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
   if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL)) {
     //error reading file
-    
+
     COMMS_DEBUG("Failed to read serial.\n"); // This may print too much data might need to change. 
                                        // Im not sure if time out will return false for ReadFile
     return false;
   } else {
     COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recvData);
-    
     if (recvData > 0) {
       *rx_len = recvData;
       return true;
@@ -255,7 +255,13 @@ unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   if (bytesWritten < 0) {
     COMMS_DEBUG("write() has failed to send!\n");
   } else {
+<<<<<<< HEAD
       COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
+=======
+#ifdef SERIAL_DEBUG
+      COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
+#endif	
+>>>>>>> master
     result = true;
   }
   
@@ -275,7 +281,13 @@ unixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
     COMMS_DEBUG("Failed to read from package. erro number %d\n", errno);
   } else {
     *rx_len = bytesRead;
+<<<<<<< HEAD
     COMMS_DEBUG("**  Recieved\t Length: %d  **\n", bytesRead);
+=======
+#ifdef SERIAL_DEBUG
+    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", bytesRead);
+#endif	    
+>>>>>>> master
     result = true;
   }
 
@@ -339,12 +351,11 @@ closePortHelper(Serial& serial) {
 /******************* Public  *******************/
 /***********************************************/
 Serial::Serial():CommsLink()
-{		
-  strcpy(terminal_sequence, "*&*");
+{		  
+  parser = Parser();
   connectionEstablished = false;
   hSerial.serial_s = SERIAL_OPEN;
-  parserPosition = 0;
-  lastRecievedLength = 0;
+  
 }
 
 
@@ -357,123 +368,43 @@ bool Serial::initConnection(const char* port, const char* address, uint32_t baud
   //check os here
   connectionEstablished = openPort(*this, port, baudrate);
   hSerial.serial_s = SERIAL_CONNECTED;
-  printf("Port is now: %d\n", hSerial.fd);
+  COMMS_DEBUG("Port is now: %d\n", hSerial.fd);
   return connectionEstablished;
 }
 
 
-bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
+bool Serial::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
 { 
-  printf("Port send is: %d\n", hSerial.fd); 
-/*
-  unsigned int crc = crc32(txData, txLength);//calculate crc32
-  unsigned char a = (crc >> 24) & 0xff;//leftmost
-  unsigned char b = (crc >> 16) & 0xff;//next byte
-  unsigned char c = (crc >> 8) & 0xff;//next byte
-  unsigned char d = (crc)& 0xff;//right most
-
-#ifdef LITTLE_ENDIAN_COMNET
-  //swap outter two
-  unsigned char e = a;
-  a = d;
-  d = a;
-  //swap middle two
-  e = b;
-  b = c;
-  c = b;
-#endif
-
-  //add crc32
-  txData[txLength++] = a;
-  txData[txLength++] = b;
-  txData[txLength++] = c;
-  txData[txLength++] = d;
-  */
-  memset(serialBufferSend, 0, sizeof(serialBufferSend));
-  memcpy(serialBufferSend, terminal_sequence, TERMINAL_SEQUENCE_SIZE);
-  memcpy((serialBufferSend + TERMINAL_SEQUENCE_SIZE), txData, txLength);
-  memcpy((serialBufferSend + TERMINAL_SEQUENCE_SIZE + txLength), terminal_sequence, TERMINAL_SEQUENCE_SIZE);
-  return sendToPort(*this, destID, serialBufferSend, txLength + (2 * TERMINAL_SEQUENCE_SIZE));
+  COMMS_DEBUG("Port send is: %d\n", hSerial.fd); 
+  unsigned int crc = crc32(txData, txLength);
+  appendCrc32(txData, &txLength);  
+  parser.parseSend(txData, txLength, bufferSend);//length adjusted
+  return sendToPort(*this, destID, bufferSend, txLength);
 }
 
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 	
-	bool valid = false;
-	printf("Parser Postion %d\n", parserPosition);
-	printf("Last recieved Length %d\n", lastRecievedLength);
-	if (parserPosition == 0 || parserPosition >= lastRecievedLength -1){
-		
-		printf("Port recv is: %d\n", hSerial.fd);
-		parserPosition = 0;		
-		valid = readFromPort(*this, serialBufferRecv, rx_len);
-
-		lastRecievedLength = *rx_len;
-		/*
-		if (valid){
-		unsigned char a = rx_data[--(*rx_len)];
-		unsigned char b = rx_data[--(*rx_len)];
-		unsigned char c = rx_data[--(*rx_len)];
-		unsigned char d = rx_data[--(*rx_len)];
-		#ifdef LITTLE_ENDIAN_COMNET
-		//swap outter two
-		unsigned char e = a;
-		a = d;
-		d = a;
-		//swap middle two
-		e = b;
-		b = c;
-		c = b;
-		#endif
-		//store bytes into crcRecv
-		unsigned int crcRecv = 0;
-		((char*)&crcRecv)[0] = a;
-		((char*)&crcRecv)[1] = b;
-		((char*)&crcRecv)[2] = c;
-		((char*)&crcRecv)[3] = d;
-
-		//get new crc
-		unsigned int crc = crc32(rx_data, *rx_len);
-
-		//compare and return results
-		return crc == crcRecv;
-		}
-		*/
+	bool valid = true;
+//	COMMS_DEBUG("Parser Postion %d\n", parserPosition);
+	//COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
+	//get new message if parser is done
+	if (parser.parseReceiveDone()){		
+		COMMS_DEBUG("Port recv is: %d\n", hSerial.fd);			
+		valid = readFromPort(*this, bufferReceive, rx_len);
 	}
-
-	bool parsed = false;
-	uint32_t messageLength = 0;
-	while (!parsed && lastRecievedLength > 0){
-		
-		//check for sequence
-		printf("ParserPosition: %d\n", parserPosition);
-		if ((char)serialBufferRecv[parserPosition] == '*' && (char)serialBufferRecv[parserPosition + 1] == '&' && (char)serialBufferRecv[parserPosition + 2] == '*'){
-			parserPosition += TERMINAL_SEQUENCE_SIZE;
-			printf("ParserPosition: %d\n", parserPosition);
-			bool done = false;
-			while (!done && messageLength < 516){
-				rx_data[messageLength++] = serialBufferRecv[parserPosition++];
-				char a = serialBufferRecv[parserPosition];
-				char b = serialBufferRecv[parserPosition + 1];
-				char c = serialBufferRecv[parserPosition + 2];
-				if (a == '*' && b == '&' && c == '*')done = true;
-				
-			}
-			printf("%c\n", (char)serialBufferRecv[parserPosition+ 1]);
-			printf("%c\n", (char)serialBufferRecv[parserPosition + 2]);
-			printf("%c\n", (char)serialBufferRecv[parserPosition + 3]);
-			printf("Message Length %d\n", messageLength);
-			*rx_len = messageLength;
-			parserPosition += TERMINAL_SEQUENCE_SIZE;
-			printf("ParserPosition: %d\n", parserPosition);
-			parsed = true;
+	//parse data
+	if (valid){
+		valid = parser.parseReceive(rx_data, *rx_len, bufferReceive);
+		if (*rx_len > 0){
+			unsigned int crcRecv = truncateCrc32(rx_data, rx_len);
+			unsigned int crc = crc32(rx_data, *rx_len);
+			return crcRecv == crc;
 		}
-		else
-		{
-			parserPosition++;
-			if (parserPosition > lastRecievedLength)parsed = true;
+		else{
+			return false;
 		}
-	}
+	}		
 	
   return valid;
 }
@@ -492,36 +423,6 @@ bool Serial::closePort() {
 serial_t& Serial::getSerialPort() {
   return hSerial;
 }
-
-unsigned int Serial::crc32(unsigned char *message, int length) {
-	int i, j;
-	unsigned int byte, crc, mask;
-	static unsigned int table[256];
-
-	/* Set up the table, if necessary. */
-
-	if (table[1] == 0) {
-		for (byte = 0; byte <= 255; byte++) {
-			crc = byte;
-			for (j = 7; j >= 0; j--) {    // Do eight times.
-				mask = -(crc & 1);
-				crc = (crc >> 1) ^ (0xEDB88320 & mask);
-			}
-			table[byte] = crc;
-		}
-	}
-
-	/* Through with table setup, now calculate the CRC. */
-	i = 0;
-	crc = 0xFFFFFFFF;
-	while (length--) {
-		byte = message[i];
-		crc = (crc >> 8) ^ table[(crc ^ byte) & 0xFF];
-		i = i + 1;
-	}
-	return ~crc;
-}
-
 
 } // namespace Network
 } // namespace Comnet 

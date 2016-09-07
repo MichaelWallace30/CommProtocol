@@ -88,7 +88,7 @@ private:
   virtual bool removeAddress(uint8_t destID);
   /** Sends txData using its length of bytes through the destID connection which is establish through add adress
       Return false if no proper connection is establish*/
-  virtual bool send(uint8_t destID, uint8_t* txData, int32_t txLength);
+  virtual bool send(uint8_t destID, uint8_t* txData, uint32_t txLength);
   /** Sets recieved data to rxData and sets the length of the data to rxLength
       Returns false if not aviable connection or no data is recieved*/
   virtual bool recv(uint8_t* rxData, uint32_t* rxLength);

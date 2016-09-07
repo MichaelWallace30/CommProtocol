@@ -64,7 +64,7 @@ public:
   /**
     Send a message to the specified id of which an address is associated with.
   */
-  virtual bool send(uint8_t destID, uint8_t* txData, int32_t txLength) = 0;
+  virtual bool send(uint8_t destID, uint8_t* txData, uint32_t txLength) = 0;
   /**
     Receive a message from a protocol id.
   */
