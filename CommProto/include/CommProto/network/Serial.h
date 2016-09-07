@@ -27,12 +27,10 @@
 #include <CommProto/network/CommsLink.h>
 #include <CommProto/architecture/macros.h>//str_length(char*, int)
 #include <stdio.h>//printf
-
-
-#include <CommProto/network/Parser.h>
+#include <CommProto/serialization/Marshal.h>//endianess
 
 #define SERIAL_DEBUG
-
+#define TERMINAL_SEQUENCE_SIZE 3
 
 namespace Comnet {
 namespace Network {
@@ -44,10 +42,17 @@ private:
   //serial private data
   bool connectionEstablished;
 
-  Parser parser;
+  /** terminal sequence for start and stop of message data*/
+  char terminal_sequence[TERMINAL_SEQUENCE_SIZE];
+  /** Holds current position or parsed data used for reading serial data*/
+  uint32_t parserPosition;
+  /** last recieveed length for parser information*/
+  uint32_t lastRecievedLength;
   /** serial buffer to hold recieved data for parsing messages*/
-  uint8_t bufferReceive[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
-  uint8_t bufferSend[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  uint8_t serialBufferRecv[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  uint8_t serialBufferSend[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  /** CRC32 checksum function*/
+  unsigned int crc32(unsigned char *message, int length);
 
 public:
 
@@ -66,7 +71,7 @@ public:
      Sends txData using its length of bytes through the serial connection. Connection is broadcast 
      destID is only used for packing / unpacking. Return false if no proper connection is establish
   */	
-  virtual bool send(uint8_t destID, uint8_t* txData, uint32_t txLength);
+  virtual bool send(uint8_t destID, uint8_t* txData, int32_t txLength);
   /** Sets recieved data to rxData and sets the length of the data to rxLength
       Returns false if not aviable connection, No data is recieved, or time out*/
   virtual bool recv(uint8_t* rxData, uint32_t* rxLength);
