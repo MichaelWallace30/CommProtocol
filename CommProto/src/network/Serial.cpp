@@ -111,12 +111,12 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!SetCommState(hSerial.h_serial, &dcbSerialParams))
     {
       //error setting serial port state
-      printf( "Error setting serial port state\n");
+      COMMS_DEBUG( "Error setting serial port state\n");
       return false;
     }
   
   
-  printf( "Completed setting serial port state\n");
+  COMMS_DEBUG( "Completed setting serial port state\n");
   
 
   //time out code not needed?
@@ -132,11 +132,11 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!SetCommTimeouts(hSerial.h_serial, &timeouts))
     {
       //error occureeed
-      printf( "Setting up times outs failed\n");
+      COMMS_DEBUG( "Setting up times outs failed\n");
       return false;
     }
   
-  printf( "Completed setting up time outs\n");
+  COMMS_DEBUG( "Completed setting up time outs\n");
   hSerial.serial_s = SERIAL_CONNECTED;
   return true;
 }
@@ -150,13 +150,11 @@ windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   
   if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL)) {
     //error reading file
-    printf("Failed to write serial\n");
+    COMMS_DEBUG("Failed to write serial\n");
     return false;
   }
   else {
-#ifdef SERIAL_DEBUG
-    printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
-#endif	
+    COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
     return true;
   }		
 
@@ -196,11 +194,11 @@ initUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
   bool result = false;
   serial_t& hSerial = serial.getSerialPort();
 
-  printf("port: %s\n connecting...\n", port);
+  COMMS_DEBUG("port: %s\n connecting...\n", port);
   hSerial.fd = open(port, (O_RDWR | O_NOCTTY));
 
   if (hSerial.fd == -1) {
-    printf("port failed to open: err number %d\n", errno);
+    COMMS_DEBUG("port failed to open: err number %d\n", errno);
   } else {
     struct termios options;
     fcntl(hSerial.fd, F_SETFL, 0);
@@ -241,7 +239,7 @@ initUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
     tcsetattr(hSerial.fd, TCSANOW, &options);
 
     result = true;
-    printf("Connected\n");
+    COMMS_DEBUG("Connected\n");
   }
 
   return result;
@@ -255,11 +253,9 @@ unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
 
   int32_t bytesWritten = write(hSerial.fd, txData, txLength);
   if (bytesWritten < 0) {
-    printf("write() has failed to send!\n");
+    COMMS_DEBUG("write() has failed to send!\n");
   } else {
-#ifdef SERIAL_DEBUG
-      printf("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
-#endif	
+      COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
     result = true;
   }
   
@@ -272,16 +268,14 @@ unixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   bool result = false;
   serial_t& hSerial = serial.getSerialPort();
 #ifdef SERIAL_DEBUG
-  printf("\n\nReading serial\n\n");
+  COMMS_DEBUG("\n\nReading serial\n\n");
 #endif
   int32_t bytesRead = read(hSerial.fd, rx_data, 256);
   if (bytesRead < 0) {
-    printf("Failed to read from package. erro number %d\n", errno);
+    COMMS_DEBUG("Failed to read from package. erro number %d\n", errno);
   } else {
     *rx_len = bytesRead;
-#ifdef SERIAL_DEBUG
-    printf("**  Recieved\t Length: %d  **\n", bytesRead);
-#endif	    
+    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", bytesRead);
     result = true;
   }
 
