@@ -1,8 +1,7 @@
 #ifndef HEADERPACKET_H
 #define HEADERPACKET_H
 
-#include <stdint.h>
-#include <cstring>//memcpy
+#include <CommProto/architecture/os/include_defines.h>
 
 #define MAX_PACKET_SIZE 1024
 #define HEADER_SIZE 22 //not great way to do this
@@ -16,42 +15,17 @@
  */
 
 /** Packet header stcture for sending messages*/
-struct header_t {
+class header_t {
+public:
   uint8_t destID;
   uint8_t sourceID;
   uint16_t messageLength;
   uint16_t messageID;
   uint8_t IV[KEY_LENGTH];//random init vector for encryption
 
-  uint32_t serialize(uint8_t* buffer, uint32_t offset){	  	  
-	  memcpy(buffer + (offset++), &destID, 1);
-	  memcpy(buffer + (offset++), &sourceID, 1);
-	  memcpy(buffer + offset, &messageLength, 2);
-	  offset += 2;
-	  memcpy(buffer + offset, &messageID, 2);
-	  offset += 2;
-	  for (int x = 0; x < KEY_LENGTH; x++)
-	  {
-		  memcpy(buffer + (offset++), &IV[x], 1);
-	  }
-	  return offset;
-  }
+  uint32_t serialize(uint8_t* buffer, uint32_t offset);
 
-  uint32_t deserialize(uint8_t* buffer, uint32_t offset){
-	  memcpy(&destID, buffer + (offset++), 1);
-	  memcpy(&sourceID, buffer + (offset++), 1);
-	  memcpy(&messageLength, buffer + offset, 2);
-	  offset += 2;
-	  memcpy(&messageID, buffer + offset, 2);
-	  offset += 2;
-
-	  for (int x = 0; x < KEY_LENGTH; x++)
-	  {
-		  memcpy(&IV[x], buffer + (offset++), 1);
-	  }
-	  return offset;
-  }
-
+  uint32_t deserialize(uint8_t* buffer, uint32_t offset);
 };
 
 #endif//PACKET_H
