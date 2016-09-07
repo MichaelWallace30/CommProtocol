@@ -409,7 +409,7 @@ bool Serial::send(uint8_t destID, uint8_t* txData, int32_t txLength)
 
 bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 	
-	bool valid = false;
+	bool valid = true;
 	printf("Parser Postion %d\n", parserPosition);
 	printf("Last recieved Length %d\n", lastRecievedLength);
 	if (parserPosition == 0 || parserPosition >= lastRecievedLength -1){
