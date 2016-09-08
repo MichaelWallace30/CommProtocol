@@ -13,4 +13,6 @@ enum serial_status {
 
 };
 
+typedef int32_t port_id;
+
 #endif // __SERIAL_STATUS_H

@@ -14,8 +14,6 @@
 #define ClosePort close
 
 
-typedef int32_t port_id;
-
 
 struct serial_info {
   
