@@ -11,6 +11,9 @@ set(ARCHITECTURE_HEADERS
   ${PARENT_HEADER_DIR}/architecture/api.h
   ${PARENT_HEADER_DIR}/architecture/macros.h
   ${PARENT_HEADER_DIR}/architecture/connection/socket-config.h
+  ${PARENT_HEADER_DIR}/architecture/connection/serial_status.h
+  ${PARENT_HEADER_DIR}/architecture/connection/serial-config_win32.h
+  ${PARENT_HEADER_DIR}/architecture/connection/serial-config_linux.h
   ${PARENT_HEADER_DIR}/architecture/connection/serial-config.h
   ${PARENT_HEADER_DIR}/architecture/connection/transport_type.h)
 

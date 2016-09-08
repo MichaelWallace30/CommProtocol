@@ -1,45 +1,15 @@
 #ifndef __SERIAL_H
 #define __SERIAL_H
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
 
-#if COM_TARGET_OS == COM_OS_WINDOWS
- #include <Windows.h>
- typedef uint32_t speed_t;
- typedef HANDLE serial_h;
- typedef int32_t port_id;
- #define ClosePort CloseHandle
-#else
- #include <stdio.h>
- #include <string.h>
- #include <unistd.h>
- #include <fcntl.h>
- #include <errno.h>
- #include <termios.h>
- #define ClosePort close
- typedef int32_t port_id;
-#endif // COM_TARGET_OS == COM_OS_WINDOWS
+#include <CommProto/architecture/os/arch.h>
 
-enum serial_status {
-  SERIAL_OPEN,
-  SERIAL_CLOSED,
-  SERIAL_CONNECTED,
-  SERIAL_TRANSMIT,
-};
-
-
-struct serial_info {
-  speed_t baudrate;
-  serial_status serial_s;
-
-  port_id fd;
-
-#if COM_TARGET_OS == COM_OS_WINDOWS
-  serial_h h_serial;
-#endif
-};
-
-typedef struct serial_info serial_t;
+#if defined(COM_TARGET_OS)
+ #if COM_TARGET_OS == COM_OS_WINDOWS
+  #include <CommProto/architecture/connection/serial-config_win32.h>
+ #else
+  #include <CommProto/architecture/connection/serial-config_linux.h>
+ #endif // COM_TARGET_OS == COM_OS_WINDOWS
+#endif // COM_TARGET_OS
 
 #endif // __SERIAL_H
