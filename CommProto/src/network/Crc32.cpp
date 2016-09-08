@@ -72,7 +72,6 @@ unsigned int truncateCrc32(uint8_t* buffer, uint32_t *length){
 	unsigned char b = buffer[--(*length)];
 	unsigned char c = buffer[--(*length)];
 	unsigned char d = buffer[--(*length)];
-	COMMS_DEBUG("finished abcd.\b");
 #ifdef LITTLE_ENDIAN_COMNET
 	//swap outter two
 	unsigned char e = a;
