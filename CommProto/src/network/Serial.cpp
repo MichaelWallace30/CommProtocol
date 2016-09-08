@@ -382,14 +382,10 @@ bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 	}
 	//parse data
 	if (valid){
-	  COMMS_DEBUG("Parsing data...\n");
 		valid = parser.parseReceive(rx_data, *rx_len, bufferReceive);
-		COMMS_DEBUG("Data parsed...\n");
 		if (*rx_len > 0){
 			unsigned int crcRecv = truncateCrc32(rx_data, rx_len);
-			COMMS_DEBUG("truncated CRC.\n");
 			unsigned int crc = crc32(rx_data, *rx_len);
-			COMMS_DEBUG("CRC calculated...\n");
 			return crcRecv == crc;
 		}
 		else{
