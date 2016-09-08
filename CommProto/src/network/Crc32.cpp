@@ -1,6 +1,7 @@
+#define _DEBUG 1
 #include <CommProto/network/Crc32.h>
 
-
+#include <CommProto/debug/CommsDebug.h>
 
 namespace Comnet {
 namespace Network {
@@ -63,14 +64,16 @@ void appendCrc32(uint8_t* buffer, uint32_t *length){
 }
 
 unsigned int truncateCrc32(uint8_t* buffer, uint32_t *length){
-	
-	
+	if (*length < 4) {
+	  return -1;
+	}
+  COMMS_DEBUG("Truncating CRC.\n");
 	unsigned char a = buffer[--(*length)];
 	unsigned char b = buffer[--(*length)];
 	unsigned char c = buffer[--(*length)];
 	unsigned char d = buffer[--(*length)];
-
-	#ifdef LITTLE_ENDIAN_COMNET
+	COMMS_DEBUG("finished abcd.\b");
+#ifdef LITTLE_ENDIAN_COMNET
 	//swap outter two
 	unsigned char e = a;
 	a = d;
@@ -79,7 +82,8 @@ unsigned int truncateCrc32(uint8_t* buffer, uint32_t *length){
 	e = b;
 	b = c;
 	c = b;
-	#endif
+	COMMS_DEBUG("Finished swapping abcd.\n");
+#endif
 
 	//store bytes into crcRecv
 	unsigned int crcRecv = 0;
@@ -87,7 +91,7 @@ unsigned int truncateCrc32(uint8_t* buffer, uint32_t *length){
 	((char*)&crcRecv)[1] = b;
 	((char*)&crcRecv)[2] = c;
 	((char*)&crcRecv)[3] = d;
-	
+	COMMS_DEBUG("truncated CRC...\n");
 	//return results
 	return crcRecv;
 	

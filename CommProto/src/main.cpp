@@ -180,6 +180,8 @@ int main(int c, char** args) {
     // they need to get the packet manually.
 		//newComms2.receive(source, message);
 	}
+
+	COMMS_DEBUG("FINISHED!!");
   
   return 0;
 }
