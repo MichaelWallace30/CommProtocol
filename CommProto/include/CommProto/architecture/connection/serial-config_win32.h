@@ -18,6 +18,7 @@ struct serial_info {
 
   speed_t baudrate;
   serial_status serial_s;
+  port_id fd;
   serial_h h_serial;
 
 };
