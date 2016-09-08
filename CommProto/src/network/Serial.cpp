@@ -127,9 +127,9 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   
   timeouts.ReadIntervalTimeout = 5;
   timeouts.ReadTotalTimeoutConstant = 5;
-  timeouts.ReadTotalTimeoutMultiplier = 1;
-  timeouts.WriteTotalTimeoutConstant = 50;
-  timeouts.WriteTotalTimeoutMultiplier = 10;
+  timeouts.ReadTotalTimeoutMultiplier = 2;
+  timeouts.WriteTotalTimeoutConstant = 25;
+  timeouts.WriteTotalTimeoutMultiplier = 5;
   
   if (!SetCommTimeouts(hSerial.h_serial, &timeouts))
     {
