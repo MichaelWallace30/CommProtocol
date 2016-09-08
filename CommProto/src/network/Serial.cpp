@@ -16,6 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#define _DEBUG 1
 #include <CommProto/network/Serial.h>
 #include <CommProto/debug/CommsDebug.h>
 

@@ -1,3 +1,5 @@
+#ifndef __PARSER_H
+#define __PARSER_H
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/HeaderPacket.h>
 
@@ -5,9 +7,10 @@
 namespace Comnet {
 namespace Network {
 
+
 #define TERMINAL_SEQUENCE_SIZE 3		
 
-class Parser{
+class Parser {
 	/** terminal sequence for start and stop of message data*/
 	char terminal_sequence[TERMINAL_SEQUENCE_SIZE];
 	/** Holds current position or parsed data used for reading serial data*/
@@ -33,3 +36,4 @@ public:
 
 }//end NETWORK namespace
 }//end COMNET namespace
+#endif // __PARSER_H

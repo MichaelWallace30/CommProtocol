@@ -144,9 +144,9 @@ int main(int c, char** args) {
   COMMS_DEBUG("Adding callback\n");
   newComms1.linkCallback(new Ping(0), new Callback((callback_t) Storage::storeFunction));
   COMMS_DEBUG("Callback added!\n");
-  success = newComms1.initConnection(SERIAL_LINK, "COM3", "", 9600);
+  success = newComms1.initConnection(SERIAL_LINK, "/dev/ttyS0", "", 115200);
   cout << "newComms1 init: " << success << endl;
-  success = newComms2.initConnection(SERIAL_LINK, "COM4", "", 9600);
+  success = newComms2.initConnection(SERIAL_LINK, "/dev/ttyS1", "", 115200);
   cout << "newComms2 init: " << success << endl;
   cin.ignore();
 
