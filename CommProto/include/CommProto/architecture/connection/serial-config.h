@@ -3,6 +3,7 @@
 
 
 #include <CommProto/architecture/os/arch.h>
+#include <errno.h>
 
 #if defined(COM_TARGET_OS)
  #if COM_TARGET_OS == COM_OS_WINDOWS

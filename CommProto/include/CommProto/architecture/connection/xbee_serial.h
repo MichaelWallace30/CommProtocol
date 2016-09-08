@@ -21,6 +21,7 @@
 
 
 #include <CommProto/architecture/connection/serial-config.h>
+
 /*
   Cheating, of course, but no point in redefining a new struct, when we can just use
   the same one with an xbee label.
@@ -34,5 +35,12 @@ typedef struct serial_t xbee_serial_t;
 
 #define XBEE_MS_TIMER_RESOLUTION 16
 
-
+/*
+  xbee error enumerator. Used in xbee/zigbee/digimesh functions.
+  This will grow as we continue through the functionality of the XBee protocol.
+ */
+enum xbee_err {
+  XBEE_SUCCESS                          = 0,
+  XBEE_UNKNOWN                          = -1,
+};
 #endif // __XBEE_SERIAL_H
