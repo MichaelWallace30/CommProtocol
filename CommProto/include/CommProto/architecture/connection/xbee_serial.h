@@ -26,7 +26,7 @@
   Cheating, of course, but no point in redefining a new struct, when we can just use
   the same one with an xbee label.
  */
-typedef struct serial_t xbee_serial_t;
+typedef serial_t xbee_serial_t;
 
 
 #define XBEE_RX_BUFFER_LENGTH        4096

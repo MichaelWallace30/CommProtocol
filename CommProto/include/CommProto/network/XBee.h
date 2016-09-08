@@ -7,22 +7,27 @@ namespace Comnet {
 namespace Network {
 namespace Experimental {
 
-using Comnet::Tools::DataStructures::Interface;
 
 /**
    XBee communications module. Used for any Xbee protocol connection made to 
    other devices.
 */
-class Xbee {
+class XBee {
 public:
   /**
      Default constructor.
    */
-  XBee();
+  XBee() 
+    { }
   /**
      Default destructor.
    */
-  ~XBee();
+  ~XBee()
+    { }
+private:
+  /**
+   */
+  xbee_serial_t serial;
 };
 } // namespace Experimental
 } // namespace Network

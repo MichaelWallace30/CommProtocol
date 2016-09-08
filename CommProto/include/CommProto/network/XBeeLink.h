@@ -3,17 +3,31 @@
 
 #include <CommProto/network/CommsLink.h>
 #include <CommProto/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/architecture/macros.h>
 
 namespace Comnet {
 namespace Network {
 namespace Experimental {
 
 
+using namespace Comnet::Tools::DataStructures::Interface;
+
 class XBee;
 
 
-class XbeeLink : public CommsLink {
+class XBeeLink : public CommsLink {
 public:
+  XBeeLink()
+    { }
+
+  ~XBeeLink() {
+    for (int i = 0; i < xbees->getSize(); ++i ) {
+      XBee* xbee = xbees->at(i);
+      free_pointer(xbee);
+    }
+  
+    free_pointer(xbees);
+  }
   /**
      Initialize a connection for this node.
    */
@@ -34,9 +48,10 @@ public:
      Receive a message from a protocol id.
    */
   bool recv(uint8_t* rxData, uint32_t* rxLength);
+
 private:
 
-  List< XBee* > serial_values;
+  List< XBee* >* xbees;
 };
 } // namespace Experimental
 } // namespace Network
