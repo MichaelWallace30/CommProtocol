@@ -23,6 +23,8 @@
 #include <CommProto/HeaderPacket.h>
 #include <CommProto/serialization/ObjectStream.h>
 
+#include <exception>
+
 namespace Comnet {
 
 
@@ -65,6 +67,17 @@ public:
      Creates a packet.
    */
   virtual AbstractPacket* create() = 0;
+
+  template<typename Type>
+  Type& getValue() {
+    try {
+      return dynamic_cast< Type& >( *this );
+    } catch ( std::bad_cast e ) {
+      // TODO(Garcia): Will require Using a Logger instead of COMMS_DEBUG.
+      COMMS_DEBUG("Bad casting for packet of type %s to type %s\n", 
+                  typeid(*this).name(), typeid(Type).name());
+    }
+  }
 
 private:
   /**

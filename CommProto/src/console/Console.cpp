@@ -14,6 +14,7 @@ Console::Console(const char* address, uint16_t port) {
 }
 
 Console::~Console() {
+  consoles--;
 }
 
 bool Console::createConsole() 

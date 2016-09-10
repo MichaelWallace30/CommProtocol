@@ -55,7 +55,7 @@ public:
   void unpack(ObjectStream& obj);
 
   AbstractPacket* create();
-private:
+public:
   char letter;
 };
 
