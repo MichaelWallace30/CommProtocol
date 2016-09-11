@@ -91,11 +91,7 @@ int main(int c, char** args) {
     cin.ignore();
   }
 
-  packageManager.insert(new Ping(1), new Callback([] (const header_t& header, AbstractPacket& packet) {
-    cout << "THIS FUCKER WORKS!!" << endl;
-    cout << "Packet is: " << packet.getValue<Ping>().num << endl;
-    return 0;
-  }));
+  packageManager.insert(new Ping(1), new Callback((callback_t)testingFunction));
   delete callResult; callResult = NULL;
   callResult = packageManager.get(a);
   value = callResult->callFunction(head, a);

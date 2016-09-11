@@ -22,8 +22,6 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/HeaderPacket.h>
 
-#include <functional>
-
 namespace Comnet {
 
 class AbstractPacket;
@@ -39,26 +37,27 @@ typedef error_t (*callback_t)(const header_t&, const AbstractPacket&);
    callbacks from within the protocol library.
 */
 class Callback {
-  typedef std::function<error_t(const header_t&, AbstractPacket&)> Func;
 public:
   /**
      Default Constructor.
    */
   Callback();
-
-  Callback(Func call);
+  /**
+     Call Constructor.
+   */
+  Callback(callback_t call);
 
   ~Callback();
   /**
      Set the callback listener in this class.
    */
-  void setCallbackListener(Func call);
+  void setCallbackListener(callback_t call);
   /**
      Calls the function associated with a packet.
    */
-  error_t callFunction(const header_t& header, AbstractPacket& abPacket);
+  error_t callFunction(const header_t& header, const AbstractPacket& abPacket);
 private:
-  Func callback;
+  callback_t callback;
 };
 } // namespace Comnet
 #endif // __CALLBACK_H
