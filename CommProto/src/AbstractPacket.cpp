@@ -4,6 +4,7 @@
 // NOTE(): We will need to check this because g++ does not have functional like visual studio.
 //#include <tr1/functional>
 #include <CommProto/hash/NgcpHash.h>
+#include <CommProto/architecture/macros.h>
 
 // Type info from std library.
 #include <typeinfo>
@@ -15,7 +16,7 @@ namespace Comnet {
    Constructor for AbstractPacket.
 */
 AbstractPacket::AbstractPacket(const char* className)
-: typeId(Hash::ngcp_hash64((const char*)className) % 500)
+: typeId(Hash::ngcp_hash64((const char*)className) % BIT16_VALUE)
   { }
 
 
