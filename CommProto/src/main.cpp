@@ -25,15 +25,16 @@ using namespace Comnet;
 using namespace Comnet::Pkg;
 
 
-int apple(const header_t& gho, const Ping& pl) {
-  cout << "I got an apple " << pl.num << endl;
-  cout << "Test: " << pl.test << endl;
-  return pl.num;
+int apple(const header_t& gho, AbstractPacket& pl) {
+  cout << "I got an apple " << pl.getValue<Ping>().num << endl;
+  cout << "Test: " << pl.getValue<Ping>().test << endl;
+  return pl.getValue<Ping>().num;
 }
 
-int testingFunction(const header_t& header, const Ping& ping) {
+int testingFunction(const header_t& header, AbstractPacket& ping) {
+  ping.getValue<Pong>();
   cout << "I am a new testing function" << endl;
-  return ping.num;
+  return ping.getValue<Ping>().num;
 }
 
 // Class Ping Comparator.
@@ -58,9 +59,9 @@ static DoubleLinkedList<Ping*, PingComparator> pinger;
 
 class Storage {
 public:
-  static error_t storeFunction(const header_t& header, const Ping& ping) {
+  static error_t storeFunction(const header_t& header, AbstractPacket& ping) {
     cout << "Recieved ping" << endl;
-    pinger.insert((Ping *) &ping);
+    pinger.insert((Ping *) &(ping.getValue<Ping>()));
     return 0;
   }
 };
@@ -73,13 +74,13 @@ int main(int c, char** args) {
   Pong ponger('1');
 	header_t head;
   Callback call;
-	call.setCallbackListener((callback_t)apple);
+	call.setCallbackListener(apple);
 	cout << "Call: " << call.callFunction(head, d) << endl;
 
   PacketManager packageManager;
   cout << "inserting..." << endl;
   // Sample test of storing Ping Callback pair. Should be done this way.
-  packageManager.insert(new Ping(0), NULL);
+  //packageManager.insert(new Ping(0), NULL);
   cout << "finished inserting" << endl;
   int value;
   cout << "Yep" << endl;
@@ -91,7 +92,11 @@ int main(int c, char** args) {
     cin.ignore();
   }
 
-  packageManager.insert(new Ping(1), new Callback((callback_t)testingFunction));
+  packageManager.insert(new Ping(1), new Callback([] (const header_t& header, AbstractPacket& packet) {
+    Ping& ping = packet.getValue<Ping>();
+    cout << "This stuff now works: " << ping.num << endl;
+    return -1;
+  }));
   delete callResult; callResult = NULL;
   callResult = packageManager.get(a);
   value = callResult->callFunction(head, a);
@@ -138,13 +143,13 @@ int main(int c, char** args) {
   CommNode& newComms2 = comm2;
   // Can now replace queues.
   newComms2.replaceReceiveQueue(new LinkedQueue<AbstractPacket*>());
-  bool success = newComms2.linkCallback(new Ping(0), new Callback((callback_t) Storage::storeFunction));
+  bool success = newComms2.linkCallback(new Ping(0), new Callback(Storage::storeFunction));
   if (success) {
     COMMS_DEBUG("\nSuccessfully added!\n");
   }
   
   COMMS_DEBUG("Adding callback\n");
-  newComms1.linkCallback(new Ping(0), new Callback((callback_t) Storage::storeFunction));
+  newComms1.linkCallback(new Ping(0), new Callback(Storage::storeFunction));
   COMMS_DEBUG("Callback added!\n");
   success = newComms1.initConnection(SERIAL_LINK, "COM3", "", 115200);
   cout << "newComms1 init: " << success << endl;

@@ -22,7 +22,10 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/HeaderPacket.h>
 
+#include <functional>
+
 namespace Comnet {
+
 
 class AbstractPacket;
 
@@ -30,13 +33,14 @@ class AbstractPacket;
 typedef int error_t;
 // Callback function pointer, it is not generic, it is just used as 
 // a reference to user defined callback functions.
-typedef error_t (*callback_t)(const header_t&, const AbstractPacket&);
+//typedef error_t (*callback_t)(const header_t&, const AbstractPacket&);
 
 /**
    Callback is a class intended to be used for storing functions that request 
    callbacks from within the protocol library.
 */
 class Callback {
+  typedef std::function < error_t (const header_t&, AbstractPacket&) > CallbackFunc;
 public:
   /**
      Default Constructor.
@@ -45,19 +49,19 @@ public:
   /**
      Call Constructor.
    */
-  Callback(callback_t call);
+  Callback(CallbackFunc call);
 
   ~Callback();
   /**
      Set the callback listener in this class.
    */
-  void setCallbackListener(callback_t call);
+  void setCallbackListener(CallbackFunc call);
   /**
      Calls the function associated with a packet.
    */
   error_t callFunction(const header_t& header, const AbstractPacket& abPacket);
 private:
-  callback_t callback;
+  CallbackFunc callback;
 };
 } // namespace Comnet
 #endif // __CALLBACK_H

@@ -25,13 +25,15 @@
 namespace Comnet {
 
 
-Callback::Callback(callback_t call)
-: callback((callback_t)call)
+Callback::Callback(CallbackFunc call)
+: callback(call)
   { }
 
 
 Callback::Callback()
-: callback(NULL)
+: callback( [] (const header_t& header, AbstractPacket& packet) {
+    return -100;
+  })
   { }
 
 
@@ -39,7 +41,7 @@ Callback::~Callback()
   { }
 
 
-void Callback::setCallbackListener(callback_t call) 
+void Callback::setCallbackListener(CallbackFunc call) 
   { callback = call; }
 
 
@@ -47,6 +49,6 @@ error_t Callback::callFunction(const header_t& header, const AbstractPacket& abP
   if (!callback) {
     return -1;
   }
-  return callback(header, abPacket); 
+  return callback(header, (AbstractPacket&) abPacket); 
 }
 } // namespace Comnet
