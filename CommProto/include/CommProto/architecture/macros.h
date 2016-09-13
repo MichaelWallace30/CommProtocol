@@ -22,6 +22,9 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
+// TODO(Garcia) : Will need to move these in another file soon.
+#define BIT16_VALUE 65536
+#define BIT32_VALUE 4294967296
 
 // A loose string copy as an alternative to 
 // the C library strcpy.
