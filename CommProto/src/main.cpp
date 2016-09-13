@@ -31,8 +31,7 @@ int apple(const header_t& gho, AbstractPacket& pl) {
   return pl.getValue<Ping>().num;
 }
 
-int testingFunction(const header_t& header, AbstractPacket& ping) {
-  ping.getValue<Pong>();
+int testingFunction(const header_t& header, Ping& ping) {
   cout << "I am a new testing function" << endl;
   return ping.getValue<Ping>().num;
 }
@@ -74,7 +73,7 @@ int main(int c, char** args) {
   Pong ponger('1');
 	header_t head;
   Callback call;
-	call.setCallbackListener(apple);
+	call.setCallbackListener((callback_t)testingFunction);
 	cout << "Call: " << call.callFunction(head, d) << endl;
 
   PacketManager packageManager;

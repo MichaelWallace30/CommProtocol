@@ -33,7 +33,7 @@ class AbstractPacket;
 typedef int error_t;
 // Callback function pointer, it is not generic, it is just used as 
 // a reference to user defined callback functions.
-//typedef error_t (*callback_t)(const header_t&, const AbstractPacket&);
+typedef error_t (*callback_t)(const header_t&, AbstractPacket&);
 
 /**
    Callback is a class intended to be used for storing functions that request 
