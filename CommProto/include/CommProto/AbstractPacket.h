@@ -24,6 +24,7 @@
 #include <CommProto/serialization/ObjectStream.h>
 
 #include <exception>
+#include <typeinfo>
 
 namespace Comnet {
 
