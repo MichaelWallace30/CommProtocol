@@ -18,6 +18,8 @@
 */
 #define _DEBUG 1
 #include <CommProto/network/Serial.h>
+#include <CommProto/network/Crc32.h>
+
 #include <CommProto/debug/CommsDebug.h>
 
 
@@ -337,19 +339,25 @@ closePortHelper(Serial& serial) {
 /***********************************************/
 /******************* Public  *******************/
 /***********************************************/
-Serial::Serial():CommsLink()
+Serial::Serial()
 {		  
-  parser = Parser();
   connectionEstablished = false;
   hSerial.serial_s = SERIAL_OPEN;
-  
+  id = -1;
+}
+
+Serial::Serial(uint32_t id)
+: id(id)
+{
+  connectionEstablished = false;
+  hSerial.serial_s = SERIAL_OPEN;
 }
 
 
 Serial::~Serial() {  }
 
 
-bool Serial::initConnection(const char* port, const char* address, uint32_t baudrate)
+bool Serial::openConnection(const char* port, const char* address, uint32_t baudrate)
 { 
   
   //check os here

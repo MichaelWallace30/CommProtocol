@@ -33,7 +33,7 @@ typedef serial_t xbee_serial_t;
 
 #define XBEE_TX_BUFFER_LENGTH        512
 
-#define XBEE_MS_TIMER_RESOLUTION 16
+#define XBEE_MS_TIMER_RESOLUTION     16
 
 /*
   xbee error enumerator. Used in xbee/zigbee/digimesh functions.

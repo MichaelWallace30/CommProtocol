@@ -9,6 +9,7 @@
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH
 #define CRC32_SIZE 4
 #define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE + CRC32_SIZE
+#define TERMINAL_SEQUENCE_SIZE 3		
 /** 
     Will specify what type of packet we are sending. This will ensure that PacketType is out there somewhere
     and that the user will specify the Class name. This will likely turn into a

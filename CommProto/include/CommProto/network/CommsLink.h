@@ -26,7 +26,7 @@
 #include <CommProto/architecture/api.h>
 #include <CommProto/HeaderPacket.h>
 
-#define MAX_CONNECTIONS 25
+#define MAX_CONNECTIONS 32
 
 namespace Comnet {
 namespace Network {

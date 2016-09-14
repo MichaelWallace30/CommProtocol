@@ -112,5 +112,9 @@ _COMNET_PUBLIC_API_
 	  } \
         }
 
-
+#define cleanupListPointerAttributes(listPointer) { \
+          for (int32_t i = 0; i < listPointer->getSize(); ++i) { \
+            delete listPointer->at(i); \
+          } \
+        }
 #endif // __MACROS_H

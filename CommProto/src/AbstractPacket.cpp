@@ -6,9 +6,6 @@
 #include <CommProto/hash/NgcpHash.h>
 #include <CommProto/architecture/macros.h>
 
-// Type info from std library.
-#include <typeinfo>
-
 namespace Comnet {
 
 

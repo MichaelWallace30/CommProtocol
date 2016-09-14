@@ -15,3 +15,5 @@
 
   To be continued...
 */
+
+namespace Commnet = Comnet;

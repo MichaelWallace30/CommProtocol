@@ -20,20 +20,21 @@
 #define UDP_H
 
 /* User Includes */
-#include <CommProto/network/CommsLink.h>
 #include <CommProto/architecture/connection/socket-config.h>
+#include <CommProto/HeaderPacket.h>
 #include <CommProto/architecture/macros.h>//str_length(char*,int)
 #include <stdio.h>//printf
 #include <stdlib.h>//atoi
 #include <CommProto/debug/CommsDebug.h>
 
 #define ADDRESS_LENGTH 16
+#define MAX_CONNECTIONS 32
 
 namespace Comnet {
 namespace Network {
 
 
-class UDP : public CommsLink {
+class UDP {
 private:
   
   

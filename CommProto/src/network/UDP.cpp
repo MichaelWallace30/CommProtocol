@@ -47,7 +47,6 @@ bool UDP::udp_open(int* fd)
 /******************* Public  *******************/
 /***********************************************/
 UDP::UDP() 
-: CommsLink()
 {
   //visual studio 2013 is having issues init array to 0
   //error is "cannot specify initializer of arrays knwon issues with 2013
@@ -64,6 +63,7 @@ UDP::~UDP()
 {	
   closeSocket(fd);
 }
+
 
 bool UDP::initConnection(const char* port, const char* address, uint32_t baudrate)
 {	
@@ -123,12 +123,14 @@ bool UDP::addAddress(uint8_t destID, const char* address, uint16_t port)
     conn[destID].socket_address.sin_port = htons(port);
     conn[destID].socket_address.sin_addr.s_addr = inet_addr((char*)address);
     conn[destID].socket_status = SOCKET_CONNECTED;
+
     return true;
   }
   
   //already connected node or address is invalid
   return false;	
 }
+
 
 bool UDP::removeAddress(uint8_t destID)
 {  
@@ -139,6 +141,7 @@ bool UDP::removeAddress(uint8_t destID)
 
   return false;
 }
+
 
 bool UDP::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
 {
@@ -161,6 +164,7 @@ bool UDP::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
 
   return false;
 }
+
 
 bool UDP::recv(uint8_t* rxData, uint32_t* rxLength)
 {

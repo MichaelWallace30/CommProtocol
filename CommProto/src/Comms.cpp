@@ -1,8 +1,8 @@
 #include <CommProto/Comms.h>
 #include <CommProto/architecture/macros.h>
 
-#include <CommProto/network/UDP.h>
-#include <CommProto/network/Serial.h>
+#include <CommProto/network/UDPLink.h>
+#include <CommProto/network/SerialLink.h>
 
 #include <CommProto/debug/CommsDebug.h>
 
@@ -150,7 +150,7 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 			if (length < ADDRESS_LENGTH)
 			{	
 			  COMMS_DEBUG("UDP connection.\n");
-				connectionLayer = new UDP();
+				connectionLayer = new UDPLink();
 				return connectionLayer->initConnection(port, address);
 			}
 			break;
@@ -161,7 +161,7 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 			str_length(address, length);
 			if (length < ADDRESS_LENGTH)
 			{
-				connectionLayer = new Serial();
+				connectionLayer = new SerialLink();
 				return connectionLayer->initConnection(port, NULL, baudrate);
 			}
 			break;
