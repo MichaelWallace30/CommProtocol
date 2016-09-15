@@ -3,7 +3,10 @@ cmake_minimum_required( VERSION 2.8 )
 project( "NGCP-Comnet-v2" )
 
 # Must set this policy to interpret if() arguments as variables and/or kewords when unquoted.
-cmake_policy(SET CMP0054 OLD)
+# Must check if the version is greater than 3.0.2 to use CMP0054 OLD policy
+if (CMAKE_VERSION VERSION_GREATER 3.0.2 )
+  cmake_policy(SET CMP0054 OLD)
+endif()
 # define a few variables.
 
 # Set options at build time. These options will allow the user to build the file in which ever 
