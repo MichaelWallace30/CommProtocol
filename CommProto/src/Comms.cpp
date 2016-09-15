@@ -34,7 +34,7 @@ void* Comms::commuincationHelperRecv(void* context)
 /** function for communication thread */
 void* Comms::commuincationHandlerSend()
 {
-	while (isRunning)
+	while (this->getIsRunning())
 	{
 		if (!sendQueue->isEmpty())
 		{
@@ -50,7 +50,7 @@ void* Comms::commuincationHandlerSend()
 
 /** function for communication thread */
 void* Comms::commuincationHandlerRecv() {
-  while (isRunning) {
+  while (this->getIsRunning()) {
     //
     // decrtyp object stream here with call
     //
@@ -120,8 +120,6 @@ Comms::Comms(uint8_t platformID)
 {
 	this->recvQueue = new AutoQueue <AbstractPacket*>;
 	this->sendQueue = new AutoQueue <ObjectStream*>;
-	isRunning = false;
-	isPaused = false;
 	mutex_init(&sendMutex);
 	mutex_init(&recvMutex);
 	connectionLayer = NULL;
@@ -129,7 +127,6 @@ Comms::Comms(uint8_t platformID)
 
 Comms::~Comms()
 {
-	isRunning = false;
 	free_pointer(connectionLayer);
 	mutex_destroy(&sendMutex);
 	mutex_destroy(&recvMutex);
@@ -232,17 +229,17 @@ int32_t Comms::run()
 {
 	thread_create(&this->communicationThreadSend, commuincationHelperSend, this);
 	thread_create(&this->communicationThreadRecv, commuincationHelperRecv, this);
-	isRunning = true;
-
-	return 1;
+	return CommNode::run();
 }
 
 
 int32_t Comms::stop()
 {
-	isRunning = false;
-	return 1;
+	return CommNode::stop();
 }
 
 
-
+int32_t Comms::pause()
+{
+  return CommNode::pause();
+}

@@ -1,5 +1,5 @@
 /*
-  UDP configurations.
+  Error status.
 
   Copyright (C) 2016  Michael Wallace, Mario Garcia.
 
@@ -16,34 +16,34 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __LOG_STATUS_H
-#define __LOG_STATUS_H
+#ifndef __ERROR_STATUS_H
+#define __ERROR_STATUS_H
 
+#include <CommProto/debug/Log.h>
 
 namespace Comnet {
 namespace Debug {
 
-class Log;
-
 
 /**
-  The Log status for the Log object.
+  Error codes.
 */
-enum LogStatus {
-  LOG_NOTHING,
-  LOG_SIMPLE,
-  LOG_NOTIFY,
-  LOG_WARNING,
-  LOG_ERROR,
+enum ErrorStatus {
+  ERR_NONE,
+  ERR_NO_REACH,
+  ERR_NO_RESPOND,
+  ERR_UNKNOWN,
 };
 
 
 /**
-  Identifier for logs.
+  Error Message that can be sent to the Logger.
 */
-
-LogStatus getLogStatus(Log& log);
-
+class Error : public Log {
+public:
+  
+private:
+};
 } // namespace Debug
 } // namespace Comnet
-#endif //__LOG_STATUS_H
+#endif // __ERROR_STATUS_H

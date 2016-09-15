@@ -56,10 +56,6 @@ namespace Comnet {
 		mutex_t sendMutex;
 		mutex_t recvMutex;
 
-		/** Boolean if communication thread running*/
-		bool isRunning;
-		/** Check if the program is paused*/
-		bool isPaused;
 		/** Encryption key*/
 		uint8_t key[KEY_LENGTH];
 		/** Method to read key form text file*/
@@ -114,7 +110,7 @@ namespace Comnet {
 		/** Method to start communication*/
 		int32_t run();
 		/** Method to toggle pause communication*/
-		int32_t pause(){ return 0; }
+		int32_t pause();
 		/** Method to stop communication*/
 		int32_t stop();
 
