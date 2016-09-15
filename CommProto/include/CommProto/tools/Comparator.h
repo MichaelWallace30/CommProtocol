@@ -1,10 +1,28 @@
+/*
+  Comparator interface.
+
+  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef __COMPARATOR_H
 #define __COMPARATOR_H
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
-#define COMPARATOR_NOT_DEFINED -999
+#define COMPARATOR_NOT_DEFINED  -999
 
 #define _LESS_THAN                -1
 #define _EQUAL_TO                  0
