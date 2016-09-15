@@ -167,12 +167,16 @@ set (NGCP_GLOB
   ${COMMPROTO_PKG_SOURCES}
   ${DEBUG_HEADERS})
 
-add_library(CommProto_so SHARED
-  ${NGCP_GLOB})
+# Static library (.a for linux or .lib for Windows).
+add_library(CommProtoStatic  STATIC ${NGCP_GLOB})
 
-add_library(CommProto_lib STATIC
-  ${NGCP_GLOB})
+# Shared Library (.so for linux or .dll for Windows).
+add_library(CommProtoShared SHARED ${NGCP_GLOB})
 
+# This doesn't do anything really...
+target_link_libraries(CommProtoStatic CommProtoShared)
+
+# Executable Unit Test
 add_executable(CommProtoExe
   ${NGCP_GLOB}
    CommProto/src/main.cpp)

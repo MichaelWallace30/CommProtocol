@@ -41,8 +41,10 @@ enum LogStatus {
 /**
   Identifier for logs.
 */
-
 LogStatus getLogStatus(Log& log);
+
+Log& convertTo(LogStatus status, Log& log);
+
 
 } // namespace Debug
 } // namespace Comnet
