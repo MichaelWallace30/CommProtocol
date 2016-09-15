@@ -167,12 +167,12 @@ set (NGCP_GLOB
   ${COMMPROTO_PKG_SOURCES}
   ${DEBUG_HEADERS})
 
-add_library(NGCP_LIB_SO SHARED
+add_library(CommProto_so SHARED
   ${NGCP_GLOB})
 
-add_library(NGCP_LIB STATIC
+add_library(CommProto_lib STATIC
   ${NGCP_GLOB})
 
-add_executable(ngcpLibexe
+add_executable(CommProtoExe
   ${NGCP_GLOB}
    CommProto/src/main.cpp)
