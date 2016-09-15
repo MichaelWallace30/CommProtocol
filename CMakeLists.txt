@@ -150,8 +150,7 @@ if (${CMAKE_CXX_COMPILER_ID})
     source_group("Source Files\\pkg" FILES ${COMMPROTO_PKG_SOURCES})
 endif()
 
-
-add_executable(NGCP_LIB 
+set (NGCP_GLOB
   ${ARCHITECTURE_HEADERS}
   ${ARCHITECTURE_SOURCES}
   ${COMMPROTO_HEADERS}
@@ -166,5 +165,14 @@ add_executable(NGCP_LIB
   ${SERIALIZATION_SOURCES}
   ${COMMPROTO_PKG_HEADERS}
   ${COMMPROTO_PKG_SOURCES}
-  ${DEBUG_HEADERS}
-  CommProto/src/main.cpp)
+  ${DEBUG_HEADERS})
+
+add_library(NGCP_LIB_SO SHARED
+  ${NGCP_GLOB})
+
+add_library(NGCP_LIB STATIC
+  ${NGCP_GLOB})
+
+add_executable(ngcpLibexe
+  ${NGCP_GLOB}
+   CommProto/src/main.cpp)
