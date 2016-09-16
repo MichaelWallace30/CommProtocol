@@ -37,21 +37,12 @@ typedef serial_t xbee_serial_t;
 
 
 /*
-  Xbee bool enums.
-*/
-enum xbee_bool {
-  XTRUE = 1,
-  XFALSE = 0,
-};
-
-
-/*
   xbee error enumerator. Used in xbee/zigbee/digimesh functions.
   This will grow as we continue through the functionality of the XBee protocol.
  */
 enum xbee_errors {
   XBEE_SUCCESS                          =    0,
-  XBEE_FAILED                           =    1,
+  XBEE_FAILED                           =   -1,
   XBEE_INVALID                          =   -2,
   XBEE_IO                               =   -3,
   XBEE_UNKNOWN                          =   -4,
@@ -59,10 +50,10 @@ enum xbee_errors {
 };
 
 typedef enum xbee_errors xbee_err;
-typedef enum xbee_bool xbool;
+typedef int32_t bool_t;
 
-#define XBEE_TRUE                    XTRUE
-#define XBEE_FALSE                   XFALSE
+#define XBEE_TRUE                    1
+#define XBEE_FALSE                   0
 
 COM_EXTERN_C
 
@@ -74,7 +65,7 @@ xbee_err xbee_write(xbee_serial_t* serial, const void* buffer, uint32_t length);
 xbee_err xbee_read(xbee_serial_t* serial, void* buffer, uint32_t length);
 
 const char* xbee_get_portname(xbee_serial_t* serial);
-xbool xbee_invalid(xbee_serial_t* serial);
+bool_t xbee_invalid(xbee_serial_t* serial);
 
 int32_t xbee_free_tx(xbee_serial_t* serial);
 int32_t xbee_used_tx(xbee_serial_t* serial);
@@ -85,10 +76,10 @@ int32_t xbee_used_rx(xbee_serial_t* serial);
 int32_t xbee_flush_rx(xbee_serial_t* serial);
 
 int32_t xbee_change_baudrate(xbee_serial_t* serial);
-int32_t xbee_break(xbee_serial_t* serial, xbool enabled);
-int32_t xbee_flowcontrol(xbee_serial_t* serial, xbool enabled);
+int32_t xbee_break(xbee_serial_t* serial, bool_t enabled);
+int32_t xbee_flowcontrol(xbee_serial_t* serial, bool_t enabled);
 
-int32_t xbee_set_rts(xbee_serial_t* serial, xbool asserted);
+int32_t xbee_set_rts(xbee_serial_t* serial, bool_t asserted);
 int32_t xbee_get_cts(xbee_serial_t* serial);
 
 #define ZCL_TIME_EPOCH_DELTA	ZCL_TIME_EPOCH_DELTA_1970

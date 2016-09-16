@@ -15,7 +15,7 @@
 #define XBEE_ASSERT(ptr) do { if (xbee_invalid(ptr)) return XBEE_INVALID; } while (0)
 
 
-xbool xbee_invalid(xbee_serial_t* serial) {
+bool_t xbee_invalid(xbee_serial_t* serial) {
   if (serial && serial->fd >= 0) {
     return XBEE_FALSE;
   }
