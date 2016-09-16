@@ -26,6 +26,9 @@
 #include <CommProto/architecture/os/arch.h>
 #include <stdint.h>
 
+#define COMM_PROGRAM_START_TIME __TIME__
+#define COMM_PROGRAM_START_DATE __DATE__
+
 #if COM_TARGET_OS == COM_OS_WINDOWS 
  #include <CommProto/architecture/os/windows-config/win32-config.h>
 #elif COM_TARGET_OS == COM_OS_LINUX

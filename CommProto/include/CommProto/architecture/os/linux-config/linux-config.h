@@ -25,6 +25,8 @@
 
 #include <assert.h>
 
+#define FUNCTOR_NAME __FUNCTION__
+
 #if (COM_DISABLE_ASSERT > 0)
  #define COM_ASSERT(cond)
 #else

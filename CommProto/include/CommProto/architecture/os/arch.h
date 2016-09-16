@@ -27,7 +27,8 @@
 #define COM_OS_WINDOWS        1
 #define COM_OS_LINUX          2
 #define COM_OS_APPLE          3
-#define COM_OS_QT             4
+#define COM_OS_QX             4
+#define COM_OS_BSD            5
 
 // determine our target platform that is going to be used for the enviroment.
 #define COM_TARGET_OS         COM_OS_UNKNOWN

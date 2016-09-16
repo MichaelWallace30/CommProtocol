@@ -61,7 +61,7 @@ xbee_err xbee_open(xbee_serial_t* serial, speed_t baudrate) {
 
 xbee_err xbee_close(xbee_serial_t* serial) {
   int result = 0;
-  XBEE_CHECK(serial);
+  XBEE_ASSERT(serial);
   
   if (close(serial->fd) == -1) {
     result = -errno;

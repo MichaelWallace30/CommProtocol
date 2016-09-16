@@ -24,10 +24,13 @@
 
 #if (COM_TARGET_OS == COM_OS_WINDOWS)
 
-
 #include <assert.h>
 
 #define WIN32_LEAN_AND_MEAN
+
+#include <Windows.h>
+
+#define FUNCTOR_NAME __FUNCTION__
 
 #if (COM_DISABLE_ASSERT > 0)
  #define COM_ASSERT(cond)

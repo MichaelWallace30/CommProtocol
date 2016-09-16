@@ -23,6 +23,9 @@
 
 #if (COM_TARGET_OS == COM_OS_APPLE)
 
+
+#define FUNCTOR_NAME __FUNCTION__
+
 #if (COM_DISABLE_ASSERT > 0)
  #define COM_ASSERT(cond)
 #else

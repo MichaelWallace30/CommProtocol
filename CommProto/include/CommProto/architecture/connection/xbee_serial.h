@@ -39,7 +39,7 @@ typedef serial_t xbee_serial_t;
 /*
   Xbee bool enums.
 */
-enum xbool {
+enum xbee_bool {
   XTRUE = 1,
   XFALSE = 0,
 };
@@ -51,13 +51,16 @@ enum xbool {
   xbee error enumerator. Used in xbee/zigbee/digimesh functions.
   This will grow as we continue through the functionality of the XBee protocol.
  */
-enum xbee_err {
+enum xbee_errors {
   XBEE_SUCCESS                          =    1,
   XBEE_FAILED                           =    0,
   XBEE_INVALID                          =   -1,
   XBEE_UNKNOWN                          =   -2,
   
 };
+
+typedef enum xbee_errors xbee_err;
+typedef enum xbee_bool xbool;
 
 
 COM_EXTERN_C

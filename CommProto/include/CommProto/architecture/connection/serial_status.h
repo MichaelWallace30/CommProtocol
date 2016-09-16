@@ -22,7 +22,7 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
-enum serial_status {
+enum serial_status_t {
 
   SERIAL_OPEN,
   SERIAL_CLOSED,
@@ -31,6 +31,7 @@ enum serial_status {
 
 };
 
+typedef enum serial_status_t serial_status;
 typedef int32_t port_id;
 
 #endif // __SERIAL_STATUS_H
