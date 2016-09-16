@@ -39,6 +39,7 @@ struct serial_info {
   serial_status serial_s;
   port_id fd;
 
+  char device[50];
 };
 
 typedef struct serial_info serial_t;

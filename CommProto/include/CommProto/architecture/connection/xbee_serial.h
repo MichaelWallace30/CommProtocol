@@ -52,8 +52,11 @@ enum xbool {
   This will grow as we continue through the functionality of the XBee protocol.
  */
 enum xbee_err {
-  XBEE_SUCCESS                          = 1,
-  XBEE_UNKNOWN                          = -1,
+  XBEE_SUCCESS                          =    1,
+  XBEE_FAILED                           =    0,
+  XBEE_INVALID                          =   -1,
+  XBEE_UNKNOWN                          =   -2,
+  
 };
 
 
