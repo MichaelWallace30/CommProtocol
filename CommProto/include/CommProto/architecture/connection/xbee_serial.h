@@ -44,8 +44,6 @@ enum xbee_bool {
   XFALSE = 0,
 };
 
-#define XBEE_TRUE                    xbool::XTRUE
-#define XBEE_FALSE                   xbool::XFALSE
 
 /*
   xbee error enumerator. Used in xbee/zigbee/digimesh functions.
@@ -55,13 +53,16 @@ enum xbee_errors {
   XBEE_SUCCESS                          =    1,
   XBEE_FAILED                           =    0,
   XBEE_INVALID                          =   -1,
-  XBEE_UNKNOWN                          =   -2,
+  XBEE_IO                               =   -2,
+  XBEE_UNKNOWN                          =   -3,
   
 };
 
 typedef enum xbee_errors xbee_err;
 typedef enum xbee_bool xbool;
 
+#define XBEE_TRUE                    XTRUE
+#define XBEE_FALSE                   XFALSE
 
 COM_EXTERN_C
 
