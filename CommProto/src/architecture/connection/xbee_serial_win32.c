@@ -6,6 +6,8 @@
 #include <limits.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define XBEE_ASSERT(ptr) do { if (xbee_invalid(ptr)) return XBEE_INVALID; } while (0)
 
@@ -15,6 +17,33 @@ xbool xbee_invalid(xbee_serial_t* serial) {
   }
 
   return XBEE_TRUE;
+}
+
+
+int32_t xbee_change_baudrate(xbee_serial_t* serial , speed_t baudrate) {
+  DCB dcb;
+  
+  if (serial == NULL || serial->h_serial == NULL) {
+    return XBEE_INVALID;
+  }
+
+  memset(&dcb, 0, sizeof(dcb));
+  dcb.DCBlength = sizeof(dcb);
+  if (!GetCommState(serial->h_serial, &dcb)) {
+    return XBEE_IO;
+  }
+  dcb.BaudRate = baudrate;
+  dcb.ByteSize = 8;
+  dcb.Parity = NOPARITY;
+  dcb.StopBits = ONESTOPBIT;
+  dcb.fAbortOnError = FALSE;
+
+  if (!SetCommState(serial->h_serial, &dcb)) {
+    return XBEE_IO;
+  }
+
+  serial->baudrate = baudrate;
+  return XBEE_SUCCESS;
 }
 
 
@@ -35,7 +64,7 @@ xbee_err xbee_open(xbee_serial_t* serial, speed_t baudrate) {
     printf("%s: port already open (h_com=%p)\n", FUNCTOR_NAME, h_com);
 #endif 
   } else {
-    snprintf(buffer, sizeof buffer, "\\\\.\\COM%u", serial->h_serial);
+    _snprintf(buffer, sizeof buffer, "\\\\.\\COM%u", serial->h_serial);
     h_com = CreateFile(buffer, GENERIC_READ | GENERIC_WRITE,  0, NULL, 
                    OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
