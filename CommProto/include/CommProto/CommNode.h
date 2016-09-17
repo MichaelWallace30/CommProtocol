@@ -52,15 +52,15 @@ public:
   CommNode()
   : uniqueId(numberOfNodes++)
   , nodeId(0)
-  , isRunning(false)
-  , isPaused(true)
+  , running(false)
+  , paused(true)
     { }
 
   CommNode(const uint32_t platformId)
   : uniqueId(numberOfNodes++)
   , nodeId(platformId)
-  , isRunning(false)
-  , isPaused(true)
+  , running(false)
+  , paused(true)
     { }
   /**
      Polymorphic Destructor.
@@ -150,8 +150,8 @@ public:
      Run the node. Threads may be implemented.
    */
   virtual int32_t run() {
-    isRunning = true;
-    isPaused = false;
+    running = true;
+    paused = false;
 
     return 0;
   }
@@ -160,8 +160,8 @@ public:
      Pause the node threads and any process.
    */
   virtual int32_t pause() {
-    isRunning = false;
-    isPaused = true;
+    running = false;
+    paused = true;
     
     return 0;
   }
@@ -170,8 +170,8 @@ public:
     Stop the node threads and any process.
   */
   virtual int32_t stop() {
-    isRunning = false;
-    isPaused = false;
+    running = false;
+    paused = false;
 
     return 0;
   }
@@ -194,11 +194,11 @@ public:
   int32_t getUniqueId() const 
     { return this->uniqueId; }
 
-  bool getIsRunning()
-    { return isRunning; }
+  bool isRunning()
+    { return running; }
 
-  bool getIsPaused()
-    { return isPaused; }
+  bool isPaused()
+    { return paused; }
 protected:
   /**
   Packet Manager is a manager controller, designed to hold packets for the node.
@@ -225,11 +225,11 @@ private:
   /**
   Check if this node is currently running.
   */
-  bool isRunning;
+  bool running;
   /**
   Check if ths node is paused.
   */
-  bool isPaused;
+  bool paused;
 };
 
 } // Comnet namespace

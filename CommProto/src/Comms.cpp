@@ -34,7 +34,7 @@ void* Comms::commuincationHelperRecv(void* context)
 /** function for communication thread */
 void* Comms::commuincationHandlerSend()
 {
-	while (this->getIsRunning())
+	while (this->isRunning())
 	{
 		if (!sendQueue->isEmpty())
 		{
@@ -50,7 +50,7 @@ void* Comms::commuincationHandlerSend()
 
 /** function for communication thread */
 void* Comms::commuincationHandlerRecv() {
-  while (this->getIsRunning()) {
+  while (this->isRunning()) {
     //
     // decrtyp object stream here with call
     //
