@@ -167,11 +167,13 @@ set (NGCP_GLOB
   ${COMMPROTO_PKG_SOURCES}
   ${DEBUG_HEADERS})
 
+# Shared Library (.so for linux or .dll for Windows).
+add_library(CommProtoShared SHARED ${NGCP_GLOB})
+
+
 # Static library (.a for linux or .lib for Windows).
 add_library(CommProtoStatic  STATIC ${NGCP_GLOB})
 
-# Shared Library (.so for linux or .dll for Windows).
-add_library(CommProtoShared SHARED ${NGCP_GLOB})
 
 # This doesn't do anything really...
 target_link_libraries(CommProtoStatic CommProtoShared)
