@@ -20,6 +20,8 @@
 #define __XBEE_H
 
 #include <CommProto/architecture/connection/xbee_serial.h>
+#include <CommProto/architecture/connection/wpan/wpan.h>
+
 
 namespace Comnet {
 namespace Network {
@@ -42,14 +44,18 @@ public:
   ~XBee();
 
   bool initialize(const char* port, speed_t baudrate);
+
   bool send(uint8_t destId, uint8_t* txData, uint32_t txLength);
+
   bool recv(uint8_t* rxData, uint32_t* rxLength);
+
   bool closePort();
 
 private:
   /**
    */
   xbee_serial_t serial;
+  xbee_dev_t device;
 };
 } // namespace Experimental
 } // namespace Network
