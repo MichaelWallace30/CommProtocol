@@ -3,11 +3,13 @@
 namespace Comnet {
 namespace Network {
 
+
 using namespace Experimental;
 
 XBee::XBee()
 {
 }
+
 
 bool XBee::initialize(const char* port, speed_t baudrate) {
   bool success;
@@ -19,5 +21,15 @@ bool XBee::initialize(const char* port, speed_t baudrate) {
   return success;  
 }
 
+
+bool XBee::closePort() {
+  bool success = false;
+
+  if (xbee_close(&serial) == XBEE_SUCCESS) {
+    success = true;
+  }
+
+  return success;
+}
 } // namespace Network
 } // namespace Comnet
