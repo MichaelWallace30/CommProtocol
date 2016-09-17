@@ -28,22 +28,24 @@ namespace Experimental {
 
 /**
    XBee communications module. Used for any Xbee protocol connection made to 
-   other devices.
+   other devices. Still needs work.
 */
 class XBee {
 public:
   /**
      Default constructor.
    */
-  XBee() 
-    { }
+  XBee();
   /**
      Default destructor.
    */
-  ~XBee()
-    { }
+  ~XBee();
 
-  
+  bool initialize(const char* port, speed_t baudrate);
+  bool send(uint8_t destId, uint8_t* txData, uint32_t txLength);
+  bool recv(uint8_t* rxData, uint32_t* rxLength);
+  bool closePort();
+
 private:
   /**
    */

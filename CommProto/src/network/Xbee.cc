@@ -1,0 +1,23 @@
+#include <CommProto/network/XBee.h>
+
+namespace Comnet {
+namespace Network {
+
+using namespace Experimental;
+
+XBee::XBee()
+{
+}
+
+bool XBee::initialize(const char* port, speed_t baudrate) {
+  bool success;
+
+  if (xbee_open(&serial, baudrate) == XBEE_SUCCESS) {
+    success = true;
+  }
+
+  return success;  
+}
+
+} // namespace Network
+} // namespace Comnet
