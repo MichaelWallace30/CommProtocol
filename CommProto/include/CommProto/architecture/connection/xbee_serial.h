@@ -36,6 +36,20 @@ typedef serial_t xbee_serial_t;
 #define XBEE_MS_TIMER_RESOLUTION     16
 
 
+// Hex dump declarations.
+#define HEX_DUMP_NONE                0x0000
+
+#define HEX_DUMP_OFFSET              0x0001
+
+#define HEX_DUMP_ADDR                0x0002
+
+#define HEX_DUMP_TAB                 0x0004
+
+
+// Delta time for zigbee
+#define ZIGBEE_TIME_DELTA_1970       ((UINT32_C(30) * 365 + 7) * 24 * 60 * 60)
+
+
 /*
   xbee error enumerator. Used in xbee/zigbee/digimesh functions.
   This will grow as we continue through the functionality of the XBee protocol.
@@ -82,6 +96,14 @@ int32_t xbee_flowcontrol(xbee_serial_t* serial, bool_t enabled);
 int32_t xbee_set_rts(xbee_serial_t* serial, bool_t asserted);
 int32_t xbee_get_cts(xbee_serial_t* serial);
 
+
+uint32_t xbee_seconds(void);
+uint32_t xbee_milliseconds(void);
+
+int xbee_hex_str_to_bytes(const char* ptr);
+int xbee_readline(char* buffer, int32_t length);
+
+void hex_dump(const void* addr, uint16_t length, uint16_t flags);
 
 END_EXTERN_C
 
