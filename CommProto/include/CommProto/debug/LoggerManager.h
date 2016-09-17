@@ -19,9 +19,14 @@
 #ifndef __LOGGER_MANAGER_H
 #define __LOGGER_MANAGER_H
 
+#include <CommProto/architecture/os/include_defines.h>
+
 namespace Comnet {
 namespace Debug {
 
+
+class LoggerManager {
+};
 } // namespace Debug
 } // namespace Comnet 
 #endif // __LOGGER_MANAGER_H

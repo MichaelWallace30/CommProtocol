@@ -4,6 +4,8 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
+#include <CommProto/debug/LogStatus.h>
+
 namespace Comnet {
 namespace Debug {
 
@@ -12,7 +14,7 @@ namespace Debug {
    Log interface is a notifier. It provides notifications to the Logger Manager, 
    which in turn will determine what to do with the message received.
 */
-class _COMNET_INTERFACE_ Log {
+_COMNET_ABSTRACT_ class Log {
 public:
   /**
      Default Constructor.
@@ -27,6 +29,9 @@ public:
   virtual char* trace() = 0;
 
   virtual void logMessage(const char* message) = 0;
+
+protected:
+  LogStatus logStatus;
 };
 } // Debug namespace
 } // Comnet namespace

@@ -82,7 +82,7 @@ int32_t xbee_flowcontrol(xbee_serial_t* serial, bool_t enabled);
 int32_t xbee_set_rts(xbee_serial_t* serial, bool_t asserted);
 int32_t xbee_get_cts(xbee_serial_t* serial);
 
-#define ZCL_TIME_EPOCH_DELTA	ZCL_TIME_EPOCH_DELTA_1970
+
 END_EXTERN_C
 
 #endif // __XBEE_SERIAL_H

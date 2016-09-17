@@ -25,7 +25,6 @@ namespace Debug {
 
 class Log;
 
-
 /**
   The Log status for the Log object.
 */
@@ -44,7 +43,6 @@ enum LogStatus {
 LogStatus getLogStatus(Log& log);
 
 Log& convertTo(LogStatus status, Log& log);
-
 
 } // namespace Debug
 } // namespace Comnet

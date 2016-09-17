@@ -19,9 +19,53 @@
 #ifndef __LOGGER_H
 #define __LOGGER_H
 
+#include <CommProto/architecture/os/include_defines.h>
+
 namespace Comnet {
 namespace Debug {
 
+
+class Log;
+class LoggerManager;
+
+
+struct log_message_t {
+  float timestamp;
+  char  message            [64];
+  char  messageTitle       [32];
+};
+
+/**
+  Logger is a message handler for the internals of the CommsLibrary. It is intented to 
+  store messages, execute commands when needed, and so on.
+*/
+class Logger {
+public:
+  void digestLog(Log* log);
+  
+  log_message_t obtainMessage(Log* log, log_message_t& message);
+
+  int32_t executeLog(Log* log);
+
+  /**
+    Stores the log with an id, which is then returned, as well as stored in this Logger.
+   */
+  int32_t storeLog(Log* log);
+
+  Log* getLog(int32_t id);
+
+  /**
+    Send a command over, without the need to send in a Log object.
+   */
+  int32_t executeRawCommand(const char* command);
+private:
+
+  log_message_t* history [64];
+  /**
+    Display logs on the command prompt/shell.
+   */
+  bool notifications;
+};
 } // namespace Debug
 } // namespace Comnet
 #endif // __LOGGER_H

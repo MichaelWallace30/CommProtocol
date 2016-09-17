@@ -39,7 +39,7 @@ enum packet_data_status_t {
 /**
   Basic Socket Interface to handle TCP and UDP sockets.
 */
-_COMNET_PUBLIC_API_ class _COMNET_INTERFACE_ CommSocket {
+_COMNET_PUBLIC_API_  _COMNET_INTERFACE_  class CommSocket {
 public:
   virtual ~CommSocket() 
   { }

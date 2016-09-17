@@ -64,12 +64,12 @@ public:
   /**
      Reads output from the program, back to the user for evaluation.
    */
-  virtual bool read(char* buffer, int* intBuf);
+  virtual bool read(char* buffer, int intBuf);
 
   /**
     Start the connection via tcp.
    */
-  virtual bool startConnect(const char* address, uint16_t port);
+  virtual bool listenConnect(uint16_t port);
   
   /**
      Display, which will display information back to the user. Acts as a refresher to update the console.
@@ -91,7 +91,18 @@ protected:
   virtual void update();
 
 protected:
+  /**
+    The name of this console.
+   */
   char* console_title;
+  /**
+    Socket used to define this Console object.
+   */
+  CommSocket* socket;
+  /**
+    The unique id of this Console object.
+   */
+  uint32_t id;
 };
 }
 }
