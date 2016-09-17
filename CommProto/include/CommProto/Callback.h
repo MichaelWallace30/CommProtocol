@@ -35,6 +35,17 @@ class AbstractPacket;
 // a reference to user defined callback functions.
 typedef error_t (*callback_t)(const header_t&, AbstractPacket&);
 
+
+// Callback codes used for state machines in automating what may be done to the 
+// packets.
+enum CallbackCodes {
+  CALLBACK_SUCCESS                      = 0,
+  CALLBACK_FAIL                         = 1,
+  CALLBACK_STORE_PACKET                 = 3,
+  CALLBACK_DESTROY_PACKET               = 4,
+};
+
+
 /**
    Callback is a class intended to be used for storing functions that request 
    callbacks from within the protocol library.

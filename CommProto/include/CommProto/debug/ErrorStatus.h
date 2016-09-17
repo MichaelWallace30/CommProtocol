@@ -39,7 +39,6 @@ enum ErrorStatus {
   ERR_NO_RESPOND,
   ERR_UNKNOWN,
 };
-
 } // namespace Debug
 } // namespace Comnet
 #endif // __ERROR_STATUS_H

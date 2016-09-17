@@ -147,6 +147,9 @@ public:
    */
   virtual bool removeAddress(uint8_t destID) = 0;
   /**
+      NOTICE: BE SURE TO CALL THIS METHOD IN YOUR EXTENDED CLASS, IF YOU PLAN ON OVERRIDING THIS
+    FUNCTION.
+
      Run the node. Threads may be implemented.
    */
   virtual int32_t run() {
@@ -157,6 +160,9 @@ public:
   }
 
   /**
+      NOTICE: BE SURE TO CALL THIS METHOD IN YOUR EXTENDED CLASS, IF YOU PLAN ON OVERRIDING THIS
+    FUNCTION.
+
      Pause the node threads and any process.
    */
   virtual int32_t pause() {
@@ -167,6 +173,9 @@ public:
   }
 
   /**
+      NOTICE: BE SURE TO CALL THIS METHOD IN YOUR EXTENDED CLASS, IF YOU PLAN ON OVERRIDING THIS
+    FUNCTION.
+
     Stop the node threads and any process.
   */
   virtual int32_t stop() {

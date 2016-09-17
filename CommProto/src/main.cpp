@@ -28,7 +28,7 @@ using namespace Comnet::Pkg;
 int apple(const header_t& gho, AbstractPacket& pl) {
   cout << "I got an apple " << pl.getValue<Ping>().num << endl;
   cout << "Test: " << pl.getValue<Ping>().test << endl;
-  return pl.getValue<Ping>().num;
+  return CALLBACK_SUCCESS;
 }
 
 int testingFunction(const header_t& header, Ping& ping) {

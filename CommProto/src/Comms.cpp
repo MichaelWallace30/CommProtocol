@@ -51,24 +51,9 @@ void* Comms::commuincationHandlerSend()
 /** function for communication thread */
 void* Comms::commuincationHandlerRecv() {
   while (this->isRunning()) {
-    //
-    // decrtyp object stream here with call
-    //
-
-    //create abstract data
-    //figure out packet type
-    //unpack abstract data
-
-    //
-    // call linker here
-    //
-
-    //
-    // decide if orphan figure out about delteing temp if not orphan
-    //
     AbstractPacket* packet = NULL;
     //send data here
-	uint8_t streamBuffer[MAX_BUFFER_SIZE];
+	  uint8_t streamBuffer[MAX_BUFFER_SIZE];
     uint32_t recvLen = 0;
     connectionLayer->recv(streamBuffer, &recvLen);
     ObjectStream *temp = new ObjectStream();
@@ -94,13 +79,20 @@ void* Comms::commuincationHandlerRecv() {
           /*
             TODO(Wallace): This might need to run on a separate thread, or 
             on a new thread, to prevent it from stopping the receive handler.
+            User figures out what to do with the packet.
           */
           error = callback->callFunction(header, *packet);
           // Handle error.
-          // Determine what to do with the packet... Probably destroy it since it is being called.
+          switch (error) {
+            case CALLBACK_SUCCESS:
+              cout << "Successful callback" << endl; break;
+            default:  
+              cout << "Nothing" << endl;
+          };
+        } else {
+          // store the packet into the receive queue.
+          recvQueue->enQueue(packet);
         }
-        // Store the packet into the receive queue.
-        //recvQueue->enQueue(packet);
       } else {
         COMMS_DEBUG("Unknown packet recieved.\n");
       }	
