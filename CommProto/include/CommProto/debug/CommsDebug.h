@@ -60,8 +60,6 @@
 namespace Comnet {
 namespace Debug {
 
-
-
 } // Console namespace
 } // Comnet namespace
 

@@ -42,6 +42,8 @@ public:
    */
   ~XBee()
     { }
+
+  
 private:
   /**
    */

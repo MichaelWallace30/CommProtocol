@@ -22,6 +22,8 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/HeaderPacket.h>
 
+#include <CommProto/debug/ErrorStatus.h>
+
 #include <functional>
 
 namespace Comnet {
@@ -29,8 +31,6 @@ namespace Comnet {
 
 class AbstractPacket;
 
-// The error number data type.
-typedef int error_t;
 // Callback function pointer, it is not generic, it is just used as 
 // a reference to user defined callback functions.
 typedef error_t (*callback_t)(const header_t&, AbstractPacket&);

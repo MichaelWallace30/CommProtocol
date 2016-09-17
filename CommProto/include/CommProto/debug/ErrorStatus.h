@@ -21,6 +21,11 @@
 
 #include <CommProto/debug/Log.h>
 
+/**
+  Error_t type.
+ */
+typedef int32_t error_t;
+
 namespace Comnet {
 namespace Debug {
 
@@ -35,15 +40,6 @@ enum ErrorStatus {
   ERR_UNKNOWN,
 };
 
-
-/**
-  Error Message that can be sent to the Logger.
-*/
-class Error : public Log {
-public:
-  
-private:
-};
 } // namespace Debug
 } // namespace Comnet
 #endif // __ERROR_STATUS_H

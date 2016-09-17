@@ -60,11 +60,14 @@ public:
   int32_t executeRawCommand(const char* command);
 private:
 
+  void manageHistorySpace();
+
   log_message_t* history [64];
   /**
     Display logs on the command prompt/shell.
    */
   bool notifications;
+  
 };
 } // namespace Debug
 } // namespace Comnet

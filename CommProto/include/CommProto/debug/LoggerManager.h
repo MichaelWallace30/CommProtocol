@@ -26,6 +26,9 @@ namespace Debug {
 
 
 class LoggerManager {
+public:
+
+  
 };
 } // namespace Debug
 } // namespace Comnet 
