@@ -56,14 +56,14 @@ bool_t address64_is_zero(const address64* addr);
 int32_t address64_parse(address64* addr, const char* str);
 
 // network broadcast address for all nodes
-#define WPAN_NET_ADDR_BCAST_ALL_NODES	                  0xFFFF
+#define WPAN_NET_ADDR_BCAST_ALL_NODES                   0xFFFF
 // network broadcast address for non-sleeping devices
-#define WPAN_NET_ADDR_BCAST_NOT_ASLEEP	                0xFFFD
+#define WPAN_NET_ADDR_BCAST_NOT_ASLEEP                  0xFFFD
 // network broadcast address for all routers (and coordinators)
-#define WPAN_NET_ADDR_BCAST_ROUTERS		                  0xFFFC
+#define WPAN_NET_ADDR_BCAST_ROUTERS                     0xFFFC
 
 // used to indicate 64-bit addressing (16-bit address is ignored)
-#define WPAN_NET_ADDR_UNDEFINED			                    0xFFFE
+#define WPAN_NET_ADDR_UNDEFINED                         0xFFFE
 
 // network coordinator always uses network address 0x0000
 #define WPAN_NET_ADDR_COORDINATOR		                    0x0000
