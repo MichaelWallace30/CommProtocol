@@ -20,7 +20,6 @@
 #define __XBEE_H
 
 #include <CommProto/architecture/connection/xbee_serial.h>
-#include <CommProto/architecture/connection/wpan/wpan.h>
 
 
 namespace Comnet {
@@ -55,7 +54,7 @@ private:
   /**
    */
   xbee_serial_t serial;
-  wpan_dev_t device;
+  struct wpan_dev_t* device;
 };
 } // namespace Experimental
 } // namespace Network

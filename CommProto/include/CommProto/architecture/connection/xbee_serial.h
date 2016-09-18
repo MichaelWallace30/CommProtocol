@@ -75,8 +75,8 @@ COM_EXTERN_C
 xbee_err xbee_open(xbee_serial_t* serial, speed_t baudrate);
 xbee_err xbee_close(xbee_serial_t* serial);
 
-xbee_err xbee_write(xbee_serial_t* serial, const void* buffer, uint32_t length);
-xbee_err xbee_read(xbee_serial_t* serial, void* buffer, uint32_t length);
+int32_t xbee_write(xbee_serial_t* serial, const void* buffer, uint32_t length);
+int32_t xbee_read(xbee_serial_t* serial, void* buffer, uint32_t length);
 
 const char* xbee_get_portname(xbee_serial_t* serial);
 bool_t xbee_invalid(xbee_serial_t* serial);
@@ -89,7 +89,7 @@ int32_t xbee_free_rx(xbee_serial_t* serial);
 int32_t xbee_used_rx(xbee_serial_t* serial);
 int32_t xbee_flush_rx(xbee_serial_t* serial);
 
-int32_t xbee_change_baudrate(xbee_serial_t* serial);
+int32_t xbee_change_baudrate(xbee_serial_t* serial, speed_t baudrate);
 int32_t xbee_break(xbee_serial_t* serial, bool_t enabled);
 int32_t xbee_flowcontrol(xbee_serial_t* serial, bool_t enabled);
 
@@ -100,8 +100,8 @@ int32_t xbee_get_cts(xbee_serial_t* serial);
 uint32_t xbee_seconds(void);
 uint32_t xbee_milliseconds(void);
 
-int xbee_hex_str_to_bytes(const char* ptr);
-int xbee_readline(char* buffer, int32_t length);
+int32_t xbee_hex_str_to_bytes(const char* ptr);
+int32_t xbee_readline(char* buffer, int32_t length);
 
 void hex_dump(const void* addr, uint16_t length, uint16_t flags);
 

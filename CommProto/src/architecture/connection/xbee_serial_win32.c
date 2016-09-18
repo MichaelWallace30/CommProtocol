@@ -152,4 +152,76 @@ int32_t xbee_read(xbee_serial_t* serial, void* buffer, uint32_t length) {
 
   return (int32_t ) dwRead;
 }
+
+
+const char* xbee_get_portname(xbee_serial_t* serial) {
+  static char portname[sizeof("COM0000")];
+
+  if (serial != NULL && serial->fd > 0 && serial->fd < 10000) {
+    _snprintf(portname , sizeof(portname), "COM%u", serial->fd);
+    return portname;
+  }
+  
+  return "invalid port";
+}
+
+
+int32_t xbee_used_tx(xbee_serial_t* serial) {
+  COMSTAT comstat;
+
+  XBEE_ASSERT(serial);
+
+  if (ClearCommError(serial->h_serial, NULL, &comstat)) {
+    return (int32_t ) comstat.cbOutQue;
+  }
+
+  return 0;
+}
+
+
+int32_t xbee_flush_tx(xbee_serial_t* serial) {
+  XBEE_ASSERT(serial);
+  
+  PurgeComm(serial->h_serial, PURGE_TXCLEAR | PURGE_TXABORT);
+
+  return 0;
+}
+
+
+int32_t xbee_free_tx(xbee_serial_t* serial) {
+  XBEE_ASSERT(serial);
+
+  return XBEE_TX_BUFFER_LENGTH - xbee_used_tx(serial);
+}
+
+
+int32_t xbee_used_rx(xbee_serial_t* serial) {
+  COMSTAT comstat;
+  
+  XBEE_ASSERT(serial);
+
+  if (ClearCommError(serial->h_serial, NULL, &comstat)) {
+    return (int32_t ) comstat.cbInQue;
+  }
+
+  return 0;
+}
+
+
+int32_t xbee_flush_rx(xbee_serial_t* serial) {
+  XBEE_ASSERT(serial);
+
+  PurgeComm(serial->h_serial, PURGE_RXCLEAR | PURGE_RXABORT);
+
+  return 0;
+}
+
+
+int32_t xbee_free_rx(xbee_serial_t* serial) {
+  XBEE_ASSERT(serial);
+
+  return XBEE_RX_BUFFER_LENGTH - xbee_used_rx(serial);
+}
+
+
 #endif // COM_TARGET_OS == COM_OS_WINDOWS

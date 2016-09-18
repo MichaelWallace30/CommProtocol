@@ -1,5 +1,9 @@
 #include <CommProto/network/XBee.h>
 
+#include <CommProto/architecture/connection/wpan/wpan.h>
+#include <CommProto/architecture/macros.h>
+
+
 namespace Comnet {
 namespace Network {
 

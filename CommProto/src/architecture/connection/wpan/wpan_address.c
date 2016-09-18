@@ -29,7 +29,7 @@ char* format_address64(char* buffer, const address64* addr) {
   for (i = 8;;) {
     ch = *b++;
     *p++ = "0123456789abcdef"[ch >> 4];
-    *p++ = "0123456789abcdef"[ch >> 0x0F];
+    *p++ = "0123456789abcdef"[ch & 0x0F];
   
     if (--i) {
       *p++ = ADDR64_FORMAT_SEPARATOR;  
