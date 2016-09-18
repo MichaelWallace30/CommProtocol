@@ -66,7 +66,7 @@ int32_t address64_parse(address64* addr, const char* str);
 #define WPAN_NET_ADDR_UNDEFINED                         0xFFFE
 
 // network coordinator always uses network address 0x0000
-#define WPAN_NET_ADDR_COORDINATOR		                    0x0000
+#define WPAN_NET_ADDR_COORDINATOR                       0x0000
 // Pointer to \c address64 representing an undefined IEEE address
 // (all ones).
 #define WPAN_IEEE_ADDR_UNDEFINED (&WPAN_IEEE_ADDRESS_UNDEFINEd)
