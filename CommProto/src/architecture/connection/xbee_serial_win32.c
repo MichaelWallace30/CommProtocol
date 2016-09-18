@@ -113,4 +113,43 @@ xbee_err xbee_close(xbee_serial_t* serial) {
   return XBEE_SUCCESS;
 }
 
+
+int32_t xbee_write(xbee_serial_t* serial, const void* buffer, uint32_t length) {
+  DWORD dwWrote;
+  BOOL success;
+  
+  XBEE_ASSERT(serial);
+
+  if (!buffer || length < 0) {
+    return XBEE_INVALID;
+  }
+
+  success = WriteFile(serial->h_serial, buffer, length, &dwWrote, NULL);
+
+  if (!success) {
+    return XBEE_IO;
+  }
+
+  return (int32_t ) dwWrote;
+}
+
+
+int32_t xbee_read(xbee_serial_t* serial, void* buffer, uint32_t length) {
+  DWORD dwRead;
+  BOOL success;
+
+  XBEE_ASSERT(serial);
+
+  if (!buffer || length < 0) {
+    return XBEE_IO;
+  }
+  
+  success = ReadFile(serial->h_serial, buffer, length, &dwRead, NULL);
+  
+  if (!success) {
+    return XBEE_IO;
+  }
+
+  return (int32_t ) dwRead;
+}
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
