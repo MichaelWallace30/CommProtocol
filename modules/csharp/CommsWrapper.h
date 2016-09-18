@@ -4,9 +4,10 @@
 #include <CommProto/Callback.h>
 #include <CommProto/Packets.h>
 #include <CommProto/architecture/connection/transport_type.h>
+#using <mscorlib.dll>
 
 using namespace System;
-namespace Comnet{
+namespace Comnet {
 #pragma managed
 
 	//manged copy of transport_protocol_t

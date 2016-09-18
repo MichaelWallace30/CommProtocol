@@ -55,7 +55,7 @@ private:
   /**
    */
   xbee_serial_t serial;
-  xbee_dev_t device;
+  wpan_dev_t device;
 };
 } // namespace Experimental
 } // namespace Network
