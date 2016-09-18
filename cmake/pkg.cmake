@@ -1,4 +1,6 @@
 # pkg configs
+set(PKG_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/pkg/)
+set(PKG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/pkg/)
 
 set(COMMPROTO_PKG_HEADERS
   ${PKG_HEADER_DIR}/PacketManager.h

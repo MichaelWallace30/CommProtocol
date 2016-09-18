@@ -1,4 +1,6 @@
 # CommProto configuration files
+set(PARENT_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/)
+set(PARENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/)
 
 set(COMMPROTO_HEADERS
   ${PARENT_HEADER_DIR}/CommNode.h

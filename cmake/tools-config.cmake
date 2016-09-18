@@ -1,4 +1,6 @@
 # Tools config files, which are added into a set for compilation
+set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
+set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
 
 set(TOOLS_HEADERS
   ${TOOLS_HEADER_DIR}/Comparable.h

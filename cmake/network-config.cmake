@@ -1,4 +1,7 @@
 # Tools config files, which are added into a set for compilation
+set(NETWORK_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/network/)
+set(NETWORK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/network/)
+
 
 set(NETWORK_HEADERS
   ${NETWORK_HEADER_DIR}UDP.h

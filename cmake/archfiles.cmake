@@ -1,22 +1,24 @@
 # Architecture files defined and configured in this .cmake file.
+set(ARCHITECTURE_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/architecture/)
+set(ARCHITECTURE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/architecture/)
 
 set(ARCHITECTURE_HEADERS
-  ${PARENT_HEADER_DIR}/architecture/os/linux-config/linux-config.h
-  ${PARENT_HEADER_DIR}/architecture/os/include_defines.h
-  ${PARENT_HEADER_DIR}/architecture/os/arch.h
-  ${PARENT_HEADER_DIR}/architecture/os/os_threads.h
-  ${PARENT_HEADER_DIR}/architecture/os/thread-config.h
-  ${PARENT_HEADER_DIR}/architecture/os/mutex-config.h
-  ${PARENT_HEADER_DIR}/architecture/os/os_mutex.h
-  ${PARENT_HEADER_DIR}/architecture/api.h
-  ${PARENT_HEADER_DIR}/architecture/macros.h
-  ${PARENT_HEADER_DIR}/architecture/connection/socket-config.h
-  ${PARENT_HEADER_DIR}/architecture/connection/serial_status.h
-  ${PARENT_HEADER_DIR}/architecture/connection/serial-config_win32.h
-  ${PARENT_HEADER_DIR}/architecture/connection/serial-config_linux.h
-  ${PARENT_HEADER_DIR}/architecture/connection/serial-config.h
-  ${PARENT_HEADER_DIR}/architecture/connection/transport_type.h)
+  ${ARCHITECTURE_HEADER_DIR}/os/linux-config/linux-config.h
+  ${ARCHITECTURE_HEADER_DIR}/os/include_defines.h
+  ${ARCHITECTURE_HEADER_DIR}/os/arch.h
+  ${ARCHITECTURE_HEADER_DIR}/os/os_threads.h
+  ${ARCHITECTURE_HEADER_DIR}/os/thread-config.h
+  ${ARCHITECTURE_HEADER_DIR}/os/mutex-config.h
+  ${ARCHITECTURE_HEADER_DIR}/os/os_mutex.h
+  ${ARCHITECTURE_HEADER_DIR}/api.h
+  ${ARCHITECTURE_HEADER_DIR}/macros.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/socket-config.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/serial_status.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config_win32.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config_linux.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/transport_type.h)
 
 set(ARCHITECTURE_SOURCES
-  ${PARENT_SOURCE_DIR}/architecture/os/os_threads.cpp
-  ${PARENT_SOURCE_DIR}/architecture/os/os_mutex.cpp)
+  ${ARCHITECTURE_SOURCE_DIR}/os/os_threads.cpp
+  ${ARCHITECTURE_SOURCE_DIR}/os/os_mutex.cpp)

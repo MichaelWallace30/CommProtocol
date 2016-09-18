@@ -96,22 +96,6 @@ endif()
 # Add the cmake module path, for module build paths for this cmake file.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 
-set(PARENT_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/)
-set(PARENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/)
-set(HASH_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/hash/)
-set(HASH_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/hash/)
-set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
-set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
-set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/tools/)
-set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
-set(NETWORK_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/network/)
-set(NETWORK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/network/)
-set(SERIALIZATION_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/serialization/)
-set(SERIALIZATION_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/serialization/)
-set(PKG_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/pkg/)
-set(PKG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/pkg/)
-set(DEBUG_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/debug/)
-
 # Add some commands to the compiler.
 if (CXX_COMPILER MATCHES "MSVC")
     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} /sdl-")
