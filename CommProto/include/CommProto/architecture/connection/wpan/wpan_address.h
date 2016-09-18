@@ -41,7 +41,7 @@ COM_EXTERN_C
 typedef union {
   uint8_t  b[8];
   uint16_t u[4];
-  uint32_t i[2];
+  uint32_t l[2];
 } address64;
 
 #ifndef ADDR64_FORMAT_SEPARATOR
@@ -51,10 +51,39 @@ typedef union {
 #define ADDR64_STRING_LEN                      (8 * 2 + 7 + 1)
 
 char* format_address64( char* buffer, const address64* address);
-bool_t address64_is_equal(const address64* addr1, const address64 addr2); 
-bool_t address_64_is_zero(const address64* addr);
+bool_t address64_is_equal(const address64* addr1, const address64* addr2); 
+bool_t address64_is_zero(const address64* addr);
 int32_t address64_parse(address64* addr, const char* str);
 
+// network broadcast address for all nodes
+#define WPAN_NET_ADDR_BCAST_ALL_NODES	                  0xFFFF
+// network broadcast address for non-sleeping devices
+#define WPAN_NET_ADDR_BCAST_NOT_ASLEEP	                0xFFFD
+// network broadcast address for all routers (and coordinators)
+#define WPAN_NET_ADDR_BCAST_ROUTERS		                  0xFFFC
+
+// used to indicate 64-bit addressing (16-bit address is ignored)
+#define WPAN_NET_ADDR_UNDEFINED			                    0xFFFE
+
+// network coordinator always uses network address 0x0000
+#define WPAN_NET_ADDR_COORDINATOR		                    0x0000
+// Pointer to \c address64 representing an undefined IEEE address
+// (all ones).
+#define WPAN_IEEE_ADDR_UNDEFINED (&_WPAN_IEEE_ADDR_UNDEFINED)
+extern const address64 _WPAN_IEEE_ADDR_UNDEFINED;
+
+// Pointer to \c address64 representing the broadcast IEEE address.
+#define WPAN_IEEE_ADDR_BROADCAST (&_WPAN_IEEE_ADDR_BROADCAST)
+extern const address64 _WPAN_IEEE_ADDR_BROADCAST;
+
+// Pointer to \c address64 representing the coordinator's IEEE address
+// (all zeros).
+#define WPAN_IEEE_ADDR_COORDINATOR (&_WPAN_IEEE_ADDR_COORDINATOR)
+extern const address64 _WPAN_IEEE_ADDR_COORDINATOR;
+
+// Pointer to \c address64 of all zeros.
+// address64_is_zero
+#define WPAN_IEEE_ADDR_ALL_ZEROS (&_WPAN_IEEE_ADDR_COORDINATOR)
 
 // 802.15.4 64bit IEEE address. Contains a 16 bit network address as well.
 typedef struct wpan_address_t {
