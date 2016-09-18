@@ -18,5 +18,5 @@ set(ARCHITECTURE_HEADERS
   ${PARENT_HEADER_DIR}/architecture/connection/transport_type.h)
 
 set(ARCHITECTURE_SOURCES
-  ${PARENT_SOURCE_DIR}/architecture/os/os_threads.c
-  ${PARENT_SOURCE_DIR}/architecture/os/os_mutex.c)
+  ${PARENT_SOURCE_DIR}/architecture/os/os_threads.cpp
+  ${PARENT_SOURCE_DIR}/architecture/os/os_mutex.cpp)
