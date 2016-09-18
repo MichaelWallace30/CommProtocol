@@ -69,21 +69,21 @@ int32_t address64_parse(address64* addr, const char* str);
 #define WPAN_NET_ADDR_COORDINATOR		                    0x0000
 // Pointer to \c address64 representing an undefined IEEE address
 // (all ones).
-#define WPAN_IEEE_ADDR_UNDEFINED (&_WPAN_IEEE_ADDR_UNDEFINED)
-extern const address64 _WPAN_IEEE_ADDR_UNDEFINED;
+#define WPAN_IEEE_ADDR_UNDEFINED (&WPAN_IEEE_ADDRESS_UNDEFINEd)
+extern const address64 WPAN_IEEE_ADDRESS_UNDEFINEd;
 
 // Pointer to \c address64 representing the broadcast IEEE address.
-#define WPAN_IEEE_ADDR_BROADCAST (&_WPAN_IEEE_ADDR_BROADCAST)
-extern const address64 _WPAN_IEEE_ADDR_BROADCAST;
+#define WPAN_IEEE_ADDR_BROADCAST (&WPAN_IEEE_ADDRESS_BROADCAST)
+extern const address64 WPAN_IEEE_ADDRESS_BROADCAST;
 
 // Pointer to \c address64 representing the coordinator's IEEE address
 // (all zeros).
-#define WPAN_IEEE_ADDR_COORDINATOR (&_WPAN_IEEE_ADDR_COORDINATOR)
-extern const address64 _WPAN_IEEE_ADDR_COORDINATOR;
+#define WPAN_IEEE_ADDR_COORDINATOR (&WPAN_IEEE_ADDRESS_COORDINATOR)
+extern const address64 WPAN_IEEE_ADDRESS_COORDINATOR;
 
 // Pointer to \c address64 of all zeros.
 // address64_is_zero
-#define WPAN_IEEE_ADDR_ALL_ZEROS (&_WPAN_IEEE_ADDR_COORDINATOR)
+#define WPAN_IEEE_ADDR_ALL_ZEROS (&WPAN_IEEE_ADDRESS_COORDINATOR)
 
 // 802.15.4 64bit IEEE address. Contains a 16 bit network address as well.
 typedef struct wpan_address_t {
