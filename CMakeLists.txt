@@ -71,11 +71,11 @@ endif()
 # From here, we can determine how to build this library without too much work in the source
 # files, however, we can simply do the operating system checking using the preprocessor defines.
 if (UNIX)
-  set(OS_SYSTEM "Unix")
+  set(OS_SYSTEM "unix")
 elseif (WIN32) 
   set(OS_SYSTEM "win32")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(OS_SYSTEM "OS X")
+  set(OS_SYSTEM "os x")
 endif(UNIX)
 
 
@@ -105,6 +105,7 @@ endif()
 
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM CommProto/include/)
+include_directories(SYSTEM XbeeC/xbee_ansic_library/include/)
 
 # Our sources, which will be included in the build. This is a test build, to 
 # check for problems and situations arising from our code base. We will most likely
@@ -118,6 +119,7 @@ include(cmake/network-config.cmake)
 include(cmake/serialization-config.cmake)
 include(cmake/pkg.cmake)
 include(cmake/comnet_debug.cmake)
+include(cmake/xbee_ansic.cmake)
 
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
@@ -135,6 +137,8 @@ if (${CMAKE_CXX_COMPILER_ID})
 endif()
 
 set (NGCP_GLOB
+  ${XBEE_HEADERS}
+  ${XBEE_SOURCES}
   ${ARCHITECTURE_HEADERS}
   ${ARCHITECTURE_SOURCES}
   ${COMMPROTO_HEADERS}

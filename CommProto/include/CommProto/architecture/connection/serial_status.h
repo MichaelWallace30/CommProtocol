@@ -34,4 +34,8 @@ enum serial_status_t {
 typedef enum serial_status_t serial_status;
 typedef int32_t port_id;
 
+#if COM_TARGET_OS == COM_OS_WINDOWS
+ typedef uint32_t speed_t;
+#endif
+
 #endif // __SERIAL_STATUS_H

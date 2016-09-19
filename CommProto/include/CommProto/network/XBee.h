@@ -19,7 +19,10 @@
 #ifndef __XBEE_H
 #define __XBEE_H
 
-#include <CommProto/architecture/connection/xbee_serial.h>
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/connection/serial_status.h>
+#include <xbee/platform.h>
+#include <wpan/aps.h>
 
 
 namespace Comnet {
@@ -36,25 +39,39 @@ public:
   /**
      Default constructor.
    */
-  XBee();
+  XBee(const char* port, speed_t baudrate);
+
+  
   /**
      Default destructor.
    */
   ~XBee();
-
-  bool initialize(const char* port, speed_t baudrate);
-
+  /**
+    Initialize the port on this device.
+   */
+  //bool initialize(const char* port, speed_t baudrate);
+  /**
+    Send data over to the destination node.
+   */
   bool send(uint8_t destId, uint8_t* txData, uint32_t txLength);
-
+  /**
+    Check receive data.
+   */
   bool recv(uint8_t* rxData, uint32_t* rxLength);
-
+  /**
+    Close the port.
+   */
   bool closePort();
 
 private:
   /**
+    The information about the xbee device on this object.
    */
-  xbee_serial_t serial;
-  struct wpan_dev_t* device;
+  struct xbee_serial_t serial;
+  /**
+    Information about the WPAN address on this device, subject by IEEE 802.15.4 protocol.
+   */
+  struct wpan_dev_t device;
 };
 } // namespace Experimental
 } // namespace Network

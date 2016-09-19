@@ -22,7 +22,6 @@
 
 #include <CommProto/architecture/connection/serial_status.h>
 
-typedef uint32_t speed_t;
 typedef HANDLE serial_h;
 
 
