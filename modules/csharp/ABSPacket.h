@@ -64,10 +64,6 @@ private:
 */
 public ref class ABSPacket abstract {
 public:
-  ABSPacket(String^ name)
-    : packetName(name) {
-    unmanaged = new AbstractPacketForwarder(this);
-  }
 
   virtual void Pack(ObjectStreamWrapper^ obj) = 0;
   virtual void Unpack(ObjectStreamWrapper^ obj) = 0;
@@ -78,7 +74,14 @@ public:
   AbstractPacket* getAbstractPacket() {
     return unmanaged;
   }
+
+protected:
+  ABSPacket(String^ name)
+    : packetName(name) {
+    unmanaged = new AbstractPacketForwarder(this);
+  }
 private:
+  ABSPacket() { }
   AbstractPacket* unmanaged;
   String^ packetName;
 };
