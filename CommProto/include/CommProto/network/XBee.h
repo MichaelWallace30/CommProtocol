@@ -20,7 +20,8 @@
 #define __XBEE_H
 
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/connection/serial_status.h>
+#include <CommProto/architecture/connection/serial-config.h>
+
 #include <xbee/platform.h>
 #include <wpan/aps.h>
 

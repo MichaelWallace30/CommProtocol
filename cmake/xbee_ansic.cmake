@@ -108,7 +108,7 @@ elseif(UNIX)
 
   set(XBEE_SOURCES
     ${XBEE_SOURCES}
-    ${XBEE_SOURCE_DIR}/win32/xbee_platform_posix.c
-    ${XBEE_SOURCE_DIR}/win32/xbee_serial_posix.c
-    ${XBEE_SOURCE_DIR}/win32/xbee_readline.c)
+    ${XBEE_SOURCE_DIR}/posix/xbee_platform_posix.c
+    ${XBEE_SOURCE_DIR}/posix/xbee_serial_posix.c
+    ${XBEE_SOURCE_DIR}/posix/xbee_readline.c)
 endif()
