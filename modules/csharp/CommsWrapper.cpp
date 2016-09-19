@@ -24,8 +24,11 @@ using namespace Comnet;
 	}
 	CommsWrapper::~CommsWrapper()
 	{
-		delete unmangedComms;
-		unmangedComms = NULL;
+		if (unmangedComms != NULL)
+		{
+			delete unmangedComms;
+			unmangedComms = NULL;
+		}
 	}
 
 
@@ -63,7 +66,15 @@ using namespace Comnet;
 		return unmangedComms->send(ping, destID);
 	}
 
-		//AbstractPacket* receive(uint8_t&  sourceID);					//issue
+	AbstractPacket* CommsWrapper::receive(uint8_t&  sourceID)
+	{
+		return unmangedComms->receive(sourceID);
+	}
+
+	bool CommsWrapper::linkCallback(const AbstractPacket* packet, const Callback* callback)
+	{
+		return unmangedComms->linkCallback(packet, callback);
+	}
 	int32_t CommsWrapper::run()
 	{
 		return unmangedComms->run();

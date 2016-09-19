@@ -33,7 +33,10 @@ namespace Comnet {
 		bool removeAddress(uint8_t destID);
 
 		bool send(uint8_t destID);//AbstractPacket* packet, uint8_t destID);			//issue
-		//AbstractPacket* receive(uint8_t&  sourceID);					//issue
+		AbstractPacket* receive(uint8_t&  sourceID);					//issue
+
+		bool linkCallback(const AbstractPacket* packet, const Callback* callback);//issue
+
 		int32_t run();
 		int32_t pause();
 		int32_t stop();
