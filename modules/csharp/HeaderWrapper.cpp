@@ -15,19 +15,19 @@ HeaderWrapper::~HeaderWrapper()
 	}
 }
 
-void HeaderWrapper::setDestID(uint8_t destID){ header->destID = destID; }
-uint8_t HeaderWrapper::getDestID(){ return header->destID; }
+void HeaderWrapper::setDestID(Byte destID){ header->destID = destID; }
+Byte HeaderWrapper::getDestID(){ return header->destID; }
 
-void HeaderWrapper::setSourceID(uint8_t sourceID){ header->sourceID = sourceID; }
-uint8_t HeaderWrapper::getSourceID(){ return header->sourceID; }
+void HeaderWrapper::setSourceID(Byte sourceID){ header->sourceID = sourceID; }
+Byte HeaderWrapper::getSourceID(){ return header->sourceID; }
 
-void HeaderWrapper::setMessageLength(uint16_t mesageLength){ header->messageLength = mesageLength; }
-uint16_t HeaderWrapper::getMessageLength(){ return header->messageLength; }
+void HeaderWrapper::setMessageLength(UInt16 mesageLength){ header->messageLength = mesageLength; }
+UInt16 HeaderWrapper::getMessageLength(){ return header->messageLength; }
 
-void HeaderWrapper::setMessageID(uint16_t messageID){ header->messageID = messageID; }
-uint16_t HeaderWrapper::getMessageID(){ return header->messageID; }
+void HeaderWrapper::setMessageID(UInt16 messageID){ header->messageID = messageID; }
+UInt16 HeaderWrapper::getMessageID(){ return header->messageID; }
 
-void HeaderWrapper::setIV(array<uint8_t>^ IV)
+void HeaderWrapper::setIV(array<Byte>^ IV)
 {
 	for (int x = 0; x < KEY_LENGTH; x++)
 	{
@@ -35,9 +35,9 @@ void HeaderWrapper::setIV(array<uint8_t>^ IV)
 	}
 }
 
-array<uint8_t>^ HeaderWrapper::getIV()
+array<Byte>^ HeaderWrapper::getIV()
 {
-	array<uint8_t>^IV = gcnew array<uint8_t>(KEY_LENGTH);
+	array<Byte>^IV = gcnew array<Byte>(KEY_LENGTH);
 	for (int x = 0; x < KEY_LENGTH; x++)
 	{
 		IV[x] = header->IV[x];

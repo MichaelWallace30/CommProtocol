@@ -1,4 +1,5 @@
 #include <CommProto/HeaderPacket.h>
+using namespace System;
 #pragma once
 namespace Comnet{
 #pragma managed	
@@ -8,15 +9,15 @@ public ref class HeaderWrapper sealed
 		header_t *header;	
 		HeaderWrapper();
 		~HeaderWrapper();
-		void setDestID(uint8_t destID);
+		void setDestID(Byte destID);
 		uint8_t getDestID();
-		void setSourceID(uint8_t sourceID);
+		void setSourceID(Byte sourceID);
 		uint8_t getSourceID();
-		void setMessageLength(uint16_t mesageLength);
+		void setMessageLength(UInt16 mesageLength);
 		uint16_t getMessageLength();
-		void setMessageID(uint16_t messageID);
+		void setMessageID(UInt16 messageID);
 		uint16_t getMessageID();		
-		void setIV(array<uint8_t>^ IV);		
-		array<uint8_t>^ getIV();
+		void setIV(array<Byte>^ IV);		
+		array<Byte>^ getIV();
 	};
 }

@@ -17,12 +17,12 @@ ObjectStreamWrapper::~ObjectStreamWrapper()
 	unmangedObjectStream = NULL;
 }
 
-int32_t ObjectStreamWrapper::getPosition()
+Int32 ObjectStreamWrapper::getPosition()
 {
 	return unmangedObjectStream->getPostion();
 }
 
-int32_t ObjectStreamWrapper::getSize()
+Int32 ObjectStreamWrapper::getSize()
 {
 	return unmangedObjectStream->getSize();
 }
@@ -48,7 +48,7 @@ HeaderWrapper^ ObjectStreamWrapper::deserializeHeader()
 	header->setSourceID(unmangedObjectStream->headerPacket.sourceID);
 	header->setMessageLength(unmangedObjectStream->headerPacket.messageLength);
 	header->setMessageID(unmangedObjectStream->headerPacket.messageID);
-	array<uint8_t>^ IV = gcnew array<uint8_t>(KEY_LENGTH);
+	array<Byte>^ IV = gcnew array<Byte>(KEY_LENGTH);
 	for(int x = 0; x < KEY_LENGTH; x++)
 	{
 		IV[x] = unmangedObjectStream->headerPacket.IV[x];
@@ -59,37 +59,37 @@ HeaderWrapper^ ObjectStreamWrapper::deserializeHeader()
 
 //intput
 void ObjectStreamWrapper::input(String^ data)
-{
+ {
 	std::string value = msclr::interop::marshal_as<std::string>(data);
 	*unmangedObjectStream << value;
 }
-void ObjectStreamWrapper::input(uint8_t& data) { *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(int8_t& data)  { *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(uint16_t& data){ *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(int16_t& data) { *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(int32_t& data) { *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(uint32_t& data){ *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(int64_t& data) { *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(uint64_t& data){ *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(real32_t& data){ *unmangedObjectStream << data; }
-void ObjectStreamWrapper::input(real64_t& data){ *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(Byte data)  { *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(SByte data) { *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(UInt16 data){ *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(Int16 data) { *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(Int32 data) { *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(UInt32 data){ *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(Int64 data) { *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(UInt64 data){ *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(Single data){ *unmangedObjectStream << data; }
+void ObjectStreamWrapper::input(Double data){ *unmangedObjectStream << data; }
 
 //Ooutput
-void ObjectStreamWrapper::output(String^ data)
+String^ ObjectStreamWrapper::outputString()
 {
 	std::string value;
 	*unmangedObjectStream >> value;
-	data = gcnew String(value.c_str());
+	return gcnew String(value.c_str());	
 }
-void ObjectStreamWrapper::output(uint8_t& data) { *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(int8_t& data)  { *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(uint16_t& data){ *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(int16_t& data) { *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(uint32_t& data){ *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(int32_t& data) { *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(uint64_t& data){ *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(int64_t& data) { *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(real32_t& data){ *unmangedObjectStream >> data; }
-void ObjectStreamWrapper::output(real64_t& data){ *unmangedObjectStream >> data; }
+Byte ObjectStreamWrapper::outputByte()    { uint8_t data;*unmangedObjectStream >> data; return data; }
+SByte ObjectStreamWrapper::outputSByte()  { int8_t data; *unmangedObjectStream >> data; return data; }
+UInt16 ObjectStreamWrapper::outputUInt16(){ UInt16 data; *unmangedObjectStream >> data; return data; }
+Int16 ObjectStreamWrapper::outputInt16()  { Int16 data;  *unmangedObjectStream >> data; return data; }
+UInt32 ObjectStreamWrapper::outputUInt32(){ UInt32 data; *unmangedObjectStream >> data; return data; }
+Int32 ObjectStreamWrapper::outputInt32()  { Int32 data;  *unmangedObjectStream >> data; return data; }
+UInt64 ObjectStreamWrapper::outputUInt64(){ UInt64 data; *unmangedObjectStream >> data; return data; }
+Int64 ObjectStreamWrapper::outputInt64()  { Int64 data;  *unmangedObjectStream >> data; return data; }
+Single ObjectStreamWrapper::outputSingle(){ Single data; *unmangedObjectStream >> data; return data; }
+Double ObjectStreamWrapper::outputDouble(){ Double data; *unmangedObjectStream >> data; return data; }
 
 

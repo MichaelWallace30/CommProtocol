@@ -30,37 +30,37 @@ namespace Comnet {
 			ObjectStreamWrapper();
 			~ObjectStreamWrapper();
 
-			int32_t getPosition();
-			int32_t getSize();
+			Int32 getPosition();
+			Int32 getSize();
 
 			void serializeHeader(HeaderWrapper ^ header);
 			HeaderWrapper^ deserializeHeader();
 
 			//intput
 			void input(String^ data);
-			void input(uint8_t& data);
-			void input(int8_t& data);
-			void input(uint16_t& data);
-			void input(int16_t& data);
-			void input(int32_t& data);
-			void input(uint32_t& data);
-			void input(int64_t& data);
-			void input(uint64_t& data);
-			void input(real32_t& data);
-			void input(real64_t& data);
+			void input(Byte data);
+			void input(SByte data);
+			void input(UInt16 data);
+			void input(Int16 data);
+			void input(Int32 data);
+			void input(UInt32 data);
+			void input(Int64 data);
+			void input(UInt64 data);
+			void input(Single data);
+			void input(Double data);
 
 			//output
-			void output(String^ data);			
-			void output(uint8_t& data);
-			void output(int8_t& data);
-			void output(uint16_t& data);
-			void output(int16_t& data);
-			void output(uint32_t& data);
-			void output(int32_t& data);
-			void output(uint64_t& data);
-			void output(int64_t& data);
-			void output(real32_t& data);
-			void output(real64_t& data);			
+			String^ outputString();			
+			Byte outputByte();
+			SByte outputSByte();
+			UInt16 outputUInt16();
+			Int16 outputInt16();
+			UInt32 outputUInt32();
+			Int32 outputInt32();
+			UInt64 outputUInt64();
+			Int64 outputInt64();
+			Single outputSingle();
+			Double outputDouble();			
 		};
 	} // Serialization namespace
 } // Comnet namespace
