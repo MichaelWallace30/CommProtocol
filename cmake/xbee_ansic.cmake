@@ -1,7 +1,7 @@
 # Xbee Ansic Library builds.
 
 set(XBEE_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/XbeeC/xbee_ansic_library/include/)
-set(XBEE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/XbeeC/xbee_ansic/library/src/)
+set(XBEE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/XbeeC/xbee_ansic_library/src/)
 
 
 # Header for the xbee library. Glob it!
@@ -17,7 +17,6 @@ set(XBEE_HEADERS
   ${XBEE_HEADER_DIR}/xbee/device.h
   ${XBEE_HEADER_DIR}/xbee/discovery.h
   ${XBEE_HEADER_DIR}/xbee/ebl_file.h
-  ${XBEE_HEADER_DIR}/xbee/firmware.h
   ${XBEE_HEADER_DIR}/xbee/io.h
   ${XBEE_HEADER_DIR}/xbee/jslong.h
   ${XBEE_HEADER_DIR}/xbee/jslong_glue.h
@@ -56,6 +55,24 @@ set(XBEE_SOURCES
   ${XBEE_SOURCE_DIR}/util/swapbytes.c
   ${XBEE_SOURCE_DIR}/util/swapcpy.c
   ${XBEE_SOURCE_DIR}/util/xmodem_crc16.c
+
+  ${XBEE_SOURCE_DIR}/xbee/xbee_atcmd.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_atmode.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_cbuf.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_commissioning.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_device.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_discovery.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_ebl_file.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_io.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_ota_client.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_ota_server.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_reg_descr.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_route.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_sxa.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_time.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_transparent_serial.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_wpan.c
+  ${XBEE_SOURCE_DIR}/xbee/xbee_xmodem.c
 
   ${XBEE_SOURCE_DIR}/wpan/wpan_aps.c
   ${XBEE_SOURCE_DIR}/wpan/wpan_types.c

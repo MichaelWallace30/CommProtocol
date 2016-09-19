@@ -4,6 +4,7 @@
 
 // xbee includes.
 #include <xbee/platform.h>
+#include <xbee/atcmd.h>
 #include <xbee/commissioning.h>
 #include <xbee/device.h>
 #include <xbee/wpan.h>
@@ -48,6 +49,11 @@ const zcl_comm_startup_param_t zcl_comm_default_sas =
   },
 };
 
+const xbee_dispatch_table_entry_t xbee_frame_handlers[] =
+{
+  XBEE_FRAME_HANDLE_LOCAL_AT,
+  XBEE_FRAME_TABLE_END
+};
 
 namespace Comnet {
 namespace Network {

@@ -48,7 +48,7 @@ const char *xbee_ser_portname( xbee_serial_t *serial)
 
 	if (serial != NULL && serial->comport > 0 && serial->comport < 10000)
 	{
-		snprintf( portname, sizeof (portname), "COM%u", serial->comport);
+		_snprintf( portname, sizeof (portname), "COM%u", serial->comport);
 		return portname;
 	}
 
@@ -298,7 +298,7 @@ int xbee_ser_open( xbee_serial_t *serial, uint32_t baudrate)
 	}
 	else
 	{
-		snprintf( buffer, sizeof buffer, "\\\\.\\COM%u", serial->comport);
+		_snprintf( buffer, sizeof buffer, "\\\\.\\COM%u", serial->comport);
 		hCom = CreateFile( buffer, GENERIC_READ | GENERIC_WRITE,
 			0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hCom == INVALID_HANDLE_VALUE)
