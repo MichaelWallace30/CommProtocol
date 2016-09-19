@@ -19,12 +19,12 @@ ObjectStreamWrapper::~ObjectStreamWrapper()
 
 int32_t ObjectStreamWrapper::getPosition()
 {
-	unmangedObjectStream->getPostion();
+	return unmangedObjectStream->getPostion();
 }
 
 int32_t ObjectStreamWrapper::getSize()
 {
-	unmangedObjectStream->getSize();
+	return unmangedObjectStream->getSize();
 }
 
 void ObjectStreamWrapper::serializeHeader(HeaderWrapper ^ header)
@@ -54,8 +54,7 @@ HeaderWrapper^ ObjectStreamWrapper::deserializeHeader()
 		IV[x] = unmangedObjectStream->headerPacket.IV[x];
 	}
 	header->setIV(IV);
-	
-
+	return header;
 }
 
 //intput
