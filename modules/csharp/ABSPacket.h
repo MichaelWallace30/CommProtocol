@@ -75,6 +75,11 @@ public:
     return unmanaged;
   }
 
+  generic<typename Type> where Type:ABSPacket
+  static Type GetValue(ABSPacket^ packt) {
+    return static_cast<Type>(packt);
+  }
+
 protected:
   ABSPacket(String^ name)
     : packetName(name) {
