@@ -1,6 +1,4 @@
 #include <CommsWrapper.h>
-
-
 #include <CommProto/Comms.h>
 
 #pragma managed
