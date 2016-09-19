@@ -15,11 +15,13 @@ set(CSHARP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(COMMPROTO_WRAPPER_HEADER_DIR 
   ${CSHARP_DIR}/CommsWrapper.h
-  ${CSHARP_DIR}/HeaderWrapper.h)
+  ${CSHARP_DIR}/HeaderWrapper.h
+  ${CSHARP_DIR}/ABSPacket.h)
 
 set(COMMPROTO_WRAPPER_SOURCE_DIR
   ${CSHARP_DIR}/CommsWrapper.cpp
-  ${CSHARP_DIR}/HeaderWrapper.cpp)
+  ${CSHARP_DIR}/HeaderWrapper.cpp
+  ${CSHARP_DIR}/ABSPacket.cc)
 
 add_library(CommProtoCSharp SHARED
   ${COMMPROTO_WRAPPER_HEADER_DIR}
