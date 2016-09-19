@@ -82,7 +82,7 @@ public:
     }
   }
 
-  const_reference get() {
+  reference get() {
     return *pointer;
   }
 

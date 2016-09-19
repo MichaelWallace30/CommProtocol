@@ -1,6 +1,20 @@
+/*
+Copyright (C) 2016  Michael Wallace, Mario Garcia.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include <CommsWrapper.h>
-
-
 #include <CommProto/Comms.h>
 
 #pragma managed
@@ -71,9 +85,9 @@ using namespace Comnet;
 		return unmangedComms->receive(sourceID);
 	}
 
-	bool CommsWrapper::linkCallback(const AbstractPacket* packet, const Callback* callback)
+	bool CommsWrapper::linkCallback(ABSPacket^ packet, const Callback* callback)
 	{
-		return unmangedComms->linkCallback(packet, callback);
+		return unmangedComms->linkCallback(packet->getAbstractPacket(), callback);
 	}
 	int32_t CommsWrapper::run()
 	{

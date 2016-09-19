@@ -1,9 +1,28 @@
+/*
+Copyright (C) 2016  Michael Wallace, Mario Garcia.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #pragma once
 #define _DEBUG 1
 #include <CommProto/Comms.h>
 #include <CommProto/Callback.h>
 #include <CommProto/Packets.h>
 #include <CommProto/architecture/connection/transport_type.h>
+
+#include <ABSPacket.h>
+
 #using <mscorlib.dll>
 
 using namespace System;
@@ -35,7 +54,7 @@ namespace Comnet {
 		bool send(uint8_t destID);//AbstractPacket* packet, uint8_t destID);			//issue
 		AbstractPacket* receive(uint8_t&  sourceID);					//issue
 
-		bool linkCallback(const AbstractPacket* packet, const Callback* callback);//issue
+		bool linkCallback(ABSPacket^ packet, const Callback* callback);//issue
 
 		int32_t run();
 		int32_t pause();

@@ -59,11 +59,12 @@ namespace Serialization {
 		/** Destructor*/
 		~ObjectStream();
 		/** getPostion returns the postion of the stream buffer*/
-		int32_t getPostion(){ return currentPostion; }
+		int32_t getPostion() const { return currentPostion; }
 		/** getSize return the size of the current buffer*/
-		int32_t getSize(){ return currentPostion; }
+		int32_t getSize() const { return currentPostion; }
 		/** getBuffer returns a pionter to the buffer stream*/
-		marshall_t getBuffer(){return streamBuffer;}
+		marshall_t getBuffer() const { return streamBuffer; }
+    header_t& getHeaderPacket() { return headerPacket; } 
 		/** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
 		void setBuffer(const char* buffer, int len);
 
