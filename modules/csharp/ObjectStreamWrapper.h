@@ -1,6 +1,4 @@
 /*
-Serial configurations.
-
 Copyright (C) 2016  Michael Wallace, Mario Garcia.
 
 This program is free software: you can redistribute it and/or modify
