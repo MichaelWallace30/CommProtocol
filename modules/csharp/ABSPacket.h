@@ -77,7 +77,11 @@ public:
 
   generic<typename Type> where Type:ABSPacket
   static Type GetValue(ABSPacket^ packt) {
-    return static_cast<Type>(packt);
+    try {
+      return static_cast<Type>(packt);
+    } catch (std::exception e) {
+      throw gcnew System::InvalidCastException(gcnew String("Invalid casting"));
+    } 
   }
 
 protected:
