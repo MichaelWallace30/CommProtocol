@@ -154,7 +154,7 @@ namespace Serialization {
 	uint64_t unpackUint64(marshall_t input)
 	{
 		uint64_t value;
-		memcpy(&value, input, 2);
+		memcpy(&value, input, sizeof(uint64_t));
 		swap_endian(value);
 		return value;
 	}

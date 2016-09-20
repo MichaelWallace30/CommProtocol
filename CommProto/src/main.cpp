@@ -105,7 +105,7 @@ int main(int c, char** args) {
 	ObjectStream newObjectStream = ObjectStream();
 
 	double value1A = 64.2;
-	int value2A = 12;
+	uint64_t value2A = 12;
 	std::string strData = "Hello Slim!!!";
 	uint8_t valueA = 1;
 
@@ -114,7 +114,7 @@ int main(int c, char** args) {
 	newObjectStream << valueA << strData << wStrA << value2A << value1A;
 
 	double value1B;
-	int value2B;
+	uint64_t value2B;
 	uint8_t valueB;
 	std::wstring wStrB;
 	std::string strDataB;
