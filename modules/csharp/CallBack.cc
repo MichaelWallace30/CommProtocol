@@ -7,7 +7,7 @@ namespace Comnet {
 public delegate error_t Callb(const header_t& header, AbstractPacket& packet);
 
 
-Int32 ErrorFunct(const HeaderWrapper^ h, ABSPacket^ pack) {
+Int32 ErrorFunct(HeaderWrapper^ h, ABSPacket^ pack) {
   return -100;
 }
 
@@ -45,7 +45,7 @@ void CallBack::SetCallBackListenter(CommFunct^ ptr) {
 }
 
 
-Int32 CallBack::CallFunction(const HeaderWrapper^ header, ABSPacket^ packet) {
+Int32 CallBack::CallFunction(HeaderWrapper^ header, ABSPacket^ packet) {
   return funct(header, packet);
 
 }

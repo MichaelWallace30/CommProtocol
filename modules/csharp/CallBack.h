@@ -33,7 +33,7 @@ namespace Comnet {
 
 // Wrapped function pointer.
 [UnmanagedFunctionPointerAttribute(CallingConvention::Cdecl)]
-public delegate Int32 CommFunct(const HeaderWrapper^, ABSPacket^);
+public delegate Int32 CommFunct(HeaderWrapper^, ABSPacket^);
 
 // Call back codes.
 public enum class CallBackCodes : Int32 {
@@ -57,7 +57,7 @@ public:
 
   void SetCallBackListenter(CommFunct^ ptr);
   
-  Int32 CallFunction(const HeaderWrapper^ header, ABSPacket^ packet);
+  Int32 CallFunction(HeaderWrapper^ header, ABSPacket^ packet);
 internal:
   const Callback* getUnsafeCallback() {
     return callback;
