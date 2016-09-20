@@ -28,10 +28,11 @@ using namespace System::Runtime::InteropServices;
 namespace Comnet {
 
 
-class CallBack : public Callback {
+public ref class CallBack {
 public:
 
 private:
+  Callback* callback;
 };
 }
 #endif // __CSHARP_CALLACK_H
