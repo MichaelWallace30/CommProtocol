@@ -26,14 +26,14 @@ using namespace Comnet::Pkg;
 
 
 int apple(const header_t& gho, AbstractPacket& pl) {
-  cout << "I got an apple " << pl.getValue<Ping>().num << endl;
-  cout << "Test: " << pl.getValue<Ping>().test << endl;
+  cout << "I got an apple " << AbstractPacket::getValue<Ping>(pl).num << endl;
+  cout << "Test: " << AbstractPacket::getValue<Ping>(pl).test << endl;
   return CALLBACK_SUCCESS;
 }
 
 int testingFunction(const header_t& header, Ping& ping) {
   cout << "I am a new testing function" << endl;
-  return ping.getValue<Ping>().num;
+  return AbstractPacket::getValue<Ping>(ping).num;
 }
 
 // Class Ping Comparator.
@@ -60,7 +60,7 @@ class Storage {
 public:
   static error_t storeFunction(const header_t& header, AbstractPacket& ping) {
     cout << "Recieved ping" << endl;
-    pinger.insert((Ping *) &(ping.getValue<Ping>()));
+    pinger.insert((Ping *) &(AbstractPacket::getValue<Ping>(ping)));
     return 0;
   }
 };
@@ -68,8 +68,9 @@ public:
 int main(int c, char** args) {
   Ping d(12);
   Ping a(122);
-  AbstractPacket& pa = a;
-  pa.getValue<Pong>().letter;
+  Pong aaaa('f');
+  AbstractPacket& pa = aaaa;
+  AbstractPacket::getValue<Ping>(pa).num;
   Pong ponger('1');
 	header_t head;
   Callback call;
@@ -92,7 +93,7 @@ int main(int c, char** args) {
   }
 
   packageManager.insert(new Ping(1), new Callback([] (const header_t& header, AbstractPacket& packet) {
-    Ping& ping = packet.getValue<Ping>();
+    Ping& ping = AbstractPacket::getValue<Ping>(packet);
     cout << "This stuff now works: " << ping.num << endl;
     return -1;
   }));

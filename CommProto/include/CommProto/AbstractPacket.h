@@ -70,13 +70,13 @@ public:
   virtual AbstractPacket* create() = 0;
 
   template<typename Type>
-  Type& getValue() {
+  static Type& getValue(AbstractPacket& packet) {
     try {
-      return dynamic_cast< Type& >( *this );
+      return dynamic_cast< Type& >( packet );
     } catch ( std::bad_cast e ) {
       // TODO(Garcia): Will require Using a Logger instead of COMMS_DEBUG.
       COMMS_DEBUG("Bad casting for packet, which is of type %s\n", 
-                  typeid(*this).name());
+                  typeid(packet).name());
     }
   }
 
