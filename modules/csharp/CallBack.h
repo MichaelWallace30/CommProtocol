@@ -36,11 +36,12 @@ namespace Comnet {
 public delegate Int32 CommFunct(const HeaderWrapper^, ABSPacket^);
 
 // Call back codes.
-public enum class CallBackCodes {
+public enum class CallBackCodes : Int32 {
   CALLBACK_SUCCESS         = 0,
   CALLBACK_FAIL            = 1,
   CALLBACK_STORE_PACKET    = 3,
   CALLBACK_DESTROY_PACKET  = 4,
+
 };
 
 
