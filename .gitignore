@@ -1,1 +1,4 @@
+# try not to add build files into the library.
 /build/
+/win32/
+/linux/
