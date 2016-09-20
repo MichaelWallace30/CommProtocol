@@ -46,7 +46,7 @@ using namespace Comnet;
 	}
 
 
-	bool CommsWrapper::initConnection(transport_protocol_tC connectionType, String^ port, String^ address, uint32_t baudrate)
+	bool CommsWrapper::initConnection(TransportProtocol connectionType, String^ port, String^ address, uint32_t baudrate)
 	{
 		//convert String^ to char*
 		IntPtr ptrToNativeStringPort = Marshal::StringToHGlobalAnsi(port);
@@ -85,9 +85,11 @@ using namespace Comnet;
 		return unmangedComms->receive(sourceID);
 	}
 
-	bool CommsWrapper::linkCallback(ABSPacket^ packet, const Callback* callback)
+	bool CommsWrapper::linkCallback(const ABSPacket^ packet, const CallBack^ callback)
 	{
-		return unmangedComms->linkCallback(packet->getAbstractPacket(), callback);
+		return unmangedComms->linkCallback((
+                  (ABSPacket^)packet)->getAbstractPacket(),
+                  ((CallBack^)callback)->getUnsafeCallback());
 	}
 	int32_t CommsWrapper::run()
 	{

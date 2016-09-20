@@ -17,11 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #define _DEBUG 1
 #include <CommProto/Comms.h>
-#include <CommProto/Callback.h>
 #include <CommProto/Packets.h>
 #include <CommProto/architecture/connection/transport_type.h>
 
 #include <ABSPacket.h>
+#include <CallBack.h>
 
 #using <mscorlib.dll>
 
@@ -30,7 +30,7 @@ namespace Comnet {
 #pragma managed
 
 	//manged copy of transport_protocol_t
-	public enum class transport_protocol_tC {UDP_LINK, SERIAL_LINK, ZIGBEE_LINK};
+	public enum class TransportProtocol {UDP_LINK, SERIAL_LINK, ZIGBEE_LINK};
 
 	public ref class CommsWrapper sealed
 	{
@@ -43,7 +43,7 @@ namespace Comnet {
 		~CommsWrapper();
 
 
-		bool initConnection(transport_protocol_tC connectionType, String^ port, String^ address, uint32_t baudrate);
+		bool initConnection(TransportProtocol connectionType, String^ port, String^ address, uint32_t baudrate);
 
 
 		bool addAddress(uint8_t destID, String^ address, uint16_t port);
@@ -54,7 +54,7 @@ namespace Comnet {
 		bool send(uint8_t destID);//AbstractPacket* packet, uint8_t destID);			//issue
 		AbstractPacket* receive(uint8_t&  sourceID);					//issue
 
-		bool linkCallback(ABSPacket^ packet, const Callback* callback);//issue
+		bool linkCallback(const ABSPacket^ packet, const CallBack^ callback);//issue
 
 		int32_t run();
 		int32_t pause();

@@ -31,6 +31,11 @@ namespace Comnet {
 public ref class CallBack {
 public:
 
+
+internal:
+  const Callback* getUnsafeCallback() {
+    return callback;
+  }
 private:
   Callback* callback;
 };
