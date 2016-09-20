@@ -75,11 +75,20 @@ public:
     return unmanaged;
   }
 
+  void SetAbstractPacket(AbstractPacket* packet) {
+    if (unmanaged) {
+      delete unmanaged;
+      unmanaged = nullptr;
+    }
+
+    unmanaged = packet;
+  }
+
   generic<typename Type> where Type:ABSPacket
   static Type GetValue(ABSPacket^ packt) {
     try {
       return static_cast<Type>(packt);
-    } catch (std::exception e) {
+    } catch (System::Exception^ e) {
       throw gcnew System::InvalidCastException(gcnew String("Invalid casting"));
     } 
   }

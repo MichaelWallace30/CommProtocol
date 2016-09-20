@@ -30,7 +30,7 @@ namespace Comnet {
 #pragma managed
 
 	//manged copy of transport_protocol_t
-	public enum class TransportProtocol {UDP_LINK, SERIAL_LINK, ZIGBEE_LINK};
+	public enum class TransportProtocol { UDP_LINK, SERIAL_LINK, ZIGBEE_LINK };
 
 	public ref class CommsWrapper sealed
 	{

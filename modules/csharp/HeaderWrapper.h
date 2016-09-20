@@ -38,5 +38,9 @@ public ref class HeaderWrapper sealed
 		uint16_t getMessageID();		
 		void setIV(cli::array<Byte>^ IV);		
 		cli::array<Byte>^ getIV();
+
+    header_t* getHeader() {
+      return header;
+    }
 	};
 }

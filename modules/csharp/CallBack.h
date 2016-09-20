@@ -18,6 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CommProto/Callback.h>
 
+#include <ABSPacket.h>
+#include <HeaderWrapper.h>
+
 #include <vcclr.h>
 #using <mscorlib.dll>
 
@@ -28,15 +31,41 @@ using namespace System::Runtime::InteropServices;
 namespace Comnet {
 
 
+// Wrapped function pointer.
+[UnmanagedFunctionPointerAttribute(CallingConvention::Cdecl)]
+public delegate Int32 CommFunct(const HeaderWrapper^, ABSPacket^);
+
+// Call back codes.
+public enum class CallBackCodes {
+  CALLBACK_SUCCESS         = 0,
+  CALLBACK_FAIL            = 1,
+  CALLBACK_STORE_PACKET    = 3,
+  CALLBACK_DESTROY_PACKET  = 4,
+};
+
+
+/**
+  Standard callback listener that wraps Callback from within CommProtocol.
+*/
 public ref class CallBack {
 public:
+  
+  CallBack(ABSPacket^ ref);
+  CallBack(ABSPacket^ ref, CommFunct^ funct);
+  ~CallBack();
 
-
+  void SetCallBackListenter(CommFunct^ ptr);
+  
+  Int32 CallFunction(const HeaderWrapper^ header, ABSPacket^ packet);
 internal:
   const Callback* getUnsafeCallback() {
     return callback;
   }
+
+  error_t helper(const header_t& header, AbstractPacket& packet);
 private:
+  ABSPacket^ reference;
+  CommFunct^ funct;
   Callback* callback;
 };
 }

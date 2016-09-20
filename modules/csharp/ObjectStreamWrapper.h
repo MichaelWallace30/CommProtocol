@@ -23,7 +23,7 @@ using namespace System;
 using namespace Comnet::Tools::Allocator;
 
 namespace Comnet {
-	namespace Serialization{
+	namespace Serialization {
 		public ref class ObjectStreamWrapper sealed {
 		public:
 			CommPointer<ObjectStream>* unmangedObjectStream;
