@@ -13,8 +13,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __ABSPACKET_H
-#define __ABSPACKET_H
+#ifndef __CSHARP_ABSPACKET_H
+#define __CSHARP_ABSPACKET_H
 
 #include <CommProto/AbstractPacket.h>
 #include <CommProto/tools/allocator/CommPointer.h>
@@ -96,4 +96,4 @@ private:
 };
 
 }
-#endif // __ABS_PACKET_H
+#endif // __CSHARP_ABS_PACKET_H
