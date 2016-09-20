@@ -122,9 +122,6 @@ Comms::~Comms()
 	free_pointer(connectionLayer);
 	mutex_destroy(&sendMutex);
 	mutex_destroy(&recvMutex);
-
-	delete recvQueue;
-	delete sendQueue;
 }
 
 bool Comms::initConnection(transport_protocol_t connectionType, const char* port, const char* address, uint32_t baudrate)

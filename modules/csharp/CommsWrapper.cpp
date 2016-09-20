@@ -60,6 +60,7 @@ using namespace Comnet;
 
 	}
 
+
 	bool CommsWrapper::addAddress(uint8_t destID, String^ address, uint16_t port)
 	{
 		IntPtr ptrToNativeStringAddress = Marshal::StringToHGlobalAnsi(address);
@@ -68,29 +69,46 @@ using namespace Comnet;
 
 	}
 
+
 	bool CommsWrapper::removeAddress(uint8_t destID)
 	{
 		return unmangedComms->removeAddress(destID);
 	}
 
-	bool CommsWrapper::send(uint8_t destID)
+
+	bool CommsWrapper::send(ABSPacket^ packet, uint8_t destID)
 	{
 		//testing only
 		printf("sending\n");
-		return unmangedComms->send(ping, destID);
+    AbstractPacket* unmanagedPacket = packet->GetAbstractPacket();
+		return unmangedComms->send(unmanagedPacket, destID);
 	}
 
-	AbstractPacket* CommsWrapper::receive(uint8_t&  sourceID)
+
+	bool CommsWrapper::receive(ABSPacket^ p, uint8_t%  sourceID)
 	{
-		return unmangedComms->receive(sourceID);
+    bool success = false;
+    uint8_t source;
+
+		p->SetAbstractPacket(unmangedComms->receive(source));
+
+    if (p->GetAbstractPacket()) {
+      sourceID = source;
+      success = true;
+    }
+
+    return success;
 	}
+
 
 	bool CommsWrapper::linkCallback(const ABSPacket^ packet, const CallBack^ callback)
 	{
 		return unmangedComms->linkCallback((
-                  (ABSPacket^)packet)->getAbstractPacket(),
+                  (ABSPacket^)packet)->GetAbstractPacket(),
                   ((CallBack^)callback)->getUnsafeCallback());
 	}
+
+
 	int32_t CommsWrapper::run()
 	{
 		return unmangedComms->run();

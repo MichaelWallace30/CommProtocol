@@ -51,8 +51,8 @@ namespace Comnet {
 
 		bool removeAddress(uint8_t destID);
 
-		bool send(uint8_t destID);//AbstractPacket* packet, uint8_t destID);			//issue
-		AbstractPacket* receive(uint8_t&  sourceID);					//issue
+		bool send(ABSPacket^ packet, uint8_t destID);			//issue
+		bool receive(ABSPacket^ p, uint8_t%  sourceID);					//issue
 
 		bool linkCallback(const ABSPacket^ packet, const CallBack^ callback);//issue
 

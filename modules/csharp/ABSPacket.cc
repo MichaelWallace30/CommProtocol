@@ -32,7 +32,7 @@ void AbstractPacketForwarder::unpack(ObjectStream& obj) {
 
 AbstractPacket* AbstractPacketForwarder::create() {
   ABSPacket^ packet = owner->Create();
-  return packet->getAbstractPacket();
+  return packet->GetAbstractPacket();
 }
 
 

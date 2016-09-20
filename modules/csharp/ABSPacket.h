@@ -71,7 +71,7 @@ public:
 
   String^ GetPacketName() { return packetName; }
 
-  AbstractPacket* getAbstractPacket() {
+  AbstractPacket* GetAbstractPacket() {
     return unmanaged;
   }
 
@@ -103,6 +103,5 @@ private:
   AbstractPacket* unmanaged;
   String^ packetName;
 };
-
 }
 #endif // __CSHARP_ABS_PACKET_H
