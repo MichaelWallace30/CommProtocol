@@ -14,6 +14,11 @@ set(CSHARP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 set(COMMPROTO_WRAPPER_HEADER_DIR 
+  ${CSHARP_DIR}/network/TransportProtocol.h
+  ${CSHARP_DIR}/pkg/CPacketManager.h
+  ${CSHARP_DIR}/pkg/CPacketTable.h
+  ${CSHARP_DIR}/pkg/CPacketFactory.h
+  ${CSHARP_DIR}/CCommNode.h
   ${CSHARP_DIR}/CommsWrapper.h
   ${CSHARP_DIR}/HeaderWrapper.h
   ${CSHARP_DIR}/ObjectStreamWrapper.h
@@ -21,6 +26,9 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/ABSPacket.h)
 
 set(COMMPROTO_WRAPPER_SOURCE_DIR
+  ${CSHARP_DIR}/pkg/CPacketFactory.cc
+  ${CSHARP_DIR}/pkg/CPacketTable.cc
+  ${CSHARP_DIR}/pkg/CPacketManager.cc
   ${CSHARP_DIR}/CommsWrapper.cpp
   ${CSHARP_DIR}/HeaderWrapper.cpp
   ${CSHARP_DIR}/ObjectStreamWrapper.cpp
