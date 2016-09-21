@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ABSPacket.h>
 #include <CallBack.h>
 #include <CObjectStream.h>
-#include <tools/Queue.h>
+#include <tools/CQueue.h>
 #include <network/TransportProtocol.h>
 #include <pkg/CPacketManager.h>
 
