@@ -19,7 +19,7 @@ public:
   }
 
   void Unpack(ObjectStreamWrapper^ obj) override {
-    obj->outputInt32();
+    cat = obj->outputInt32();
   }
 
   ABSPacket^ Create() override {

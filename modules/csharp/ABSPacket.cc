@@ -18,6 +18,8 @@ void AbstractPacketForwarder::pack(ObjectStream& obj) {
   ObjectStreamWrapper^ wrapper = gcnew ObjectStreamWrapper(&ptr);
 
   owner->Pack(wrapper);
+
+  obj.setBuffer((char*)ptr.get().getBuffer(), ptr.get().getSize());
 }
 
 
