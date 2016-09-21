@@ -34,7 +34,7 @@ namespace Pkg {
 /**
   CPacketManager is an interface, meant to allow interchangeable hashing and managing.
 */
-public interface class CPacketManager abstract {
+public interface class CPacketManager {
 public:
 
   virtual Boolean Insert(ABSPacket^ key, CallBack^ callback) = 0;

@@ -22,12 +22,12 @@ using namespace System::Runtime::InteropServices;
 #pragma once
 namespace Comnet{
 #pragma managed	
-public ref class HeaderWrapper sealed
+public ref class CHeader sealed
 {
 	public:
 		header_t *header;	
-		HeaderWrapper();
-		~HeaderWrapper();
+		CHeader();
+		~CHeader();
 		void setDestID(Byte destID);
 		uint8_t getDestID();
 		void setSourceID(Byte sourceID);

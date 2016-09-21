@@ -14,15 +14,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <HeaderWrapper.h>
+#include <CHeader.h>
 
 using namespace Comnet;
-HeaderWrapper::HeaderWrapper()
+CHeader::CHeader()
 {
 	header = new header_t();
 }
 
-HeaderWrapper::~HeaderWrapper()
+CHeader::~CHeader()
 {
 	if (header != NULL)
 	{
@@ -31,19 +31,19 @@ HeaderWrapper::~HeaderWrapper()
 	}
 }
 
-void HeaderWrapper::setDestID(Byte destID){ header->destID = destID; }
-uint8_t HeaderWrapper::getDestID(){ return header->destID; }
+void CHeader::setDestID(Byte destID){ header->destID = destID; }
+uint8_t CHeader::getDestID(){ return header->destID; }
 
-void HeaderWrapper::setSourceID(Byte sourceID){ header->sourceID = sourceID; }
-uint8_t HeaderWrapper::getSourceID(){ return header->sourceID; }
+void CHeader::setSourceID(Byte sourceID){ header->sourceID = sourceID; }
+uint8_t CHeader::getSourceID(){ return header->sourceID; }
 
-void HeaderWrapper::setMessageLength(UInt16 mesageLength){ header->messageLength = mesageLength; }
-uint16_t HeaderWrapper::getMessageLength(){ return header->messageLength; }
+void CHeader::setMessageLength(UInt16 mesageLength){ header->messageLength = mesageLength; }
+uint16_t CHeader::getMessageLength(){ return header->messageLength; }
 
-void HeaderWrapper::setMessageID(UInt16 messageID){ header->messageID = messageID; }
-uint16_t HeaderWrapper::getMessageID(){ return header->messageID; }
+void CHeader::setMessageID(UInt16 messageID){ header->messageID = messageID; }
+uint16_t CHeader::getMessageID(){ return header->messageID; }
 
-void HeaderWrapper::setIV(cli::array<Byte>^ IV)
+void CHeader::setIV(cli::array<Byte>^ IV)
 {
 	for (int x = 0; x < KEY_LENGTH; x++)
 	{
@@ -51,7 +51,7 @@ void HeaderWrapper::setIV(cli::array<Byte>^ IV)
 	}
 }
 
-cli::array<Byte>^ HeaderWrapper::getIV()
+cli::array<Byte>^ CHeader::getIV()
 {
 	cli::array<Byte>^IV = gcnew cli::array<Byte>(KEY_LENGTH);
 	for (int x = 0; x < KEY_LENGTH; x++)

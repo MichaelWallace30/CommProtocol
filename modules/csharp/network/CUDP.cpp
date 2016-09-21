@@ -1,5 +1,6 @@
 #include <network/CUDP.h>
 
+using namespace System::Runtime::InteropServices;
 using namespace Comnet::Network;
 
 /**Constuctor*/

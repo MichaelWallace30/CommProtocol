@@ -15,7 +15,7 @@ AbstractPacketForwarder::AbstractPacketForwarder(ABSPacket^ packet)
 
 void AbstractPacketForwarder::pack(ObjectStream& obj) {
   CommPointer<ObjectStream> ptr = obj;
-  ObjectStreamWrapper^ wrapper = gcnew ObjectStreamWrapper(&ptr);
+  CObjectStream^ wrapper = gcnew CObjectStream(&ptr);
 
   owner->Pack(wrapper);
 
@@ -25,7 +25,7 @@ void AbstractPacketForwarder::pack(ObjectStream& obj) {
 
 void AbstractPacketForwarder::unpack(ObjectStream& obj) {
   CommPointer<ObjectStream> ptr = obj;
-  ObjectStreamWrapper^ wrapper = gcnew ObjectStreamWrapper(&ptr);
+  CObjectStream^ wrapper = gcnew CObjectStream(&ptr);
 
   owner->Unpack(wrapper);
   // ptr is now in control of the ptr;

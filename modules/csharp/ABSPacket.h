@@ -18,12 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CommProto/AbstractPacket.h>
 #include <CommProto/tools/allocator/CommPointer.h>
-#include <ObjectStreamWrapper.h>
+#include <CObjectStream.h>
 #include <vcclr.h>
 #using <mscorlib.dll>
 
 using namespace System;
-using namespace System::Runtime::InteropServices;
 
 namespace Comnet {
 
@@ -65,8 +64,8 @@ private:
 public ref class ABSPacket abstract {
 public:
 
-  virtual void Pack(ObjectStreamWrapper^ obj) = 0;
-  virtual void Unpack(ObjectStreamWrapper^ obj) = 0;
+  virtual void Pack(CObjectStream^ obj) = 0;
+  virtual void Unpack(CObjectStream^ obj) = 0;
   virtual ABSPacket^ Create() = 0;
 
   String^ GetPacketName() { return packetName; }

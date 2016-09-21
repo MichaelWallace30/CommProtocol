@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ABSPacket.h>
 #include <CallBack.h>
-#include <ObjectStreamWrapper.h>
+#include <CObjectStream.h>
 #include <tools/Queue.h>
 #include <network/TransportProtocol.h>
 #include <pkg/CPacketManager.h>
@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Comnet {
 
-
+  using namespace System;
 	using namespace Comnet::Tools::DataStructures::Interface;
   using namespace Comnet::Network;
 	using namespace Comnet::Pkg;
@@ -70,6 +70,10 @@ namespace Comnet {
 		Add a packet to the call chain.
 		*/
 		virtual Boolean AddPacket(ABSPacket^ packet) {
+      if (!packetManager) {
+        throw gcnew System::NullReferenceException("Packet Manager is null! Be sure to initialize first!");
+      }
+
 			return this->packetManager->Insert(packet, nullptr);//error need new packet manager
 		}
 		/**
@@ -88,7 +92,10 @@ namespace Comnet {
 		TODO(): Figure out the best thing for a good callback.
 		*/
 		virtual Boolean LinkCallback(ABSPacket^ packet, CallBack^ callback) {
-			
+			if (!packetManager) {
+        throw gcnew System::NullReferenceException("Packet Manager is null! Be suer to initialize first!");
+      }
+
 			return this->packetManager->Insert(packet, callback);//error need new packet manager :(
 		}
 		/**
@@ -103,7 +110,7 @@ namespace Comnet {
 		/**
 		Replace the send queue of this node.
 		*/
-		virtual Boolean ReplaceSendQueue(CQueue<ObjectStreamWrapper^>^ queue) {
+		virtual Boolean ReplaceSendQueue(CQueue<CObjectStream^>^ queue) {
 			sendQueue = queue;
 			return true;
 		}
@@ -223,7 +230,7 @@ namespace Comnet {
 		/**
 		Queue that holds ObjectStreamWrappers used for sending out.
 		*/
-		CQueue<ObjectStreamWrapper^>^ sendQueue;
+		CQueue<CObjectStream^>^ sendQueue;
 	private:
 		/**
 		The node id associated with this node. This id is used for outside communications.

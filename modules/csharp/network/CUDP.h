@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Comnet {
 	namespace Network {
+    #pragma managed
 		
 		public ref class CUDP: public CCommsLink{
 		private:			

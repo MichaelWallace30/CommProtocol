@@ -7,7 +7,7 @@ namespace Comnet {
 public delegate error_t Callb(const header_t& header, AbstractPacket& packet);
 
 
-Int32 ErrorFunct(HeaderWrapper^ h, ABSPacket^ pack) {
+Int32 ErrorFunct(CHeader^ h, ABSPacket^ pack) {
   return -100;
 }
 
@@ -45,14 +45,14 @@ void CallBack::SetCallBackListenter(CommFunct^ ptr) {
 }
 
 
-Int32 CallBack::CallFunction(HeaderWrapper^ header, ABSPacket^ packet) {
+Int32 CallBack::CallFunction(CHeader^ header, ABSPacket^ packet) {
   return funct(header, packet);
 
 }
 
 
 error_t CallBack::helper(const header_t& header, AbstractPacket& packet) {
-  HeaderWrapper^ managedHeader = gcnew HeaderWrapper();
+  CHeader^ managedHeader = gcnew CHeader();
   managedHeader->header = (header_t *)&header;  
 
   ABSPacket^ managedPacket = reference->Create();

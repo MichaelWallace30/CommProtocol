@@ -19,21 +19,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/Callback.h>
 
 #include <ABSPacket.h>
-#include <HeaderWrapper.h>
+#include <CHeader.h>
 
 #include <vcclr.h>
 #using <mscorlib.dll>
 
 
 using namespace System;
-using namespace System::Runtime::InteropServices;
 
 namespace Comnet {
 
 
 // Wrapped function pointer.
 [UnmanagedFunctionPointerAttribute(CallingConvention::Cdecl)]
-public delegate Int32 CommFunct(HeaderWrapper^, ABSPacket^);
+public delegate Int32 CommFunct(CHeader^, ABSPacket^);
 
 // Call back codes.
 public enum class CallBackCodes : Int32 {
@@ -57,7 +56,7 @@ public:
 
   void SetCallBackListenter(CommFunct^ ptr);
   
-  Int32 CallFunction(HeaderWrapper^ header, ABSPacket^ packet);
+  Int32 CallFunction(CHeader^ header, ABSPacket^ packet);
 internal:
   const Callback* getUnsafeCallback() {
     return callback;

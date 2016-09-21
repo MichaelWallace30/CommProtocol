@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <ObjectStreamWrapper.h>
+#include <CObjectStream.h>
 #include <msclr/marshal_cppstd.h>
 #include <string>
 
@@ -22,33 +22,33 @@ using namespace System;
 using namespace Comnet;
 using namespace Serialization;
 
-ObjectStreamWrapper::ObjectStreamWrapper()
+CObjectStream::CObjectStream()
 {
 	unmangedObjectStream = new CommPointer<ObjectStream>(ObjectStream());
 }
 
-ObjectStreamWrapper::ObjectStreamWrapper(CommPointer<ObjectStream>* pointer) 
+CObjectStream::CObjectStream(CommPointer<ObjectStream>* pointer) 
 : unmangedObjectStream(new CommPointer<ObjectStream>(*pointer))
 {
 }
 
-ObjectStreamWrapper::~ObjectStreamWrapper()
+CObjectStream::~CObjectStream()
 {
 	delete unmangedObjectStream;
 	unmangedObjectStream = NULL;
 }
 
-Int32 ObjectStreamWrapper::getPosition()
+Int32 CObjectStream::getPosition()
 {
 	return unmangedObjectStream->get().getPostion();
 }
 
-Int32 ObjectStreamWrapper::getSize()
+Int32 CObjectStream::getSize()
 {
 	return unmangedObjectStream->get().getSize();
 }
 
-void ObjectStreamWrapper::serializeHeader(HeaderWrapper ^ header)
+void CObjectStream::serializeHeader(CHeader ^ header)
 {
 	unmangedObjectStream->get().headerPacket.destID = header->getDestID();
 	unmangedObjectStream->get().headerPacket.sourceID = header->getSourceID();
@@ -61,10 +61,10 @@ void ObjectStreamWrapper::serializeHeader(HeaderWrapper ^ header)
 	unmangedObjectStream->get().serializeHeader(unmangedObjectStream->get().headerPacket);
 }
 
-HeaderWrapper^ ObjectStreamWrapper::deserializeHeader()
+CHeader^ CObjectStream::deserializeHeader()
 {
 	unmangedObjectStream->get().headerPacket = unmangedObjectStream->get().deserializeHeader();
-	HeaderWrapper^ header = gcnew HeaderWrapper();
+	CHeader^ header = gcnew CHeader();
 	header->setDestID(unmangedObjectStream->get().headerPacket.destID);
 	header->setSourceID(unmangedObjectStream->get().headerPacket.sourceID);
 	header->setMessageLength(unmangedObjectStream->get().headerPacket.messageLength);
@@ -79,39 +79,39 @@ HeaderWrapper^ ObjectStreamWrapper::deserializeHeader()
 }
 
 //intput
-void ObjectStreamWrapper::input(String^ data)
+void CObjectStream::input(String^ data)
  {
 	std::string value = msclr::interop::marshal_as<std::string>(data);
 	unmangedObjectStream->get() << value;
 }
-void ObjectStreamWrapper::input(Byte data)  { unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(SByte data) { unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(UInt16 data){ unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(Int16 data) { unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(Int32 data) { unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(UInt32 data){ unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(Int64 data) { unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(UInt64 data){ unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(Single data){ unmangedObjectStream->get() << data; }
-void ObjectStreamWrapper::input(Double data){ unmangedObjectStream->get() << data; }
+void CObjectStream::input(Byte data)  { unmangedObjectStream->get() << data; }
+void CObjectStream::input(SByte data) { unmangedObjectStream->get() << data; }
+void CObjectStream::input(UInt16 data){ unmangedObjectStream->get() << data; }
+void CObjectStream::input(Int16 data) { unmangedObjectStream->get() << data; }
+void CObjectStream::input(Int32 data) { unmangedObjectStream->get() << data; }
+void CObjectStream::input(UInt32 data){ unmangedObjectStream->get() << data; }
+void CObjectStream::input(Int64 data) { unmangedObjectStream->get() << data; }
+void CObjectStream::input(UInt64 data){ unmangedObjectStream->get() << data; }
+void CObjectStream::input(Single data){ unmangedObjectStream->get() << data; }
+void CObjectStream::input(Double data){ unmangedObjectStream->get() << data; }
 
 //Ooutput
-String^ ObjectStreamWrapper::outputString()
+String^ CObjectStream::outputString()
 {
 	std::string value;
   ObjectStream& obj = unmangedObjectStream->get();
 	obj >> value;
 	return gcnew String(value.c_str());	
 }
-Byte ObjectStreamWrapper::outputByte()    { uint8_t data; unmangedObjectStream->get() >> data; return data; }
-SByte ObjectStreamWrapper::outputSByte()  { int8_t data; unmangedObjectStream->get() >> data; return data; }
-UInt16 ObjectStreamWrapper::outputUInt16(){ UInt16 data; unmangedObjectStream->get() >> data; return data; }
-Int16 ObjectStreamWrapper::outputInt16()  { Int16 data;  unmangedObjectStream->get() >> data; return data; }
-UInt32 ObjectStreamWrapper::outputUInt32(){ UInt32 data; unmangedObjectStream->get() >> data; return data; }
-Int32 ObjectStreamWrapper::outputInt32()  { Int32 data;  unmangedObjectStream->get() >> data; return data; }
-UInt64 ObjectStreamWrapper::outputUInt64(){ UInt64 data; unmangedObjectStream->get() >> data; return data; }
-Int64 ObjectStreamWrapper::outputInt64()  { Int64 data;  unmangedObjectStream->get() >> data; return data; }
-Single ObjectStreamWrapper::outputSingle(){ Single data; unmangedObjectStream->get() >> data; return data; }
-Double ObjectStreamWrapper::outputDouble(){ Double data; unmangedObjectStream->get() >> data; return data; }
+Byte CObjectStream::outputByte()    { uint8_t data; unmangedObjectStream->get() >> data; return data; }
+SByte CObjectStream::outputSByte()  { int8_t data; unmangedObjectStream->get() >> data; return data; }
+UInt16 CObjectStream::outputUInt16(){ UInt16 data; unmangedObjectStream->get() >> data; return data; }
+Int16 CObjectStream::outputInt16()  { Int16 data;  unmangedObjectStream->get() >> data; return data; }
+UInt32 CObjectStream::outputUInt32(){ UInt32 data; unmangedObjectStream->get() >> data; return data; }
+Int32 CObjectStream::outputInt32()  { Int32 data;  unmangedObjectStream->get() >> data; return data; }
+UInt64 CObjectStream::outputUInt64(){ UInt64 data; unmangedObjectStream->get() >> data; return data; }
+Int64 CObjectStream::outputInt64()  { Int64 data;  unmangedObjectStream->get() >> data; return data; }
+Single CObjectStream::outputSingle(){ Single data; unmangedObjectStream->get() >> data; return data; }
+Double CObjectStream::outputDouble(){ Double data; unmangedObjectStream->get() >> data; return data; }
 
 

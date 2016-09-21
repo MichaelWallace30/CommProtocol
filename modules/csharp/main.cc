@@ -14,11 +14,11 @@ public:
   Testing(int t) : cat(t), ABSPacket("Testing") { }
   Testing() : cat(0), ABSPacket("Testing") { }
 
-  void Pack(ObjectStreamWrapper^ obj) override {
+  void Pack(CObjectStream^ obj) override {
       obj->input(cat);
   }
 
-  void Unpack(ObjectStreamWrapper^ obj) override {
+  void Unpack(CObjectStream^ obj) override {
     cat = obj->outputInt32();
   }
 
@@ -31,7 +31,7 @@ private:
   int cat;
 };
 
-Int32 test(HeaderWrapper^ header, ABSPacket^ packet) {
+Int32 test(CHeader^ header, ABSPacket^ packet) {
   Testing^ testing = gcnew Testing();
   ABSPacket::GetValue<Testing^>(testing);
   cout << "This is what i got: " << testing->GetCat() << endl;
