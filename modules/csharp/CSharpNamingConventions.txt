@@ -1,0 +1,34 @@
+C#/C++CLI Naming Conventions:
+
+For Best Practices, it is recommended you follow these naming conventions for the sake of this C# Library. Provided here
+are the formats in which we attempt to go by:
+
+
+Classes, Structs, and Functions/Methods: All provided variables that are public will have Pascal format (Camel hump). 
+This helps in determining which function is public, as well as Which classes are public as well. 
+
+ex. 
+
+class ThisClass : ParentClass {
+  private somePrivateVariable;
+  public SomePublicVariable;
+
+  public ThisClass() { }
+
+  public void SomePublicFunction() { }
+
+  private void somePrivateFunction() { } 
+}
+
+Anything public will have Capitalized first Letter, and same convention as before.
+
+
+
+C++CLI cases:
+
+For C++CLI mode, especially for CommProtoWrapper, be sure to use the same names as their counterparts provided with a 
+'C' at the beginning..
+
+ex: 
+
+CCommNode.h will correspond to CommNode.h in C++ CommProto.
