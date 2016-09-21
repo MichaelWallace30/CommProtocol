@@ -43,25 +43,6 @@ public:
 
 private:
 };
-
-
-template<typename Type>
-class QueueForwarder : public Queue<Type> {
-  
-public:
-  QueueForwarder();
-  
-  void enQueue(const Type& data);
-  void deQueue();
-  const Type& front();
-  const Type& back();
-  
-private:
-  gcroot<CQueue<Type>^> owner;    
-};
-
-
-
 }
 }
 }
