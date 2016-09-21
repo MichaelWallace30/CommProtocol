@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ObjectStreamWrapper.h>
 #include <tools/Queue.h>
 #include <network/TransportProtocol.h>
+#include <pkg/CPacketManager.h>
 
 #pragma once
 #pragma managed
@@ -69,7 +70,7 @@ namespace Comnet {
 		Add a packet to the call chain.
 		*/
 		virtual Boolean AddPacket(ABSPacket^ packet) {
-			return this->packetManager->insert(packet, NULL);//error need new packet manager
+			return this->packetManager->Insert(packet, nullptr);//error need new packet manager
 		}
 		/**
 		Link a callback to a packet in the call chain. This is still a working progress, Not sure what
@@ -88,7 +89,7 @@ namespace Comnet {
 		*/
 		virtual Boolean LinkCallback(ABSPacket^ packet, CallBack^ callback) {
 			
-			return this->packetManager->insert(packet, callback);//error need new packet manager :(
+			return this->packetManager->Insert(packet, callback);//error need new packet manager :(
 		}
 		/**
 		Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
@@ -220,7 +221,7 @@ namespace Comnet {
 		Packet Manager is a manager controller, designed to hold packets for the node.
 		*/
     // TODO(Garcia or Wallace) : We need to wrap this.
-		PacketManager *packetManager;//change to managed pointer when new packetmanger is added
+		CPacketManager^ packetManager;//change to managed pointer when new packetmanger is added
 		/**
 		Queue that holds AbstractPacket types for receiving.
 		*/
