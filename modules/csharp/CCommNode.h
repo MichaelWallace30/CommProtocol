@@ -150,11 +150,9 @@ namespace Comnet {
 
 		Run the node. Threads may be implemented.
 		*/
-		virtual Int32 Run() {
+		virtual Void Run() {
 			running = true;
 			paused = false;
-
-			return 0;
 		}
 
 		/**
@@ -163,11 +161,9 @@ namespace Comnet {
 
 		Pause the node threads and any process.
 		*/
-		virtual Int32 Pause() {
+		virtual Void Pause() {
 			running = false;
 			paused = true;
-
-			return 0;
 		}
 
 		/**
@@ -176,11 +172,9 @@ namespace Comnet {
 
 		Stop the node threads and any process.
 		*/
-		virtual Int32 Stop() {
+		virtual Void Stop() {
 			running = false;
 			paused = false;
-
-			return 0;
 		}
 
 		/**
