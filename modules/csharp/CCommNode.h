@@ -68,7 +68,7 @@ namespace Comnet {
 		/**
 		Add a packet to the call chain.
 		*/
-		virtual Boolean addPacket(ABSPacket^ packet) {
+		virtual Boolean AddPacket(ABSPacket^ packet) {
 			return this->packetManager->insert(packet, NULL);//error need new packet manager
 		}
 		/**
@@ -102,7 +102,7 @@ namespace Comnet {
 		/**
 		Replace the send queue of this node.
 		*/
-		virtual Boolean replaceSendQueue(CQueue<ObjectStreamWrapper^>^ queue) {
+		virtual Boolean ReplaceSendQueue(CQueue<ObjectStreamWrapper^>^ queue) {
 			sendQueue = queue;
 			return true;
 		}
@@ -110,14 +110,14 @@ namespace Comnet {
 		/**
 		Replace the recv queue of this node.
 		*/
-		virtual Boolean replaceReceiveQueue(CQueue<ABSPacket^>^ queue) {
+		virtual Boolean ReplaceReceiveQueue(CQueue<ABSPacket^>^ queue) {
 			recvQueue = queue;
 			return true;
 		}
 		/**
 		Send the packet to the specified destination address.
 		*/
-		virtual Boolean send(ABSPacket^ packet, uint8_t destId) = 0;
+		virtual Boolean Send(ABSPacket^ packet, uint8_t destId) = 0;
 		/**
 		Check for packet if received. This is called manually by user, yet the node should
 		be able to run automatically checking for received packets. Any packets linked to a
@@ -126,11 +126,11 @@ namespace Comnet {
 		@param messageId
 		@return Packet that was received, otherwise NULL if nothing found.
 		*/
-		virtual ABSPacket^ receive(uint8_t& sourceId) = 0;
+		virtual ABSPacket^ Receive(uint8_t& sourceId) = 0;
 		/**
 		Initialize connection.
 		*/
-		virtual bool initConnection(TransportProtocol connType,
+		virtual bool InitConnection(TransportProtocol connType,
 			String^ port,
 			String^ address,
 			UInt32 baudRate) = 0;//no default arguments allowed maybe overload later
@@ -138,11 +138,11 @@ namespace Comnet {
 		/**
 		Add a communication address.
 		*/
-		virtual Boolean addAddress(UInt16 destID, String^ address, UInt16 port) = 0;//no default arguments allowed maybe overload later
+		virtual Boolean AddAddress(UInt16 destID, String^ address, UInt16 port) = 0;//no default arguments allowed maybe overload later
 		/**
 		remove an Address.
 		*/
-		virtual Boolean removeAddress(UInt16 destID) = 0;
+		virtual Boolean RemoveAddress(UInt16 destID) = 0;
 		/**
 		NOTICE: BE SURE TO CALL THIS METHOD IN YOUR EXTENDED CLASS, IF YOU PLAN ON OVERRIDING THIS
 		FUNCTION.
@@ -219,6 +219,7 @@ namespace Comnet {
 		/**
 		Packet Manager is a manager controller, designed to hold packets for the node.
 		*/
+    // TODO(Garcia or Wallace) : We need to wrap this.
 		PacketManager *packetManager;//change to managed pointer when new packetmanger is added
 		/**
 		Queue that holds AbstractPacket types for receiving.
@@ -233,19 +234,19 @@ namespace Comnet {
 		The node id associated with this node. This id is used for outside communications.
 		Be sure to set an id that would most likely be identifiable with your node.
 		*/
-		int32_t nodeId;
+		UInt32 nodeId;
 		/**
 		The unique id used for inside communications. This id CANNOT be changed.
 		*/
-		const int32_t uniqueId;
+		UInt32 uniqueId;
 		/**
 		Check if this node is currently running.
 		*/
-		bool running;
+		Boolean running;
 		/**
 		Check if ths node is paused.
 		*/
-		bool paused;
+		Boolean paused;
 	};
 
 } // Comnet namespace
