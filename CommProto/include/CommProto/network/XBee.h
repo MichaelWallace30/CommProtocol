@@ -23,6 +23,7 @@
 #include <CommProto/architecture/connection/serial-config.h>
 
 #include <xbee/platform.h>
+#include <xbee/device.h>
 #include <wpan/aps.h>
 
 
@@ -72,7 +73,8 @@ private:
   /**
     Information about the WPAN address on this device, subject by IEEE 802.15.4 protocol.
    */
-  struct wpan_dev_t device;
+  struct xbee_dev_t device;
+  struct wpan_dev_t wpanDevice;
 };
 } // namespace Experimental
 } // namespace Network
