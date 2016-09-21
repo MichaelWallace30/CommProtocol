@@ -14,6 +14,7 @@ set(CSHARP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 set(COMMPROTO_WRAPPER_HEADER_DIR 
+  ${CSHARP_DIR}/tools/CQueue.h
   ${CSHARP_DIR}/network/TransportProtocol.h
   ${CSHARP_DIR}/pkg/CPacketManager.h
   ${CSHARP_DIR}/pkg/CPacketTable.h
