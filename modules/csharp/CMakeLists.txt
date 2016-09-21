@@ -20,8 +20,8 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/pkg/CPacketFactory.h
   ${CSHARP_DIR}/CCommNode.h
   ${CSHARP_DIR}/CommsWrapper.h
-  ${CSHARP_DIR}/HeaderWrapper.h
-  ${CSHARP_DIR}/ObjectStreamWrapper.h
+  ${CSHARP_DIR}/CHeader.h
+  ${CSHARP_DIR}/CObjectStream.h
   ${CSHARP_DIR}/CallBack.h
   ${CSHARP_DIR}/ABSPacket.h)
 
@@ -30,8 +30,8 @@ set(COMMPROTO_WRAPPER_SOURCE_DIR
   ${CSHARP_DIR}/pkg/CPacketTable.cc
   ${CSHARP_DIR}/pkg/CPacketManager.cc
   ${CSHARP_DIR}/CommsWrapper.cpp
-  ${CSHARP_DIR}/HeaderWrapper.cpp
-  ${CSHARP_DIR}/ObjectStreamWrapper.cpp
+  ${CSHARP_DIR}/CHeader.cpp
+  ${CSHARP_DIR}/CObjectStream.cpp
   ${CSHARP_DIR}/CallBack.cc
   ${CSHARP_DIR}/ABSPacket.cc)
 
