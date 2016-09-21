@@ -11,24 +11,31 @@ using namespace std;
 
 public ref class Testing : public ABSPacket {
 public:
-  Testing() : ABSPacket("Testing") { }
+  Testing(int t) : cat(t), ABSPacket("Testing") { }
+  Testing() : cat(0), ABSPacket("Testing") { }
 
   void Pack(ObjectStreamWrapper^ obj) override {
-  
+      obj->input(cat);
   }
 
   void Unpack(ObjectStreamWrapper^ obj) override {
-    
+    obj->outputInt32();
   }
 
   ABSPacket^ Create() override {
     return gcnew Testing();
   }
+
+  int GetCat() { return cat; }
 private:
+  int cat;
 };
 
 Int32 test(HeaderWrapper^ header, ABSPacket^ packet) {
-  return -1;
+  Testing^ testing = gcnew Testing();
+  ABSPacket::GetValue<Testing^>(testing);
+  cout << "This is what i got: " << testing->GetCat() << endl;
+  return (Int32)CallBackCodes::CALLBACK_SUCCESS;
 }
 
 int main() {
@@ -44,8 +51,12 @@ int main() {
   comm1.addAddress(2, gcnew String("127.0.0.1"), 1338);
   comm2.addAddress(1, gcnew String("127.0.0.1"), 1337);
 
+  comm1.run();
+  comm2.run();
+
   while(1) {
-    
+    comm2.send(gcnew Testing(123), 1);
+    Sleep(1000);    
   }
   cin.ignore();
   return 0;
