@@ -17,12 +17,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <CommProto/CommNode.h>
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/api.h>
-#include <CommProto/architecture/connection/transport_type.h>
-#include <CommProto/pkg/PacketManager.h>//need new packet manager?
-#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
+#include <ABSPacket.h>
+#include <CallBack.h>
+#include <ObjectStreamWrapper.h>
+#include <tools/Queue.h>
+#include <network/TransportProtocol.h>
 
 #pragma once
 #pragma managed
@@ -31,11 +32,8 @@ namespace Comnet {
 
 
 	using namespace Comnet::Tools::DataStructures::Interface;
+  using namespace Comnet::Network;
 	using namespace Comnet::Pkg;
-
-	ref class AbstractPacketForwarder;//I assume this will change
-	ref class CallBack;
-	ref class ObjectStreamWrapper;
 
 	/**
 	Currently supports about 65,536 nodes.
@@ -47,7 +45,7 @@ namespace Comnet {
 	that we can make easier adjustments for node changing and style, but we must always go
 	by this interface if we want to keep our nodes the same.
 	*/
-	ref class CCommNode abstract{
+	ref class CCommNode abstract {
 	public:
 		CCommNode()
 			: uniqueId(numberOfNodes++)
@@ -56,7 +54,7 @@ namespace Comnet {
 			, paused(true)
 		{ }
 
-		CCommNode(const uint32_t platformId)
+		CCommNode(UInt32 platformId)
 			: uniqueId(numberOfNodes++)
 			, nodeId(platformId)
 			, running(false)
@@ -65,14 +63,12 @@ namespace Comnet {
 		/**
 		Polymorphic Destructor.
 		*/
-		virtual ~CCommNode() {
-			free_pointer(recvQueue);
-			free_pointer(sendQueue);
-		}
+		virtual ~CCommNode() 
+      { }
 		/**
 		Add a packet to the call chain.
 		*/
-		virtual bool addPacket(const AbstractPacketForwarder^ packet) {
+		virtual Boolean addPacket(ABSPacket^ packet) {
 			return this->packetManager->insert(packet, NULL);//error need new packet manager
 		}
 		/**
@@ -90,7 +86,7 @@ namespace Comnet {
 
 		TODO(): Figure out the best thing for a good callback.
 		*/
-		virtual bool linkCallback(const AbstractPacketForwarder^ packet, const CallBack^ callback) {
+		virtual Boolean LinkCallback(ABSPacket^ packet, CallBack^ callback) {
 			
 			return this->packetManager->insert(packet, callback);//error need new packet manager :(
 		}
@@ -98,7 +94,7 @@ namespace Comnet {
 		Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
 		All packages received will go into a queue anyway.
 		*/
-		virtual bool linkQueue(const AbstractPacketForwarder^ packet, const Queue<AbstractPacketForwarder^>* queue)
+		virtual Boolean LinkQueue(const ABSPacket^ packet, CQueue<ABSPacket^>^ queue)
 		{
 			return ~0;
 		}
@@ -106,24 +102,22 @@ namespace Comnet {
 		/**
 		Replace the send queue of this node.
 		*/
-		virtual bool replaceSendQueue(const Queue<ObjectStreamWrapper^>* queue) {
-			free_pointer(sendQueue);
-			sendQueue = (Queue<ObjectStreamWrapper^> *) queue;
+		virtual Boolean replaceSendQueue(CQueue<ObjectStreamWrapper^>^ queue) {
+			sendQueue = queue;
 			return true;
 		}
 
 		/**
 		Replace the recv queue of this node.
 		*/
-		virtual bool replaceReceiveQueue(const Queue<AbstractPacketForwarder^>* queue) {
-			free_pointer(recvQueue);
-			recvQueue = (Queue<AbstractPacketForwarder^> *) queue;
+		virtual Boolean replaceReceiveQueue(CQueue<ABSPacket^>^ queue) {
+			recvQueue = queue;
 			return true;
 		}
 		/**
 		Send the packet to the specified destination address.
 		*/
-		virtual bool send(AbstractPacketForwarder^ packet, uint8_t destId) = 0;
+		virtual Boolean send(ABSPacket^ packet, uint8_t destId) = 0;
 		/**
 		Check for packet if received. This is called manually by user, yet the node should
 		be able to run automatically checking for received packets. Any packets linked to a
@@ -132,30 +126,30 @@ namespace Comnet {
 		@param messageId
 		@return Packet that was received, otherwise NULL if nothing found.
 		*/
-		virtual AbstractPacketForwarder^ receive(uint8_t& sourceId) = 0;
+		virtual ABSPacket^ receive(uint8_t& sourceId) = 0;
 		/**
 		Initialize connection.
 		*/
-		virtual bool initConnection(transport_protocol_t connType,
-			const char* port,
-			const char* address,
-			uint32_t baudRate) = 0;//no default arguments allowed maybe overload later
+		virtual bool initConnection(TransportProtocol connType,
+			String^ port,
+			String^ address,
+			UInt32 baudRate) = 0;//no default arguments allowed maybe overload later
 
 		/**
 		Add a communication address.
 		*/
-		virtual bool addAddress(uint8_t destID, const char* address, uint16_t port) = 0;//no default arguments allowed maybe overload later
+		virtual Boolean addAddress(UInt16 destID, String^ address, UInt16 port) = 0;//no default arguments allowed maybe overload later
 		/**
 		remove an Address.
 		*/
-		virtual bool removeAddress(uint8_t destID) = 0;
+		virtual Boolean removeAddress(UInt16 destID) = 0;
 		/**
 		NOTICE: BE SURE TO CALL THIS METHOD IN YOUR EXTENDED CLASS, IF YOU PLAN ON OVERRIDING THIS
 		FUNCTION.
 
 		Run the node. Threads may be implemented.
 		*/
-		virtual int32_t run() {
+		virtual Int32 Run() {
 			running = true;
 			paused = false;
 
@@ -168,7 +162,7 @@ namespace Comnet {
 
 		Pause the node threads and any process.
 		*/
-		virtual int32_t pause() {
+		virtual Int32 Pause() {
 			running = false;
 			paused = true;
 
@@ -181,7 +175,7 @@ namespace Comnet {
 
 		Stop the node threads and any process.
 		*/
-		virtual int32_t stop() {
+		virtual Int32 Stop() {
 			running = false;
 			paused = false;
 
@@ -191,7 +185,7 @@ namespace Comnet {
 		/**
 		Set the node id.
 		*/
-		void setNodeId(int32_t id)
+		Void SetNodeId(Int32 id)
 		{
 			this->nodeId = id;
 		}
@@ -199,7 +193,7 @@ namespace Comnet {
 		/**
 		Get the node id.
 		*/
-		int32_t getNodeId()// const not allowed on managed code
+		Int32 GetNodeId()// const not allowed on managed code
 		{
 			return this->nodeId;
 		}
@@ -207,17 +201,17 @@ namespace Comnet {
 		/**
 		Returns the unique id of this node (the id used for inside communications).
 		*/
-		int32_t getUniqueId() //const not allowed on managed code
+		Int32 GetUniqueId() //const not allowed on managed code
 		{
 			return this->uniqueId;
 		}
 
-		bool isRunning()
+		Boolean IsRunning()
 		{
 			return running;
 		}
 
-		bool isPaused()
+		Boolean IsPaused()
 		{
 			return paused;
 		}
@@ -229,11 +223,11 @@ namespace Comnet {
 		/**
 		Queue that holds AbstractPacket types for receiving.
 		*/
-		Queue<AbstractPacketForwarder^>* recvQueue;
+		CQueue<ABSPacket^>^ recvQueue;
 		/**
 		Queue that holds ObjectStreamWrappers used for sending out.
 		*/
-		Queue<ObjectStreamWrapper^>* sendQueue;
+		CQueue<ObjectStreamWrapper^>^ sendQueue;
 	private:
 		/**
 		The node id associated with this node. This id is used for outside communications.

@@ -22,15 +22,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ABSPacket.h>
 #include <CallBack.h>
+#include <network/TransportProtocol.h>
 
 #using <mscorlib.dll>
 
 using namespace System;
+using namespace Comnet::Network;
+
 namespace Comnet {
 #pragma managed
-
-	//manged copy of transport_protocol_t
-	public enum class TransportProtocol { UDP_LINK, SERIAL_LINK, ZIGBEE_LINK };
 
 	public ref class CommsWrapper sealed
 	{
