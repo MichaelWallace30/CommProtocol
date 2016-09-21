@@ -111,7 +111,7 @@ namespace CommProtoCSharpText {
 			// Testing the call function.
 			call.CallFunction(new HeaderWrapper(), new Bong(111));
 			comms1.initConnection(TransportProtocol.UDP_LINK, "1337", "127.0.0.1", 0);
-            comms2.initConnection(TransportProtocol.UDP_LINK, "1400", "127.0.0.1", 0);
+            comms2.initConnection(TransportProtocol.UDP_LINK, "1338", "127.0.0.1", 0);
 
             comms1.addAddress(2,"127.0.0.1", 1338);
             comms1.addAddress(1, "127.0.0.1", 1337);
