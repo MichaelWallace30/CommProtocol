@@ -21,8 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* User Includes */
 
-#define ADDRESS_LENGTH 16
-#define MAX_CONNECTIONS 32
 #include <network/CCommsLink.h>
 #include <CommProto/network/UDP.h>
 

@@ -23,24 +23,17 @@
 #define SERIAL_H
 
 #include <CommProto/network/Parser.h>
-
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/connection/serial-config.h> 
 #include <CommProto/architecture/macros.h>//str_length(char*, int)
-
 #include <CommProto/debug/CommsDebug.h>
-
 #include <CommProto/HeaderPacket.h>
-
-#define SERIAL_DEBUG
-
 
 namespace Comnet {
 namespace Network {
 
-
 /**
-  
+  Serial class
  */
 class Serial {
 private:
