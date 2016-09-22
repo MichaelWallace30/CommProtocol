@@ -32,6 +32,9 @@ using namespace System::Collections;
 using namespace Comnet::Tools::DataStructures::Interface;
 
 
+/**
+  Automatic queue data structure implemented for the use of Customization.
+ */
 generic<typename Type>
 public ref class CAutoQueue : public CQueue<Type> {
 public:

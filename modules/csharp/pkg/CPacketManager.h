@@ -34,18 +34,19 @@ namespace Pkg {
 /**
   CPacketManager is an interface, meant to allow interchangeable hashing and managing.
 */
-public interface class CPacketManager {
+public ref class CPacketManager {
 public:
 
-  virtual Boolean Insert(ABSPacket^ key, CallBack^ callback) = 0;
-  virtual CallBack^ Get(ABSPacket^ key) = 0;
-  virtual Boolean Remove(ABSPacket^ key) = 0;
-  virtual Boolean Contains(ABSPacket^ key) = 0;
-  virtual Boolean Contains(CallBack^ call) = 0;
-  virtual Int32 GetSize() = 0;
-  virtual Void Resize() = 0;
+  Boolean Insert(ABSPacket^ key, CallBack^ callback);
+  CallBack^ Get(ABSPacket^ key);
+  Boolean Remove(ABSPacket^ key);
+  Boolean Contains(ABSPacket^ key);
+  Boolean Contains(CallBack^ call);
+  Int32 GetSize();
+  Void Resize();
 
-  virtual ABSPacket^ ProduceFromId(UInt32 key) = 0;
+  ABSPacket^ ProduceFromId(UInt32 key);
+private:
 };
 }
 }
