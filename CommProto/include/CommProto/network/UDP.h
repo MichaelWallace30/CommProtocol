@@ -33,21 +33,11 @@
 namespace Comnet {
 namespace Network {
 
-
+/**
+UDP class
+*/
 class UDP {
-private:
-  
-  
-  /**Struct
-     -sockaddr_in: IP address & port
-     -node_connected: if node is conneted than true*/
-//  struct udp_connection_t
-//  {		
-//    struct sockaddr_in sockaddr;			
-//    
-//    socket_status_t socket_status;
-//  };
-  
+private:  
   /** Array of connections: address, port, and if connceted*/
   socket_t conn[MAX_CONNECTIONS];
   
