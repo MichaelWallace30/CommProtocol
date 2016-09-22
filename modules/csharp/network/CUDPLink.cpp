@@ -17,8 +17,8 @@ CUDPLink::~CUDPLink(){
 Returns false if open socket or bind fails*/
 Boolean CUDPLink::initConnection( String^ port,  String^ address, uint32_t baudrate){	
 	char* portChar = (char*)(void*)Marshal::StringToHGlobalAnsi(port);
-	char* addresstChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
-	return unmanagedUDPLink->initConnection(portChar, addresstChar, baudrate);
+	char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
+	return unmanagedUDPLink->initConnection(portChar, addressChar, baudrate);
 }
 
 Boolean CUDPLink::initConnection(String^ port, String^ address){
@@ -28,8 +28,8 @@ Boolean CUDPLink::initConnection(String^ port, String^ address){
 /** Adds Address & port to destID value of array of aviable connections
 Returns false if connection is already connected*/
 Boolean CUDPLink::addAddress(uint8_t destID,  String^ address, uint16_t port){
-	char* addresstChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);	
-	return unmanagedUDPLink->addAddress(destID, addresstChar, port);
+	char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);	
+	return unmanagedUDPLink->addAddress(destID, addressChar, port);
 }
 
 /** Sets connection to not available

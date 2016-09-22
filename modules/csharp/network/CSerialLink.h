@@ -28,14 +28,14 @@ namespace Network {
 /**
   CSerial class for managed c++
  */
-public ref class CSerial:public CCommsLink{
+public ref class CSerialLink:public CCommsLink{
 private:
   SerialLink *unmanagedSerialLink;
 
   
 public:	
-  CSerial(); 
-  virtual ~CSerial();
+  CSerialLink();
+  virtual ~CSerialLink();
   /** Opens comport sets if it is connected on scucces, address is not need just use "" argument
   Returns false if opening comport fails*/
   virtual Boolean initConnection(String^ port, String^ address, uint32_t baudrate)override;
