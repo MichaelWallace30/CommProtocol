@@ -44,6 +44,10 @@ Int32 test(CHeader^ header, ABSPacket^ packet) {
 
 int main() {
   CQueue<Testing^>^ queueTest = gcnew CAutoQueue<Testing^>();
+  queueTest->EnQueue(gcnew Testing(11));
+  queueTest->EnQueue(gcnew Testing(12333));
+  Testing^ ss = queueTest->DeQueue();
+  Console::WriteLine(gcnew String("This is cat: " + ss->GetCat()));
   CommsWrapper comm1(1);
   CommsWrapper comm2(2);
 

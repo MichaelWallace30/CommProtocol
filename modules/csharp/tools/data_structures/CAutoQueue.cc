@@ -19,7 +19,7 @@ void CAutoQueue<Type>::EnQueue(Type data) {
 
 
 generic<typename Type>
-Type CAutoQueue<Type>::DeQueue(Type data) {
+Type CAutoQueue<Type>::DeQueue() {
   return (Type)managedQueue->Dequeue();
 }
 

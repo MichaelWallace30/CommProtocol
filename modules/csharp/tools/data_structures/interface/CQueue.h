@@ -35,7 +35,7 @@ public interface class CQueue {
 public:
 
   virtual void EnQueue(Type data) = 0;
-  virtual Type DeQueue(Type data) = 0;
+  virtual Type DeQueue() = 0;
   virtual Type Front() = 0;
   virtual Type Back() = 0;
 

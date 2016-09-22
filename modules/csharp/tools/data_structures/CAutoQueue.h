@@ -38,7 +38,7 @@ public:
   CAutoQueue();
   
   virtual void EnQueue(Type data);
-  virtual Type DeQueue(Type data);
+  virtual Type DeQueue();
   virtual Type Front();
   virtual Type Back();
 
