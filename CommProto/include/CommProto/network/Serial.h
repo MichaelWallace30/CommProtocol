@@ -17,8 +17,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Serial needs a message parser implemented
-	<start><header><checksum><data>*/
+/* Serial message parser implemented
+	<start><header><data><checksum><end>*/
 #ifndef SERIAL_H
 #define SERIAL_H
 

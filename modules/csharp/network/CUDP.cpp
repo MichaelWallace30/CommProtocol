@@ -1,11 +1,10 @@
 #include <network/CUDP.h>
 
-using namespace System::Runtime::InteropServices;
 using namespace Comnet::Network;
 
 /**Constuctor*/
 CUDP::CUDP(){
-	unmanagedUDP = new UDP();	
+	unmanagedUDP = new UDPLink();	
 }
 CUDP::~CUDP(){
 	if (unmanagedUDP != nullptr){
@@ -20,6 +19,10 @@ Boolean CUDP::initConnection( String^ port,  String^ address, uint32_t baudrate)
 	char* portChar = (char*)(void*)Marshal::StringToHGlobalAnsi(port);
 	char* addresstChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
 	return unmanagedUDP->initConnection(portChar, addresstChar, baudrate);
+}
+
+Boolean CUDP::initConnection(String^ port, String^ address){
+	return initConnection(port, address, 0);
 }
 
 /** Adds Address & port to destID value of array of aviable connections

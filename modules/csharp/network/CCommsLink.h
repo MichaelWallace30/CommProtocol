@@ -21,16 +21,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <stdint.h>
-
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 #include <stdlib.h>
 
 #define MAX_CONNECTIONS 32
-#define CSTRING_MAX_SIZE 50
+
 #pragma managed
 
 using namespace System;
+using namespace System::Runtime::InteropServices;
 
 namespace Comnet {
 	namespace Network {

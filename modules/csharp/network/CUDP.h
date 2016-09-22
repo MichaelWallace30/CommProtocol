@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* User Includes */
 
 #include <network/CCommsLink.h>
-#include <CommProto/network/UDP.h>
+#include <CommProto/network/UDPLink.h>
 
 namespace Comnet {
 	namespace Network {
@@ -30,7 +30,7 @@ namespace Comnet {
 		
 		public ref class CUDP: public CCommsLink{
 		private:			
-			UDP *unmanagedUDP;
+			UDPLink *unmanagedUDP;
 
 		public:
 			/**Constuctor*/
@@ -38,8 +38,10 @@ namespace Comnet {
 			~CUDP();
 
 			/** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
-			Returns false if open socket or bind fails*/
+			Returns false if open socket or bind fails need baudrate for interface of CCommsLink method is overlaoded below*/
 			virtual Boolean initConnection( String^ port,  String^ address, uint32_t baudrate)override;
+			/** Overloaded  initConnection*/
+			virtual Boolean initConnection(String^ port, String^ address);
 			/** Adds Address & port to destID value of array of aviable connections
 			Returns false if connection is already connected*/
 			virtual Boolean addAddress(uint8_t destID,  String^ address, uint16_t port)override;
