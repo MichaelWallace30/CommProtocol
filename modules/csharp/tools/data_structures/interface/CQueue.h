@@ -40,6 +40,7 @@ public:
   virtual Type^ Back() = 0;
 
   virtual Int32 GetSize() = 0;
+  virtual Boolean IsEmpty() = 0;
 
 private:
 };
