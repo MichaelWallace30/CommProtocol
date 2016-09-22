@@ -24,15 +24,74 @@ CPacketTable::CPacketTable(UInt32 setSize)
 
 
 Boolean CPacketTable::Insert(ABSPacket^ key, CallBack^ callback) {
+  if (!key) {
+    return false;
+  }
 
+  Boolean stored = false;
+  Boolean willStore = true;
+  UInt32 hash = keyHash(key->GetAbstractPacket()->getId());
+  Pair^ pair = gcnew Pair();
+  
+  pair->packet = key;
+  pair->callback = callback;
+
+  int saved = hash;
+  while (table[hash] != nullptr && 
+    table[hash]->packet->GetAbstractPacket()->getId() != key->GetAbstractPacket()->getId())
+  {
+    hash = traverseIndex(hash);
+    
+    if (hash == saved) {
+      willStore = false;
+      break;
+    }
+  }
+
+  if (!table[hash]) {
+    table[hash] = pair;
+    stored = true;
+    numOfPairs++;
+  } else if (willStore) {
+    table[hash]->callback = callback;
+    stored = true;
+  }
+
+  return stored;
 }
 
 
 CallBack^ CPacketTable::GetCallback(UInt32 key) {
+  UInt32 hash = keyHash(key);
+  CallBack^ result = nullptr;
+
+  if (table[hash]) {
+    result = table[hash]->callback;
+  }
+
+  return result;
 }
 
 
 ABSPacket^ CPacketTable::GetPacket(UInt32 key) {
+  UInt32 hash = keyHash(key);
+  ABSPacket^ result = nullptr;
+
+  UInt32 saved = hash;
+
+  while (table[hash] && table[hash]->packet->GetAbstractPacket()->getId() != key) {
+    hash = traverseIndex(hash);
+
+    if (hash == saved) {
+      break;
+    }
+  }
+
+  if (table[hash]) {
+    result = table[hash]->packet;
+  }
+
+  return result;
 }
 
 
@@ -47,6 +106,12 @@ Boolean CPacketTable::Resize(UInt32 newSize) {
 
 
 Int32 CPacketTable::traverseIndex(Int32 i) {
+  i++;
+  if (i >= tableSize) {
+    i = 0;
+  }
+  
+  return i;
 }
 
 
