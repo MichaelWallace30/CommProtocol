@@ -13,37 +13,41 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __QUEUE_H
-#define __QUEUE_H
+#ifndef __CAUTO_QUEUE_H
+#define __CAUTO_QUEUE_H
 
-#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
+#include <tools/data_structures/interface/CQueue.h>
 
 #include <vcclr.h>
 #using <mscorlib.dll>
 
-using namespace System;
 
 namespace Comnet {
 namespace Tools {
 namespace DataStructures {
-namespace Interface {
 
-#pragma managed
+
+using namespace System;
+using namespace System::Collections;
+using namespace Comnet::Tools::DataStructures::Interface;
+
 
 generic<typename Type>
-public interface class CQueue {
+public ref class CAutoQueue : public CQueue<Type> {
 public:
+  CAutoQueue();
+  
+  virtual void EnQueue(Type data);
+  virtual Type DeQueue(Type data);
+  virtual Type Front();
+  virtual Type Back();
 
-  virtual void EnQueue(Type data) = 0;
-  virtual Type DeQueue(Type data) = 0;
-  virtual Type Front() = 0;
-  virtual Type Back() = 0;
-
-  virtual Int32 GetSize() = 0;
-  virtual Boolean IsEmpty() = 0;
+  virtual Int32 GetSize();
+  virtual Boolean IsEmpty();
+private:
+  Collections::Queue^ managedQueue;
 };
 }
 }
 }
-}
-#endif // __QUEUE_H
+#endif // __CAUTO_QUEUE_H

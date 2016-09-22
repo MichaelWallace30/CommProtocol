@@ -3,9 +3,12 @@
 #include <CommsWrapper.h>
 #include <ABSPacket.h>
 #include <CallBack.h>
+#include <tools/data_structures/CAutoQueue.h>
 
 
 using namespace Comnet;
+using namespace Comnet::Tools::DataStructures::Interface;
+using namespace Comnet::Tools::DataStructures;
 using namespace std;
 
 
@@ -32,6 +35,7 @@ private:
 };
 
 Int32 test(CHeader^ header, ABSPacket^ packet) {
+  
   Testing^ testing = gcnew Testing();
   ABSPacket::GetValue<Testing^>(testing);
   cout << "This is what i got: " << testing->GetCat() << endl;
@@ -39,6 +43,7 @@ Int32 test(CHeader^ header, ABSPacket^ packet) {
 }
 
 int main() {
+  CQueue<Testing^>^ queueTest = gcnew CAutoQueue<Testing^>();
   CommsWrapper comm1(1);
   CommsWrapper comm2(2);
 
