@@ -14,7 +14,8 @@ set(CSHARP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 set(COMMPROTO_WRAPPER_HEADER_DIR 
-  ${CSHARP_DIR}/tools/CQueue.h
+  ${CSHARP_DIR}/tools/data_structures/interface/CQueue.h
+  ${CSHARP_DIR}/tools/data_structures/CAutoQueue.h
   ${CSHARP_DIR}/network/TransportProtocol.h
   ${CSHARP_DIR}/pkg/CPacketManager.h
   ${CSHARP_DIR}/pkg/CPacketTable.h
@@ -27,6 +28,7 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/ABSPacket.h)
 
 set(COMMPROTO_WRAPPER_SOURCE_DIR
+  ${CSHARP_DIR}/tools/data_structures/CAutoQueue.cc
   ${CSHARP_DIR}/pkg/CPacketFactory.cc
   ${CSHARP_DIR}/pkg/CPacketTable.cc
   ${CSHARP_DIR}/pkg/CPacketManager.cc
