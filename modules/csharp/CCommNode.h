@@ -37,16 +37,12 @@ namespace Comnet {
 	using namespace Comnet::Pkg;
 
 	/**
-	Currently supports about 65,536 nodes.
-	*/
-	static uint16_t numberOfNodes = 0;
-	/**
 	CCommNode is the interface used to determine node types that are constructed by the
 	library. We use this in extension for our nodes that will be implemented. This will be so
 	that we can make easier adjustments for node changing and style, but we must always go
 	by this interface if we want to keep our nodes the same.
 	*/
-	ref class CCommNode abstract {
+	public ref class CCommNode abstract {
 	public:
 		CCommNode()
 			: uniqueId(numberOfNodes++)
@@ -125,7 +121,7 @@ namespace Comnet {
 		/**
 		Send the packet to the specified destination address.
 		*/
-		virtual Boolean Send(ABSPacket^ packet, uint8_t destId) = 0;
+		virtual Boolean Send(ABSPacket^ packet, Byte destId) = 0;
 		/**
 		Check for packet if received. This is called manually by user, yet the node should
 		be able to run automatically checking for received packets. Any packets linked to a
@@ -134,7 +130,7 @@ namespace Comnet {
 		@param messageId
 		@return Packet that was received, otherwise NULL if nothing found.
 		*/
-		virtual ABSPacket^ Receive(uint8_t& sourceId) = 0;
+		virtual ABSPacket^ Receive(Byte% sourceId) = 0;
 		/**
 		Initialize connection.
 		*/
