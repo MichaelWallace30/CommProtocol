@@ -1,50 +1,50 @@
-#include <network/CUDP.h>
+#include <network/CUDPLink.h>
 
 using namespace Comnet::Network;
 
 /**Constuctor*/
-CUDP::CUDP(){
-	unmanagedUDP = new UDPLink();	
+CUDPLink::CUDPLink(){
+	unmanagedUDPLink = new UDPLink();	
 }
-CUDP::~CUDP(){
-	if (unmanagedUDP != nullptr){
-		delete unmanagedUDP;
-		unmanagedUDP = nullptr;
+CUDPLink::~CUDPLink(){
+	if (unmanagedUDPLink != nullptr){
+		delete unmanagedUDPLink;
+		unmanagedUDPLink = nullptr;
 	}
 }
 
 /** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
 Returns false if open socket or bind fails*/
-Boolean CUDP::initConnection( String^ port,  String^ address, uint32_t baudrate){	
+Boolean CUDPLink::initConnection( String^ port,  String^ address, uint32_t baudrate){	
 	char* portChar = (char*)(void*)Marshal::StringToHGlobalAnsi(port);
 	char* addresstChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
-	return unmanagedUDP->initConnection(portChar, addresstChar, baudrate);
+	return unmanagedUDPLink->initConnection(portChar, addresstChar, baudrate);
 }
 
-Boolean CUDP::initConnection(String^ port, String^ address){
+Boolean CUDPLink::initConnection(String^ port, String^ address){
 	return initConnection(port, address, 0);
 }
 
 /** Adds Address & port to destID value of array of aviable connections
 Returns false if connection is already connected*/
-Boolean CUDP::addAddress(uint8_t destID,  String^ address, uint16_t port){
+Boolean CUDPLink::addAddress(uint8_t destID,  String^ address, uint16_t port){
 	char* addresstChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);	
-	return unmanagedUDP->addAddress(destID, addresstChar, port);
+	return unmanagedUDPLink->addAddress(destID, addresstChar, port);
 }
 
 /** Sets connection to not available
 Returns false is no connection is found*/
-Boolean CUDP::removeAddress(uint8_t destID){
-	return unmanagedUDP->removeAddress(destID);
+Boolean CUDPLink::removeAddress(uint8_t destID){
+	return unmanagedUDPLink->removeAddress(destID);
 }
 
 /** Sends txData using its length of bytes through the destID connection which is establish through add adress
 Return false if no proper connection is establish*/
-Boolean CUDP::send(uint8_t destID, uint8_t* txData, uint32_t txLength){
-	return unmanagedUDP->send(destID, txData, txLength);
+Boolean CUDPLink::send(uint8_t destID, uint8_t* txData, uint32_t txLength){
+	return unmanagedUDPLink->send(destID, txData, txLength);
 }
 /** Sets recieved data to rxData and sets the length of the data to rxLength
 Returns false if not aviable connection or no data is recieved*/
-Boolean CUDP::recv(uint8_t* rxData, UInt32% rxLength){
-	return unmanagedUDP->recv(rxData, (uint32_t*)rxLength);//probably wont work
+Boolean CUDPLink::recv(uint8_t* rxData, UInt32% rxLength){
+	return unmanagedUDPLink->recv(rxData, (uint32_t*)rxLength);//probably wont work
 }

@@ -16,8 +16,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef CUDP_H
-#define CUDP_H
+#ifndef CUDPLink_H
+#define CUDPLink_H
 
 /* User Includes */
 
@@ -26,16 +26,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Comnet {
 	namespace Network {
-    #pragma managed
-		
-		public ref class CUDP: public CCommsLink{
+    #pragma managed		
+		public ref class CUDPLink: public CCommsLink{
 		private:			
-			UDPLink *unmanagedUDP;
+			UDPLink *unmanagedUDPLink;
 
 		public:
 			/**Constuctor*/
-			CUDP();
-			~CUDP();
+			CUDPLink();
+			~CUDPLink();
 
 			/** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
 			Returns false if open socket or bind fails need baudrate for interface of CCommsLink method is overlaoded below*/
@@ -54,7 +53,6 @@ namespace Comnet {
 			/** Sets recieved data to rxData and sets the length of the data to rxLength
 			Returns false if not aviable connection or no data is recieved*/
 			virtual Boolean recv(uint8_t* rxData, UInt32% rxLength) override;
-
 		};
 	} // namespace Network
 } // namespace Comnet
