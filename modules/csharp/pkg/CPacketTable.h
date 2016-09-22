@@ -17,4 +17,86 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __CPACKET_TABLE_H
 
 
+#include <CallBack.h>
+#include <ABSPacket.h>
+
+
+namespace Comnet {
+namespace Pkg {
+
+
+/**
+  CPacketTable.
+*/
+public ref class CPacketTable {
+public:
+  /**
+  Constructor of set size.
+  */
+  CPacketTable(UInt32 setSize);
+  /**
+  Default constructor.
+  */
+  CPacketTable();
+  /**
+  Inserts a Packet with a Callback associated with it.
+  */
+  Boolean Insert(ABSPacket^ key, CallBack^ callback);
+  /**
+  Returns the callback with the associated distinct key from the packet.
+  */
+  CallBack^ GetCallback(UInt32 key);
+  /**
+  Grab the packet that is associated with the key.
+  */
+  ABSPacket^ GetPacket(UInt32 key);
+  /**
+  Remove a packet-Callback pair in the table.
+  */
+  Boolean Remove(UInt32 key);
+  /**
+  Resize the table when needed, or if the table is getting to big.
+  */
+  Boolean Resize(UInt32 newSize);
+
+  UInt32 GetNumOfPairs() { return numOfPairs; }
+  UInt32 GetTableSize() { return tableSize; }
+
+private:
+  /**
+  Traverse the table.
+  */
+  Int32 traverseIndex(Int32 i);
+  /**
+  The benevolent key hasher.
+  */
+  UInt32 keyHash(UInt32 key);
+  /**
+  Creates a pair.
+  */
+  ref struct Pair {
+    /**
+    The callback associated with this pair.
+    */
+    CallBack^ callback;
+    /**
+    The packet associated with this pair.
+    */
+    ABSPacket^ packet;
+  };
+  /**
+  The table that houses AbstractPacket-Callback pairs.
+  */
+  cli::array<Pair^>^ table;
+  /**
+  Keeps track of the number of pairs in the table.
+  */
+  UInt32 numOfPairs;
+  /**
+  Keeps track of the table size.
+  */
+  UInt32 tableSize;
+};
+}
+}
 #endif // __CPACKET_TABLE_H

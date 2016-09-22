@@ -17,8 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __CPACKET_MANAGER_H
 
 #include <CommProto/pkg/PacketManager.h>
+
+#include <pkg/CPacketFactory.h>
+#include <pkg/CPacketTable.h>
 #include <CallBack.h>
 #include <ABSPacket.h>
+
 
 #include <vcclr.h>
 #using <mscorlib.dll>
@@ -47,6 +51,8 @@ public:
 
   ABSPacket^ ProduceFromId(UInt32 key);
 private:
+  CPacketFactory factory;
+  CPacketTable table;
 };
 }
 }

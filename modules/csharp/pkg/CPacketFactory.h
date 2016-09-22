@@ -16,5 +16,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CPACKET_FACTORY_H
 #define __CPACKET_FACTORY_H
 
+#include <ABSPacket.h>
 
+
+namespace Comnet {
+namespace Pkg {
+
+
+public ref class CPacketFactory {
+public:
+  CPacketFactory() : id(1) { }
+
+  ABSPacket^ ProduceFromId(ABSPacket^ packet) {
+    return packet->Create();
+  }
+private:
+  System::UInt32 id;
+};
+}
+}
 #endif // __CPACKET_FACTORY_H

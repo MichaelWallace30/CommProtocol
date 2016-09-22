@@ -29,7 +29,6 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
 
 set(COMMPROTO_WRAPPER_SOURCE_DIR
   ${CSHARP_DIR}/tools/data_structures/CAutoQueue.cc
-  ${CSHARP_DIR}/pkg/CPacketFactory.cc
   ${CSHARP_DIR}/pkg/CPacketTable.cc
   ${CSHARP_DIR}/pkg/CPacketManager.cc
   ${CSHARP_DIR}/CommsWrapper.cpp
