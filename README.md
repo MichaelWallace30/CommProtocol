@@ -12,7 +12,13 @@ Current Alpha Features:
 - Cross-platform library.
 - Supports Loose Coupling.
 - Allows connections via Serial and UDP.
-- Designed in an Object Oriented manner to make it easier to use the library.
+- Designed in an Object Oriented manner to make it easier to use the library.  
+  
+Features currently implementing:  
+- TCP, Zigbee, and WPAN implementation  
+- AES Encryptions for protocol.  
+- C# and JNI Wrapping for communications use.  
+- Thread and Mutex redesigns.  
   
 ## Design Analysis
 Coming soon...
