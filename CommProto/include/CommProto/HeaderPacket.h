@@ -4,9 +4,8 @@
 #include <CommProto/architecture/os/include_defines.h>
 
 #define MAX_PACKET_SIZE 1024
-#define HEADER_SIZE 22 //not great way to do this
-#define ENCRYPTION_BLOCK_BYTES 16
-#define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH
+#define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH and ENCRYPTION_BLOCK_BYTES should be the same
+#define HEADER_SIZE 22 + KEY_LENGTH //22 + RANDOM IV SIZE which is the same as key length
 #define CRC32_SIZE 4
 #define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE + CRC32_SIZE
 #define TERMINAL_SEQUENCE_SIZE 3		
