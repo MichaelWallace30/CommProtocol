@@ -120,6 +120,7 @@ include(cmake/serialization-config.cmake)
 include(cmake/pkg.cmake)
 include(cmake/comnet_debug.cmake)
 include(cmake/xbee_ansic.cmake)
+include(cmake/encryption.cmake)
 
 if (${CMAKE_CXX_COMPILER_ID})    
     source_group("Header Files\\architecture" FILES ${ARCHITECTURE_HEADERS})
@@ -129,11 +130,13 @@ if (${CMAKE_CXX_COMPILER_ID})
     source_group("Header Files\\serialization" FILES ${SERIALIZATION_HEADERS})
     source_group("Header Files\\pkg" FILES ${COMMPROTO_PKG_HEADERS})
     source_group("Header Files\\debug" FILES ${DEBUG_HEADERS})
+	source_group("Header Files\\encryption" FILES ${ENCRYPTION_HEADERS})
     source_group("Source Files\\architecture" FILES ${ARCHITECTURE_SOURCES})
     source_group("Source Files\\hash" FILES ${COMMPROTO_HASH_SOURCES})
     source_group("Source Files\\network" FILES ${NETWORK_SOURCES})
     source_group("Source Files\\serialization" FILES ${SERIALIZATION_SOURCES})
     source_group("Source Files\\pkg" FILES ${COMMPROTO_PKG_SOURCES})
+	source_group("Source Files\\encryption" FILES ${ENCRYPTION_SOURCES})
 endif()
 
 set (NGCP_GLOB
@@ -149,11 +152,14 @@ set (NGCP_GLOB
   ${TOOLS_SOURCES}
   ${NETWORK_HEADERS}
   ${NETWORK_SOURCES}
+  ${ENCRYPTION_HEADERS}
+  ${ENCRYPTION_SOURCES}
   ${SERIALIZATION_HEADERS}
   ${SERIALIZATION_SOURCES}
   ${COMMPROTO_PKG_HEADERS}
   ${COMMPROTO_PKG_SOURCES}
   ${DEBUG_HEADERS})
+  
 
 # Shared Library (.so for linux or .dll for Windows).
 add_library(CommProtoShared SHARED ${NGCP_GLOB})
