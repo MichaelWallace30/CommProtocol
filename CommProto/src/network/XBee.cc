@@ -370,13 +370,18 @@ XBee::~XBee()
 bool XBee::initialize(const char* port, speed_t baudrate) {
   bool success = false;
   int status;
+#if COM_TARGET_OS == COM_OS_WINDOWS
   std::regex regularEx("\\b(COM)");
   std::string portResult;
   std::string portString(port);
   std::regex_replace(std::back_inserter(portResult),
                      portString.begin(), portString.end(), regularEx, "$2");
-  serial.baudrate = baudrate;
   serial.comport = atoi(portResult.c_str());
+#else // POSIX stuff instead.
+  strncpy(serial.device, port, (sizeof serial.device) - 1);
+  serial.device[(sizeof serial.device) - 1] = '\0';
+#endif 
+  serial.baudrate = baudrate;
   // open the serial port to xbee.
   status = xbee_ser_open(&serial, baudrate);
   if (!status) { 
