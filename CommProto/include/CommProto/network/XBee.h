@@ -39,11 +39,12 @@ namespace Experimental {
 class XBee {
 public:
   /**
-     Default constructor.
+    Constructor that autoinitializes when created. function initialize is automatically called from 
+    this constructor. 
    */
   XBee(const char* port, speed_t baudrate);
 
-  
+  XBee() { }
   /**
      Default destructor.
    */
@@ -51,7 +52,7 @@ public:
   /**
     Initialize the port on this device.
    */
-  //bool initialize(const char* port, speed_t baudrate);
+  bool initialize(const char* port, speed_t baudrate);
   /**
     Send data over to the destination node.
    */

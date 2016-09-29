@@ -1,12 +1,15 @@
 #include <CommProto/network/XBee.h>
 #include <CommProto/debug/CommsDebug.h>
 #include <CommProto/architecture/macros.h>
+#include <CommProto/HeaderPacket.h>
 
 // xbee includes.
 #include <xbee/platform.h>
 #include <xbee/atcmd.h>
 #include <xbee/commissioning.h>
 #include <xbee/wpan.h>
+#include <xbee/cbuf.h>
+#include <xbee/serial.h>
 
 #include <zigbee/zcl_commissioning.h>
 #include <zigbee/zcl_client.h>
@@ -353,19 +356,87 @@ using namespace Experimental;
 
 XBee::XBee(const char* port, speed_t baudrate) 
 {
+  initialize(port, baudrate);
+}
+
+
+XBee::~XBee() 
+{
+  closePort();
+}
+
+
+// Initialize the xbee device.
+bool XBee::initialize(const char* port, speed_t baudrate) {
+  bool success = false;
+  int status;
   std::regex regularEx("\\b(COM)");
   std::string portResult;
   std::string portString(port);
-
   std::regex_replace(std::back_inserter(portResult),
                      portString.begin(), portString.end(), regularEx, "$2");
-
   serial.baudrate = baudrate;
   serial.comport = atoi(portResult.c_str());
-  
-  if (xbee_dev_init(&device, &serial, NULL, NULL)) {
-    COMMS_DEBUG("Xbee failed to initialize.\n");
+  // open the serial port to xbee.
+  status = xbee_ser_open(&serial, baudrate);
+  if (!status) { 
+    xbee_ser_rx_flush(&serial);
+    xbee_ser_tx_flush(&serial);
+    if (xbee_dev_init(&device, &serial, NULL, NULL)) {
+      COMMS_DEBUG("Xbee failed to initialize.\n");
+    } else {
+      xbee_wpan_init(&device, &sample_endpoints.zdo);
+      xbee_cmd_init_device(&device);
+      COMMS_DEBUG("Waiting for driver to query Xbee device...\n");
+      do {
+        xbee_dev_tick(&device);
+        status = xbee_cmd_query_status(&device);
+      } while (status == -EBUSY);
+      if (!status) {
+        xbee_dev_dump_settings(&device, XBEE_DEV_DUMP_FLAG_DEFAULT);
+        sample_endpoints.zcl.profile_id = profile_id;
+        success = true;
+      }
+    }
+  } else {
+    COMMS_DEBUG("Failed to open serial port=%d", serial.comport);
+  } 
+  return success;
+}
+
+
+bool XBee::recv(uint8_t* rxData, uint32_t* rxLength) {
+  bool success = false;
+  int read_success = xbee_ser_read(&serial, (void *)rxData, MAX_BUFFER_SIZE);
+  if (read_success >= 0) {
+    *rxLength = read_success;
+    success = true;
+  } else {
+    COMMS_DEBUG("Error in reading xbee...\b");
   }
+  return success;
+}
+
+
+bool XBee::send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
+  bool success = false;
+  int send_success = xbee_ser_write(&serial, (void *)txData, txLength);
+  if (send_success >= 0) {
+    COMMS_DEBUG("Sent: %d,\tover port=%d", send_success, serial.comport);
+    success = true;
+  }
+  return success;
+}
+
+
+bool XBee::closePort() {
+  bool success = false;
+  if(!xbee_ser_close(&serial)) {
+    COMMS_DEBUG("failed to close serial port=%d", serial.comport);
+  } else {
+    success = true;
+  }
+  return success;
 }
 } // namespace Network
 } // namespace Comnet
