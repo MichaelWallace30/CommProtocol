@@ -17,6 +17,9 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/tools/data_structures/interface/CQueue.h
   ${CSHARP_DIR}/tools/data_structures/CAutoQueue.h
   ${CSHARP_DIR}/network/TransportProtocol.h
+  ${CSHARP_DIR}/network/CUDPLink.h
+  ${CSHARP_DIR}/network/CSerialLink.h
+  ${CSHARP_DIR}/network/CXbeeLink.h
   ${CSHARP_DIR}/pkg/CPacketManager.h
   ${CSHARP_DIR}/pkg/CPacketTable.h
   ${CSHARP_DIR}/pkg/CPacketFactory.h
@@ -28,6 +31,9 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/ABSPacket.h)
 
 set(COMMPROTO_WRAPPER_SOURCE_DIR
+  ${CSHARP_DIR}/network/CUDPLink.cpp
+  ${CSHARP_DIR}/network/CSerialLink.cpp
+  ${CSHARP_DIR}/network/CXbeeLink.cpp
   ${CSHARP_DIR}/tools/data_structures/CAutoQueue.cc
   ${CSHARP_DIR}/pkg/CPacketTable.cc
   ${CSHARP_DIR}/pkg/CPacketManager.cc
