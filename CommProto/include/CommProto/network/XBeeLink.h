@@ -35,8 +35,7 @@ class XBee;
 
 class XBeeLink : public CommsLink {
 public:
-  XBeeLink()
-    { }
+  XBeeLink();
 
   ~XBeeLink() {
     for (int i = 0; i < xbees->getSize(); ++i ) {
@@ -47,11 +46,12 @@ public:
     free_pointer(xbees);
   }
   /**
-     Initialize a connection for this node.
+     Initialize a connection for this node. Address is not required.
    */
   bool initConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0);
   /**
      Adds an address to the link.
+    TODO(Garcia, Wallace): Cluster communications required here!
    */
   bool addAddress(uint8_t destId, const char* address = NULL, int16_t port = 0);
   /**
@@ -68,7 +68,8 @@ public:
   bool recv(uint8_t* rxData, uint32_t* rxLength);
 
 private:
-
+  // Home address xbee.
+  XBee* home;
   List< XBee* >* xbees;
 };
 } // namespace Experimental
