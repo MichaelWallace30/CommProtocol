@@ -5,7 +5,7 @@
 #define BLOCK_SIZE 16
 
 //abstract class to use for aes encryption
-class encryptionInterface
+class EncryptionInterface
 {
 /** input c string as the form of encrytion key*/
 virtual uint8_t loadKey(char* key) = 0;

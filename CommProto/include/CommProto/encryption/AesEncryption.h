@@ -1,12 +1,12 @@
 #ifndef AES_ENCRYPTION_H
 #define AES_ENCRYPTION_H
-#include <CommProto/encryption/encryptionInterface.h>
+#include <CommProto/encryption/EncryptionInterface.h>
 
 
-class aesEncryption :public encryptionInterface
+class AesEncryption :public EncryptionInterface
 {
-aesEncryption();
-~aesEncryption();
+AesEncryption();
+~AesEncryption();
 /** input c string as the form of encrytion key*/
 virtual uint8_t loadKey(char* key);
 /** load file which contatins the encryption key by the file name*/
