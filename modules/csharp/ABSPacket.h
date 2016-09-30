@@ -94,9 +94,9 @@ public:
 
 protected:
   ABSPacket(String^ name)
-    : packetName(name) 
-    , unmanaged(new AbstractPacketForwarder(this))
+    : packetName(name)
   {
+    unmanaged = new AbstractPacketForwarder(this);
   }
 private:
   ABSPacket() { }

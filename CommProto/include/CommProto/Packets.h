@@ -27,7 +27,7 @@ namespace Comnet {
 class Ping : public AbstractPacket {
 public:
   Ping();
-  Ping(uint32_t num);
+  Ping(std::string num);
   
   ~Ping() { }
   /**
@@ -38,7 +38,6 @@ public:
 
   AbstractPacket* create();
 public:
- uint32_t num;
  std::string test;
 };
 
