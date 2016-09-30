@@ -42,7 +42,7 @@ bool XBeeLink::initConnection(const char* port, const char* address, uint32_t ba
 }
 
 
-bool XBeeLink::addAddress(uint8_t destId, const char* address, int16_t port) {
+bool XBeeLink::addAddress(uint8_t destId, const char* address, uint16_t port) {
   //XBee* xbee = new XBee();
   bool success = false;
   
@@ -57,7 +57,7 @@ bool XBeeLink::removeAddress(uint8_t destId) {
 }
 
 
-bool XBeeLink::send(uint8_t destId, uint8_t* txData, int32_t txLength) {
+bool XBeeLink::send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
   return home->send(destId, txData, txLength);
 }
 

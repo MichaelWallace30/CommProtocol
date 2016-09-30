@@ -53,7 +53,7 @@ public:
      Adds an address to the link.
     TODO(Garcia, Wallace): Cluster communications required here!
    */
-  bool addAddress(uint8_t destId, const char* address = NULL, int16_t port = 0);
+  bool addAddress(uint8_t destId, const char* address = NULL, uint16_t port = 0);
   /**
      Remove an address from the link.
    */
@@ -61,7 +61,7 @@ public:
   /**
      Send a message to the specified id of which an address is associated with.
    */
-  bool send(uint8_t destId, uint8_t* txData, int32_t txLength);
+  bool send(uint8_t destId, uint8_t* txData, uint32_t txLength);
   /**
      Receive a message from a protocol id.
    */

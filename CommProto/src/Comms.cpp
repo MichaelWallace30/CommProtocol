@@ -3,6 +3,7 @@
 
 #include <CommProto/network/UDPLink.h>
 #include <CommProto/network/SerialLink.h>
+#include <CommProto/network/XBeeLink.h>
 
 #include <CommProto/debug/CommsDebug.h>
 
@@ -154,7 +155,14 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 		
 		}
 		case ZIGBEE_LINK:
-		{}
+		{
+      str_length(address, length);
+      if (length < ADDRESS_LENGTH) {
+        connectionLayer = new Experimental::XBeeLink();
+        return connectionLayer->initConnection(port, NULL, baudrate);
+      }
+      break;
+    }
 		default:
 		  COMMS_DEBUG("NO CONNECTION\n");
 		{return false;}
