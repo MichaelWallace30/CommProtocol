@@ -25,12 +25,15 @@ using System.Threading.Tasks;
 
 using Comnet;
 using Comnet.Serialization;
+using Comnet.Network;
+using Comnet.Tools.DataStructures.Interface;
+using Comnet.Tools.DataStructures;
 
 namespace CommProtoCSharpText {
 	/// <summary>
 	/// Testing ABSPacket inheritence.
 	/// </summary>
-	class Bing : ABSPacket 
+	public class Bing : ABSPacket 
 	{
 		public Bing() : base("Bing") {
 		}
@@ -39,10 +42,10 @@ namespace CommProtoCSharpText {
 			throw new NotImplementedException();
 		}
 
-		public override void Pack(ObjectStreamWrapper obj) {
+		public override void Pack(CObjectStream obj) {
 		}
 
-		public override void Unpack(ObjectStreamWrapper obj) {
+		public override void Unpack(CObjectStream obj) {
 			throw new NotImplementedException();
 		}
 	}
@@ -50,7 +53,7 @@ namespace CommProtoCSharpText {
 	/// <summary>
 	/// Testing the ABSPacket inheritance.
 	/// </summary>
-	class Bong : ABSPacket {
+	public class Bong : ABSPacket {
 		private int cat;
 
 
@@ -62,14 +65,14 @@ namespace CommProtoCSharpText {
 		}
 
 		public override ABSPacket Create() {
-			throw new NotImplementedException();
+			return new Bong();
 		}
 
-		public override void Pack(ObjectStreamWrapper obj) {
+		public override void Pack(CObjectStream obj) {
 			obj.input(cat);
 		}
 
-		public override void Unpack(ObjectStreamWrapper obj) {
+		public override void Unpack(CObjectStream obj) {
 			cat = obj.outputInt32();
 		}
 
@@ -78,9 +81,38 @@ namespace CommProtoCSharpText {
 		}
 	}
 
+
+	class Comms : CCommNode {
+
+		public Comms(uint dd) : base(dd) {
+
+		}
+
+		public override Boolean AddAddress(UInt16 destID, String address, UInt16 port) {
+			throw new NotImplementedException();
+		}
+
+		public override Boolean InitConnection(TransportProtocol connType, String port, String address, UInt32 baudRate) {
+			throw new NotImplementedException();
+		}
+
+		public override ABSPacket Receive(ref Byte sourceId) {
+			throw new NotImplementedException();
+		}
+
+		public override Boolean RemoveAddress(UInt16 destID) {
+			throw new NotImplementedException();
+		}
+
+		public override Boolean Send(ABSPacket packet, Byte destId) {
+			throw new NotImplementedException();
+		}
+	}
+
+
 	// Delegate function pointer testing.
 	class Calls {
-		public Int32 EatShit(HeaderWrapper header, ABSPacket packet) {
+		public Int32 EatShit(CHeader header, ABSPacket packet) {
 			Bong temp = ABSPacket.GetValue<Bong>(packet);
 			Console.WriteLine("Hello Woild!");
 			Console.WriteLine(temp.GetCat());
@@ -88,42 +120,34 @@ namespace CommProtoCSharpText {
 		}
 	}
 
+	public delegate Int32 cool(CHeader head, Bong a);
+
 	class UnitTest {
 
 		static void Main(string[] args) {
-			Calls caa = new Calls();
-			CallBack call = new CallBack(new Bing(), caa.EatShit);
+			CComms comm1 = new CComms(1);
+			CComms comm2 = new CComms(2);
+			bool success = false;
+			Calls call = new Calls();
+			CommFunct fun = new CommFunct(call.EatShit);
+			comm1.InitConnection(TransportProtocol.UDP_LINK, "1337", "127.0.0.1", 0);
+			comm2.InitConnection(TransportProtocol.UDP_LINK, "1338", "127.0.0.1", 0);
 
-			ABSPacket packet = new Bong(5);
-            CommsWrapper comms1 = new CommsWrapper(1);
-            CommsWrapper comms2 = new CommsWrapper(2);
-			ObjectStreamWrapper obj = new ObjectStreamWrapper();
+			success = comm1.AddAddress(2, "127.0.0.1", 1338);
+			Console.WriteLine("comm1 connected: " + success);
+			success = comm2.AddAddress(1, "127.0.0.1", 1337);
+			Console.WriteLine("comm2 connected: " + success);
 
-			Bong g = new Bong(11);
-			ABSPacket ab = g;
-			Console.WriteLine(ABSPacket.GetValue<Bong>(ab).GetCat());
-			ab.Pack(obj);
+			success = comm2.LinkCallback(new Bong(), new CallBack(new Bong(), fun));
+			Console.WriteLine("Did comm2 get linked? " + success);
 
-			Bong newBong = new Bong();
-			newBong.Unpack(obj);
-
-			Console.WriteLine(newBong.GetCat());
-			// Testing the call function.
-			call.CallFunction(new HeaderWrapper(), new Bong(111));
-			comms1.initConnection(TransportProtocol.UDP_LINK, "1337", "127.0.0.1", 0);
-            comms2.initConnection(TransportProtocol.UDP_LINK, "1338", "127.0.0.1", 0);
-
-            comms1.addAddress(2,"127.0.0.1", 1338);
-            comms1.addAddress(1, "127.0.0.1", 1337);
-
-			comms1.run();
-			comms2.run();
-
-            while(true)
+			comm1.Run();
+			comm2.Run();
+            while (true)
             {
 				// TODO(Garcia):
 				// This needs to be taken care of soon as well.
-                comms1.send(2);
+				comm1.Send(new Bong(11), 2);
                 System.Threading.Thread.Sleep(500);
             }
 		}
