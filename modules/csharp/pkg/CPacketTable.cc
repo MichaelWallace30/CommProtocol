@@ -116,7 +116,7 @@ Int32 CPacketTable::traverseIndex(Int32 i) {
 
 
 UInt32 CPacketTable::keyHash(UInt32 key) {
-  return key.GetHashCode();
+  return key.GetHashCode() % tableSize;
 }
 }
 }

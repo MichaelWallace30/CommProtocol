@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __CCOMMS_H
 
 #include <CCommNode.h>
+#include <network/CCommsLink.h>
 #include <vcclr.h>
 #using <mscorlib.dll>
 
@@ -25,17 +26,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace Comnet {
 
 #pragma managed
+using namespace System;
+using namespace Comnet::Network;
+
 
 // CComms node.
-public ref class CComms : CCommNode {
+public ref class CComms : public CCommNode {
 public:
+  CComms(UInt32 id);
+  ~CComms();
+  
+  Boolean InitConnection(TransportProtocol connType, 
+            String^ port, String^ addr, UInt32 baudrate) override;
+
+  Boolean AddAddress(UInt16 destId, String^ addr, UInt16 port) override;
+  Boolean RemoveAddress(UInt16 destId) override;
+  Boolean Send(ABSPacket^ packet, Byte destId) override;
+  ABSPacket^ Receive(Byte% sourceId) override;
+
+  Void Run() override;
+  Void Pause() override;
+  Void Stop() override;
 
 private:
-  System::Threading::Thread sendThr;
-  System::Threading::Thread recvThr;
+  Network::CCommsLink^ connLayer;
 
-  System::Threading::Mutex sendMut;
-  System::Threading::Mutex recvMut;
+  System::Threading::Thread^ sendThr;
+  System::Threading::Thread^ recvThr;
+
+  System::Threading::Mutex^ sendMut;
+  System::Threading::Mutex^ recvMut;
+
+  Void commHelperSend();
+  Void commHelperRecv();
 };
 }
 #endif // __CCOMMS_H

@@ -19,8 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using namespace Comnet;
 CHeader::CHeader()
 {
-	header = new header_t();
+	header = new header_t;
 }
+
+
+CHeader::CHeader(header_t* header) 
+{
+  this->header = header;
+}
+
 
 CHeader::~CHeader()
 {

@@ -45,6 +45,9 @@ Boolean CUDPLink::send(uint8_t destID, uint8_t* txData, uint32_t txLength){
 }
 /** Sets recieved data to rxData and sets the length of the data to rxLength
 Returns false if not aviable connection or no data is recieved*/
-Boolean CUDPLink::recv(uint8_t* rxData, UInt32% rxLength){
-	return unmanagedUDPLink->recv(rxData, (uint32_t*)rxLength);//probably wont work
+Boolean CUDPLink::recv(uint8_t* rxData, UInt32% rxLength) {
+  uint32_t length = 0;
+	bool success = unmanagedUDPLink->recv(rxData, &length);//probably wont work
+  rxLength = length;
+  return success;
 }

@@ -27,6 +27,7 @@ public ref class CHeader sealed
 	public:
 		header_t *header;	
 		CHeader();
+    CHeader(header_t* header);
 		~CHeader();
 		void setDestID(Byte destID);
 		uint8_t getDestID();

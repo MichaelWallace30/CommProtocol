@@ -1,5 +1,5 @@
 #include <network/CSerialLink.h>
-
+#include <CommProto/debug/CommsDebug.h>
 using namespace Comnet::Network;
 
 CSerialLink::CSerialLink(){
@@ -41,5 +41,8 @@ Boolean CSerialLink::send(uint8_t destID, uint8_t* txData, uint32_t txLength){
 /** Sets recieved data to rxData and sets the length of the data to rxLength
 Returns false if not aviable connection, No data is recieved, or time out*/
 bool CSerialLink::recv(uint8_t* rxData, uint32_t% rxLength){
-	return unmanagedSerialLink->recv(rxData, (uint32_t*)rxLength);//mgiht cause errors c cast (uint32_t*)
+  uint32_t length = 0;
+	bool success = unmanagedSerialLink->recv(rxData, &length);//mgiht cause errors c cast (uint32_t*)
+  rxLength = length;
+  return success;
 }

@@ -108,7 +108,11 @@ SByte CObjectStream::outputSByte()  { int8_t data; unmangedObjectStream->get() >
 UInt16 CObjectStream::outputUInt16(){ UInt16 data; unmangedObjectStream->get() >> data; return data; }
 Int16 CObjectStream::outputInt16()  { Int16 data;  unmangedObjectStream->get() >> data; return data; }
 UInt32 CObjectStream::outputUInt32(){ UInt32 data; unmangedObjectStream->get() >> data; return data; }
-Int32 CObjectStream::outputInt32()  { Int32 data;  unmangedObjectStream->get() >> data; return data; }
+Int32 CObjectStream::outputInt32()  { 
+    Int32 data;  
+    unmangedObjectStream->get() >> data;
+    return data; 
+}
 UInt64 CObjectStream::outputUInt64(){ UInt64 data; unmangedObjectStream->get() >> data; return data; }
 Int64 CObjectStream::outputInt64()  { Int64 data;  unmangedObjectStream->get() >> data; return data; }
 Single CObjectStream::outputSingle(){ Single data; unmangedObjectStream->get() >> data; return data; }
