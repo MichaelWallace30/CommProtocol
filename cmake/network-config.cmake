@@ -9,6 +9,7 @@ set(NETWORK_HEADERS
   ${NETWORK_HEADER_DIR}/SerialLink.h
   ${NETWORK_HEADER_DIR}/XBee.h
   ${NETWORK_HEADER_DIR}/XBeeLink.h
+  ${NETWORK_HEADER_DIR}/zigbee_configs.h
   ${NETWORK_HEADER_DIR}/UDPLink.h
   ${NETWORK_HEADER_DIR}CommSocket.h
   ${NETWORK_HEADER_DIR}CommsLink.h
