@@ -51,23 +51,16 @@ public enum class CallBackCodes : Int32 {
 public ref class CallBack {
 public:
   
-  CallBack(ABSPacket^ ref);
-  CallBack(ABSPacket^ ref, CommFunct^ funct);
+  CallBack();
+  CallBack(CommFunct^ funct);
   ~CallBack();
 
   void SetCallBackListenter(CommFunct^ ptr);
   
   Int32 CallFunction(Header^ header, ABSPacket^ packet);
-internal:
-  const Callback* getUnsafeCallback() {
-    return callback;
-  }
 
-  error_t helper(const comnet::Header& header, AbstractPacket& packet);
 private:
-  ABSPacket^ reference;
   CommFunct^ funct;
-  Callback* callback;
 };
 }
 #endif // __CSHARP_CALLACK_H

@@ -12,31 +12,21 @@ Int32 ErrorFunct(Header^ h, ABSPacket^ Pack) {
 }
 
 
-CallBack::CallBack(ABSPacket^ ref)
+CallBack::CallBack()
 : funct(gcnew CommFunct(ErrorFunct))
-, reference(ref)
 {
-  Callb^ temp = gcnew Callb(this, &CallBack::helper);
-  IntPtr ptr = Marshal::GetFunctionPointerForDelegate(temp);
-  callback = new Callback(static_cast<callback_t>(ptr.ToPointer()));
 }
 
 
-CallBack::CallBack(ABSPacket^ ref, CommFunct^ funct)
+CallBack::CallBack(CommFunct^ funct)
 : funct(funct)
-, reference(ref)
 {
-  Callb^ temp = gcnew Callb(this, &CallBack::helper);
-  IntPtr ptr = Marshal::GetFunctionPointerForDelegate(temp);
-  callback = new Callback(static_cast<callback_t>(ptr.ToPointer()));
 }
 
 
 
 CallBack::~CallBack() 
 {
-  delete callback;
-  callback = nullptr;
 }
 
 
@@ -49,15 +39,4 @@ Int32 CallBack::CallFunction(Header^ header, ABSPacket^ packet) {
   return funct(header, packet);
 
 }
-
-
-error_t CallBack::helper(const comnet::Header& header, AbstractPacket& packet) {
-  Header^ managedHeader = gcnew Header();
-  managedHeader->header = (comnet::Header *)&header;  
-
-  ABSPacket^ managedPacket = reference->Create();
-  managedPacket->SetAbstractPacket(&packet);
-
-  return funct(managedHeader, managedPacket);
-}
-}
+} // Comnet
