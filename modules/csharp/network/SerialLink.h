@@ -17,26 +17,25 @@
 
 #ifndef CSERIAL_H
 #define CSERIAL_H
-#include <network/CCommsLink.h>
+#include <network/CommsLink.h>
 #include <CommProto/network/seriallink.h>
 
 #pragma managed
 using namespace System;
-using namespace comnet::network;
 
 namespace Comnet {
 namespace Network {
 /**
   CSerial class for managed c++
  */
-public ref class CSerialLink : public CCommsLink{
+public ref class SerialLink : public CommsLink {
 private:
-  SerialLink *unmanagedSerialLink;
+  comnet::network::SerialLink *unmanagedSerialLink;
 
   
 public:	
-  CSerialLink();
-  virtual ~CSerialLink();
+  SerialLink();
+  virtual ~SerialLink();
   /** 
     Opens comport sets if it is connected on scucces, address is not need just use "" argument
     @returns false if opening comport fails

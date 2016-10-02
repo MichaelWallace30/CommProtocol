@@ -23,9 +23,9 @@ namespace Comnet {
 namespace Pkg {
 
 
-public ref class CPacketFactory {
+public ref class PacketFactory {
 public:
-  CPacketFactory() : id(1) { }
+  PacketFactory() : id(1) { }
 
   ABSPacket^ ProduceFromId(ABSPacket^ packet) {
     return packet->Create();

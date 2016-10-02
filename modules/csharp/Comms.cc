@@ -1,10 +1,10 @@
-#include <CComms.h>
-#include <network/CSerialLink.h>
-#include <network/CUDPLink.h>
-#include <network/CXbeeLink.h>
-#include <tools/data_structures/CAutoQueue.h>
-#include <CObjectStream.h>
-#include <pkg/CPacketManager.h>
+#include <Comms.h>
+#include <network/SerialLink.h>
+#include <network/UDPLink.h>
+#include <network/XbeeLink.h>
+#include <tools/data_structures/AutoQueue.h>
+#include <ObjectStream.h>
+#include <pkg/PacketManager.h>
 
 
 namespace Comnet {
@@ -13,16 +13,16 @@ namespace Comnet {
 using namespace Comnet::Tools::DataStructures;
 
 
-Void CComms::commHelperRecv() {
+Void Comms::commHelperRecv() {
   while (IsRunning()) {
     ABSPacket^ packet = nullptr;
     uint8_t stream_buffer[MAX_BUFFER_SIZE];
     UInt32 recv_length = 0;
     connLayer->Recv(stream_buffer, recv_length); 
-    CObjectStream^ temp = gcnew CObjectStream();
+    ObjectStream^ temp = gcnew ObjectStream();
     temp->unmangedObjectStream->get().setBuffer((char *)stream_buffer, recv_length);
     if (temp->GetSize() > 0) {
-      CHeader^ header = gcnew CHeader(&temp->unmangedObjectStream->get().deserializeHeader());
+      Header^ header = gcnew Header(&temp->unmangedObjectStream->get().deserializeHeader());
       packet = this->packetManager->ProduceFromId(header->GetMessageID());
       if (packet) {
         packet->Unpack(temp);
@@ -45,10 +45,10 @@ Void CComms::commHelperRecv() {
 }
 
 
-Void CComms::commHelperSend() {
+Void Comms::commHelperSend() {
   while (IsRunning()) {
     if (!sendQueue->IsEmpty()) {
-      CObjectStream^ temp = sendQueue->DeQueue();
+      ObjectStream^ temp = sendQueue->DeQueue();
       connLayer->Send(temp->unmangedObjectStream->get().headerPacket.destID, 
                       temp->unmangedObjectStream->get().getBuffer(),
                       temp->unmangedObjectStream->get().getSize());
@@ -57,21 +57,21 @@ Void CComms::commHelperSend() {
 }
 
 
-CComms::CComms(UInt32 id)
-: CCommNode(id) 
+Comms::Comms(UInt32 id)
+: CommNode(id) 
 {
-  this->recvQueue = gcnew CAutoQueue<ABSPacket^>();
-  this->sendQueue = gcnew CAutoQueue<CObjectStream^>();
+  this->recvQueue = gcnew AutoQueue<ABSPacket^>();
+  this->sendQueue = gcnew AutoQueue<ObjectStream^>();
   this->sendMut = gcnew Threading::Mutex();
   this->recvMut = gcnew Threading::Mutex();
-  recvThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &CComms::commHelperRecv));
-  sendThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &CComms::commHelperSend));
+  recvThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &Comms::commHelperRecv));
+  sendThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &Comms::commHelperSend));
   connLayer = nullptr;
-  this->packetManager = gcnew CPacketManager();
+  this->packetManager = gcnew PacketManager();
 }
 
 
-CComms::~CComms()
+Comms::~Comms()
 {
   if (connLayer) {
     delete connLayer;
@@ -79,26 +79,26 @@ CComms::~CComms()
 }
 
 
-Boolean CComms::InitConnection(TransportProtocol connType, String^ port, String^ addr, UInt32 baudrate) {
+Boolean Comms::InitConnection(TransportProtocol connType, String^ port, String^ addr, UInt32 baudrate) {
   UInt16 length = 0;
   switch (connType) {
     case TransportProtocol::UDP_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
-        connLayer = gcnew Network::CUDPLink();
+        connLayer = gcnew Network::UDPLink();
         return connLayer->InitConnection(port, addr, baudrate);
       }
       break;
     }
     case TransportProtocol::SERIAL_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
-        connLayer = gcnew Network::CSerialLink();
+        connLayer = gcnew Network::SerialLink();
         return connLayer->InitConnection(port, nullptr, baudrate);
       }
       break;
     }
     case TransportProtocol::ZIGBEE_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
-        connLayer = gcnew Network::CXBeeLink();
+        connLayer = gcnew Network::XBeeLink();
         return connLayer->InitConnection(port, nullptr, baudrate);
       }
       break;
@@ -111,13 +111,13 @@ Boolean CComms::InitConnection(TransportProtocol connType, String^ port, String^
 }
 
 
-Boolean CComms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
+Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
   if (connLayer == nullptr) return false;
   return connLayer->AddAddress(destId, addr, port);
 }
 
 
-Boolean CComms::RemoveAddress(UInt16 destId) {
+Boolean Comms::RemoveAddress(UInt16 destId) {
   if (connLayer) {
     return connLayer->RemoveAddress(destId);
   }
@@ -125,8 +125,8 @@ Boolean CComms::RemoveAddress(UInt16 destId) {
 }
 
 
-Void CComms::Run() {
-  CCommNode::Run();
+Void Comms::Run() {
+  CommNode::Run();
   if (IsRunning()) {
     recvThr->Start();
     sendThr->Start();
@@ -134,8 +134,8 @@ Void CComms::Run() {
 }
 
 
-Void CComms::Pause() {
-  CCommNode::Pause();
+Void Comms::Pause() {
+  CommNode::Pause();
   if (IsPaused()) {
     sendThr->Suspend();
     recvThr->Suspend();
@@ -143,8 +143,8 @@ Void CComms::Pause() {
 }
 
 
-Void CComms::Stop() {
-  CComms::Stop();
+Void Comms::Stop() {
+  Comms::Stop();
   if (!IsRunning() && !IsPaused()) {
     sendThr->Suspend();
     recvThr->Suspend();
@@ -152,13 +152,13 @@ Void CComms::Stop() {
 }
 
 
-Boolean CComms::Send(ABSPacket^ packet, Byte destId) {
+Boolean Comms::Send(ABSPacket^ packet, Byte destId) {
   if (!connLayer) {
     return false;
   }
-  CObjectStream^ stream = gcnew CObjectStream();
+  ObjectStream^ stream = gcnew ObjectStream();
   packet->Pack(stream);
-  CHeader^ header = gcnew CHeader();
+  Header^ header = gcnew Header();
   header->SetDestID(destId);
   header->SetSourceID(this->GetNodeId());
   header->SetMessageID(packet->GetAbstractPacket()->getId());
@@ -170,7 +170,7 @@ Boolean CComms::Send(ABSPacket^ packet, Byte destId) {
 }
 
 
-ABSPacket^ CComms::Receive(Byte% sourceId) {
+ABSPacket^ Comms::Receive(Byte% sourceId) {
   if (connLayer && !recvQueue->IsEmpty()) {
     return recvQueue->DeQueue();
   }

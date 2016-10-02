@@ -21,24 +21,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* User Includes */
 
-#include <network/CCommsLink.h>
+#include <network/CommsLink.h>
 #include <CommProto/network/UDPLink.h>
 
-using namespace comnet::network;
 
 namespace Comnet {
   namespace Network {
     #pragma managed		
 
 
-    public ref class CUDPLink : public CCommsLink {
+    public ref class UDPLink : public CommsLink {
     private:			
-      UDPLink *unmanagedUDPLink;
+      comnet::network::UDPLink *unmanagedUDPLink;
 
     public:
       /**Constuctor*/
-      CUDPLink();
-      ~CUDPLink();
+      UDPLink();
+      ~UDPLink();
 
 			/** 
         Opens socket, assigns local address & port, binds socket, sets slen 

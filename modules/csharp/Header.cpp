@@ -14,22 +14,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CHeader.h>
+#include <Header.h>
 
 using namespace Comnet;
-CHeader::CHeader()
+Header::Header()
 {
 	header = new header_t;
 }
 
 
-CHeader::CHeader(header_t* header) 
+Header::Header(header_t* header) 
 {
   this->header = header;
 }
 
 
-CHeader::~CHeader()
+Header::~Header()
 {
 	if (header != NULL)
 	{
@@ -38,19 +38,19 @@ CHeader::~CHeader()
 	}
 }
 
-void CHeader::SetDestID(Byte destID){ header->destID = destID; }
-uint8_t CHeader::GetDestID(){ return header->destID; }
+void Header::SetDestID(Byte destID){ header->destID = destID; }
+uint8_t Header::GetDestID(){ return header->destID; }
 
-void CHeader::SetSourceID(Byte sourceID){ header->sourceID = sourceID; }
-uint8_t CHeader::GetSourceID(){ return header->sourceID; }
+void Header::SetSourceID(Byte sourceID){ header->sourceID = sourceID; }
+uint8_t Header::GetSourceID(){ return header->sourceID; }
 
-void CHeader::SetMessageLength(UInt16 mesageLength){ header->messageLength = mesageLength; }
-uint16_t CHeader::GetMessageLength(){ return header->messageLength; }
+void Header::SetMessageLength(UInt16 mesageLength){ header->messageLength = mesageLength; }
+uint16_t Header::GetMessageLength(){ return header->messageLength; }
 
-void CHeader::SetMessageID(UInt16 messageID){ header->messageID = messageID; }
-uint16_t CHeader::GetMessageID(){ return header->messageID; }
+void Header::SetMessageID(UInt16 messageID){ header->messageID = messageID; }
+uint16_t Header::GetMessageID(){ return header->messageID; }
 
-void CHeader::SetIV(cli::array<Byte>^ IV)
+void Header::SetIV(cli::array<Byte>^ IV)
 {
 	for (int x = 0; x < KEY_LENGTH; x++)
 	{
@@ -58,7 +58,7 @@ void CHeader::SetIV(cli::array<Byte>^ IV)
 	}
 }
 
-cli::array<Byte>^ CHeader::GetIV()
+cli::array<Byte>^ Header::GetIV()
 {
 	cli::array<Byte>^IV = gcnew cli::array<Byte>(KEY_LENGTH);
 	for (int x = 0; x < KEY_LENGTH; x++)

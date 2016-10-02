@@ -28,16 +28,16 @@ namespace Pkg {
 /**
   CPacketTable.
 */
-public ref class CPacketTable {
+public ref class PacketTable {
 public:
   /**
   Constructor of set size.
   */
-  CPacketTable(UInt32 setSize);
+  PacketTable(UInt32 setSize);
   /**
   Default constructor.
   */
-  CPacketTable();
+  PacketTable();
   /**
   Inserts a Packet with a Callback associated with it.
   */

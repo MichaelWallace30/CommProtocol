@@ -14,32 +14,33 @@ set(CSHARP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 set(COMMPROTO_WRAPPER_HEADER_DIR 
-  ${CSHARP_DIR}/tools/data_structures/interface/CQueue.h
-  ${CSHARP_DIR}/tools/data_structures/CAutoQueue.h
+  ${CSHARP_DIR}/tools/data_structures/interface/Queue.h
+  ${CSHARP_DIR}/tools/data_structures/AutoQueue.h
   ${CSHARP_DIR}/network/TransportProtocol.h
-  ${CSHARP_DIR}/network/CUDPLink.h
-  ${CSHARP_DIR}/network/CSerialLink.h
-  ${CSHARP_DIR}/network/CXbeeLink.h
-  ${CSHARP_DIR}/pkg/CPacketManager.h
-  ${CSHARP_DIR}/pkg/CPacketTable.h
-  ${CSHARP_DIR}/pkg/CPacketFactory.h
-  ${CSHARP_DIR}/CCommNode.h
-  ${CSHARP_DIR}/CComms.h
-  ${CSHARP_DIR}/CHeader.h
-  ${CSHARP_DIR}/CObjectStream.h
+  ${CSHARP_DIR}/network/CommsLink.h
+  ${CSHARP_DIR}/network/UDPLink.h
+  ${CSHARP_DIR}/network/SerialLink.h
+  ${CSHARP_DIR}/network/XbeeLink.h
+  ${CSHARP_DIR}/pkg/PacketManager.h
+  ${CSHARP_DIR}/pkg/PacketTable.h
+  ${CSHARP_DIR}/pkg/PacketFactory.h
+  ${CSHARP_DIR}/CommNode.h
+  ${CSHARP_DIR}/Comms.h
+  ${CSHARP_DIR}/Header.h
+  ${CSHARP_DIR}/ObjectStream.h
   ${CSHARP_DIR}/CallBack.h
   ${CSHARP_DIR}/ABSPacket.h)
 
 set(COMMPROTO_WRAPPER_SOURCE_DIR
-  ${CSHARP_DIR}/network/CUDPLink.cpp
-  ${CSHARP_DIR}/network/CSerialLink.cpp
-  ${CSHARP_DIR}/network/CXbeeLink.cpp
-  ${CSHARP_DIR}/tools/data_structures/CAutoQueue.cc
-  ${CSHARP_DIR}/pkg/CPacketTable.cc
-  ${CSHARP_DIR}/pkg/CPacketManager.cc
-  ${CSHARP_DIR}/CComms.cc
-  ${CSHARP_DIR}/CHeader.cpp
-  ${CSHARP_DIR}/CObjectStream.cpp
+  ${CSHARP_DIR}/network/UDPLink.cpp
+  ${CSHARP_DIR}/network/SerialLink.cpp
+  ${CSHARP_DIR}/network/XbeeLink.cpp
+  ${CSHARP_DIR}/tools/data_structures/AutoQueue.cc
+  ${CSHARP_DIR}/pkg/PacketTable.cc
+  ${CSHARP_DIR}/pkg/PacketManager.cc
+  ${CSHARP_DIR}/Comms.cc
+  ${CSHARP_DIR}/Header.cpp
+  ${CSHARP_DIR}/ObjectStream.cpp
   ${CSHARP_DIR}/CallBack.cc
   ${CSHARP_DIR}/ABSPacket.cc)
 

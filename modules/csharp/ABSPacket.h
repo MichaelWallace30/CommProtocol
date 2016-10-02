@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CommProto/abstractpacket.h>
 #include <CommProto/tools/allocator/commpointer.h>
-#include <CObjectStream.h>
+#include <ObjectStream.h>
 #include <vcclr.h>
 #using <mscorlib.dll>
 
@@ -48,9 +48,9 @@ public:
 
     Trying out CommPointer for the first time, let this baby roll!
    */
-  virtual void pack(ObjectStream& obj);
+  virtual void pack(comnet::serialization::ObjectStream& obj);
 
-  virtual void unpack(ObjectStream& obj);
+  virtual void unpack(comnet::serialization::ObjectStream& obj);
 
   virtual AbstractPacket* create();
 
@@ -65,8 +65,8 @@ private:
 public ref class ABSPacket abstract {
 public:
 
-  virtual void Pack(CObjectStream^ obj) = 0;
-  virtual void Unpack(CObjectStream^ obj) = 0;
+  virtual void Pack(ObjectStream^ obj) = 0;
+  virtual void Unpack(ObjectStream^ obj) = 0;
   virtual ABSPacket^ Create() = 0;
 
   String^ GetPacketName() { return packetName; }

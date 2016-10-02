@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __CXBEELINK_H
 
 #include <CommProto/network/xbeelink.h>
-#include <network/CCommsLink.h>
+#include <network/CommsLink.h>
 
 
 using namespace comnet::network;
@@ -27,10 +27,10 @@ namespace Comnet {
 namespace Network {
 
 
-public ref class CXBeeLink : public CCommsLink {
+public ref class XBeeLink : public CommsLink {
 public:
-  CXBeeLink();
-  ~CXBeeLink();
+  XBeeLink();
+  ~XBeeLink();
   /**
   Initialize the connection.
   */

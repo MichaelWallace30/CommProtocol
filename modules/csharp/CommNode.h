@@ -21,10 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ABSPacket.h>
 #include <CallBack.h>
-#include <CObjectStream.h>
-#include <tools/data_structures/interface/CQueue.h>
+#include <ObjectStream.h>
+#include <tools/data_structures/interface/Queue.h>
 #include <network/TransportProtocol.h>
-#include <pkg/CPacketManager.h>
+#include <pkg/PacketManager.h>
 
 #pragma once
 #pragma managed
@@ -44,16 +44,16 @@ namespace Comnet {
 	that we can make easier adjustments for node changing and style, but we must always go
 	by this interface if we want to keep our nodes the same.
 	*/
-	public ref class CCommNode abstract {
+	public ref class CommNode abstract {
 	public:
-		CCommNode()
+		CommNode()
 			: uniqueId(numberOfNodes++)
 			, nodeId(0)
 			, running(false)
 			, paused(true)
 		{ }
 
-		CCommNode(UInt32 platformId)
+		CommNode(UInt32 platformId)
 			: uniqueId(numberOfNodes++)
 			, nodeId(platformId)
 			, running(false)
@@ -62,7 +62,7 @@ namespace Comnet {
 		/**
 		Polymorphic Destructor.
 		*/
-		virtual ~CCommNode() 
+		virtual ~CommNode() 
       { }
 		/**
 		Add a packet to the call chain.
@@ -100,7 +100,7 @@ namespace Comnet {
 		Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
 		All packages received will go into a queue anyway.
 		*/
-		virtual Boolean LinkQueue(const ABSPacket^ packet, CQueue<ABSPacket^>^ queue)
+		virtual Boolean LinkQueue(const ABSPacket^ packet, Queue<ABSPacket^>^ queue)
 		{
 			return ~0;
 		}
@@ -108,7 +108,7 @@ namespace Comnet {
 		/**
 		Replace the send queue of this node.
 		*/
-		virtual Boolean ReplaceSendQueue(CQueue<CObjectStream^>^ queue) {
+		virtual Boolean ReplaceSendQueue(Queue<ObjectStream^>^ queue) {
 			sendQueue = queue;
 			return true;
 		}
@@ -116,7 +116,7 @@ namespace Comnet {
 		/**
 		Replace the recv queue of this node.
 		*/
-		virtual Boolean ReplaceReceiveQueue(CQueue<ABSPacket^>^ queue) {
+		virtual Boolean ReplaceReceiveQueue(Queue<ABSPacket^>^ queue) {
 			recvQueue = queue;
 			return true;
 		}
@@ -220,15 +220,15 @@ namespace Comnet {
 		Packet Manager is a manager controller, designed to hold packets for the node.
 		*/
     // TODO(Garcia or Wallace) : We need to wrap this.
-		CPacketManager^ packetManager;//change to managed pointer when new packetmanger is added
+		PacketManager^ packetManager;//change to managed pointer when new packetmanger is added
 		/**
 		Queue that holds AbstractPacket types for receiving.
 		*/
-		CQueue<ABSPacket^>^ recvQueue;
+		Queue<ABSPacket^>^ recvQueue;
 		/**
 		Queue that holds ObjectStreamWrappers used for sending out.
 		*/
-		CQueue<CObjectStream^>^ sendQueue;
+		Queue<ObjectStream^>^ sendQueue;
 	private:
 		/**
 		The node id associated with this node. This id is used for outside communications.

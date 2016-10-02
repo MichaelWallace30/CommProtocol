@@ -17,8 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CCOMMS_H
 #define __CCOMMS_H
 
-#include <CCommNode.h>
-#include <network/CCommsLink.h>
+#include <CommNode.h>
+#include <network/CommsLink.h>
 #include <vcclr.h>
 #using <mscorlib.dll>
 
@@ -31,10 +31,10 @@ using namespace Comnet::Network;
 
 
 // CComms node.
-public ref class CComms : public CCommNode {
+public ref class Comms : public CommNode {
 public:
-  CComms(UInt32 id);
-  ~CComms();
+  Comms(UInt32 id);
+  ~Comms();
   
   Boolean InitConnection(TransportProtocol connType, 
             String^ port, String^ addr, UInt32 baudrate) override;
@@ -49,7 +49,7 @@ public:
   Void Stop() override;
 
 private:
-  Network::CCommsLink^ connLayer;
+  Network::CommsLink^ connLayer;
 
   System::Threading::Thread^ sendThr;
   System::Threading::Thread^ recvThr;

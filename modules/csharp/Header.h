@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2016  Michael Wallace, Mario Garcia.
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -13,37 +14,34 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __QUEUE_H
-#define __QUEUE_H
-
-#include <CommProto/tools/data_structures/interface/interface_queue.h>
-
-#include <vcclr.h>
-#using <mscorlib.dll>
+#include <CommProto/headerpacket.h>
 
 using namespace System;
+using namespace System::Runtime::InteropServices;
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
-namespace Interface {
+#pragma once
+namespace Comnet{
+#pragma managed	
+public ref class Header sealed
+{
+	public:
+		header_t *header;	
+		Header();
+    Header(header_t* header);
+		~Header();
+		void SetDestID(Byte destID);
+		uint8_t GetDestID();
+		void SetSourceID(Byte sourceID);
+		uint8_t GetSourceID();
+		void SetMessageLength(UInt16 mesageLength);
+		uint16_t GetMessageLength();
+		void SetMessageID(UInt16 messageID);
+		uint16_t GetMessageID();		
+		void SetIV(cli::array<Byte>^ IV);		
+		cli::array<Byte>^ GetIV();
 
-#pragma managed
-
-generic<typename Type>
-public interface class CQueue {
-public:
-
-  virtual void EnQueue(Type data) = 0;
-  virtual Type DeQueue() = 0;
-  virtual Type Front() = 0;
-  virtual Type Back() = 0;
-
-  virtual Int32 GetSize() = 0;
-  virtual Boolean IsEmpty() = 0;
-};
+    header_t* GetHeader() {
+      return header;
+    }
+	};
 }
-}
-}
-}
-#endif // __QUEUE_H

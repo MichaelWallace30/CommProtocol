@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/callback.h>
 
 #include <ABSPacket.h>
-#include <CHeader.h>
+#include <Header.h>
 
 #include <vcclr.h>
 #using <mscorlib.dll>
@@ -33,7 +33,7 @@ namespace Comnet {
 
 // Wrapped function pointer.
 [UnmanagedFunctionPointerAttribute(CallingConvention::Cdecl)]
-public delegate Int32 CommFunct(CHeader^, ABSPacket^);
+public delegate Int32 CommFunct(Header^, ABSPacket^);
 
 // Call back codes.
 public enum class CallBackCodes : Int32 {
@@ -57,7 +57,7 @@ public:
 
   void SetCallBackListenter(CommFunct^ ptr);
   
-  Int32 CallFunction(CHeader^ header, ABSPacket^ packet);
+  Int32 CallFunction(Header^ header, ABSPacket^ packet);
 internal:
   const Callback* getUnsafeCallback() {
     return callback;

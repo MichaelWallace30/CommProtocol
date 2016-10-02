@@ -18,8 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CommProto/pkg/packetmanager.h>
 
-#include <pkg/CPacketFactory.h>
-#include <pkg/CPacketTable.h>
+#include <pkg/PacketFactory.h>
+#include <pkg/PacketTable.h>
 #include <CallBack.h>
 #include <ABSPacket.h>
 
@@ -38,7 +38,7 @@ namespace Pkg {
 /**
   CPacketManager is an interface, meant to allow interchangeable hashing and managing.
 */
-public ref class CPacketManager {
+public ref class PacketManager {
 public:
 
   Boolean Insert(ABSPacket^ key, CallBack^ callback);
@@ -51,8 +51,8 @@ public:
 
   ABSPacket^ ProduceFromId(UInt32 key);
 private:
-  CPacketFactory factory;
-  CPacketTable table;
+  PacketFactory factory;
+  PacketTable table;
 };
 }
 }

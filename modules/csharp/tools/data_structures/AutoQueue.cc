@@ -1,4 +1,4 @@
-#include <tools/data_structures/CAutoQueue.h>
+#include <tools/data_structures/AutoQueue.h>
 
 namespace Comnet {
 namespace Tools {
@@ -6,44 +6,44 @@ namespace DataStructures {
 
 
 generic<typename Type>
-CAutoQueue<Type>::CAutoQueue()
+AutoQueue<Type>::AutoQueue()
 : managedQueue(gcnew Collections::Queue())
 {
 }
 
 
 generic<typename Type>
-void CAutoQueue<Type>::EnQueue(Type data) {
+void AutoQueue<Type>::EnQueue(Type data) {
   managedQueue->Enqueue(data);
 }
 
 
 generic<typename Type>
-Type CAutoQueue<Type>::DeQueue() {
+Type AutoQueue<Type>::DeQueue() {
   return (Type)managedQueue->Dequeue();
 }
 
 
 generic<typename Type>
-Type CAutoQueue<Type>::Front() {
+Type AutoQueue<Type>::Front() {
   return (Type)managedQueue->Peek();
 }
 
 
 generic<typename Type>
-Type CAutoQueue<Type>::Back() {
+Type AutoQueue<Type>::Back() {
   throw gcnew System::NullReferenceException("Cannot reference back of queue pointer for Collections.");
 }
 
 
 generic<typename Type>
-Int32 CAutoQueue<Type>::GetSize() {
+Int32 AutoQueue<Type>::GetSize() {
   return managedQueue->Count;
 }
 
 
 generic<typename Type>
-Boolean CAutoQueue<Type>::IsEmpty() {
+Boolean AutoQueue<Type>::IsEmpty() {
   return (managedQueue->Count == 0);
 }
 }

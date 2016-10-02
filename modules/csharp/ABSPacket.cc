@@ -1,3 +1,4 @@
+
 #include <ABSPacket.h>
 #include <CommProto/tools/allocator/commpointer.h>
 
@@ -13,9 +14,9 @@ AbstractPacketForwarder::AbstractPacketForwarder(ABSPacket^ packet)
 }
 
 
-void AbstractPacketForwarder::pack(ObjectStream& obj) {
-  CommPointer<ObjectStream> ptr = obj;
-  CObjectStream^ wrapper = gcnew CObjectStream(&ptr);
+void AbstractPacketForwarder::pack(comnet::serialization::ObjectStream& obj) {
+  CommPointer<comnet::serialization::ObjectStream> ptr = obj;
+  Comnet::Serialization::ObjectStream^ wrapper = gcnew Comnet::Serialization::ObjectStream(&ptr);
 
   owner->Pack(wrapper);
 
@@ -23,9 +24,9 @@ void AbstractPacketForwarder::pack(ObjectStream& obj) {
 }
 
 
-void AbstractPacketForwarder::unpack(ObjectStream& obj) {
-  CommPointer<ObjectStream> ptr = obj;
-  CObjectStream^ wrapper = gcnew CObjectStream(&ptr);
+void AbstractPacketForwarder::unpack(comnet::serialization::ObjectStream& obj) {
+  CommPointer<comnet::serialization::ObjectStream> ptr = obj;
+  ObjectStream^ wrapper = gcnew Comnet::Serialization::ObjectStream(&ptr);
 
   owner->Unpack(wrapper);
   // ptr is now in control of the ptr;

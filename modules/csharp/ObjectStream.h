@@ -17,26 +17,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #include <CommProto/serialization/objectstream.h>
 #include <CommProto/tools/allocator/commpointer.h>
-#include <CHeader.h>
+#include <Header.h>
 
 using namespace System;
 using namespace comnet::tools::allocator;
-using namespace comnet::serialization;
 
 namespace Comnet {
 	namespace Serialization {
-		public ref class CObjectStream sealed {
+		public ref class ObjectStream sealed {
 		public:
-			CommPointer<ObjectStream>* unmangedObjectStream;
+			comnet::tools::allocator::CommPointer<comnet::serialization::ObjectStream>* unmangedObjectStream;
 			
-			CObjectStream();
-			~CObjectStream();
+			ObjectStream();
+			~ObjectStream();
 
 			Int32 GetPosition();
 			Int32 GetSize();
 
-			void SerializeHeader(CHeader ^ header);
-			CHeader^ DeserializeHeader();
+			void SerializeHeader(Header ^ header);
+			Header^ DeserializeHeader();
 
 			//intput
 			void Input(String^ data);
@@ -65,7 +64,7 @@ namespace Comnet {
 			Double OutputDouble();			
 
 internal:
-  CObjectStream(CommPointer<ObjectStream>* pointer);
+  ObjectStream(CommPointer<comnet::serialization::ObjectStream>* pointer);
 		};
 	} // Serialization namespace
 } // Comnet namespace

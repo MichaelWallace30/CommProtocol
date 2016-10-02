@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CAUTO_QUEUE_H
 #define __CAUTO_QUEUE_H
 
-#include <tools/data_structures/interface/CQueue.h>
+#include <tools/data_structures/interface/Queue.h>
 
 #include <vcclr.h>
 #using <mscorlib.dll>
@@ -36,9 +36,9 @@ using namespace Comnet::Tools::DataStructures::Interface;
   Automatic queue data structure implemented for the use of Customization.
  */
 generic<typename Type>
-public ref class CAutoQueue : public CQueue<Type> {
+public ref class AutoQueue : public Queue<Type> {
 public:
-  CAutoQueue();
+  AutoQueue();
   
   virtual void EnQueue(Type data);
   virtual Type DeQueue();

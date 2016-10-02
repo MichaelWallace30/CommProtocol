@@ -41,17 +41,17 @@ namespace Comnet {
 		Designed in this interface standard, the Connection of the node responsible with this
 		adapter-like interface will hold protocols to this specified object.
 		*/
-		public ref class CCommsLink abstract {
+		public ref class CommsLink abstract {
 		public:
 			/**
 			Default Constuctor.
 			*/
-			CCommsLink()
+			CommsLink()
 			{ }
 			/**
 			Polymorphic Destructor.
 			*/
-			virtual ~CCommsLink()
+			virtual ~CommsLink()
 			{ }
 			/**
 			Initialize the connection.

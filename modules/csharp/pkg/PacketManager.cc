@@ -1,25 +1,25 @@
-#include <pkg/CPacketManager.h>
+#include <pkg/PacketManager.h>
 
 namespace Comnet {
 namespace Pkg {
 
 
-Boolean CPacketManager::Insert(ABSPacket^ packet, CallBack^ callback) {
+Boolean PacketManager::Insert(ABSPacket^ packet, CallBack^ callback) {
   return table.Insert(packet, callback);
 }
 
 
-CallBack^ CPacketManager::Get(ABSPacket^ key) {
+CallBack^ PacketManager::Get(ABSPacket^ key) {
   return table.GetCallback(key->GetAbstractPacket()->getId());
 }
 
 
-Boolean CPacketManager::Remove(ABSPacket^ key) {
+Boolean PacketManager::Remove(ABSPacket^ key) {
   return table.Remove(key->GetAbstractPacket()->getId());
 }
 
 
-Boolean CPacketManager::Contains(ABSPacket^ key) {
+Boolean PacketManager::Contains(ABSPacket^ key) {
   ABSPacket^ packet = table.GetPacket(key->GetAbstractPacket()->getId());
   if (packet) {
     return true;
@@ -29,23 +29,23 @@ Boolean CPacketManager::Contains(ABSPacket^ key) {
 }
 
 
-Boolean CPacketManager::Contains(CallBack^ call) {
+Boolean PacketManager::Contains(CallBack^ call) {
   throw gcnew System::NotImplementedException();
   return false; // for now...
 }
 
 
-Int32 CPacketManager::GetSize() {
+Int32 PacketManager::GetSize() {
   return table.GetNumOfPairs();
 }
 
 
-Void CPacketManager::Resize() {
+Void PacketManager::Resize() {
   throw gcnew System::NotImplementedException();
 }
 
 
-ABSPacket^ CPacketManager::ProduceFromId(UInt32 key) {
+ABSPacket^ PacketManager::ProduceFromId(UInt32 key) {
   ABSPacket^ packet = table.GetPacket(key);
   if (packet) {
     return factory.ProduceFromId(packet);
