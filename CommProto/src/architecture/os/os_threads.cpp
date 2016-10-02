@@ -1,5 +1,6 @@
+#define _DEBUG 1
 #include <CommProto/architecture/os/os_threads.h>
-
+#include <CommProto/debug/comms_debug.h>
 
 /*
   Define the target OS. Windows and Unix like systems use different APIs.
@@ -30,6 +31,7 @@ thread_t thread_get_self_id()
 */
 void thread_create(thread_t* thread, void* (*start_routine)(void*), void* arg) 
 {
+  COMMS_DEBUG("Starting pthread...\n");
   pthread_create(thread, NULL, start_routine, arg);
 }
 

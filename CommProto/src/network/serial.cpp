@@ -252,7 +252,7 @@ InitUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
 inline bool
 UnixSend(Serial& serial, uint8_t dest_id, uint8_t* tx_data, int32_t tx_length) {
   bool result = false;
-  serial_t& h_serial = serial.getSerialPort();
+  serial_t& h_serial = serial.GetSerialPort();
 
   int32_t bytes_written = write(h_serial.fd, tx_data, tx_length);
   if (bytes_written < 0) {
@@ -269,7 +269,7 @@ UnixSend(Serial& serial, uint8_t dest_id, uint8_t* tx_data, int32_t tx_length) {
 inline bool
 UnixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   bool result = false;
-  serial_t& h_serial = serial.getSerialPort();
+  serial_t& h_serial = serial.GetSerialPort();
   COMMS_DEBUG("\n\nReading serial\n\n");
   int32_t bytes_read = read(h_serial.fd, rx_data, 256);
   if (bytes_read < 0) {

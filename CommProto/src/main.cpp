@@ -30,9 +30,9 @@ error_t pingCall(const Header& header, AbstractPacket& ping) {
 }
 
 int main(int c, char** args) {
-  //Comms comm1(1);
+  Comms comm1(1);
   Comms comm2(2);
-  //CommNode& newComms1 = comm1;
+//  CommNode& newComms1 = comm1;
   CommNode& newComms2 = comm2;
   // Can now replace queues.
   //newComms2.ReplaceReceiveQueue(new LinkedQueue<AbstractPacket*>());
@@ -42,25 +42,26 @@ int main(int c, char** args) {
   }
   
   COMMS_DEBUG("Adding callback\n");
-  //newComms1.LinkCallback(new Ping(0), new Callback(Storage::storeFunction));
+//  newComms1.LinkCallback(new Ping(), new Callback(pingCall));
   COMMS_DEBUG("Callback added!\n");
-  //success = newComms1.InitConnection(UDP_LINK, "1338", "127.0.0.1");
+//  success = newComms1.InitConnection(UDP_LINK, "1337", "127.0.0.1");
   cout << "newComms1 init: " << success << endl;
   success = newComms2.InitConnection(UDP_LINK, "1338", "127.0.0.1");
   cout << "newComms2 init: " << success << endl;
   cin.ignore();
 
-  //success = newComms1.AddAddress(2,"127.0.0.1", 1337);
+//  success = newComms1.AddAddress(2,"127.0.0.1", 1338);
   cout << "newComms1 add: " << success << endl;
   success = newComms2.AddAddress(1, "127.0.0.1", 1337);
   cout << "newComms2 add: " << success << endl;
 
 	
-  COMMS_DEBUG("RUNNING!");
+  COMMS_DEBUG("Press key to continue...");
   cin.ignore();
   cout << newComms2.GetNodeId() << endl;
 	newComms2.Run();
-	//newComms1.Run();
+	COMMS_DEBUG("Comms is now Running!\n");
+//	newComms1.Run();
 	//cout << newComms1.GetNodeId() << endl;
 	Ping ping("I am a cat.");
 	uint8_t source;
@@ -68,6 +69,7 @@ int main(int c, char** args) {
 
 	while (true)
 	{
+	  COMMS_DEBUG("Running!");
 	  newComms2.Send(&ping, 1);
     Sleep(1000);
     // This is not needed unless the user hasn't specified a callback for the packet, and

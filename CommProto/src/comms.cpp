@@ -1,3 +1,4 @@
+#define _DEBUG 1
 #include <CommProto/comms.h>
 #include <CommProto/architecture/macros.h>
 
@@ -23,7 +24,8 @@ thread creation APIs. Static linkage helps with that.
 */
 void* Comms::CommuincationHelperSend(void* context)
 {
-	return ((Comms*)context)->CommuincationHandlerSend();
+  COMMS_DEBUG("Running thread...\n");
+  return ((Comms*)context)->CommuincationHandlerSend();
 }
 
 void* Comms::CommuincationHelperRecv(void* context)
@@ -45,6 +47,7 @@ void* Comms::CommuincationHandlerSend()
 			conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
 			free_pointer(temp);
 		}
+//		COMMS_DEBUG("IM GOING!!\n");
 	}
 	return 0;
 }
@@ -65,6 +68,7 @@ void* Comms::CommuincationHandlerRecv() {
       produce the packet from the header, finally Get the callback.
      */
     if (temp->GetSize() > 0) {
+      COMMS_DEBUG("Comms packet unpacking...\n");
       Header header = temp->DeserializeHeader();
       // Create the packet.
       packet = this->packet_manager.ProduceFromId(header.msg_id);
@@ -225,8 +229,10 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
 void Comms::Run()
 {
   CommNode::Run();
+//  COMMS_DEBUG("Running!\n");
 	thread_create(&this->comm_thread_send, CommuincationHelperSend, this);
 	thread_create(&this->comm_thread_recv, CommuincationHelperRecv, this);
+// COMMS_DEBUG("THREADS ARE RUNNING\n");
 }
 
 
