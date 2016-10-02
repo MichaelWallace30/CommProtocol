@@ -1,7 +1,7 @@
 #define _DEBUG 1
-#include <CommProto/network/Crc32.h>
+#include <CommProto/network/crc32.h>
 
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/debug/comms_debug.h>
 
 namespace comnet {
 namespace network {

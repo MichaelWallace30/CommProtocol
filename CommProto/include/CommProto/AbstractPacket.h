@@ -20,8 +20,8 @@
 #ifndef __ABSTRACT_PACKET_H
 #define __ABSTRACT_PACKET_H
 
-#include <CommProto/HeaderPacket.h>
-#include <CommProto/serialization/ObjectStream.h>
+#include <CommProto/headerpacket.h>
+#include <CommProto/serialization/objectstream.h>
 
 #include <exception>
 #include <typeinfo>

@@ -1,4 +1,4 @@
-#include <CommProto/encryption/AesEncryption.h>
+#include <CommProto/encryption/aes_encryption.h>
 
 AesEncryption::AesEncryption(){}
 AesEncryption::~AesEncryption(){}

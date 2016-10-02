@@ -16,10 +16,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/network/XBeeLink.h>
-#include <CommProto/network/XBee.h>
-#include <CommProto/debug/CommsDebug.h>
-#include <CommProto/tools/data_structures/AutoVector.h>
+#include <CommProto/network/xbeelink.h>
+#include <CommProto/network/xbee.h>
+#include <CommProto/debug/comms_debug.h>
+#include <CommProto/tools/data_structures/auto_vector.h>
 
 namespace comnet {
 namespace network {

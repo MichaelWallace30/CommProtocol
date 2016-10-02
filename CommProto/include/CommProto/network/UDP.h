@@ -21,11 +21,11 @@
 
 /* User Includes */
 #include <CommProto/architecture/connection/socket-config.h>
-#include <CommProto/HeaderPacket.h>
+#include <CommProto/headerpacket.h>
 #include <CommProto/architecture/macros.h>//str_length(char*,int)
 #include <stdio.h>//printf
 #include <stdlib.h>//atoi
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/debug/comms_debug.h>
 
 #define ADDRESS_LENGTH 16
 #define MAX_CONNECTIONS 32

@@ -23,9 +23,9 @@
 #include <CommProto/architecture/api.h>
 #include <CommProto/architecture/connection/transport_type.h>
 
-#include <CommProto/pkg/PacketManager.h>
+#include <CommProto/pkg/packetmanager.h>
 
-#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
+#include <CommProto/tools/data_structures/interface/interface_queue.h>
 
 namespace comnet {
 

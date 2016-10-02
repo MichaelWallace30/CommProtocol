@@ -19,7 +19,7 @@
 #ifndef __INTERFACE_MAP_H
 #define __INTERFACE_MAP_H
 
-#include <CommProto/tools/data_structures/interface/Generic.h>
+#include <CommProto/tools/data_structures/interface/generic.h>
 
 namespace comnet {
 namespace tools {

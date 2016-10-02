@@ -23,8 +23,8 @@
 #include <CommProto/architecture/api.h>
 #include <CommProto/architecture/macros.h>
 
-#include <CommProto/tools/allocator/NewAllocator.h>
-#include <CommProto/tools/data_structures/DoubleLinkedList.h>
+#include <CommProto/tools/allocator/newallocator.h>
+#include <CommProto/tools/data_structures/double_linked_list.h>
 
 namespace comnet {
 namespace tools {

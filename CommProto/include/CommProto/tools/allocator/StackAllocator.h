@@ -19,7 +19,7 @@
 #ifndef __STACK_ALLOCATOR_H
 #define __STACK_ALLOCATOR_H
 
-#include <CommProto/tools/allocator/Allocator.h>
+#include <CommProto/tools/allocator/allocator.h>
 
 namespace comnet {
 namespace tools {

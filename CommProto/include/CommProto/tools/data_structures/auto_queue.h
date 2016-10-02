@@ -19,7 +19,7 @@
 #ifndef __AUTO_QUEUE_H
 #define __AUTO_QUEUE_H
 
-#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
+#include <CommProto/tools/data_structures/interface/interface_queue.h>
 
 #include <queue>
 

@@ -24,7 +24,7 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
-#include <CommProto/HeaderPacket.h>
+#include <CommProto/headerpacket.h>
 
 #define MAX_CONNECTIONS 32
 

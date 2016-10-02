@@ -4,9 +4,9 @@ set(ENCRYPTION_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/encryption/)
 
 
 set(ENCRYPTION_HEADERS
-  ${ENCRYPTION_HEADER_DIR}EncryptionInterface.h
-  ${ENCRYPTION_HEADER_DIR}AesEncryption.h)
+  ${ENCRYPTION_HEADER_DIR}encryption_interface.h
+  ${ENCRYPTION_HEADER_DIR}aes_encryption.h)
   
 
 set(ENCRYPTION_SOURCES
-${ENCRYPTION_SOURCE_DIR}AesEncryption.cpp)
+${ENCRYPTION_SOURCE_DIR}aes_encryption.cpp)

@@ -19,7 +19,7 @@
 #ifndef __INTERFACE_STACK_H
 #define __INTERFACE_STACK_H
 
-#include <CommProto/tools/data_structures/inteface/Generic.h>
+#include <CommProto/tools/data_structures/interface/generic.h>
 
 namespace comnet {
 namespace tools {

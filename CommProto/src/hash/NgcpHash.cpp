@@ -23,7 +23,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/hash/NgcpHash.h>
+#include <CommProto/hash/ngcphash.h>
 
 #include <CommProto/architecture/macros.h>
 #include <CommProto/architecture/os/arch.h>

@@ -16,8 +16,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/Callback.h>
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/callback.h>
+#include <CommProto/debug/comms_debug.h>
 
 #include <stdlib.h>
 

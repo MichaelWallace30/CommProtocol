@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <CommProto/serialization/Marshal.h>
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/serialization/marshal.h>
+#include <CommProto/debug/comms_debug.h>
 
 #include <string.h>
 #include <string>

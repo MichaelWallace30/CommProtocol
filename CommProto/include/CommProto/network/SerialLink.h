@@ -19,9 +19,9 @@
 #ifndef __SERIAL_LINK_H
 #define __SERIAL_LINK_H
 
-#include <CommProto/network/CommsLink.h>
+#include <CommProto/network/commslink.h>
 
-#include <CommProto/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/tools/data_structures/interface/interface_list.h>
 
 namespace comnet {
 namespace network {

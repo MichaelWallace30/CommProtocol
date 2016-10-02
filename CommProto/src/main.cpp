@@ -1,20 +1,20 @@
 #define _DEBUG 1
 #include <stdio.h>
-#include <CommProto/Comms.h>
+#include <CommProto/comms.h>
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/hash/NgcpHash.h>
-#include <CommProto/console/Console.h>
-#include <CommProto/network/CommSocket.h>
-#include <CommProto/serialization/Marshal.h>
-#include <CommProto/serialization/ObjectStream.h>
-#include <CommProto/Callback.h>
-#include <CommProto/Packets.h>
-#include <CommProto/pkg/PacketManager.h>
-#include <CommProto/tools/data_structures/LinkedQueue.h>
+#include <CommProto/hash/ngcphash.h>
+#include <CommProto/console/console.h>
+#include <CommProto/network/commsocket.h>
+#include <CommProto/serialization/marshal.h>
+#include <CommProto/serialization/objectstream.h>
+#include <CommProto/callback.h>
+#include <CommProto/packets.h>
+#include <CommProto/pkg/packetmanager.h>
+#include <CommProto/tools/data_structures/linked_queue.h>
 #include <stdlib.h>
-#include <CommProto/tools/data_structures/DoubleLinkedList.h>
-#include <CommProto/tools/Comparator.h>
+#include <CommProto/tools/data_structures/double_linked_list.h>
+#include <CommProto/tools/comparator.h>
 
 #include <typeinfo>
 #include <iostream>

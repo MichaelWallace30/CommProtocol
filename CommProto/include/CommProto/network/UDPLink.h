@@ -19,8 +19,8 @@
 #ifndef __UDP_LINK_H
 #define __UDP_LINK_H
 
-#include <CommProto/network/CommsLink.h>
-#include <CommProto/network/UDP.h>
+#include <CommProto/network/commslink.h>
+#include <CommProto/network/udp.h>
 
 
 namespace comnet {

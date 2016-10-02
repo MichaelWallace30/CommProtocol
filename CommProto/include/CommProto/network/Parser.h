@@ -19,7 +19,7 @@
 #ifndef __PARSER_H
 #define __PARSER_H
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/HeaderPacket.h>
+#include <CommProto/headerpacket.h>
 
 #pragma once
 namespace comnet {

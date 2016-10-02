@@ -22,12 +22,12 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
-#include <CommProto/network/Parser.h>
+#include <CommProto/network/parser.h>
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/connection/serial-config.h> 
 #include <CommProto/architecture/macros.h>//str_length(char*, int)
-#include <CommProto/debug/CommsDebug.h>
-#include <CommProto/HeaderPacket.h>
+#include <CommProto/debug/comms_debug.h>
+#include <CommProto/headerpacket.h>
 
 namespace comnet {
 namespace network {

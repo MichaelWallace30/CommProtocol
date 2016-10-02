@@ -3,7 +3,7 @@ set(DEBUG_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/deb
 set(DEBUG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/debug/)
 
 set(DEBUG_HEADERS
-  ${DEBUG_HEADER_DIR}/CommsDebug.h
-  ${DEBUG_HEADER_DIR}/ErrorStatus.h
-  ${DEBUG_HEADER_DIR}/Log.h)
+  ${DEBUG_HEADER_DIR}/comms_debug.h
+  ${DEBUG_HEADER_DIR}/error_status.h
+  ${DEBUG_HEADER_DIR}/log.h)
 

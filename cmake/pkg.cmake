@@ -3,10 +3,10 @@ set(PKG_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/pkg/)
 set(PKG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/pkg/)
 
 set(COMMPROTO_PKG_HEADERS
-  ${PKG_HEADER_DIR}/PacketManager.h
-  ${PKG_HEADER_DIR}/PacketTable.h
-  ${PKG_HEADER_DIR}/PacketFactory.h)
+  ${PKG_HEADER_DIR}/packetmanager.h
+  ${PKG_HEADER_DIR}/packettable.h
+  ${PKG_HEADER_DIR}/packetfactory.h)
 
 set(COMMPROTO_PKG_SOURCES
-  ${PKG_SOURCE_DIR}/PacketManager.cc
-  ${PKG_SOURCE_DIR}/PacketTable.cc)
+  ${PKG_SOURCE_DIR}/packetmanager.cc
+  ${PKG_SOURCE_DIR}/packettable.cc)

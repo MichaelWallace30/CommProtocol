@@ -19,7 +19,7 @@
 #ifndef __NEW_ALLOCATOR_H
 #define __NEW_ALLOCATOR_H
 
-#include <CommProto/tools/allocator/Allocator.h>
+#include <CommProto/tools/allocator/allocator.h>
 #include <new>
 
 namespace comnet {

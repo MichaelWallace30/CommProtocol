@@ -16,11 +16,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/network/XBee.h>
+#include <CommProto/network/xbee.h>
 #include <CommProto/network/zigbee_configs.h>
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/debug/comms_debug.h>
 #include <CommProto/architecture/macros.h>
-#include <CommProto/HeaderPacket.h>
+#include <CommProto/headerpacket.h>
 
 #include <regex>
 #include <string>

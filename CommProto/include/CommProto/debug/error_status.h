@@ -19,7 +19,7 @@
 #ifndef __ERROR_STATUS_H
 #define __ERROR_STATUS_H
 
-#include <CommProto/debug/Log.h>
+#include <CommProto/debug/log.h>
 
 /**
   Error_t type.

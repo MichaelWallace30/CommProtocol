@@ -20,9 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __OBJECT_STREAM_H
 #define __OBJECT_STREAM_H
 
-#include <CommProto/serialization/Marshal.h>
-#include <CommProto/debug/CommsDebug.h>
-#include <CommProto/HeaderPacket.h>
+#include <CommProto/serialization/marshal.h>
+#include <CommProto/debug/comms_debug.h>
+#include <CommProto/headerpacket.h>
 #include <string>
 
 namespace comnet {

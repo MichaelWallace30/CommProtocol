@@ -21,7 +21,7 @@
 
 
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/pkg/PacketFactory.h>
+#include <CommProto/pkg/packetfactory.h>
 
 
 namespace comnet {

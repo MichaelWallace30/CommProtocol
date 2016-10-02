@@ -17,10 +17,10 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #define _DEBUG 1
-#include <CommProto/network/Serial.h>
-#include <CommProto/network/Crc32.h>
+#include <CommProto/network/serial.h>
+#include <CommProto/network/crc32.h>
 
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/debug/comms_debug.h>
 
 
 namespace comnet {

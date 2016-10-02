@@ -4,7 +4,7 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
-#include <CommProto/debug/LogStatus.h>
+#include <CommProto/debug/log_status.h>
 
 namespace comnet {
 namespace debug {

@@ -16,10 +16,10 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/pkg/PacketTable.h>
+#include <CommProto/pkg/packettable.h>
 #include <CommProto/architecture/macros.h>
-#include <CommProto/AbstractPacket.h>
-#include <CommProto/Callback.h>
+#include <CommProto/abstractpacket.h>
+#include <CommProto/callback.h>
 
 
 #if COM_TARGET_OS != COM_OS_WINDOWS

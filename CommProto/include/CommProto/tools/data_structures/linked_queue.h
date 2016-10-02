@@ -19,8 +19,8 @@
 #ifndef __LINKED_QUEUE_H
 #define __LINKED_QUEUE_H
 
-#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
-#include <CommProto/tools/allocator/NewAllocator.h>
+#include <CommProto/tools/data_structures/interface/interface_queue.h>
+#include <CommProto/tools/allocator/newallocator.h>
 #include <CommProto/architecture/macros.h>
 
 namespace comnet {

@@ -19,7 +19,7 @@
 #ifndef __INTERFACE_TREE_H
 #define __INTERFACE_TREE_H
 
-#include <CommProto/tools/data_structures/interface/Generic.h>
+#include <CommProto/tools/data_structures/interface/generic.h>
 
 
 namespace comnet {

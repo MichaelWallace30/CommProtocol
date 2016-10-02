@@ -3,25 +3,25 @@ set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/too
 set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
 
 set(TOOLS_HEADERS
-  ${TOOLS_HEADER_DIR}/Comparable.h
-  ${TOOLS_HEADER_DIR}/Comparator.h
-  ${TOOLS_HEADER_DIR}/StandardComparator.h
-  ${TOOLS_HEADER_DIR}/data_structures/AutoQueue.h
-  ${TOOLS_HEADER_DIR}/data_structures/AutoVector.h
-  ${TOOLS_HEADER_DIR}/data_structures/CircleLinkedList.h
-  ${TOOLS_HEADER_DIR}/data_structures/DoubleLinkedList.h
-  ${TOOLS_HEADER_DIR}/data_structures/SingleLinkedList.h
-  ${TOOLS_HEADER_DIR}/data_structures/LinkedQueue.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/Generic.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceList.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceQueue.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceMap.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceTree.h
-  ${TOOLS_HEADER_DIR}/data_structures/interface/InterfaceStack.h
-  ${TOOLS_HEADER_DIR}/allocator/Allocator.h
-  ${TOOLS_HEADER_DIR}/allocator/CommPointer.h
-  ${TOOLS_HEADER_DIR}/allocator/NewAllocator.h
-  ${TOOLS_HEADER_DIR}/allocator/StackAllocator.h)
+  ${TOOLS_HEADER_DIR}/comparable.h
+  ${TOOLS_HEADER_DIR}/comparator.h
+  ${TOOLS_HEADER_DIR}/standard_comparator.h
+  ${TOOLS_HEADER_DIR}/data_structures/auto_queue.h
+  ${TOOLS_HEADER_DIR}/data_structures/auto_vector.h
+  ${TOOLS_HEADER_DIR}/data_structures/circle_linked_list.h
+  ${TOOLS_HEADER_DIR}/data_structures/double_linked_list.h
+  ${TOOLS_HEADER_DIR}/data_structures/single_linked_list.h
+  ${TOOLS_HEADER_DIR}/data_structures/linked_queue.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/generic.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/interface_list.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/interface_queue.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/interface_map.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/interface_tree.h
+  ${TOOLS_HEADER_DIR}/data_structures/interface/interface_stack.h
+  ${TOOLS_HEADER_DIR}/allocator/allocator.h
+  ${TOOLS_HEADER_DIR}/allocator/commpointer.h
+  ${TOOLS_HEADER_DIR}/allocator/newallocator.h
+  ${TOOLS_HEADER_DIR}/allocator/stackallocator.h)
 
 set(TOOLS_SOURCES
 	)

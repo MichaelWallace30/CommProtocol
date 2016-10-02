@@ -1,8 +1,8 @@
-#include <CommProto/network/SerialLink.h>
-#include <CommProto/network/Serial.h>
+#include <CommProto/network/seriallink.h>
+#include <CommProto/network/serial.h>
 
 #include <CommProto/architecture/macros.h>
-#include <CommProto/tools/data_structures/AutoVector.h>
+#include <CommProto/tools/data_structures/auto_vector.h>
 
 namespace comnet {
 namespace network {

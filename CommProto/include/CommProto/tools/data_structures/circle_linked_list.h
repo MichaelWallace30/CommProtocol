@@ -23,9 +23,9 @@
 #include <CommProto/architecture/api.h>
 #include <CommProto/architecture/macros.h>
 
-#include <CommProto/tools/data_structures/interface/InterfaceList.h>
-#include <CommProto/tools/StandardComparator.h>
-#include <CommProto/tools/allocator/NewAllocator.h>
+#include <CommProto/tools/data_structures/interface/interface_list.h>
+#include <CommProto/tools/standard_comparator.h>
+#include <CommProto/tools/allocator/newallocator.h>
 
 namespace comnet {
 namespace tools {

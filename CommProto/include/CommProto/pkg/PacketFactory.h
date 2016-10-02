@@ -22,7 +22,7 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/macros.h>
 
-#include <CommProto/AbstractPacket.h>
+#include <CommProto/abstractpacket.h>
 
 namespace comnet {
 namespace pkg {

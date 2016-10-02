@@ -19,22 +19,22 @@
 #ifndef COMMS_H
 #define COMMS_H
 
-#include <CommProto/tools/data_structures/AutoQueue.h>//marios wrapper of queue
-#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
+#include <CommProto/tools/data_structures/auto_queue.h>//marios wrapper of queue
+#include <CommProto/tools/data_structures/interface/interface_queue.h>
 
-#include <CommProto/network/CommsLink.h> //communication layer interface/abstract base class
-#include <CommProto/network/CommSocket.h> // 
+#include <CommProto/network/commslink.h> //communication layer interface/abstract base class
+#include <CommProto/network/commsocket.h> // 
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/os_threads.h>//method to create threads
 #include <CommProto/architecture/os/os_mutex.h>
 #include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
 
-#include <CommProto/serialization/ObjectStream.h>
+#include <CommProto/serialization/objectstream.h>
 
-#include <CommProto/AbstractPacket.h>
-#include <CommProto/CommNode.h>
-#include <CommProto/HeaderPacket.h>//Header which declares packet structs
+#include <CommProto/abstractpacket.h>
+#include <CommProto/commnode.h>
+#include <CommProto/headerpacket.h>//Header which declares packet structs
 
 #include <iostream>//testing only
 #include <stdint.h>//needed for bit size variables

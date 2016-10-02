@@ -19,7 +19,7 @@
 #ifndef __INTERFACE_QUEUE_H
 #define __INTERFACE_QUEUE_H
 
-#include <CommProto/tools/data_structures/interface/Generic.h>
+#include <CommProto/tools/data_structures/interface/generic.h>
 
 using namespace comnet::tools::datastructures::interface;
 

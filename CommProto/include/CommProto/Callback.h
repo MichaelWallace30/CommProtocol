@@ -20,9 +20,9 @@
 #define __CALLBACK_H
 
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/HeaderPacket.h>
+#include <CommProto/headerpacket.h>
 
-#include <CommProto/debug/ErrorStatus.h>
+#include <CommProto/debug/error_status.h>
 
 #include <functional>
 

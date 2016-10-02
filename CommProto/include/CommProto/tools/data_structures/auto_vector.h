@@ -23,7 +23,7 @@
 #include <CommProto/architecture/api.h>
 #include <CommProto/architecture/macros.h>
 
-#include <CommProto/tools/data_structures/interface/InterfaceList.h>
+#include <CommProto/tools/data_structures/interface/interface_list.h>
 // Standard library vector.
 #include <vector>
 #include <algorithm>

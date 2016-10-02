@@ -19,7 +19,7 @@
 #ifndef CRC32
 #define CRC32
 
-#include <CommProto/serialization/Marshal.h>//endianess
+#include <CommProto/serialization/marshal.h>//endianess
 
 namespace comnet {
 namespace network {

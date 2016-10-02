@@ -16,9 +16,9 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/network/CommSocket.h>
+#include <CommProto/network/commsocket.h>
 
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/debug/comms_debug.h>
 
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/os_mutex.h>

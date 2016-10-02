@@ -1,13 +1,13 @@
-#include <CommProto/Comms.h>
+#include <CommProto/comms.h>
 #include <CommProto/architecture/macros.h>
 
-#include <CommProto/network/UDPLink.h>
-#include <CommProto/network/SerialLink.h>
-#include <CommProto/network/XBeeLink.h>
+#include <CommProto/network/udplink.h>
+#include <CommProto/network/seriallink.h>
+#include <CommProto/network/xbeelink.h>
 
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/debug/comms_debug.h>
 
-#include <CommProto/Callback.h>
+#include <CommProto/callback.h>
 
 using namespace comnet;
 

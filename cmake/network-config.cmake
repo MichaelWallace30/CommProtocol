@@ -4,25 +4,25 @@ set(NETWORK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/network/)
 
 
 set(NETWORK_HEADERS
-  ${NETWORK_HEADER_DIR}UDP.h
-  ${NETWORK_HEADER_DIR}Serial.h
-  ${NETWORK_HEADER_DIR}/SerialLink.h
-  ${NETWORK_HEADER_DIR}/XBee.h
-  ${NETWORK_HEADER_DIR}/XBeeLink.h
+  ${NETWORK_HEADER_DIR}udp.h
+  ${NETWORK_HEADER_DIR}serial.h
+  ${NETWORK_HEADER_DIR}/seriallink.h
+  ${NETWORK_HEADER_DIR}/xbee.h
+  ${NETWORK_HEADER_DIR}/xbeelink.h
   ${NETWORK_HEADER_DIR}/zigbee_configs.h
-  ${NETWORK_HEADER_DIR}/UDPLink.h
-  ${NETWORK_HEADER_DIR}CommSocket.h
-  ${NETWORK_HEADER_DIR}CommsLink.h
-  ${NETWORK_HEADER_DIR}Crc32.h
-  ${NETWORK_HEADER_DIR}Parser.h)
+  ${NETWORK_HEADER_DIR}/udplink.h
+  ${NETWORK_HEADER_DIR}commsocket.h
+  ${NETWORK_HEADER_DIR}commslink.h
+  ${NETWORK_HEADER_DIR}crc32.h
+  ${NETWORK_HEADER_DIR}parser.h)
 
 set(NETWORK_SOURCES
-  ${NETWORK_SOURCE_DIR}UDP.cpp
-  ${NETWORK_SOURCE_DIR}Serial.cpp
-  ${NETWORK_SOURCE_DIR}/SerialLink.cc
-  ${NETWORK_SOURCE_DIR}/XBee.cc
-  ${NETWORK_SOURCE_DIR}/XBeeLink.cc
-  ${NETWORK_SOURCE_DIR}/UDPLink.cc
-  ${NETWORK_SOURCE_DIR}TcpSocket.cpp
-  ${NETWORK_SOURCE_DIR}Crc32.cpp
-  ${NETWORK_SOURCE_DIR}Parser.cpp)
+  ${NETWORK_SOURCE_DIR}udp.cpp
+  ${NETWORK_SOURCE_DIR}serial.cpp
+  ${NETWORK_SOURCE_DIR}/seriallink.cc
+  ${NETWORK_SOURCE_DIR}/xbee.cc
+  ${NETWORK_SOURCE_DIR}/xbeelink.cc
+  ${NETWORK_SOURCE_DIR}/udplink.cc
+  ${NETWORK_SOURCE_DIR}tcpsocket.cpp
+  ${NETWORK_SOURCE_DIR}crc32.cpp
+  ${NETWORK_SOURCE_DIR}parser.cpp)

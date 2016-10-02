@@ -1,9 +1,9 @@
 #ifndef AES_ENCRYPTION_H
 #define AES_ENCRYPTION_H
-#include <CommProto/encryption/EncryptionInterface.h>
+#include <CommProto/encryption/encryption_interface.h>
 
 
-class AesEncryption :public EncryptionInterface
+class AesEncryption : public EncryptionInterface
 {
 AesEncryption();
 ~AesEncryption();

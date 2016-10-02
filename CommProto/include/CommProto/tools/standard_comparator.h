@@ -22,7 +22,7 @@
 #include <CommProto/architecture/macros.h>
 #include <CommProto/architecture/api.h>
 
-#include <CommProto/tools/Comparator.h>
+#include <CommProto/tools/comparator.h>
 
 namespace comnet {
 namespace tools {
