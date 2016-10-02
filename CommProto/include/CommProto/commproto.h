@@ -6,8 +6,8 @@
    increase in executable binary size, but at least you will have the entire library at your disposal.
 */
 
-#include <CommProto/Comms.h>
-#include <CommProto/AbstractPacket.h>
+#include <CommProto/comms.h>
+#include <CommProto/abstractpacket.h>
 
 /*
   include files that you think will be used by the user, so that this
