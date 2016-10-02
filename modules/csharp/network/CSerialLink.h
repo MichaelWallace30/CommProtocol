@@ -28,7 +28,7 @@ namespace Network {
 /**
   CSerial class for managed c++
  */
-public ref class CSerialLink:public CCommsLink{
+public ref class CSerialLink : public CCommsLink{
 private:
   SerialLink *unmanagedSerialLink;
 
@@ -36,23 +36,33 @@ private:
 public:	
   CSerialLink();
   virtual ~CSerialLink();
-  /** Opens comport sets if it is connected on scucces, address is not need just use "" argument
-  Returns false if opening comport fails*/
-  virtual Boolean initConnection(String^ port, String^ address, uint32_t baudrate)override;
-  /** OVerride initConncetion)*/
-  virtual Boolean initConnection(String^ port, uint32_t baudrate);
-  /** Add serial address returns true does nothing */
-  virtual Boolean addAddress(uint8_t destID, String^ address, uint16_t port)override;
-  /** Remove serial address returns true does nothing */
-  virtual Boolean removeAddress(uint8_t destID)override;
+  /** 
+    Opens comport sets if it is connected on scucces, address is not need just use "" argument
+    @returns false if opening comport fails
+   */
+  virtual Boolean InitConnection(String^ port, String^ address, uint32_t baudrate) override;
+  /** 
+    OVerride initConncetion.
+   */
+  virtual Boolean InitConnection(String^ port, uint32_t baudrate);
+  /** 
+    Add serial address returns true does nothing 
+   */
+  virtual Boolean AddAddress(uint8_t destID, String^ address, uint16_t port) override;
+  /** 
+    Remove serial address returns true does nothing 
+   */
+  virtual Boolean RemoveAddress(uint8_t destID) override;
   /**
-  Sends txData using its length of bytes through the serial connection. Connection is broadcast
-  destID is only used for packing / unpacking. Return false if no proper connection is establish
+    Sends txData using its length of bytes through the serial connection. Connection is broadcast
+    destID is only used for packing / unpacking. Return false if no proper connection is establish
   */
-  virtual Boolean send(uint8_t destID, uint8_t* txData, uint32_t txLength)override;
-  /** Sets recieved data to rxData and sets the length of the data to rxLength
-  Returns false if not aviable connection, No data is recieved, or time out*/
-  virtual bool recv(uint8_t* rxData, uint32_t% rxLength)override;
+  virtual Boolean Send(uint8_t destID, uint8_t* txData, uint32_t txLength) override;
+  /** 
+    Sets recieved data to rxData and sets the length of the data to rxLength
+    @returns false if not aviable connection, No data is recieved, or time out
+   */
+  virtual bool Recv(uint8_t* rxData, uint32_t% rxLength) override;
 
 };
 } // namespace Network

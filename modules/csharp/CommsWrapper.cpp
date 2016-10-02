@@ -33,8 +33,8 @@ using namespace Comnet;
 	CommsWrapper::CommsWrapper(uint8_t platformID)
 	{
 		unmangedComms = new Comms(platformID);
-		ping = new Ping(100);
-		unmangedComms->linkCallback(new Ping(0), new Callback(storeFunction));
+		ping = new Ping("100");
+		unmangedComms->linkCallback(new Ping(), new Callback(storeFunction));
 	}
 	CommsWrapper::~CommsWrapper()
 	{

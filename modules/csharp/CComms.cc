@@ -18,7 +18,7 @@ Void CComms::commHelperRecv() {
     ABSPacket^ packet = nullptr;
     uint8_t stream_buffer[MAX_BUFFER_SIZE];
     UInt32 recv_length = 0;
-    connLayer->recv(stream_buffer, recv_length); 
+    connLayer->Recv(stream_buffer, recv_length); 
     CObjectStream^ temp = gcnew CObjectStream();
     temp->unmangedObjectStream->get().setBuffer((char *)stream_buffer, recv_length);
     if (temp->getSize() > 0) {
@@ -49,7 +49,7 @@ Void CComms::commHelperSend() {
   while (IsRunning()) {
     if (!sendQueue->IsEmpty()) {
       CObjectStream^ temp = sendQueue->DeQueue();
-      connLayer->send(temp->unmangedObjectStream->get().headerPacket.destID, 
+      connLayer->Send(temp->unmangedObjectStream->get().headerPacket.destID, 
                       temp->unmangedObjectStream->get().getBuffer(),
                       temp->unmangedObjectStream->get().getSize());
     }
@@ -85,19 +85,21 @@ Boolean CComms::InitConnection(TransportProtocol connType, String^ port, String^
     case TransportProtocol::UDP_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
         connLayer = gcnew Network::CUDPLink();
-        return connLayer->initConnection(port, addr, baudrate);
+        return connLayer->InitConnection(port, addr, baudrate);
       }
       break;
     }
     case TransportProtocol::SERIAL_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
         connLayer = gcnew Network::CSerialLink();
-        return connLayer->initConnection(port, nullptr, baudrate);
+        return connLayer->InitConnection(port, nullptr, baudrate);
       }
       break;
     }
     case TransportProtocol::ZIGBEE_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
+        connLayer = gcnew Network::CXBeeLink();
+        return connLayer->InitConnection(port, nullptr, baudrate);
       }
       break;
     }
@@ -111,13 +113,13 @@ Boolean CComms::InitConnection(TransportProtocol connType, String^ port, String^
 
 Boolean CComms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
   if (connLayer == nullptr) return false;
-  return connLayer->addAddress(destId, addr, port);
+  return connLayer->AddAddress(destId, addr, port);
 }
 
 
 Boolean CComms::RemoveAddress(UInt16 destId) {
   if (connLayer) {
-    return connLayer->removeAddress(destId);
+    return connLayer->RemoveAddress(destId);
   }
   return false;
 }

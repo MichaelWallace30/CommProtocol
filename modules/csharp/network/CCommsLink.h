@@ -56,23 +56,23 @@ namespace Comnet {
 			/**
 			Initialize the connection.
 			*/
-			virtual Boolean initConnection( String^ port,  String^, uint32_t baudrate) = 0;
+			virtual Boolean InitConnection( String^ port,  String^ address, uint32_t baudrate) = 0;
 			/**
 			Add an address to the link.
 			*/
-			virtual Boolean addAddress(uint8_t destID,  String^ address, uint16_t port) = 0;
+			virtual Boolean AddAddress(uint8_t destID,  String^ address, uint16_t port) = 0;
 			/**
 			Remove an address from the link.
 			*/
-			virtual Boolean removeAddress(uint8_t destID) = 0;
+			virtual Boolean RemoveAddress(uint8_t destID) = 0;
 			/**
 			Send a message to the specified id of which an address is associated with.
 			*/
-			virtual Boolean send(uint8_t destID, uint8_t* txData, uint32_t txLength) = 0;
+			virtual Boolean Send(uint8_t destID, uint8_t* txData, uint32_t txLength) = 0;
 			/**
 			Receive a message from a protocol id.
 			*/
-			virtual Boolean recv(uint8_t* rxData, UInt32% rxLength) = 0;
+			virtual Boolean Recv(uint8_t* rxData, UInt32% rxLength) = 0;
 			
 		private:
 		};
