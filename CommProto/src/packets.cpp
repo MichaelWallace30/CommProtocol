@@ -29,7 +29,7 @@ void Ping::Unpack(ObjectStream& obj) {
 
 
 AbstractPacket* Ping::Create() {
-  return new Ping(0);
+  return new Ping();
 }
 // Same must be done with all other classes that extend AbstractPacket.
 Pong::Pong(char letter)
