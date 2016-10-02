@@ -70,9 +70,9 @@ namespace CommProtoCSharpText {
 			Calls call = new Calls();
 			CommNode comm1 = new Comms(1);
 
-			comm1.LinkCallback(new Ping(), new CallBack(new Ping(), call.PingCallback));
-			comm1.InitConnection(TransportProtocol.UDP_LINK, "1337", "192.168.1.106", 0);
-			comm1.AddAddress(2, "10.0.2.15", 1338);
+			comm1.LinkCallback(new Ping(), new CallBack(call.PingCallback));
+			comm1.InitConnection(TransportProtocol.UDP_LINK, "1337", "127.0.0.1", 0);
+			comm1.AddAddress(2, "127.0.0.1", 1338);
 			
 			comm1.Run();
 
