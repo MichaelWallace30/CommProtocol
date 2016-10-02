@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -54,7 +54,7 @@
 @endcode
 
 	@def ZCL_FACTORY_RESET_FN
-	Define #ZCL_FACTORY_RESET_FN at the project level to a function call
+	Define #ZCL_FACTORY_RESET_FN At the project level to a function call
 	to reset the device to factory defaults.  The function doesn't take
 	parameters and should return void:
 

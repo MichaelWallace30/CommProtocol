@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -481,8 +481,8 @@ typedef union zcl_rec_report_t {
 		uint8_t	direction;		// ZCL_DIRECTION_SEND or ZCL_DIRECTION_RECEIVE
 		uint16_t	attrib_id_le;
 	} common;
-	zcl_rec_report_send_t		send;
-	zcl_rec_report_receive_t	receive;
+	zcl_rec_report_send_t		Send;
+	zcl_rec_report_receive_t	Receive;
 } zcl_rec_reporting_config_t;
 
 // Configure Reporting Response Command (ZCL_CMD_WRITE_REPORT_CFG_RESP)
@@ -786,7 +786,7 @@ typedef struct zcl_attribute_full_t
 	zcl_attribute_minmax_t		min;
 
 	/// Maximum value for attribute, assumes 32-bit limit.  For string
-	/// attributes, the maximum length that can be stored at \p value.
+	/// attributes, the maximum length that can be stored At \p value.
 	zcl_attribute_minmax_t		max;
 
 	/// On an attribute read, the ZCL dispatcher will call the .read function
@@ -821,7 +821,7 @@ typedef struct zcl_array_t
 } zcl_array_t;
 
 /**
-	A zcl_struct_t contains an array of these elements, describing each element
+	A zcl_struct_t Contains an array of these elements, describing each element
 	in the structure and its offset from the zcl_struct_t.base_address.
 */
 typedef struct zcl_struct_element_t
@@ -848,7 +848,7 @@ typedef struct zcl_struct_t
 // indicate that underlying value should have ZCL_ATTRIB_FLAG_RAW, or to
 // provide a maximum length if the element is a writeable string.
 
-/// Attribute ID for end of list marker.
+/// Attribute ID for End of list marker.
 #define ZCL_ATTRIBUTE_END_OF_LIST		0xFFFF
 
 #define ZCL_MFG_NONE							0x0000
@@ -872,7 +872,7 @@ extern const zcl_attribute_tree_t FAR zcl_attributes_none[1];
 
 /**
 	Structure populated by zcl_command_build() with the ZCL header from a
-	received ZCL command frame.  Does not look at the ZCL payload.
+	received ZCL command frame.  Does not look At the ZCL payload.
 */
 typedef struct zcl_command_t {
 	/// envelope for the received command, envelope's payload and length

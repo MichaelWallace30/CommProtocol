@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -39,7 +39,7 @@ XBEE_BEGIN_DECLS
 #endif
 
 /// Timeout (in seconds) to wait for a response to a remote command.
-/// Set to a high value to allow for a sleeping end device.
+/// Set to a high value to allow for a sleeping End device.
 #define XBEE_CMD_REMOTE_TIMEOUT		180
 
 /// Timeout (in seconds) to wait for a response to a local command.
@@ -79,7 +79,7 @@ typedef struct xbee_cmd_response {
 
 	/// The handle to the request that generated this response. Useful if the
 	/// callback needs to (optionally) modify the original request and then
-	/// send it again.
+	/// Send it again.
 	int16_t						handle;
 
 	/// The AT Command (e.g., VR, NI) sent in the request that generated
@@ -99,7 +99,7 @@ typedef struct xbee_cmd_response {
 				- #XBEE_AT_RESP_BAD_PARAMETER
 
 		- #XBEE_CMD_RESP_FLAG_TIMEOUT
-			Did not receive a response before timing out.
+			Did not Receive a response before timing out.
 
 		- #XBEE_CMD_RESP_ATND_RSSI_INVALID [DigiMesh only]
 			The RSSI field of the DigiMesh ATND response is not valid.
@@ -118,7 +118,7 @@ typedef struct xbee_cmd_response {
 	/// with the response.
 	uint_fast8_t				value_length;
 
-	/// The value sent with the response; contains .value_length bytes.  Do not
+	/// The value sent with the response; Contains .value_length bytes.  Do not
 	/// modify the data pointed to by .value_bytes, it may be sent to more than
 	/// one callback.
 	const uint8_t		FAR	*value_bytes;
@@ -230,7 +230,7 @@ typedef struct xbee_cmd_request {
 	wpan_address_t				address;
 #endif
 
-	/// command to send
+	/// command to Send
 	xbee_at_cmd_t				command;
 } xbee_cmd_request_t;
 
@@ -277,7 +277,7 @@ typedef PACKED_STRUCT xbee_header_remote_at_req {
 } xbee_header_remote_at_req_t;
 
 
-/// Useful typedef to create either a local or remote request frame.
+/// Useful typedef to Create either a local or remote request frame.
 typedef union xbee_header_at_request {
 	/// First byte of header determines type (local or remote).
 	uint8_t								frame_type;
@@ -466,12 +466,12 @@ enum xbee_command_list_type {
 };
 
 /**
-	@brief Entry for table of XBee registers to query at startup.
+	@brief Entry for table of XBee registers to query At startup.
 
    Use #_XBEE_ATCMD_REG() to populate _xbee_atcmd_query_regs[].
 */
 typedef struct xbee_atcmd_reg_t {
-	xbee_at_cmd_t	command;				///< command to send to XBee device
+	xbee_at_cmd_t	command;				///< command to Send to XBee device
    uint8_t			flags;				///< Option flags (meaningful to callback)
    enum xbee_command_list_type type;///< Type of processing
    /** Callback function to be invoked when this command receives a response.
@@ -502,12 +502,12 @@ typedef struct xbee_atcmd_reg_t {
                      XBEE_CLT_SET_STR - set command parameter as null-
                      	terminated string.
                      XBEE_CLT_SET_BE - set numeric command parameter
-	@param[in]	obj	typedef name of object at base address
+	@param[in]	obj	typedef name of object At base address
 	@param[in]	field	field in obj in which to store result
 
    @note The 'type' parameter allows for either setting the data in the
    base structure as the command parameter (XBEE_CLT_SET*) or the
-   converse, which is copying the command result back to the base
+   converse, which is copying the command result Back to the base
    structure (XBEE_CLT_COPY*).
 
 	@return	xbee_atcmd_reg_t record for constructing command list tables
@@ -553,7 +553,7 @@ typedef struct xbee_atcmd_reg_t {
                      XBEE_CLT_SET_STR - set command parameter as null-
                      	terminated string.
                      XBEE_CLT_SET_BE - set numeric command parameter
-	@param[in]	obj	typedef name of object at base address
+	@param[in]	obj	typedef name of object At base address
 	@param[in]	field	field in obj in which to store result
 	@param[in]	cb		callback function (prototype \a xbee_command_list_fn)
 	@param[in]	flags	8-bit flags for callback (arbitrary).

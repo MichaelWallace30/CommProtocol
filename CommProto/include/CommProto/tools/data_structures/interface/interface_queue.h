@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -57,36 +57,36 @@ public:
   /**
      Get the size of this queue.
   */
-  int32_t getSize() { return size; }
+  int32_t GetSize() { return size; }
   /**
      get the data structure type.
   */
-  DataStructureType getDataStructType() { return type; }
+  DataStructureType GetDataStructType() { return type; }
   /**
      Get the queue type.
   */
-  virtual QueueType getQueueType() { return queueType; }
+  virtual QueueType GetQueueType() { return queue_type; }
   /**
      Add a value into the queue.
   */
-  virtual void enQueue(const _Ty& data) = 0;
+  virtual void Enqueue(const _Ty& data) = 0;
   /**
      Remove a value from the queue.
   */
-  virtual void deQueue() = 0;
+  virtual void Dequeue() = 0;
   /**
-     Check the front of this queue.
+     Check the Front of this queue.
   */
-  virtual const _Ty& front() = 0;
+  virtual const _Ty& Front() = 0;
   /**
-     Check the back of this queue.
+     Check the Back of this queue.
   */
-  virtual const _Ty& back() = 0;
+  virtual const _Ty& Back() = 0;
 protected:
   /**
      Holds the queue type value.
   */
-  QueueType queueType;
+  QueueType queue_type;
 };
 } // Interface
 } // DataStructures

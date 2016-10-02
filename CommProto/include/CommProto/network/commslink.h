@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -52,23 +52,23 @@ public:
   /**
     Initialize the connection.
   */
-  virtual bool initConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0) = 0;
+  virtual bool InitConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0) = 0;
   /**
     Add an address to the link.
   */  
-  virtual bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0) = 0;
+  virtual bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) = 0;
   /**
     Remove an address from the link.
   */  
-  virtual bool removeAddress(uint8_t destID) = 0;
+  virtual bool RemoveAddress(uint8_t dest_id) = 0;
   /**
     Send a message to the specified id of which an address is associated with.
   */
-  virtual bool send(uint8_t destID, uint8_t* txData, uint32_t txLength) = 0;
+  virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) = 0;
   /**
     Receive a message from a protocol id.
   */
-  virtual bool recv(uint8_t* rxData, uint32_t* rxLength) = 0;
+  virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length) = 0;
 private:
 };
 } // namespace Network

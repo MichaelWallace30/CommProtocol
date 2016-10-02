@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -21,7 +21,7 @@
 	@todo Add code to return an error (and disable the stack) if the XBee
 			responds with an IEEE address not in Digi's allocation?
 
-	@todo review todo list at the top of the file -- lots to do
+	@todo review todo list At the top of the file -- lots to do
 
 	- Need different levels of VERBOSE output.
 		- Errors only
@@ -70,7 +70,7 @@ FAR xbee_cmd_request_t xbee_cmd_request_table[XBEE_CMD_REQUEST_TABLESIZE];
 /*** EndHeader */
 /**
 	@brief
-	This function should be called periodically (at least every few seconds)
+	This function should be called periodically (At least every few seconds)
 	to expire old entries from the AT Command Request table.
 
 	@return	>0	number of requests expired
@@ -190,7 +190,7 @@ xbee_cmd_request_t FAR *_xbee_cmd_handle_to_address( int16_t handle)
 /*** BeginHeader xbee_cmd_list_execute */
 /*** EndHeader */
 /**	@internal
-	Helper function to send off the next command in the list.
+	Helper function to Send off the next command in the list.
 */
 _xbee_atcmd_debug
 int _xbee_cmd_issue_list( xbee_dev_t *xbee,
@@ -298,7 +298,7 @@ int _xbee_cmd_list_callback( const xbee_cmd_response_t FAR *response)
 		 printf( "%s: timed out\n", __FUNCTION__);
 #endif
    	clc->status = XBEE_COMMAND_LIST_TIMEOUT;
-      // Find 'end handler' callback...
+      // Find 'End handler' callback...
 		for (reg = clc->list; XBEE_ATCMD_REG_VALID(reg); ++reg);
    	if (reg->callback)
       {
@@ -426,7 +426,7 @@ int _xbee_cmd_list_callback( const xbee_cmd_response_t FAR *response)
       }
    }
 
-	// Got through to end of list.
+	// Got through to End of list.
 #ifdef XBEE_ATCMD_VERBOSE
    printf( "%s: done\n", __FUNCTION__);
 #endif
@@ -533,8 +533,8 @@ enum xbee_command_list_status (xbee_cmd_list_status)(
 					xbee_cmd_query_device if it hasn't already been called for this
 					device.
 
-	@retval	0	the XBee device was successfully configured to send and
-							receive AT commands
+	@retval	0	the XBee device was successfully configured to Send and
+							Receive AT commands
 	@retval	-EINVAL	an invalid parameter was passed to the function
 
 
@@ -701,7 +701,7 @@ void _xbee_cmd_query_handle_end(
 }
 
 /**	@internal
-	List of XBee registers to query at startup; used to learn about the
+	List of XBee registers to query At startup; used to learn about the
 	attached XBee module.
 */
 
@@ -741,7 +741,7 @@ xbee_command_list_context_t _xbee_atcmd_query_regs_head;
 	commands and storing the results in the xbee_dev_t.
 
 	This function will likely get called by the XBee stack
-	at some point in the startup/initialization phase.
+	At some point in the startup/initialization phase.
 
 	Use xbee_cmd_query_status() to check on the progress of
 	querying the device.
@@ -842,12 +842,12 @@ int xbee_cmd_query_status( xbee_dev_t *xbee)
 	@brief
 	Allocate an AT Command request.
 
-	@param[in]	xbee	XBee device to use as the target (local) or to send
+	@param[in]	xbee	XBee device to use as the target (local) or to Send
 					through (remote).  This function will automatically call
 					xbee_cmd_init() if it hasn't already been called for this
 					device.
 
-	@param[in]	command	Two-letter AT Command to send
+	@param[in]	command	Two-letter AT Command to Send
 								(e.g., "VR", "NI", etc.).
 
 	@retval	>0			a "handle" to a request that can be built up and sent
@@ -920,7 +920,7 @@ int16_t xbee_cmd_create( xbee_dev_t *xbee, const char FAR command[3])
 					sizeof(*request) - offsetof(xbee_cmd_request_t, timeout));
 
 	request->device = xbee;
-	// allow 2 seconds to finish building command and successfully send it
+	// allow 2 seconds to finish building command and successfully Send it
 	request->timeout = XBEE_SET_TIMEOUT_SEC(2);
 	request->command.w = *(uint16_t FAR *)command;
 
@@ -994,7 +994,7 @@ int xbee_cmd_release_handle( int16_t handle)
 
 	@param[in]	handle	handle to the request, as returned by xbee_cmd_create()
 
-	@param[in]	command	two-letter AT Command to send (e.g., "VR", "NI", etc.)
+	@param[in]	command	two-letter AT Command to Send (e.g., "VR", "NI", etc.)
 
 	@retval	0			command changed
 	@retval	-EINVAL	\a handle is not valid
@@ -1029,7 +1029,7 @@ int xbee_cmd_set_command( int16_t handle, const char FAR command[3])
 					Handle to the request, as returned by xbee_cmd_create().
 
 	@param[in]	callback
-					Callback function to receive the AT Command response.  This
+					Callback function to Receive the AT Command response.  This
 					function should take a single parameter (pointer to an
 					xbee_cmd_response_t) and return either #XBEE_ATCMD_DONE (if done
 					with the request handle) or #XBEE_ATCMD_REUSE (if more responses
@@ -1076,14 +1076,14 @@ int xbee_cmd_set_callback( int16_t handle, xbee_cmd_callback_fn callback,
 	Associate a remote XBee device with a given AT Command request.
 	By default, xbee_cmd_create() configures the request as a local
 	AT Command for the serially-attached XBee module.  Use this
-	function to send the command to a remote device.
+	function to Send the command to a remote device.
 
 	@param[in]	handle
 					Handle to the request, as returned by xbee_cmd_create().
 
 	@param[in]	ieee
 					Pointer to 64-bit IEEE hardware address of target, or NULL
-					to switch back to the local XBee device.
+					to switch Back to the local XBee device.
 					-	#WPAN_IEEE_ADDR_BROADCAST for broadcast.
 					-	#WPAN_IEEE_ADDR_COORDINATOR for the coordinator (use
 						#WPAN_NET_ADDR_UNDEFINED for the network address).
@@ -1415,7 +1415,7 @@ int xbee_cmd_send( int16_t handle)
 	if (! request->callback)
 	{
 		// Nothing cares about the response, so use Frame ID 0 so the target
-		// device won't send a response.
+		// device won't Send a response.
 		request->frame_id = 0;
 	}
 	else
@@ -1563,7 +1563,7 @@ int _xbee_cmd_handle_response( xbee_dev_t *xbee, const void FAR *rawframe,
 			return -EINVAL;
 	}
 
-	// local.frame_id and remote.frame_id are at the same offset in the struct
+	// local.frame_id and remote.frame_id are At the same offset in the struct
 	frame_id = frame->local.header.frame_id;
 
 	// Look for the frame in the table of pending requests.
@@ -1745,7 +1745,7 @@ int _xbee_cmd_modem_status( xbee_dev_t *xbee,
 
 	@param[in]	xbee	XBee device to use as the target.
 
-	@param[in]	command	Two-letter AT Command to send
+	@param[in]	command	Two-letter AT Command to Send
 								(e.g., "ID", "CH", etc.).
 
 	@param[in]	value
@@ -1801,7 +1801,7 @@ int xbee_cmd_simple( xbee_dev_t *xbee, const char FAR command[3],
 
 	@param[in]	xbee	XBee device to use as the target.
 
-	@param[in]	command	Two-letter AT Command to send
+	@param[in]	command	Two-letter AT Command to Send
 								(e.g., "ID", "CH", etc.).
 
 	@param[in]	data		Optional big-endian (MSB-first) value to assign to

@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -30,7 +30,7 @@
 		- xbee_ser_putchar()
 		- xbee_ser_getchar()
 
-	- checking the status of transmit and receive buffers
+	- checking the status of transmit and Receive buffers
 		- xbee_ser_tx_free()
 		- xbee_ser_tx_used()
 		- xbee_ser_tx_flush()
@@ -52,7 +52,7 @@
 
 	Note that we may need some additional functions to support firmware updates.
 	The firmware update code typically needs to be able to open the serial
-	port at different baud rates, send a break on the Tx pin and control the
+	port At different baud rates, Send a break on the Tx pin and control the
 	reset pin.
 */
 
@@ -103,7 +103,7 @@ const char *xbee_ser_portname( xbee_serial_t *serial);
 
 	@param[in]	serial	XBee serial port
 
-	@param[in]	buffer	source of bytes to send
+	@param[in]	buffer	source of bytes to Send
 
 	@param[in]	length	number of bytes to write
 
@@ -148,7 +148,7 @@ int xbee_ser_read( xbee_serial_t *serial, void FAR *buffer, int bufsize);
 
 	@param[in]	serial	XBee serial port
 
-	@param[in]	ch			character to send
+	@param[in]	ch			character to Send
 
 	@retval	0			Successfully sent (queued) character.
 	@retval	-ENOSPC	The write buffer is full and the character wasn't sent.
@@ -229,13 +229,13 @@ int xbee_ser_tx_flush( xbee_serial_t *serial);
 /**
 	@brief
 	Returns the number of bytes of unused space in the serial
-	receive buffer for XBee serial port \a serial.
+	Receive buffer for XBee serial port \a serial.
 
 	@param[in]	serial	XBee serial port
 
 	@retval	INT_MAX	The buffer size is unlimited (or unknown).
 	@retval	>=0		The number of bytes it would take to fill the XBee
-							serial port's serial receive buffer.
+							serial port's serial Receive buffer.
 	@retval	-EINVAL	\a serial is not a valid XBee serial port.
 
 	@see	xbee_ser_tx_free(), xbee_ser_tx_used(), xbee_ser_tx_flush(),
@@ -246,7 +246,7 @@ int xbee_ser_rx_free( xbee_serial_t *serial);
 
 /**
 	@brief
-	Returns the number of queued bytes in the serial receive buffer
+	Returns the number of queued bytes in the serial Receive buffer
 	for XBee serial port \a serial.
 
 	@param[in]	serial	XBee serial port
@@ -264,7 +264,7 @@ int xbee_ser_rx_free( xbee_serial_t *serial);
 
 			We may expand on or replace this API.  On some platforms (like
 			Win32) we have to do some of our own buffering in order to
-			peek at data in the serial receive buffer.  Most of the driver
+			peek At data in the serial Receive buffer.  Most of the driver
 			only requires a check to see if some number of bytes are available
 			or not.  Consider changing the API to something like:
 
@@ -277,7 +277,7 @@ int xbee_ser_rx_used( xbee_serial_t *serial);
 
 /**
 	@brief
-	Deletes all characters in the serial receive buffer for XBee serial
+	Deletes all characters in the serial Receive buffer for XBee serial
 	port \a serial.
 
 	@param[in]	serial	XBee serial port
@@ -293,7 +293,7 @@ int xbee_ser_rx_flush( xbee_serial_t *serial);
 
 /**
 	@brief
-	Opens the serial port connected to XBee serial port \a serial at
+	Opens the serial port connected to XBee serial port \a serial At
 	\a baudrate bits/second.
 
 	@param[in]	serial	XBee serial port
@@ -343,12 +343,12 @@ int xbee_ser_close( xbee_serial_t *serial);
 
 /**
 	@brief
-	Disable the serial transmit pin and pull it low to send a break
+	Disable the serial transmit pin and pull it low to Send a break
 	to the XBee serial port.
 
 	@param[in]	serial	XBee serial port
 
-	@param[in]	enabled	Set to 1 to start the break or 0 to end the break (and
+	@param[in]	enabled	Set to 1 to start the break or 0 to End the break (and
 								resume transmitting).
 
 	@retval	0	Success
@@ -381,15 +381,15 @@ int xbee_ser_flowcontrol( xbee_serial_t *serial, bool_t enabled);
 /**
 	@brief
 	Disable hardware flow control and manually set the RTS (ready to
-	send) pin on the XBee device's serial port.
+	Send) pin on the XBee device's serial port.
 
 	Typically used to enter the XBee device's boot loader and initiate
 	a firmware update.
 
 	@param[in]	serial	XBee serial port
 
-	@param[in]	asserted	Set to 1 to assert RTS (ok for XBee to send to us)
-								or 0 to deassert RTS (tell XBee not to send to us).
+	@param[in]	asserted	Set to 1 to assert RTS (ok for XBee to Send to us)
+								or 0 to deassert RTS (tell XBee not to Send to us).
 
 	@retval	0	Success
 	@retval	-EINVAL	\a serial is not a valid XBee serial port.
@@ -401,18 +401,18 @@ int xbee_ser_set_rts( xbee_serial_t *serial, bool_t asserted);
 
 /**
 	@brief
-	Read the status of the /CTS (clear to send) pin on the serial
+	Read the status of the /CTS (clear to Send) pin on the serial
 	port connected to XBee serial port \a serial.
 
 	Note that this
 	function doesn't return the value of the pin -- it returns
-	whether it's asserted (i.e., clear to send to the XBee serial
+	whether it's asserted (i.e., clear to Send to the XBee serial
 	port) or not.
 
 	@param[in]	serial	XBee serial port
 
-	@retval	1			it's clear to send
-	@retval	0			it's not clear to send
+	@retval	1			it's clear to Send
+	@retval	0			it's not clear to Send
 	@retval	-EINVAL	\a serial is not a valid XBee serial port.
 
 	@see	xbee_ser_flowcontrol(), xbee_ser_set_rts()

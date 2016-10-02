@@ -1,10 +1,10 @@
 /*
-  This file contains the NGCP researched hash implementation, so as to create
+  This file Contains the NGCP researched hash implementation, so as to Create
   discrete numbers from data, which will then be used to store and separate 
   this data from others. It attempts to avoid the most collisions possible,
   so as to prevent any conflicts with data handling and storage. This is still
   an ongoing research, and we will hope to continue working on improving this 
-  hash for the long run.
+  hash for the long Run.
 
   Non-cryptographic hash algorithm.
 
@@ -13,7 +13,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -143,7 +143,7 @@ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
 /**
    String hash used if string literal was declared. This does not gaurantee that the hash
    algorithm will be able to determine exact size of the given string literal. It will, however
-   be able to accurately determine the string size if null terminator was specified at the end of the 
+   be able to accurately determine the string size if null terminator was specified At the End of the 
    string.
  */
 ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed) {

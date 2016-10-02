@@ -18,17 +18,17 @@ Ping::Ping()
 }
 
 
-void Ping::pack(ObjectStream& obj) { 
+void Ping::Pack(ObjectStream& obj) { 
   obj << test;
 }
 
 
-void Ping::unpack(ObjectStream& obj) { 
+void Ping::Unpack(ObjectStream& obj) { 
   obj >> test;
 }
 
 
-AbstractPacket* Ping::create() {
+AbstractPacket* Ping::Create() {
   return new Ping(0);
 }
 // Same must be done with all other classes that extend AbstractPacket.
@@ -39,15 +39,15 @@ Pong::Pong(char letter)
 }
 
 
-void Pong::pack(ObjectStream& obj) {
+void Pong::Pack(ObjectStream& obj) {
 }
 
 
-void Pong::unpack(ObjectStream& obj) {
+void Pong::Unpack(ObjectStream& obj) {
 }
 
 
-AbstractPacket* Pong::create() {
+AbstractPacket* Pong::Create() {
   return new Pong(0);
 }
 

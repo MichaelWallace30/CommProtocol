@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -31,7 +31,7 @@ Callback::Callback(CallbackFunc call)
 
 
 Callback::Callback()
-: callback( [] (const header_t& header, AbstractPacket& packet) {
+: callback( [] (const Header& header, AbstractPacket& packet) {
     return -100;
   })
   { }
@@ -41,11 +41,11 @@ Callback::~Callback()
   { }
 
 
-void Callback::setCallbackListener(CallbackFunc call) 
+void Callback::SetCallbackListener(CallbackFunc call) 
   { callback = call; }
 
 
-error_t Callback::callFunction(const header_t& header, const AbstractPacket& abPacket) { 
+error_t Callback::CallFunction(const Header& header, const AbstractPacket& abPacket) { 
   if (!callback) {
     return -1;
   }

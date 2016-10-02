@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,7 +42,7 @@ namespace network {
 */
 bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
 {
-  serial_t& hSerial = serial.getSerialPort();
+  serial_t& hSerial = serial.GetSerialPort();
 
   char comPortCat[80];
 
@@ -147,10 +147,10 @@ bool initWindows(Serial& serial, const char* comPort, uint32_t baudrate)
 
 
 inline bool
-windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
+windowsSend(Serial& serial, uint8_t dest_id, uint8_t* txData, int32_t txLength) {
   unsigned long sentData = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
   COMMS_DEBUG("Sending packet\n.");
-  serial_t& hSerial = serial.getSerialPort();
+  serial_t& hSerial = serial.GetSerialPort();
   
   if (!WriteFile(hSerial.h_serial, txData, txLength, &sentData, NULL)) {
     //error reading file
@@ -158,7 +158,7 @@ windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
     return false;
   }
   else {
-    COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, destID);
+    COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sentData, dest_id);
     return true;
   }		
 
@@ -168,7 +168,7 @@ windowsSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
 
 inline bool
 windowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
-  serial_t& hSerial = serial.getSerialPort();
+  serial_t& hSerial = serial.GetSerialPort();
   unsigned long recvData = 0;//windows wants LPDWORD == unsignled long; LPWORD != uint32_t || uint16_t
   if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recvData, NULL)) {
     //error reading file
@@ -250,7 +250,7 @@ initUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
 
 
 inline bool
-unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
+unixSend(Serial& serial, uint8_t dest_id, uint8_t* txData, int32_t txLength) {
   bool result = false;
   serial_t& hSerial = serial.getSerialPort();
 
@@ -258,7 +258,7 @@ unixSend(Serial& serial, uint8_t destID, uint8_t* txData, int32_t txLength) {
   if (bytesWritten < 0) {
     COMMS_DEBUG("write() has failed to send!\n");
   } else {
-      COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, destID);
+      COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, bytesWritten, dest_id);
     result = true;
   }
   
@@ -296,11 +296,11 @@ openPort(Serial& serial, const char* comPort, uint32_t baudrate) {
 }
 
 inline bool
-sendToPort(Serial& serial, uint8_t destID, uint8_t* txData, uint32_t txLength) {
-  serial_t& hSerial = serial.getSerialPort();
+sendToPort(Serial& serial, uint8_t dest_id, uint8_t* txData, uint32_t txLength) {
+  serial_t& hSerial = serial.GetSerialPort();
   if (hSerial.serial_s == SERIAL_CONNECTED) {
 #if defined WINDOWS_SERIAL
-    return windowsSend(serial, destID, txData, txLength);
+    return windowsSend(serial, dest_id, txData, txLength);
 #elif defined UNIX_SERIAL
     return unixSend(serial, destID, txData, txLength);
 #endif
@@ -312,7 +312,7 @@ sendToPort(Serial& serial, uint8_t destID, uint8_t* txData, uint32_t txLength) {
 
 inline bool
 readFromPort(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
-  serial_t& hSerial = serial.getSerialPort();
+  serial_t& hSerial = serial.GetSerialPort();
   if (hSerial.serial_s == SERIAL_CONNECTED) {
 #if defined WINDOWS_SERIAL
     return windowsRead(serial, rx_data, rx_len);
@@ -326,7 +326,7 @@ readFromPort(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
 
 inline bool 
 closePortHelper(Serial& serial) {
-  serial_t& hSerial = serial.getSerialPort();
+  serial_t& hSerial = serial.GetSerialPort();
 #if defined WINDOWS_SERIAL
   ClosePort(hSerial.h_serial);
 #elif defined UNIX_SERIAL
@@ -341,59 +341,59 @@ closePortHelper(Serial& serial) {
 /***********************************************/
 Serial::Serial()
 {		  
-  connectionEstablished = false;
-  hSerial.serial_s = SERIAL_OPEN;
+  connection_established = false;
+  h_serial.serial_s = SERIAL_OPEN;
   id = -1;
 }
 
 Serial::Serial(uint32_t id)
 : id(id)
 {
-  connectionEstablished = false;
-  hSerial.serial_s = SERIAL_OPEN;
+  connection_established = false;
+  h_serial.serial_s = SERIAL_OPEN;
 }
 
 
 Serial::~Serial() {  }
 
 
-bool Serial::openConnection(const char* port, const char* address, uint32_t baudrate)
+bool Serial::OpenConnection(const char* port, const char* address, uint32_t baudrate)
 { 
   
   //check os here
-  connectionEstablished = openPort(*this, port, baudrate);
-  hSerial.serial_s = SERIAL_CONNECTED;
-  COMMS_DEBUG("Port is now: %d\n", hSerial.fd);
-  return connectionEstablished;
+  connection_established = openPort(*this, port, baudrate);
+  h_serial.serial_s = SERIAL_CONNECTED;
+  COMMS_DEBUG("Port is now: %d\n", h_serial.fd);
+  return connection_established;
 }
 
 
-bool Serial::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
+bool Serial::Send(uint8_t dest_id, uint8_t* txData, uint32_t txLength)
 { 
-  COMMS_DEBUG("Port send is: %d\n", hSerial.fd); 
-  unsigned int crc = crc32(txData, txLength);
-  appendCrc32(txData, &txLength);  
-  parser.parseSend(txData, txLength, bufferSend);//length adjusted
-  return sendToPort(*this, destID, bufferSend, txLength);
+  COMMS_DEBUG("Port send is: %d\n", h_serial.fd); 
+  unsigned int crc = Crc32(txData, txLength);
+  AppendCrc32(txData, &txLength);  
+  parser.ParseSend(txData, txLength, buffer_send);//length adjusted
+  return sendToPort(*this, dest_id, buffer_send, txLength);
 }
 
 
-bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
+bool Serial::Recv(uint8_t* rx_data, uint32_t* rx_len) {
 	
 	bool valid = true;
 //	COMMS_DEBUG("Parser Postion %d\n", parserPosition);
 	//COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
 	//get new message if parser is done
-	if (parser.parseReceiveDone()){		
-		COMMS_DEBUG("Port recv is: %d\n", hSerial.fd);			
-		valid = readFromPort(*this, bufferReceive, rx_len);
+	if (parser.ParseReceiveDone()){		
+		COMMS_DEBUG("Port recv is: %d\n", h_serial.fd);			
+		valid = readFromPort(*this, buffer_recv, rx_len);
 	}
 	//parse data
 	if (valid){
-		valid = parser.parseReceive(rx_data, *rx_len, bufferReceive);
+		valid = parser.ParseReceive(rx_data, *rx_len, buffer_recv);
 		if (*rx_len > 0){
-			unsigned int crcRecv = truncateCrc32(rx_data, rx_len);
-			unsigned int crc = crc32(rx_data, *rx_len);
+			unsigned int crcRecv = TruncateCrc32(rx_data, rx_len);
+			unsigned int crc = Crc32(rx_data, *rx_len);
 			return crcRecv == crc;
 		}
 		else{
@@ -405,18 +405,18 @@ bool Serial::recv(uint8_t* rx_data, uint32_t* rx_len) {
 }
 
 
-serial_status Serial::getStatus() {
-  return hSerial.serial_s;
+serial_status Serial::GetStatus() {
+  return h_serial.serial_s;
 }
 
 
-bool Serial::closePort() {
+bool Serial::CloseSerialPort() {
   return closePortHelper(*this);
 }
 
 
-serial_t& Serial::getSerialPort() {
-  return hSerial;
+serial_t& Serial::GetSerialPort() {
+  return h_serial;
 }
 
 } // namespace Network

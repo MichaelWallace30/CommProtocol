@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,12 +27,12 @@ namespace network {
 
 
 class Parser {
-	/** terminal sequence for start and stop of message data*/
+	/** terminal sequence for start and Stop of message data*/
 	char terminal_sequence[TERMINAL_SEQUENCE_SIZE];
 	/** Holds current position or parsed data used for reading serial data*/
-	uint32_t parserPosition;
+	uint32_t parser_position;
 	/** last recieveed length for parser information*/
-	uint32_t lastReceivedLength;
+	uint32_t last_received_length;
 
 
 
@@ -41,22 +41,22 @@ public:
 	~Parser(){};
 	
 	/** 
-    method takes tx buffer and adds terminal to front and end. Also returns adjusted size by reference
+    method takes tx buffer and adds terminal to Front and End. Also returns adjusted size by reference
    */
-	void parseSend(uint8_t* txData, uint32_t &txLength, uint8_t *parsedData);
+	void ParseSend(uint8_t* tx_data, uint32_t &tx_length, uint8_t *parsed_data);
 	/** 
-    method takes rx buffer and removes terminal to front and end. Also returns adjusted size by reference
+    method takes rx buffer and removes terminal to Front and End. Also returns adjusted size by reference
    */
-	bool parseReceive(uint8_t* rxData, uint32_t &rxLength, uint8_t *parsedData);
+	bool ParseReceive(uint8_t* rx_data, uint32_t &rx_length, uint8_t *parsed_data);
 	/** 
     method determines if buffer has been parsed completely
    */
-	bool parseReceiveDone()
-    { return parserPosition == 0 || parserPosition >= lastReceivedLength - 1;}
+	bool ParseReceiveDone()
+    { return parser_position == 0 || parser_position >= last_received_length - 1;}
 
 };
 
 
-}//end NETWORK namespace
-}//end COMNET namespace
+}//End NETWORK namespace
+}//End COMNET namespace
 #endif // __PARSER_H

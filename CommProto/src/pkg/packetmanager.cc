@@ -6,7 +6,7 @@ Copyright (C) 2016  Michael Wallace, Mario Garcia.
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+(At your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -46,24 +46,24 @@ PacketManager::~PacketManager()
 }
 
 
-bool PacketManager::insert(const AbstractPacket* key, const Callback* callback) {
-  return table->insert(key, callback);
+bool PacketManager::Insert(const AbstractPacket* key, const Callback* callback) {
+  return table->Insert(key, callback);
 }
 
 
-Callback* PacketManager::get(const AbstractPacket& key) {
-  return table->getCallback(key.getId());
+Callback* PacketManager::Get(const AbstractPacket& key) {
+  return table->GetCallback(key.GetId());
 }
 
 
-AbstractPacket* PacketManager::produceFromId(uint32_t key) {
-  AbstractPacket* packet = table->getPacket(key);
-  return factory.produceNewPacket(packet);
+AbstractPacket* PacketManager::ProduceFromId(uint32_t key) {
+  AbstractPacket* packet = table->GetPacket(key);
+  return factory.ProduceNewPacket(packet);
 }
 
 
-bool PacketManager::remove(const AbstractPacket& key) {
-  return table->remove(key.getId());
+bool PacketManager::Remove(const AbstractPacket& key) {
+  return table->Remove(key.GetId());
 }
 } // namespace Pkg
 } // namespace Comnet

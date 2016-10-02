@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -35,7 +35,7 @@ namespace datastructures {
 /**
    AutoVector is a wrapper class for the standard library vector. The intentions 
    of this is so that the vector is not anymore complicated than it should be, since
-   the standard library is not at all entirely supported on any platform, we must ensure
+   the standard library is not At all entirely supported on any platform, we must ensure
    that this wrapper class will garauntee that we are using the vector correctly, without
    having to look through lines of code figuring out why this vector function doesn't work.
    Not only this, AutoVector inherits from InterfaceList, so now vector can be related to all 
@@ -60,7 +60,7 @@ public:
   AutoVector(const _Alloc& allocator = _Alloc() ) 
     : _vector(std::vector<_Ty, _Alloc>(allocator))
   { 
-    this->listType = interface::AUTO_VECTOR;  
+    this->list_type = interface::AUTO_VECTOR;  
     this->size = 0;
   }
 
@@ -70,7 +70,7 @@ public:
   AutoVector(size_type count)
     : _vector(std::vector<_Ty, _Alloc>(count))
   {
-    this->listType = interface::AUTO_VECTOR;
+    this->list_type = interface::AUTO_VECTOR;
     this->size = 0;
   }
 
@@ -80,7 +80,7 @@ public:
   AutoVector(size_type count, const _Alloc& allocator = _Alloc() ) 
     : _vector(std::vector<_Ty, _Alloc>(count, allocator) )
   {
-    this->listType = interface::AUTO_VECTOR;
+    this->list_type = interface::AUTO_VECTOR;
     this->size = 0;
   }
 
@@ -90,7 +90,7 @@ public:
   AutoVector(const AutoVector<_Ty, _Alloc>& other) 
     : _vector(std::vector<_Ty, _Alloc>(other._vector) )
   {
-    this->listType = interface::AUTO_VECTOR;
+    this->list_type = interface::AUTO_VECTOR;
     this->size = 0;
   }
 
@@ -102,35 +102,35 @@ public:
   /**
      Get the size of this vector.
    */
-  int32_t getSize() {
+  int32_t GetSize() {
     return _vector.size();
   }
 
   /**
      Check if this Auto Vector is empty.
    */
-  bool isEmpty() { 
+  bool IsEmpty() { 
     return _vector.empty();
   }
 
-  void insert(const_reference value) {
+  void Insert(const_reference value) {
     push_back(value);
   }
   /**
-     Push a value at the end of this AutoVector.
+     Push a value At the End of this AutoVector.
    */
   void push_back(const_reference value) {
     _vector.push_back(value);
   }
   /**
-     Move a value into the back of this AutoVector.
+     Move a value into the Back of this AutoVector.
    */
   void push_back(_Ty&& value) {
     _vector.push_back(value);
   }
 
   /**
-     Pop a value from the back of this Vector.
+     Pop a value from the Back of this Vector.
    */
   void pop_back() {
     _vector.pop_back();
@@ -139,7 +139,7 @@ public:
   /**
      Remove a value from the vector. This value is specified by the user.
    */
-  bool remove(const_reference value) {
+  bool Remove(const_reference value) {
     if (_vector.empty()) {
       return false;
     }
@@ -157,7 +157,7 @@ public:
   /**
      Remove a value from the specified index. We should probably check if index goes over the size.
    */
-  bool removeAt(const int32_t index) {
+  bool RemoveAt(const int32_t index) {
     bool result = false;
     iter pos = _vector.erase(_vector.begin() + index);
     if (pos != _vector.end()) {
@@ -167,13 +167,13 @@ public:
   }
 
   /**
-     Get the reverse end iterator for this vector.
+     Get the reverse End iterator for this vector.
    */
   reverse_iter rend() {
     return _vector.rend();
   }
   /**
-     Get the reverse begin iterator for this vector.
+     Get the reverse Begin iterator for this vector.
    */
   reverse_iter rbegin() {
     return _vector.rbegin();
@@ -193,34 +193,34 @@ public:
   }
   
   /**
-     Grab the front value of this vector.
+     Grab the Front value of this vector.
    */
-  reference front() {
+  reference Front() {
     return _vector.front();
   }
   /**
      Grab the max size that this vector holds.
    */
-  size_type max_size() const {
+  size_type MaxSize() const {
     return _vector.max_size();
   }
   /**
-     Get the back value of this vector.
+     Get the Back value of this vector.
    */
-  reference back() {
+  reference Back() {
     return _vector.back();
   }
   /**
-     Grab a value at the specified index. 
+     Grab a value At the specified index. 
    */
-  reference at(const int32_t index) {
+  reference At(const int32_t index) {
     return _vector.at((size_type)index);
   }
   
   /**
-     Check if this vector contains the said value.
+     Check if this vector Contains the said value.
    */
-  bool contains(const _Ty& value) {
+  bool Contains(const _Ty& value) {
     bool result = false;
     if (_vector.empty()) {
       return result;
@@ -238,13 +238,13 @@ public:
   /**
      Grab the beginning iterator of this vector.
    */
-  iter begin() {
+  iter Begin() {
     return _vector.begin();
   }
   /**
-     Grab the end iterator of this vector.
+     Grab the End iterator of this vector.
    */
-  iter end() {
+  iter End() {
     return _vector.end();
   }
 

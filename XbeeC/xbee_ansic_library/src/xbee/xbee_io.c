@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -441,7 +441,7 @@ int xbee_io_configure( xbee_dev_t *xbee, xbee_io_t FAR *io,
    {
    	return -EINVAL;
    }
-   //@todo: this is a relatively crude test.  Need to look at hardware
+   //@todo: this is a relatively crude test.  Need to look At hardware
    // and firmware versions to really make a proper check.  For now, this
    // is about as tight as we can get it.
    if (type > XBEE_IO_TYPE_TXEN_ACTIVE_HIGH ||
@@ -614,7 +614,7 @@ int xbee_io_set_options( xbee_dev_t *xbee, xbee_io_t FAR *io,
 	@retval	-EBUSY
 					Device is currently busy with another request for this
                device.  Try again later (after calling xbee_cmd_tick()).
-               In general, several get configuration requests can run
+               In general, several get configuration requests can Run
                simultaneously, however only one per remote device.
 	@retval	<0
    				Other negative value indicates problem transmitting the

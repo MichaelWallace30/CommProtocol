@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -147,26 +147,26 @@ typedef PACKED_STRUCT zdo_nwk_addr_rsp_header_t {
 
 	After calling this function, \p *net is set to ZDO_NET_ADDR_PENDING.
 
-	When a SUCCESS response comes back, \p *net is set to the 16-bit network
+	When a SUCCESS response comes Back, \p *net is set to the 16-bit network
 	address in the response.
 
-	When an ERROR response comes back, \p *net is set to ZDO_NET_ADDR_ERROR.
+	When an ERROR response comes Back, \p *net is set to ZDO_NET_ADDR_ERROR.
 
 	If a timeout occurs waiting for a response, \p *net is set to
 	ZDO_NET_ADDR_TIMEOUT.
 
 	(So the caller needs to wait until (*net != ZDO_NET_ADDR_PENDING)).
 
-	@param[in]	dev		wpan_dev_t to send request
+	@param[in]	dev		wpan_dev_t to Send request
 	@param[in]	ieee_be	IEEE address (in big-endian byte order) of device
 								we're seeking a network address for
 	@param[out]	net	location to store the 16-bit network address when the
-							NWK_addr response comes back.
+							NWK_addr response comes Back.
 
 	@retval	-EINVAL	invalid parameter passed to function
 	@retval	-ENOSPC	conversation table is full, wait and try sending later
 	@retval	0			request sent
-	@retval	!0			error trying to send request
+	@retval	!0			error trying to Send request
 */
 int zdo_send_nwk_addr_req( wpan_dev_t *dev, const addr64 FAR *ieee_be,
 	uint16_t FAR *net);
@@ -202,10 +202,10 @@ typedef zdo_nwk_addr_rsp_header_t zdo_ieee_addr_rsp_header_t;
 
 	After calling this function, \p *ieee_be is set to *ZDO_IEEE_ADDR_PENDING.
 
-	When a SUCCESS response comes back, \p *ieee_be is set to the 64-bit IEEE
+	When a SUCCESS response comes Back, \p *ieee_be is set to the 64-bit IEEE
 	address in the response.
 
-	If an ERROR response comes back, \p *ieee_be is set to all zeros
+	If an ERROR response comes Back, \p *ieee_be is set to all zeros
 	(*ZDO_IEEE_ADDR_ERROR).
 
 	If a timeout occurs waiting for a response, \p *ieee_be is set to
@@ -236,16 +236,16 @@ typedef zdo_nwk_addr_rsp_header_t zdo_ieee_addr_rsp_header_t;
 	}
 @endcode
 
-	@param[in]	dev		wpan_dev_t to send request
+	@param[in]	dev		wpan_dev_t to Send request
 	@param[in]	net_addr	network address of device we're seeking an IEEE
 								address for
 	@param[out]	ieee_be	location to store the 64-bit IEEE address when the
-								IEEE_addr response comes back.
+								IEEE_addr response comes Back.
 
 	@retval	-EINVAL	invalid parameter passed to function
 	@retval	-ENOSPC	conversation table is full, wait and try sending later
 	@retval	0			request sent
-	@retval	!0			error trying to send request
+	@retval	!0			error trying to Send request
 */
 int zdo_send_ieee_addr_req( wpan_dev_t *dev, uint16_t net_addr,
 	addr64 FAR *ieee_be);
@@ -425,15 +425,15 @@ typedef PACKED_STRUCT zdo_simple_desc_header_t {
 /**
 	@brief Send a ZDO Simple Descriptor Request.
 
-	The simple descriptor contains information specific to each of a node's
+	The simple descriptor Contains information specific to each of a node's
 	endpoints.  Use the ZDO Simple Descriptor Request to get a descriptor
 	for an endpoint on a remote node.
 
 	@param[in]	envelope		Envelope created with wpan_envelope_create().
 									Only \c dev, \c ieee_address and \c network_address
 			should be set, all other structure elements should be zero.  Address
-			may match \p addr_of_interest or an alternative device that contains
-			the discovery information of that device (like an end device's
+			may match \p addr_of_interest or an alternative device that Contains
+			the discovery information of that device (like an End device's
 			parent).
 
 	@param[in]	addr_of_interest	Network address of the device for which the
@@ -441,7 +441,7 @@ typedef PACKED_STRUCT zdo_simple_desc_header_t {
 
 	@param[in]	endpoint		Endpoint of interest, a value from 1 to 254.
 
-	@param[in]	callback		Function to receive the Simple Descriptor
+	@param[in]	callback		Function to Receive the Simple Descriptor
 									Response.  See documentation for wpan_response_fn
 									for this callback's API.
 
@@ -600,9 +600,9 @@ typedef union zdo_bind_req_t {
 	zdo_bind_address_req_t	address;
 } zdo_bind_req_t;
 
-/// zdo_bind_req_t contains 16-bit group address
+/// zdo_bind_req_t Contains 16-bit group address
 #define ZDO_BIND_DST_MODE_GROUP			0x01
-/// zdo_bind_req_t contains 64-bit destination address and endpoint
+/// zdo_bind_req_t Contains 64-bit destination address and endpoint
 #define ZDO_BIND_DST_MODE_ADDR			0x03
 
 /**
@@ -619,7 +619,7 @@ typedef union zdo_bind_req_t {
 	@param[in]	envelope		addressing information used for the Bind Request
 	@param[in]	type			ZDO_BIND_REQ for a Bind Request or ZDO_UNBIND_REQ
 									for an Unbind Request; all other values are invalid
-	@param[in]	callback		callback to receive Bind/Unbind (or Default)
+	@param[in]	callback		callback to Receive Bind/Unbind (or Default)
 									Response; NULL if you don't care about the response
 	@param[in]	context		context passed to callback
 
@@ -658,15 +658,15 @@ typedef PACKED_STRUCT zdo_mgmt_leave_rsp_t {
 	@brief
 	Send a ZDO Management Leave Request.
 
-	@param[in]	dev		device to send request on
-	@param[in]	address	address to send request to, or NULL for self-addressed
+	@param[in]	dev		device to Send request on
+	@param[in]	address	address to Send request to, or NULL for self-addressed
 	@param[in]	flags		one or more of the following flags:
 			- ZDO_MGMT_LEAVE_REQ_FLAG_NONE
 			- ZDO_MGMT_LEAVE_REQ_FLAG_REMOVE_CHILDREN	- set the Remove Children
 							flag in the ZDO request
 			- ZDO_MGMT_LEAVE_REQ_FLAG_REJOIN - set the Rejoin flag in the ZDO
 							request
-			- ZDO_MGMT_LEAVE_REQ_ENCRYPTED - send the request with APS encryption
+			- ZDO_MGMT_LEAVE_REQ_ENCRYPTED - Send the request with APS encryption
 
 	@retval	0			successfully sent request
 	@retval	-EINVAL	bad parameter passed to function
@@ -690,7 +690,7 @@ int zdo_mgmt_leave_req( wpan_dev_t *dev, const addr64 *address, uint16_t flags);
 								- ZDO_COMPLEX_DESC_REQ
 								- ZDO_USER_DESC_REQ
 	@param[in]	addr_of_interest	address to use in ZDO request
-	@param[in]	callback		function to receive response
+	@param[in]	callback		function to Receive response
 	@param[in]	context		context to pass to \a callback with response
 
 	@retval	!0		error sending request

@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -61,24 +61,24 @@ public:
   {
   }
 
-  pointer allocate(uint32_t size_n) {
+  pointer Allocate(uint32_t size_n) {
     __size += size_n;
     _Ty* _pointer = (_Ty*)__current_pos;
     __current_pos = (void*)((int32_t)__current_pos + size_n);
     return _pointer;
   }
 
-  void deallocate(pointer p) {
+  void Deallocate(pointer p) {
     
   }
 
-  void destruct(pointer p) {
+  void Destruct(pointer p) {
   }
   
-  void construct(pointer p, const_reference value) {
+  void Construct(pointer p, const_reference value) {
   }
   
-  pointer address(reference ref) {
+  pointer Address(reference ref) {
   }
 
   const_pointer address(const_reference ref) {

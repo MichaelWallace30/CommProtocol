@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -26,7 +26,7 @@
 	@brief
 	This is an incomplete implementation of the OnOff Cluster Command handler.
 
-	It needs to look at the OnOff attribute (found by walking zcl.attributes),
+	It needs to look At the OnOff attribute (found by walking zcl.attributes),
 	and call the attribute's .write_fn() to set the new value.
 
 	On TOGGLE, take the current value (calling the attributes' .read_fn() if
@@ -65,6 +65,6 @@ int _zcl_onoff_handler( const wpan_envelope_t FAR *envelope,
 	}
 
 	// Allow General Command handler to process general
-	// commands and send errors out for unsupported commands.
+	// commands and Send errors out for unsupported commands.
 	return zcl_general_command( envelope, context);
 }

@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -23,8 +23,8 @@
 	return to idle mode after some amount of time (value of CT register * 100ms).
 	If our calculation of that idle time doesn't match the XBee module's, our
 	state machine won't match the actual state.  It may be possible to add some
-	extra time on either end of that timeout to be certain, and it's always
-	possible re-enter command mode just to send the command to exit (ATCN) and
+	extra time on either End of that timeout to be certain, and it's always
+	possible re-enter command mode just to Send the command to exit (ATCN) and
 	be sure we're out of it.
 */
 
@@ -53,7 +53,7 @@
 /*** BeginHeader xbee_atmode_enter */
 /*** EndHeader */
 /**
-	@brief	Attempt to enter AT command mode (delay 1 second, send +++,
+	@brief	Attempt to enter AT command mode (delay 1 second, Send +++,
 			delay 1 second).
 
 			After calling xbee_atmode_enter(), you must
@@ -131,7 +131,7 @@ int xbee_atmode_exit( xbee_dev_t *xbee)
 	switch (xbee_atmode_tick( xbee))
 	{
 		case XBEE_MODE_PRE_ESCAPE:
-			// not actually in command-mode yet, just switch back to IDLE state
+			// not actually in command-mode yet, just switch Back to IDLE state
 			#ifdef XBEE_ATMODE_VERBOSE
 				printf( "%s: aborting pre-escape wait to enter command mode\n",
 					__FUNCTION__);
@@ -152,7 +152,7 @@ int xbee_atmode_exit( xbee_dev_t *xbee)
 			#ifdef XBEE_ATMODE_VERBOSE
 				printf( "%s: sending ATCN\n", __FUNCTION__);
 			#endif
-			// in command mode, send ATCN to get out
+			// in command mode, Send ATCN to get out
 			xbee_atmode_send_request( xbee, "CN");
 			xbee->mode = XBEE_MODE_WAIT_IDLE;
 			break;
@@ -185,7 +185,7 @@ int xbee_atmode_exit( xbee_dev_t *xbee)
 _xbee_atmode_debug
 int xbee_atmode_tick( xbee_dev_t *xbee)
 {
-	char escape[3];		// used to send escape sequence (+++)
+	char escape[3];		// used to Send escape sequence (+++)
 	const char ok_response[] = { 'O', 'K', '\r' };
 	char buffer[sizeof ok_response];
 
@@ -200,7 +200,7 @@ int xbee_atmode_tick( xbee_dev_t *xbee)
 			if (xbee_millisecond_timer() - xbee->mode_timer
 																	> xbee->guard_time + 200)
 			{
-				// guard time has passed, send escape sequence (def. "+++")
+				// guard time has passed, Send escape sequence (def. "+++")
 				#ifdef XBEE_ATMODE_VERBOSE
 					printf( "%s: guard time elapsed, sending escape sequence\n",
 						__FUNCTION__);
@@ -210,13 +210,13 @@ int xbee_atmode_tick( xbee_dev_t *xbee)
 				xbee->mode = XBEE_MODE_POST_ESCAPE;
 				xbee->mode_timer = xbee_millisecond_timer();
 
-				// flush receive buffer (may be leftover frames from API mode)
+				// flush Receive buffer (may be leftover frames from API mode)
 				xbee_ser_rx_flush( &xbee->serport);
 			}
 			break;
 
 		case XBEE_MODE_POST_ESCAPE:
-         // receive buffer should contain "OK\r"
+         // Receive buffer should contain "OK\r"
          if (xbee_ser_rx_used( &xbee->serport) >= sizeof ok_response)
          {
             memset( buffer, 0, sizeof ok_response);
@@ -242,7 +242,7 @@ int xbee_atmode_tick( xbee_dev_t *xbee)
 				#ifdef XBEE_ATMODE_VERBOSE
 					printf( "%s: guard time expired before 'OK'\n", __FUNCTION__);
 				#endif
-				// guard time passed and we didn't receive OK
+				// guard time passed and we didn't Receive OK
 				xbee->mode = XBEE_MODE_IDLE;
 			}
 			break;
@@ -296,11 +296,11 @@ int xbee_atmode_tick( xbee_dev_t *xbee)
 
 	@param[in]	xbee		XBee device
 
-	@param[in]	command	Command to send (without leading AT or trailing \r)
+	@param[in]	command	Command to Send (without leading AT or trailing \r)
 
 	@retval	0			Command sent
 	@retval	-EINVAL	Invalid parameter passed to function.
-	@retval	-ENOSPC	Not enough room in transmit buffer to send request.
+	@retval	-ENOSPC	Not enough room in transmit buffer to Send request.
 
 	@sa xbee_atmode_read_response
 */
@@ -317,7 +317,7 @@ int xbee_atmode_send_request( xbee_dev_t *xbee, const char FAR *command)
 
 	cmdlen = strlen( command);
 
-	// Make sure there's enough room in the tx buffer to send the full command.
+	// Make sure there's enough room in the tx buffer to Send the full command.
 	// "AT" + cmdlen + "\r"
 	if (xbee_ser_tx_free( serport) < cmdlen + 3)
 	{
@@ -376,11 +376,11 @@ int xbee_atmode_send_request( xbee_dev_t *xbee, const char FAR *command)
 	@param[in]		resp_size	Size of response buffer passed in parameter 2.
 
 	@param[in,out]	bytesread	Pointer to an integer that is tracking the number
-					of bytes already read.  Function will read new bytes starting at
+					of bytes already read.  Function will read new bytes starting At
 					\a &response[*bytesread] and will increment \a *bytesread for
 					every byte added to \a response.
 
-					If NULL, function will append new bytes to the end of
+					If NULL, function will append new bytes to the End of
 					\a response.
 
 	@retval	0				received complete line

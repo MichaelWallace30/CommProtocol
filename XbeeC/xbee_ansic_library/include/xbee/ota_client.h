@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -34,7 +34,7 @@ XBEE_BEGIN_DECLS
 
 /// Structure for tracking state of over-the-air update.
 typedef struct xbee_ota_t {
-	wpan_dev_t				*dev;		///< local device to send updates through
+	wpan_dev_t				*dev;		///< local device to Send updates through
 	addr64					target;	///< network device to update
 	uint16_t					flags;	///< combination of XBEE_OTA_FLAG_* values
 		/// Send data with APS encryption
@@ -54,7 +54,7 @@ typedef struct xbee_ota_t {
 
 /**
 	@brief
-	Initialize an xbee_ota_t structure to send firmware updates to \c target
+	Initialize an xbee_ota_t structure to Send firmware updates to \c target
 	using \c dev.
 
 	Calls xbee_xmodem_tx_init and xbee_xmodem_set_stream
@@ -101,7 +101,7 @@ int _xbee_ota_transparent_rx( const wpan_envelope_t FAR *envelope,
 
 /**
 	@brief
-	Macro for adding the OTA receive cluster (Digi Transparent Serial) to
+	Macro for adding the OTA Receive cluster (Digi Transparent Serial) to
 	the cluster list for WPAN_ENDPOINT_DIGI_DATA.
 
 	@param[in]	ota	pointer to an xbee_ota_t structure for tracking update

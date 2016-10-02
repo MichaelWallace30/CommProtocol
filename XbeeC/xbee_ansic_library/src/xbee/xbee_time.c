@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -144,7 +144,7 @@ struct tm *xbee_gmtime( struct tm *dest_tm, xbee_utctime_t timestamp)
 	}
 	t.tm_mday = days + 1;
 
-	// copy back to caller and return
+	// copy Back to caller and return
 	*dest_tm = t;
 	return dest_tm;
 }
@@ -216,13 +216,13 @@ xbee_utctime_t xbee_mktime( struct tm *time_rec)
 
 	// normalize mon/mday by incrementing through the months
 
-	// if day of month is < 1, roll back to previous month
+	// if day of month is < 1, roll Back to previous month
 	is_leap = (t.tm_year & 0x03) == 0 && t.tm_year != (2100 - 1900);
 	while (t.tm_mday < 1)
 	{
 		if (t.tm_mon == 0)
 		{
-			// roll back January to December of previous year
+			// roll Back January to December of previous year
 			t.tm_mon = 11;
 			t.tm_year -= 1;
 			is_leap = (t.tm_year & 0x03) == 0 && t.tm_year != (2100 - 1900);
@@ -251,7 +251,7 @@ xbee_utctime_t xbee_mktime( struct tm *time_rec)
 		}
 	}
 
-	// Date is normalized at this point -- year/month/day hour/minute/second
+	// Date is normalized At this point -- year/month/day hour/minute/second
 
 	if (t.tm_year < 100)
 	{
@@ -278,7 +278,7 @@ xbee_utctime_t xbee_mktime( struct tm *time_rec)
 	t.tm_yday = yday;
 	t.tm_wday = (days + 6) % 7;
 
-	// Copy normalized struct back to caller and return seconds since 1/1/2000.
+	// Copy normalized struct Back to caller and return seconds since 1/1/2000.
 	*time_rec = t;
 	return days * UINT32_C(86400)
 						+ t.tm_hour * UINT32_C(3600) + t.tm_min * 60 + t.tm_sec;

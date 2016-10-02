@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -28,7 +28,7 @@ namespace network {
 /***********************************************/
 
 
-bool UDP::udp_open(int* fd)
+bool UDP::UdpOpen(int* fd)
 {
   bool result = false;
   initializeSockAPI(result);
@@ -65,10 +65,10 @@ UDP::~UDP()
 }
 
 
-bool UDP::initConnection(const char* port, const char* address, uint32_t baudrate)
+bool UDP::InitConnection(const char* port, const char* address, uint32_t baudrate)
 {	
   //open socket and  check if socket is not already connected
-  if (sockaddr.socket_status != SOCKET_CONNECTED && udp_open(&fd)) {
+  if (sockaddr.socket_status != SOCKET_CONNECTED && UdpOpen(&fd)) {
 
     uint16_t length = 0;
 
@@ -112,17 +112,17 @@ bool UDP::initConnection(const char* port, const char* address, uint32_t baudrat
 }
 
 
-bool UDP::addAddress(uint8_t destID, const char* address, uint16_t port)
+bool UDP::AddAddress(uint8_t dest_id, const char* address, uint16_t port)
 {
   uint16_t length = 0;
   str_length(address, length);
-  if (conn[destID].socket_status == SOCKET_OPEN && length < ADDRESS_LENGTH) {
+  if (conn[dest_id].socket_status == SOCKET_OPEN && length < ADDRESS_LENGTH) {
     //setup address structure
-    memset((char *)&conn[destID].socket_address, 0, sizeof(conn[destID].socket_address));
-    conn[destID].socket_address.sin_family = AF_INET;
-    conn[destID].socket_address.sin_port = htons(port);
-    conn[destID].socket_address.sin_addr.s_addr = inet_addr((char*)address);
-    conn[destID].socket_status = SOCKET_CONNECTED;
+    memset((char *)&conn[dest_id].socket_address, 0, sizeof(conn[dest_id].socket_address));
+    conn[dest_id].socket_address.sin_family = AF_INET;
+    conn[dest_id].socket_address.sin_port = htons(port);
+    conn[dest_id].socket_address.sin_addr.s_addr = inet_addr((char*)address);
+    conn[dest_id].socket_status = SOCKET_CONNECTED;
 
     return true;
   }
@@ -132,10 +132,10 @@ bool UDP::addAddress(uint8_t destID, const char* address, uint16_t port)
 }
 
 
-bool UDP::removeAddress(uint8_t destID)
+bool UDP::RemoveAddress(uint8_t dest_id)
 {  
-  if (conn[destID].socket_status == SOCKET_CONNECTED) {
-    conn[destID].socket_status = SOCKET_OPEN;
+  if (conn[dest_id].socket_status == SOCKET_CONNECTED) {
+    conn[dest_id].socket_status = SOCKET_OPEN;
     return true;
   }
 
@@ -143,22 +143,22 @@ bool UDP::removeAddress(uint8_t destID)
 }
 
 
-bool UDP::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
+bool UDP::Send(uint8_t dest_id, uint8_t* txData, uint32_t txLength)
 {
   if (sockaddr.socket_status == SOCKET_CONNECTED) {
-    int slenSend = sizeof(conn[destID].socket_address);
+    int slenSend = sizeof(conn[dest_id].socket_address);
     if (sendto(fd, 
         (char *) txData, 
         txLength, 0, 
-        (struct sockaddr *) &conn[destID].socket_address, slen) < 0)
+        (struct sockaddr *) &conn[dest_id].socket_address, slen) < 0)
 		{
       COMMS_DEBUG("sendto() failed\n");
 
       return false;
 		} else {	  						
         COMMS_DEBUG("\n**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
-        txLength, ntohs(conn[destID].socket_address.sin_port),
-        inet_ntoa(conn[destID].socket_address.sin_addr));		  
+        txLength, ntohs(conn[dest_id].socket_address.sin_port),
+        inet_ntoa(conn[dest_id].socket_address.sin_addr));		  
 		}
   }
 
@@ -166,7 +166,7 @@ bool UDP::send(uint8_t destID, uint8_t* txData, uint32_t txLength)
 }
 
 
-bool UDP::recv(uint8_t* rxData, uint32_t* rxLength)
+bool UDP::Recv(uint8_t* rxData, uint32_t* rxLength)
 {
   int length = 0;
   *rxLength = 0;

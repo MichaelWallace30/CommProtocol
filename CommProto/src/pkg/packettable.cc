@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -86,22 +86,22 @@ PacketTable::~PacketTable()
 }
 
 
-bool PacketTable::insert(const AbstractPacket* key, const Callback* callback) {
+bool PacketTable::Insert(const AbstractPacket* key, const Callback* callback) {
   if (!key) {
     return false;
   }
 
   bool stored = false;
   bool willStore = true;
-  uint32_t hash = keyHash(key->getId());
+  uint32_t hash = KeyHash(key->GetId());
   Pair* pair = allocate_pointer(Pair);
 
   pair->packet = (AbstractPacket* )key;
   pair->callback = (Callback* )callback;
 
   int saved = hash;
-  while ( (*(table+hash)) != NULL  && (*(table+hash))->packet->getId() != key->getId() ) {
-    hash = traverseIndex(hash);
+  while ( (*(table+hash)) != NULL  && (*(table+hash))->packet->GetId() != key->GetId() ) {
+    hash = TraverseIndex(hash);
     
     if (hash == saved) {
       willStore = false;
@@ -126,8 +126,8 @@ bool PacketTable::insert(const AbstractPacket* key, const Callback* callback) {
 }
 
 
-Callback* PacketTable::getCallback(uint32_t key) {
-  uint32_t hash = keyHash(key);
+Callback* PacketTable::GetCallback(uint32_t key) {
+  uint32_t hash = KeyHash(key);
   Callback* result = NULL;
 
   if ( *(table+hash) != NULL ) {
@@ -138,14 +138,14 @@ Callback* PacketTable::getCallback(uint32_t key) {
 }
 
 
-AbstractPacket* PacketTable::getPacket(uint32_t key) {
- uint32_t hash = keyHash(key);
+AbstractPacket* PacketTable::GetPacket(uint32_t key) {
+ uint32_t hash = KeyHash(key);
   AbstractPacket* result = NULL;
 
   int32_t saved = hash;
   
-  while ( *(table+hash) != NULL  && (*(table+hash))->packet->getId() != key ) {
-    hash = traverseIndex(hash);
+  while ( *(table+hash) != NULL  && (*(table+hash))->packet->GetId() != key ) {
+    hash = TraverseIndex(hash);
     
     if (hash == saved) {
       break;
@@ -160,17 +160,17 @@ AbstractPacket* PacketTable::getPacket(uint32_t key) {
 }
 
 
-bool PacketTable::remove(uint32_t key) {
+bool PacketTable::Remove(uint32_t key) {
   return false;
 }
 
 
-bool PacketTable::resize(uint32_t newSize) {
+bool PacketTable::Resize(uint32_t newSize) {
   return false;
 }
 
 
-int32_t PacketTable::traverseIndex(int32_t i) {
+int32_t PacketTable::TraverseIndex(int32_t i) {
   i++;
   if (i >= tableSize) {
     i = 0;
@@ -180,7 +180,7 @@ int32_t PacketTable::traverseIndex(int32_t i) {
 }
 
 
-uint32_t PacketTable::keyHash(uint32_t key) {
+uint32_t PacketTable::KeyHash(uint32_t key) {
   return (COMMSTD::hash<uint32_t>()(key) % tableSize);
 }
 } // namespace Pkg

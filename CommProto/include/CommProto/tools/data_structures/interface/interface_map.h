@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -65,39 +65,39 @@ public:
   /**
      Get the current number of key-value pairs in the map.
    */
-  virtual int32_t getSize() { return this->size; }
+  virtual int32_t GetSize() { return this->size; }
   
-  virtual bool isEmpty() { return (comm_bool)(this->size == 0); }
+  virtual bool IsEmpty() { return (comm_bool)(this->size == 0); }
   /**
      Get the type of map being used.
    */
-  DataStructureType getDataStructType() { return this->type; }
+  DataStructureType GetDataStructType() { return this->type; }
 
   /**
      Insert a value into the map.
    */
-  virtual bool insert(const_key_reference key, const_value_reference value) = 0;
+  virtual bool Insert(const_key_reference key, const_value_reference value) = 0;
   /**
      Remove a value from the map.
      @param key 
      @return True, if value was removed, false otherwise.
    */
-  virtual bool remove(const_key_reference key) = 0;
+  virtual bool Remove(const_key_reference key) = 0;
 
   /**
      Get the value using the key specified.
    */
-  virtual const_value_reference get(const_key_reference key) = 0;
+  virtual const_value_reference Get(const_key_reference key) = 0;
   /**
      Replace a value with the specified key.
    */
-  virtual bool replace(const_key_reference key, const_value_reference value) = 0;
+  virtual bool Replace(const_key_reference key, const_value_reference value) = 0;
 
 protected:
   /**
      The type of map.
    */
-  MapType mapType;
+  MapType map_type;
 };
 } // Interface namespace
 } // DataStructures namespace

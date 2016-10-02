@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -52,7 +52,7 @@ public:
   /**
      Declare a specific size for the table, before constuction.
    */
-  PacketManager(uint32_t setSize);
+  PacketManager(uint32_t set_size);
 
   /**
      Default Destructor.
@@ -65,42 +65,42 @@ public:
      insert(new AbstractPacket()(has to be specialized though), new Callback(funct));
 
    */
-  bool insert(const AbstractPacket* key, const Callback* callback);
+  bool Insert(const AbstractPacket* key, const Callback* callback);
 
   /**
      Gets the callback associated with the AbstractPacket.
    */
-  Callback* get(const AbstractPacket& key);
+  Callback* Get(const AbstractPacket& key);
 
   /**
      Removes the Callback associated with key.
    */
-  bool remove(const AbstractPacket& key);
+  bool Remove(const AbstractPacket& key);
 
   /**
-     Check if the table contains this AbstractPacket.
+     Check if the table Contains this AbstractPacket.
    */
-  bool contains(const AbstractPacket& key);
+  bool Contains(const AbstractPacket& key);
 
   /**
      Check if the table containes this callback.
    */
-  bool contains(Callback* call);
+  bool Contains(Callback* call);
 
   /**
      Get the number of Packet-callback pairs in this table.
    */
-  int32_t getSize() { return size; }
+  int32_t GetSize() { return size; }
 
   /**
      Resizes the manager table, when hitting a certain number of 
      pairs relative to the overall size of the table.
    */
-  void resize();
+  void Resize();
   /**
      Will produce a Packet from the provided id.
    */
-  AbstractPacket* produceFromId(uint32_t key);
+  AbstractPacket* ProduceFromId(uint32_t key);
 private:
 
   PacketFactory factory;
@@ -113,7 +113,7 @@ private:
   /**
      The max overall size of the table.
    */
-  int32_t maxSize;
+  int32_t MaxSize;
 };
 } // namespace Pkg
 } // namespace Comnet

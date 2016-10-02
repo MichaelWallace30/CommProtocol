@@ -35,14 +35,14 @@ void* Comms::commuincationHelperRecv(void* context)
 /** function for communication thread */
 void* Comms::commuincationHandlerSend()
 {
-	while (this->isRunning())
+	while (this->IsRunning())
 	{
-		if (!sendQueue->isEmpty())
+		if (!send_queue->IsEmpty())
 		{
-			//send data here
-			ObjectStream *temp = sendQueue->front();
-			sendQueue->deQueue();
-			connectionLayer->send(temp->headerPacket.destID, temp->getBuffer(), temp->getSize());
+			//Send data here
+			ObjectStream *temp = send_queue->Front();
+			send_queue->Dequeue();
+			connectionLayer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
 			free_pointer(temp);
 		}
 	}
@@ -51,38 +51,38 @@ void* Comms::commuincationHandlerSend()
 
 /** function for communication thread */
 void* Comms::commuincationHandlerRecv() {
-  while (this->isRunning()) {
+  while (this->IsRunning()) {
     AbstractPacket* packet = NULL;
-    //send data here
+    //Send data here
 	  uint8_t streamBuffer[MAX_BUFFER_SIZE];
     uint32_t recvLen = 0;
-    connectionLayer->recv(streamBuffer, &recvLen);
+    connectionLayer->Recv(streamBuffer, &recvLen);
     ObjectStream *temp = new ObjectStream();
-    temp->setBuffer((char*)streamBuffer, recvLen);
+    temp->SetBuffer((char*)streamBuffer, recvLen);
 
     /*
       Algorithm should get the header, get the message id from header, then
       produce the packet from the header, finally get the callback.
      */
-    if (temp->getSize() > 0) {
-      header_t header = temp->deserializeHeader();
+    if (temp->GetSize() > 0) {
+      Header header = temp->DeserializeHeader();
       // Create the packet.
-      packet = this->packetManager.produceFromId(header.messageID);
+      packet = this->packet_manager.ProduceFromId(header.msg_id);
     
       if (packet) {
         // Unpack the object stream.
-        packet->unpack(*temp);
+        packet->Unpack(*temp);
         Callback* callback = NULL;
-        callback = this->packetManager.get(*packet);
+        callback = this->packet_manager.Get(*packet);
 
         if (callback) {
           error_t error;
           /*
-            TODO(Wallace): This might need to run on a separate thread, or 
-            on a new thread, to prevent it from stopping the receive handler.
+            TODO(Wallace): This might need to Run on a separate thread, or 
+            on a new thread, to prevent it from stopping the Receive handler.
             User figures out what to do with the packet.
           */
-          error = callback->callFunction(header, *packet);
+          error = callback->CallFunction(header, *packet);
           // Handle error.
           switch (error) {
             case CALLBACK_SUCCESS:
@@ -91,8 +91,8 @@ void* Comms::commuincationHandlerRecv() {
               cout << "Nothing" << endl;
           };
         } else {
-          // store the packet into the receive queue.
-          recvQueue->enQueue(packet);
+          // store the packet into the Receive queue.
+          recv_queue->Enqueue(packet);
         }
       } else {
         COMMS_DEBUG("Unknown packet recieved.\n");
@@ -111,8 +111,8 @@ void* Comms::commuincationHandlerRecv() {
 Comms::Comms(uint8_t platformID)
 : CommNode(platformID)
 {
-	this->recvQueue = new AutoQueue <AbstractPacket*>;
-	this->sendQueue = new AutoQueue <ObjectStream*>;
+	this->recv_queue = new AutoQueue <AbstractPacket*>;
+	this->send_queue = new AutoQueue <ObjectStream*>;
 	mutex_init(&sendMutex);
 	mutex_init(&recvMutex);
 	connectionLayer = NULL;
@@ -125,7 +125,7 @@ Comms::~Comms()
 	mutex_destroy(&recvMutex);
 }
 
-bool Comms::initConnection(transport_protocol_t connectionType, const char* port, const char* address, uint32_t baudrate)
+bool Comms::InitConnection(transport_protocol_t connectionType, const char* port, const char* address, uint32_t baudrate)
 {
 	uint16_t length = 0;
 	switch (connectionType)
@@ -138,7 +138,7 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 			{	
 			  COMMS_DEBUG("UDP connection.\n");
 				connectionLayer = new UDPLink();
-				return connectionLayer->initConnection(port, address);
+				return connectionLayer->InitConnection(port, address);
 			}
 			break;
 		}
@@ -149,7 +149,7 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 			if (length < ADDRESS_LENGTH)
 			{
 				connectionLayer = new SerialLink();
-				return connectionLayer->initConnection(port, NULL, baudrate);
+				return connectionLayer->InitConnection(port, NULL, baudrate);
 			}
 			break;
 		
@@ -159,7 +159,7 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
       str_length(address, length);
       if (length < ADDRESS_LENGTH) {
         connectionLayer = new experimental::XBeeLink();
-        return connectionLayer->initConnection(port, NULL, baudrate);
+        return connectionLayer->InitConnection(port, NULL, baudrate);
       }
       break;
     }
@@ -171,72 +171,72 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 }
 
 
-bool Comms::addAddress(uint8_t destID, const char* address , uint16_t port)
+bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
 {
 	if (connectionLayer == NULL)return false;
-	return connectionLayer->addAddress(destID, address, port);
+	return connectionLayer->AddAddress(dest_id, address, port);
 }
 
 
-bool Comms::removeAddress(uint8_t destID)
+bool Comms::RemoveAddress(uint8_t dest_id)
 {
 	if (connectionLayer == NULL)return false;
-	return connectionLayer->removeAddress(destID);
+	return connectionLayer->RemoveAddress(dest_id);
 }
 
 
-bool Comms::send(AbstractPacket* packet, uint8_t destID) {
+bool Comms::Send(AbstractPacket* packet, uint8_t dest_id) {
   if (connectionLayer == NULL) { 
     return false;
   }
   
   ObjectStream *stream = new ObjectStream();
   // Pack the stream with the packet.		
-  packet->pack(*stream);		
-  header_t header;
+  packet->Pack(*stream);		
+  Header header;
 
-  header.destID = destID;
-  header.sourceID = this->getNodeId();
-  header.messageID = packet->getId();
-  header.messageLength = stream->getSize();
+  header.dest_id = dest_id;
+  header.source_id = this->GetNodeId();
+  header.msg_id = packet->GetId();
+  header.msg_len = stream->GetSize();
   //
   //call encryption here
   //
-  stream->serializeHeader(header);
-  sendQueue->enQueue(stream);
+  stream->SerializeHeader(header);
+  send_queue->Enqueue(stream);
 
   return true;
 }
 
 
-AbstractPacket* Comms::receive(uint8_t&  sourceID) {
+AbstractPacket* Comms::Receive(uint8_t&  source_id) {
   if (connectionLayer == NULL) return NULL;
-  if (!recvQueue->isEmpty()) {
+  if (!recv_queue->IsEmpty()) {
     cout << "Message recv in Comms" << endl;
-    // This is a manual receive function. The user does not need to call this function,
+    // This is a manual Receive function. The user does not need to call this function,
     // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
-    recvQueue->deQueue();  
+    recv_queue->Dequeue();  
   }
 	
   return NULL;
 }
 
 
-int32_t Comms::run()
+int32_t Comms::Run()
 {
 	thread_create(&this->communicationThreadSend, commuincationHelperSend, this);
 	thread_create(&this->communicationThreadRecv, commuincationHelperRecv, this);
-	return CommNode::run();
+	return CommNode::Run();
 }
 
 
-int32_t Comms::stop()
+int32_t Comms::Stop()
 {
-	return CommNode::stop();
+	return CommNode::Stop();
 }
 
 
-int32_t Comms::pause()
+int32_t Comms::Pause()
 {
-  return CommNode::pause();
+  return CommNode::Pause();
 }

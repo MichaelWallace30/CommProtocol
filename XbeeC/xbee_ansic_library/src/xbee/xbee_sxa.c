@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -394,7 +394,7 @@ int _sxa_disc_atnd_response( xbee_dev_t *xbee, const void FAR *raw,
 	See the function help for xbee_frame_handler_fn() for full
 	documentation on this function's API.
 */
-// can register to receive 0x95 frames and dump to stdout
+// can register to Receive 0x95 frames and dump to stdout
 _xbee_sxa_debug
 int _sxa_disc_handle_frame_0x95( xbee_dev_t *xbee, const void FAR *raw,
 	uint16_t length, void FAR *context)
@@ -641,7 +641,7 @@ int _sxa_disc_cluster_handler( const wpan_envelope_t FAR *envelope,
 	messages (0x92 frames and ATIS responses).
 
 	@param[in]	xbee		device that received the message
-	@param[in]	raw		pointer to the message (starting at sample count field)
+	@param[in]	raw		pointer to the message (starting At sample count field)
 	@param[in]	length	length of the message
 
 	@retval	0	successfully parsed
@@ -1120,7 +1120,7 @@ void sxa_tick(void)
 
             if (sxa->q_index >= sxa->nqueued)
             {
-            	// Start at the beginning if reached end.  This is because we
+            	// Start At the beginning if reached End.  This is because we
                // allow old entries to be updated before the list is
                // finished executing.  (Otherwise, we would have been done).
             	sxa->q_index = 0;
@@ -1282,7 +1282,7 @@ int sxa_schedule_update_cache(sxa_node_t FAR * sxa,
    	return 0;
    // Else must be unknown, OK, or in error: add with pending status
    if (sxa->q_index >= sxa->nqueued)
-   	// Keep index past end if nothing launched
+   	// Keep index past End if nothing launched
    	++sxa->q_index;
    sxa->queued[sxa->nqueued++] = zb;
    _sxa_set_cache_status(sxa, zb, zb->sxa_cache_group, _SXA_CACHED_PENDING);

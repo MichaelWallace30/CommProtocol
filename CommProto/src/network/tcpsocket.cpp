@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -41,7 +41,7 @@ namespace network {
   TcpSocket is a class intended on creating a socket connection to a host
   computer. It is created via abstractly, without the need for the user to
   know what on earth this class is. Instead, user creates this tcp connection through
-  an interface. This class can create a listening server, or a client from which to make 
+  an interface. This class can Create a listening server, or a client from which to make 
   connections with.
 */
 class TcpSocket : public CommSocket {
@@ -63,16 +63,16 @@ public:
     Closes the socket and destroyes the tcp node, along with the mutex.
   */  
   ~TcpSocket() {
-    sockClose();
+    SockClose();
 
     mutex_destroy(&mutex);
   }
 
   /**
     Connection function, from which a socket is created for the purpose of sending data
-    to the server and back. This will create a client socket syncronously.
+    to the server and Back. This will Create a client socket syncronously.
   */
-  int32_t sockConnect(const char* address, PORT port) {
+  int32_t SockConnect(const char* address, PORT port) {
     int32_t error = -1;
     if (_socket.socket != INVALID_SOCKET) {
       return error;
@@ -83,7 +83,7 @@ public:
     if (_socket.socket == INVALID_SOCKET) {
       comms_debug_log("Invalid socket..."); 
     } else {
-      if (!setNonBlocking(_socket.socket, true)) {
+      if (!SetNonBlocking(_socket.socket, true)) {
           comms_debug_log("Failed to set socket to non blocking mode...");
           _socket.socket_status = SOCKET_FAILED;
         } else {
@@ -134,7 +134,7 @@ public:
     @param address 
     @param port
   */
-  int32_t sockSend(const char* buffer,
+  int32_t SockSend(const char* buffer,
                     uint32_t len,
                     const char* address,
                     uint32_t port)
@@ -159,7 +159,7 @@ public:
     Recieve information over the connecting socket, in this case, the socket that is
     initialized in this tcp connection.
    */
-  packet_data_status_t sockReceive(const char* buffer,
+  packet_data_status_t SockReceive(const char* buffer,
                                    uint32_t len,
                                    const char* address,
                                    uint32_t port)
@@ -185,7 +185,7 @@ public:
     Connect to socket asyncronously, without having to wait for the time tick.
     Instead, the connection is handled via a thread.
   */
-  int32_t sockAsyncConnect(const char* address, uint32_t port) {
+  int32_t SockAsyncConnect(const char* address, uint32_t port) {
     return 0;
   }
 
@@ -193,7 +193,7 @@ public:
     Set the listening server for this connection, in this case, the tcpsocket
     will initialize a server socket. 
   */
-  int32_t sockListen(const char* address, uint32_t port) {
+  int32_t SockListen(const char* address, uint32_t port) {
     int32_t error = -1;
     if (_socket.socket_status != SOCKET_CLOSED) {
       comms_debug_log("Socket is not closed before listening...");
@@ -212,7 +212,7 @@ public:
         if (listen(_socket.socket, SOMAXCONN) < 0) {
           comms_debug_log("Failed in listen function...");
         } else {
-          if (!setNonBlocking(_socket.socket, true)) {
+          if (!SetNonBlocking(_socket.socket, true)) {
             comms_debug_log("Failed to set non blocking socket...");
           } else {
             comms_debug_log("Socket is successfully listening...");
@@ -226,7 +226,7 @@ public:
     return error;
   }
 
-  int32_t sockListen(uint32_t port) {
+  int32_t SockListen(uint32_t port) {
     return 0;
   }
 
@@ -235,7 +235,7 @@ public:
     A new TcpSocket will be created, along with initializing the client socket that was accepted into 
     the new TcpSocket, and returned. Otherwise, NULL will be returned. 
   */
-  CommSocket* sockAccept() {
+  CommSocket* SockAccept() {
     if (_socket.socket_status != SOCKET_LISTENING) {
       comms_debug_log("socket is not listening...");
       return NULL;
@@ -247,7 +247,7 @@ public:
       comms_debug_log("Failed to accept...");
     } else {
       comms_debug_log("Successful accept...");
-      setTcpNoDelay(s, true);
+      SetTcpNoDelay(s, true);
       tcpSock = new TcpSocket(s);
     }
     return tcpSock;
@@ -256,7 +256,7 @@ public:
   /**
     Close the socket.
   */
-  void sockClose() {
+  void SockClose() {
     closeSocket(_socket.socket);
     _socket.socket = INVALID_SOCKET;
     _socket.socket_status = SOCKET_CLOSED;
@@ -274,10 +274,10 @@ protected:
     s->sin_addr.s_addr = inet_addr(address);
   }
   /**
-    Set this socket to asyncronous io, that way it does not stop the thread just to wait for 
+    Set this socket to asyncronous io, that way it does not Stop the thread just to wait for 
     a function to complete its call. 
   */
-  bool setNonBlocking(SOCKET sock, bool on) {
+  bool SetNonBlocking(SOCKET sock, bool on) {
 #ifdef _WIN32
     return ioctlsocket(sock, FIONBIO, (u_long*)&on) == 0;
 #else
@@ -291,12 +291,12 @@ protected:
     The packet is recieved instantly, otherwise an error is quickly returned. This is similar to 
     using UDP conneciton.
   */
-  bool setTcpNoDelay(SOCKET sock, bool on) {
+  bool SetTcpNoDelay(SOCKET sock, bool on) {
     return setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (const char*)&on, sizeof(on)) == 0;
   }
 private:
   /**
-    Private constructor, only used to create a new socket from accept().
+    Private constructor, only used to Create a new socket from accept().
   */
   TcpSocket(SOCKET socket) {
     bool du = false;
@@ -316,7 +316,7 @@ private:
 /**
   Creates a tcp socket for CommSocket.
 */
-CommSocket* createTcpSocket() {
+CommSocket* CreateTcpSocket() {
   return new TcpSocket();
 }
 } // Network namespace

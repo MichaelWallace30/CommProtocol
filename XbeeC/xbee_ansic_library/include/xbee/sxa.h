@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -161,7 +161,7 @@ typedef struct sxa_cached_group_t
 	/// Arbitrary numeric ID of this group (see #SXA_CACHED_NODE_ID etc.)
 	uint16_t							id;
 	/// Offset (within sxa_node_t) of cache group status flags (#_SXA_CACHED_OK etc.)
-   /// This field is zero to indicate end of array of sxa_cached_group_t.
+   /// This field is zero to indicate End of array of sxa_cached_group_t.
 	uint16_t							flags_offs;
    /// If not NULL, is a command list used to update all cached values in the group
 	const xbee_atcmd_reg_t FAR *get_list;
@@ -184,7 +184,7 @@ typedef struct sxa_cached_group_t
 // Individual nodes may not support all of these features.
 //
 
-// Advanced addressing: ability to send and receive to any endpoint and
+// Advanced addressing: ability to Send and Receive to any endpoint and
 // cluster ID on remote nodes.  Without this capability, only a single
 // endpoint and cluster ID (e.g. remote serial port) may be used on each node.
 #define	ZB_CAP_ADV_ADDR		0x00000001
@@ -254,9 +254,9 @@ typedef struct sxa_cached_group_t
    power cycle) is bounded to a reasonably small number (maybe in the low
    hundreds).
 
-   Each table entry contains basic addressing data for the node, some of
+   Each table entry Contains basic addressing data for the node, some of
    which may be dynamically updated.  The IEEE address is guaranteed to be
-   constant.  The table entry contains pointers (initially set NULL) which
+   constant.  The table entry Contains pointers (initially set NULL) which
    may be set to point to other dynamically allocated information such as
    I/O configuration.  Some of the additional information is used to
    maintain "cached" settings of remote node configuration, which is
@@ -328,7 +328,7 @@ typedef struct sxa_node_t
 
    /// Cache flags for I/O configuration group
    sxa_cache_flags_t io_config_cf;
-   /// I/O shadow state and configuration.  This contains a CLC which
+   /// I/O shadow state and configuration.  This Contains a CLC which
    /// is used for the other queries as well.
    xbee_io_t			io;
 
@@ -555,7 +555,7 @@ int _sxa_disc_cluster_handler( const wpan_envelope_t FAR *envelope,
 
 
 /**
-	Macro for registering a handler to receive node announcements via both
+	Macro for registering a handler to Receive node announcements via both
 	ATND responses and 0x95 frames received.  Note that the XBEE_FRAME_NODE_ID
 	(0x95) handler is only necessary when ATAO=0.  When ATAO is not zero,
 	the 0x95 frames come in as 0x91 frames on the Digi Data Endpoint.
@@ -605,7 +605,7 @@ int sxa_schedule_update_cache(sxa_node_t FAR * sxa,
 
 
 /**
-	Macro for registering a handler to receive I/O samples via both
+	Macro for registering a handler to Receive I/O samples via both
 	ATIS responses and 0x92 frames received.  Note that the XBEE_FRAME_IO_RESPONSE
 	(0x92) handler is only necessary when ATAO=0.  When ATAO is not zero,
 	the 0x92 frames come in as 0x91 frames on the Digi Data Endpoint.

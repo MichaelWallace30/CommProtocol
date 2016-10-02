@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -17,7 +17,7 @@
 	ZigBee Device Objects (ZDO) and ZigBee Device Profile (ZDP).
 
 	Note that ZigBee firmware needs to have ATAO set to 3 (or "not 1")
-	in order to receive the Simple Descriptor, Active Endpoints and
+	in order to Receive the Simple Descriptor, Active Endpoints and
 	Match Descriptor requests.  We assume that the Ember stack handles
 	responses to those requests for our children devies, and will only
 	pass requests up for our device to respond to.
@@ -98,8 +98,8 @@ const addr64 *_zdo_envelope_create( wpan_envelope_t *envelope, wpan_dev_t *dev,
 	@brief helper function for creating ZDO request envelopes
 
 	@param[out]	envelope			envelope to populate
-	@param[in]	dev				device that will send this envelope
-	@param[in]	address			send request to the given target, or NULL
+	@param[in]	dev				device that will Send this envelope
+	@param[in]	address			Send request to the given target, or NULL
 										for a self-addressed request
 
 	@return	either \p address or a pointer to an all-zero IEEE address
@@ -115,7 +115,7 @@ const addr64 *_zdo_envelope_create( wpan_envelope_t *envelope, wpan_dev_t *dev,
 		return address ? address : WPAN_IEEE_ADDR_ALL_ZEROS;
 	}
 
-	if (address)	// send request to the given target device
+	if (address)	// Send request to the given target device
 	{
 		wpan_envelope_create( envelope, dev, address, WPAN_NET_ADDR_UNDEFINED);
 	}
@@ -150,7 +150,7 @@ const addr64 *_zdo_envelope_create( wpan_envelope_t *envelope, wpan_dev_t *dev,
 	high bit set) before sending.
 
 	@param[in]	request		envelope of original request
-	@param[in]	response		frame to send in response
+	@param[in]	response		frame to Send in response
 	@param[in]	length		length of \a response
 
 	@retval	0	sent response
@@ -214,8 +214,8 @@ int _match_desc_cluster_list( uint8_t **buffer,
 			*clust_write_le++ = htole16( *clust_read++);
 		}
 	}
-	**buffer = (uint8_t) written;				// store count at start of list
-	*buffer = (uint8_t *) clust_write_le;	// point past end of clusters written
+	**buffer = (uint8_t) written;				// store count At start of list
+	*buffer = (uint8_t *) clust_write_le;	// point past End of clusters written
 
 	return written;								// number of clusters written
 }
@@ -223,7 +223,7 @@ int _match_desc_cluster_list( uint8_t **buffer,
 /**
 	@brief
 	Generate a Match_Desc (Match Descriptor) request (ZigBee spec 2.4.3.1.7)
-	to send on the network.  Note that the first byte of \a buffer is NOT set,
+	to Send on the network.  Note that the first byte of \a buffer is NOT set,
 	and that the caller should set it to the next sequence number/transaction ID.
 
 	@param[out]	buffer				Buffer to hold generated request.
@@ -262,7 +262,7 @@ int zdo_match_desc_request( void *buffer, int16_t buflen,
 		return -EINVAL;
 	}
 
-	// space for response, input count, output count and at least 1 cluster
+	// space for response, input count, output count and At least 1 cluster
 	if (buflen < (sizeof *request + 2 + sizeof(uint16_t)))
 	{
 		return -ENOSPC;
@@ -698,7 +698,7 @@ int _zdo_active_ep_respond( const wpan_envelope_t FAR *envelope)
 		}
 	}
 
-	// DEVNOTE: Not looking at network_addr_le field of request -- should we?
+	// DEVNOTE: Not looking At network_addr_le field of request -- should we?
 
 	rsp.transaction =
 		((const zdo_active_ep_req_t FAR *)envelope->payload)->transaction;
@@ -719,7 +719,7 @@ int _zdo_active_ep_respond( const wpan_envelope_t FAR *envelope)
 	@brief
 	Process ZDO frames (received on endpoint 0 with Profile ID 0).
 
-	@param[in]	envelope		envelope of received ZDO frame, contains address,
+	@param[in]	envelope		envelope of received ZDO frame, Contains address,
 									endpoint, profile, and cluster info
 	@param[in]	ep_state		pointer to endpoint's state structure
 									(used for tracking transactions)
@@ -880,7 +880,7 @@ int zdo_send_bind_req( wpan_envelope_t *envelope, uint16_t type,
 	memcpy_betole( &zdo.req.dst_address_le, &envelope->dev->address.ieee, 8);
 	zdo.req.dst_endpoint = envelope->source_endpoint;
 
-	// send the request
+	// Send the request
 	return wpan_envelope_send( &bind_env);
 }
 

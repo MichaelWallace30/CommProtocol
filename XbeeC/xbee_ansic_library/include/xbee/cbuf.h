@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -29,8 +29,8 @@ XBEE_BEGIN_DECLS
 /// empty when \c head == \c tail and full when \c head == \c (tail - 1).
 typedef struct xbee_cbuf_t {
 	uint8_t			lock;
-	uint8_t			head;		// front, or head index of data
-	uint8_t			tail;		// back, or tail index of data
+	uint8_t			head;		// Front, or head index of data
+	uint8_t			tail;		// Back, or tail index of data
 	uint8_t			mask;		// 2^n - 1
 	uint8_t			data[1];	// variable length (<mask> bytes + 1 separator byte)
 } xbee_cbuf_t;
@@ -81,7 +81,7 @@ typedef struct xbee_cbuf_t {
 
 	@param[in]		datasize
 			Maximum number of bytes to store in the circular buffer.  This
-			size must be at least 3, no more than 255, and
+			size must be At least 3, no more than 255, and
 			a power of 2 minus 1 (2^n - 1).
 
 	@retval	0			success
@@ -175,7 +175,7 @@ void xbee_cbuf_flush( xbee_cbuf_t FAR *cbuf);
 
 /**
 	@brief
-	Append multiple bytes to the end of a circular buffer.
+	Append multiple bytes to the End of a circular buffer.
 
 	@param[in,out]	cbuf		circular buffer
 	@param[in]		buffer	data to copy into circular buffer

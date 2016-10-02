@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,12 +50,12 @@ class DoubleLinkedList : public interface::List<_Ty> {
   typedef _Ty& reference_type;
 
   /**
-  Compare object, used to compare values in the data structure. This can be customized as to
+  Compare object, used to Compare values in the data structure. This can be customized as to
   make this structure more dynamic.
   */
   _Compare cmp;
   /**
-  Allocator object, used to allocate values in the data structure. This can be customized as to make this
+  Allocator object, used to Allocate values in the data structure. This can be customized as to make this
   structure more dynamic.
   */
   _Alloc  alloc;
@@ -79,18 +79,18 @@ class DoubleLinkedList : public interface::List<_Ty> {
       , ref(r) 
     { }
     
-    void allocateValue(const _Ty& value) {
-      data = ref.alloc.allocate(0);
-      ref.alloc.construct(data, value);
+    void AllocateValue(const _Ty& value) {
+      data = ref.alloc.Allocate(0);
+      ref.alloc.Construct(data, value);
     }
 
-    void deallocateValue() {
-      ref.alloc.destruct(data);
-      ref.alloc.deallocate(data);
+    void DeallocateValue() {
+      ref.alloc.Destruct(data);
+      ref.alloc.Deallocate(data);
     }
 
     ~DNode() {
-      deallocateValue();
+      DeallocateValue();
     }
   };
 public:
@@ -105,7 +105,7 @@ public:
   , alloc(allocator) 
   , cmp(comparator)
   {
-    this->listType = interface::DOUBLE_LINKED_LIST;
+    this->list_type = interface::DOUBLE_LINKED_LIST;
     this->size = 0;
   }
 
@@ -115,7 +115,7 @@ public:
     , tail(NULL)
     , cursor(NULL)
   {
-    this->listType = interface::DOUBLE_LINKED_LIST;
+    this->list_type = interface::DOUBLE_LINKED_LIST;
     this->size = 0;
   }
 
@@ -131,21 +131,21 @@ public:
   /**
      Inserts a value into the data structure.
    */
-  void insert(const_reference value) {
-    DNode* newNode = new DNode(*this);
-    nullify_pointer(newNode->next);
-    nullify_pointer(newNode->previous);
-    newNode->allocateValue(value);
+  void Insert(const_reference value) {
+    DNode* new_node = new DNode(*this);
+    nullify_pointer(new_node->next);
+    nullify_pointer(new_node->previous);
+    new_node->AllocateValue(value);
 
     if (this->size <= 0) {
-      root = tail = cursor = newNode;
+      root = tail = cursor = new_node;
     } else {
-      tail->next = newNode;
-      newNode->previous = tail;
-      tail = newNode;
+      tail->next = new_node;
+      new_node->previous = tail;
+      tail = new_node;
     }
 
-    newNode->index = this->size++;
+    new_node->index = this->size++;
   }
 
 private:
@@ -153,49 +153,49 @@ private:
   /**
      Handles the setup to remove the root value.
    */
-  DNode* handleRootRemoval(DNode* remNode) {
-    remNode = root;
+  DNode* HandleRootRemoval(DNode* rem_node) {
+    rem_node = root;
     root = root->next;
     
-    if (cursor == remNode) {
+    if (cursor == rem_node) {
       cursor = root;
     }
 
-    if (tail == remNode) {
+    if (tail == rem_node) {
       tail = tail->next;
     }
     
     if (root != NULL) {
       nullify_pointer(root->previous);
     }
-    return remNode;
+    return rem_node;
   }
   /**
      Handles the setup to remove the tail value.
    */
-  DNode* handleTailRemoval(DNode* remNode) {
-    remNode = tail;
+  DNode* HandleTailRemoval(DNode* rem_node) {
+    rem_node = tail;
     tail = tail->previous;
 
-    if (cursor == remNode) {
+    if (cursor == rem_node) {
       cursor = cursor->previous;
       nullify_pointer(cursor->next);
     }
 
-    if (root == remNode) {
+    if (root == rem_node) {
       root = root->previous;
       nullify_pointer(root->next);
     }
 
     nullify_pointer(tail->next);
-    return remNode;
+    return rem_node;
   }
 
   /**
      Handles the setup to remove the cursor.
    */
-  DNode* handleCursorRemoval(DNode* remNode) {
-    remNode = cursor;
+  DNode* HandleCursorRemoval(DNode* rem_node) {
+    rem_node = cursor;
     
     if (cursor == tail) {
       cursor = cursor->previous;
@@ -209,11 +209,11 @@ private:
       nullify_pointer(root->previous);
     } else {
       cursor = cursor->next;
-      cursor->previous = remNode->previous;
-      remNode->previous->next = cursor;
+      cursor->previous = rem_node->previous;
+      rem_node->previous->next = cursor;
     }
     
-    return remNode;
+    return rem_node;
   }
 
   /**
@@ -221,14 +221,14 @@ private:
      as to keep the stability of the index for each remaining nodes in the data structure.
    */
   inline
-  void handleRemNodeDelete(DNode* remNode) {
-    DNode* traverse = remNode->next;
-    for (int i = remNode->index; i < this->size - 1; ++i) {
+  void HandleRemNodeDelete(DNode* rem_node) {
+    DNode* traverse = rem_node->next;
+    for (int i = rem_node->index; i < this->size - 1; ++i) {
       traverse->index = i;
       traverse = traverse->next;
     }
     
-    free_pointer(remNode);
+    free_pointer(rem_node);
   }
   
 
@@ -237,30 +237,30 @@ public:
      Removes a node based on the specified value. This may be a greedy method, considering it will not
      remove all nodes similar to specified value.
    */
-  bool remove(const_reference value) {
+  bool Remove(const_reference value) {
     bool success = false;
-    if (this->isEmpty()) {
+    if (this->IsEmpty()) {
       return success;
     }
 
-    DNode* remNode = NULL;
+    DNode* rem_node = NULL;
     
-    if (cmp.equal(*root->data, value)) {
-      remNode = handleRootRemoval(remNode);
-    } else if (cmp.equal(*tail->data , value)) {
-      remNode = handleTailRemoval(remNode);
-    } else if (cmp.equal(*cursor->data, value)) {
-      remNode = handleCursorRemoval(remNode);
+    if (cmp.Equal(*root->data, value)) {
+      rem_node = HandleRootRemoval(rem_node);
+    } else if (cmp.Equal(*tail->data , value)) {
+      rem_node = HandleTailRemoval(rem_node);
+    } else if (cmp.Equal(*cursor->data, value)) {
+      rem_node = HandleCursorRemoval(rem_node);
     } else {
       cursor = root->next;
       
       while (cursor != tail && cursor != NULL) {
-	if (cmp.equal(*cursor->data , value)) {
-	  remNode = cursor;
+	if (cmp.Equal(*cursor->data , value)) {
+	  rem_node = cursor;
 	  cursor = cursor->next;
 	  
-	  cursor->previous = remNode->previous;
-	  remNode->previous->next = cursor;
+	  cursor->previous = rem_node->previous;
+	  rem_node->previous->next = cursor;
 	  break;
 	}
 	
@@ -268,8 +268,8 @@ public:
       }
     }
 
-    if (remNode != NULL) {
-      handleRemNodeDelete(remNode);
+    if (rem_node != NULL) {
+      HandleRemNodeDelete(rem_node);
       this->size--;
       success = true;
     }
@@ -280,31 +280,31 @@ public:
   /**
      Remove a node from the list on the specified index.
    */
-  bool removeAt(const int32_t index) {
+  bool RemoveAt(const int32_t index) {
     bool success = false;
     if (index >= this->size || index < 0) {
       return success;
     }
 
-    DNode* remNode;
-    nullify_pointer(remNode);
+    DNode* rem_node;
+    nullify_pointer(rem_node);
     
     if (index == root->index) {
-      remNode = handleRootRemoval(remNode);
+      rem_node = HandleRootRemoval(rem_node);
     } else if (index == tail->index) {
-      remNode = handleTailRemoval(remNode);
+      rem_node = HandleTailRemoval(rem_node);
     } else if (index == cursor->index) {
-      remNode = handleCursorRemoval(remNode);
+      rem_node = HandleCursorRemoval(rem_node);
     } else {
       if (cursor->index > index) {
 	cursor = cursor->previous;
 	while (cursor != NULL) {
 	  if (cursor->index == index) {
-	    remNode = cursor;
+	    rem_node = cursor;
 	    cursor = cursor->next;
 	    
-	    cursor->previous = remNode->previous;
-	    remNode->previous->next = cursor;
+	    cursor->previous = rem_node->previous;
+	    rem_node->previous->next = cursor;
 	    break;
 	  }
 	  cursor->previous;
@@ -313,11 +313,11 @@ public:
 	cursor = cursor->next;
 	while (cursor != NULL) {
 	  if (cursor->index == index) {
-	    remNode = cursor;
+	    rem_node = cursor;
 	    cursor = cursor->next;
 	    
-	    cursor->previous = remNode->previous;
-	    remNode->previous->next = cursor;
+	    cursor->previous = rem_node->previous;
+	    rem_node->previous->next = cursor;
 	    break;
 	  }
 	  cursor = cursor->next;
@@ -325,8 +325,8 @@ public:
       }
     }
 
-    if (remNode != NULL) {
-      handleRemNodeDelete(remNode);
+    if (rem_node != NULL) {
+      HandleRemNodeDelete(rem_node);
       this->size--;
       success = true;
     }
@@ -335,19 +335,19 @@ public:
   }
 
   /**
-     Get the front root value of this data structure.
+     Get the Front root value of this data structure.
    */
-  reference_type front() {
+  reference_type Front() {
     return *root->data;
   }
   /**
-     Get the back, tail, value of this data structure.
+     Get the Back, tail, value of this data structure.
    */
-  reference_type back() { 
+  reference_type Back() { 
     return *tail->data;
   }
 
-  reference_type at(const int32_t index) {
+  reference_type At(const int32_t index) {
     if (root->index == index) {
       return *root->data;
     } else if (tail->index == index) {
@@ -380,17 +380,17 @@ public:
   /**
      Checks if the specified value is in this data structure.
    */
-  bool contains(const_reference value) {
+  bool Contains(const_reference value) {
     bool success = false;
     
-    if (cmp.equal(*root->data, value) ||
-	cmp.equal(*tail->data, value) ||
-	cmp.equal(*cursor->data, value)) {
+    if (cmp.Equal(*root->data, value) ||
+	cmp.Equal(*tail->data, value) ||
+	cmp.Equal(*cursor->data, value)) {
       success = true;
     } else {
       cursor = root->next;
       while (cursor != NULL) {
-	if (cmp.equal(*cursor->data, value)) {
+	if (cmp.Equal(*cursor->data, value)) {
 	  success = true;
 	  break;
 	}
@@ -403,16 +403,16 @@ public:
   /**
      Get the cursor value.
    */
-  const _Ty& getCurrent() {
+  const _Ty& GetCurrent() {
     return *cursor->data;
   }
 private:
   /**
-     Root node, the front, head, of the data structure.
+     Root node, the Front, head, of the data structure.
    */
   DNode* root;
   /**
-     Tail node, the back, tail, of the data structure.
+     Tail node, the Back, tail, of the data structure.
    */
   DNode* tail;
   /**

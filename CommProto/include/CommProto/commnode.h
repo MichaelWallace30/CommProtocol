@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -40,7 +40,7 @@ class Callback;
 /**
   Currently supports about 65,536 nodes.
  */
-static uint16_t numberOfNodes = 0;
+static uint16_t number_of_nodes = 0;
 /**
    CommNode is the interface used to determine node types that are constructed by the 
    library. We use this in extension for our nodes that will be implemented. This will be so
@@ -50,15 +50,15 @@ static uint16_t numberOfNodes = 0;
 _COMNET_ABSTRACT_ class CommNode {
 public:
   CommNode()
-  : uniqueId(numberOfNodes++)
-  , nodeId(0)
+  : unique_id(number_of_nodes++)
+  , node_id(0)
   , running(false)
   , paused(true)
     { }
 
-  CommNode(const uint32_t platformId)
-  : uniqueId(numberOfNodes++)
-  , nodeId(platformId)
+  CommNode(const uint32_t platform_id)
+  : unique_id(number_of_nodes++)
+  , node_id(platform_id)
   , running(false)
   , paused(true)
     { }
@@ -66,14 +66,14 @@ public:
      Polymorphic Destructor.
    */
   virtual ~CommNode() { 
-    free_pointer(recvQueue);
-    free_pointer(sendQueue);
+    free_pointer(recv_queue);
+    free_pointer(send_queue);
   }
   /**
      Add a packet to the call chain.
    */
-  virtual bool addPacket(const AbstractPacket* packet) { 
-    return this->packetManager.insert(packet, NULL); 
+  virtual bool AddPacket(const AbstractPacket* packet) { 
+    return this->packet_manager.Insert(packet, NULL); 
   }
   /**
      Link a callback to a packet in the call chain. This is still a working progress, Not sure what 
@@ -90,69 +90,69 @@ public:
 
      TODO(): Figure out the best thing for a good callback.
    */
-  virtual bool linkCallback(const AbstractPacket* packet, const Callback* callback) {
-    return this->packetManager.insert(packet, callback);
+  virtual bool LinkCallback(const AbstractPacket* packet, const Callback* callback) {
+    return this->packet_manager.Insert(packet, callback);
   }
   /**
      Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
      All packages received will go into a queue anyway.
    */
-  virtual bool linkQueue(const AbstractPacket* packet, const Queue<AbstractPacket*>* queue) 
+  virtual bool LinkQueue(const AbstractPacket* packet, const Queue<AbstractPacket*>* queue) 
     { return ~0; }
 
   /**
-    Replace the send queue of this node.
+    Replace the Send queue of this node.
   */
-  virtual bool replaceSendQueue(const Queue<ObjectStream*>* queue) {
-    free_pointer(sendQueue);
-    sendQueue = (Queue<ObjectStream*> *) queue;
+  virtual bool ReplaceSendQueue(const Queue<ObjectStream*>* queue) {
+    free_pointer(send_queue);
+    send_queue = (Queue<ObjectStream*> *) queue;
     return true;
   }
   
   /**
     Replace the recv queue of this node.
   */
-  virtual bool replaceReceiveQueue(const Queue<AbstractPacket*>* queue) {
-    free_pointer(recvQueue);
-    recvQueue = (Queue<AbstractPacket*> *) queue;
+  virtual bool ReplaceReceiveQueue(const Queue<AbstractPacket*>* queue) {
+    free_pointer(recv_queue);
+    recv_queue = (Queue<AbstractPacket*> *) queue;
     return true;
   }
   /**
      Send the packet to the specified destination address.
    */
-  virtual bool send(AbstractPacket* packet, uint8_t destId) = 0;
+  virtual bool Send(AbstractPacket* packet, uint8_t dest_id) = 0;
   /**
      Check for packet if received. This is called manually by user, yet the node should
-     be able to run automatically checking for received packets. Any packets linked to a 
+     be able to Run automatically checking for received packets. Any packets linked to a 
      callback will be autonomously sent to their respective callback function.
      @param sourceId
      @param messageId
      @return Packet that was received, otherwise NULL if nothing found.
    */
-  virtual AbstractPacket* receive(uint8_t& sourceId) = 0;
+  virtual AbstractPacket* Receive(uint8_t& source_id) = 0;
   /**
      Initialize connection.
    */
-  virtual bool initConnection(transport_protocol_t connType,
+  virtual bool InitConnection(transport_protocol_t conn_type,
 			      const char* port, 
 			      const char* address, 
-			      uint32_t baudRate = 0) = 0;
+			      uint32_t baud_rate = 0) = 0;
 
   /**
      Add a communication address.
    */
-  virtual bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0) = 0;
+  virtual bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) = 0;
   /**
      remove an Address.
    */
-  virtual bool removeAddress(uint8_t destID) = 0;
+  virtual bool RemoveAddress(uint8_t dest_id) = 0;
   /**
       NOTICE: BE SURE TO CALL THIS METHOD IN YOUR EXTENDED CLASS, IF YOU PLAN ON OVERRIDING THIS
     FUNCTION.
 
      Run the node. Threads may be implemented.
    */
-  virtual int32_t run() {
+  virtual int32_t Run() {
     running = true;
     paused = false;
 
@@ -165,7 +165,7 @@ public:
 
      Pause the node threads and any process.
    */
-  virtual int32_t pause() {
+  virtual int32_t Pause() {
     running = false;
     paused = true;
     
@@ -178,7 +178,7 @@ public:
 
     Stop the node threads and any process.
   */
-  virtual int32_t stop() {
+  virtual int32_t Stop() {
     running = false;
     paused = false;
 
@@ -188,49 +188,49 @@ public:
   /**
      Set the node id.
    */
-  void setNodeId(int32_t id)
-    { this->nodeId = id; }
+  void SetNodeId(int32_t id)
+    { this->node_id = id; }
 
   /**
      Get the node id.
    */
-  int32_t getNodeId() const
-    { return this->nodeId; }
+  int32_t GetNodeId() const
+    { return this->node_id; }
   
   /**
     Returns the unique id of this node (the id used for inside communications).
    */
-  int32_t getUniqueId() const 
-    { return this->uniqueId; }
+  int32_t GetUniqueId() const 
+    { return this->unique_id; }
 
-  bool isRunning()
+  bool IsRunning()
     { return running; }
 
-  bool isPaused()
+  bool IsPaused()
     { return paused; }
 protected:
   /**
   Packet Manager is a manager controller, designed to hold packets for the node.
   */
-  PacketManager packetManager;
+  PacketManager packet_manager;
   /**
     Queue that holds AbstractPacket types for receiving.
   */  
-  Queue<AbstractPacket*>* recvQueue;
+  Queue<AbstractPacket*>* recv_queue;
   /**
     Queue that holds ObjectStreams used for sending out.
   */
-  Queue<ObjectStream*>* sendQueue;
+  Queue<ObjectStream*>* send_queue;
 private:
   /**
      The node id associated with this node. This id is used for outside communications.
      Be sure to set an id that would most likely be identifiable with your node.
    */
-  int32_t nodeId;
+  int32_t node_id;
   /**
     The unique id used for inside communications. This id CANNOT be changed.
    */  
-  const int32_t uniqueId;
+  const int32_t unique_id;
   /**
   Check if this node is currently running.
   */

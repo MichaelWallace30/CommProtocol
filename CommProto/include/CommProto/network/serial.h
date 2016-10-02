@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,7 +18,7 @@
 */
 
 /* Serial message parser implemented
-	<start><header><data><checksum><end>*/
+	<start><header><data><checksum><End>*/
 #ifndef SERIAL_H
 #define SERIAL_H
 
@@ -38,14 +38,14 @@ namespace network {
 class Serial {
 private:
   int32_t id;
-  serial_t hSerial;
+  serial_t h_serial;
   //serial private data
-  bool connectionEstablished;
+  bool connection_established;
 
   Parser parser;
   /** serial buffer to hold recieved data for parsing messages*/
-  uint8_t bufferReceive[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
-  uint8_t bufferSend[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  uint8_t buffer_recv[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
+  uint8_t buffer_send[MAX_BUFFER_SIZE + (2 * TERMINAL_SEQUENCE_SIZE)];
 
 public:
 
@@ -57,14 +57,14 @@ public:
   /** Opens comport sets if it is connected on scucces, address is not need just use "" argument
       Returns false if opening comport fails
    */
-  virtual bool openConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
+  virtual bool OpenConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /**
     Sends txData using its length of bytes through the serial connection. Connection is broadcast 
-    destID is only used for packing / unpacking. 
+    dest_id is only used for packing / unpacking. 
 
     @return false if no proper connection is establish
    */	
-  virtual bool send(uint8_t destID, uint8_t* txData, uint32_t txLength);
+  virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
   /** 
     Sets recieved data to rxData and sets the length of the data to rxLength
 
@@ -72,15 +72,15 @@ public:
     @param txLength
     @return false if not aviable connection, No data is recieved, or time out
    */
-  virtual bool recv(uint8_t* rxData, uint32_t* rxLength);
+  virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
-  serial_status getStatus();
+  serial_status GetStatus();
 
-  bool closePort();
+  bool CloseSerialPort();
 
-  serial_t& getSerialPort();
+  serial_t& GetSerialPort();
 
-  void setId(uint32_t id)
+  void SetId(uint32_t id)
     { this->id = id; }
 };
 } // namespace Network

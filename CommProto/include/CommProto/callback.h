@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,7 +33,7 @@ class AbstractPacket;
 
 // Callback function pointer, it is not generic, it is just used as 
 // a reference to user defined callback functions.
-typedef error_t (*callback_t)(const header_t&, AbstractPacket&);
+typedef error_t (*callback_t)(const Header&, AbstractPacket&);
 
 
 // Callback codes used for state machines in automating what may be done to the 
@@ -51,7 +51,7 @@ enum CallbackCodes {
    callbacks from within the protocol library.
 */
 class Callback {
-  typedef std::function < error_t (const header_t&, AbstractPacket&) > CallbackFunc;
+  typedef std::function < error_t (const Header&, AbstractPacket&) > CallbackFunc;
 public:
   /**
      Default Constructor.
@@ -66,11 +66,11 @@ public:
   /**
      Set the callback listener in this class.
    */
-  void setCallbackListener(CallbackFunc call);
+  void SetCallbackListener(CallbackFunc call);
   /**
      Calls the function associated with a packet.
    */
-  error_t callFunction(const header_t& header, const AbstractPacket& abPacket);
+  error_t CallFunction(const Header& header, const AbstractPacket& abPacket);
 private:
   CallbackFunc callback;
 };

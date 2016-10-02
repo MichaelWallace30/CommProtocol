@@ -6,7 +6,7 @@ Copyright (C) 2016  Michael Wallace, Mario Garcia.
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+(At your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,41 +37,41 @@ namespace serialization {
 	typedef float real32_t;
 	typedef double real64_t;
 
-	uint32_t packString(string_t data, uint8_t len, marshal_t input);
-	uint32_t unpackString(string_t data, uint8_t len, marshal_t input);
+	uint32_t PackString(string_t data, uint8_t len, marshal_t input);
+	uint32_t UnpackString(string_t data, uint8_t len, marshal_t input);
 
-	uint32_t packWideString(std::wstring  &data, uint8_t len, marshal_t input);
-	uint32_t unpackWideString(std::wstring &data, uint8_t len, marshal_t input);
+	uint32_t PackWideString(std::wstring  &data, uint8_t len, marshal_t input);
+	uint32_t UnpackWideString(std::wstring &data, uint8_t len, marshal_t input);
 
-	uint32_t packByte(uint8_t data, marshal_t input);
-	uint8_t unpackByte(marshal_t input);
+	uint32_t PackByte(uint8_t data, marshal_t input);
+	uint8_t UnpackByte(marshal_t input);
 
-	uint32_t packUint16(uint16_t data, marshal_t input);
-	uint16_t unpackUint16(marshal_t input);
+	uint32_t PackUint16(uint16_t data, marshal_t input);
+	uint16_t UnpackUint16(marshal_t input);
 
-	uint32_t packInt16(int16_t data, marshal_t input);
-	int16_t unpackInt16(marshal_t input);
+	uint32_t PackInt16(int16_t data, marshal_t input);
+	int16_t UnpackInt16(marshal_t input);
 
-	uint32_t packUint32(uint32_t data, marshal_t input);
-	uint32_t unpackUint32(marshal_t input);
+	uint32_t PackUint32(uint32_t data, marshal_t input);
+	uint32_t UnpackUint32(marshal_t input);
 
-	uint32_t packInt32(int32_t data, marshal_t input);
-	int32_t unpackInt32(marshal_t input);
+	uint32_t PackInt32(int32_t data, marshal_t input);
+	int32_t UnpackInt32(marshal_t input);
 
-	uint32_t packUint64(uint64_t data, marshal_t input);
-	uint64_t unpackUint64(marshal_t input);
+	uint32_t PackUint64(uint64_t data, marshal_t input);
+	uint64_t UnpackUint64(marshal_t input);
 
-	uint32_t packInt64(int64_t data, marshal_t input);
-	int64_t unpackInt64(marshal_t input);
+	uint32_t PackInt64(int64_t data, marshal_t input);
+	int64_t UnpackInt64(marshal_t input);
 
-	uint32_t packReal32(real32_t data, marshal_t input);
-	real32_t unpackReal32(marshal_t input);
+	uint32_t PackReal32(real32_t data, marshal_t input);
+	real32_t UnpackReal32(marshal_t input);
 
-	uint32_t packReal64(real64_t data, marshal_t input);
-	real64_t unpackReal64(marshal_t input);
+	uint32_t PackReal64(real64_t data, marshal_t input);
+	real64_t UnpackReal64(marshal_t input);
 
 	template <typename T>
-	void swap_endian(T& pX)
+	void SwapEndian(T& pX)
 	{
 	#ifdef LITTLE_ENDIAN_COMNET
 		// should static assert that T is a POD
@@ -81,26 +81,26 @@ namespace serialization {
 	}
 
 	template <typename T>
-	T swap_endian_copy(T pX)
+	T SwapEndianCopy(T pX)
 	{
-		swap_endian(pX);
+		SwapEndian(pX);
 		return pX;
 	}
 
 	template <typename T>
-	int16_t packGeneric(T data, marshal_t input)
+	int16_t PackGeneric(T data, marshal_t input)
 	{
-		swap_endian(data);
+		SwapEndian(data);
 		memcpy(input, &data, sizeof(T));
 		return sizeof(T);	
 	}
 
 	template <typename T>
-	T unpackGeneric(marshal_t input)
+	T UnpackGeneric(marshal_t input)
 	{
 		T value;
 		memcpy(&value, input, sizeof(T));
-		swap_endian(value);
+		SwapEndian(value);
 		return value;
 	}
 

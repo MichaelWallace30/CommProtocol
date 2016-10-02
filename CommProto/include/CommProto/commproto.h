@@ -3,7 +3,7 @@
    where every file is. This is for convenience, just include this file and you are done! You can
    use the library however way you wish, but with a slight drawback. Like the standard library in
    C++, you will include files that you aren't even going to use, which will result in unnecessary
-   increase in executable binary size, but at least you will have the entire library at your disposal.
+   increase in executable binary size, but At least you will have the entire library At your disposal.
 */
 
 #include <CommProto/comms.h>

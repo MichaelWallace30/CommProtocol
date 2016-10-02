@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -52,7 +52,7 @@ extern uint32_t zcl_identify_end;
 /// Private variable for tracking amount of "Identification mode" time left.
 uint16_t		zcl_identify_time = 0;
 /// Private variable for tracking value of xbee_seconds_timer() that
-/// "Idenfication mode" should end.
+/// "Idenfication mode" should End.
 uint32_t		zcl_identify_end = 0;
 
 /**
@@ -92,11 +92,11 @@ int _zcl_identify_time_set( const zcl_attribute_full_t FAR *attribute,
 	Identify Cluster.
 
 	Responsible for updating the IdentifyTime attribute, and also for
-	determining when identify mode should end.
+	determining when identify mode should End.
 
 	@param[in]		attribute	ignored; assumed to point to zcl_identify_time
 	@param[in,out]	rec			value from write request or NULL to update the
-										time when identify mode should end (used by the
+										time when identify mode should End (used by the
 										Identify cluster command).
 
 	See zcl_attribute_write_fn() for calling convention.

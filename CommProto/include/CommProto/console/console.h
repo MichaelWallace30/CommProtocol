@@ -39,10 +39,10 @@ static int consoles = 0;
    this will allow user to administrate connection handling, import sheets during runtime (if possible), as 
    well as perform numerous, safe options to will offer better performance to the user's specifications.
 
-  This console object does not create a separate process, instead it creates a thread that will allow the user
+  This console object does not Create a separate process, instead it creates a thread that will allow the user
   to enter as a means to check the communication signal and quality, as well as perform certain commands.
 
-  In order to create separate processes for use of this console namely for remote access to this library, 
+  In order to Create separate processes for use of this console namely for remote access to this library, 
   be sure to call this class within another project folder, and call the process from the hosting program.
 
   calling processes is done by function within a program, for windows it is CreateProcess, for linux it is fork().
@@ -57,12 +57,12 @@ public:
    */
   virtual bool createConsole();
   /**
-     Write into the console. This will allow the user to send commands to the program, by means of a buffer.
+     Write into the console. This will allow the user to Send commands to the program, by means of a buffer.
    */
   virtual bool write(const char* command = "");
 
   /**
-     Reads output from the program, back to the user for evaluation.
+     Reads output from the program, Back to the user for evaluation.
    */
   virtual bool read(char* buffer, int intBuf);
 
@@ -72,7 +72,7 @@ public:
   virtual bool listenConnect(uint16_t port);
   
   /**
-     Display, which will display information back to the user. Acts as a refresher to update the console.
+     Display, which will display information Back to the user. Acts as a refresher to update the console.
    */
   virtual void display();
   /**

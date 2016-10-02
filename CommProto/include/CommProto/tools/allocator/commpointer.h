@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -46,20 +46,20 @@ class CommPointer {
 public:
   CommPointer() 
     : pointer(NULL)
-    , isUnique(true) { }
+    , is_unique(true) { }
   
   CommPointer(const_reference ref)
-    : isUnique(true) 
+    : is_unique(true) 
   {
-    pointer = allocator.allocate(1);
-    allocator.construct(pointer, ref);
+    pointer = allocator.Allocate(1);
+    allocator.Construct(pointer, ref);
   }
 
   CommPointer(const_pointer ptr)
-    : isUnique(true) 
+    : is_unique(true) 
   {
-    pointer = allocator.allocate(1);
-    allocator.construct(pointer, *ptr);
+    pointer = allocator.Allocate(1);
+    allocator.Construct(pointer, *ptr);
   }
   
   CommPointer(CommPointer<_Ty>& ptr) 
@@ -70,14 +70,14 @@ public:
   }
 
   ~CommPointer() {
-    if (isUnique) {
-      allocator.destruct(pointer);
-      allocator.deallocate(pointer);
+    if (is_unique) {
+      allocator.Destruct(pointer);
+      allocator.Deallocate(pointer);
     } else {
       pointer = NULL;
       // polynomial time of O(n), this may be an issue.
       for (int32_t i = 0; i < pointers.getSize(); ++i) {
-	pointers.at(i)->removePointerReference(this);
+	pointers.At(i)->removePointerReference(this);
       }
     }
   }
@@ -92,20 +92,20 @@ public:
   
 protected:
   void insertPointerReference(CommPointer<_Ty>* ref) {
-    pointers.insert(ref);
-    if (!pointers.isEmpty()) {
-      isUnique = false;
+    pointers.Insert(ref);
+    if (!pointers.IsEmpty()) {
+      is_unique = false;
     }
   }
 
   void removePointerReference(CommPointer<_Ty>* ref) {
-    pointers.remove(ref);
-    if (pointers.isEmpty()) {
-      isUnique = true;
+    pointers.Remove(ref);
+    if (pointers.IsEmpty()) {
+      is_unique = true;
     }
   }
 
-  bool isUnique;
+  bool is_unique;
 private:
   
   pointer_t pointer;

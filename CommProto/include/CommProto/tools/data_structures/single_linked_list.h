@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -49,7 +49,7 @@ public:
     , alloc(allocator)
     , _cmp(comparator)  
   { 
-    this->listType = interface::SINGLE_LINKED_LIST;
+    this->list_type = interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
   
@@ -58,7 +58,7 @@ public:
     , root(NULL)
     , tail(NULL)
   {
-    this->listType = interface::SINGLE_LINKED_LIST;
+    this->list_type = interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
 
@@ -75,10 +75,10 @@ public:
      Insert a value into the list, this will likely copy over the value
      and set it into the data structure.
   */
-  void insert(const _Ty& value) {
+  void Insert(const _Ty& value) {
     SNode* newNode = new SNode(*this);
     nullify_pointer(newNode->next);
-    newNode->allocateValue(value);
+    newNode->AllocateValue(value);
 
     if ((root == NULL) && (this->size <= 0)) {
       root = tail = newNode;
@@ -94,26 +94,26 @@ public:
      Remove a value from the list. Returns true if the list has removed the specified
      value, false otherwise.
   */
-  bool remove(const _Ty& value) {
-    if (this->isEmpty()) {
+  bool Remove(const _Ty& value) {
+    if (this->IsEmpty()) {
       return false;
     }
     bool result = false;
-    SNode* remNode;
-    nullify_pointer(remNode);
+    SNode* rem_node;
+    nullify_pointer(rem_node);
     
-    if (_cmp.equal(value, *root->value)) {
-      remNode = handleRootRemoval();
-    } else if (_cmp.equal(value, *tail->value)) {
-      remNode = handleTailRemoval();
+    if (_cmp.Equal(value, *root->value)) {
+      rem_node = HandleRootRemoval();
+    } else if (_cmp.Equal(value, *tail->value)) {
+      rem_node = HandleTailRemoval();
     } else {
       SNode* traverse = root->next;
       SNode* previous = root;
       
       while (traverse != NULL) {
-	if (_cmp.equal(*traverse->value, value)) {
+	if (_cmp.Equal(*traverse->value, value)) {
 	  previous->next = traverse->next;
-	  remNode = traverse;
+	  rem_node = traverse;
 	  break;
 	}
 	
@@ -122,15 +122,15 @@ public:
       }
     }
     
-    if (remNode != NULL) {
-      SNode* traverse = remNode->next;
-      for (int32_t i = remNode->index; i < this->size - 1; ++i) {
+    if (rem_node != NULL) {
+      SNode* traverse = rem_node->next;
+      for (int32_t i = rem_node->index; i < this->size - 1; ++i) {
 	traverse->index = i;
 	traverse = traverse->next;
       }
       
-      delete remNode;
-      nullify_pointer(remNode);
+      delete rem_node;
+      nullify_pointer(rem_node);
       this->size--;
       result = true;
     }
@@ -139,22 +139,22 @@ public:
   }
 
   /**
-     Removes a value from the list at the specified index. Will return false if the 
+     Removes a value from the list At the specified index. Will return false if the 
      index goes over the size limit or below zero.
   */
-  bool removeAt(const int32_t index) {
+  bool RemoveAt(const int32_t index) {
     if (index < 0 || index >= this->size) {
       return false;
     }
 
     bool result = false;
-    SNode* remNode;
-    nullify_pointer(remNode);
+    SNode* rem_node;
+    nullify_pointer(rem_node);
 
     if (root->index == index) {
-      remNode = handleRootRemoval();
+      rem_node = HandleRootRemoval();
     } else if (tail->index == index) {
-      remNode = handleTailRemoval();
+      rem_node = HandleTailRemoval();
     } else {
       SNode* previous = root;
       SNode* traverse = root->next;
@@ -162,7 +162,7 @@ public:
       while (traverse != NULL) {
 	if (traverse->index == index) {
 	  previous->next = traverse->next;
-	  remNode = traverse;
+	  rem_node = traverse;
 	  break;
 	}
 	  
@@ -171,15 +171,15 @@ public:
       }
     }
     
-    if (remNode != NULL) {
-      SNode* traverse = remNode->next;
-      for (int32_t i = remNode->index; i < this->size - 1; ++i) {
+    if (rem_node != NULL) {
+      SNode* traverse = rem_node->next;
+      for (int32_t i = rem_node->index; i < this->size - 1; ++i) {
 	traverse->index = i;
 	traverse = traverse->next;
       }
       
-      delete remNode;
-      nullify_pointer(remNode);
+      delete rem_node;
+      nullify_pointer(rem_node);
       this->size--;
       result = true;
     } 
@@ -188,9 +188,9 @@ public:
   }
 
   /**
-     Get the value at the specified index.
+     Get the value At the specified index.
   */
-  _Ty& at(const int32_t index) {
+  _Ty& At(const int32_t index) {
     SNode* traverse = root;
     while (traverse->index != index) {
       traverse = traverse->next;
@@ -199,19 +199,19 @@ public:
   }
 
   /**
-     Check if this list contains the value specified.
+     Check if this list Contains the value specified.
   */
-  bool contains(const _Ty& value) {
+  bool Contains(const _Ty& value) {
     bool result = false;
     
-    if (_cmp.equal(*root->value, value) 
-	|| _cmp.equal(*tail->value, value)) {
+    if (_cmp.Equal(*root->value, value) 
+	|| _cmp.Equal(*tail->value, value)) {
       result = true;
     } else {
       SNode* traverse = root->next;
       
       while (traverse != tail) {
-	if (_cmp.equal(*traverse->value, value)) {
+	if (_cmp.Equal(*traverse->value, value)) {
 	  result = true;
 	  break;
 	}
@@ -224,16 +224,16 @@ public:
   }
   
   /**
-     Return the front most value of the list.
+     Return the Front most value of the list.
   */
-  _Ty& front() {
+  _Ty& Front() {
     return *root->value;
   }
 
   /**
      Return the last value that was added.
   */
-  _Ty& back() {
+  _Ty& Back() {
     return *tail->value;
   }
 
@@ -257,18 +257,18 @@ private:
       , ref(r)
     { }
 
-    void allocateValue(const _Ty& value) {
-      this->value = ref.alloc.allocate(0);
-      ref.alloc.construct(this->value, value);
+    void AllocateValue(const _Ty& value) {
+      this->value = ref.alloc.Allocate(0);
+      ref.alloc.Construct(this->value, value);
     }
 
-    void deallocateValue() {
-      ref.alloc.destruct(value);
-      ref.alloc.deallocate(value);
+    void DeallocateValue() {
+      ref.alloc.Destruct(value);
+      ref.alloc.Deallocate(value);
     }
 
     ~SNode() {
-      deallocateValue();
+      DeallocateValue();
     }
   };
 
@@ -277,7 +277,7 @@ private:
   */
   SNode* root;
   /**
-     Our tail node, which will be set at the last node of this list.
+     Our tail node, which will be set At the last node of this list.
   */
   SNode* tail;
   /**
@@ -293,19 +293,19 @@ private:
   /**
      Handles the removal of the root node.
   */
-  SNode* handleRootRemoval() {
-    SNode* remNode = root;
+  SNode* HandleRootRemoval() {
+    SNode* rem_node = root;
     
     if (root != NULL) {
       root = root->next;
     }
-    return remNode;
+    return rem_node;
   }
   /** 
       Handles the removal of the tail node.
   */
-  SNode* handleTailRemoval() {
-    SNode* remNode = tail;
+  SNode* HandleTailRemoval() {
+    SNode* remnode = tail;
     SNode* traverse = root;
     
     while (traverse->next != tail) {
@@ -315,7 +315,7 @@ private:
     // Nullify the new tail's next value, since we are deleting it.
 
     nullify_pointer(tail->next);
-    return remNode;
+    return remnode;
   }
 }; 
 } // DataStructure

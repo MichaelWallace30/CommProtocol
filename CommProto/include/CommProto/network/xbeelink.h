@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -38,8 +38,8 @@ public:
   XBeeLink();
 
   ~XBeeLink() {
-    for (int i = 0; i < xbees->getSize(); ++i ) {
-      XBee* xbee = xbees->at(i);
+    for (int i = 0; i < xbees->GetSize(); ++i ) {
+      XBee* xbee = xbees->At(i);
       free_pointer(xbee);
     }
   
@@ -48,24 +48,24 @@ public:
   /**
      Initialize a connection for this node. Address is not required.
    */
-  bool initConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0);
+  bool InitConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0);
   /**
      Adds an address to the link.
     TODO(Garcia, Wallace): Cluster communications required here!
    */
-  bool addAddress(uint8_t destId, const char* address = NULL, uint16_t port = 0);
+  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
   /**
      Remove an address from the link.
    */
-  bool removeAddress(uint8_t destId);
+  bool RemoveAddress(uint8_t dest_id);
   /**
      Send a message to the specified id of which an address is associated with.
    */
-  bool send(uint8_t destId, uint8_t* txData, uint32_t txLength);
+  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
   /**
      Receive a message from a protocol id.
    */
-  bool recv(uint8_t* rxData, uint32_t* rxLength);
+  bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
 private:
   // Home address xbee.

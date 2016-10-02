@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -94,11 +94,11 @@ typedef struct zcl_comm_state_t
 		#define ZCL_COMM_FLAG_COORDINATOR_OK	0x04
 		/// this device can be a router
 		#define ZCL_COMM_FLAG_ROUTER_OK			0x08
-		/// this device can be a end device
+		/// this device can be a End device
 		#define ZCL_COMM_FLAG_ENDDEV_OK			0x10
-		/// reset to factory SAS at the delayed restart
+		/// reset to factory SAS At the delayed restart
 		#define ZCL_COMM_FLAG_FACTORY_RESET		0x40
-		/// install the current SAS at the delayed restart
+		/// install the current SAS At the delayed restart
 		#define ZCL_COMM_FLAG_INSTALL				0x80
 	/// value of xbee_millisecond_timer() when it's time to restart
 	uint32_t		restart_ms;

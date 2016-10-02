@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -106,10 +106,10 @@ typedef struct zcl_binary_output_t {
 	uint8_t		status_flags;
 } zcl_binary_output_t;
 
-// macro to create attributes for binary output cluster (ZCL_CLUST_BINARY_OUT)
+// macro to Create attributes for binary output cluster (ZCL_CLUST_BINARY_OUT)
 // TODO need to pass in function pointers for value_write and status_read
 // maybe split cluster table and ep state out, since there could be a need
-// to create an endpoint with both an output and an input?
+// to Create an endpoint with both an output and an input?
 #define ZCL_BINARY_OUTPUT_VARS( var, desc, zbot, value_write, status_read)	\
 	const zcl_binary_output_attr_t var ## _attr = {									\
 		{	ZCL_BACNET_ATTR_ACTIVE_TEXT,		ZCL_ATTRIB_FLAG_READONLY,			\

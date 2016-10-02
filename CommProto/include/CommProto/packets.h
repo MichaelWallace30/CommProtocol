@@ -2,8 +2,8 @@
   This is a rough implementation of how we will be able to dynamically declare and define 
   classes and packets into CommProto. It is done through extension of the AbstractPacket
   class, which will hold much more valuable information. In order to properly extend our 
-  abstract class (AbstractPacket) you must define the pure virtual functions pack() and 
-  unpack(). Next, ALWAYS, for your constructor, ALWAYS call AbstractPacket( with string ) so that the
+  abstract class (AbstractPacket) you must define the pure virtual functions Pack() and 
+  Unpack(). Next, ALWAYS, for your constructor, ALWAYS call AbstractPacket( with string ) so that the
   class will be able to generate a discrete number that will be used to identify the
   packet with a unique number. This number is intended to distinguish packets, and therefore
   help in determining the proper procedures in taking care of the packet.
@@ -31,12 +31,12 @@ public:
   
   ~Ping() { }
   /**
-     Must implement pack and unpack.
+     Must implement Pack and Unpack.
   */
-  void pack(ObjectStream& obj);
-  void unpack(ObjectStream& obj);
+  void Pack(ObjectStream& obj);
+  void Unpack(ObjectStream& obj);
 
-  AbstractPacket* create();
+  AbstractPacket* Create();
 public:
  std::string test;
 };
@@ -50,10 +50,10 @@ public:
   
   ~Pong() { }
 
-  void pack(ObjectStream& obj);
-  void unpack(ObjectStream& obj);
+  void Pack(ObjectStream& obj);
+  void Unpack(ObjectStream& obj);
 
-  AbstractPacket* create();
+  AbstractPacket* Create();
 public:
   char letter;
 };

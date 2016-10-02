@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -31,7 +31,7 @@ XBEE_BEGIN_DECLS
 
 	The low byte of the \a options field is a copy of the cluster flags for
 	the cluster that received the data.  Use #WPAN_ENVELOPE_CLUSTER_FLAGS
-	to mask off the byte, and then compare to the various WPAN_CLUST_FLAG_*
+	to mask off the byte, and then Compare to the various WPAN_CLUST_FLAG_*
 	macros.
 
 	On a DigiMesh network, the 16-bit network address is always set to
@@ -39,7 +39,7 @@ XBEE_BEGIN_DECLS
 */
 typedef struct wpan_envelope_t {
 	// first group of members are common when creating reply envelope
-	struct wpan_dev_t		*dev;					///< interface received on/to send to
+	struct wpan_dev_t		*dev;					///< interface received on/to Send to
 	addr64					ieee_address;		///< remote 64-bit address
 	uint16_t					network_address;	///< remote 16-bit address
 	uint16_t					profile_id;			///< Profile ID
@@ -195,13 +195,13 @@ typedef int (*wpan_ep_handler_fn)(
 /// Information on each cluster associated with an endpoint.
 typedef struct wpan_cluster_table_entry_t {
 	/// 16-bit cluster id, in host byte order.  WPAN_CLUSTER_END_OF_LIST
-	/// (0xFFFF) marks the end of the list.  Clusters 0x0000 to 0x7FFF
+	/// (0xFFFF) marks the End of the list.  Clusters 0x0000 to 0x7FFF
 	/// are Standard ZigBee clusters, 0x8000 to 0xFBFF are reserved and
 	/// 0xFC00 to 0xFFFF are manufacturer-specific (with a standard ZigBee
 	/// profile).
 	uint16_t								cluster_id;
 
-	/// Function to receive all frames for this cluster, or NULL to have
+	/// Function to Receive all frames for this cluster, or NULL to have
 	/// endpoint's handler process the frame.
 	wpan_aps_handler_fn				handler;
 
@@ -247,14 +247,14 @@ typedef struct wpan_cluster_table_entry_t {
 /// Information on each endpoint on this device.
 typedef struct wpan_endpoint_table_entry_t
 {
-	/// Endpoint ID, 0 to 254.  255 (0xFF) is used as an end-of-table marker.
+	/// Endpoint ID, 0 to 254.  255 (0xFF) is used as an End-of-table marker.
 	uint8_t							endpoint;
 
 	/// This endpoint's profile ID.  See WPAN_PROFILE_* macros for some known
 	/// profile IDs.
 	uint16_t							profile_id;
 
-	/// Function to receive all frames for invalid clusters, or clusters with
+	/// Function to Receive all frames for invalid clusters, or clusters with
 	/// a \c NULL handler.
 	wpan_ep_handler_fn			handler;
 
@@ -274,11 +274,11 @@ typedef struct wpan_endpoint_table_entry_t
 	const wpan_cluster_table_entry_t	*cluster_table;
 } wpan_endpoint_table_entry_t;
 
-/// Cluster ID used to mark the end of \c cluster_table in
+/// Cluster ID used to mark the End of \c cluster_table in
 /// wpan_endpoint_table_entry_t.
 #define WPAN_CLUSTER_END_OF_LIST		0xFFFF
 
-/// Macro for a wpan_cluster_table_entry_t that can be used to mark the end
+/// Macro for a wpan_cluster_table_entry_t that can be used to mark the End
 /// of the table.
 #define WPAN_CLUST_ENTRY_LIST_END	{ WPAN_CLUSTER_END_OF_LIST }
 
@@ -289,7 +289,7 @@ typedef struct wpan_endpoint_table_entry_t
 
 /**
 	@brief
-	Function called by the WPAN APS layer to send a frame out on the network.
+	Function called by the WPAN APS layer to Send a frame out on the network.
 
 	This is part of the glue that links the XBee layer with the WPAN/ZigBee
 	layers.
@@ -305,7 +305,7 @@ typedef struct wpan_endpoint_table_entry_t
 	@retval	!0				error sending frame
 	@retval	-EMSGSIZE	payload is too large
 
-	@todo Add support for a broadcast radius?  Don't send Tx Status?  Use
+	@todo Add support for a broadcast radius?  Don't Send Tx Status?  Use
 			frame ID 0?
 
 	@todo come up with standard error codes for the following possible errors?
@@ -363,7 +363,7 @@ typedef int (*wpan_tick_fn)( struct wpan_dev_t *dev);
 							previously returned by this function to get the
 							next entry
 
-	@retval	NULL	\a dev is invalid or reached end of table
+	@retval	NULL	\a dev is invalid or reached End of table
 	@retval	!NULL	next entry from table
 
 	@see wpan_endpoint_match(), wpan_cluster_match(), wpan_endpoint_get_next()
@@ -374,7 +374,7 @@ typedef const wpan_endpoint_table_entry_t *(*wpan_endpoint_get_next_fn)(
 /**
 	Structure used by the WPAN/ZigBee layers.  Contains information about the
 	node (addresses, payload limit, capabilities) along with an endpoint
-	list and function pointers to configure, tick and send packets through
+	list and function pointers to configure, tick and Send packets through
 	the underlying network interface.
 
 	This is the abstraction layer between a physical XBee (or some other
@@ -385,7 +385,7 @@ typedef const wpan_endpoint_table_entry_t *(*wpan_endpoint_get_next_fn)(
 typedef struct wpan_dev_t {
 //	_wpan_config_fn				config;			///< change device's cfg
 	wpan_tick_fn					tick;				///< read and dispatch frames
-	wpan_endpoint_send_fn 		endpoint_send;	///< send frame to an endpoint
+	wpan_endpoint_send_fn 		endpoint_send;	///< Send frame to an endpoint
 	wpan_endpoint_get_next_fn	endpoint_get_next;	///< walk endpoint table
 
 	wpan_address_t	address;						///< IEEE/MAC and network addresses
@@ -402,7 +402,7 @@ typedef struct wpan_dev_t {
 		#define WPAN_FLAG_NONE							0x0000
 		/// device has joined a network (but not necessarily authenticated)
 		#define WPAN_FLAG_JOINED						0x0001
-		/// device completed Key Establishment and can send APS encrypted frames
+		/// device completed Key Establishment and can Send APS encrypted frames
 		#define WPAN_FLAG_AUTHENTICATED				0x0002
 		/// device has encryption enabled (EO non-zero)
 		#define WPAN_FLAG_AUTHENTICATION_ENABLED	0x0004
@@ -426,10 +426,10 @@ typedef struct wpan_dev_t {
 /// @retval	!0	device has not authenticated
 #define WPAN_DEV_IS_AUTHENTICATED(dev)	((dev)->flags & WPAN_FLAG_AUTHENTICATED)
 
-/// Endpoint ID used to mark the end of \c endpoint_table in wpan_dev_t.
+/// Endpoint ID used to mark the End of \c endpoint_table in wpan_dev_t.
 #define WPAN_ENDPOINT_END_OF_LIST	0xFF
 
-/// Macro for a wpan_endpoint_table_entry_t that can be used to mark the end
+/// Macro for a wpan_endpoint_table_entry_t that can be used to mark the End
 /// of the table.
 #define WPAN_ENDPOINT_TABLE_END		{ WPAN_ENDPOINT_END_OF_LIST }
 
@@ -480,7 +480,7 @@ struct wpan_conversation_t;
 	@param[in]	envelope			envelope with response or NULL if there was a
 										timeout
 
-	@retval	WPAN_CONVERSATION_END	end of conversation, no more responses
+	@retval	WPAN_CONVERSATION_END	End of conversation, no more responses
 												expected
 	@retval	WPAN_CONVERSATION_CONTINUE		leave conversation open, more
 														responses are expected
@@ -501,7 +501,7 @@ typedef struct wpan_conversation_t {
 	/// Time to expire conversation (0 for never or lower 16 bits of
 	/// xbee_seconds_timer) -- limited to 9 hours (32,768 seconds).
 	/// We could save another byte if it's ok to limit to 2 minutes
-	/// and we'll check for expirations at least every 7 seconds.
+	/// and we'll check for expirations At least every 7 seconds.
 	uint16_t				timeout;				// time to expire converstation
 	wpan_response_fn	handler;				// if NULL, record is unused
 } wpan_conversation_t;

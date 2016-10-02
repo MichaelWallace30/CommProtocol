@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -26,10 +26,10 @@ namespace network {
 
 
 /** CRC32 checksum function*/
-unsigned int crc32(unsigned char *message, int length);
-void appendCrc32(uint8_t* buffer, uint32_t *length);
-unsigned int truncateCrc32(uint8_t* buffer, uint32_t *length);
+unsigned int Crc32(unsigned char *message, int length);
+void AppendCrc32(uint8_t* buffer, uint32_t *length);
+unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length);
 
-}//end NETWORK namespace
-}//end COMNET namespace
+}//End NETWORK namespace
+}//End COMNET namespace
 #endif // CRC32

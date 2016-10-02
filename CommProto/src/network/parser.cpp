@@ -9,61 +9,61 @@ namespace network{
 
 	Parser::Parser() {
 		strcpy(terminal_sequence, "*&*");
-		parserPosition = 0;
-		lastReceivedLength = 0;
+		parser_position = 0;
+		last_received_length = 0;
 
 	}
 
-	void Parser::parseSend(uint8_t* txData, uint32_t &txLength, uint8_t *parsedData) {
+	void Parser::ParseSend(uint8_t* txData, uint32_t &txLength, uint8_t *parsedData) {
 		memset(parsedData, 0, sizeof(parsedData));//zero out buffer
-		memcpy(parsedData, terminal_sequence, TERMINAL_SEQUENCE_SIZE);//add terminal to front
+		memcpy(parsedData, terminal_sequence, TERMINAL_SEQUENCE_SIZE);//add terminal to Front
 		memcpy((parsedData + TERMINAL_SEQUENCE_SIZE), txData, txLength);//add tx data
-		memcpy((parsedData + TERMINAL_SEQUENCE_SIZE + txLength), terminal_sequence, TERMINAL_SEQUENCE_SIZE);//add temrinal to end
+		memcpy((parsedData + TERMINAL_SEQUENCE_SIZE + txLength), terminal_sequence, TERMINAL_SEQUENCE_SIZE);//add temrinal to End
 		txLength += (2 * TERMINAL_SEQUENCE_SIZE);//adjust length
 	}
 
 
-	bool Parser::parseReceive(uint8_t* rxData, uint32_t &rxLength, uint8_t *parsedData) {
+	bool Parser::ParseReceive(uint8_t* rxData, uint32_t &rxLength, uint8_t *parsedData) {
 		
 		//check if parse has completed if so rest position and get new last length
-		if (parserPosition == 0 || parserPosition >= lastReceivedLength - 1) {
-			parserPosition = 0;
-			lastReceivedLength = rxLength;
+		if (parser_position == 0 || parser_position >= last_received_length - 1) {
+			parser_position = 0;
+			last_received_length = rxLength;
 		}
 
 
 		bool parsed = false;
-		uint32_t messageLength = 0;
+		uint32_t msg_len = 0;
 		//parse message and calcualte new length of parsed data
-		while (!parsed && lastReceivedLength > 0) {
+		while (!parsed && last_received_length > 0) {
 
 			//check for start sequence			
-			if ((char)parsedData[parserPosition] == terminal_sequence[0] && 
-				(char)parsedData[parserPosition + 1] == terminal_sequence[1] &&
-				(char)parsedData[parserPosition + 2] == terminal_sequence[2]) {
-				parserPosition += TERMINAL_SEQUENCE_SIZE;//adjust parse position by teminal size
+			if ((char)parsedData[parser_position] == terminal_sequence[0] && 
+				(char)parsedData[parser_position + 1] == terminal_sequence[1] &&
+				(char)parsedData[parser_position + 2] == terminal_sequence[2]) {
+				parser_position += TERMINAL_SEQUENCE_SIZE;//adjust parse position by teminal size
 				
 				bool done = false;//loop until terminal sequence is found
-				while (!done && parserPosition <= lastReceivedLength) {
-					rxData[messageLength++] = parsedData[parserPosition++];
+				while (!done && parser_position <= last_received_length) {
+					rxData[msg_len++] = parsedData[parser_position++];
 
 					//check if terminal sequence is next
-					if ((char)parsedData[parserPosition] == terminal_sequence[0] &&
-						(char)parsedData[parserPosition + 1] == terminal_sequence[1] &&
-						(char)parsedData[parserPosition + 2] == terminal_sequence[2])done = true;
+					if ((char)parsedData[parser_position] == terminal_sequence[0] &&
+						(char)parsedData[parser_position + 1] == terminal_sequence[1] &&
+						(char)parsedData[parser_position + 2] == terminal_sequence[2])done = true;
 
 				}
-				rxLength = messageLength;//set new length
-				parserPosition += TERMINAL_SEQUENCE_SIZE;//adjust parser position for end terminal length				
+				rxLength = msg_len;//set new length
+				parser_position += TERMINAL_SEQUENCE_SIZE;//adjust parser position for End terminal length				
 				parsed = true;
 			}
 			else//no terminal found increment through buffer
 			{
-				parserPosition++;
-				if (parserPosition > lastReceivedLength)parsed = true;
+				parser_position++;
+				if (parser_position > last_received_length)parsed = true;
 			}
 		}
-		return messageLength > 0;//return false if parser found no message
+		return msg_len > 0;//return false if parser found no message
 	}
-}//end NETWORK
-}//end COMNET
+}//End NETWORK
+}//End COMNET

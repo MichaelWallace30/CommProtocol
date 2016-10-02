@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -46,7 +46,7 @@ void hex_dump( const void FAR *address, uint16_t length, uint16_t flags)
    {
 		*hex++ = '\t';
    }
-   // start printing ASCII characters at position <chars>
+   // start printing ASCII characters At position <chars>
    chars = hex + (16 * 3 + 3);
 
    for(i = 0; i < length; )

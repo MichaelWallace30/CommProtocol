@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -26,7 +26,7 @@
 #include <CommProto/network/commsocket.h> // 
 
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/os/os_threads.h>//method to create threads
+#include <CommProto/architecture/os/os_threads.h>//method to Create threads
 #include <CommProto/architecture/os/os_mutex.h>
 #include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
 
@@ -64,11 +64,11 @@ namespace comnet {
 		/** Length of data buffer for communication stream */
 		uint32_t rx_length;
 
-		/** Thread to run communication data */
+		/** Thread to Run communication data */
 		thread_t communicationThreadSend;
 		thread_t communicationThreadRecv;
 
-		/** Method to run in communication thread */
+		/** Method to Run in communication thread */
 		void* commuincationHandlerSend();
 		void* commuincationHandlerRecv();
 
@@ -94,30 +94,30 @@ namespace comnet {
 		enum connection type to use serial, UDP, zigbee, ect
 		port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
 		baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */
-		bool initConnection(transport_protocol_t connectionType, const char* port, const char* address = NULL, uint32_t baudrate = 0);
+		bool InitConnection(transport_protocol_t connectionType, const char* port, const char* address = NULL, uint32_t baudrate = 0);
 
 		/** The address entered will be paired for communication by destination ID
 		Adding address can be a UDP IPV4 or hex MAC address for zigbee
 		Adding an address is not need for serial and will default to ""*/
-		bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0);
+		bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
 
 		/** Removing an address removes the known association of address and destination ID by using id*/
-		bool removeAddress(uint8_t destID);
+		bool RemoveAddress(uint8_t dest_id);
 
-		bool send(AbstractPacket* packet, uint8_t destID);
-		AbstractPacket* receive(uint8_t&  sourceID);
+		bool Send(AbstractPacket* packet, uint8_t dest_id);
+		AbstractPacket* Receive(uint8_t&  source_id);
 
 		/** Method to start communication*/
-		int32_t run();
-		/** Method to toggle pause communication*/
-		int32_t pause();
-		/** Method to stop communication*/
-		int32_t stop();
+		int32_t Run();
+		/** Method to toggle Pause communication*/
+		int32_t Pause();
+		/** Method to Stop communication*/
+		int32_t Stop();
 
 	protected:
 		// Nothing yet.
 		void logToConsoles()
 		{ }
-	};//end Comms class      
+	};//End Comms class      
 } // namespace Comnet
-#endif//end if COMMS_H
+#endif//End if COMMS_H

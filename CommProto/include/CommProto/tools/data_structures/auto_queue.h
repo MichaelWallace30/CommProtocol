@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -40,7 +40,7 @@ public:
   /**
      Constructor for AutoQueue.
   */
-  AutoQueue() { this->queueType = AUTO_QUEUE; }
+  AutoQueue() { this->queue_type = AUTO_QUEUE; }
   /**
      Destructor for AutoQueue.
   */
@@ -48,39 +48,39 @@ public:
   /**
      Grab the size of this queue.
   */
-  int32_t getsize() { return queue.size(); }
+  int32_t GetSize() { return queue.size(); }
   /**
-     Insert a value into the back of this queue.
+     Insert a value into the Back of this queue.
   */
-  void enQueue(const _Ty& data) { queue.push(data); }
+  void Enqueue(const _Ty& data) { queue.push(data); }
   /**
-     Remove a value from front of the queue.
+     Remove a value from Front of the queue.
   */
-  void deQueue() { queue.pop(); }
+  void Dequeue() { queue.pop(); }
   /**
      Check the value infront of the queue.
   */
-  const _Ty& front() { return queue.front(); }
+  const _Ty& Front() { return queue.front(); }
   /**
-     Check the value in back of the queue.
+     Check the value in Back of the queue.
   */
-  const _Ty& back() { return queue.back(); }
+  const _Ty& Back() { return queue.back(); }
   /**
      Check if this queue is empty.
   */
-  bool isEmpty() { return queue.empty(); }
+  bool IsEmpty() { return queue.empty(); }
   /**
-     Check if queue is empty. Similar to isEmpty().
+     Check if queue is empty. Similar to IsEmpty().
   */
-  bool empty() { return isEmpty(); }
+  bool Empty() { return IsEmpty(); }
   /**
-     Push a value into the front of the queue. Similar to enQueue().
+     Push a value into the Front of the queue. Similar to enQueue().
   */
-  void push(const _Ty& data) { queue.push(data); }
+  void Push(const _Ty& data) { queue.push(data); }
   /**
-     Pop a value from the front of the queue. Similar to deQueue().
+     Pop a value from the Front of the queue. Similar to deQueue().
   */
-  void pop() { queue.pop(); }
+  void Pop() { queue.pop(); }
 private:
   /** 
       Standard Template Library Queue, which this Class AutoQueue is wrapping over.

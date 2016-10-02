@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -35,7 +35,7 @@ typedef void (*xbee_comm_fn)(
 );
 
 typedef struct xbee_comm_reg_t {
-	xbee_at_cmd_t	command;				///< command to send to XBee device
+	xbee_at_cmd_t	command;				///< command to Send to XBee device
 	xbee_comm_fn	assign_fn;			///< function to process result
 } xbee_comm_reg_t;
 
@@ -490,7 +490,7 @@ void xbee_commissioning_tick( xbee_dev_t *xbee, zcl_comm_state_t *comm)
 			}
 
 			// Instead of doing ATWR here, set a flag and wait until the device
-			// is joined to the network.  Then send ATWR and clear the flag.
+			// is joined to the network.  Then Send ATWR and clear the flag.
 			comm->flags |= ZCL_COMM_FLAG_SAVE_ON_JOIN;
 		}
 
@@ -527,7 +527,7 @@ void xbee_commissioning_tick( xbee_dev_t *xbee, zcl_comm_state_t *comm)
 			break;
 
 		case ZCL_COMM_STATE_STARTUP:
-			// depending on startup_control, send possible NR to force rejoin
+			// depending on startup_control, Send possible NR to force rejoin
 			if (comm->sas.startup_control >= ZCL_COMM_STARTUP_REJOIN)
 			{
 				#ifdef XBEE_COMMISSIONING_VERBOSE
@@ -544,7 +544,7 @@ void xbee_commissioning_tick( xbee_dev_t *xbee, zcl_comm_state_t *comm)
 			{
 				if (comm->flags & ZCL_COMM_FLAG_SAVE_ON_JOIN)
 				{
-					// send an ATWR to commit these changes to the XBee
+					// Send an ATWR to commit these changes to the XBee
 					#ifdef XBEE_COMMISSIONING_VERBOSE
 						printf( "%s: joined with new settings, saving changes\n",
 							__FUNCTION__);

@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -16,7 +16,7 @@
 	@file xbee/ota_server.h
 
 	Code to add an OTA Server Cluster to a device.  It receives notification
-	to start an update, and then calls back to the bootloader to receive
+	to start an update, and then calls Back to the bootloader to Receive
 	that update.
 */
 
@@ -49,12 +49,12 @@ int xbee_ota_server_cmd( const wpan_envelope_t FAR *envelope,
 
 	Your application can support password-protected updates by checking the
 	payload of the request.  If the payload is a valid request to initiate
-	an update, this function should enter an "XMODEM receive" mode and
+	an update, this function should enter an "XMODEM Receive" mode and
 	start sending 'C' to the sender of the request, indicating that it
 	should start sending 64-byte XMODEM packets with the new firmware.
 
 	On Digi's Programmable XBee platform, this function would exit to the
-	bootloader so it can receive the new application firmware.
+	bootloader so it can Receive the new application firmware.
 
 	@param[in]	envelope		command sent to start update -- function may want
 									to use the payload for some sort of password

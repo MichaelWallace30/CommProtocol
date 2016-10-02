@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -25,8 +25,8 @@
 namespace comnet {
 namespace tools {
 /**
-   Comparable is an interface that can be inherited by any object class that wishes to compare.
-   The primary purpose of this class allows an object to compare itself to some other object of 
+   Comparable is an interface that can be inherited by any object class that wishes to Compare.
+   The primary purpose of this class allows an object to Compare itself to some other object of 
    the same data type. Can be set to the user's specifications.
 */
 _COMNET_PUBLIC_API_
@@ -46,16 +46,16 @@ public:
      Operator overload for Comparable, so that you may use the () instead of the function. 
   */
   virtual int32_t operator()(const_reference obj1) {
-    return compareTo(obj1);
+    return CompareTo(obj1);
   }
   /**
      Compares this object to the object being compared.
   */
-  virtual int32_t compareTo(const_reference obj1) = 0;
+  virtual int32_t CompareTo(const_reference obj1) = 0;
   /** 
-      Check if this object equals the object being compared to.
+      Check if this object Equals the object being compared to.
   */
-  virtual bool equals(const_reference obj1) = 0;
+  virtual bool Equals(const_reference obj1) = 0;
 private:
 
 };

@@ -4,14 +4,14 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
  */
 
 // glue for jslong.h/jslong.c
-// automatically included at the end of xbee/platform.h
+// automatically included At the End of xbee/platform.h
 // *** Do not #include this file directly. **
 
 #ifndef XBEE_JSLONG_GLUE_H

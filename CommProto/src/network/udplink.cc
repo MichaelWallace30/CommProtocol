@@ -6,28 +6,28 @@ namespace network {
 
 
 
-bool UDPLink::initConnection(const char* port, const char* address, uint32_t baudrate) {
-  return local.initConnection(port, address);
+bool UDPLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
+  return local.InitConnection(port, address);
 }
 
 
-bool UDPLink::addAddress(uint8_t destID, const char* address, uint16_t port) {
-  return local.addAddress(destID, address, port);
+bool UDPLink::AddAddress(uint8_t dest_id, const char* address, uint16_t port) {
+  return local.AddAddress(dest_id, address, port);
 }
 
 
-bool UDPLink::removeAddress(uint8_t destID) {
-  return local.removeAddress(destID);
+bool UDPLink::RemoveAddress(uint8_t dest_id) {
+  return local.RemoveAddress(dest_id);
 }
 
 
-bool UDPLink::send(uint8_t destID, uint8_t* txData, uint32_t txLength) {
-  return local.send(destID, txData, txLength);
+bool UDPLink::Send(uint8_t dest_id, uint8_t* txData, uint32_t txLength) {
+  return local.Send(dest_id, txData, txLength);
 }
 
 
-bool UDPLink::recv(uint8_t* rxData, uint32_t* rxLength) {
-  return local.recv(rxData, rxLength);
+bool UDPLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
+  return local.Recv(rxData, rxLength);
 }
 } // namespace Network
 } // namespace Comnet

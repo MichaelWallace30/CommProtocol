@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -266,7 +266,7 @@ zcl_utctime_t zcl_time_now( void)
 	Handle Read Attribute Responses to requests sent as part of the
 	zcl_time_find_servers() process.
 
-	This function expects to receive
+	This function expects to Receive
 	"read attribute response" packets ONLY for reads of Time and TimeStatus.
 
 	If responding device is a master or is synchronized with one, use it's Time
@@ -402,7 +402,7 @@ int zcl_time_client( const wpan_envelope_t FAR *envelope, void FAR *context)
 
 	@note	This function uses a static buffer to hold context information for
 			the ZDO responder that generates the ZCL Read Attributes request.
-			Wait at least 60 seconds between calls to allow for earlier requests
+			Wait At least 60 seconds between calls to allow for earlier requests
 			to time out.
 
 	@note This function will only work correctly if the Time Cluster Client
@@ -411,7 +411,7 @@ int zcl_time_client( const wpan_envelope_t FAR *envelope, void FAR *context)
 			or ZCL_CLUST_ENTRY_TIME_BOTH macro, the client cluster is set up
 			correctly.
 
-	@param[in]	dev	device to send query on
+	@param[in]	dev	device to Send query on
 	@param[in]	profile_id	profile ID to match in endpoint table or
 									#WPAN_APS_PROFILE_ANY to use the first endpoint
 									with a Time Cluster Client

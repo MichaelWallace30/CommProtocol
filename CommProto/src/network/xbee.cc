@@ -6,7 +6,7 @@ Copyright (C) 2016  Mario Garcia.
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+(At your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -36,27 +36,27 @@ using namespace experimental;
 
 XBee::XBee(const char* port, speed_t baudrate) 
 {
-  initialize(port, baudrate);
+  Initialize(port, baudrate);
 }
 
 
 XBee::~XBee() 
 {
-  closePort();
+  CloseXBeePort();
 }
 
 
 // Initialize the xbee device.
-bool XBee::initialize(const char* port, speed_t baudrate) {
+bool XBee::Initialize(const char* port, speed_t baudrate) {
   bool success = false;
   int status;
 #if COM_TARGET_OS == COM_OS_WINDOWS
   std::regex regularEx("\\b(COM)");
-  std::string portResult;
-  std::string portString(port);
-  std::regex_replace(std::back_inserter(portResult),
-                     portString.begin(), portString.end(), regularEx, "$2");
-  serial.comport = atoi(portResult.c_str());
+  std::string port_res;
+  std::string port_str(port);
+  std::regex_replace(std::back_inserter(port_res),
+                     port_str.begin(), port_str.end(), regularEx, "$2");
+  serial.comport = atoi(port_res.c_str());
 #else // POSIX stuff instead.
   strncpy(serial.device, port, (sizeof serial.device) - 1);
   serial.device[(sizeof serial.device) - 1] = '\0';
@@ -91,7 +91,7 @@ bool XBee::initialize(const char* port, speed_t baudrate) {
 }
 
 
-bool XBee::recv(uint8_t* rxData, uint32_t* rxLength) {
+bool XBee::Recv(uint8_t* rxData, uint32_t* rxLength) {
   bool success = false;
   int read_success = xbee_ser_read(&serial, (void *)rxData, MAX_BUFFER_SIZE);
   if (read_success >= 0) {
@@ -104,7 +104,7 @@ bool XBee::recv(uint8_t* rxData, uint32_t* rxLength) {
 }
 
 
-bool XBee::send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
+bool XBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
   bool success = false;
   int send_success = xbee_ser_write(&serial, (void *)txData, txLength);
   if (send_success >= 0) {
@@ -115,7 +115,7 @@ bool XBee::send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
 }
 
 
-bool XBee::closePort() {
+bool XBee::CloseXBeePort() {
   bool success = false;
   if(!xbee_ser_close(&serial)) {
     COMMS_DEBUG("failed to close serial port=%d", serial.comport);

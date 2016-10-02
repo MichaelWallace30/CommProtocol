@@ -7,7 +7,7 @@
 #if COM_TARGET_OS == COM_OS_WINDOWS
 
 /**
-   Windows definition to create a thread.
+   Windows definition to Create a thread.
 */
 void thread_create(thread_t* thread, void* (*start_routine)(void*), void* arg) 
 {

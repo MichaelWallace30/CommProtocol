@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -59,11 +59,11 @@ const zcl_attribute_tree_t FAR zcl_attributes_none[1] =
 	response.
 
 	@param[in]	request	command to respond to
-	@param[in]	response	payload to send as response
+	@param[in]	response	payload to Send as response
 	@param[in]	length	number of bytes in \a response
 
 	@retval	0			successfully sent response
-	@retval	!0			error on send
+	@retval	!0			error on Send
 */
 zigbee_zcl_debug
 int zcl_send_response( zcl_command_t *request, const void FAR *response,
@@ -110,7 +110,7 @@ int zcl_send_response( zcl_command_t *request, const void FAR *response,
 	@retval		!NULL		pointer to next attribute record
 
 	@note If \a entry points to the last entry in the table, this function
-	will return the same address instead of advancing off the end of the table.
+	will return the same address instead of advancing off the End of the table.
 
 	@sa zcl_find_attribute
 */
@@ -128,7 +128,7 @@ const zcl_attribute_base_t FAR *zcl_attribute_get_next(
 		#ifdef ZIGBEE_ZCL_VERBOSE
 			printf( "%s: already at end of list\n", __FUNCTION__);
 		#endif
-		// don't advance past the end of the list
+		// don't advance past the End of the list
 		return entry;
 	}
 
@@ -146,7 +146,7 @@ const zcl_attribute_base_t FAR *zcl_attribute_get_next(
 /*** EndHeader */
 /**
 	@brief
-	Search the attribute table starting at \p entry, for attribute ID
+	Search the attribute table starting At \p entry, for attribute ID
 	\p search_id.
 
 	@param[in]	entry			starting entry for search
@@ -241,7 +241,7 @@ int zcl_build_header( zcl_header_response_t *rsp, zcl_command_t *cmd)
 	@retval	0			successfully sent response, or response not required
 							(message was broadcast, sent to the broadcast endpoint,
 							or sender set the disable default response bit)
-	@retval	!0			error on send
+	@retval	!0			error on Send
 	@retval	-EINVAL	invalid parameter passed to function
 */
 zigbee_zcl_debug
@@ -296,7 +296,7 @@ int zcl_default_response( zcl_command_t *request, uint8_t status)
 	start = (uint8_t *)&response + zcl_build_header( &response.header, request);
 
 	// clear the frame type bits -- default response is not a cluster command
-	// (frame control is at address <start> -- different offset into
+	// (frame control is At address <start> -- different offset into
 	// response structure depending on whether command is manufacturer-specific
 	*start &= ~ZCL_FRAME_TYPE_MASK;
 
@@ -806,7 +806,7 @@ default_assign:
 			break;
 	}
 
-	// update status if it was set to SUCCESS at start of function
+	// update status if it was set to SUCCESS At start of function
 	if (rec->status == ZCL_STATUS_SUCCESS)
 	{
 		rec->status = newstatus;
@@ -830,7 +830,7 @@ int _zcl_write_attributes( zcl_command_t *cmd);
 	@param[in]	cmd	command to respond to
 
 	@retval	0			successfully sent response or "No Response" requested
-	@retval	!0			error on send
+	@retval	!0			error on Send
 
 	@todo Generate error if command is not one of the three expected commands.
 
@@ -1086,7 +1086,7 @@ zigbee_zcl_debug
 int zcl_encode_attribute_value( uint8_t FAR *buffer,
 	int16_t bufsize, const zcl_attribute_base_t FAR *entry)
 {
-	uint8_t	FAR *end, *start;
+	uint8_t	FAR *End, *start;
 	uint8_t	FAR *p;
 	uint8_t	type;
 	uint8_t	status = ZCL_STATUS_SUCCESS;
@@ -1154,7 +1154,7 @@ int zcl_encode_attribute_value( uint8_t FAR *buffer,
 	}
 
 	start = buffer;
-	end = start + bufsize;
+	End = start + bufsize;
 	switch (type)
 	{
 		case ZCL_TYPE_LOGICAL_BOOLEAN:
@@ -1168,7 +1168,7 @@ int zcl_encode_attribute_value( uint8_t FAR *buffer,
 			// copy the string if there's space, keep track of length and
 			// write that out to the first byte.
 			p = (uint8_t FAR *) entry->value;
-			while (++buffer < end && *p)
+			while (++buffer < End && *p)
 			{
 				*buffer = *p;
 				++p;
@@ -1193,7 +1193,7 @@ int zcl_encode_attribute_value( uint8_t FAR *buffer,
 		case ZCL_TYPE_BITMAP_24BIT:
 		case ZCL_TYPE_UNSIGNED_24BIT:
 		case ZCL_TYPE_SIGNED_24BIT:
-			// copy 3 least-significant bytes (starts at second byte of value)
+			// copy 3 least-significant bytes (starts At second byte of value)
 			// while reversing byte order (big-endian to little-endian).
 			memcpy_htole( buffer, (uint8_t FAR *) entry->value + 1, 3);
 			buffer += 3;
@@ -1232,7 +1232,7 @@ int _zcl_read_attributes( zcl_command_t *cmd);
 	@param[in]	cmd	command to respond to
 
 	@retval	0			successfully sent response
-	@retval	!0			error on send
+	@retval	!0			error on Send
 	@retval	-EINVAL	NULL \p cmd parameter
 */
 zigbee_zcl_debug
@@ -1352,7 +1352,7 @@ int _zcl_discover_attributes( zcl_command_t *cmd);
 	@param[in]	cmd	command to respond to
 
 	@retval	0			successfully sent response
-	@retval	!0			error on send
+	@retval	!0			error on Send
 */
 zigbee_zcl_debug
 int _zcl_discover_attributes( zcl_command_t *cmd)
@@ -1395,11 +1395,11 @@ int _zcl_discover_attributes( zcl_command_t *cmd)
 		#ifdef ZIGBEE_ZCL_VERBOSE
 			printf( "%s: cluster has no attributes\n", __FUNCTION__);
 		#endif
-		response.complete = ZCL_BOOL_TRUE;			// no attributes to send
+		response.complete = ZCL_BOOL_TRUE;			// no attributes to Send
 	}
 	else
 	{
-		// since end of list ID 0xFFFF, we'll always stop when we hit it
+		// since End of list ID 0xFFFF, we'll always Stop when we hit it
 		start_attrib_id = le16toh( discover->start_attrib_id_le);
 		while (attribute->id < start_attrib_id)
 		{
@@ -1413,13 +1413,13 @@ int _zcl_discover_attributes( zcl_command_t *cmd)
 			remaining = ZCL_DISCOVER_ATTRIB_MAX;
 		}
 
-		// Odd loop construct (with two breaks) allows for setting "complete"
-		// field to TRUE, even if we've run out of room or requestor doesn't want
+		// Odd loop Construct (with two breaks) allows for setting "complete"
+		// field to TRUE, even if we've Run out of room or requestor doesn't want
 		// more attributes, or our attribute list was empty.
 		response.complete = ZCL_BOOL_FALSE;			// default to incomplete
 		for (;;)
 		{
-			// see if there are any more attributes to send
+			// see if there are any more attributes to Send
 			if (attribute->id == ZCL_ATTRIBUTE_END_OF_LIST)
 			{
 				response.complete = ZCL_BOOL_TRUE;
@@ -1784,7 +1784,7 @@ int zcl_invalid_command( const wpan_envelope_t FAR *envelope)
 	clusters (e.g., Basic Cluster), or called from a cluster's handler
 	for commands it doesn't handle.
 
-	Will send a Default Response for commands it can't handle.
+	Will Send a Default Response for commands it can't handle.
 
 	Currently does not support attribute reporting.
 

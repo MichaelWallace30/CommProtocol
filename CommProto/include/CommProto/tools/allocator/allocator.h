@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -51,30 +51,30 @@ public:
   /**
      Allocate memory for your object, or data.
    */
-  virtual pointer allocate(uint32_t sizeN) = 0;
+  virtual pointer Allocate(uint32_t size_n) = 0;
 
   /**
-     Deallocate memory, which will return that memory back to the operating system.
+     Deallocate memory, which will return that memory Back to the operating system.
    */
-  virtual void deallocate(pointer p) = 0;
+  virtual void Deallocate(pointer p) = 0;
   /**
-     Destroy the object, this will not deallocate your memory however. IF memory was allocated on the heap,
+     Destroy the object, this will not Deallocate your memory however. IF memory was allocated on the heap,
      be sure to destroy it first before deallocating.
    */
-  virtual void destruct(pointer p) = 0;
+  virtual void Destruct(pointer p) = 0;
   /**
-     Construct value into your allocated pointer. Be sure to allocate first before constructing.
+     Construct value into your allocated pointer. Be sure to Allocate first before constructing.
    */
-  virtual void construct(pointer p, const_reference value) = 0;
+  virtual void Construct(pointer p, const_reference value) = 0;
   /**
      Grab the pointer to a value.
    */
-  virtual pointer address(reference ref) = 0;
+  virtual pointer Address(reference ref) = 0;
 
   /**
      Get the pointer to a value.
    */
-  virtual const_pointer address(const_reference ref) const = 0;
+  virtual const_pointer Address(const_reference ref) const = 0;
 private:
 };
 } // Allocator namespace

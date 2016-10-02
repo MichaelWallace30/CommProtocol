@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,21 +50,21 @@ public:
   virtual ~Comparator() { }
 
   /** 
-      Overloaded operator to compare values 
+      Overloaded operator to Compare values 
   */
   virtual int32_t operator()(const_reference obj1, const_reference obj2) {
-    return compare(obj1, obj2);
+    return Compare(obj1, obj2);
   }
 
   /** 
       If comparator is needed, be sure to define any inherited classes with this 
       function. 
   */
-  virtual int32_t compare(const_reference  obj1, const_reference obj2) = 0;
+  virtual int32_t Compare(const_reference  obj1, const_reference obj2) = 0;
   /**
-     Check if the objects are equal.
+     Check if the objects are Equal.
   */
-  virtual bool equal(const_reference obj1, const_reference obj2) = 0;
+  virtual bool Equal(const_reference obj1, const_reference obj2) = 0;
 private: 
 };
 } // Tools

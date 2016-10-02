@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -317,7 +317,7 @@ typedef PACKED_STRUCT zcl_date_t {
 #define ZCL_TYPE_UNKNOWN			0xFF			// 0 octets
 //@}
 
-// DEVNOTE: May be necessary to add pragmas to pack these structures on
+// DEVNOTE: May be necessary to add pragmas to Pack these structures on
 //				non-embedded platforms.
 
 /// 40-bit unsigned in host-byte-order

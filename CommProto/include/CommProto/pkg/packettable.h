@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -51,33 +51,33 @@ public:
   /**
     Inserts a Packet with a Callback associated with it.
    */
-  bool insert(const AbstractPacket* key, const Callback* callback);
+  bool Insert(const AbstractPacket* key, const Callback* callback);
   /**
     Returns the callback with the associated distinct key from the packet.
    */
-  Callback* getCallback(uint32_t key);
+  Callback* GetCallback(uint32_t key);
   /**
     Grab the packet that is associated with the key.
    */
-  AbstractPacket* getPacket(uint32_t key);
+  AbstractPacket* GetPacket(uint32_t key);
   /**
     Remove a packet-Callback pair in the table.
    */
-  bool remove(uint32_t key);
+  bool Remove(uint32_t key);
   /**
     Resize the table when needed, or if the table is getting to big.
    */
-  bool resize(uint32_t newSize);
+  bool Resize(uint32_t new_size);
 
 private:
   /**
     Traverse the table.
    */  
-  int32_t traverseIndex(int32_t i);
+  int32_t TraverseIndex(int32_t i);
   /**
     The benevolent key hasher. 
    */  
-  uint32_t keyHash(uint32_t key);
+  uint32_t KeyHash(uint32_t key);
   /**
     Creates a pair.
    */

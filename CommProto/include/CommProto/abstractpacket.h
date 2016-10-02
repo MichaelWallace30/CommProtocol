@@ -7,7 +7,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -35,7 +35,7 @@ using namespace serialization;
 /** 
     Use this AbstractPacket when it comes to packing, sending , receiving, and creating.
 
-    To define an abstract packet functions pack, unpack, and create must be defined. 
+    To define an abstract packet functions Pack, Unpack, and Create must be defined. 
     ALSO!!!!! Before your constructor, you must define name of the packet you are creating (not required
     but HIGHLY recommended).
 */
@@ -53,24 +53,24 @@ public:
      Get the id of the AbstractPacket. This will specialize what type of 
      packet it is.
    */
-  uint32_t getId() const
-    { return typeId; }
+  uint32_t GetId() const
+    { return type_id; }
 
   /**
      Packing should be defined by the user.
   */
-  virtual void pack(ObjectStream& obj) = 0;
+  virtual void Pack(ObjectStream& obj) = 0;
   /**
      Unpacking should be defined by the user.
   */
-  virtual void unpack(ObjectStream& obj) = 0;
+  virtual void Unpack(ObjectStream& obj) = 0;
   /**
      Creates a packet.
    */
-  virtual AbstractPacket* create() = 0;
+  virtual AbstractPacket* Create() = 0;
 
   template<typename Type>
-  static Type& getValue(AbstractPacket& packet) {
+  static Type& GetValue(AbstractPacket& packet) {
     try {
       return dynamic_cast< Type& >( packet );
     } catch ( std::bad_cast e ) {
@@ -89,7 +89,7 @@ private:
   /**
      This id defines the type of object.
   */
-  uint32_t typeId;
+  uint32_t type_id;
 
 };
 } // Comnet namespace 

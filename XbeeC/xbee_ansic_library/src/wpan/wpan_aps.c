@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -96,7 +96,7 @@ const wpan_cluster_table_entry_t *wpan_cluster_match( uint16_t match,
 							previously returned by this function to get the
 							next entry
 
-	@retval	NULL	\a dev is invalid or reached end of table
+	@retval	NULL	\a dev is invalid or reached End of table
 	@retval	!NULL	next entry from table
 
 	@see wpan_endpoint_match(), wpan_cluster_match()
@@ -125,7 +125,7 @@ const wpan_endpoint_table_entry_t *wpan_endpoint_get_next( wpan_dev_t *dev,
 	++ep;									// advance to next entry in table
 	if (ep->endpoint == WPAN_ENDPOINT_END_OF_LIST)
 	{
-		return NULL;					// reached end of table
+		return NULL;					// reached End of table
 	}
 
 	return ep;
@@ -149,7 +149,7 @@ const wpan_endpoint_table_entry_t *wpan_endpoint_get_next( wpan_dev_t *dev,
 	@param[in]	profile_id	Profile to match or WPAN_APS_PROFILE_ANY to
 									search on endpoint number only.
 
-	@retval	NULL	\a dev is invalid or reached end of table without finding
+	@retval	NULL	\a dev is invalid or reached End of table without finding
 						a match
 	@retval	!NULL	next entry from table
 
@@ -192,7 +192,7 @@ const wpan_endpoint_table_entry_t *wpan_endpoint_match( wpan_dev_t *dev,
 					and \a env->profile_id to find the endpoint table entry for
 					\a env->dev.
 
-	@retval	NULL	invalid parameter, or reached end of table without finding
+	@retval	NULL	invalid parameter, or reached End of table without finding
 						a match
 	@retval	!NULL	entry from table
 
@@ -233,7 +233,7 @@ const wpan_endpoint_table_entry_t
 							- #WPAN_CLUST_FLAG_INPUT (or #WPAN_CLUST_FLAG_SERVER)
 							- #WPAN_CLUST_FLAG_OUTPUT (or #WPAN_CLUST_FLAG_CLIENT)
 
-	@retval	NULL	\a dev is invalid or reached end of table without finding
+	@retval	NULL	\a dev is invalid or reached End of table without finding
 						a match
 	@retval	!NULL	matching entry from table
 
@@ -281,7 +281,7 @@ const wpan_endpoint_table_entry_t *wpan_endpoint_of_cluster( wpan_dev_t *dev,
 	Add a conversation to the table of tracked conversations.
 
 	@param[in,out]	state		endpoint state associated with sending endpoint
-	@param[in]		handler	handler to call when responses come back,
+	@param[in]		handler	handler to call when responses come Back,
 									or \c NULL to increment and return the
 									endpoint's transaction ID
 	@param[in]		context	pointer stored in conversation table and passed
@@ -392,7 +392,7 @@ void _wpan_endpoint_expire_conversations( wpan_ep_state_t FAR *state)
 			&& conversation->timeout != 0
 			&& (int16_t)(now - conversation->timeout) >= 0)
 		{
-			// send timeout to conversation's handler, ignore the response
+			// Send timeout to conversation's handler, ignore the response
 			conversation->handler( conversation, NULL);
 			wpan_conversation_delete( conversation);
 		}
@@ -550,7 +550,7 @@ int _wpan_endpoint_dispatch( wpan_envelope_t *envelope,
 					printf( "%s: sending FAILURE for unencrypted APS frame\n",
 						__FUNCTION__);
 				#endif
-				// send failure, we don't accept unencrypted broadcast frames
+				// Send failure, we don't accept unencrypted broadcast frames
 				return zcl_invalid_cluster( envelope, NULL);
 			}
 		}
@@ -654,7 +654,7 @@ int wpan_envelope_dispatch( wpan_envelope_t *envelope)
 
 				if (_wpan_endpoint_dispatch( envelope, ep) == 0)
 				{
-					retval = 0;		// dispatched to at least one endpoint
+					retval = 0;		// dispatched to At least one endpoint
 				}
 			}
 		}
@@ -687,9 +687,9 @@ int wpan_envelope_dispatch( wpan_envelope_t *envelope)
 	source/destination endpoints and envelope options are all be set to zero.
 
 	@param[out]	envelope			envelope to populate
-	@param[in]	dev				device that will send this envelope
+	@param[in]	dev				device that will Send this envelope
 	@param[in]	ieee				64-bit IEEE/MAC address of recipient or one of
-				- #WPAN_IEEE_ADDR_COORDINATOR (send to coordinator)
+				- #WPAN_IEEE_ADDR_COORDINATOR (Send to coordinator)
 				- #WPAN_IEEE_ADDR_BROADCAST (broadcast packet)
 				- #WPAN_IEEE_ADDR_UNDEFINED (use network address only)
 	@param[in]	network_addr	16-bit network address of recipient or one of
@@ -781,10 +781,10 @@ int wpan_envelope_reply( wpan_envelope_t FAR *reply,
 	Send a message to an endpoint using address and payload information stored
 	in a wpan_envelope_t structure.
 
-	@param[in]	envelope		envelope of request to send
+	@param[in]	envelope		envelope of request to Send
 
 	@retval	0	request sent
-	@retval	!0	error trying to send request
+	@retval	!0	error trying to Send request
 */
 wpan_aps_debug
 int wpan_envelope_send( const wpan_envelope_t FAR *envelope)

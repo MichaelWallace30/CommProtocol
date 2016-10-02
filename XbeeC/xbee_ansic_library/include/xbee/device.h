@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -43,8 +43,8 @@ XBEE_BEGIN_DECLS
 
 /** Possible values for the \c frame_type field of frames sent to and
 	from the XBee module.  Values with the upper bit set (0x80) are frames
-	we receive from the XBee module.  Values with the upper bit clear are
-	for frames we send to the XBee.
+	we Receive from the XBee module.  Values with the upper bit clear are
+	for frames we Send to the XBee.
 */
 enum xbee_frame_type {
 	/// Send an AT Command to the local device (see xbee_atcmd.c,
@@ -138,7 +138,7 @@ enum xbee_frame_type {
 
 /**
 	@name
-	Values for the \c options field of many receive frame types.
+	Values for the \c options field of many Receive frame types.
 */
 //@{
 /// XBee Receive Options: packet was acknowledged [ZigBee, DigiMesh]
@@ -150,7 +150,7 @@ enum xbee_frame_type {
 /// XBee Receive Options: APS-encrypted packet [ZigBee]
 #define XBEE_RX_OPT_APS_ENCRYPT		0x20
 
-/// XBee Receive Options: packet from end device (if known) [ZigBee]
+/// XBee Receive Options: packet from End device (if known) [ZigBee]
 #define XBEE_RX_OPT_FROM_END_DEVICE	0x40		// appeared in ZB 2x7x
 
 /// XBee Receive Options: Mask for transmission mode [DigiMesh]
@@ -177,7 +177,7 @@ enum xbee_frame_type {
 #endif
 
 /// Max Frame Size, including type, is for 0x91, Receive Explicit.  Note that
-/// this is only for received frames -- we send 0x11 frames with 20 byte header.
+/// this is only for received frames -- we Send 0x11 frames with 20 byte header.
 #define XBEE_MAX_FRAME_LEN		(XBEE_MAX_RFPAYLOAD + 18)
 
 
@@ -229,9 +229,9 @@ struct xbee_dev_t;
 					Does there need to be a return value equivalent to "thanks
 					for that frame, but please remove me from the dispatch table"?
 					Right now, the dispatcher is ignoring the return value.
-					Could be useful when registering to receive status information
+					Could be useful when registering to Receive status information
 					on outbound frames -- once we have status, we don't need
-					to receive any additional notifications.
+					to Receive any additional notifications.
 */
 typedef int (*xbee_frame_handler_fn)(
 	struct xbee_dev_t				*xbee,
@@ -266,7 +266,7 @@ struct xbee_node_id_t;
 	@brief Function to process parsed Node ID messages.
 
 	Programs can register a Node ID message handler with this signature to
-	receive Node ID messages (either from ATND responses, Join Notifications,
+	Receive Node ID messages (either from ATND responses, Join Notifications,
 	or as a result of Commissioning Button presses).
 
 	@param[in]	xbee		XBee device that received the message
@@ -326,7 +326,7 @@ enum xbee_dev_mode {
 	// Modes used by "AT firmware" and some bootloaders:
 	XBEE_MODE_API,				///< XBee is using API firmware
 	XBEE_MODE_IDLE,			///< idle mode, data sent is passed to remote XBee
-	XBEE_MODE_PRE_ESCAPE,	///< command mode, can send AT commands to XBee
+	XBEE_MODE_PRE_ESCAPE,	///< command mode, can Send AT commands to XBee
 	XBEE_MODE_POST_ESCAPE,	///< wait for guard-time ms before sending +++
 	XBEE_MODE_COMMAND,		///< wait guard-time ms for "OK\r" before command mode
 	XBEE_MODE_WAIT_IDLE,		///< waiting for OK response to ATCN command
@@ -357,7 +357,7 @@ typedef struct xbee_dev_t
 	/// Optional function to read AWAKE pin.
 	xbee_is_awake_fn	is_awake;
 
-	/// Optional function to receive parsed Node ID messages.
+	/// Optional function to Receive parsed Node ID messages.
 	xbee_disc_node_id_fn		node_id_handler;
 
 	/// Value of XBee module's HV register.
@@ -430,7 +430,7 @@ typedef struct xbee_dev_t
 	// Current timeout: value of MS_TIMER when guard-time expired or we expect
 	// to return to idle mode from command mode.
 	// If we track MS_TIMER from the last byte we sent to the XBee, we can
-	// potentially skip over the pre-escape guard time and send the escape chars.
+	// potentially skip over the pre-escape guard time and Send the escape chars.
 
 	/// Current mode of the XBee device (e.g., boot loader, API, command).
 	#ifdef XBEE_DEVICE_ENABLE_ATMODE
@@ -462,7 +462,7 @@ typedef struct xbee_dev_t
 /**
 	Static table used for dispatching frames.
 
-	The application needs to define this table, and it should end with
+	The application needs to define this table, and it should End with
 	the XBEE_FRAME_TABLE_END marker.
 
 */
@@ -521,7 +521,7 @@ typedef PACKED_STRUCT xbee_frame_modem_status_t {
 #define XBEE_MODEM_STATUS_HW_RESET					0x00
 /// XBee Modem Status: Watchdog timer reset [ZigBee and DigiMesh]
 #define XBEE_MODEM_STATUS_WATCHDOG					0x01
-/// XBee Modem Status: Joined network (routers and end devices) [ZigBee]
+/// XBee Modem Status: Joined network (routers and End devices) [ZigBee]
 #define XBEE_MODEM_STATUS_JOINED						0x02
 /// XBee Modem Status: Disassociated (left network) [ZigBee]
 #define XBEE_MODEM_STATUS_DISASSOC					0x03

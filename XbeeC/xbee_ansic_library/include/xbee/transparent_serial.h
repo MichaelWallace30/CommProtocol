@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -37,7 +37,7 @@ XBEE_BEGIN_DECLS
 					endpoints, and cluster fields of the envelope.
 
 	@retval	0	data sent
-	@retval	!0	error trying to send request
+	@retval	!0	error trying to Send request
 
 	@sa xbee_transparent_serial_str
 
@@ -54,10 +54,10 @@ int xbee_transparent_serial( wpan_envelope_t *envelope);
 									filled in.  This function sets the payload,
 									length, profile, endpoints, and cluster fields
 									of the envelope.
-	@param[in]		data		string to send
+	@param[in]		data		string to Send
 
 	@retval	0	data sent
-	@retval	!0	error trying to send request
+	@retval	!0	error trying to Send request
 
 	@sa xbee_transparent_serial
 

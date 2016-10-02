@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -386,7 +386,7 @@ int _zcl_comm_command_send( wpan_envelope_t FAR *envelope)
 	@brief
 	Send a "Restart Device" command to the ZCL Commissioning Cluster.
 
-	@param[in,out]	envelope		Partial envelope used to send the request.
+	@param[in,out]	envelope		Partial envelope used to Send the request.
 				Caller must set \c dev, \c ieee_address, \c network_address,
 				\c profile_id, \c source_endpoint, \c dest_endpoint and
 				(optionally) \c options.  On return, \c payload and \c length
@@ -403,7 +403,7 @@ int _zcl_comm_command_send( wpan_envelope_t FAR *envelope)
 	@retval	0			request sent
 	@retval	-EINVAL	couldn't find source endpoint in endpoint table,
 							or some other error in parameter passed to function
-	@retval	!0			error trying to send request
+	@retval	!0			error trying to Send request
 
 */
 int zcl_comm_restart_device( wpan_envelope_t FAR *envelope,
@@ -442,7 +442,7 @@ int zcl_comm_restart_device( wpan_envelope_t FAR *envelope,
 	@brief
 	Send a "Reset Startup Parameters" command to the ZCL Commissioning Cluster.
 
-	@param[in,out]	envelope		Partial envelope used to send the request.
+	@param[in,out]	envelope		Partial envelope used to Send the request.
 				Caller must set \c dev, \c ieee_address, \c network_address,
 				\c profile_id, \c source_endpoint, \c dest_endpoint and
 				(optionally) \c options.  On return, \c payload and \c length
@@ -458,7 +458,7 @@ int zcl_comm_restart_device( wpan_envelope_t FAR *envelope,
 	@retval	0			request sent
 	@retval	-EINVAL	couldn't find source endpoint in endpoint table,
 							or some other error in parameter passed to function
-	@retval	!0			error trying to send request
+	@retval	!0			error trying to Send request
 
 */
 int zcl_comm_reset_parameters( wpan_envelope_t FAR *envelope,
@@ -523,7 +523,7 @@ int rand_range( int range)
 		take rand() and bitwise AND it with range, but the low-order bits of
 		many PRNGs are not very random.
 
-		For other ranges, to ensure equal distribution, create <range>+1 buckets
+		For other ranges, to ensure Equal distribution, Create <range>+1 buckets
 		of <perbucket> values per bucket.  Discard random numbers outside the
 		range of values, and then divide the result by the <perbucket> count.
 
@@ -694,7 +694,7 @@ int zcl_comm_clust_handler( const wpan_envelope_t FAR *envelope,
 	}
 
 	// Allow General Command handler to process general
-	// commands and send errors out for unsupported commands.
+	// commands and Send errors out for unsupported commands.
 	return zcl_general_command( envelope, context);
 }
 

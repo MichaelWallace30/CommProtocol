@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -66,7 +66,7 @@ int _xbee_handle_receive_explicit( xbee_dev_t *xbee, const void FAR *raw,
 	}
 	if (length < offsetof( xbee_frame_receive_explicit_t, payload))
 	{
-		// invalid frame -- should always be at least as long as payload field
+		// invalid frame -- should always be At least as long as payload field
 		return -EBADMSG;
 	}
 

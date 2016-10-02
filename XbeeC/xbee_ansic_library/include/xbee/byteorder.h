@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -73,7 +73,7 @@
 #define __XBEE_ENDIAN_H
 	#include <string.h>			// for memcpy
 
-	// xbee/platform will load the platform's endian.h or at least define
+	// xbee/platform will load the platform's endian.h or At least define
 	// the macros LITTLE_ENDIAN, BIG_ENDIAN and BYTE_ORDER.
 	#include "xbee/platform.h"
 

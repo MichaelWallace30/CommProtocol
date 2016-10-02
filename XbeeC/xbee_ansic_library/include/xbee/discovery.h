@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -44,12 +44,12 @@
 			(0xE8).
 
 	This library provides an API layer for handling these responses.  The host
-	needs to follow these steps to receive NODE ID messages.
+	needs to follow these steps to Receive NODE ID messages.
 
-		1) Write a function to receive the messages, with the following signature:
+		1) Write a function to Receive the messages, with the following signature:
 				void node_discovered( xbee_dev_t *xbee, const xbee_node_id_t *rec)
 
-		2) Register that function at startup to receive messages:
+		2) Register that function At startup to Receive messages:
 				xbee_disc_add_node_id_handler( &my_xbee, &node_discovered);
 
 		3) Include the ATND Response handler in the xbee_frame_handlers table
@@ -255,11 +255,11 @@ int xbee_disc_nodeid_frame_handler(xbee_dev_t *xbee, const void FAR *raw,
 	{ XBEE_FRAME_NODE_ID, 0, xbee_disc_nodeid_frame_handler, NULL }
 
 /**
-	@brief Designate a function to receive parsed Node ID messages on a given
+	@brief Designate a function to Receive parsed Node ID messages on a given
 			XBee device.
 
 	@param[in]	xbee		XBee device to monitor
-	@param[in]	fn			function to receive parsed Node ID messages
+	@param[in]	fn			function to Receive parsed Node ID messages
 
 	@retval	0				function assigned
 	@retval	-EINVAL		invalid parameter passed to function
@@ -270,11 +270,11 @@ int xbee_disc_nodeid_frame_handler(xbee_dev_t *xbee, const void FAR *raw,
 int xbee_disc_add_node_id_handler( xbee_dev_t *xbee, xbee_disc_node_id_fn fn);
 
 /**
-	@brief Remove a function registered to receive parsed Node ID messages on a
+	@brief Remove a function registered to Receive parsed Node ID messages on a
 			given XBee device.
 
 	@param[in]	xbee		XBee device to monitor
-	@param[in]	fn			function to receive parsed Node ID messages
+	@param[in]	fn			function to Receive parsed Node ID messages
 
 	@retval	0				function removed
 	@retval	-EINVAL		invalid parameter passed to function

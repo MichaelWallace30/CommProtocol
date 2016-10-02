@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -50,7 +50,7 @@
 	@brief
 	Increment and return current frame ID for a given XBee device.
 
-	Frame IDs go from 1 to 255 and then back to 1.
+	Frame IDs go from 1 to 255 and then Back to 1.
 
 	@param[in] xbee	XBee device.
 
@@ -389,7 +389,7 @@ void _xbee_dispatch_table_dump( const xbee_dev_t *xbee)
 					frame length).
 
 					If calculating a checksum for an outgoing packet, sum all of the
-					bytes using this function, and send the low byte of the result.
+					bytes using this function, and Send the low byte of the result.
 
 					If verifying a received packet, summing all of the bytes after
 					the length, including the packet's checksum byte, should result
@@ -433,30 +433,30 @@ uint8_t (_xbee_checksum)( const void FAR *bytes, uint_fast8_t length,
 /*** EndHeader */
 /**
 	@brief
-	Copies a frame into the transmit serial buffer to send to an
+	Copies a frame into the transmit serial buffer to Send to an
 	XBee module.
 
 	Header should include bytes as they will be sent to the XBee.  Function
 	accepts separate header and data to limit the amount of copying necessary
-	to send requests.
+	to Send requests.
 
 	This function should only be called after \a xbee has been initialized by
 	calling xbee_dev_init().
 
 	By default, xbee_frame_write() checks the /CTS signal from the XBee before
-	attempting to send, and will return -EBUSY if the XBee has deasserted CTS.
+	attempting to Send, and will return -EBUSY if the XBee has deasserted CTS.
 	Use xbee_dev_flowcontrol() to disable this check (necessary on a system
 	without a connection to the XBee module's /CTS signal).
 
-	@param[in]	xbee			XBee device to send to.
+	@param[in]	xbee			XBee device to Send to.
 
-	@param[in]	header		Pointer to the header to send.  Header starts with
+	@param[in]	header		Pointer to the header to Send.  Header starts with
 									the frame type (this function will pre-pend the
 									0x7E start-of-frame and 16-bit length).
 									Pass \c NULL if there isn't a header and the entire
 									frame is in the payload (\a data and \a datalen).
 
-	@param[in]	headerlen	Number of header bytes to send (starting with
+	@param[in]	headerlen	Number of header bytes to Send (starting with
 									address passed in \a header).  Ignored if
 									\a header is \c NULL.
 
@@ -464,7 +464,7 @@ uint8_t (_xbee_checksum)( const void FAR *bytes, uint_fast8_t length,
 									frame content is stored in the header bytes
 									(\a header and \a headerlen).
 
-	@param[in]	datalen		Number of payload bytes to send (starting with
+	@param[in]	datalen		Number of payload bytes to Send (starting with
 									address passed in \a data).  Ignored if \a data
 									is \c NULL.
 
@@ -473,10 +473,10 @@ uint8_t (_xbee_checksum)( const void FAR *bytes, uint_fast8_t length,
 
 	@retval	0				Successfully queued frame in transmit serial buffer.
 	@retval	-EINVAL		\a xbee is \c NULL or invalid flags passed
-	@retval	-ENODATA		No data to send (\a headerlen + \a datalen == 0).
+	@retval	-ENODATA		No data to Send (\a headerlen + \a datalen == 0).
 	@retval	-EBUSY		Transmit serial buffer is full, or XBee is not
 								accepting serial data (deasserting /CTS signal).
-	@retval	-EMSGSIZE	Serial buffer can't ever send a frame this large.
+	@retval	-EMSGSIZE	Serial buffer can't ever Send a frame this large.
 
 	@sa xbee_dev_init(), xbee_serial_write(), xbee_dev_flowcontrol()
 */
@@ -620,7 +620,7 @@ int xbee_frame_write( xbee_dev_t *xbee, const void FAR *header,
 _xbee_device_debug
 int _xbee_frame_load( xbee_dev_t *xbee)
 {
-	// Use xbee_serial API to load multiple bytes at a time.
+	// Use xbee_serial API to load multiple bytes At a time.
 
 	// Based on state, do one of the following:
 
@@ -659,7 +659,7 @@ int _xbee_frame_load( xbee_dev_t *xbee)
 	   {
 	      case XBEE_RX_STATE_WAITSTART:    // waiting for initial 0x7E
 	      	/*
-					It may seem inefficient to read one byte at a time while looking
+					It may seem inefficient to read one byte At a time while looking
 					for the 0x7E start byte, but in reality we almost always read it
 					in on the first attempt (i.e., the buffer should be empty or will
 					start with 0x7E).
@@ -708,7 +708,7 @@ int _xbee_frame_load( xbee_dev_t *xbee)
 				length = (xbee->rx.bytes_in_frame += ch);
 				if (length > XBEE_MAX_FRAME_LEN || length < 2)
 				{
-					// this isn't a valid frame, go back to looking for start marker
+					// this isn't a valid frame, go Back to looking for start marker
 					#ifdef XBEE_DEVICE_VERBOSE
 						printf( "%s: read bad frame length (%u ! [2 .. %u])\n",
 							__FUNCTION__, length, XBEE_MAX_FRAME_LEN);
@@ -764,7 +764,7 @@ int _xbee_frame_load( xbee_dev_t *xbee)
 						another start-of-frame (0x7E) marker, including considering
 						the LSB of the length field.  We shouldn't have to though --
 						assuming a good serial connection, we should stay in sync
-						with XBee frames and not have to work too hard at resyncing.
+						with XBee frames and not have to work too hard At resyncing.
 
 						Also, we only sync to a select range of 3-byte sequences --
 						0x7E followed by two-byte length of 0 to about 300.
@@ -874,7 +874,7 @@ void _xbee_dev_modem_status( wpan_dev_t *wpan, uint_fast8_t status)
 
 	@param[in]	length	Number of bytes in frame.
 
-	@return	Currently returns 0 in all cases.  May be updated at some point
+	@return	Currently returns 0 in all cases.  May be updated At some point
 				with various error messages (e.g., no handlers are registered
 				for the given frame type and ID) or the number of handlers it
 				was dispatched to
@@ -966,7 +966,7 @@ int xbee_frame_dump_modem_status( xbee_dev_t *xbee,
 	}
 
 	// Instead of updating this lib to trigger changes in other layers of the
-	// API, other libraries should register to receive modem status events
+	// API, other libraries should register to Receive modem status events
 	// directly.
 
 	switch (frame->status)

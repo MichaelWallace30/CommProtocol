@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -14,12 +14,12 @@
 	@addtogroup util_xmodem
 	@{
 	@file xbee_xmodem.c
-	Xmodem send implementation, used for XBee firmware updates.
+	Xmodem Send implementation, used for XBee firmware updates.
 
 	@todo Have timeout values adjust based on link latency.  Start out with a
 			high timeout (10 seconds?) and adjust down based on actual response
 			time (maybe 150% of last ACK's delay?)  Timeout for EOT should start
-			at timeout value from last block.
+			At timeout value from last block.
 */
 
 /*** BeginHeader */
@@ -206,7 +206,7 @@ int xbee_xmodem_tx_init( xbee_xmodem_state_t *xbxm, uint16_t flags)
 #ifndef __DC__
 	#include "xbee/xmodem_crc16.h"
 #endif
-// <0 for failure, 1 for file done, 0 for OK to send
+// <0 for failure, 1 for file done, 0 for OK to Send
 _xmodem_debug
 int _assemble_packet( xbee_xmodem_state_t *xbxm, uint16_t block_size)
 {
@@ -217,7 +217,7 @@ int _assemble_packet( xbee_xmodem_state_t *xbxm, uint16_t block_size)
 	uint16_t i;
 	char FAR *p;
 
-	// Assemble a packet to send -- 3-byte header; 64, 128 or 1K xmodem
+	// Assemble a packet to Send -- 3-byte header; 64, 128 or 1K xmodem
 	// block from source file; and then 1-byte checksum or 2-byte CRC.
 
 	xbxm->tries = 3;
@@ -312,7 +312,7 @@ int xbee_xmodem_tx_tick( xbee_xmodem_state_t *xbxm)
 	switch (xbxm->state)
 	{
 		case XBEE_XMODEM_STATE_FLUSH:
-			// flush the receive buffer
+			// flush the Receive buffer
 			while (xbxm->stream.read( xbxm->stream.context, xbxm->buffer, 64) > 0)
 			{
 				// read from target until buffer is empty, then look for start char
@@ -357,7 +357,7 @@ int xbee_xmodem_tx_tick( xbee_xmodem_state_t *xbxm)
 
 			while (_xbee_xmodem_getchar( xbxm) != -ENODATA)
 			{
-				// flush any extra characters received from other end
+				// flush any extra characters received from other End
 			}
 
 			// fall through to start of sending packet
@@ -448,7 +448,7 @@ int xbee_xmodem_tx_tick( xbee_xmodem_state_t *xbxm)
 				#endif
 				++xbxm->packet_num;
 
-				// read and send the next packet
+				// read and Send the next packet
 				xbxm->state = XBEE_XMODEM_STATE_SEND;
 				return 0;
 			}

@@ -6,7 +6,7 @@ Copyright (C) 2016  Mario Garcia.
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+(At your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,8 +33,8 @@ XBeeLink::XBeeLink()
 }
 
 
-bool XBeeLink::initConnection(const char* port, const char* address, uint32_t baudrate) {
-  bool success = home->initialize(port, baudrate);
+bool XBeeLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
+  bool success = home->Initialize(port, baudrate);
   if (!success) {
     COMMS_DEBUG("Home xbee failed to initialize!");
   }
@@ -42,7 +42,7 @@ bool XBeeLink::initConnection(const char* port, const char* address, uint32_t ba
 }
 
 
-bool XBeeLink::addAddress(uint8_t destId, const char* address, uint16_t port) {
+bool XBeeLink::AddAddress(uint8_t destId, const char* address, uint16_t port) {
   //XBee* xbee = new XBee();
   bool success = false;
   
@@ -50,20 +50,20 @@ bool XBeeLink::addAddress(uint8_t destId, const char* address, uint16_t port) {
 }
 
 
-bool XBeeLink::removeAddress(uint8_t destId) {
+bool XBeeLink::RemoveAddress(uint8_t destId) {
   bool success = false;
   // remove xbee from here.
   return success;
 }
 
 
-bool XBeeLink::send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
-  return home->send(destId, txData, txLength);
+bool XBeeLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
+  return home->Send(destId, txData, txLength);
 }
 
 
-bool XBeeLink::recv(uint8_t* rxData, uint32_t* rxLength) {
-  return home->recv(rxData, rxLength);
+bool XBeeLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
+  return home->Recv(rxData, rxLength);
 }
 } // Experimental
 } // Network

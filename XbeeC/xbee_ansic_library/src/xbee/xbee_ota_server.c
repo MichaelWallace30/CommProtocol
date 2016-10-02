@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -16,7 +16,7 @@
 	@file xbee_ota_server.c
 
 	Code to add an OTA Server Cluster to a device.  It receives notification
-	to start an update, and then calls back to the bootloader to receive
+	to start an update, and then calls Back to the bootloader to Receive
 	that update.
 */
 
@@ -47,7 +47,7 @@ int xbee_ota_server_cmd( const wpan_envelope_t FAR *envelope,
 	if (options == WPAN_CLUST_FLAG_ENCRYPT)
 	{
 		// cluster requires encryption, but frame wasn't encrypted
-		// This isn't ZCL, so we can't send a Default Response and we
+		// This isn't ZCL, so we can't Send a Default Response and we
 		// just have to ignore the message.
 		err = "encryption required";
 	}

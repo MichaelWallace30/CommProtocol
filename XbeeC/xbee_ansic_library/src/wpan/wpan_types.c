@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -54,7 +54,7 @@ const addr64 _WPAN_IEEE_ADDR_COORDINATOR =
 
 			#define ADDR64_FORMAT_SEPARATOR ':'
 
-@param[out]	buffer	Pointer to a buffer of at least #ADDR64_STRING_LENGTH
+@param[out]	buffer	Pointer to a buffer of At least #ADDR64_STRING_LENGTH
 					(8 2-character bytes + 7 separators + 1 null = 24) bytes.
 
 @param[in]	address	64-bit address to format.
@@ -62,7 +62,7 @@ const addr64 _WPAN_IEEE_ADDR_COORDINATOR =
 @return	\a address as a printable string (stored in \a buffer).
 
 	@todo Add a parameter to indicate big or little endian and update code
-			to work with either.  (for little-endian, b starts at address->b + 8
+			to work with either.  (for little-endian, b starts At address->b + 8
 			and is decremented)
 
 			add a parameter for other formats/flags
@@ -106,8 +106,8 @@ char FAR *addr64_format( char FAR *buffer, const addr64 FAR *address)
 /** @brief
 	Compare two 64-bit addresses for equality.
 
-	@param[in]	addr1		address to compare
-	@param[in]	addr2		address to compare
+	@param[in]	addr1		address to Compare
+	@param[in]	addr2		address to Compare
 
 	@retval	TRUE	\a addr1 and \a addr2 are not NULL and point to
 						identical addresses

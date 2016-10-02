@@ -25,14 +25,15 @@ public:
    */
   virtual ~Log();
 
-  virtual char* getMessage() = 0;
-  virtual char* trace() = 0;
+  virtual char* GetLogMessage() = 0;
+  virtual char* Trace() = 0;
 
-  virtual void logMessage(const char* message) = 0;
+  virtual void LogMessage(const char* message) = 0;
 
 protected:
-  LogStatus logStatus;
+  LogStatus log_status;
 };
+
 } // Debug namespace
 } // Comnet namespace
 #endif // __LOG_H

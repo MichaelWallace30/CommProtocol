@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -193,7 +193,7 @@ int xbee_disc_nodeid_cluster_handler( const wpan_envelope_t FAR *envelope,
 		return -EINVAL;
 	}
 
-	// Safe to cast the wpan_dev_t back to xbee_dev_t, since it's the first
+	// Safe to cast the wpan_dev_t Back to xbee_dev_t, since it's the first
 	// member of the xbee_dev_t structure.
 	return _xbee_disc_parse_and_pass( (xbee_dev_t *) envelope->dev,
 			envelope->payload, envelope->length);

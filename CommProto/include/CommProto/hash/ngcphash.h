@@ -1,10 +1,10 @@
 /*
-  This file contains the NGCP researched hash implementation, so as to create
+  This file Contains the NGCP researched hash implementation, so as to Create
   discrete numbers from data, which will then be used to store and separate 
   this data from others. It attempts to avoid the most collisions possible,
   so as to prevent any conflicts with data handling and storage. This is still
   an ongoing research, and we will hope to continue working on improving this 
-  hash for the long run.
+  hash for the long Run.
 
   Non-cryptographic hash algorithm.
 
@@ -13,7 +13,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of

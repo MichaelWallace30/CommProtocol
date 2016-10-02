@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -106,7 +106,7 @@ int _zcl_basic_server( const wpan_envelope_t FAR *envelope,
 	the optional "Reset to Factory Defaults" command.
 
 	Note that you must #include "zcl_basic_attributes.h" in your program
-	(to create constants referenced by the macros) before using these macros
+	(to Create constants referenced by the macros) before using these macros
 	in a cluster table.
 */
 #ifdef ZCL_FACTORY_RESET_FN

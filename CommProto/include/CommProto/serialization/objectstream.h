@@ -6,7 +6,7 @@ Copyright (C) 2016  Michael Wallace, Mario Garcia.
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+(At your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -40,38 +40,38 @@ namespace serialization {
 	class ObjectStream {
 	private:
 		/** Data stream to hold input as an array of bytes*/
-		marshal_t streamBuffer;
+		marshal_t stream_buffer;
 
 		/** Current postion of streamBuffer and also size of streamBuffer*/
-		int32_t currentPostion;
+		int32_t curr_pos;
 		/** Error Handingling methods*/
-		void printErrorUnderFlow(){ COMMS_DEBUG("\nERROR:\t Source: ObjectStream\t Message: Buffer too small\n"); }
+		void PrintErrorUnderFlow(){ COMMS_DEBUG("\nERROR:\t Source: ObjectStream\t Message: Buffer too small\n"); }
 		/** Error Handingling methods*/
-		void printErrorOverFlow(){ COMMS_DEBUG("\nERROR:\t Source: ObjectStream\t Message: Buffer full\n"); }
+		void PrintErrorOverFlow(){ COMMS_DEBUG("\nERROR:\t Source: ObjectStream\t Message: Buffer full\n"); }
 
 	public:
 
 		/** Header packet for communication*/
-		header_t headerPacket;
+		Header header_packet;
 
 		/** Constructor*/
 		ObjectStream();
 		/** Destructor*/
 		~ObjectStream();
 		/** getPostion returns the postion of the stream buffer*/
-		int32_t getPostion() const { return currentPostion; }
+		int32_t GetPosition() const { return curr_pos; }
 		/** getSize return the size of the current buffer*/
-		int32_t getSize() const { return currentPostion; }
+		int32_t GetSize() const { return curr_pos; }
 		/** getBuffer returns a pionter to the buffer stream*/
-		marshal_t getBuffer() const { return streamBuffer; }
-    header_t& getHeaderPacket() { return headerPacket; } 
+		marshal_t GetBuffer() const { return stream_buffer; }
+    Header& GetHeaderPacket() { return header_packet; } 
 		/** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
-		void setBuffer(const char* buffer, int len);
+		void SetBuffer(const char* buffer, int len);
 
 		
   
-		void serializeHeader(header_t header);
-		header_t deserializeHeader();
+		void SerializeHeader(Header header);
+		Header DeserializeHeader();
 
 		//
 		//decrypt and encrypt header here

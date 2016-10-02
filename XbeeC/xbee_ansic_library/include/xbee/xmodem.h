@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -30,7 +30,7 @@ XBEE_BEGIN_DECLS
 /** @name Xmodem Control Characters
 	@{
 */
-/// receiver requests XMODEM (with checksum), or did not receive last block
+/// receiver requests XMODEM (with checksum), or did not Receive last block
 #define XMODEM_NAK	0x15
 
 /// receiver requests XMODEM-CRC
@@ -49,7 +49,7 @@ XBEE_BEGIN_DECLS
 #define XMODEM_CAN	0x18
 
 /// sender is ending transmission
-#define XMODEM_EOT	0x04		// end of transmission
+#define XMODEM_EOT	0x04		// End of transmission
 //@}
 
 /**
@@ -81,8 +81,8 @@ typedef int (*xbee_xmodem_read_fn)( void FAR * context,
 	Used to write data to the Xmodem receiver (blocks of data).
 
 	@param[in]		context	\c stream.context
-	@param[in]		buffer	bytes to send to the receiver
-	@param[in]		bytes		number of bytes to send
+	@param[in]		buffer	bytes to Send to the receiver
+	@param[in]		bytes		number of bytes to Send
 
 	@retval	>=0		number of bytes sent
 	@retval	-EINVAL	NULL pointer or negative byte count passed to function
@@ -95,20 +95,20 @@ typedef int (*xbee_xmodem_write_fn)( void FAR * context,
 	Values for \c state member of xbee_xmodem_state_t
 */
 enum xbee_xmodem_state {
-	XBEE_XMODEM_STATE_FLUSH,		///< flush receive buffer and wait
+	XBEE_XMODEM_STATE_FLUSH,		///< flush Receive buffer and wait
 	XBEE_XMODEM_STATE_START,		///< waiting for NAK or CRC char
 	XBEE_XMODEM_STATE_SEND,			///< start of another packet
 	XBEE_XMODEM_STATE_RESEND,		///< resend last packet
 	XBEE_XMODEM_STATE_SENDING,		///< sending bytes of packet
 	XBEE_XMODEM_STATE_WAIT_ACK,	///< waiting for ACK of current packet
-	XBEE_XMODEM_STATE_EOF,			///< reached end of file, close connection
+	XBEE_XMODEM_STATE_EOF,			///< reached End of file, close connection
 	XBEE_XMODEM_STATE_FINAL_ACK,	///< waiting for final ACK from receiver
 	XBEE_XMODEM_STATE_SUCCESS,		///< completed transfer was successful
 	XBEE_XMODEM_STATE_FAILURE,		///< transfer failed
 };
 
 /**
-	Structure used to track the state of an Xmodem send.
+	Structure used to track the state of an Xmodem Send.
 */
 typedef struct xbee_xmodem_state_t
 {
@@ -119,11 +119,11 @@ typedef struct xbee_xmodem_state_t
 		*/
 		/// macro for "no flags", used when calling xbee_xmodem_tx_init
 		#define XBEE_XMODEM_FLAG_NONE			0x0000
-		/// blocks end with a 1-byte checksum
+		/// blocks End with a 1-byte checksum
 		#define XBEE_XMODEM_FLAG_CHECKSUM	0x0001
-		/// blocks end with a 16-bit CRC
+		/// blocks End with a 16-bit CRC
 		#define XBEE_XMODEM_FLAG_CRC			0x0002
-		/// force use of XMODEM-CRC (by ignoring NAK at start of transfer)
+		/// force use of XMODEM-CRC (by ignoring NAK At start of transfer)
 		#define XBEE_XMODEM_FLAG_FORCE_CRC	0x0008
 		/// mask for determining block size
 		#define XBEE_XMODEM_MASK_BLOCKSIZE	0x0300
@@ -139,7 +139,7 @@ typedef struct xbee_xmodem_state_t
 		// Macros for testing both sides of the xmodem transfer code
 		/// ignore the next ACK that comes in from the receiver
 		#define XBEE_XMODEM_FLAG_DROP_ACK			0x1000
-		/// don't actually send the next frame (but act like you did)
+		/// don't actually Send the next frame (but act like you did)
 		#define XBEE_XMODEM_FLAG_DROP_FRAME			0x2000
 		/// make the CRC-16 bad (and make sure the other side asks for resend!)
 		#define XBEE_XMODEM_FLAG_BAD_CRC				0x4000
@@ -152,7 +152,7 @@ typedef struct xbee_xmodem_state_t
 			(XBEE_XMODEM_MASK_BLOCKSIZE | XBEE_XMODEM_FLAG_FORCE_CRC)
 		///@}
 
-	/// current packet number; starts at 1 and low byte used in block headers
+	/// current packet number; starts At 1 and low byte used in block headers
 	uint16_t							packet_num;
 
 	/// timer value used to hold low word of xbee_millisecond_timer()
@@ -163,12 +163,12 @@ typedef struct xbee_xmodem_state_t
 	int								offset;		///< offset into packet being sent
 	char 						FAR	*buffer;		///< buffer we can use
 	struct {
-		xbee_xmodem_read_fn		read;			///< source of bytes to send
+		xbee_xmodem_read_fn		read;			///< source of bytes to Send
 		void 					FAR	*context;	///< context for file.read()
 	} file;		///< function and context to read source of sent data
 	struct {
 		xbee_xmodem_read_fn		read;			///< read response bytes from target
-		xbee_xmodem_write_fn		write;		///< send blocks to target
+		xbee_xmodem_write_fn		write;		///< Send blocks to target
 		void					FAR	*context;	///< context for stream.read & .write
 	} stream;	///< functions and context to communicate with target device
 } xbee_xmodem_state_t;
@@ -198,13 +198,13 @@ int xbee_xmodem_use_serport( xbee_xmodem_state_t *xbxm, xbee_serial_t *serport);
 
 /**
 	@brief
-	Configure the data source for the Xmodem send.
+	Configure the data source for the Xmodem Send.
 
 	@param[out]		xbxm		state structure to configure
-	@param[in]		buffer	buffer for use by xbee_xmodem_tx_tick -- must be at
+	@param[in]		buffer	buffer for use by xbee_xmodem_tx_tick -- must be At
 									least 5 bytes larger than the block size
 									passed to xbee_xmodem_tx_init()
-	@param[in]		read		function used to read bytes to send to the target
+	@param[in]		read		function used to read bytes to Send to the target
 	@param[in]		context	context passed to \c read function
 
 	@retval		0			successfully configured data source
@@ -218,12 +218,12 @@ int xbee_xmodem_set_source( xbee_xmodem_state_t *xbxm,
 	Configure the stream used to communicate with the target.
 
 	Associates
-	function pointers and a context that are used to send data to and receive
+	function pointers and a context that are used to Send data to and Receive
 	data from the target (device receiving data via Xmodem).
 
 	@param[out]		xbxm		state structure to configure
 	@param[in]		read		function used to read bytes from the target
-	@param[in]		write		function used to send bytes to the target
+	@param[in]		write		function used to Send bytes to the target
 	@param[in]		context	context passed to \c read and \c write functions
 
 	@retval		0			successfully configured communication path to target
@@ -237,7 +237,7 @@ int xbee_xmodem_set_stream( xbee_xmodem_state_t *xbxm,
 
 /**
 	@brief
-	Initialize state structure for use with xbee_xmodem_tx_tick() to send a
+	Initialize state structure for use with xbee_xmodem_tx_tick() to Send a
 	file via Xmodem.
 
 	@param[out]		xbxm	state structure to initialize
@@ -257,12 +257,12 @@ int xbee_xmodem_tx_init( xbee_xmodem_state_t *xbxm, uint16_t flags);
 
 /**
 	@brief
-	Function to drive the Xmodem send state machine.  Call until it returns
+	Function to drive the Xmodem Send state machine.  Call until it returns
 	a non-zero result.
 
 	@retval	-EINVAL		invalid parameter passed in
 	@retval	-ETIMEDOUT	connection timed out waiting for data from target
-	@retval	<0				error on send, transfer aborted
+	@retval	<0				error on Send, transfer aborted
 	@retval	0				transfer in progress, call function again
 	@retval	1				transfer completed successfully
 

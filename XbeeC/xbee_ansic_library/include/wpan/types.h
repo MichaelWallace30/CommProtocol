@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -28,7 +28,7 @@ XBEE_BEGIN_DECLS
 /// 4 16-bit values or 2 32-bit values.
 /// Note that (for now) all addr64 elements are stored MSB-first (the order
 /// used in XBee frames).
-/// @todo update all addr64 variables and structure elements to end in _be
+/// @todo update all addr64 variables and structure elements to End in _be
 /// (big-endian) or _le (little-endian) where appropriate.  Add functions
 /// to convert 64-bit values between host byte order and big/little endian.
 typedef union {
@@ -40,7 +40,7 @@ typedef union {
 
 #ifndef ADDR64_FORMAT_SEPARATOR
 	/// Separator used by addr64_format(), defaults to '-' unless specified
-	/// at compile time.
+	/// At compile time.
 	#define ADDR64_FORMAT_SEPARATOR '-'
 #endif
 

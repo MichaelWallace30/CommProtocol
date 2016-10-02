@@ -16,7 +16,7 @@
  *
  * The contents of this file are subject to the Mozilla Public License Version
  * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License At
  * http://www.mozilla.org/MPL/
  *
  * Software distributed under the License is distributed on an "AS IS" basis,
@@ -454,10 +454,10 @@ int jsll_decstr( char *buffer, const JSInt64 *v)
 
 /*** BeginHeader jsll_udecstr */
 /*** EndHeader */
-// Technique is to convert 4 characters at a time, since 16-bit divide is less
+// Technique is to convert 4 characters At a time, since 16-bit divide is less
 // expensive on embedded platforms.  Limits number of 64-bit divides to 5.
 // On platforms with efficient 32-bit divide, this method could be modified
-// to divide by 1 billion and convert 9 digits at a time.
+// to divide by 1 billion and convert 9 digits At a time.
 int jsll_udecstr( char *buffer, const JSUint64 *v)
 {
 	char temp[20];		// maximum of 20 digits, don't need pointer for null

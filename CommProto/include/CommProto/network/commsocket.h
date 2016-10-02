@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -44,31 +44,31 @@ public:
   virtual ~CommSocket() 
   { }
 
-  virtual int32_t sockSend(const char* buffer, 
+  virtual int32_t SockSend(const char* buffer, 
                             uint32_t len, 
                             const char* address = "", 
                             uint32_t port = 0) = 0;
 
-  virtual packet_data_status_t sockReceive(const char* buffer,
+  virtual packet_data_status_t SockReceive(const char* buffer,
                                       uint32_t len, 
                                       const char* address = "", 
                                       uint32_t port = 0) = 0;
   
-  virtual int32_t sockConnect(const char* address, uint32_t port) = 0;
+  virtual int32_t SockConnect(const char* address, uint32_t port) = 0;
   
-  virtual int32_t sockAsyncConnect(const char* address, uint32_t port) = 0;
+  virtual int32_t SockAsyncConnect(const char* address, uint32_t port) = 0;
 
-  virtual int32_t sockListen(const char* address, uint32_t port) = 0;
+  virtual int32_t SockListen(const char* address, uint32_t port) = 0;
 
-  virtual int32_t sockListen(uint32_t port) = 0;
+  virtual int32_t SockListen(uint32_t port) = 0;
 
-  virtual CommSocket* sockAccept() = 0;
+  virtual CommSocket* SockAccept() = 0;
 
-  virtual void sockClose() = 0;
+  virtual void SockClose() = 0;
 };
 
-CommSocket* createTcpSocket();
-CommSocket* createUdpSocket();
+CommSocket* CreateTcpSocket();
+CommSocket* CreateUdpSocket();
 } // Network namespace
 } // Comnet namespace
 #endif // __COMMSOCKET_H

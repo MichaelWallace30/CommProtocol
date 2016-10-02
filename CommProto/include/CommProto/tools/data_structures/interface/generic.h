@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,7 +42,7 @@ enum DataStructureType {
 };
     
 /**
-  Generic default for Information on the data structure at hand.
+  Generic default for Information on the data structure At hand.
 */
 _COMNET_PRIVATE_API_
 class Generic {
@@ -58,15 +58,15 @@ public:
   /**
      Grab the size of the data structure.
   */
-  virtual int32_t getSize() = 0;
+  virtual int32_t GetSize() = 0;
   /**
      get the data structure type.
   */
-  virtual DataStructureType getDataStructType() = 0;
+  virtual DataStructureType GetDataStructType() = 0;
   /**
      Check if the data structure is empty.
   */
-  virtual bool isEmpty() { return (size == 0); }
+  virtual bool IsEmpty() { return (size == 0); }
 protected:
   /**
      The size of the data structure. 

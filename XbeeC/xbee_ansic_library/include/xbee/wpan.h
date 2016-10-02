@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -65,7 +65,7 @@ int _xbee_handle_receive_explicit( xbee_dev_t *xbee, const void FAR *raw,
 /// destination endpoint, DIGI_CLUST_SERIAL as the cluster ID and
 /// WPAN_PROFILE_DIGI as the profile ID.  Or, use the xbee_transparent_serial()
 /// function from xbee_transparent_serial.c to fill in those fields and
-/// send the data.
+/// Send the data.
 typedef PACKED_STRUCT xbee_header_transmit_t {
 	uint8_t			frame_type;				///< XBEE_FRAME_TRANSMIT (0x10)
 	uint8_t			frame_id;

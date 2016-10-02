@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -45,7 +45,7 @@ public:
   /**
      Allocate space.
    */
-  pointer allocate(uint32_t sizeN) {
+  pointer Allocate(uint32_t sizeN) {
     pointer p = (_Ty*)(::operator new(sizeN + sizeof(_Ty)));
     return p;
   }
@@ -53,7 +53,7 @@ public:
   /**
      Deallocate space that was provided.
    */
-  void deallocate(pointer p) {
+  void Deallocate(pointer p) {
     if (p != NULL) {
       ::operator delete((void*)p);
       p = NULL;
@@ -63,28 +63,28 @@ public:
   /**
      Destroy the object or data type that was inside the pointer.
    */
-  void destruct(pointer p) {
+  void Destruct(pointer p) {
     p->~_Ty();
   }
 
   /**
      Construct the value in specified pointer.
    */
-  void construct(pointer p, const_reference value) {
+  void Construct(pointer p, const_reference value) {
     new((void*)p)_Ty(value);
   }
 
   /**
      Get the pointer from reference.
    */
-  pointer address(reference ref) {
+  pointer Address(reference ref) {
     return &ref;
   }
 
   /**
      Get the constant pointer from constant reference.
    */
-  const_pointer address(const_reference ref) const {
+  const_pointer Address(const_reference ref) const {
     return &ref;
   }
 private:

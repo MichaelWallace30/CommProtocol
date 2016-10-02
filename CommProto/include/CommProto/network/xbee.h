@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -52,19 +52,19 @@ public:
   /**
     Initialize the port on this device.
    */
-  bool initialize(const char* port, speed_t baudrate);
+  bool Initialize(const char* port, speed_t baudrate);
   /**
     Send data over to the destination node.
    */
-  bool send(uint8_t destId, uint8_t* txData, uint32_t txLength);
+  bool Send(uint8_t destId, uint8_t* txData, uint32_t txLength);
   /**
-    Check receive data.
+    Check Receive data.
    */
-  bool recv(uint8_t* rxData, uint32_t* rxLength);
+  bool Recv(uint8_t* rxData, uint32_t* rxLength);
   /**
     Close the port.
    */
-  bool closePort();
+  bool CloseXBeePort();
 
 private:
   /**
@@ -75,7 +75,7 @@ private:
     Information about the WPAN address on this device, subject by IEEE 802.15.4 protocol.
    */
   struct xbee_dev_t device;
-  struct wpan_dev_t wpanDevice;
+  struct wpan_dev_t wpan_device;
 };
 } // namespace Experimental
 } // namespace Network

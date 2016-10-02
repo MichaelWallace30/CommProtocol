@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -54,7 +54,7 @@
 	@param[in]	attr_list	start of the attribute list to use for storing
 									attribute responses
 
-	@return	ZCL status value to send in a default response
+	@return	ZCL status value to Send in a default response
 */
 zcl_client_debug
 int zcl_process_read_attr_response( zcl_command_t *zcl,
@@ -164,11 +164,11 @@ int zcl_client_read_attributes( wpan_envelope_t FAR *envelope,
 	cluster in the endpoint table.
 
 	@param[in]	conversation	matching entry in converstation table (which
-										contains a context pointer)
+										Contains a context pointer)
 	@param[in]	envelope			envelope of response or NULL if conversation
 										timed out
 
-	@retval	0			send ZCL request for current time
+	@retval	0			Send ZCL request for current time
 	@retval	!0			error sending ZCL request for current time
 
 	@todo support a flag in the client_read object for sending ZCL request
@@ -252,7 +252,7 @@ int _zcl_send_read_from_zdo_match( wpan_conversation_t FAR *conversation,
 				le16toh( zdo_rsp->header.network_addr_le));
 		#endif
 		return WPAN_CONVERSATION_CONTINUE;
-		// DEVNOTE: exit here, or send request anyway?
+		// DEVNOTE: exit here, or Send request anyway?
 	}
 
 	// change source endpoint from ZDO (0) to selected ZCL client
@@ -280,13 +280,13 @@ int _zcl_send_read_from_zdo_match( wpan_conversation_t FAR *conversation,
 /**
 	@brief
 	Use ZDO Match Descriptor Requests to find devices with a given
-	profile/cluster and then automatically send a ZCL Read Attributes request
+	profile/cluster and then automatically Send a ZCL Read Attributes request
 	for some of that cluster's attributes.
 
 	@param[in]	dev			device to use for time request
 
 	@param[in]	clusters		pointer to list of server clusters to search for,
-									must end with #WPAN_CLUSTER_END_OF_LIST
+									must End with #WPAN_CLUSTER_END_OF_LIST
 
 	@param[in]	cr				zcl_client_read record containing information on
 									the request (endpoint, attributes, etc.); must
@@ -314,7 +314,7 @@ int zcl_find_and_read_attributes( wpan_dev_t *dev, const uint16_t *clusters,
 
 	@param[in]	dev			device to use for time request
 	@param[in]	clusters		pointer to list of server clusters to search for,
-									must end with #WPAN_CLUSTER_END_OF_LIST
+									must End with #WPAN_CLUSTER_END_OF_LIST
 	@param[in]	profile_id	profile ID associated with the cluster IDs (cannot
 									be WPAN_APS_PROFILE_ANY)
 	@param[in]	callback		function that will process the ZDO Match Descriptor
@@ -376,7 +376,7 @@ int zdo_send_match_desc( wpan_dev_t *dev, const uint16_t *clusters,
 		#endif
 		return trans;
 	}
-	// Copy the transaction ID into the request and send it.  Should I add these
+	// Copy the transaction ID into the request and Send it.  Should I add these
 	// three parameters to the conversation_register function?  Lots of
 	// parameters to pass around!
 	*buffer = (uint8_t)trans;
@@ -458,7 +458,7 @@ int zcl_create_attribute_records( void FAR *buffer,
 	}
 
 	// update *p_attr_list to point to the next attribute to encode, or
-	// the end of the attribute list
+	// the End of the attribute list
 	*p_attr_list = attr;
 
 	return (int) (buffer_insert - (uint8_t FAR *)buffer);
@@ -480,17 +480,17 @@ int zcl_create_attribute_records( void FAR *buffer,
 
 	@param[in,out]	envelope	envelope to use for sending request; \c payload
 									and \c length cleared on function exit
-	@param[in]		attr_list	attributes with values to send a Write
+	@param[in]		attr_list	attributes with values to Send a Write
 										Attributes Request for
 
 	@retval	-EINVAL	NULL parameter passed, or couldn't find source endpoint
 							based on envelope
-	@retval	<0			error trying to send request (for large writes, one or
+	@retval	<0			error trying to Send request (for large writes, one or
 							more requests may have been successful)
 	@retval	0			request(s) sent
 */
 // Consider adding mfg_id and flags field for direction and undivided?
-// Should this function send a single request, and somehow return the next
+// Should this function Send a single request, and somehow return the next
 // attribute to write (as zcl_create_attribute_records does)?
 zcl_client_debug
 int zcl_send_write_attributes( wpan_envelope_t *envelope,
@@ -607,7 +607,7 @@ of 3 UNSIGNED_8BIT
 @endcode
 
 	@param[in]	value				pointer to ZCL-encoded array value
-	@param[in]	value_length	number of bytes at value
+	@param[in]	value_length	number of bytes At value
 
 	@retval	-EINVAL	\p value is NULL or \value_length is too small
 	@retval	>=3		number of bytes from \p value consumed by function
@@ -621,7 +621,7 @@ int zcl_print_array_value( const void *value, int value_length)
 	uint16_t count;
 	uint8_t type;
 
-	// needs to be at least 3 bytes, type and count
+	// needs to be At least 3 bytes, type and count
 	if (value == NULL || value_length < 3)
 	{
 		return -EINVAL;
@@ -668,7 +668,7 @@ with 3 elements
 @endcode
 
 	@param[in]	value				pointer to ZCL-encoded structure value
-	@param[in]	value_length	number of bytes at value
+	@param[in]	value_length	number of bytes At value
 
 	@retval	-EINVAL	\p value is NULL or \value_length is too small
 	@retval	>=2		number of bytes from \p value consumed by function
@@ -682,13 +682,13 @@ int zcl_print_struct_value( const void *value, int value_length)
 	uint16_t count;
 	uint8_t type;
 
-	// needs to be at least 2 bytes, count
+	// needs to be At least 2 bytes, count
 	if (value == NULL || value_length < 2)
 	{
 		return -EINVAL;
 	}
 
-	// Try to display the elements.  If we can't, then fall back on existing code
+	// Try to display the elements.  If we can't, then fall Back on existing code
 	// which will perform a hex dump.
 	count = b[0] + ((uint16_t)b[1] << 8);
 	if (count == 0xFFFF)
@@ -721,7 +721,7 @@ int zcl_print_struct_value( const void *value, int value_length)
 
 	@param[in]	type				ZCL datatype of attribute's value
 	@param[in]	value				pointer to the ZCL-encoded value
-	@param[in]	value_length	number of bytes at value
+	@param[in]	value_length	number of bytes At value
 
 	@retval	-EINVAL	\p value is NULL or \value_length is too small
 	@retval	>=2		number of bytes from \p value consumed by function

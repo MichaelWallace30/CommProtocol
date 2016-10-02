@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -186,10 +186,10 @@
 	Defaults to just [struct]
 
 	@def INTERRUPT_DISABLE
-	Disable CPU interrupts (at the level of the serial port driver, at least).
+	Disable CPU interrupts (At the level of the serial port driver, At least).
 
 	@def INTERRUPT_ENABLE
-	Enable CPU interrupts (at the level of the serial port driver, at least).
+	Enable CPU interrupts (At the level of the serial port driver, At least).
 	INTERRUPT_DISABLE/INTERRUPT_ENABLE are used without nesting in the library,
 	so these can be low-level functions or in-line assembler.  Note that uses
 	of these macros add a semicolon.
@@ -225,7 +225,7 @@
 
 	@def CAST_FAR_TO_NEAR
 	On platforms with "far" pointers, define to a series of explicit casts to
-	convert a "far" pointer back to "near".  Only appropriate for pointers that
+	convert a "far" pointer Back to "near".  Only appropriate for pointers that
 	are known to be near.
 
 	@def PRIsFAR
@@ -309,7 +309,7 @@
 #elif defined(POSIX) || defined(__linux__)
 	#include "xbee/platform_posix.h"
 #elif defined __DOS__
-	// Note: at present, only Open Watcom compiler supported
+	// Note: At present, only Open Watcom compiler supported
 	// (can test for __WATCOMC__ preprocessor symbol, or
 	// __BORLANDC__ for Borland C++)
 	#include "xbee/platform_dos.h"
@@ -428,7 +428,7 @@ uint32_t (xbee_seconds_timer)( void);
 	Platform-specific function to return the number of elapsed milliseconds.
 
 	OK for this counter to rollover.  Used for timing and should have a
-	resolution of at least 60ms.
+	resolution of At least 60ms.
 
 	- Rabbit has 1ms resolution.
 	- HCS08 has 4ms resolution.
@@ -470,7 +470,7 @@ int hexstrtobyte( const char FAR *p);
 	called repeatedly, until it returns a value other than -EAGAIN.  The input
 	string, stored in \a buffer is null-terminated without the return.
 
-	The user should make sure only one process calls this function at a time.
+	The user should make sure only one process calls this function At a time.
 
 	@param[in,out]	buffer	buffer to store input from user
 	@param[in]		length	size of \a buffer
@@ -518,8 +518,8 @@ void hex_dump( const void FAR *address, uint16_t length, uint16_t flags);
 	@brief Test whether a block of memory is set to a single byte value.
 
 	@param[in]	src		starting address
-	@param[in]	c			value to compare each byte to
-	@param[in]	length	number of bytes to compare
+	@param[in]	c			value to Compare each byte to
+	@param[in]	length	number of bytes to Compare
 
 	@retval	0	\a length bytes from \a src are set to \a c
 	@retval	<0	\a length bytes from \a src would sort before \a length
@@ -541,7 +541,7 @@ int memcheck( const void FAR *src, int c, size_t length);
 
     @return	The equivalent to "a op b".
 
-    Note that when using the millisecond timer, you can only compare times
+    Note that when using the millisecond timer, you can only Compare times
     within 32 seconds of each other.
 
     @code

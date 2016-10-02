@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -104,12 +104,12 @@ uint_fast8_t xbee_cbuf_put( xbee_cbuf_t FAR *cbuf, const void FAR *buffer,
 {
 	// TODO optimize by using two memcpy calls
 	uint_fast8_t copy;
-	uint_fast8_t stop;
+	uint_fast8_t Stop;
 	uint_fast8_t mask = cbuf->mask;
 
-	stop = (cbuf->head - 1) & mask;
-	// when tail == stop, buffer is full
-	for (copy = length; copy && cbuf->tail != stop; --copy)
+	Stop = (cbuf->head - 1) & mask;
+	// when tail == Stop, buffer is full
+	for (copy = length; copy && cbuf->tail != Stop; --copy)
 	{
 		cbuf->data[cbuf->tail] = *(const char FAR *)buffer;
 		buffer = (const char FAR *)buffer + 1;

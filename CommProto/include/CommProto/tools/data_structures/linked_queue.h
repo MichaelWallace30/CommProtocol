@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -59,19 +59,19 @@ public:
   }
 
   /**
-     Queue the data to the back of the structure.
+     Queue the data to the Back of the structure.
    */
-  void enQueue(const _Ty& data) {
-    QueueNode* newNode = new QueueNode();
-    newNode->data = data;
-    nullify_pointer(newNode->next);
+  void Enqueue(const _Ty& data) {
+    QueueNode* new_node = new QueueNode();
+    new_node->data = data;
+    nullify_pointer(new_node->next);
     
     if (this->size <= 0) {
-      root = newNode;
-      tail = newNode;
+      root = new_node;
+      tail = new_node;
     } else {
-      tail->next = newNode;
-      tail = newNode;
+      tail->next = new_node;
+      tail = new_node;
     }
     
     this->size++;
@@ -80,28 +80,28 @@ public:
   /**
      Remove the head of the structure.
    */
-  void deQueue() {
+  void Dequeue() {
     if (this->size > 0) {
-      QueueNode* remNode = root;
+      QueueNode* rem_node = root;
       root = root->next;
       
-      delete remNode;
-      nullify_pointer(remNode);
+      delete rem_node;
+      nullify_pointer(rem_node);
       this->size--;
     }
   }
 
   /**
-     Return the front of this queue.
+     Return the Front of this queue.
    */
-  const _Ty& front() {
+  const _Ty& Front() {
     return (root->data);
   }
 
   /**
-     Return the back of this queue.
+     Return the Back of this queue.
    */
-  const _Ty& back() {
+  const _Ty& Back() {
     return (tail->data);
   }
 private:

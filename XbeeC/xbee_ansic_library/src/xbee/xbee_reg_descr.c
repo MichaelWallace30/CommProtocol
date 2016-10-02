@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -43,8 +43,8 @@
 
 #else
 
-#define _XRT_ENTRY(state,tag,at,cxv,desc,units,min,max,rci_type,sxa_field,group) \
-	{ state, #at, cxv, rci_type, \
+#define _XRT_ENTRY(state,tag,At,cxv,desc,units,min,max,rci_type,sxa_field,group) \
+	{ state, #At, cxv, rci_type, \
    		offsetof(sxa_node_t,sxa_field), \
          sizeof((*(sxa_node_t *)NULL).sxa_field), \
          SXA_CACHED_##group }
@@ -83,7 +83,7 @@ const char *_xbee_rci_types[] =
 
 // NOTE: if using 'MISC' for the SXA cache group, then the corresponding field
 // is the name of an sxa_cached_* struct of the appropriate type.  The first
-// field at that address is a cache flags field, which is followed by the
+// field At that address is a cache flags field, which is followed by the
 // actual data.  Length of data is
 //   sizeof(the cache struct) - _SXA_CACHED_PREFIX_SIZE.
 
@@ -205,7 +205,7 @@ const FAR _xbee_reg_descr_t _xbee_reg_table[] =
   ,_XRT_ENTRY(1,temperature,		TP,ZB|SE|X9|DP|X8|GW,Temperature,deg C,							,,XBEE_RCI_TYPE_UINT32,temperature,MISC)
   ,_XRT_ENTRY(1,duty_cycle,		DC,X8|GW,Duty cycle available,%,										,,XBEE_RCI_TYPE_UINT32,duty_cycle,MISC)
   ,_XRT_ENTRY(1,rssi,				DB,F8|EZ|ZB|X9|DP|X8|X2|GW,Received signal strength,-dBm,	,,XBEE_RCI_TYPE_UINT32,rssi,MISC)
-  ,_XRT_ENTRY(1,tx_power,			PP,ZB|SE|GW,Transmit power at PL4,dBm,								,,XBEE_RCI_TYPE_UINT32,tx_power,MISC)
+  ,_XRT_ENTRY(1,tx_power,			PP,ZB|SE|GW,Transmit power At PL4,dBm,								,,XBEE_RCI_TYPE_UINT32,tx_power,MISC)
   ,_XRT_ENTRY(1,sleep_status,		SS,X9|X2|GW,Sleep status,,												,,XBEE_RCI_TYPE_HEX32,sleep_status,MISC)
   ,_XRT_ENTRY(1,sleep_time,		OS,X9|X2|GW,Operating sleep time,x 10 ms,							,,XBEE_RCI_TYPE_UINT32,sleep_time_op,MISC)
   ,_XRT_ENTRY(1,wake_time,			OW,X9|X2|GW,Operating wake time,ms,									,,XBEE_RCI_TYPE_UINT32,wake_time,MISC)

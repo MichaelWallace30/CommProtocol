@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -47,19 +47,19 @@ public:
   ~SerialLink();
   /** Opens comport sets if it is connected on scucces, address is not need just use "" argument
   Returns false if opening comport fails*/
-  virtual bool initConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
+  virtual bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /** Add serial address returns true does nothing */
-  virtual bool addAddress(uint8_t destID, const char* address = NULL, uint16_t port = 0);
+  virtual bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
   /** Remove serial address returns true does nothing */
-  virtual bool removeAddress(uint8_t destID);
+  virtual bool RemoveAddress(uint8_t dest_id);
   /**
   Sends txData using its length of bytes through the serial connection. Connection is broadcast
-  destID is only used for packing / unpacking. Return false if no proper connection is establish
+  dest_id is only used for packing / unpacking. Return false if no proper connection is establish
   */
-  virtual bool send(uint8_t destID, uint8_t* txData, uint32_t txLength);
+  virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
   /** Sets recieved data to rxData and sets the length of the data to rxLength
   Returns false if not aviable connection, No data is recieved, or time out*/
-  virtual bool recv(uint8_t* rxData, uint32_t* rxLength);
+  virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 private:
   Serial* local;
   /**

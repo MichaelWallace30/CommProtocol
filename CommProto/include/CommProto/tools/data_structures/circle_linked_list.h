@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,7 +33,7 @@ namespace datastructures {
 
 /**
    Circle linked list acts like a double linked list, except the fact that the tail
-   references back to the head of the list. This is a good data structure to use for 
+   references Back to the head of the list. This is a good data structure to use for 
    holding information in which either need to be constantly looked over, allowing the 
    program to switch between processes or threads, allowing the user to move between different
    programs and much more.
@@ -66,18 +66,18 @@ class CircleLinkedList : public interface::List<_Ty> {
       , ref(r)
     { }
     
-    void allocateValue(const _Ty& value) {
-      data = ref.alloc.allocate(0);
-      ref.alloc.construct(data, value);
+    void AllocateValue(const _Ty& value) {
+      data = ref.alloc.Allocate(0);
+      ref.alloc.Construct(data, value);
     }
 
-    void deallocateValue() {
-      ref.alloc.destruct(data);
-      ref.alloc.deallocate(data);
+    void DeallocateValue() {
+      ref.alloc.Destruct(data);
+      ref.alloc.Deallocate(data);
     }
 
     ~CNode() {
-      deallocateValue();
+      DeallocateValue();
     }
   };
 
@@ -85,7 +85,7 @@ class CircleLinkedList : public interface::List<_Ty> {
      Handle the removal of the root. This will effectively return the 
      node that is going to be removed, while also leaving the list safe.
    */
-  CNode* handleRootRemoval(CNode* remNode) {
+  CNode* HandleRootRemoval(CNode* remNode) {
     CNode* next = root->next;
     CNode* previous = root->previous;
     remNode = root;
@@ -109,7 +109,7 @@ class CircleLinkedList : public interface::List<_Ty> {
   /**
      Safely remove the node in the location of the cursor.
    */
-  CNode* handleCursorRemoval(CNode* remNode) {
+  CNode* HandleCursorRemoval(CNode* remNode) {
     remNode = cursor;
     remNode = cursor; 
     cursor = cursor->next;
@@ -128,7 +128,7 @@ public:
     , alloc(allocator)
     , _cmp(comparator)
   { 
-    this->listType = interface::CIRCULAR_LINKED_LIST;
+    this->list_type = interface::CIRCULAR_LINKED_LIST;
     this->size = 0;
   }
 
@@ -140,7 +140,7 @@ public:
     , cursor(NULL)
     , alloc(allocator)
   {
-    this->listType = interface::CIRCLAR_LINKED_LIST;
+    this->list_type = interface::CIRCULAR_LINKED_LIST;
     this->size = 0;
   }
 
@@ -158,13 +158,13 @@ public:
   /**
      Insert value into the list.
    */
-  void insert(const_reference value) {
+  void Insert(const_reference value) {
     CNode* newNode = new CNode(*this);
     nullify_pointer(newNode->next);
     nullify_pointer(newNode->previous);
-    newNode->allocateValue(value);
+    newNode->AllocateValue(value);
 
-    if ((this->isEmpty()) || (root == NULL) ) {
+    if ((this->IsEmpty()) || (root == NULL) ) {
       root = newNode;
       root->next = root;
       root->previous = root;
@@ -193,9 +193,9 @@ public:
   /**
      Remove a value from the list.
    */
-  bool remove(const_reference value) {
+  bool Remove(const_reference value) {
     bool result = false;
-    if (this->isEmpty()) {
+    if (this->IsEmpty()) {
       return result;
     }
 
@@ -204,16 +204,16 @@ public:
     nullify_pointer(remNode);
     nullify_pointer(iteratorNode);
 
-    if (_cmp.equal(*root->data, value)) {
-      remNode = handleRootRemoval(remNode);
-    } else if (_cmp.equal(*cursor->data, value)) {
-      remNode = handleCursorRemoval(remNode);
+    if (_cmp.Equal(*root->data, value)) {
+      remNode = HandleRootRemoval(remNode);
+    } else if (_cmp.Equal(*cursor->data, value)) {
+      remNode = HandleCursorRemoval(remNode);
     } else {
       CNode* startNode = cursor;
       cursor = cursor->next;
       while (cursor != startNode) {
-	if (_cmp.equal(*cursor->data, value)) {
-	  remNode = handleCursorRemoval(remNode);
+	if (_cmp.Equal(*cursor->data, value)) {
+	  remNode = HandleCursorRemoval(remNode);
 	  break;
 	}
 	cursor = cursor->next;
@@ -243,9 +243,9 @@ public:
   /**
      Remove a value from the list, according to the specified index within the list.
    */
-  bool removeAt(const int32_t index) {
+  bool RemoveAt(const int32_t index) {
     bool result = false;
-    if (this->isEmpty() || 
+    if (this->IsEmpty() || 
 	(index < 0) ||
 	(index >= this->size)) {
       return result;
@@ -257,10 +257,10 @@ public:
     nullify_pointer(iteratorNode);
 
     if (index == root->index) {
-      remNode = handleRootRemoval(remNode);
+      remNode = HandleRootRemoval(remNode);
       iteratorNode = root;
     } else if (index == cursor->index) {
-      remNode = handleCursorRemoval(remNode);
+      remNode = HandleCursorRemoval(remNode);
       iteratorNode = cursor;
     } else {
       CNode* startNode = cursor;
@@ -268,7 +268,7 @@ public:
 	cursor = cursor->next;
 	while (cursor != startNode) {
 	  if (index == cursor->index) {
-	    remNode = handleCursorRemoval(remNode);
+	    remNode = HandleCursorRemoval(remNode);
 	    iteratorNode = cursor;
 	    break;	    
 	  }
@@ -278,7 +278,7 @@ public:
 	cursor = cursor->previous;
 	while (cursor != startNode) {
 	  if (index == cursor->index) {
-	    remNode = handleCursorRemoval(remNode);
+	    remNode = HandleCursorRemoval(remNode);
 	    iteratorNode = cursor;
 	    break;
 	  }
@@ -305,24 +305,24 @@ public:
   }
 
   /**
-     Return the reference of the data in the "front" of the list.
+     Return the reference of the data in the "Front" of the list.
      this is the root value that will be returned.
    */
-  reference front() {
+  reference Front() {
     return *root->data;
   }
   /**
      Return the previous value that is next to the root. This is the last
-     value before wrapping back to the root.
+     value before wrapping Back to the root.
    */
-  reference back() {
+  reference Back() {
     return *root->previous->data;
   }
 
   /**
-     Return the value reference of the node at the specified index.
+     Return the value reference of the node At the specified index.
    */
-  reference at(const int32_t index) {
+  reference At(const int32_t index) {
     if (index == root->index) {
       return *root->data;
     } else if (index == cursor->index) {
@@ -353,17 +353,17 @@ public:
      Check if the value specified is inside this list. Returns true is 
      value is inside this list.
    */
-  bool contains(const_reference value) {
+  bool Contains(const_reference value) {
     bool result =false;
-    if (_cmp.equal(value, *root->data)) {
+    if (_cmp.Equal(value, *root->data)) {
       result = true;
-    } else if (_cmp.equal(value, *cursor->data)) {
+    } else if (_cmp.Equal(value, *cursor->data)) {
       result = true;
     } else {
       CNode* startNode = cursor;
       cursor = cursor->next;
       while (cursor != startNode) {
-	if (_cmp.equal(*cursor->data, value)) {
+	if (_cmp.Equal(*cursor->data, value)) {
 	  result = true;
 	  break;
 	}
@@ -389,7 +389,7 @@ public:
   } 
 
   /**
-     Returns the value at the cursor node.
+     Returns the value At the cursor node.
    */
   reference getCursor() {
     return *cursor->data;
@@ -400,9 +400,9 @@ private:
    */
   CNode* root;
   /**
-     The cursor node, which holds the node that is currently being pointed at by the 
+     The cursor node, which holds the node that is currently being pointed At by the 
      list. This node traverses the list forwards and backwards, as a means to allow checking 
-     the list without having to reset back at the root, and traverse from there, which will result 
+     the list without having to reset Back At the root, and traverse from there, which will result 
      in linear time, similar to that of single linked list.
    */
   CNode* cursor;

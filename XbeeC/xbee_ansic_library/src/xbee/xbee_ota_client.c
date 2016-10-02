@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -109,8 +109,8 @@ int _xbee_ota_xmodem_read( void FAR *context, void FAR *buffer, int16_t bytes)
 	the xbee_ota_t structure.
 
 	@param[in]		context	xbee_ota_t structure
-	@param[in,out]	buffer	source of data to send
-	@param[in]		bytes		number of bytes to send
+	@param[in,out]	buffer	source of data to Send
+	@param[in]		bytes		number of bytes to Send
 
 	@return Number of bytes sent to target.
 
@@ -138,7 +138,7 @@ int _xbee_ota_xmodem_write( void FAR *context, const void FAR *buffer,
 
 	if (xbee_transparent_serial( &envelope))
 	{
-		// error on send, try again
+		// error on Send, try again
 		#ifdef XBEE_OTA_VERBOSE
 			printf( "%s: %s failed\n", __FUNCTION__, "xbee_transparent_serial");
 		#endif
@@ -184,7 +184,7 @@ int xbee_ota_init( xbee_ota_t *ota, wpan_dev_t *dev, const addr64 *target)
 	}
 	else
 	{
-		// payload must be at least one byte (default to '\0')
+		// payload must be At least one byte (default to '\0')
 		envelope.length = 1;
 		envelope.payload = "";
 	}

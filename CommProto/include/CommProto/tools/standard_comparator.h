@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -41,7 +41,7 @@ public:
 
   ~StandardComparator() { }
 
-  int32_t compare(const_reference obj1, const_reference obj2) {
+  int32_t Compare(const_reference obj1, const_reference obj2) {
     if (obj1 == obj2) {
       return 0;
     } else if (obj1 < obj2) {
@@ -51,7 +51,7 @@ public:
     }
   }
 
-  bool equal(const_reference obj1, const_reference obj2) {
+  bool Equal(const_reference obj1, const_reference obj2) {
     if (obj1 == obj2) {
       return true;
     } else {
@@ -72,11 +72,11 @@ public:
 
   ~StandardComparator() { }
   
-  int32_t compare(const_CString string1, const_CString string2) {
+  int32_t Compare(const_CString string1, const_CString string2) {
     return 0;
   }
 
-  bool equal(const_CString string1, const_CString string2) {
+  bool Equal(const_CString string1, const_CString string2) {
     return false;
   }
 private:

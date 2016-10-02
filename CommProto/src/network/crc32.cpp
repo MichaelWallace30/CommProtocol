@@ -6,7 +6,7 @@
 namespace comnet {
 namespace network {
 /** CRC32 checksum function*/
-unsigned int crc32(unsigned char *message, int length) {
+unsigned int Crc32(unsigned char *message, int length) {
 	int i, j;
 	unsigned int byte, crc, mask;
 	static unsigned int table[256];
@@ -36,9 +36,9 @@ unsigned int crc32(unsigned char *message, int length) {
 }
 
 
-void appendCrc32(uint8_t* buffer, uint32_t *length){
+void AppendCrc32(uint8_t* buffer, uint32_t *length){
 			
-	unsigned int crc = crc32(buffer,*length);//calculate crc32
+	unsigned int crc = Crc32(buffer,*length);//calculate crc32
 	unsigned char a = (crc >> 24) & 0xff;//leftmost
 	unsigned char b = (crc >> 16) & 0xff;//next byte
 	unsigned char c = (crc >> 8) & 0xff;//next byte
@@ -63,7 +63,7 @@ void appendCrc32(uint8_t* buffer, uint32_t *length){
 			
 }
 
-unsigned int truncateCrc32(uint8_t* buffer, uint32_t *length){
+unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length){
 	if (*length < 4) {
 	  return -1;
 	}
@@ -95,5 +95,5 @@ unsigned int truncateCrc32(uint8_t* buffer, uint32_t *length){
 	return crcRecv;
 	
 }
-}//end NETWORK namespace
-}//end COMNET namespace
+}//End NETWORK namespace
+}//End COMNET namespace

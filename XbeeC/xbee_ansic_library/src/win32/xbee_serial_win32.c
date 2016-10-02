@@ -4,7 +4,7 @@
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
+ * You can obtain one At http://mozilla.org/MPL/2.0/.
  *
  * Digi International Inc. 11001 Bren Road East, Minnetonka, MN 55343
  * =======================================================================
@@ -311,7 +311,7 @@ int xbee_ser_open( xbee_serial_t *serial, uint32_t baudrate)
 		}
 	}
 
-	// set up a transmit and receive buffers
+	// set up a transmit and Receive buffers
 	SetupComm( hCom, XBEE_SER_RX_BUFSIZE, XBEE_SER_TX_BUFSIZE);
 
 	/*	Set the COMMTIMEOUTS structure.  Per MSDN documentation for

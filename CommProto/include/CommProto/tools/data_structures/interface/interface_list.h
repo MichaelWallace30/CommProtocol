@@ -6,7 +6,7 @@
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  (At your option) any later version.
   
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -29,7 +29,7 @@ namespace datastructures {
 namespace interface {
 
 /** 
-    ListType contains value of the data structure being used. 
+    ListType Contains value of the data structure being used. 
 */
 _COMNET_PRIVATE_API_
 enum ListType {
@@ -65,56 +65,56 @@ public:
   /** 
       Grab the data structure type to check what it is. 
   */
-  DataStructureType getDataStructType() { return type; }
+  DataStructureType GetDataStructType() { return type; }
   /** 
       Grab the type of list this data structure is. 
   */
-  ListType getListType() { return listType; }
+  ListType GetListType() { return list_type; }
   /** 
       Check if this data structure is empty. 
       @returns True if empty, false otherwise.
   */
-  virtual bool isEmpty() { return (size == 0); }
+  virtual bool IsEmpty() { return (size == 0); }
 
   /**
       Get the number of values in the data structure.
   */
-  virtual int32_t getSize() { return size; }
+  virtual int32_t GetSize() { return size; }
 
   /**
      Insert a value into the list.
   */
-  virtual void insert(const _Ty& value) = 0;
+  virtual void Insert(const _Ty& value) = 0;
   /** 
       Remove a value from the list.
   */
-  virtual bool remove(const _Ty& value) = 0;
+  virtual bool Remove(const _Ty& value) = 0;
   /**
      Remove a value from a specified index.
   */
-  virtual bool removeAt(const int32_t index) = 0;
+  virtual bool RemoveAt(const int32_t index) = 0;
   /**
      Check the first index of this list.
   */
-  virtual reference_type front() = 0;
+  virtual reference_type Front() = 0;
   /**
      Check the last index of this list.
   */
-  virtual reference_type back() = 0;
+  virtual reference_type Back() = 0;
   /**
-     Grab the value at the specified index.
+     Grab the value At the specified index.
   */
-  virtual reference_type at(const int32_t index) = 0;
+  virtual reference_type At(const int32_t index) = 0;
   /**
-     Check if the list contains this value.
+     Check if the list Contains this value.
   */
-  virtual bool contains(const _Ty& value) = 0;
+  virtual bool Contains(const _Ty& value) = 0;
 protected:
 
   /** 
       The type of list this data structure is.
   */
-  ListType listType;
+  ListType list_type;
 };
 } // Interface
 } // DataStructures
