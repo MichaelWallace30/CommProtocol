@@ -28,47 +28,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <algorithm>//reverse
 #include <cstdlib>//malloc, free, mbtowcs, wcstombs
 
-namespace Comnet {
-namespace Serialization {
+namespace comnet {
+namespace serialization {
 
-	typedef uint8_t* marshall_t;
+	typedef uint8_t* marshal_t;
 	typedef char* string_t;
 
 	typedef float real32_t;
 	typedef double real64_t;
 
-	uint32_t packString(string_t data, uint8_t len,marshall_t input);
-	uint32_t unpackString(string_t data, uint8_t len, marshall_t input);
+	uint32_t packString(string_t data, uint8_t len, marshal_t input);
+	uint32_t unpackString(string_t data, uint8_t len, marshal_t input);
 
-	uint32_t packWideString(std::wstring  &data, uint8_t len, marshall_t input);
-	uint32_t unpackWideString(std::wstring &data, uint8_t len, marshall_t input);
+	uint32_t packWideString(std::wstring  &data, uint8_t len, marshal_t input);
+	uint32_t unpackWideString(std::wstring &data, uint8_t len, marshal_t input);
 
-	uint32_t packByte(uint8_t data, marshall_t input);
-	uint8_t unpackByte(marshall_t input);
+	uint32_t packByte(uint8_t data, marshal_t input);
+	uint8_t unpackByte(marshal_t input);
 
-	uint32_t packUint16(uint16_t data, marshall_t input);
-	uint16_t unpackUint16(marshall_t input);
+	uint32_t packUint16(uint16_t data, marshal_t input);
+	uint16_t unpackUint16(marshal_t input);
 
-	uint32_t packInt16(int16_t data, marshall_t input);
-	int16_t unpackInt16(marshall_t input);
+	uint32_t packInt16(int16_t data, marshal_t input);
+	int16_t unpackInt16(marshal_t input);
 
-	uint32_t packUint32(uint32_t data, marshall_t input);
-	uint32_t unpackUint32(marshall_t input);
+	uint32_t packUint32(uint32_t data, marshal_t input);
+	uint32_t unpackUint32(marshal_t input);
 
-	uint32_t packInt32(int32_t data, marshall_t input);
-	int32_t unpackInt32(marshall_t input);
+	uint32_t packInt32(int32_t data, marshal_t input);
+	int32_t unpackInt32(marshal_t input);
 
-	uint32_t packUint64(uint64_t data, marshall_t input);
-	uint64_t unpackUint64(marshall_t input);
+	uint32_t packUint64(uint64_t data, marshal_t input);
+	uint64_t unpackUint64(marshal_t input);
 
-	uint32_t packInt64(int64_t data, marshall_t input);
-	int64_t unpackInt64(marshall_t input);
+	uint32_t packInt64(int64_t data, marshal_t input);
+	int64_t unpackInt64(marshal_t input);
 
-	uint32_t packReal32(real32_t data, marshall_t input);
-	real32_t unpackReal32(marshall_t input);
+	uint32_t packReal32(real32_t data, marshal_t input);
+	real32_t unpackReal32(marshal_t input);
 
-	uint32_t packReal64(real64_t data, marshall_t input);
-	real64_t unpackReal64(marshall_t input);
+	uint32_t packReal64(real64_t data, marshal_t input);
+	real64_t unpackReal64(marshal_t input);
 
 	template <typename T>
 	void swap_endian(T& pX)
@@ -88,7 +88,7 @@ namespace Serialization {
 	}
 
 	template <typename T>
-	int16_t packGeneric(T data, marshall_t input)
+	int16_t packGeneric(T data, marshal_t input)
 	{
 		swap_endian(data);
 		memcpy(input, &data, sizeof(T));
@@ -96,7 +96,7 @@ namespace Serialization {
 	}
 
 	template <typename T>
-	T unpackGeneric(marshall_t input)
+	T unpackGeneric(marshal_t input)
 	{
 		T value;
 		memcpy(&value, input, sizeof(T));

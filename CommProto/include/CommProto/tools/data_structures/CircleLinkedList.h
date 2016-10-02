@@ -27,9 +27,9 @@
 #include <CommProto/tools/StandardComparator.h>
 #include <CommProto/tools/allocator/NewAllocator.h>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
+namespace comnet {
+namespace tools {
+namespace datastructures {
 
 /**
    Circle linked list acts like a double linked list, except the fact that the tail
@@ -40,8 +40,8 @@ namespace DataStructures {
  */
 template<typename _Ty,
 	 typename _Compare = StandardComparator<_Ty>,
-	 typename _Alloc   = Allocator::NewAllocator<_Ty> >
-class CircleLinkedList : public Interface::List<_Ty> {
+	 typename _Alloc   = allocator::NewAllocator<_Ty> >
+class CircleLinkedList : public interface::List<_Ty> {
   typedef _Ty* pointer;
   typedef _Ty& reference;
   typedef const _Ty* const_pointer;
@@ -128,7 +128,7 @@ public:
     , alloc(allocator)
     , _cmp(comparator)
   { 
-    this->listType = Interface::CIRCULAR_LINKED_LIST;
+    this->listType = interface::CIRCULAR_LINKED_LIST;
     this->size = 0;
   }
 
@@ -140,7 +140,7 @@ public:
     , cursor(NULL)
     , alloc(allocator)
   {
-    this->listType = Interface::CIRCLAR_LINKED_LIST;
+    this->listType = interface::CIRCLAR_LINKED_LIST;
     this->size = 0;
   }
 

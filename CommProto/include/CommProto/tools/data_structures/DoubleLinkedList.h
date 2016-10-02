@@ -25,9 +25,9 @@
 
 #include <CommProto/architecture/macros.h>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
+namespace comnet {
+namespace tools {
+namespace datastructures {
 
 /**
    The double linked list is a special type of list, which will allow storage in
@@ -39,8 +39,8 @@ namespace DataStructures {
 _COMNET_PUBLIC_API_
 template<typename _Ty,
 	 class    _Compare = StandardComparator<_Ty>,
-	 class    _Alloc   = Tools::Allocator::NewAllocator<_Ty> >
-class DoubleLinkedList : public Interface::List<_Ty> {
+	 class    _Alloc   = tools::allocator::NewAllocator<_Ty> >
+class DoubleLinkedList : public interface::List<_Ty> {
   /*
     TODO(Garcia): We will need to make use of the Allocator.
    */
@@ -105,7 +105,7 @@ public:
   , alloc(allocator) 
   , cmp(comparator)
   {
-    this->listType = Interface::DOUBLE_LINKED_LIST;
+    this->listType = interface::DOUBLE_LINKED_LIST;
     this->size = 0;
   }
 
@@ -115,7 +115,7 @@ public:
     , tail(NULL)
     , cursor(NULL)
   {
-    this->listType = Interface::DOUBLE_LINKED_LIST;
+    this->listType = interface::DOUBLE_LINKED_LIST;
     this->size = 0;
   }
 

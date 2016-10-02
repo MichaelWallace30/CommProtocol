@@ -23,9 +23,9 @@
 #include <CommProto/architecture/macros.h>
 #include <CommProto/architecture/api.h>
 
-namespace Comnet {
-namespace Tools {
-namespace Allocator {
+namespace comnet {
+namespace tools {
+namespace allocator {
 
 /**
    Base class Allocator, which allows users to inherit from, creating their own allocators

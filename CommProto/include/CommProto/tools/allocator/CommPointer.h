@@ -26,9 +26,9 @@
 #include <CommProto/tools/allocator/NewAllocator.h>
 #include <CommProto/tools/data_structures/DoubleLinkedList.h>
 
-namespace Comnet {
-namespace Tools {
-namespace Allocator {
+namespace comnet {
+namespace tools {
+namespace allocator {
 
 /**
    Pointer handler to take care of possible memory leaks and ensures that the last pointer referencing
@@ -111,7 +111,7 @@ private:
   pointer_t pointer;
   _Alloc allocator;
 
-  Tools::DataStructures::DoubleLinkedList<CommPointer<_Ty>* > pointers;
+  tools::datastructures::DoubleLinkedList<CommPointer<_Ty>* > pointers;
 };
 } // Allocator namespace
 } // Tools namespace

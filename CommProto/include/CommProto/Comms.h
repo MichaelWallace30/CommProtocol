@@ -40,13 +40,13 @@
 #include <stdint.h>//needed for bit size variables
 
 
-namespace Comnet {
+namespace comnet {
   
 
   using namespace std;
-  using namespace Comnet::Tools::DataStructures;
-  using namespace Comnet::Serialization;
-  using namespace Comnet::Network;	
+  using namespace comnet::tools::datastructures;
+  using namespace comnet::serialization;
+  using namespace comnet::network;	
   /**
     Comms is a standard CommNode node object. It handles elementary and intermediate 
     commands and functionality in order to work to the user's specifications of communications.

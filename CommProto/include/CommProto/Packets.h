@@ -18,7 +18,7 @@
 #include <CommProto/AbstractPacket.h>
 #include <string>
 
-namespace Comnet {
+namespace comnet {
 
 
 /**

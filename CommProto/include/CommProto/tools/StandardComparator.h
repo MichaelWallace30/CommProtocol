@@ -24,8 +24,8 @@
 
 #include <CommProto/tools/Comparator.h>
 
-namespace Comnet {
-namespace Tools {
+namespace comnet {
+namespace tools {
 
 /**
    StandardComparator should be able to comparate value of standard data types.

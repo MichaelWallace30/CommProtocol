@@ -28,9 +28,9 @@
 #include <vector>
 #include <algorithm>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
+namespace comnet {
+namespace tools {
+namespace datastructures {
 
 /**
    AutoVector is a wrapper class for the standard library vector. The intentions 
@@ -43,7 +43,7 @@ namespace DataStructures {
 */
 template<typename _Ty,
 	 typename _Alloc = std::allocator<_Ty> >
-class AutoVector : public Interface::List<_Ty> {
+class AutoVector : public interface::List<_Ty> {
   typedef const _Ty&                                        const_reference;
   typedef const _Ty*                                        const_pointer;
   typedef _Ty*                                              pointer;
@@ -60,7 +60,7 @@ public:
   AutoVector(const _Alloc& allocator = _Alloc() ) 
     : _vector(std::vector<_Ty, _Alloc>(allocator))
   { 
-    this->listType = Interface::AUTO_VECTOR;  
+    this->listType = interface::AUTO_VECTOR;  
     this->size = 0;
   }
 
@@ -70,7 +70,7 @@ public:
   AutoVector(size_type count)
     : _vector(std::vector<_Ty, _Alloc>(count))
   {
-    this->listType = Interface::AUTO_VECTOR;
+    this->listType = interface::AUTO_VECTOR;
     this->size = 0;
   }
 
@@ -80,7 +80,7 @@ public:
   AutoVector(size_type count, const _Alloc& allocator = _Alloc() ) 
     : _vector(std::vector<_Ty, _Alloc>(count, allocator) )
   {
-    this->listType = Interface::AUTO_VECTOR;
+    this->listType = interface::AUTO_VECTOR;
     this->size = 0;
   }
 
@@ -90,7 +90,7 @@ public:
   AutoVector(const AutoVector<_Ty, _Alloc>& other) 
     : _vector(std::vector<_Ty, _Alloc>(other._vector) )
   {
-    this->listType = Interface::AUTO_VECTOR;
+    this->listType = interface::AUTO_VECTOR;
     this->size = 0;
   }
 

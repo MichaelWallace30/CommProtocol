@@ -23,8 +23,8 @@
 #include <CommProto/debug/CommsDebug.h>
 
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 
 /***********************************************/

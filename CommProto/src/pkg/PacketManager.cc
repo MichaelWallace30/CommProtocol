@@ -5,8 +5,8 @@
 
 #define DEFAULT_TABLE_SIZE 1000
 
-namespace Comnet {
-namespace Pkg {
+namespace comnet {
+namespace pkg {
 
 
 PacketManager::PacketManager()

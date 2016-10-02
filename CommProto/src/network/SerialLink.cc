@@ -4,11 +4,11 @@
 #include <CommProto/architecture/macros.h>
 #include <CommProto/tools/data_structures/AutoVector.h>
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 
-using namespace Comnet::Tools::DataStructures;
+using namespace comnet::tools::datastructures;
 
 
 class SerialConn {

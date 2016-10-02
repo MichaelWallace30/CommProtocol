@@ -29,8 +29,8 @@
 #include <CommProto/debug/CommsDebug.h>
 #include <CommProto/HeaderPacket.h>
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 /**
   Serial class

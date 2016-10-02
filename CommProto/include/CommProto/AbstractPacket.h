@@ -26,11 +26,11 @@
 #include <exception>
 #include <typeinfo>
 
-namespace Comnet {
+namespace comnet {
 
 
 // This class needs to be created by us. An Object stream will need to be serializing and deserializing.
-using namespace Serialization;
+using namespace serialization;
 
 /** 
     Use this AbstractPacket when it comes to packing, sending , receiving, and creating.

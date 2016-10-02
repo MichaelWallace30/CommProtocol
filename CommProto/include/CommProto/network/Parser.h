@@ -22,8 +22,8 @@
 #include <CommProto/HeaderPacket.h>
 
 #pragma once
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 
 class Parser {

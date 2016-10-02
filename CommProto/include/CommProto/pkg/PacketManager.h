@@ -24,14 +24,14 @@
 #include <CommProto/pkg/PacketFactory.h>
 
 
-namespace Comnet {
+namespace comnet {
 
 
 class AbstractPacket;
 class Callback;
 
 
-namespace Pkg {
+namespace pkg {
 
 
 class PacketTable;

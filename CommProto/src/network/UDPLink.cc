@@ -1,8 +1,8 @@
 #include <CommProto/network/UDPLink.h>
 
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 
 

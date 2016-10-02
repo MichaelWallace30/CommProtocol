@@ -20,8 +20,8 @@
 #define __LOG_STATUS_H
 
 
-namespace Comnet {
-namespace Debug {
+namespace comnet {
+namespace debug {
 
 class Log;
 

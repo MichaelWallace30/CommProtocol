@@ -34,8 +34,8 @@
 
 #define MAX_TICK 5
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 /**
   TcpSocket is a class intended on creating a socket connection to a host

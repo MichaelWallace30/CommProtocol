@@ -3,8 +3,8 @@
 #include <string.h>
 
 
-namespace Comnet{
-namespace Network{
+namespace comnet{
+namespace network{
 
 
 	Parser::Parser() {

@@ -6,8 +6,8 @@
 
 #include <CommProto/debug/LogStatus.h>
 
-namespace Comnet {
-namespace Debug {
+namespace comnet {
+namespace debug {
 
 
 /**

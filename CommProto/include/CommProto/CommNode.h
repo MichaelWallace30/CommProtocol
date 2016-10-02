@@ -27,11 +27,11 @@
 
 #include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
 
-namespace Comnet {
+namespace comnet {
 
 
-using namespace Comnet::Tools::DataStructures::Interface;
-using namespace Comnet::Pkg;
+using namespace comnet::tools::datastructures::interface;
+using namespace comnet::pkg;
 
 class AbstractPacket;
 class Callback;

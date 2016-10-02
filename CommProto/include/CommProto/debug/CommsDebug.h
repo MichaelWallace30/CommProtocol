@@ -57,8 +57,8 @@
  #define comms_fatal(messg, call)
 #endif // __COMMS_DEBUG_LOG
 
-namespace Comnet {
-namespace Debug {
+namespace comnet {
+namespace debug {
 
 } // Console namespace
 } // Comnet namespace

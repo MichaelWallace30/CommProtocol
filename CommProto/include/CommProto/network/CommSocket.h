@@ -22,8 +22,8 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 /**
 packet_data_status determines current state of the data that is currently being read.

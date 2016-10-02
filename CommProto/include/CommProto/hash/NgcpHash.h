@@ -40,8 +40,8 @@
 #define HASH_SEED                 1
 #define HASH_VERSION              1
 
-namespace Comnet {
-namespace Hash {
+namespace comnet {
+namespace hash {
 
 #if HASH_VERSION > 0
 

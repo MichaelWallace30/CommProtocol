@@ -3,8 +3,8 @@
 
 #include <CommProto/debug/CommsDebug.h>
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 /** CRC32 checksum function*/
 unsigned int crc32(unsigned char *message, int length) {
 	int i, j;

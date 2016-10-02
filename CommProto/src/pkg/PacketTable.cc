@@ -34,8 +34,8 @@
 #define DEFAULT_TABLE_SIZE 1024
 
 
-namespace Comnet {
-namespace Pkg {
+namespace comnet {
+namespace pkg {
 
 
 PacketTable::PacketTable(uint32_t setSize)

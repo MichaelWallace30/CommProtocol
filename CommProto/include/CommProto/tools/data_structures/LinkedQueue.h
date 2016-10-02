@@ -23,9 +23,9 @@
 #include <CommProto/tools/allocator/NewAllocator.h>
 #include <CommProto/architecture/macros.h>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
+namespace comnet {
+namespace tools {
+namespace datastructures {
 
 /**
    Queue Data Structure used as an alternative to the std queue data structure.
@@ -34,8 +34,8 @@ namespace DataStructures {
  */
 _COMNET_PUBLIC_API_
 template<typename _Ty,
-	 class    _Alloc = Tools::Allocator::NewAllocator<_Ty> >
-class LinkedQueue : public Interface::Queue<_Ty>  { 
+	 class    _Alloc = tools::allocator::NewAllocator<_Ty> >
+class LinkedQueue : public interface::Queue<_Ty>  { 
 public:
   /**
      Constructor for the Linked Queue. 
@@ -45,7 +45,7 @@ public:
     , root(NULL)
     , tail(NULL)
   { 
-    this->queueType = Interface::SINGLE_LINKED_QUEUE;
+    this->queueType = interface::SINGLE_LINKED_QUEUE;
     this->size = 0;
   }
 

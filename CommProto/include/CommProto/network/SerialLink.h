@@ -23,13 +23,13 @@
 
 #include <CommProto/tools/data_structures/interface/InterfaceList.h>
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 
 class Serial;
 class SerialConn;
-using Comnet::Tools::DataStructures::Interface::List;
+using comnet::tools::datastructures::interface::List;
 
 
 /**

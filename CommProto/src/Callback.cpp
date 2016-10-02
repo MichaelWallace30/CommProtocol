@@ -22,7 +22,7 @@
 #include <stdlib.h>
 
 
-namespace Comnet {
+namespace comnet {
 
 
 Callback::Callback(CallbackFunc call)

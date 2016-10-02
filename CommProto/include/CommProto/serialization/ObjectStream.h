@@ -25,8 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/HeaderPacket.h>
 #include <string>
 
-namespace Comnet {
-namespace Serialization {
+namespace comnet {
+namespace serialization {
 
 
 	/** Object Stream Class will hold an array of data as a stream. 
@@ -40,7 +40,7 @@ namespace Serialization {
 	class ObjectStream {
 	private:
 		/** Data stream to hold input as an array of bytes*/
-		marshall_t streamBuffer;
+		marshal_t streamBuffer;
 
 		/** Current postion of streamBuffer and also size of streamBuffer*/
 		int32_t currentPostion;
@@ -63,7 +63,7 @@ namespace Serialization {
 		/** getSize return the size of the current buffer*/
 		int32_t getSize() const { return currentPostion; }
 		/** getBuffer returns a pionter to the buffer stream*/
-		marshall_t getBuffer() const { return streamBuffer; }
+		marshal_t getBuffer() const { return streamBuffer; }
     header_t& getHeaderPacket() { return headerPacket; } 
 		/** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
 		void setBuffer(const char* buffer, int len);

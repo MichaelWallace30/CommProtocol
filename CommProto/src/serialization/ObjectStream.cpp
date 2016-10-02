@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string.h>
 
-using namespace Comnet::Serialization;
+using namespace comnet::serialization;
 
 ObjectStream::ObjectStream():currentPostion(HEADER_SIZE)
 {

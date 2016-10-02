@@ -23,12 +23,12 @@
 #include <CommProto/architecture/macros.h>
 
 
-namespace Comnet {
+namespace comnet {
 
 class AbstractPacket;
 class Callback;
 
-namespace Pkg {
+namespace pkg {
 
 /**
   Normal Packet table used for mapping packets in association of 

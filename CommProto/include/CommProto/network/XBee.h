@@ -27,9 +27,9 @@
 #include <wpan/aps.h>
 
 
-namespace Comnet {
-namespace Network {
-namespace Experimental {
+namespace comnet {
+namespace network {
+namespace experimental {
 
 
 /**

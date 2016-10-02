@@ -22,9 +22,9 @@
 #include <CommProto/tools/allocator/Allocator.h>
 #include <new>
 
-namespace Comnet {
-namespace Tools {
-namespace Allocator {
+namespace comnet {
+namespace tools {
+namespace allocator {
 
 /**
    Standard NewAllocator is an object oriented way of allocating objects and data types. It is

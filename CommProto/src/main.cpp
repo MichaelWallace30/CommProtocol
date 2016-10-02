@@ -19,10 +19,10 @@
 #include <typeinfo>
 #include <iostream>
 using namespace std;
-using namespace Comnet::Tools::DataStructures;
-using namespace Comnet::Serialization;
-using namespace Comnet;
-using namespace Comnet::Pkg;
+using namespace comnet::tools::datastructures;
+using namespace comnet::serialization;
+using namespace comnet;
+using namespace comnet::pkg;
 
 
 error_t pingCall(const header_t& header, AbstractPacket& ping) {

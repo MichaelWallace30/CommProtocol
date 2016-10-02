@@ -28,11 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 
-using namespace Experimental;
+using namespace experimental;
 
 XBee::XBee(const char* port, speed_t baudrate) 
 {

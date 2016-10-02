@@ -22,10 +22,10 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
-namespace Interface {
+namespace comnet {
+namespace tools {
+namespace datastructures {
+namespace interface {
 
 /**
  Handles the data structure type.

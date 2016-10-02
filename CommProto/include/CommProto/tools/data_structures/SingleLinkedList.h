@@ -24,9 +24,9 @@
 #include <CommProto/tools/StandardComparator.h>
 #include <CommProto/architecture/macros.h>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
+namespace comnet {
+namespace tools {
+namespace datastructures {
 
 /**
    Single Linked List provides a basic data structure list to hold all values efficiently.
@@ -36,8 +36,8 @@ namespace DataStructures {
 _COMNET_PUBLIC_API_
 template<typename _Ty, 
          class    _Compare = StandardComparator<_Ty>,
-	 class    _Alloc   = Tools::Allocator::NewAllocator<_Ty> >
-class SingleLinkedList : public Interface::List< _Ty > {
+	 class    _Alloc   = tools::allocator::NewAllocator<_Ty> >
+class SingleLinkedList : public interface::List< _Ty > {
 public:
   /**
      Constructor for the SingleLinkedList data structure.
@@ -49,7 +49,7 @@ public:
     , alloc(allocator)
     , _cmp(comparator)  
   { 
-    this->listType = Interface::SINGLE_LINKED_LIST;
+    this->listType = interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
   
@@ -58,7 +58,7 @@ public:
     , root(NULL)
     , tail(NULL)
   {
-    this->listType = Interface::SINGLE_LINKED_LIST;
+    this->listType = interface::SINGLE_LINKED_LIST;
     this->size = 0;
   }
 

@@ -23,10 +23,10 @@
 
 //using namespace Comnet::Tools::DataStructures::Interface;
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
-namespace Interface {
+namespace comnet {
+namespace tools {
+namespace datastructures {
+namespace interface {
 
 /** 
     ListType contains value of the data structure being used. 

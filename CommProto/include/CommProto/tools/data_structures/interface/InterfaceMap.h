@@ -21,10 +21,10 @@
 
 #include <CommProto/tools/data_structures/interface/Generic.h>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
-namespace Interface {
+namespace comnet {
+namespace tools {
+namespace datastructures {
+namespace interface {
 
 /**
    Map type to determine what type of map is being used.

@@ -23,8 +23,8 @@
 #include <CommProto/network/UDP.h>
 
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 /**
   UDP link works UDP connections. IT should work UDP connections, instead of UDP by itself, however

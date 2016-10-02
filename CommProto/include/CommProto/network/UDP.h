@@ -30,8 +30,8 @@
 #define ADDRESS_LENGTH 16
 #define MAX_CONNECTIONS 32
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 /**
 UDP class

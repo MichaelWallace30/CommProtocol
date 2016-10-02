@@ -26,7 +26,7 @@
 
 #include <functional>
 
-namespace Comnet {
+namespace comnet {
 
 
 class AbstractPacket;

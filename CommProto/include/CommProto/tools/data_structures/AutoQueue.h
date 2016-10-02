@@ -23,9 +23,9 @@
 
 #include <queue>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
+namespace comnet {
+namespace tools {
+namespace datastructures {
 
 /**
    AutoQueue is a wrapper implementation of the Standard Template
@@ -35,7 +35,7 @@ namespace DataStructures {
 */
 _COMNET_PUBLIC_API_
 template<typename _Ty>
-class AutoQueue : public Interface::Queue<_Ty> {
+class AutoQueue : public interface::Queue<_Ty> {
 public:
   /**
      Constructor for AutoQueue.

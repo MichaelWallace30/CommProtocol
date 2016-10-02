@@ -21,9 +21,9 @@
 
 #include <CommProto/tools/allocator/Allocator.h>
 
-namespace Comnet {
-namespace Tools {
-namespace Allocator {
+namespace comnet {
+namespace tools {
+namespace allocator {
 /**
    StackAllocator works like a stack, push in some memory, and then pop out some of it.
    It works by allocating given space, from the heap, for the user to use. In order to successfully

@@ -28,8 +28,8 @@
 #define _EQUAL_TO                  0
 #define _GREATER_THAN              1
 
-namespace Comnet { 
-namespace Tools {
+namespace comnet { 
+namespace tools {
 /**
    Comparator is an abstract class that compares to similar objects together.
    This class must be inherited by class intended on comparing to objects with

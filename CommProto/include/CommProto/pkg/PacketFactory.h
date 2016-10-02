@@ -24,8 +24,8 @@
 
 #include <CommProto/AbstractPacket.h>
 
-namespace Comnet {
-namespace Pkg {
+namespace comnet {
+namespace pkg {
 
 
 /**

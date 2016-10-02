@@ -19,8 +19,8 @@
 #include <CommProto/network/UDP.h>
 #include <ctype.h>
 
-namespace Comnet {
-namespace Network {
+namespace comnet {
+namespace network {
 
 
 /***********************************************/

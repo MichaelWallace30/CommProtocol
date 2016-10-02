@@ -9,7 +9,7 @@
 
 #include <CommProto/Callback.h>
 
-using namespace Comnet;
+using namespace comnet;
 
 /***********************************************/
 /******************* Private *******************/
@@ -158,7 +158,7 @@ bool Comms::initConnection(transport_protocol_t connectionType, const char* port
 		{
       str_length(address, length);
       if (length < ADDRESS_LENGTH) {
-        connectionLayer = new Experimental::XBeeLink();
+        connectionLayer = new experimental::XBeeLink();
         return connectionLayer->initConnection(port, NULL, baudrate);
       }
       break;

@@ -23,12 +23,12 @@
 #include <CommProto/tools/data_structures/interface/InterfaceList.h>
 #include <CommProto/architecture/macros.h>
 
-namespace Comnet {
-namespace Network {
-namespace Experimental {
+namespace comnet {
+namespace network {
+namespace experimental {
 
 
-using namespace Comnet::Tools::DataStructures::Interface;
+using namespace comnet::tools::datastructures::interface;
 
 class XBee;
 

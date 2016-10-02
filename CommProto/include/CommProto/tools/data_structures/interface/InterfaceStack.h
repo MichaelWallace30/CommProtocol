@@ -21,10 +21,10 @@
 
 #include <CommProto/tools/data_structures/inteface/Generic.h>
 
-namespace Comnet {
-namespace Tools {
-namespace DataStructures {
-namespace Interface {
+namespace comnet {
+namespace tools {
+namespace datastructures {
+namespace interface {
 
 enum StackType {
   ARRAY_STACK,

@@ -21,13 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/debug/CommsDebug.h>
 #include <CommProto/tools/data_structures/AutoVector.h>
 
-namespace Comnet {
-namespace Network {
-namespace Experimental {
+namespace comnet {
+namespace network {
+namespace experimental {
 
 
 XBeeLink::XBeeLink()
-: xbees(new ::Comnet::Tools::DataStructures::AutoVector<XBee*>())
+: xbees(new ::comnet::tools::datastructures::AutoVector<XBee*>())
 , home(new XBee())
 {
 }

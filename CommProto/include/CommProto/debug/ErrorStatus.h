@@ -26,8 +26,8 @@
  */
 typedef int32_t error_t;
 
-namespace Comnet {
-namespace Debug {
+namespace comnet {
+namespace debug {
 
 
 /**

@@ -42,8 +42,8 @@
 
 
 
-namespace Comnet {
-namespace Hash {
+namespace comnet {
+namespace hash {
 
 /**
    Reverse the byte binary values.

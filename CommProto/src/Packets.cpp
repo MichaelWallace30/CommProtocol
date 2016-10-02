@@ -1,6 +1,6 @@
 #include <CommProto/Packets.h>
 
-namespace Comnet {
+namespace comnet {
 
 /**
    When defining the constructor, be sure to call the Base class

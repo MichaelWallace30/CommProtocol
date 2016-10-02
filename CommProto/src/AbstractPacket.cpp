@@ -6,14 +6,14 @@
 #include <CommProto/hash/NgcpHash.h>
 #include <CommProto/architecture/macros.h>
 
-namespace Comnet {
+namespace comnet {
 
 
 /**
    Constructor for AbstractPacket.
 */
 AbstractPacket::AbstractPacket(const char* className)
-: typeId(Hash::ngcp_hash64((const char*)className) % BIT16_VALUE)
+: typeId(hash::ngcp_hash64((const char*)className) % BIT16_VALUE)
   { }
 
 

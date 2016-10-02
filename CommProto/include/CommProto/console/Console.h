@@ -6,10 +6,10 @@
 
 #include <CommProto/network/CommSocket.h>
 
-namespace Comnet {
+namespace comnet {
 namespace Console {
 
-using namespace Comnet::Network;
+using namespace comnet::network;
 /**
    Console commands for use with the debug, administration console.
 */
