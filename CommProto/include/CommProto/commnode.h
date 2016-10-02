@@ -152,11 +152,9 @@ public:
 
      Run the node. Threads may be implemented.
    */
-  virtual int32_t Run() {
+  virtual void Run() {
     running = true;
     paused = false;
-
-    return 0;
   }
 
   /**
@@ -165,11 +163,9 @@ public:
 
      Pause the node threads and any process.
    */
-  virtual int32_t Pause() {
+  virtual void Pause() {
     running = false;
     paused = true;
-    
-    return 0;
   }
 
   /**
@@ -178,11 +174,9 @@ public:
 
     Stop the node threads and any process.
   */
-  virtual int32_t Stop() {
+  virtual void Stop() {
     running = false;
     paused = false;
-
-    return 0;
   }
 
   /**

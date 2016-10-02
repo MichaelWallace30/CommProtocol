@@ -222,21 +222,21 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
 }
 
 
-int32_t Comms::Run()
+void Comms::Run()
 {
+  CommNode::Run();
 	thread_create(&this->comm_thread_send, CommuincationHelperSend, this);
 	thread_create(&this->comm_thread_recv, CommuincationHelperRecv, this);
-	return CommNode::Run();
 }
 
 
-int32_t Comms::Stop()
+void Comms::Stop()
 {
-	return CommNode::Stop();
+	CommNode::Stop();
 }
 
 
-int32_t Comms::Pause()
+void Comms::Pause()
 {
-  return CommNode::Pause();
+  CommNode::Pause();
 }

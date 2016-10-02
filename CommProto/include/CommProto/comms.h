@@ -108,11 +108,11 @@ namespace comnet {
 		AbstractPacket* Receive(uint8_t&  source_id);
 
 		/** Method to start communication*/
-		int32_t Run();
+		void Run();
 		/** Method to toggle Pause communication*/
-		int32_t Pause();
+		void Pause();
 		/** Method to Stop communication*/
-		int32_t Stop();
+		void Stop();
 
 	protected:
 		// Nothing yet.
