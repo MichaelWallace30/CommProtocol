@@ -54,11 +54,11 @@ void* Comms::CommuincationHandlerRecv() {
   while (this->IsRunning()) {
     AbstractPacket* packet = NULL;
     //Send data here
-	  uint8_t streamBuffer[MAX_BUFFER_SIZE];
-    uint32_t recvLen = 0;
-    conn_layer->Recv(streamBuffer, &recvLen);
+	  uint8_t stream_buffer[MAX_BUFFER_SIZE];
+    uint32_t recv_len = 0;
+    conn_layer->Recv(stream_buffer, &recv_len);
     ObjectStream *temp = new ObjectStream();
-    temp->SetBuffer((char*)streamBuffer, recvLen);
+    temp->SetBuffer((char*)stream_buffer, recv_len);
 
     /*
       Algorithm should Get the header, Get the message id from header, then
@@ -125,10 +125,10 @@ Comms::~Comms()
 	mutex_destroy(&recv_mutex);
 }
 
-bool Comms::InitConnection(transport_protocol_t connectionType, const char* port, const char* address, uint32_t baudrate)
+bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint32_t baudrate)
 {
 	uint16_t length = 0;
-	switch (connectionType)
+	switch (conn_type)
 	{
 		case UDP_LINK:
 		{			
