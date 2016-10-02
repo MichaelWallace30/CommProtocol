@@ -82,7 +82,7 @@ This convention is similar to the way Javascript, Java, is written, and most C++
 *	Classes and C++ structs must have a Capitalized first letter in the name. No spaces in between characters, you must 
 	capitalize the first letter to emphasize that it is a combination of multiple words. ex:    SomeClassObject
 
-*	Functions and variables must begin with lower case (underscore at the beginning is ok), multiple words in the name after the first word will have underscore. Functions MUST BE CAPITALIZED!!
+*	Variables must begin with lower case (underscore at the beginning is ok), multiple words in the name after the first word will have underscore. Functions MUST BE CAPITALIZED!!
 	first letter.   ex:      (for function)  void GetSize(int variable_a).       (for variable)    int some_variable_used or int _some_variable_used;
 
 * 	Preprocessor defines must be all capitalized, with underscores, similar to C style.
