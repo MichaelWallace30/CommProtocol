@@ -31,37 +31,37 @@ namespace Comnet {
 			CObjectStream();
 			~CObjectStream();
 
-			Int32 getPosition();
-			Int32 getSize();
+			Int32 GetPosition();
+			Int32 GetSize();
 
-			void serializeHeader(CHeader ^ header);
-			CHeader^ deserializeHeader();
+			void SerializeHeader(CHeader ^ header);
+			CHeader^ DeserializeHeader();
 
 			//intput
-			void input(String^ data);
-			void input(Byte data);
-			void input(SByte data);
-			void input(UInt16 data);
-			void input(Int16 data);
-			void input(Int32 data);
-			void input(UInt32 data);
-			void input(Int64 data);
-			void input(UInt64 data);
-			void input(Single data);
-			void input(Double data);
+			void Input(String^ data);
+			void Input(Byte data);
+			void Input(SByte data);
+			void Input(UInt16 data);
+			void Input(Int16 data);
+			void Input(Int32 data);
+			void Input(UInt32 data);
+			void Input(Int64 data);
+			void Input(UInt64 data);
+			void Input(Single data);
+			void Input(Double data);
 
 			//output
-			String^ outputString();			
-			Byte outputByte();
-			SByte outputSByte();
-			UInt16 outputUInt16();
-			Int16 outputInt16();
-			UInt32 outputUInt32();
-			Int32 outputInt32();
-			UInt64 outputUInt64();
-			Int64 outputInt64();
-			Single outputSingle();
-			Double outputDouble();			
+			String^ OutputString();			
+			Byte OutputByte();
+			SByte OutputSByte();
+			UInt16 OutputUInt16();
+			Int16 OutputInt16();
+			UInt32 OutputUInt32();
+			Int32 OutputInt32();
+			UInt64 OutputUInt64();
+			Int64 OutputInt64();
+			Single OutputSingle();
+			Double OutputDouble();			
 
 internal:
   CObjectStream(CommPointer<ObjectStream>* pointer);

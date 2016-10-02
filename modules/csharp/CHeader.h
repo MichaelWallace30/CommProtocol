@@ -29,18 +29,18 @@ public ref class CHeader sealed
 		CHeader();
     CHeader(header_t* header);
 		~CHeader();
-		void setDestID(Byte destID);
-		uint8_t getDestID();
-		void setSourceID(Byte sourceID);
-		uint8_t getSourceID();
-		void setMessageLength(UInt16 mesageLength);
-		uint16_t getMessageLength();
-		void setMessageID(UInt16 messageID);
-		uint16_t getMessageID();		
-		void setIV(cli::array<Byte>^ IV);		
-		cli::array<Byte>^ getIV();
+		void SetDestID(Byte destID);
+		uint8_t GetDestID();
+		void SetSourceID(Byte sourceID);
+		uint8_t GetSourceID();
+		void SetMessageLength(UInt16 mesageLength);
+		uint16_t GetMessageLength();
+		void SetMessageID(UInt16 messageID);
+		uint16_t GetMessageID();		
+		void SetIV(cli::array<Byte>^ IV);		
+		cli::array<Byte>^ GetIV();
 
-    header_t* getHeader() {
+    header_t* GetHeader() {
       return header;
     }
 	};

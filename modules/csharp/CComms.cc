@@ -21,9 +21,9 @@ Void CComms::commHelperRecv() {
     connLayer->Recv(stream_buffer, recv_length); 
     CObjectStream^ temp = gcnew CObjectStream();
     temp->unmangedObjectStream->get().setBuffer((char *)stream_buffer, recv_length);
-    if (temp->getSize() > 0) {
+    if (temp->GetSize() > 0) {
       CHeader^ header = gcnew CHeader(&temp->unmangedObjectStream->get().deserializeHeader());
-      packet = this->packetManager->ProduceFromId(header->getMessageID());
+      packet = this->packetManager->ProduceFromId(header->GetMessageID());
       if (packet) {
         packet->Unpack(temp);
         CallBack^ callback = nullptr;
@@ -159,11 +159,11 @@ Boolean CComms::Send(ABSPacket^ packet, Byte destId) {
   CObjectStream^ stream = gcnew CObjectStream();
   packet->Pack(stream);
   CHeader^ header = gcnew CHeader();
-  header->setDestID(destId);
-  header->setSourceID(this->GetNodeId());
-  header->setMessageID(packet->GetAbstractPacket()->getId());
-  header->setMessageLength(stream->getSize());
-  stream->serializeHeader(header);
+  header->SetDestID(destId);
+  header->SetSourceID(this->GetNodeId());
+  header->SetMessageID(packet->GetAbstractPacket()->getId());
+  header->SetMessageLength(stream->GetSize());
+  stream->SerializeHeader(header);
   sendQueue->EnQueue(stream);
   COMMS_DEBUG("Sending packet...\n");
   return true;

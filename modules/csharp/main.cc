@@ -18,11 +18,11 @@ public:
   Testing() : cat(0), ABSPacket("Testing") { }
 
   void Pack(CObjectStream^ obj) override {
-      obj->input(cat);
+      obj->Input(cat);
   }
 
   void Unpack(CObjectStream^ obj) override {
-    cat = obj->outputInt32();
+    cat = obj->OutputInt32();
   }
 
   ABSPacket^ Create() override {

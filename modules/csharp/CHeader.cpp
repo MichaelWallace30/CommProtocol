@@ -38,19 +38,19 @@ CHeader::~CHeader()
 	}
 }
 
-void CHeader::setDestID(Byte destID){ header->destID = destID; }
-uint8_t CHeader::getDestID(){ return header->destID; }
+void CHeader::SetDestID(Byte destID){ header->destID = destID; }
+uint8_t CHeader::GetDestID(){ return header->destID; }
 
-void CHeader::setSourceID(Byte sourceID){ header->sourceID = sourceID; }
-uint8_t CHeader::getSourceID(){ return header->sourceID; }
+void CHeader::SetSourceID(Byte sourceID){ header->sourceID = sourceID; }
+uint8_t CHeader::GetSourceID(){ return header->sourceID; }
 
-void CHeader::setMessageLength(UInt16 mesageLength){ header->messageLength = mesageLength; }
-uint16_t CHeader::getMessageLength(){ return header->messageLength; }
+void CHeader::SetMessageLength(UInt16 mesageLength){ header->messageLength = mesageLength; }
+uint16_t CHeader::GetMessageLength(){ return header->messageLength; }
 
-void CHeader::setMessageID(UInt16 messageID){ header->messageID = messageID; }
-uint16_t CHeader::getMessageID(){ return header->messageID; }
+void CHeader::SetMessageID(UInt16 messageID){ header->messageID = messageID; }
+uint16_t CHeader::GetMessageID(){ return header->messageID; }
 
-void CHeader::setIV(cli::array<Byte>^ IV)
+void CHeader::SetIV(cli::array<Byte>^ IV)
 {
 	for (int x = 0; x < KEY_LENGTH; x++)
 	{
@@ -58,7 +58,7 @@ void CHeader::setIV(cli::array<Byte>^ IV)
 	}
 }
 
-cli::array<Byte>^ CHeader::getIV()
+cli::array<Byte>^ CHeader::GetIV()
 {
 	cli::array<Byte>^IV = gcnew cli::array<Byte>(KEY_LENGTH);
 	for (int x = 0; x < KEY_LENGTH; x++)
