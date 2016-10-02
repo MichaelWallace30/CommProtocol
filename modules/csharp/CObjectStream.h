@@ -15,12 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-#include <CommProto/serialization/ObjectStream.h>
-#include <CommProto/tools/allocator/CommPointer.h>
+#include <CommProto/serialization/objectstream.h>
+#include <CommProto/tools/allocator/commpointer.h>
 #include <CHeader.h>
 
 using namespace System;
-using namespace Comnet::Tools::Allocator;
+using namespace comnet::tools::allocator;
+using namespace comnet::serialization;
 
 namespace Comnet {
 	namespace Serialization {

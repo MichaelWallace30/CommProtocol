@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CSHARP_CALLBACK_H
 #define __CSHARP_CALLBACK_H
 
-#include <CommProto/Callback.h>
+#include <CommProto/callback.h>
 
 #include <ABSPacket.h>
 #include <CHeader.h>

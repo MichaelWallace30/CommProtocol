@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CSHARP_ABSPACKET_H
 #define __CSHARP_ABSPACKET_H
 
-#include <CommProto/AbstractPacket.h>
-#include <CommProto/tools/allocator/CommPointer.h>
+#include <CommProto/abstractpacket.h>
+#include <CommProto/tools/allocator/commpointer.h>
 #include <CObjectStream.h>
 #include <vcclr.h>
 #using <mscorlib.dll>
@@ -26,8 +26,9 @@ using namespace System;
 
 namespace Comnet {
 
-
-using namespace Comnet::Tools::Allocator;
+using namespace Comnet::Serialization;
+using namespace comnet::tools::allocator;
+using namespace comnet;
 #pragma managed
 ref class ABSPacket;
 

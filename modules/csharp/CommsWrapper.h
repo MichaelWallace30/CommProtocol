@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 #define _DEBUG 1
-#include <CommProto/Comms.h>
-#include <CommProto/Packets.h>
+#include <CommProto/comms.h>
+#include <CommProto/packets.h>
 #include <CommProto/architecture/connection/transport_type.h>
 
 #include <ABSPacket.h>

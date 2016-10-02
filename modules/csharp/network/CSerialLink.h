@@ -18,10 +18,11 @@
 #ifndef CSERIAL_H
 #define CSERIAL_H
 #include <network/CCommsLink.h>
-#include <CommProto/network/SerialLink.h>
+#include <CommProto/network/seriallink.h>
 
 #pragma managed
 using namespace System;
+using namespace comnet::network;
 
 namespace Comnet {
 namespace Network {

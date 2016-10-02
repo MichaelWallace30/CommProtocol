@@ -1,5 +1,7 @@
 #include <network/CSerialLink.h>
-#include <CommProto/debug/CommsDebug.h>
+#include <CommProto/debug/comms_debug.h>
+
+
 using namespace Comnet::Network;
 
 CSerialLink::CSerialLink(){

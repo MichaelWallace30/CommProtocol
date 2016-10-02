@@ -20,7 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace System;
 using namespace Comnet;
-using namespace Serialization;
+using namespace Comnet::Serialization;
+using namespace comnet;
+using namespace comnet::tools::allocator;
+using namespace comnet::serialization;
 
 CObjectStream::CObjectStream()
 {

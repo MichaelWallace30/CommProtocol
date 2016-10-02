@@ -32,9 +32,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace Comnet {
 
   using namespace System;
+  using namespace Comnet::Serialization;
 	using namespace Comnet::Tools::DataStructures::Interface;
   using namespace Comnet::Network;
 	using namespace Comnet::Pkg;
+  using namespace comnet;
 
 	/**
 	CCommNode is the interface used to determine node types that are constructed by the

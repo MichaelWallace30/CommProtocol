@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CPACKET_MANAGER_H
 #define __CPACKET_MANAGER_H
 
-#include <CommProto/pkg/PacketManager.h>
+#include <CommProto/pkg/packetmanager.h>
 
 #include <pkg/CPacketFactory.h>
 #include <pkg/CPacketTable.h>

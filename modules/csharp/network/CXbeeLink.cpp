@@ -5,7 +5,7 @@ namespace Network {
 
 
 CXBeeLink::CXBeeLink()
-: node(new Experimental::XBeeLink())
+: node(new experimental::XBeeLink())
 {
 }
 

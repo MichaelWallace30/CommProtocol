@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <network/CCommsLink.h>
 #include <CommProto/network/UDPLink.h>
 
+using namespace comnet::network;
 
 namespace Comnet {
   namespace Network {

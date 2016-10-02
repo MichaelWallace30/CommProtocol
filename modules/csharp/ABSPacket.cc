@@ -1,5 +1,5 @@
 #include <ABSPacket.h>
-#include <CommProto/tools/allocator/CommPointer.h>
+#include <CommProto/tools/allocator/commpointer.h>
 
 namespace Comnet {
 

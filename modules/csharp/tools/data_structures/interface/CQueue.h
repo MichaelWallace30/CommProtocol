@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __QUEUE_H
 #define __QUEUE_H
 
-#include <CommProto/tools/data_structures/interface/InterfaceQueue.h>
+#include <CommProto/tools/data_structures/interface/interface_queue.h>
 
 #include <vcclr.h>
 #using <mscorlib.dll>
