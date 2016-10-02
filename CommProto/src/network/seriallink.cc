@@ -45,7 +45,7 @@ bool SerialLink::InitConnection(const char* port, const char* address, uint32_t 
 }
 
 
-bool SerialLink::AddAddress(uint8_t destId, const char* address, uint16_t port) {
+bool SerialLink::AddAddress(uint8_t dest_id, const char* address, uint16_t port) {
   bool success = false;
   //Serial* conn = allocate_pointer(Serial);
   /*
@@ -56,14 +56,14 @@ bool SerialLink::AddAddress(uint8_t destId, const char* address, uint16_t port) 
 }
 
 
-bool SerialLink::RemoveAddress(uint8_t destId) {
+bool SerialLink::RemoveAddress(uint8_t dest_id) {
   bool success = false;
 
   return success;
 }
 
 
-bool SerialLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
+bool SerialLink::Send(uint8_t destId, uint8_t* tx_data, uint32_t tx_length) {
   bool success = false;
 #if 0
   for (int32_t i = 0; i < connections->getSize(); ++i) {
@@ -75,12 +75,12 @@ bool SerialLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
   }
 #endif 
   // For now.
-  success = local->Send(destId, txData, txLength);
+  success = local->Send(destId, tx_data, tx_length);
   return success;
 }
 
 
-bool SerialLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
+bool SerialLink::Recv(uint8_t* rx_data, uint32_t* rx_length) {
   bool success = false;
 #if 0
   for (int32_t i = 0; i < connections->getSize(); ++i) {
@@ -92,7 +92,7 @@ bool SerialLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
   }
 #endif
   // for now.
-  success = local->Recv(rxData, rxLength);
+  success = local->Recv(rx_data, rx_length);
   return success;
 }
 } // namespace Network

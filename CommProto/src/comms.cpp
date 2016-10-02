@@ -21,19 +21,19 @@ Helper function to convert between C++ and C function signatures
 due to casting as a class member being incompatible with C style
 thread creation APIs. Static linkage helps with that.
 */
-void* Comms::commuincationHelperSend(void* context)
+void* Comms::CommuincationHelperSend(void* context)
 {
-	return ((Comms*)context)->commuincationHandlerSend();
+	return ((Comms*)context)->CommuincationHandlerSend();
 }
 
-void* Comms::commuincationHelperRecv(void* context)
+void* Comms::CommuincationHelperRecv(void* context)
 {
-	return ((Comms*)context)->commuincationHandlerRecv();
+	return ((Comms*)context)->CommuincationHandlerRecv();
 }
 
 
 /** function for communication thread */
-void* Comms::commuincationHandlerSend()
+void* Comms::CommuincationHandlerSend()
 {
 	while (this->IsRunning())
 	{
@@ -42,7 +42,7 @@ void* Comms::commuincationHandlerSend()
 			//Send data here
 			ObjectStream *temp = send_queue->Front();
 			send_queue->Dequeue();
-			connectionLayer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
+			conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
 			free_pointer(temp);
 		}
 	}
@@ -50,13 +50,13 @@ void* Comms::commuincationHandlerSend()
 }
 
 /** function for communication thread */
-void* Comms::commuincationHandlerRecv() {
+void* Comms::CommuincationHandlerRecv() {
   while (this->IsRunning()) {
     AbstractPacket* packet = NULL;
     //Send data here
 	  uint8_t streamBuffer[MAX_BUFFER_SIZE];
     uint32_t recvLen = 0;
-    connectionLayer->Recv(streamBuffer, &recvLen);
+    conn_layer->Recv(streamBuffer, &recvLen);
     ObjectStream *temp = new ObjectStream();
     temp->SetBuffer((char*)streamBuffer, recvLen);
 
@@ -113,16 +113,16 @@ Comms::Comms(uint8_t platformID)
 {
 	this->recv_queue = new AutoQueue <AbstractPacket*>;
 	this->send_queue = new AutoQueue <ObjectStream*>;
-	mutex_init(&sendMutex);
-	mutex_init(&recvMutex);
-	connectionLayer = NULL;
+	mutex_init(&send_mutex);
+	mutex_init(&recv_mutex);
+	conn_layer = NULL;
 }
 
 Comms::~Comms()
 {
-	free_pointer(connectionLayer);
-	mutex_destroy(&sendMutex);
-	mutex_destroy(&recvMutex);
+	free_pointer(conn_layer);
+	mutex_destroy(&send_mutex);
+	mutex_destroy(&recv_mutex);
 }
 
 bool Comms::InitConnection(transport_protocol_t connectionType, const char* port, const char* address, uint32_t baudrate)
@@ -137,8 +137,8 @@ bool Comms::InitConnection(transport_protocol_t connectionType, const char* port
 			if (length < ADDRESS_LENGTH)
 			{	
 			  COMMS_DEBUG("UDP connection.\n");
-				connectionLayer = new UDPLink();
-				return connectionLayer->InitConnection(port, address);
+				conn_layer = new UDPLink();
+				return conn_layer->InitConnection(port, address);
 			}
 			break;
 		}
@@ -148,8 +148,8 @@ bool Comms::InitConnection(transport_protocol_t connectionType, const char* port
 			str_length(address, length);
 			if (length < ADDRESS_LENGTH)
 			{
-				connectionLayer = new SerialLink();
-				return connectionLayer->InitConnection(port, NULL, baudrate);
+				conn_layer = new SerialLink();
+				return conn_layer->InitConnection(port, NULL, baudrate);
 			}
 			break;
 		
@@ -158,8 +158,8 @@ bool Comms::InitConnection(transport_protocol_t connectionType, const char* port
 		{
       str_length(address, length);
       if (length < ADDRESS_LENGTH) {
-        connectionLayer = new experimental::XBeeLink();
-        return connectionLayer->InitConnection(port, NULL, baudrate);
+        conn_layer = new experimental::XBeeLink();
+        return conn_layer->InitConnection(port, NULL, baudrate);
       }
       break;
     }
@@ -173,20 +173,20 @@ bool Comms::InitConnection(transport_protocol_t connectionType, const char* port
 
 bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
 {
-	if (connectionLayer == NULL)return false;
-	return connectionLayer->AddAddress(dest_id, address, port);
+	if (conn_layer == NULL)return false;
+	return conn_layer->AddAddress(dest_id, address, port);
 }
 
 
 bool Comms::RemoveAddress(uint8_t dest_id)
 {
-	if (connectionLayer == NULL)return false;
-	return connectionLayer->RemoveAddress(dest_id);
+	if (conn_layer == NULL)return false;
+	return conn_layer->RemoveAddress(dest_id);
 }
 
 
 bool Comms::Send(AbstractPacket* packet, uint8_t dest_id) {
-  if (connectionLayer == NULL) { 
+  if (conn_layer == NULL) { 
     return false;
   }
   
@@ -210,7 +210,7 @@ bool Comms::Send(AbstractPacket* packet, uint8_t dest_id) {
 
 
 AbstractPacket* Comms::Receive(uint8_t&  source_id) {
-  if (connectionLayer == NULL) return NULL;
+  if (conn_layer == NULL) return NULL;
   if (!recv_queue->IsEmpty()) {
     cout << "Message recv in Comms" << endl;
     // This is a manual Receive function. The user does not need to call this function,
@@ -224,8 +224,8 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
 
 int32_t Comms::Run()
 {
-	thread_create(&this->communicationThreadSend, commuincationHelperSend, this);
-	thread_create(&this->communicationThreadRecv, commuincationHelperRecv, this);
+	thread_create(&this->comm_thread_send, CommuincationHelperSend, this);
+	thread_create(&this->comm_thread_recv, CommuincationHelperRecv, this);
 	return CommNode::Run();
 }
 

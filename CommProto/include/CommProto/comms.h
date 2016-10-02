@@ -53,40 +53,40 @@ namespace comnet {
   */  
   _COMNET_PUBLIC_API_ class Comms : public CommNode {
 	private:
-		mutex_t sendMutex;
-		mutex_t recvMutex;
+		mutex_t send_mutex;
+		mutex_t recv_mutex;
 
 		/** Encryption key*/
 		uint8_t key[KEY_LENGTH];
 		/** Method to read key form text file*/
-		void loadKey();
+		void LoadKey();
 
 		/** Length of data buffer for communication stream */
 		uint32_t rx_length;
 
 		/** Thread to Run communication data */
-		thread_t communicationThreadSend;
-		thread_t communicationThreadRecv;
+		thread_t comm_thread_send;
+		thread_t comm_thread_recv;
 
 		/** Method to Run in communication thread */
-		void* commuincationHandlerSend();
-		void* commuincationHandlerRecv();
+		void* CommuincationHandlerSend();
+		void* CommuincationHandlerRecv();
 
 		/**
 		Helper function to convert between C++ and C function signatures
 		due to casting as a class member being incompatible with C style
 		thread creation APIs. Static linkage helps with that.
 		*/
-		static void* commuincationHelperSend(void* context);
-		static void* commuincationHelperRecv(void* context);
+		static void* CommuincationHelperSend(void* context);
+		static void* CommuincationHelperRecv(void* context);
 
 		/** Polymorphic (Base Class) Communication link for connection code*/
-		CommsLink *connectionLayer;
+		CommsLink *conn_layer;
 
 
 	public:		
 		/** Constructor */
-		Comms(uint8_t platformID);
+		Comms(uint8_t platform_id);
 		/** Destructor */
 		~Comms();
 
@@ -94,7 +94,7 @@ namespace comnet {
 		enum connection type to use serial, UDP, zigbee, ect
 		port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
 		baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */
-		bool InitConnection(transport_protocol_t connectionType, const char* port, const char* address = NULL, uint32_t baudrate = 0);
+		bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address = NULL, uint32_t baudrate = 0);
 
 		/** The address entered will be paired for communication by destination ID
 		Adding address can be a UDP IPV4 or hex MAC address for zigbee
@@ -116,7 +116,7 @@ namespace comnet {
 
 	protected:
 		// Nothing yet.
-		void logToConsoles()
+		void LogToConsoles()
 		{ }
 	};//End Comms class      
 } // namespace Comnet

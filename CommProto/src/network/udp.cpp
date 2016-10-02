@@ -143,13 +143,13 @@ bool UDP::RemoveAddress(uint8_t dest_id)
 }
 
 
-bool UDP::Send(uint8_t dest_id, uint8_t* txData, uint32_t txLength)
+bool UDP::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
 {
   if (sockaddr.socket_status == SOCKET_CONNECTED) {
     int slenSend = sizeof(conn[dest_id].socket_address);
     if (sendto(fd, 
-        (char *) txData, 
-        txLength, 0, 
+        (char *) tx_data, 
+        tx_length, 0, 
         (struct sockaddr *) &conn[dest_id].socket_address, slen) < 0)
 		{
       COMMS_DEBUG("sendto() failed\n");
@@ -157,7 +157,7 @@ bool UDP::Send(uint8_t dest_id, uint8_t* txData, uint32_t txLength)
       return false;
 		} else {	  						
         COMMS_DEBUG("\n**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
-        txLength, ntohs(conn[dest_id].socket_address.sin_port),
+        tx_length, ntohs(conn[dest_id].socket_address.sin_port),
         inet_ntoa(conn[dest_id].socket_address.sin_addr));		  
 		}
   }
@@ -166,13 +166,13 @@ bool UDP::Send(uint8_t dest_id, uint8_t* txData, uint32_t txLength)
 }
 
 
-bool UDP::Recv(uint8_t* rxData, uint32_t* rxLength)
+bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
 {
   int length = 0;
-  *rxLength = 0;
+  *rx_length = 0;
   if (sockaddr.socket_status == SOCKET_CONNECTED) {
     length = recvfrom(fd, 
-                      (char*)rxData, MAX_BUFFER_SIZE, 
+                      (char*)rx_data, MAX_BUFFER_SIZE, 
                       0, 
                       (struct sockaddr *) &si_other.socket_address, 
                       (socklen_t *) &slen);
@@ -184,7 +184,7 @@ bool UDP::Recv(uint8_t* rxData, uint32_t* rxLength)
   if (length < 0) return false;
     
   COMMS_DEBUG("\n**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, ntohs(si_other.socket_address.sin_port) , inet_ntoa(si_other.socket_address.sin_addr));    
-  *rxLength = (uint32_t)length;
+  *rx_length = (uint32_t)length;
 
   return true;
 }

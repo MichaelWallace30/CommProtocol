@@ -66,7 +66,7 @@ ngcp_hash32_t reverse_byte(byte* _byte) {
    Check if the pointer is null.
  */
 FORCE_INLINE
-bool valueIsNull(void* input) {
+bool ValueIsNull(void* input) {
   if (input == NULL) {
     return true;
   } else {
@@ -81,7 +81,7 @@ bool valueIsNull(void* input) {
 */
 ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
   ngcp_hash32_t hash = 0;
-  if (valueIsNull(input)) {
+  if (ValueIsNull(input)) {
     return hash;
   }
   
@@ -108,7 +108,7 @@ ngcp_hash32_t ngcp_hash32(void* input, uint32_t length, unsigned seed) {
  */
 ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
   ngcp_hash64_t hash = 0;
-  if (valueIsNull(input)) {
+  if (ValueIsNull(input)) {
     return hash;
   }
   
@@ -148,7 +148,7 @@ ngcp_hash64_t ngcp_hash64(void* input, uint32_t length, unsigned seed) {
  */
 ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed) {
   unsigned int length = 0;
-  if (valueIsNull((void*)input)) {
+  if (ValueIsNull((void*)input)) {
     return length;
   }
   
@@ -162,7 +162,7 @@ ngcp_hash32_t ngcp_hash32(const char* input, unsigned seed) {
  */
 ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed) { 
   unsigned int length = 0;
-  if (valueIsNull((void*)input)) {
+  if (ValueIsNull((void*)input)) {
     return length;
   }
   str_length(input, length);

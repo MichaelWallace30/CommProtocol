@@ -84,15 +84,15 @@ unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length){
 	COMMS_DEBUG("Finished swapping abcd.\n");
 #endif
 
-	//store bytes into crcRecv
-	unsigned int crcRecv = 0;
-	((char*)&crcRecv)[0] = a;
-	((char*)&crcRecv)[1] = b;
-	((char*)&crcRecv)[2] = c;
-	((char*)&crcRecv)[3] = d;
+	//store bytes into crc_recv
+	unsigned int crc_recv = 0;
+	((char*)&crc_recv)[0] = a;
+	((char*)&crc_recv)[1] = b;
+	((char*)&crc_recv)[2] = c;
+	((char*)&crc_recv)[3] = d;
 	COMMS_DEBUG("truncated CRC...\n");
 	//return results
-	return crcRecv;
+	return crc_recv;
 	
 }
 }//End NETWORK namespace
