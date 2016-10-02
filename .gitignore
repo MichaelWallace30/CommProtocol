@@ -2,3 +2,6 @@
 /build/
 /win32/
 /linux/
+
+# Main file not required.
+/CommProto/src/main.cpp
