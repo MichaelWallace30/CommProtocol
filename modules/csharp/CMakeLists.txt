@@ -38,6 +38,7 @@ set(COMMPROTO_WRAPPER_SOURCE_DIR
   ${CSHARP_DIR}/tools/data_structures/AutoQueue.cc
   ${CSHARP_DIR}/pkg/PacketTable.cc
   ${CSHARP_DIR}/pkg/PacketManager.cc
+  ${CSHARP_DIR}/CommNode.cc
   ${CSHARP_DIR}/Comms.cc
   ${CSHARP_DIR}/Header.cpp
   ${CSHARP_DIR}/ObjectStream.cpp
