@@ -61,8 +61,8 @@ void* Comms::CommuincationHandlerRecv() {
     temp->SetBuffer((char*)streamBuffer, recvLen);
 
     /*
-      Algorithm should get the header, get the message id from header, then
-      produce the packet from the header, finally get the callback.
+      Algorithm should Get the header, Get the message id from header, then
+      produce the packet from the header, finally Get the callback.
      */
     if (temp->GetSize() > 0) {
       Header header = temp->DeserializeHeader();

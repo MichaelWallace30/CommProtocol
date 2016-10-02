@@ -48,11 +48,11 @@ public:
 
     Trying out CommPointer for the first time, let this baby roll!
    */
-  virtual void pack(comnet::serialization::ObjectStream& obj);
+  virtual void Pack(comnet::serialization::ObjectStream& obj);
 
-  virtual void unpack(comnet::serialization::ObjectStream& obj);
+  virtual void Unpack(comnet::serialization::ObjectStream& obj);
 
-  virtual AbstractPacket* create();
+  virtual AbstractPacket* Create();
 
 private:
   gcroot<ABSPacket^> owner;

@@ -14,17 +14,17 @@ AbstractPacketForwarder::AbstractPacketForwarder(ABSPacket^ packet)
 }
 
 
-void AbstractPacketForwarder::pack(comnet::serialization::ObjectStream& obj) {
+void AbstractPacketForwarder::Pack(comnet::serialization::ObjectStream& obj) {
   CommPointer<comnet::serialization::ObjectStream> ptr = obj;
   Comnet::Serialization::ObjectStream^ wrapper = gcnew Comnet::Serialization::ObjectStream(&ptr);
 
   owner->Pack(wrapper);
 
-  obj.setBuffer((char*)ptr.get().getBuffer(), ptr.get().getSize());
+  obj.SetBuffer((char*)ptr.Get().GetBuffer(), ptr.Get().GetSize());
 }
 
 
-void AbstractPacketForwarder::unpack(comnet::serialization::ObjectStream& obj) {
+void AbstractPacketForwarder::Unpack(comnet::serialization::ObjectStream& obj) {
   CommPointer<comnet::serialization::ObjectStream> ptr = obj;
   ObjectStream^ wrapper = gcnew Comnet::Serialization::ObjectStream(&ptr);
 
@@ -33,7 +33,7 @@ void AbstractPacketForwarder::unpack(comnet::serialization::ObjectStream& obj) {
 }
 
 
-AbstractPacket* AbstractPacketForwarder::create() {
+AbstractPacket* AbstractPacketForwarder::Create() {
   ABSPacket^ packet = owner->Create();
   return packet->GetAbstractPacket();
 }

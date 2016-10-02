@@ -60,7 +60,7 @@ public:
   */
   virtual int32_t GetSize() = 0;
   /**
-     get the data structure type.
+     Get the data structure type.
   */
   virtual DataStructureType GetDataStructType() = 0;
   /**

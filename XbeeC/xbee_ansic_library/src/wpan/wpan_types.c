@@ -150,7 +150,7 @@ bool_t addr64_is_zero( const addr64 FAR *addr)
 	I would prefer to ALWAYS store the bytes in an addr64 structure in network
 	byte order to reduce the possibility of us passing a struct with the wrong
 	byte order.  That doesn't mean we shouldn't provide helper functions to
-	get or set the 32-bit halves in host byte order.
+	Get or set the 32-bit halves in host byte order.
 
 */
 

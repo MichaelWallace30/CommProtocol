@@ -93,7 +93,7 @@ const wpan_cluster_table_entry_t *wpan_cluster_match( uint16_t match,
 
 	@param[in]	dev	device with endpoint table to walk
 	@param[in]	ep		NULL to return first entry in table, or a pointer
-							previously returned by this function to get the
+							previously returned by this function to Get the
 							next entry
 
 	@retval	NULL	\a dev is invalid or reached End of table

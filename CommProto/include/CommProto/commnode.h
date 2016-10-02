@@ -86,7 +86,7 @@ public:
 
      When Calling:
 
-       package -> map.get(packageId) - return pair -> callback(package_info).
+       package -> map.Get(packageId) - return pair -> callback(package_info).
 
      TODO(): Figure out the best thing for a good callback.
    */

@@ -443,7 +443,7 @@ int xbee_io_configure( xbee_dev_t *xbee, xbee_io_t FAR *io,
    }
    //@todo: this is a relatively crude test.  Need to look At hardware
    // and firmware versions to really make a proper check.  For now, this
-   // is about as tight as we can get it.
+   // is about as tight as we can Get it.
    if (type > XBEE_IO_TYPE_TXEN_ACTIVE_HIGH ||
        (type > XBEE_IO_TYPE_DIGITAL_OUTPUT_HIGH && index != 7) ||
        (type == XBEE_IO_TYPE_ANALOG_INPUT && index >= 4) ||
@@ -614,7 +614,7 @@ int xbee_io_set_options( xbee_dev_t *xbee, xbee_io_t FAR *io,
 	@retval	-EBUSY
 					Device is currently busy with another request for this
                device.  Try again later (after calling xbee_cmd_tick()).
-               In general, several get configuration requests can Run
+               In general, several Get configuration requests can Run
                simultaneously, however only one per remote device.
 	@retval	<0
    				Other negative value indicates problem transmitting the

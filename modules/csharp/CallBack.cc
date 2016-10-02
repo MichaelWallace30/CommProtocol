@@ -4,10 +4,10 @@ namespace Comnet {
 
 
 // Helper delegate, is not to be known by the user.
-public delegate error_t Callb(const header_t& header, AbstractPacket& packet);
+public delegate error_t Callb(const comnet::Header& header, AbstractPacket& packet);
 
 
-Int32 ErrorFunct(Header^ h, ABSPacket^ pack) {
+Int32 ErrorFunct(Header^ h, ABSPacket^ Pack) {
   return -100;
 }
 
@@ -51,9 +51,9 @@ Int32 CallBack::CallFunction(Header^ header, ABSPacket^ packet) {
 }
 
 
-error_t CallBack::helper(const header_t& header, AbstractPacket& packet) {
+error_t CallBack::helper(const comnet::Header& header, AbstractPacket& packet) {
   Header^ managedHeader = gcnew Header();
-  managedHeader->header = (header_t *)&header;  
+  managedHeader->header = (comnet::Header *)&header;  
 
   ABSPacket^ managedPacket = reference->Create();
   managedPacket->SetAbstractPacket(&packet);

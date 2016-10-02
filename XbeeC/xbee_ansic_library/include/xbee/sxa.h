@@ -364,7 +364,7 @@ typedef struct sxa_node_t
    /// Cache flags for DH/DL (destination address) group
    sxa_cache_flags_t dhdl_cf;
    /// Value of DH and DL registers, combined into a single logical field.
-	/// You always want both, so there is a command list to get them.
+	/// You always want both, so there is a command list to Get them.
    addr64				dest_addr;
 
    // Miscellaneous cached data.  This is mainly to support iDigi which
@@ -472,7 +472,7 @@ enum
 /// Device information: HV, VR and DD
 	SXA_CACHED_DEVICE_INFO,
 /// Dest addr: DH,DL.  This is a group since it is exceptional in requiring
-/// two commands to get a single (logical) 64 bit value.
+/// two commands to Get a single (logical) 64 bit value.
 	SXA_CACHED_DHDL,
 
 /// Miscellaneous stuff (one of the sxa_cached_* sub-structures) - these

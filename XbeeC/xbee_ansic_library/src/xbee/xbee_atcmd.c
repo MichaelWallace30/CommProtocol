@@ -740,7 +740,7 @@ xbee_command_list_context_t _xbee_atcmd_query_regs_head;
 	Learn about the underlying device by sending a series of
 	commands and storing the results in the xbee_dev_t.
 
-	This function will likely get called by the XBee stack
+	This function will likely Get called by the XBee stack
 	At some point in the startup/initialization phase.
 
 	Use xbee_cmd_query_status() to check on the progress of
@@ -1558,7 +1558,7 @@ int _xbee_cmd_handle_response( xbee_dev_t *xbee, const void FAR *rawframe,
 #endif
 
 		default:
-			// Shouldn't get to this point since the handler is only registered
+			// Shouldn't Get to this point since the handler is only registered
 			// for local and remote AT Response frames.
 			return -EINVAL;
 	}

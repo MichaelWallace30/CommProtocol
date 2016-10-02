@@ -37,7 +37,7 @@
 	payloads to.  The last entry of the table would be a "catchall" for
 	paylaods from devices not in the table.
 
-	"context" of this function would be the table.  Functions that get the
+	"context" of this function would be the table.  Functions that Get the
 	payloads would just accept the envelope parameter.
 
 	Maybe better to just have a list of functions that can see all of the

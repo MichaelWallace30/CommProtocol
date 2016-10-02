@@ -10,17 +10,17 @@ Boolean PacketManager::Insert(ABSPacket^ packet, CallBack^ callback) {
 
 
 CallBack^ PacketManager::Get(ABSPacket^ key) {
-  return table.GetCallback(key->GetAbstractPacket()->getId());
+  return table.GetCallback(key->GetAbstractPacket()->GetId());
 }
 
 
 Boolean PacketManager::Remove(ABSPacket^ key) {
-  return table.Remove(key->GetAbstractPacket()->getId());
+  return table.Remove(key->GetAbstractPacket()->GetId());
 }
 
 
 Boolean PacketManager::Contains(ABSPacket^ key) {
-  ABSPacket^ packet = table.GetPacket(key->GetAbstractPacket()->getId());
+  ABSPacket^ packet = table.GetPacket(key->GetAbstractPacket()->GetId());
   if (packet) {
     return true;
   }

@@ -25,9 +25,9 @@ namespace Comnet{
 public ref class Header sealed
 {
 	public:
-		header_t *header;	
+		comnet::Header *header;	
 		Header();
-    Header(header_t* header);
+    Header(comnet::Header* header);
 		~Header();
 		void SetDestID(Byte destID);
 		uint8_t GetDestID();
@@ -40,7 +40,7 @@ public ref class Header sealed
 		void SetIV(cli::array<Byte>^ IV);		
 		cli::array<Byte>^ GetIV();
 
-    header_t* GetHeader() {
+    comnet::Header* GetHeader() {
       return header;
     }
 	};

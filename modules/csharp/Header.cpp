@@ -19,11 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using namespace Comnet;
 Header::Header()
 {
-	header = new header_t;
+	header = new comnet::Header();
 }
 
 
-Header::Header(header_t* header) 
+Header::Header(comnet::Header* header) 
 {
   this->header = header;
 }
@@ -38,23 +38,23 @@ Header::~Header()
 	}
 }
 
-void Header::SetDestID(Byte destID){ header->destID = destID; }
-uint8_t Header::GetDestID(){ return header->destID; }
+void Header::SetDestID(Byte destID){ header->dest_id = destID; }
+uint8_t Header::GetDestID(){ return header->dest_id; }
 
-void Header::SetSourceID(Byte sourceID){ header->sourceID = sourceID; }
-uint8_t Header::GetSourceID(){ return header->sourceID; }
+void Header::SetSourceID(Byte sourceID){ header->source_id = sourceID; }
+uint8_t Header::GetSourceID(){ return header->source_id; }
 
-void Header::SetMessageLength(UInt16 mesageLength){ header->messageLength = mesageLength; }
-uint16_t Header::GetMessageLength(){ return header->messageLength; }
+void Header::SetMessageLength(UInt16 mesageLength){ header->msg_len = mesageLength; }
+uint16_t Header::GetMessageLength(){ return header->msg_len; }
 
-void Header::SetMessageID(UInt16 messageID){ header->messageID = messageID; }
-uint16_t Header::GetMessageID(){ return header->messageID; }
+void Header::SetMessageID(UInt16 messageID){ header->msg_id = messageID; }
+uint16_t Header::GetMessageID(){ return header->msg_id; }
 
 void Header::SetIV(cli::array<Byte>^ IV)
 {
 	for (int x = 0; x < KEY_LENGTH; x++)
 	{
-		header->IV[x] = IV[x];
+		header->iv[x] = IV[x];
 	}
 }
 
@@ -63,7 +63,7 @@ cli::array<Byte>^ Header::GetIV()
 	cli::array<Byte>^IV = gcnew cli::array<Byte>(KEY_LENGTH);
 	for (int x = 0; x < KEY_LENGTH; x++)
 	{
-		IV[x] = header->IV[x];
+		IV[x] = header->iv[x];
 	}
 	return IV;
 }

@@ -142,7 +142,7 @@ typedef PACKED_STRUCT zdo_nwk_addr_rsp_header_t {
 #define ZDO_NET_ADDR_ERROR				0xFFFD
 
 /**
-	@brief Given a device's IEEE (64-bit) address, get its 16-bit network
+	@brief Given a device's IEEE (64-bit) address, Get its 16-bit network
 	address by unicasting a ZDO NWK_addr request to it.
 
 	After calling this function, \p *net is set to ZDO_NET_ADDR_PENDING.
@@ -193,7 +193,7 @@ typedef zdo_nwk_addr_rsp_header_t zdo_ieee_addr_rsp_header_t;
 #define ZDO_IEEE_ADDR_ERROR			WPAN_IEEE_ADDR_ALL_ZEROS
 
 /**
-	@brief Given a device's 16-bit network address, get its IEEE (64-bit)
+	@brief Given a device's 16-bit network address, Get its IEEE (64-bit)
 	address by unicasting a ZDO IEEE_addr request to it.
 
 	This function only works with the following XBee firmware versions:
@@ -426,7 +426,7 @@ typedef PACKED_STRUCT zdo_simple_desc_header_t {
 	@brief Send a ZDO Simple Descriptor Request.
 
 	The simple descriptor Contains information specific to each of a node's
-	endpoints.  Use the ZDO Simple Descriptor Request to get a descriptor
+	endpoints.  Use the ZDO Simple Descriptor Request to Get a descriptor
 	for an endpoint on a remote node.
 
 	@param[in]	envelope		Envelope created with wpan_envelope_create().

@@ -107,7 +107,7 @@ static void norm_udivmod32(JSUint32 *qp, JSUint32 *rp, JSUint64 a, JSUint32 b)
     r1 = (r1 << 16) | jshi16(a.lo);
     if (r1 < m) {
         q1--, r1 += b;
-        if (r1 >= b     /* i.e., we didn't get a carry when adding to r1 */
+        if (r1 >= b     /* i.e., we didn't Get a carry when adding to r1 */
             && r1 < m) {
             q1--, r1 += b;
         }

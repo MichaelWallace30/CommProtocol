@@ -152,7 +152,7 @@ int xbee_atmode_exit( xbee_dev_t *xbee)
 			#ifdef XBEE_ATMODE_VERBOSE
 				printf( "%s: sending ATCN\n", __FUNCTION__);
 			#endif
-			// in command mode, Send ATCN to get out
+			// in command mode, Send ATCN to Get out
 			xbee_atmode_send_request( xbee, "CN");
 			xbee->mode = XBEE_MODE_WAIT_IDLE;
 			break;

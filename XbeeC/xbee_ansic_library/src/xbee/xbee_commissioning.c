@@ -328,8 +328,8 @@ int xbee_commissioning_set( xbee_dev_t *xbee, zcl_comm_startup_param_t *sas)
 	xbee_cmd_send( request);
 
 	xbee_cmd_set_command( request, "DL");
-	// By storing values in the low bytes of DL, we can get away with setting
-	// and sending just part of the structure and having the top bytes get
+	// By storing values in the low bytes of DL, we can Get away with setting
+	// and sending just part of the structure and having the top bytes Get
 	// set to 0.
 	dl.startup_control = sas->startup_control;
 	xbee_cmd_set_param_bytes( request, &dl.startup_control, 1);

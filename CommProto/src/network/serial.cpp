@@ -383,7 +383,7 @@ bool Serial::Recv(uint8_t* rx_data, uint32_t* rx_len) {
 	bool valid = true;
 //	COMMS_DEBUG("Parser Postion %d\n", parserPosition);
 	//COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
-	//get new message if parser is done
+	//Get new message if parser is done
 	if (parser.ParseReceiveDone()){		
 		COMMS_DEBUG("Port recv is: %d\n", h_serial.fd);			
 		valid = ReadFromPort(*this, buffer_recv, rx_len);

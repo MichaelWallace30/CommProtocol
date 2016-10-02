@@ -295,11 +295,11 @@
 */
 
 /// For 1/1/1980 epoch (Rabbit), add 20 years, plus 5 leap days (1980,
-/// 1984, 1988, 1992, 1996) to get to ZigBee epoch of 1/1/2000.
+/// 1984, 1988, 1992, 1996) to Get to ZigBee epoch of 1/1/2000.
 #define ZCL_TIME_EPOCH_DELTA_1980	((UINT32_C(20) * 365 + 5) * 24 * 60 * 60)
 
 /// For 1/1/1970 epoch (Win32, Unix), add 30 years, plus 7 leap days (1972,
-/// 1976, 1980, 1984, 1988, 1992, 1996) to get to ZigBee epoch of 1/1/2000.
+/// 1976, 1980, 1984, 1988, 1992, 1996) to Get to ZigBee epoch of 1/1/2000.
 #define ZCL_TIME_EPOCH_DELTA_1970	((UINT32_C(30) * 365 + 7) * 24 * 60 * 60)
 
 #ifdef XBEE_PLATFORM_HEADER

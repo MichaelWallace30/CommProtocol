@@ -365,7 +365,7 @@ int zdo_send_match_desc( wpan_dev_t *dev, const uint16_t *clusters,
 		return frame_length;
 	}
 
-	// register the conversation to get a transaction id
+	// register the conversation to Get a transaction id
 	trans = wpan_conversation_register( zdo_endpoint_state( dev), callback,
 		context, 60);
 	if (trans < 0)
@@ -454,7 +454,7 @@ int zcl_create_attribute_records( void FAR *buffer,
 		bufsize -= result;
 		buffer_insert += result;
 
-		attr = zcl_attribute_get_next( attr);	// get next attribute to encode
+		attr = zcl_attribute_get_next( attr);	// Get next attribute to encode
 	}
 
 	// update *p_attr_list to point to the next attribute to encode, or

@@ -63,7 +63,7 @@ internal:
     return callback;
   }
 
-  error_t helper(const header_t& header, AbstractPacket& packet);
+  error_t helper(const comnet::Header& header, AbstractPacket& packet);
 private:
   ABSPacket^ reference;
   CommFunct^ funct;

@@ -18,7 +18,7 @@ Returns false if open socket or bind fails*/
 Boolean UDPLink::InitConnection( String^ port,  String^ address, uint32_t baudrate){	
 	char* portChar = (char*)(void*)Marshal::StringToHGlobalAnsi(port);
 	char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
-	return unmanagedUDPLink->initConnection(portChar, addressChar, baudrate);
+	return unmanagedUDPLink->InitConnection(portChar, addressChar, baudrate);
 }
 
 Boolean UDPLink::InitConnection(String^ port, String^ address){
@@ -29,25 +29,25 @@ Boolean UDPLink::InitConnection(String^ port, String^ address){
 Returns false if connection is already connected*/
 Boolean UDPLink::AddAddress(uint8_t destID,  String^ address, uint16_t port){
 	char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);	
-	return unmanagedUDPLink->addAddress(destID, addressChar, port);
+	return unmanagedUDPLink->AddAddress(destID, addressChar, port);
 }
 
 /** Sets connection to not available
 Returns false is no connection is found*/
 Boolean UDPLink::RemoveAddress(uint8_t destID){
-	return unmanagedUDPLink->removeAddress(destID);
+	return unmanagedUDPLink->RemoveAddress(destID);
 }
 
 /** Sends txData using its length of bytes through the destID connection which is establish through add adress
 Return false if no proper connection is establish*/
 Boolean UDPLink::Send(uint8_t destID, uint8_t* txData, uint32_t txLength){
-	return unmanagedUDPLink->send(destID, txData, txLength);
+	return unmanagedUDPLink->Send(destID, txData, txLength);
 }
 /** Sets recieved data to rxData and sets the length of the data to rxLength
 Returns false if not aviable connection or no data is recieved*/
 Boolean UDPLink::Recv(uint8_t* rxData, UInt32% rxLength) { 
   uint32_t length = 0;
-	bool success = unmanagedUDPLink->recv(rxData, &length);//probably wont work
+	bool success = unmanagedUDPLink->Recv(rxData, &length);//probably wont work
   rxLength = length;
   return success;
 }

@@ -110,8 +110,8 @@ const FAR xbee_atcmd_reg_t _sxa_dhdl_query_regs[] = {
 };
 
 
-#define _SXA_CG_INIT(id, field, get, fn) \
-	{ id, offsetof(sxa_node_t, field), get, fn }
+#define _SXA_CG_INIT(id, field, Get, fn) \
+	{ id, offsetof(sxa_node_t, field), Get, fn }
 #define _SXA_CG_INIT_END \
 	{ 0, 0, NULL, NULL }
 
@@ -910,7 +910,7 @@ sxa_node_t FAR * sxa_init_or_exit(xbee_dev_t *xbee,
    nid.ieee_addr_be = xbee->wpan_dev.address.ieee;
 	sxa = sxa_node_add(xbee, &nid);
 	// Nothing known as yet.  Since we set NO2, will discover local node
-   // with ATND, and hence stuff will get filled in.
+   // with ATND, and hence stuff will Get filled in.
    _sxa_set_cache_status(sxa, NULL, SXA_CACHED_NODE_ID, _SXA_CACHED_UNKNOWN);
 
 	xbee_cmd_list_execute(xbee,
@@ -1038,7 +1038,7 @@ void sxa_tick(void)
    xbee_cmd_tick();
 
    // Iterate all devices and update any missing information that has been
-   // requested (and didn't get error last time requested).
+   // requested (and didn't Get error last time requested).
    for (sxa = sxa_table; sxa; sxa = sxa->next)
    {
       if (!sxa->queued && !sxa->doing_group)

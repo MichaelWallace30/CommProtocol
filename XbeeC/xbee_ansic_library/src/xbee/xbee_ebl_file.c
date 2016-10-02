@@ -119,7 +119,7 @@ void ebl_header_dump_em2xx( const em2xx_header_t *ebl, uint16_t flags)
 	}
 	if (flags & EBL_HEADER_DUMP_TIMESTAMP)
 	{
-		// get timestamp of build, based on Unix epoch (1/1/1970)
+		// Get timestamp of build, based on Unix epoch (1/1/1970)
 		timestamp = be32toh( ebl->timestamp_be);
 		
 		// convert to platform's epoch
@@ -167,12 +167,12 @@ void ebl_header_dump_em3xx( const em3xx_header_t *ebl, uint16_t flags)
 	}
 	if (flags & EBL_HEADER_DUMP_TIMESTAMP)
 	{
-		// get timestamp of build, based on Unix epoch (1/1/1970)
+		// Get timestamp of build, based on Unix epoch (1/1/1970)
 		timestamp = le32toh( ebl->timestamp_le);
 		
 		// convert to platform's epoch
-		// Subtract 1970 delta to get timestamp with 1/1/2000 epoch, then add 
-		// platform's delta to get to the platform's epoch.
+		// Subtract 1970 delta to Get timestamp with 1/1/2000 epoch, then add 
+		// platform's delta to Get to the platform's epoch.
 		timestamp = timestamp +
 			(ZCL_TIME_EPOCH_DELTA - ZCL_TIME_EPOCH_DELTA_1970);
 		

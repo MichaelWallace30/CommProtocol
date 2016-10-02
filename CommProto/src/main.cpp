@@ -71,7 +71,7 @@ int main(int c, char** args) {
 	  newComms2.Send(&ping, 1);
     Sleep(1000);
     // This is not needed unless the user hasn't specified a callback for the packet, and
-    // they need to get the packet manually.
+    // they need to Get the packet manually.
 		//newComms2.Receive(source, message);
 	}
 

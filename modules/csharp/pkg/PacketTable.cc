@@ -30,7 +30,7 @@ Boolean PacketTable::Insert(ABSPacket^ key, CallBack^ callback) {
 
   Boolean stored = false;
   Boolean willStore = true;
-  UInt32 hash = keyHash(key->GetAbstractPacket()->getId());
+  UInt32 hash = keyHash(key->GetAbstractPacket()->GetId());
   Pair^ pair = gcnew Pair();
   
   pair->packet = key;
@@ -38,7 +38,7 @@ Boolean PacketTable::Insert(ABSPacket^ key, CallBack^ callback) {
 
   int saved = hash;
   while (table[hash] != nullptr && 
-    table[hash]->packet->GetAbstractPacket()->getId() != key->GetAbstractPacket()->getId())
+    table[hash]->packet->GetAbstractPacket()->GetId() != key->GetAbstractPacket()->GetId())
   {
     hash = traverseIndex(hash);
     
@@ -79,7 +79,7 @@ ABSPacket^ PacketTable::GetPacket(UInt32 key) {
 
   UInt32 saved = hash;
 
-  while (table[hash] && table[hash]->packet->GetAbstractPacket()->getId() != key) {
+  while (table[hash] && table[hash]->packet->GetAbstractPacket()->GetId() != key) {
     hash = traverseIndex(hash);
 
     if (hash == saved) {

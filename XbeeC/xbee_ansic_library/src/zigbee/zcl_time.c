@@ -356,7 +356,7 @@ int zcl_time_client( const wpan_envelope_t FAR *envelope, void FAR *context)
 			}
 		}
 
-		// didn't get a valid time in response
+		// didn't Get a valid time in response
 		if (response == ZCL_STATUS_SUCCESS && ! time)
 		{
 			#ifdef ZCL_TIME_VERBOSE
@@ -417,7 +417,7 @@ int zcl_time_client( const wpan_envelope_t FAR *envelope, void FAR *context)
 									with a Time Cluster Client
 
 	@retval	0	Successfully issued ZDO Match Descriptor Request to find Time
-					Cluster Servers on the network.  No guarantee that we'll get
+					Cluster Servers on the network.  No guarantee that we'll Get
 					a response.
 	@retval	!0	Some sort of error occurred in generating or sending the
 					ZDO Match Descriptor Request.

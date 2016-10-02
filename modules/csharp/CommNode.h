@@ -47,14 +47,14 @@ namespace Comnet {
 	public ref class CommNode abstract {
 	public:
 		CommNode()
-			: uniqueId(numberOfNodes++)
+			: uniqueId(number_of_nodes++)
 			, nodeId(0)
 			, running(false)
 			, paused(true)
 		{ }
 
 		CommNode(UInt32 platformId)
-			: uniqueId(numberOfNodes++)
+			: uniqueId(number_of_nodes++)
 			, nodeId(platformId)
 			, running(false)
 			, paused(true)

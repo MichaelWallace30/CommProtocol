@@ -25,7 +25,7 @@ namespace network{
 
 	bool Parser::ParseReceive(uint8_t* rx_data, uint32_t &rx_length, uint8_t *parsed_data) {
 		
-		//check if parse has completed if so rest position and get new last length
+		//check if parse has completed if so rest position and Get new last length
 		if (parser_position == 0 || parser_position >= last_received_length - 1) {
 			parser_position = 0;
 			last_received_length = rx_length;

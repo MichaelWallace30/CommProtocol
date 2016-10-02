@@ -514,7 +514,7 @@ int _simple_desc_cluster_list( uint8_t **buffer, int max_count,
 	Respond to a Simple Descriptor (Simple_Desc) request
 	(ZigBee spec 2.4.3.1.5).
 
-	This ZDO request is used to get information about a single endpoint.
+	This ZDO request is used to Get information about a single endpoint.
 
 	@param[in]	envelope		envelope of request
 
@@ -648,7 +648,7 @@ int _zdo_active_ep_respond( const wpan_envelope_t FAR *envelope);
 	@brief
 	Respond to an Active Endpoint (Active_EP) request (ZigBee spec 2.4.3.1.6).
 
-	This ZDO request is used to get a list of active endoints on a device.
+	This ZDO request is used to Get a list of active endoints on a device.
 
 	@param[in]	envelope		envelope of request
 

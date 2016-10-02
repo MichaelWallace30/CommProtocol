@@ -444,7 +444,7 @@ typedef struct xbee_dev_t
 
 /**
 	@brief
-	Macro function to get a pointer to the LSB of the radio's firmware version.
+	Macro function to Get a pointer to the LSB of the radio's firmware version.
 
 	Typically used to define ZCL_STACK_VERSION_ADDR for the Basic cluster.
 

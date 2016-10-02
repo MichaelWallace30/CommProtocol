@@ -64,9 +64,9 @@ public:
   
   CommPointer(CommPointer<_Ty>& ptr) 
   {
-    ptr.insertPointerReference(this);
-    insertPointerReference(&ptr);
-    pointer = &((reference)ptr.get());    
+    ptr.InsertPointerReference(this);
+    InsertPointerReference(&ptr);
+    pointer = &((reference)ptr.Get());    
   }
 
   ~CommPointer() {
@@ -76,29 +76,29 @@ public:
     } else {
       pointer = NULL;
       // polynomial time of O(n), this may be an issue.
-      for (int32_t i = 0; i < pointers.getSize(); ++i) {
-	pointers.At(i)->removePointerReference(this);
+      for (int32_t i = 0; i < pointers.GetSize(); ++i) {
+	pointers.At(i)->RemovePointerReference(this);
       }
     }
   }
 
-  reference get() {
+  reference Get() {
     return *pointer;
   }
 
-  int32_t getNumberOfPointers() {
-    return pointers.getSize();
+  int32_t GetNumberOfPointers() {
+    return pointers.GetSize();
   }
   
 protected:
-  void insertPointerReference(CommPointer<_Ty>* ref) {
+  void InsertPointerReference(CommPointer<_Ty>* ref) {
     pointers.Insert(ref);
     if (!pointers.IsEmpty()) {
       is_unique = false;
     }
   }
 
-  void removePointerReference(CommPointer<_Ty>* ref) {
+  void RemovePointerReference(CommPointer<_Ty>* ref) {
     pointers.Remove(ref);
     if (pointers.IsEmpty()) {
       is_unique = true;

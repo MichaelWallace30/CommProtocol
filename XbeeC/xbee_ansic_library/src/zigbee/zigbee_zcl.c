@@ -461,7 +461,7 @@ int zcl_parse_attribute_record( const zcl_attribute_base_t FAR *entry,
 	{
 		// If this is a read attribute response and the status was not success,
 		// there won't by a type or a value.  Just skip over the attribute ID
-		// and status to get to the next record.
+		// and status to Get to the next record.
 		if (write_rec->buffer[2] != ZCL_STATUS_SUCCESS)
 		{
 			///@todo should we set a flag in write_rec to indicate that the

@@ -20,9 +20,9 @@ Void Comms::commHelperRecv() {
     UInt32 recv_length = 0;
     connLayer->Recv(stream_buffer, recv_length); 
     ObjectStream^ temp = gcnew ObjectStream();
-    temp->unmangedObjectStream->get().setBuffer((char *)stream_buffer, recv_length);
+    temp->unmangedObjectStream->Get().SetBuffer((char *)stream_buffer, recv_length);
     if (temp->GetSize() > 0) {
-      Header^ header = gcnew Header(&temp->unmangedObjectStream->get().deserializeHeader());
+      Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().DeserializeHeader());
       packet = this->packetManager->ProduceFromId(header->GetMessageID());
       if (packet) {
         packet->Unpack(temp);
@@ -49,9 +49,9 @@ Void Comms::commHelperSend() {
   while (IsRunning()) {
     if (!sendQueue->IsEmpty()) {
       ObjectStream^ temp = sendQueue->DeQueue();
-      connLayer->Send(temp->unmangedObjectStream->get().headerPacket.destID, 
-                      temp->unmangedObjectStream->get().getBuffer(),
-                      temp->unmangedObjectStream->get().getSize());
+      connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
+                      temp->unmangedObjectStream->Get().GetBuffer(),
+                      temp->unmangedObjectStream->Get().GetSize());
     }
   }
 }
@@ -161,7 +161,7 @@ Boolean Comms::Send(ABSPacket^ packet, Byte destId) {
   Header^ header = gcnew Header();
   header->SetDestID(destId);
   header->SetSourceID(this->GetNodeId());
-  header->SetMessageID(packet->GetAbstractPacket()->getId());
+  header->SetMessageID(packet->GetAbstractPacket()->GetId());
   header->SetMessageLength(stream->GetSize());
   stream->SerializeHeader(header);
   sendQueue->EnQueue(stream);

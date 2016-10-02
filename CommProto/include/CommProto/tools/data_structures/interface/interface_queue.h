@@ -59,7 +59,7 @@ public:
   */
   int32_t GetSize() { return size; }
   /**
-     get the data structure type.
+     Get the data structure type.
   */
   DataStructureType GetDataStructType() { return type; }
   /**
