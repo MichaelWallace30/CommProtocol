@@ -47,4 +47,9 @@
  #define END_EXTERN_C 
 #endif
 
+
+#define COMM_DISALLOW_COPYING(c) \
+          c(c& obj) { } \
+          c& operator=(c& obj) { }
+
 #endif // __INCLUDE_DEFINES_H

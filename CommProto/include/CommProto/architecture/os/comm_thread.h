@@ -37,6 +37,9 @@ namespace os {
   rather than standalone C threads.
  */
 class CommThread {
+
+  COMM_DISALLOW_COPYING(CommThread);
+
 public:
   ~CommThread() { }
 

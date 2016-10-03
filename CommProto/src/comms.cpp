@@ -209,8 +209,8 @@ void Comms::Run()
 {
   CommNode::Run();
 //  COMMS_DEBUG("Running!\n");
-  comm_thread_send = std::move(CommThread(&Comms::CommunicationHandlerSend, this));
-  comm_thread_recv = std::move(CommThread(&Comms::CommunicationHandlerRecv, this));
+  comm_thread_send = CommThread(&Comms::CommunicationHandlerSend, this);
+  comm_thread_recv = CommThread(&Comms::CommunicationHandlerRecv, this);
 	//thread_create(&this->comm_thread_send, CommuincationHelperSend, this);
 	//thread_create(&this->comm_thread_recv, CommuincationHelperRecv, this);
 // COMMS_DEBUG("THREADS ARE RUNNING\n");
