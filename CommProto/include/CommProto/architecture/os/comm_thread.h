@@ -31,18 +31,29 @@ namespace os {
 /**
   Thread wrapper CommThread is intended to work as an interface.
  */
-class CommThread : ::std::thread {
+class CommThread : public ::std::thread {
 public:
   template<typename Function>
   CommThread(Function&& funct) 
   : ::std::thread::thread(std::forward<Function>(funct)) { }
 
 
+  // Templates that allow for one argument.
   template<typename Function,
            typename Arg1>
   CommThread(Function&& funct, Arg1&& arg1)
   : ::std::thread::thread(std::forward<Function>(funct),
                           std::forward<Arg1>(arg1)) { }
+
+
+  // Templates that allow for multiple arguments.
+  template<typename Function,
+           typename Arg1,
+           typename Arg2>
+  CommThread(Function&& funct, Arg1&& arg1, Arg2&& arg2)
+  : ::std::thread::thread(std::forward<Function>(funct),
+                          std::forward<Arg1>(arg1),
+                          std::forward<Arg2>(arg2)) { }
 private:
 
 };
