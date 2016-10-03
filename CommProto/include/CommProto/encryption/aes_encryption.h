@@ -1,10 +1,14 @@
 #ifndef AES_ENCRYPTION_H
 #define AES_ENCRYPTION_H
 #include <CommProto/encryption/encryption_interface.h>
-
-
+#include <CommProto/headerpacket.h>
+#include <aes.h>
+#include <modes.h>
 class AesEncryption : public EncryptionInterface
 {
+private:
+	CryptoPP::SecByteBlock sec_key;
+public:
 AesEncryption();
 ~AesEncryption();
 /** input c string as the form of encrytion key*/
