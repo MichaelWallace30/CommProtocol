@@ -38,6 +38,9 @@ namespace serialization {
 		Inputing a buffer is used on the lower level when dealing directly with a data link.
 	*/
 	class ObjectStream {
+
+    COMM_DISALLOW_COPYING(ObjectStream);
+
 	private:
 		/** Data stream to hold input as an array of bytes*/
 		marshal_t stream_buffer;

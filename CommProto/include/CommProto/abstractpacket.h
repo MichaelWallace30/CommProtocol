@@ -40,6 +40,9 @@ using namespace serialization;
     but HIGHLY recommended).
 */
 class AbstractPacket {
+
+  COMM_DISALLOW_COPYING(AbstractPacket);
+
 public:
   /**
      Allows us to define the type of class we are working with.

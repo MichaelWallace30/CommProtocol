@@ -52,6 +52,9 @@ enum CallbackCodes {
 */
 class Callback {
   typedef std::function < error_t (const Header&, AbstractPacket&) > CallbackFunc;
+
+  COMM_DISALLOW_COPYING(Callback);
+
 public:
   /**
      Default Constructor.
