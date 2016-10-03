@@ -14,7 +14,11 @@ set(NETWORK_HEADERS
   ${NETWORK_HEADER_DIR}commsocket.h
   ${NETWORK_HEADER_DIR}commslink.h
   ${NETWORK_HEADER_DIR}crc32.h
-  ${NETWORK_HEADER_DIR}parser.h)
+  ${NETWORK_HEADER_DIR}parser.h
+  ${NETWORK_HEADER_DIR}/network_graph/network_edge.h
+  ${NETWORK_HEADER_DIR}/network_graph/network_graph.h
+  ${NETWORK_HEADER_DIR}/network_graph/network_graph_builder.h
+  ${NETWORK_HEADER_DIR}/network_graph/network_node.h)
 
 set(NETWORK_SOURCES
   ${NETWORK_SOURCE_DIR}udp.cpp
