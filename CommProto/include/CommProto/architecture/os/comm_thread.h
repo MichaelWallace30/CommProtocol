@@ -72,7 +72,7 @@ public:
     Grabs the id of this thread.
    */
   ::std::thread::id GetId() { return thr.get_id(); }
-public:
+private:
   ::std::thread thr;
 };
 } // os
