@@ -10,6 +10,10 @@ set(ARCHITECTURE_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/thread-config.h
   ${ARCHITECTURE_HEADER_DIR}/os/mutex-config.h
   ${ARCHITECTURE_HEADER_DIR}/os/os_mutex.h
+  ${ARCHITECTURE_HEADER_DIR}/os/comm_mutex.h
+  ${ARCHITECTURE_HEADER_DIR}/os/comm_thread.h
+  ${ARCHITECTURE_HEADER_DIR}/os/comm_semaphore.h
+  ${ARCHITECTURE_HEADER_DIR}/os/comm_monitor.h
   ${ARCHITECTURE_HEADER_DIR}/api.h
   ${ARCHITECTURE_HEADER_DIR}/macros.h
   ${ARCHITECTURE_HEADER_DIR}/connection/socket-config.h
@@ -20,5 +24,9 @@ set(ARCHITECTURE_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/connection/transport_type.h)
 
 set(ARCHITECTURE_SOURCES
+  ${ARCHITECTURE_SOURCE_DIR}/os/comm_monitor.cc
+  ${ARCHITECTURE_SOURCE_DIR}/os/comm_semaphore.cc
+  ${ARCHITECTURE_SOURCE_DIR}/os/comm_thread.cc
+  ${ARCHITECTURE_SOURCE_DIR}/os/comm_mutex.cc
   ${ARCHITECTURE_SOURCE_DIR}/os/os_threads.cpp
   ${ARCHITECTURE_SOURCE_DIR}/os/os_mutex.cpp)
