@@ -20,6 +20,8 @@ endif()
 # switch between building 64bit or 32bit.
 option(build32 "Build library in 32 bit" OFF)
 option(build64 "Build library in 64 bit" ON)
+option(shared "Build shared/dll of the library" OFF)
+option(static "Build static/lib of the library" OFF)
 
 # Check the architecture variable. If the Architecture is 64 bit, we define a variable to state that we
 # are working with a 64-bit operating system architecture. 32-bit will also be defined as well.
@@ -147,17 +149,20 @@ set (NGCP_GLOB
   ${COMMPROTO_PKG_SOURCES}
   ${DEBUG_HEADERS})
   
+if (shared)
+  # Shared Library (.so for linux or .dll for Windows).
+  add_library(CommProtoShared SHARED ${NGCP_GLOB})
+endif()
 
-# Shared Library (.so for linux or .dll for Windows).
-add_library(CommProtoShared SHARED ${NGCP_GLOB})
+if (static)
+  # Static library (.a for linux or .lib for Windows).
+  add_library(CommProtoStatic  STATIC ${NGCP_GLOB})
+endif()
 
-
-# Static library (.a for linux or .lib for Windows).
-add_library(CommProtoStatic  STATIC ${NGCP_GLOB})
-
-
-# This doesn't do anything really...
-target_link_libraries(CommProtoStatic CommProtoShared)
+if (shared AND static)
+  # This doesn't do anything really...
+  target_link_libraries(CommProtoStatic CommProtoShared)
+endif()
 
 # Executable Unit Test
 add_executable(CommProtoExe
