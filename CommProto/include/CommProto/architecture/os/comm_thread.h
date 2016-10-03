@@ -32,7 +32,9 @@ namespace os {
 
 
 /**
-  CommThread is intended to work as an interface.
+  CommThread is intended to work as a wrapper for implementation defined threads, specifically
+  for operating system stuff. In order to remain cross compatible, we implement C++11 threads 
+  rather than standalone C threads.
  */
 class CommThread {
 public:
