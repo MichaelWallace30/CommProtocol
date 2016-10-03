@@ -19,9 +19,12 @@
 #ifndef __COMMTHREAD_H
 #define __COMMTHREAD_H
 
-#include <thread>
-#include <utility>
+#include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 
+#include <thread>
+#include <functional>
+#include <utility>
 
 namespace comnet {
 namespace architecture {
@@ -29,33 +32,46 @@ namespace os {
 
 
 /**
-  Thread wrapper CommThread is intended to work as an interface.
+  CommThread is intended to work as an interface.
  */
-class CommThread : public ::std::thread {
+class CommThread {
 public:
-  template<typename Function>
-  CommThread(Function&& funct) 
-  : ::std::thread::thread(std::forward<Function>(funct)) { }
-
-
-  // Templates that allow for one argument.
+  ~CommThread() { }
+  
   template<typename Function,
-           typename Arg1>
-  CommThread(Function&& funct, Arg1&& arg1)
-  : ::std::thread::thread(std::forward<Function>(funct),
-                          std::forward<Arg1>(arg1)) { }
+           typename... Args>
+  CommThread(Function&& funct, Args&&... args) 
+  : thr(::std::thread(std::forward<Function>(funct), 
+                      std::forward<Args>(args)...)) { }
 
 
-  // Templates that allow for multiple arguments.
-  template<typename Function,
-           typename Arg1,
-           typename Arg2>
-  CommThread(Function&& funct, Arg1&& arg1, Arg2&& arg2)
-  : ::std::thread::thread(std::forward<Function>(funct),
-                          std::forward<Arg1>(arg1),
-                          std::forward<Arg2>(arg2)) { }
-private:
+  /**
+    Safely detaches this thread from the current thread.
+   */
+  void Detach() {
+    thr.detach();
+  }
 
+
+  /**
+    This function should cause main thread to wait until this thread 
+    is finished.
+  */
+  void Join() { thr.join(); }
+
+
+  /**
+    Determines whether this thread is joinable, or able to join in parallel with main thread.
+  */
+  bool IsJoinable() { return thr.joinable(); }
+
+
+  /**
+    Grabs the id of this thread.
+   */
+  ::std::thread::id GetId() { return thr.get_id(); }
+public:
+  ::std::thread thr;
 };
 } // os
 } // architecture
