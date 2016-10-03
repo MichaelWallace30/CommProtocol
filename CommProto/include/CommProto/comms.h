@@ -26,6 +26,7 @@
 #include <CommProto/network/commsocket.h> // 
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/os/comm_thread.h>
 #include <CommProto/architecture/os/os_threads.h>//method to Create threads
 #include <CommProto/architecture/os/os_mutex.h>
 #include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
@@ -47,6 +48,7 @@ namespace comnet {
   using namespace comnet::tools::datastructures;
   using namespace comnet::serialization;
   using namespace comnet::network;	
+  using namespace comnet::architecture::os;
   /**
     Comms is a standard CommNode node object. It handles elementary and intermediate 
     commands and functionality in order to work to the user's specifications of communications.
@@ -65,20 +67,12 @@ namespace comnet {
 		uint32_t rx_length;
 
 		/** Thread to Run communication data */
-		thread_t comm_thread_send;
-		thread_t comm_thread_recv;
+		CommThread comm_thread_send;
+		CommThread comm_thread_recv;
 
 		/** Method to Run in communication thread */
-		void* CommuincationHandlerSend();
-		void* CommuincationHandlerRecv();
-
-		/**
-		Helper function to convert between C++ and C function signatures
-		due to casting as a class member being incompatible with C style
-		thread creation APIs. Static linkage helps with that.
-		*/
-		static void* CommuincationHelperSend(void* context);
-		static void* CommuincationHelperRecv(void* context);
+		void CommunicationHandlerSend();
+		void CommunicationHandlerRecv();
 
 		/** Polymorphic (Base Class) Communication link for connection code*/
 		CommsLink *conn_layer;

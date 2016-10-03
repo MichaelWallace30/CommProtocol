@@ -16,26 +16,8 @@ using namespace comnet;
 /******************* Private *******************/
 /***********************************************/
 
-
-/**
-Helper function to convert between C++ and C function signatures
-due to casting as a class member being incompatible with C style
-thread creation APIs. Static linkage helps with that.
-*/
-void* Comms::CommuincationHelperSend(void* context)
-{
-  COMMS_DEBUG("Running thread...\n");
-  return ((Comms*)context)->CommuincationHandlerSend();
-}
-
-void* Comms::CommuincationHelperRecv(void* context)
-{
-	return ((Comms*)context)->CommuincationHandlerRecv();
-}
-
-
 /** function for communication thread */
-void* Comms::CommuincationHandlerSend()
+void Comms::CommunicationHandlerSend()
 {
 	while (this->IsRunning())
 	{
@@ -49,11 +31,10 @@ void* Comms::CommuincationHandlerSend()
 		}
 //		COMMS_DEBUG("IM GOING!!\n");
 	}
-	return 0;
 }
 
 /** function for communication thread */
-void* Comms::CommuincationHandlerRecv() {
+void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning()) {
     AbstractPacket* packet = NULL;
     //Send data here
@@ -105,8 +86,6 @@ void* Comms::CommuincationHandlerRecv() {
 
     free_pointer(temp);				
   }
-
-  return 0;
 }
 
 /***********************************************/
@@ -230,8 +209,10 @@ void Comms::Run()
 {
   CommNode::Run();
 //  COMMS_DEBUG("Running!\n");
-	thread_create(&this->comm_thread_send, CommuincationHelperSend, this);
-	thread_create(&this->comm_thread_recv, CommuincationHelperRecv, this);
+  comm_thread_send = std::move(CommThread(&Comms::CommunicationHandlerSend, this));
+  comm_thread_recv = std::move(CommThread(&Comms::CommunicationHandlerRecv, this));
+	//thread_create(&this->comm_thread_send, CommuincationHelperSend, this);
+	//thread_create(&this->comm_thread_recv, CommuincationHelperRecv, this);
 // COMMS_DEBUG("THREADS ARE RUNNING\n");
 }
 

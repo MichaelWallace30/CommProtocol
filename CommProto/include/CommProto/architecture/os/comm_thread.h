@@ -39,7 +39,17 @@ namespace os {
 class CommThread {
 public:
   ~CommThread() { }
-  
+
+
+  /**
+    Thread default constructor.
+   */
+  CommThread() { }
+
+
+  /**
+    Thread Function.
+  */
   template<typename Function,
            typename... Args>
   CommThread(Function&& funct, Args&&... args) 
@@ -47,6 +57,17 @@ public:
                       std::forward<Args>(args)...)) { }
 
 
+  /**
+    Moves the thread functionality to this thread.
+  */
+  CommThread(CommThread&& com)
+  : thr(std::move(com.thr)) { }
+
+
+  CommThread& operator=(CommThread&& com) {
+    thr = std::move(com.thr);
+    return *this;
+  }
   /**
     Safely detaches this thread from the current thread.
    */
