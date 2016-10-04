@@ -2,21 +2,38 @@ All of these files are structured in a certain way, so as to organize the librar
 
 Inside Directory: CommProto
 -------------------------------------------------------------------------------------
-| Directory    | Purpose                                                 | Language |
+| Directory     | Purpose                                                 | Language |
 -------------------------------------------------------------------------------------
-| architecture | Intended to hold all files used for operating system    | C/C++    |
-|              | checking, configuration and anything OS specific that   |          |
-|              | are not necessary for dealing with in the main src.     |          |
-|              | This directory will hold most of the architecture of    |          |
-|              | the Communications Protocol.                            |          |
--------------------------------------------------------------------------------------
-| connection   | Used for holding connection protocols and types.        | C/C++    |
--------------------------------------------------------------------------------------
-| tools        | Contains custom made data structures, certain generic   | C/C++    |
-|              | allocators, possibly some algorithms and what not. We   |          |
-|              | Will most likely not need most of this crap, but just   |          |
-|              | the data structures.                                    |          |
--------------------------------------------------------------------------------------
+| architecture  | Intended to hold all files used for operating system    | C/C++    |
+|               | checking, configuration and anything OS specific that   |          |
+|               | are not necessary for dealing with in the main src.     |          |
+|               | This directory will hold most of the architecture of    |          |
+|               | the Communications Protocol.                            |          |
+--------------------------------------------------------------------------------------
+| connection    | Used for holding connection protocols and types.        | C/C++    |
+--------------------------------------------------------------------------------------
+| network       | Used for storing network protocol objects and tables.   | C/C++    |
+--------------------------------------------------------------------------------------
+| serialization | Deals with buffering data types and information, into   | C/C++    |
+|               | manageable arrays for sending out.                      |          |
+--------------------------------------------------------------------------------------
+| encryption    | Used for encrypting data objects for sending out.       | C/C++    |
+--------------------------------------------------------------------------------------
+| console       | Handles console input and output from/to external       | C/C++    |
+|               | applications.                                           |          |
+--------------------------------------------------------------------------------------
+| pkg           | Applicable for packaging and handling package storage.  | C/C++    |
+--------------------------------------------------------------------------------------
+| hash          | Houses NGCP hashing for universal use of common packets.| C/C++    |
+--------------------------------------------------------------------------------------
+| debug         | Used for debugging CommProto lib, and handling runtime  | C/C++    |   
+|               | requests.                                               |          |
+--------------------------------------------------------------------------------------
+| tools         | Contains custom made data structures, certain generic   | C/C++    |
+|               | allocators, possibly some algorithms and what not. We   |          |
+|               | Will most likely not need most of this crap, but just   |          |
+|               | the data structures.                                    |          |
+--------------------------------------------------------------------------------------
 There will be many more directories being added in to CommProto, all of them must 
 be involved in the internals of the library ONLY.
 
@@ -24,19 +41,26 @@ be involved in the internals of the library ONLY.
 
 Outside of ComProto:
 -------------------------------------------------------------------------------------
-| build        | Will hold tests and  our project.                       | IDE      |
+| build        | Will hold tests and  our project.                       | lang     |
 -------------------------------------------------------------------------------------
 | cmake        | Any cmake modules that will be added to our build       | cmake    |
 |              | script.                                                 |          |
 -------------------------------------------------------------------------------------
-| external     | Any .lib, or .dll, or .a, or .so dependencies that will | Machine  |
+| XbeeX        | Xbee/Zigbee dependencies that will                      | C/C++    |
 |              | be linked to the CommProto library.                     |          |
+-------------------------------------------------------------------------------------
+| Encryption   | Holds third party encryptions for CommProto encrypt.    | C/C++    |
+-------------------------------------------------------------------------------------
+| scripts      | Holds scripts to handle autonomy of packaging CommProto.| C/C++    |
+-------------------------------------------------------------------------------------
+| tests        | Holds library tests.                                    | C/C++    |
+-------------------------------------------------------------------------------------
+| unit         | Holds Visionary testing toolset for CommProto testing.  | C/C++    |
 -------------------------------------------------------------------------------------
 
 
-target: Since UGV is currently using the oldest compiler, we will try to stick to using C++03 features, and as few
-        C++11 syntax as possible. We can write C++11-14 syntax, but will need to do too much work using CMake
-        to set up our source for compilation on older compilers.
+target: C++11-14 is mandatory. All Platforms must conform to modern C++, otherwise this library will not 
+        be of good use.
 
 Should things go right, we shouldn't need to create any scripts (unless we decide to create an installer..) 
 to generate any more messages, only have the separate platforms do it instead, our job is mainly to create the protocol, 
