@@ -109,6 +109,7 @@ endif()
 include_directories(SYSTEM CommProto/include/)
 include_directories(SYSTEM XbeeC/xbee_ansic_library/include/)
 
+
 # Our sources, which will be included in the build. This is a test build, to 
 # check for problems and situations arising from our code base. We will most likely
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
@@ -123,6 +124,7 @@ include(cmake/pkg.cmake)
 include(cmake/comnet_debug.cmake)
 include(cmake/xbee_ansic.cmake)
 include(cmake/encryption.cmake)
+include(cmake/cryptoPP.cmake)
 
 # contains the header/src filters for visual studio.
 #
@@ -131,6 +133,8 @@ include(cmake/visualc.cmake)
 set (NGCP_GLOB
   ${XBEE_HEADERS}
   ${XBEE_SOURCES}
+  ${CRYPTOPP_HEADERS}
+  ${CRYPTOPP_SOURCES}
   ${ARCHITECTURE_HEADERS}
   ${ARCHITECTURE_SOURCES}
   ${COMMPROTO_HEADERS}
