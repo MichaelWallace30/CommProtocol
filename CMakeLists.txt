@@ -164,11 +164,6 @@ if (static)
   add_library(CommProtoStatic  STATIC ${NGCP_GLOB})
 endif()
 
-if (shared AND static)
-  # This doesn't do anything really...
-  target_link_libraries(CommProtoStatic CommProtoShared)
-endif()
-
 if (test)
   add_subdirectory(tests/classes/cpp_test)
 endif()
