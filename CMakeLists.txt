@@ -106,6 +106,7 @@ endif()
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM CommProto/include/)
 include_directories(SYSTEM XbeeC/xbee_ansic_library/include/)
+include_directories(SYSTEM Encryption/cryptopp564/include/)
 
 
 # Our sources, which will be included in the build. This is a test build, to 
