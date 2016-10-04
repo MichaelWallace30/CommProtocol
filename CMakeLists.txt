@@ -21,7 +21,8 @@ endif()
 option(build32 "Build library in 32 bit" OFF)
 option(build64 "Build library in 64 bit" ON)
 option(shared "Build shared/dll of the library" OFF)
-option(static "Build static/lib of the library" OFF)
+option(static "Build static/lib of the library" ON)
+option(test "Build test executable to test library with" OFF)
 
 # Check the architecture variable. If the Architecture is 64 bit, we define a variable to state that we
 # are working with a 64-bit operating system architecture. 32-bit will also be defined as well.
@@ -168,7 +169,11 @@ if (shared AND static)
   target_link_libraries(CommProtoStatic CommProtoShared)
 endif()
 
+if (test)
+  add_subdirectory(tests/classes/cpp_test)
+endif()
+
 # Executable Unit Test
-add_executable(CommProtoExe
-  ${NGCP_GLOB}
-   CommProto/src/main.cpp)
+# add_executable(CommProtoExe
+#  ${NGCP_GLOB}
+#   CommProto/src/main.cpp)
