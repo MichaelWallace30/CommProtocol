@@ -111,7 +111,6 @@ include_directories(SYSTEM CommProto/include/)
 
 
 
-
 # Set NGCP_GLOB to be our file cluster to build.
 set (NGCP_GLOB)
 
