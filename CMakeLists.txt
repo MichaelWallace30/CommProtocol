@@ -111,6 +111,10 @@ include_directories(SYSTEM CommProto/include/)
 
 
 
+
+# Set NGCP_GLOB to be our file cluster to build.
+set (NGCP_GLOB)
+
 # Our sources, which will be included in the build. This is a test build, to 
 # check for problems and situations arising from our code base. We will most likely
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
@@ -130,29 +134,6 @@ include(cmake/cryptoPP.cmake)
 # contains the header/src filters for visual studio.
 #
 include(cmake/visualc.cmake)
-
-set (NGCP_GLOB
-  ${XBEE_HEADERS}
-  ${XBEE_SOURCES}
-  ${CRYPTOPP_HEADERS}
-  ${CRYPTOPP_SOURCES}
-  ${ARCHITECTURE_HEADERS}
-  ${ARCHITECTURE_SOURCES}
-  ${COMMPROTO_HEADERS}
-  ${COMMPROTO_SOURCES}
-  ${COMMPROTO_HASH_HEADERS}
-  ${COMMPROTO_HASH_SOURCES}
-  ${TOOLS_HEADERS}
-  ${TOOLS_SOURCES}
-  ${NETWORK_HEADERS}
-  ${NETWORK_SOURCES}
-  ${ENCRYPTION_HEADERS}
-  ${ENCRYPTION_SOURCES}
-  ${SERIALIZATION_HEADERS}
-  ${SERIALIZATION_SOURCES}
-  ${COMMPROTO_PKG_HEADERS}
-  ${COMMPROTO_PKG_SOURCES}
-  ${DEBUG_HEADERS})
   
 if (shared)
   # Shared Library (.so for linux or .dll for Windows).

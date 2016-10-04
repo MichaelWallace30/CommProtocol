@@ -113,3 +113,9 @@ elseif(UNIX)
     ${XBEE_SOURCE_DIR}/posix/xbee_serial_posix.c
     ${XBEE_SOURCE_DIR}/posix/xbee_readline.c)
 endif()
+
+
+set (NGCP_GLOB
+  ${NGCP_GLOB}
+  ${XBEE_HEADERS}
+  ${XBEE_SOURCES})

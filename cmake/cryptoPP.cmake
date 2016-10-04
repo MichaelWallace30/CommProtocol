@@ -15,3 +15,8 @@ set(CRYPTOPP_HEADERS
 # Source files for cryptopp.
 set(CRYPTOPP_SOURCES
   ${CRYPTOPP_SOURCE_DIR}/modes.cpp)
+
+set (NGCP_GLOB
+  ${NGCP_GLOB}
+  ${CRYPTOPP_HEADERS}
+  ${CRYPTOPP_SOURCES})  

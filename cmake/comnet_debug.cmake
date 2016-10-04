@@ -7,3 +7,6 @@ set(DEBUG_HEADERS
   ${DEBUG_HEADER_DIR}/error_status.h
   ${DEBUG_HEADER_DIR}/log.h)
 
+set (NGCP_GLOB
+  ${NGCP_GLOB}
+  ${DEBUG_HEADERS})
