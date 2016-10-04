@@ -1,5 +1,7 @@
 # CryptoPP Library builds.
 
+include_directories(SYSTEM Encryption/cryptopp564/include/)
+
 set(CRYPTOPP_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Encryption/cryptopp564/include/)
 set(CRYPTOPP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Encryption/cryptopp564/src/)
 

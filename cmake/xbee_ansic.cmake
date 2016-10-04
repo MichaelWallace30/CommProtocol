@@ -1,4 +1,5 @@
 # Xbee Ansic Library builds.
+include_directories(SYSTEM XbeeC/xbee_ansic_library/include/)
 
 set(XBEE_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/XbeeC/xbee_ansic_library/include/)
 set(XBEE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/XbeeC/xbee_ansic_library/src/)
