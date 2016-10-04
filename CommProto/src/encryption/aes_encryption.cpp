@@ -1,7 +1,7 @@
 #include <CommProto/encryption/aes_encryption.h>
 #include <CommProto/architecture/macros.h>//str_length
 #include <CommProto/debug/comms_debug.h>//COMMS_DEBUG
-#include <modes.h>
+
 
 AesEncryption::AesEncryption(){}
 AesEncryption::~AesEncryption(){}

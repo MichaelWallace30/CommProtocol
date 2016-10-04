@@ -46,13 +46,13 @@ int main(int c, char** args) {
   COMMS_DEBUG("Callback added!\n");
 //  success = newComms1.InitConnection(UDP_LINK, "1337", "127.0.0.1");
   cout << "newComms1 init: " << success << endl;
-  success = newComms2.InitConnection(UDP_LINK, "1338", "127.0.0.1");
+  success = newComms2.InitConnection(UDP_LINK, "1337", "127.0.0.1");
   cout << "newComms2 init: " << success << endl;
   cin.ignore();
 
 //  success = newComms1.AddAddress(2,"127.0.0.1", 1338);
   cout << "newComms1 add: " << success << endl;
-  success = newComms2.AddAddress(1, "127.0.0.1", 1337);
+  success = newComms2.AddAddress(1, "134.71.119.254", 1338);
   cout << "newComms2 add: " << success << endl;
 
 	
