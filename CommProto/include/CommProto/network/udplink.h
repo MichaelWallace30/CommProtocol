@@ -32,22 +32,35 @@ namespace network {
 */
 class UDPLink : public CommsLink {
 public:
-  /** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
-  Returns false if open socket or bind fails*/
+  // TODO(Garcia): UDP will need to have it's own list of udp objects to talk to.
+  UDPLink() { protocol = UDP_LINK; }
+  /** 
+    Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
+    Returns false if open socket or bind fails
+  */
   bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
-  /** Adds Address & port to dest_id value of array of aviable connections
-  Returns false if connection is already connected*/
+  /** 
+    Adds Address & port to dest_id value of array of aviable connections
+    Returns false if connection is already connected
+  */
   virtual bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
-  /** Sets connection to not available
-  Returns false is no connection is found*/
+  /** 
+    Sets connection to not available
+    Returns false is no connection is found
+  */
   virtual bool RemoveAddress(uint8_t dest_id);
-  /** Sends txData using its length of bytes through the dest_id connection which is establish through add adress
-  Return false if no proper connection is establish*/
+  /** 
+    Sends txData using its length of bytes through the dest_id connection which is establish through add adress
+    Return false if no proper connection is establish
+  */
   virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
-  /** Sets recieved data to rxData and sets the length of the data to rxLength
-  Returns false if not aviable connection or no data is recieved*/
+  /** 
+    Sets recieved data to rxData and sets the length of the data to rxLength
+    Returns false if not aviable connection or no data is recieved
+  */
   virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 private:
+  
   UDP local;
 };
 } // namespace Network

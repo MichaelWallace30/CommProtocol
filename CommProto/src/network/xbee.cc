@@ -104,7 +104,7 @@ bool XBee::Recv(uint8_t* rxData, uint32_t* rxLength) {
 }
 
 
-bool XBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
+bool XBee::Send(const char* wpan_addr, uint8_t* txData, uint32_t txLength) {
   bool success = false;
   int send_success = xbee_ser_write(&serial, (void *)txData, txLength);
   if (send_success >= 0) {

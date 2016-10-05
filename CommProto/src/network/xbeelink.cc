@@ -30,6 +30,7 @@ XBeeLink::XBeeLink()
 : xbees(new ::comnet::tools::datastructures::AutoVector<XBee*>())
 , home(new XBee())
 {
+  this->protocol = ZIGBEE_LINK;
 }
 
 
@@ -45,7 +46,8 @@ bool XBeeLink::InitConnection(const char* port, const char* address, uint32_t ba
 bool XBeeLink::AddAddress(uint8_t destId, const char* address, uint16_t port) {
   //XBee* xbee = new XBee();
   bool success = false;
-  
+  // TODO(Garcia): Need to find devices near this xbee, return with addresses,
+  // figure out if address is found, and add xbee to this list.
   return success;
 }
 
@@ -58,7 +60,8 @@ bool XBeeLink::RemoveAddress(uint8_t destId) {
 
 
 bool XBeeLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
-  return home->Send(destId, txData, txLength);
+  // TODO(Garcia): destId determines the address to send to.
+  return home->Send("", txData, txLength);
 }
 
 

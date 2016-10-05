@@ -22,6 +22,7 @@ SerialLink::SerialLink()
 : local(NULL)
 , connections(allocate_pointer(AutoVector<SerialConn*>))
 {
+  this->protocol = SERIAL_LINK;
 }
 
 

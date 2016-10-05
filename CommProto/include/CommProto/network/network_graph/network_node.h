@@ -40,12 +40,17 @@ public:
 
   ~Node();
 
+  bool AddEdge(Node* dest);
+  bool RemoveEdge(Node* dest);
   
+  Edge* GetEdge(Node* dest);
+  
+  CommsLink* GetCluster() const { return cluster; }
 private:
   EdgeContainer outgoing;
   EdgeContainer incoming;
   // CommsLink cluster.
-  const CommsLink* cluster;
+  CommsLink* cluster;
 
   // friendly neighborhood NetworkGraph...
   friend class NetworkGraph;

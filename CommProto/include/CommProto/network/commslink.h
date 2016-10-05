@@ -23,6 +23,7 @@
 #include <stdint.h>
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/connection/transport_type.h>
 #include <CommProto/architecture/api.h>
 #include <CommProto/headerpacket.h>
 
@@ -69,7 +70,11 @@ public:
     Receive a message from a protocol id.
   */
   virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length) = 0;
-private:
+  
+  transport_protocol_t GetProtocol() { return protocol; }
+protected:
+  // The Protocol type.
+  transport_protocol_t protocol;
 };
 } // namespace Network
 } // namespace Comnet

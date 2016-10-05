@@ -56,7 +56,7 @@ public:
   /**
     Send data over to the destination node.
    */
-  bool Send(uint8_t destId, uint8_t* txData, uint32_t txLength);
+  bool Send(const char* wpan_addr, uint8_t* txData, uint32_t txLength);
   /**
     Check Receive data.
    */
