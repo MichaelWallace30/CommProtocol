@@ -44,11 +44,26 @@
 #define _COMNET_API_LEVEL_4_         4
 #define _COMNET_API_LEVEL_5_         5
 
-#define _CLASS_                      class
 #define _COMNET_INTERFACE_           
 #define _COMNET_ABSTRACT_
 
+#define _CLASS_                      class
+#define _INTERFACE_                  class
+#define _ABSTRACT_                   class
+
 #define current_api_version obtain_api_version(_COMNET_CURRENT_API_VERSION_)
+
+// Definitions for exporting and importing certain classes and functions.
+#if (COM_TARGET_OS == COM_OS_WINDOWS)
+ #define COMM_EXPORT __declspec(dllexport)
+ #define COMM_EXPORT __declspec(dllimport)
+#elif defined(__GNUC__)
+ #define COMM_EXPORT __attribute__((visibility ("default")))
+ #define COMM_IMPORT
+#else
+ #define COMM_EXPORT
+ #define COMM_IMPORT
+#endif
 
 //////////////////////////////////////////////////////////////////////////////////////
 // Post testing for the latest API Version.
