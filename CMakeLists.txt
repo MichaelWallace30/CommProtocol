@@ -70,6 +70,8 @@ else()
 endif()
 
 
+
+
 # Check the Operating system so that we have a clear target of what we are working with.
 # From here, we can determine how to build this library without too much work in the source
 # files, however, we can simply do the operating system checking using the preprocessor defines.
@@ -103,7 +105,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 if (CXX_COMPILER MATCHES "MSVC")
     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} /sdl-")
 else()
-    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread -MM")
 endif()
 
 # Don't forget to include the directories for the compiler to check for.
