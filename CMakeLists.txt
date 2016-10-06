@@ -105,7 +105,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 if (CXX_COMPILER MATCHES "MSVC")
     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} /sdl-")
 else()
-    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread -MM")
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
 endif()
 
 # Don't forget to include the directories for the compiler to check for.
@@ -129,13 +129,15 @@ include(cmake/serialization-config.cmake)
 include(cmake/pkg.cmake)
 include(cmake/comnet_debug.cmake)
 include(cmake/xbee_ansic.cmake)
-include(cmake/encryption.cmake)
 include(cmake/cryptoPP.cmake)
+include(cmake/encryption.cmake)
 
 # contains the header/src filters for visual studio.
 #
-include(cmake/visualc.cmake)
-  
+if (WIN32)
+  include(cmake/visualc.cmake)
+endif()
+
 if (shared)
   # Shared Library (.so for linux or .dll for Windows).
   add_library(CommProtoShared SHARED ${NGCP_GLOB})
@@ -143,14 +145,14 @@ endif()
 
 if (static)
   # Static library (.a for linux or .lib for Windows).
-  add_library(CommProtoStatic  STATIC ${NGCP_GLOB})
+  add_library(CommProtoStatic STATIC ${NGCP_GLOB})
 endif()
 
 if (test)
-  # Vistionary testing toolset.
-  add_subdirectory(unit)
   # C++ testing.
   add_subdirectory(tests/classes/cpp_test)
+  # Vistionary testing toolset.
+  add_subdirectory(unit)
 endif()
 
 # Executable Unit Test

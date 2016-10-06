@@ -1,6 +1,7 @@
 # CryptoPP Library builds.
 
 include_directories(SYSTEM Encryption/cryptopp564/include/)
+include_directories(SYSTEM Encryption/cryptopp564/src/)
 
 set(CRYPTOPP_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Encryption/cryptopp564/include/)
 set(CRYPTOPP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Encryption/cryptopp564/src/)
@@ -8,7 +9,7 @@ set(CRYPTOPP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Encryption/cryptopp564/src/)
 
 # Header files for cryptopp.
 set(CRYPTOPP_HEADERS
-	${CRYPTOPP_HEADER_DIR}/aes.h    
+  ${CRYPTOPP_HEADER_DIR}/aes.h    
     ${CRYPTOPP_HEADER_DIR}/authenc.h    
     ${CRYPTOPP_HEADER_DIR}/algebra.h
     ${CRYPTOPP_HEADER_DIR}/algparam.h
