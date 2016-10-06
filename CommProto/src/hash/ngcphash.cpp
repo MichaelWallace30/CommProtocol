@@ -159,6 +159,11 @@ ngcp_hash64_t ngcp_hash64(const char* input, unsigned seed) {
 }
 
 
+ngcp_hash32_t ngcp_hash32(unsigned int input, unsigned seed) {
+  return (ngcp_hash32((void *)&input, 4, seed));
+}
+
+
 /**
    Specialization for ngcp hash function, specifically for unsigned int.
  */
