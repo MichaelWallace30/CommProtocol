@@ -47,11 +47,17 @@ public:
   
   CommsLink* GetCluster() const { return cluster.get(); }
   bool SwapCluster(CommsLink* clust) { cluster.reset(clust); }
+  int32_t GetId() const { return id; }
+
 private:
   EdgeContainer outgoing;
   EdgeContainer incoming;
   // CommsLink cluster.
   ::std::unique_ptr<CommsLink> cluster;
+  /**
+    Identification of the node.
+   */
+  int32_t id;
 
   // friendly neighborhood NetworkGraph...
   friend class NetworkGraph;
