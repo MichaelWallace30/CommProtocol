@@ -30,17 +30,6 @@
 
 #define NGCP_PRIVATE_API
 
-/* 
-   TODO(): This will need to be defined with windows.
-*/ 
-#if COM_TARGET_OS == COM_OS_WINDOWS
- #define FORCE_INLINE __forceinline
-#else
- #define FORCE_INLINE static inline __attribute__((always_inline))
-#endif // COM_TARGET_OS == COM_OS_WINDOWS
-
-
-
 
 namespace comnet {
 namespace hash {

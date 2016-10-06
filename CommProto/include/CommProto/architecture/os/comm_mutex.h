@@ -39,11 +39,11 @@ class CommMutex {
 public:
   CommMutex() { }
 
-  void Lock() { mu.lock(); }
-  void Unlock() { mu.unlock(); }
-  bool TryLock() { mu.try_lock(); }
+  FORCE_INLINE void Lock() { mu.lock(); }
+  FORCE_INLINE void Unlock() { mu.unlock(); }
+  FORCE_INLINE bool TryLock() { mu.try_lock(); }
   
-  ::std::mutex& GetMutex() { return mu; }
+  FORCE_INLINE ::std::mutex& GetMutex() { return mu; }
 private:
   ::std::mutex mu;
 };
