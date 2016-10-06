@@ -45,12 +45,13 @@ public:
   
   Edge* GetEdge(Node* dest);
   
-  CommsLink* GetCluster() const { return cluster; }
+  CommsLink* GetCluster() const { return cluster.get(); }
+  bool SwapCluster(CommsLink* clust) { cluster.reset(clust); }
 private:
   EdgeContainer outgoing;
   EdgeContainer incoming;
   // CommsLink cluster.
-  CommsLink* cluster;
+  ::std::unique_ptr<CommsLink> cluster;
 
   // friendly neighborhood NetworkGraph...
   friend class NetworkGraph;

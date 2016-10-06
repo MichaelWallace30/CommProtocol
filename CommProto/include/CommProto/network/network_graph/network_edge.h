@@ -53,7 +53,13 @@ public:
   void ReLinkSrc(Node* new_src) { src.reset(new_src); }
   void ReLinkDest(Node* new_dest) { dest.reset(new_dest); } 
 private:
+  /**
+    Source node.
+   */  
   ::std::shared_ptr<Node> src;
+  /**
+    Destination node.
+   */
   ::std::shared_ptr<Node> dest;
   int32_t dist;
 };
