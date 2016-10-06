@@ -49,6 +49,10 @@ private:
 };
 
 
+/**
+  Comms lock is a standard lock for mutex, intended to allow locking for certain amounts of time
+  and whatnot.
+*/
 class CommLock : ::std::unique_lock< ::std::mutex> {
 public:
   CommLock(CommMutex& mut) : ::std::unique_lock< ::std::mutex>(mut.GetMutex()) { }
