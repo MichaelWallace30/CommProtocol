@@ -2,7 +2,7 @@ cmake_minimum_required( VERSION  2.8 )
  
 project( Unit_Test )
 
-set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -pthread" )
+set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -std=c++11 -pthread" )
 
 # get_filename_component(TEST_DIR ${CMAKE_SOURCE_DIR}/../. DIRECTORY)
 
