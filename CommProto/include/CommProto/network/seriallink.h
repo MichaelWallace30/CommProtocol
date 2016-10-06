@@ -45,20 +45,28 @@ public:
   /**
    */
   ~SerialLink();
-  /** Opens comport sets if it is connected on scucces, address is not need just use "" argument
-  Returns false if opening comport fails*/
+  /** 
+    Opens comport sets if it is connected on scucces, address is not need just use "" argument
+    Returns false if opening comport fails
+  */
   virtual bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
-  /** Add serial address returns true does nothing */
+  /** 
+    Add serial address returns true does nothing 
+  */
   virtual bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
-  /** Remove serial address returns true does nothing */
+  /** 
+    Remove serial address returns true does nothing 
+  */
   virtual bool RemoveAddress(uint8_t dest_id);
   /**
-  Sends txData using its length of bytes through the serial connection. Connection is broadcast
-  dest_id is only used for packing / unpacking. Return false if no proper connection is establish
+    Sends txData using its length of bytes through the serial connection. Connection is broadcast
+    dest_id is only used for packing / unpacking. Return false if no proper connection is establish
   */
   virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
-  /** Sets recieved data to rxData and sets the length of the data to rxLength
-  Returns false if not aviable connection, No data is recieved, or time out*/
+  /** 
+    Sets recieved data to rxData and sets the length of the data to rxLength
+    Returns false if not aviable connection, No data is recieved, or time out
+  */
   virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 private:
   Serial* local;

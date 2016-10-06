@@ -25,9 +25,13 @@ namespace comnet {
 namespace network {
 
 
-/** CRC32 checksum function*/
+/** 
+  CRC32 checksum function
+*/
 unsigned int Crc32(unsigned char *message, int length);
+
 void AppendCrc32(uint8_t* buffer, uint32_t *length);
+
 unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length);
 
 }//End NETWORK namespace
