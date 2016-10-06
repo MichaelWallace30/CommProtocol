@@ -147,6 +147,9 @@ if (static)
 endif()
 
 if (test)
+  # Vistionary testing toolset.
+  add_subdirectory(unit)
+  # C++ testing.
   add_subdirectory(tests/classes/cpp_test)
 endif()
 

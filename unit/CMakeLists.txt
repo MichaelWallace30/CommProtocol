@@ -10,10 +10,11 @@ include_directories(SYSTEM .)
 set(VISIONARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/visionary/)
 
 set(NGCP_UNIT_HEADERS 
-  ${VISIONARY}/assertion.h
-  ${VISIONARY}/test.h)
+  ${VISIONARY_DIR}/assertion.h
+  ${VISIONARY_DIR}/test.h)
 
-set (NGCP_UNIT_SOURCES_
+set (NGCP_UNIT_SOURCES
+  ${VISIONARY_DIR}/test.cc)
 
 add_library(Visionary STATIC
   ${NGCP_UNIT_HEADERS} 
