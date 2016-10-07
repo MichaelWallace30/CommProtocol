@@ -6,6 +6,8 @@ set(TOOLS_HEADERS
   ${TOOLS_HEADER_DIR}/comparable.h
   ${TOOLS_HEADER_DIR}/comparator.h
   ${TOOLS_HEADER_DIR}/standard_comparator.h
+  ${TOOLS_HEADER_DIR}/data_structures/rbtree.h
+  ${TOOLS_HEADER_DIR}/data_structures/btree.h
   ${TOOLS_HEADER_DIR}/data_structures/auto_queue.h
   ${TOOLS_HEADER_DIR}/data_structures/auto_vector.h
   ${TOOLS_HEADER_DIR}/data_structures/circle_linked_list.h

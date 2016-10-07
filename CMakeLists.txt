@@ -127,6 +127,7 @@ set (NGCP_GLOB)
 # or linux and OS X.
 include(cmake/archfiles.cmake)
 include(cmake/tools-config.cmake)
+include(cmake/console.cmake)
 include(cmake/CommProto-config.cmake)
 include(cmake/hash-config.cmake)
 include(cmake/network-config.cmake)
