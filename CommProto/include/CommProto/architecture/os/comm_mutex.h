@@ -39,7 +39,7 @@ class CommMutex {
 public:
   CommMutex() { }
 
-  FORCE_INLINE void Lock() { mu.lock(); }
+  FORCE_INLINE void Lock() { mu.lock(); } 
   FORCE_INLINE void Unlock() { mu.unlock(); }
   FORCE_INLINE bool TryLock() { mu.try_lock(); }
   
@@ -59,9 +59,6 @@ public:
   ~CommLock() { }
 private:
 };
-
-
-
 } // os
 } // architecture
 } // comnet
