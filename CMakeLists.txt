@@ -24,6 +24,11 @@ option(shared "Build shared/dll of the library" OFF)
 option(static "Build static/lib of the library" ON)
 option(test "Build test executable to test library with" OFF)
 
+
+# Setting up crypto++
+add_subdirectory(Encryption/cryptopp564)
+
+
 # Check the architecture variable. If the Architecture is 64 bit, we define a variable to state that we
 # are working with a 64-bit operating system architecture. 32-bit will also be defined as well.
 # Anything lower will not be compatible with this software. 
@@ -153,8 +158,6 @@ if (test)
   # Vistionary testing toolset.
   add_subdirectory(unit)
 endif()
-
-add_subdirectory(Encryption/cryptopp564)
 
 # Executable Unit Test
 # add_executable(CommProtoExe
