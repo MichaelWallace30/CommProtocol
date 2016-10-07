@@ -112,6 +112,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM CommProto/include/)
 
+# check global compiler options.
+check_global_compiler_options()
 
 # Set NGCP_GLOB to be our file cluster to build.
 set (NGCP_GLOB)
@@ -156,9 +158,6 @@ if (test)
   # Vistionary testing toolset.
   add_subdirectory(unit)
 endif()
-
-# check global compiler options.
-check_global_compiler_options()
 
 # Executable Unit Test
 # add_executable(CommProtoExe

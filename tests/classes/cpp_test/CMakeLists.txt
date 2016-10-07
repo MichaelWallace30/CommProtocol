@@ -11,21 +11,11 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/../../../CommProto/includ
 add_executable(CommProtoExe
  ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 
-if (CMAKE_VERSION VERSION_GREATER 3.0)
-  if (WIN32)
-    target_compile_options(CommProtoExe PUBLIC /sdl-)
-  else()
-    target_compile_options(CommProtoExe PUBLIC -std=c++11 -pthreads)
-  endif()
-endif()
-
-
-# Given that linux is different from windows
-if(WIN32)
-  target_link_libraries(CommProtoExe CommProtoStatic)
+if (CMAKE_VERION VERSION_GREATER 2.8.11)
+  target_compile_options(CommProtoExe PUBLIC -std=c++11)
+  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -pthread")
 else()
-  target_link_libraries(CommProtoExe CommProtoStatic)
+  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -std=c++11 -pthread")
 endif()
-
-
-message(${CMAKE_CXX_FLAGS})
+# Given that linux is different from windows
+target_link_libraries(CommProtoExe CommProtoStatic)

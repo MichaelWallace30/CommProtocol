@@ -27,7 +27,6 @@ int main(int c, char** args) {
   comnet::architecture::os::CommMutex mut;
   comnet::architecture::os::CommLock commlock(mut);
   comnet::Comms comm1(1);
-
   
   std::cout << "Test complete!" << std::endl;
   std::cin.ignore();

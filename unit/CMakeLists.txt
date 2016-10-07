@@ -1,8 +1,8 @@
-cmake_minimum_required( VERSION  2.8 )
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
  
 project(Unit_Test)
 
-# set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -std=c++11")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -std=c++11")
 
 # get_filename_component(TEST_DIR ${CMAKE_SOURCE_DIR}/../. DIRECTORY)
 
