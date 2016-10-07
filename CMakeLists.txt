@@ -103,19 +103,14 @@ else()
   message("This compiler was not detected by the cmake build, so it may not be compatible with this software. However, this build will continue.")
 endif()
 
+# Add macros for build
+include(cmake/macros.cmake)
+
 # Add the cmake module path, for module build paths for this cmake file.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 
-# Add some commands to the compiler.
-if (CXX_COMPILER MATCHES "MSVC")
-    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} /sdl-")
-else()
-    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " ${COMPILER_BUILD} -std=c++11 -pthread")
-endif()
-
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM CommProto/include/)
-
 
 
 # Set NGCP_GLOB to be our file cluster to build.
@@ -146,11 +141,13 @@ endif()
 if (shared)
   # Shared Library (.so for linux or .dll for Windows).
   add_library(CommProtoShared SHARED ${NGCP_GLOB})
+  std_compiler_options(CommProtoShared)
 endif()
 
 if (static)
   # Static library (.a for linux or .lib for Windows).
   add_library(CommProtoStatic STATIC ${NGCP_GLOB})
+  std_compiler_options(CommProtoStatic)
 endif()
 
 if (test)
@@ -159,6 +156,9 @@ if (test)
   # Vistionary testing toolset.
   add_subdirectory(unit)
 endif()
+
+# check global compiler options.
+check_global_compiler_options()
 
 # Executable Unit Test
 # add_executable(CommProtoExe
