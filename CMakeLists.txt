@@ -154,6 +154,8 @@ if (test)
   add_subdirectory(unit)
 endif()
 
+add_subdirectory(Encryption/cryptopp564)
+
 # Executable Unit Test
 # add_executable(CommProtoExe
 #  ${NGCP_GLOB}
