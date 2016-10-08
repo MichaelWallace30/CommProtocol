@@ -85,6 +85,14 @@ if(CMAKE_VERSION VERSION_LESS 2.8.12)
 	include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 
+if (BUILD_STATIC)
+	add_library(cryptopp-static STATIC ${cryptopp_SOURCES})
+endif()
+
+if (BUILD_SHARED)
+	add_library(cryptopp-shared SHARED ${cryptopp_SOURCES})
+endif()
+
 # Set PIC
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	# Enables -fPIC on all 64-bit platforms
@@ -103,8 +111,6 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
         set_target_properties(cryptopp-shared PROPERTIES COMPILE_FLAGS "${flags_old_shared} -fPIC")
     endif()
 endif()
-
-
 #============================================================================
 # Third-party libraries
 #============================================================================
@@ -125,12 +131,6 @@ if (BUILD_SHARED)
 	target_link_libraries(cryptopp-shared ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
-if (BUILD_STATIC)
-	add_library(cryptopp-static STATIC ${cryptopp_SOURCES})
-endif()
 
-if (BUILD_SHARED)
-	add_library(cryptopp-shared SHARED ${cryptopp_SOURCES})
-endif()
 
 
