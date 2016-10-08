@@ -88,8 +88,20 @@ endif()
 # Set PIC
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	# Enables -fPIC on all 64-bit platforms
-    get_target_property(flags_old cryptopp-object COMPILE_FLAGS)
-    set_target_properties(cryptopp-object PROPERTIES COMPILE_FLAGS "${flags_old} -fPIC")
+    if (BUILD_STATIC)
+        get_target_property(flags_old_static cryptopp-static COMPILE_FLAGS)
+        if(NOT flags_old_static)
+            set(flags_old_static "")
+        endif()
+        set_target_properties(cryptopp-static PROPERTIES COMPILE_FLAGS "${flags_old_static} -fPIC")
+    endif()
+    if (BUILD_SHARED)
+        get_target_property(flags_old_shared cryptopp-shared COMPILE_FLAGS)
+        if(NOT flags_old_shared)
+            set(flags_old_shared "")
+        endif()
+        set_target_properties(cryptopp-shared PROPERTIES COMPILE_FLAGS "${flags_old_shared} -fPIC")
+    endif()
 endif()
 
 
