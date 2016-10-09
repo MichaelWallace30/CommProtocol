@@ -37,12 +37,12 @@ typedef error_t (*callback_t)(const Header&, AbstractPacket&);
 
 
 // Callback codes used for state machines in automating what may be done to the 
-// packets.
+// packets. Can pass more than one code via OR bitwise.
 enum CallbackCodes {
-  CALLBACK_SUCCESS                      = 0,
-  CALLBACK_FAIL                         = 1,
-  CALLBACK_STORE_PACKET                 = 3,
-  CALLBACK_DESTROY_PACKET               = 4,
+  CALLBACK_SUCCESS                      = 0x1,
+  CALLBACK_FAIL                         = 0x2,
+  CALLBACK_STORE_PACKET                 = 0x4,
+  CALLBACK_DESTROY_PACKET               = 0x8,
 };
 
 

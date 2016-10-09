@@ -5,6 +5,7 @@
 #include <iostream>
 
 
+// Ping testing.
 class Ping : public comnet::AbstractPacket {
 public:
   Ping() : comnet::AbstractPacket("Ping") { }
@@ -23,6 +24,12 @@ private:
 };
 
 
+error_t PingCallback(const comnet::Header& header, const Ping& packet) {
+  std::cout << "Packet contains: " << packet.GetId() << std::endl;
+  return comnet::CALLBACK_SUCCESS | comnet::CALLBACK_DESTROY_PACKET;
+}
+
+
 int main(int c, char** args) {
   std::condition_variable cond;
   comnet::Comms comm1(1);
@@ -31,21 +38,16 @@ int main(int c, char** args) {
   comnet::architecture::os::CommLock commlock(mut);
   // This will cause the thread to wait for a few milliseconds, causing any other thread to wait.
   comnet::architecture::os::WaitForMilliseconds(commlock, cond, 1000); 
-  
   std::cout << "Test complete!" << std::endl;
-
-
   std::cout << "Init connection succeeded: " 
             << std::boolalpha
             << comm1.InitConnection(UDP_LINK, "1337", "127.0.0.1")
             << std::endl;
-  
   std::cout << "Connected to address: "
             << std::boolalpha
             << comm1.AddAddress(2, "127.0.0.1", 1338)
             << std::endl;
-
-
+  comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
   while (true) {
     std::cout << "Sleeping..." << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
