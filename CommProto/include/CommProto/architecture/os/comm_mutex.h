@@ -22,6 +22,7 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
+#include <CommProto/architecture/cond.h>
 
 #include <mutex>
 #include <condition_variable>
@@ -53,12 +54,23 @@ private:
   Comms lock is a standard lock for mutex, intended to allow locking for certain amounts of time
   and whatnot.
 */
-class CommLock : ::std::unique_lock< ::std::mutex> {
+class CommLock : public ::std::unique_lock< ::std::mutex> {
 public:
   CommLock(CommMutex& mut) : ::std::unique_lock< ::std::mutex>(mut.GetMutex()) { }
   ~CommLock() { }
 private:
 };
+
+
+namespace {
+// Waits for a certain amount of time before notifying. Mutex is locked during the process.
+ConditionStatus WaitForMilliseconds(CommLock* lock,
+                                    std::condition_variable* cond,
+                                    uint64_t milli) {
+  std::cv_status status = cond->wait_for(*lock, std::chrono::milliseconds(milli));
+  return (status == std::cv_status::timeout) ? TIMEOUT : NO_TIMEOUT;
+}
+} // anonymous namespace
 } // os
 } // architecture
 } // comnet

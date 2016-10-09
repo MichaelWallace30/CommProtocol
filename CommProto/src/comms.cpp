@@ -90,7 +90,8 @@ void Comms::CommunicationHandlerRecv() {
     }
 
     free_pointer(temp);		
-    recv_mutex.Unlock();		
+    recv_mutex.Unlock();	
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
   }
 }
 

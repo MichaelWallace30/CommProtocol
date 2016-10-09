@@ -16,6 +16,7 @@ set(ARCHITECTURE_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/comm_monitor.h
   ${ARCHITECTURE_HEADER_DIR}/api.h
   ${ARCHITECTURE_HEADER_DIR}/macros.h
+  ${ARCHITECTURE_HEADER_DIR}/cond.h
   ${ARCHITECTURE_HEADER_DIR}/connection/socket-config.h
   ${ARCHITECTURE_HEADER_DIR}/connection/serial_status.h
   ${ARCHITECTURE_HEADER_DIR}/connection/serial-config_win32.h
