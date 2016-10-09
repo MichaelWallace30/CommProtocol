@@ -30,7 +30,7 @@ int main(int c, char** args) {
   comnet::architecture::os::CommMutex mut;
   comnet::architecture::os::CommLock commlock(mut);
   // This will cause the thread to wait for a few milliseconds, causing any other thread to wait.
-  comnet::architecture::os::WaitForMilliseconds(&commlock, &cond, 1000); 
+  comnet::architecture::os::WaitForMilliseconds(commlock, cond, 1000); 
   
   std::cout << "Test complete!" << std::endl;
 

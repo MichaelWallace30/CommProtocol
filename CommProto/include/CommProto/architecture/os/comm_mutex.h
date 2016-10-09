@@ -64,10 +64,10 @@ private:
 
 namespace {
 // Waits for a certain amount of time before notifying. Mutex is locked during the process.
-ConditionStatus WaitForMilliseconds(CommLock* lock,
-                                    std::condition_variable* cond,
+ConditionStatus WaitForMilliseconds(CommLock& lock,
+                                    std::condition_variable& cond,
                                     uint64_t milli) {
-  std::cv_status status = cond->wait_for(*lock, std::chrono::milliseconds(milli));
+  std::cv_status status = cond.wait_for(lock, std::chrono::milliseconds(milli));
   return (status == std::cv_status::timeout) ? TIMEOUT : NO_TIMEOUT;
 }
 } // anonymous namespace
