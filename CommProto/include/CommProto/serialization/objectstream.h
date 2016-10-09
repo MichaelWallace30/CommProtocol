@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef __OBJECT_STREAM_H
 #define __OBJECT_STREAM_H
-
+#define _DEBUG 1
 #include <CommProto/serialization/marshal.h>
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/headerpacket.h>

@@ -16,6 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#define _DEBUG 1
 #include <CommProto/network/udp.h>
 #include <ctype.h>
 
@@ -170,6 +171,9 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
 {
   int length = 0;
   *rx_length = 0;
+  /*
+    TODO(Garcia): We need to set recvfrom() to nonblocking!
+   */
   if (sockaddr.socket_status == SOCKET_CONNECTED) {
     length = recvfrom(fd, 
                       (char*)rx_data, MAX_BUFFER_SIZE, 

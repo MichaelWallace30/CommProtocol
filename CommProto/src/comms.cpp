@@ -48,7 +48,6 @@ void Comms::CommunicationHandlerRecv() {
     conn_layer->Recv(stream_buffer, &recv_len);
     ObjectStream *temp = new ObjectStream();
     temp->SetBuffer((char*)stream_buffer, recv_len);
-
     /*
       Algorithm should Get the header, Get the message id from header, then
       produce the packet from the header, finally Get the callback.
@@ -93,6 +92,7 @@ void Comms::CommunicationHandlerRecv() {
     recv_mutex.Unlock();	
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
   }
+  COMMS_DEBUG("recv ends!\n");
 }
 
 /***********************************************/

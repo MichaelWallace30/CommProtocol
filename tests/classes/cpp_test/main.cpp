@@ -25,7 +25,7 @@ public:
     return new Ping();
   }
 
-  std::string& GetCat() { return cat; }
+  const std::string& GetCat() const { return cat; }
 private:
 
   std::string cat;
@@ -33,7 +33,7 @@ private:
 
 
 error_t PingCallback(const comnet::Header& header, const Ping& packet) {
-  std::cout << "Packet contains: " << packet.GetId() << std::endl;
+  std::cout << "Packet contains: " << packet.GetCat() << std::endl;
   return comnet::CALLBACK_SUCCESS | comnet::CALLBACK_DESTROY_PACKET;
 }
 
@@ -60,7 +60,6 @@ int main(int c, char** args) {
   comm1.Run();
   while (true) {
     std::cout << "Sleeping..." << std::endl;
-    comm1.Send(&bing, 2);
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
   std::cin.ignore();
