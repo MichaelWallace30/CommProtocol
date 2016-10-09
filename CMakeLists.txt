@@ -20,13 +20,13 @@ endif()
 # switch between building 64bit or 32bit.
 option(build32 "Build library in 32 bit" OFF)
 option(build64 "Build library in 64 bit" ON)
-option(shared "Build shared/dll of the library" OFF)
+option(shared "Build shared/dll of the library" ON)
 option(static "Build static/lib of the library" ON)
 option(test "Build test executable to test library with" OFF)
 
 
 # Setting up crypto++
-add_subdirectory(Encryption/cryptopp564)
+#add_subdirectory(Encryption/cryptopp564)
 
 
 # Check the architecture variable. If the Architecture is 64 bit, we define a variable to state that we
@@ -133,6 +133,7 @@ include(cmake/pkg.cmake)
 include(cmake/comnet_debug.cmake)
 include(cmake/xbee_ansic.cmake)
 include(cmake/encryption.cmake)
+include(cmake/cryptopp.cmake)
 
 # contains the header/src filters for visual studio.
 #
@@ -157,6 +158,37 @@ if (test)
   add_subdirectory(tests/classes/cpp_test)
   # Vistionary testing toolset.
   add_subdirectory(unit)
+endif()
+
+#think we need this if you want to move it to the macros file
+# Set PIC
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	# Enables -fPIC on all 64-bit platforms
+    if (BUILD_STATIC)
+        get_target_property(flags_old_static CommProtoStatic COMPILE_FLAGS)
+        if(NOT flags_old_static)
+            set(flags_old_static "")
+        endif()
+        set_target_properties(CommProtoStatic PROPERTIES COMPILE_FLAGS "${flags_old_static} -fPIC")
+    endif()
+    if (BUILD_SHARED)
+        get_target_property(flags_old_shared CommProtoShared COMPILE_FLAGS)
+        if(NOT flags_old_shared)
+            set(flags_old_shared "")
+        endif()
+        set_target_properties(CommProtoShared PROPERTIES COMPILE_FLAGS "${flags_old_shared} -fPIC")
+    endif()
+endif()
+#============================================================================
+# Third-party libraries
+#============================================================================
+#probably remove and probably wont even work
+find_package(Threads)
+if (BUILD_STATIC)
+	target_link_libraries(CommProtoStatic  ${CMAKE_THREAD_LIBS_INIT})
+endif()
+if (BUILD_SHARED)
+	target_link_libraries(CommProtoShared ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 # Executable Unit Test

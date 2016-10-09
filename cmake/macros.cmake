@@ -5,6 +5,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.0)
     # Add some commands to the compiler.
     if (CXX_COMPILER MATCHES "MSVC")
       target_compile_options(${lib} PUBLIC /sdl-)
+      target_link_libraries(${lib} ws2_32)
     else()
       find_package(Threads)
       target_compile_options(${lib} PUBLIC -std=c++11)

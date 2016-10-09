@@ -38,8 +38,8 @@
 // are not easy to cut-in in the Makefile.
 
 #if 0
-#define NASM_RDRAND_ASM_AVAILABLE 1
-#define NASM_RDSEED_ASM_AVAILABLE 1
+#define NASM_RDRAND_ASM_AVAILABLE 0
+#define NASM_RDSEED_ASM_AVAILABLE 0
 #endif
 
 /////////////////////////////////////////////////////////////////////
@@ -56,32 +56,32 @@
 
 #if defined(CRYPTOPP_CPUID_AVAILABLE)
 # if defined(CRYPTOPP_MSC_VERSION)
-#  define MASM_RDRAND_ASM_AVAILABLE 1
-#  define MASM_RDSEED_ASM_AVAILABLE 1
+#  define MASM_RDRAND_ASM_AVAILABLE 0
+#  define MASM_RDSEED_ASM_AVAILABLE 0
 # elif defined(CRYPTOPP_LLVM_CLANG_VERSION) || defined(CRYPTOPP_APPLE_CLANG_VERSION)
-#  define GCC_RDRAND_ASM_AVAILABLE 1
-#  define GCC_RDSEED_ASM_AVAILABLE 1
+#  define GCC_RDRAND_ASM_AVAILABLE 0
+#  define GCC_RDSEED_ASM_AVAILABLE 0
 # elif defined(__SUNPRO_CC)
 #  if defined(__RDRND__) && (__SUNPRO_CC >= 0x5130)
-#    define ALL_RDRAND_INTRIN_AVAILABLE 1
+#    define ALL_RDRAND_INTRIN_AVAILABLE 0
 #  elif (__SUNPRO_CC >= 0x5100)
-#    define GCC_RDRAND_ASM_AVAILABLE 1
+#    define GCC_RDRAND_ASM_AVAILABLE 0
 #  endif
 #  if defined(__RDSEED__) && (__SUNPRO_CC >= 0x5140)
-#    define ALL_RDSEED_INTRIN_AVAILABLE 1
+#    define ALL_RDSEED_INTRIN_AVAILABLE 0
 #  elif (__SUNPRO_CC >= 0x5100)
-#    define GCC_RDSEED_ASM_AVAILABLE 1
+#    define GCC_RDSEED_ASM_AVAILABLE 0
 #  endif
 # elif defined(CRYPTOPP_GCC_VERSION)
 #  if defined(__RDRND__) && (CRYPTOPP_GCC_VERSION >= 30200)
-#    define ALL_RDRAND_INTRIN_AVAILABLE 1
+#    define ALL_RDRAND_INTRIN_AVAILABLE 0
 #  else
-#    define GCC_RDRAND_ASM_AVAILABLE 1
+#    define GCC_RDRAND_ASM_AVAILABLE 0
 #  endif
 #  if defined(__RDSEED__) && (CRYPTOPP_GCC_VERSION >= 30200)
-#    define ALL_RDSEED_INTRIN_AVAILABLE 1
+#    define ALL_RDSEED_INTRIN_AVAILABLE 0
 #  else
-#    define GCC_RDSEED_ASM_AVAILABLE 1
+#    define GCC_RDSEED_ASM_AVAILABLE 0
 #  endif
 # endif
 #endif
