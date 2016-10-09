@@ -21,6 +21,7 @@
 
 #include <CommProto/tools/allocator/allocator.h>
 #include <new>
+#include <memory>
 
 namespace comnet {
 namespace tools {
@@ -34,6 +35,7 @@ namespace allocator {
 template<typename _Ty>
 class NewAllocator : public Allocator<_Ty> {
   typedef _Ty& reference;
+  typedef _Ty&& move_type;
   typedef const _Ty& const_reference;
   typedef const _Ty* const_pointer;
   typedef _Ty* pointer;
@@ -54,9 +56,9 @@ public:
      Deallocate space that was provided.
    */
   void Deallocate(pointer p) {
-    if (p != NULL) {
+    if (p != nullptr) {
       ::operator delete((void*)p);
-      p = NULL;
+      p = nullptr;
     }
   }
 
@@ -71,7 +73,9 @@ public:
      Construct the value in specified pointer.
    */
   void Construct(pointer p, const_reference value) {
-    new((void*)p)_Ty(value);
+    // TODO(Garcia): Tries to go NULL at first!! ??
+    new((void *)p) _Ty();
+    *p = std::move((reference)value);
   }
 
   /**

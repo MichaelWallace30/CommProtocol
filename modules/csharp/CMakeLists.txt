@@ -3,6 +3,7 @@ project ("CommProtoCSharp")
 
 include_directories(SYSTEM ../../CommProto/include/)
 include_directories(SYSTEM ../../XbeeC/xbee_ansic_library/include/)
+include_directories(SYSTEM ../../Encryption/cryptopp564/)
 include_directories(SYSTEM .)
 
 # Remove Run Time Checks from this build
@@ -50,4 +51,4 @@ add_library(CommProtoCSharp SHARED
   ${COMMPROTO_WRAPPER_SOURCE_DIR})
 
 target_link_libraries(CommProtoCSharp CommProtoStatic)
-
+target_link_libraries(CommProtoCSharp cryptopp-static)

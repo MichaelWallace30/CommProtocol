@@ -9,18 +9,26 @@
 class Ping : public comnet::AbstractPacket {
 public:
   Ping() : comnet::AbstractPacket("Ping") { }
-  
+  Ping(std::string cc) 
+  : comnet::AbstractPacket("Ping")
+  , cat(cc) { }
 
   void Pack(comnet::ObjectStream& obj) {
+    obj << cat;  
   }
 
   void Unpack(comnet::ObjectStream& obj) {
+    obj >> cat;
   }
   
   comnet::AbstractPacket* Create() {
     return new Ping();
   }
+
+  std::string& GetCat() { return cat; }
 private:
+
+  std::string cat;
 };
 
 
@@ -41,15 +49,18 @@ int main(int c, char** args) {
   std::cout << "Test complete!" << std::endl;
   std::cout << "Init connection succeeded: " 
             << std::boolalpha
-            << comm1.InitConnection(UDP_LINK, "1337", "127.0.0.1")
+            << comm1.InitConnection(UDP_LINK, "1338", "127.0.0.1")
             << std::endl;
   std::cout << "Connected to address: "
             << std::boolalpha
-            << comm1.AddAddress(2, "127.0.0.1", 1338)
+            << comm1.AddAddress(2, "127.0.0.1", 1337)
             << std::endl;
   comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
+  Ping bing("I like cats");
+  comm1.Run();
   while (true) {
     std::cout << "Sleeping..." << std::endl;
+    comm1.Send(&bing, 2);
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
   std::cin.ignore();

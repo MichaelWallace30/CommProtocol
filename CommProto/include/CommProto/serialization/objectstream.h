@@ -59,6 +59,20 @@ namespace serialization {
 
 		/** Constructor*/
 		ObjectStream();
+
+    // Move constructions.
+    ObjectStream(ObjectStream&& obj)
+      : stream_buffer(std::move(obj.stream_buffer))
+      , curr_pos(std::move(obj.curr_pos))
+      , header_packet(std::move(obj.header_packet)) { }
+
+
+    ObjectStream& operator=(ObjectStream&& obj) {
+      std::swap(obj.stream_buffer, stream_buffer);
+      std::swap(obj.curr_pos, curr_pos);
+      std::swap(obj.header_packet, header_packet);
+      return *this;
+    } 
 		/** Destructor*/
 		~ObjectStream();
 		/** getPostion returns the postion of the stream buffer*/

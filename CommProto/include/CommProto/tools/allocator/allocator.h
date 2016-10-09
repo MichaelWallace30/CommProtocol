@@ -63,9 +63,11 @@ public:
    */
   virtual void Destruct(pointer p) = 0;
   /**
-     Construct value into your allocated pointer. Be sure to Allocate first before constructing.
+     Construct value by move constructor into your allocated pointer. 
+     Be sure to Allocate first before constructing.
    */
   virtual void Construct(pointer p, const_reference value) = 0;
+
   /**
      Grab the pointer to a value.
    */
