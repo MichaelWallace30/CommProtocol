@@ -19,20 +19,13 @@
 #ifndef COMMS_H
 #define COMMS_H
 
-#include <CommProto/tools/data_structures/auto_queue.h>//marios wrapper of queue
 #include <CommProto/tools/data_structures/interface/interface_queue.h>
-
 #include <CommProto/network/commslink.h> //communication layer interface/abstract base class
-#include <CommProto/network/commsocket.h> // 
-
+#include <CommProto/console/console.h>
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/os/comm_mutex.h>
 #include <CommProto/architecture/os/comm_thread.h>
-#include <CommProto/architecture/os/os_threads.h>//method to Create threads
-#include <CommProto/architecture/os/os_mutex.h>
 #include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
-
-#include <CommProto/serialization/objectstream.h>
-
 #include <CommProto/abstractpacket.h>
 #include <CommProto/commnode.h>
 #include <CommProto/headerpacket.h>//Header which declares packet structs
@@ -55,8 +48,9 @@ namespace comnet {
   */  
   _COMNET_PUBLIC_API_ class Comms : public CommNode {
 	private:
-		mutex_t send_mutex;
-		mutex_t recv_mutex;
+		CommMutex send_mutex;
+		CommMutex recv_mutex;
+    CommMutex console_mutex;
 
 		/** Encryption key*/
 		uint8_t key[KEY_LENGTH];
@@ -69,6 +63,7 @@ namespace comnet {
 		/** Thread to Run communication data */
 		CommThread comm_thread_send;
 		CommThread comm_thread_recv;
+    CommThread console_thread;
 
 		/** Method to Run in communication thread */
 		void CommunicationHandlerSend();
@@ -107,11 +102,12 @@ namespace comnet {
 		void Pause();
 		/** Method to Stop communication*/
 		void Stop();
+    // Sets up the home console.
+    bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
 
 	protected:
 		// Nothing yet.
-		void LogToConsoles()
-		{ }
+		void LogToConsoles();
 	};//End Comms class      
 } // namespace Comnet
 #endif//End if COMMS_H

@@ -1,7 +1,7 @@
 /*
-  Parsing engine for the Console.
+  Condition Checking for threads and mutexes.
 
-  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
+  Copyright (C) 2016  Michael Wallace, Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,26 +16,28 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __PARSE_ENGINE_H
-#define __PARSE_ENGINE_H
+#ifndef __CONDITION_H
+#define __CONDITION_H
 
 
-#include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/console/console.h>
-#include <string>
+#define LIB_CPLUSPLUS11
+
+
+
+#if defined (LIB_CPLUSPLUS11)
+
 
 namespace comnet {
-namespace console {
 
 
-// Parsing engine for the Console.
-class ConsoleParserEngine {
-public:
-  static ::std::string ParseDecode(Console& console, const char* buffer);
-
-  static bool ParseEncode(Console& console, const char* buffer);
-private:
+//
+// Comm Implmentation of Condition Status for std::cv_status
+//
+enum ConditionStatus { 
+  TIMEOUT,      // Condition timed out.
+  NO_TIMEOUT,   // Condition was awakened by notify_one or notify_all.
 };
-} // console
-} // comnet 
-#endif // __PARSE_ENGINE_H
+
+} // comnet
+#endif 
+#endif // __CONDITION_H

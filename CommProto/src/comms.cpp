@@ -1,5 +1,7 @@
 #define _DEBUG 1
 #include <CommProto/comms.h>
+#include <CommProto/tools/data_structures/auto_queue.h>
+#include <CommProto/serialization/objectstream.h>
 #include <CommProto/architecture/macros.h>
 
 #include <CommProto/network/udplink.h>
@@ -23,11 +25,13 @@ void Comms::CommunicationHandlerSend()
 	{
 		if (!send_queue->IsEmpty())
 		{
+      send_mutex.Lock();
 			//Send data here
 			ObjectStream *temp = send_queue->Front();
 			send_queue->Dequeue();
 			conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
 			free_pointer(temp);
+      send_mutex.Unlock();
 		}
 //		COMMS_DEBUG("IM GOING!!\n");
 	}
@@ -36,6 +40,7 @@ void Comms::CommunicationHandlerSend()
 /** function for communication thread */
 void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning()) {
+    recv_mutex.Lock();
     AbstractPacket* packet = NULL;
     //Send data here
 	  uint8_t stream_buffer[MAX_BUFFER_SIZE];
@@ -84,7 +89,9 @@ void Comms::CommunicationHandlerRecv() {
       }	
     }
 
-    free_pointer(temp);				
+    free_pointer(temp);		
+    recv_mutex.Unlock();	
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
   }
 }
 
@@ -96,16 +103,12 @@ Comms::Comms(uint8_t platformID)
 {
 	this->recv_queue = new AutoQueue <AbstractPacket*>;
 	this->send_queue = new AutoQueue <ObjectStream*>;
-	mutex_init(&send_mutex);
-	mutex_init(&recv_mutex);
 	conn_layer = NULL;
 }
 
 Comms::~Comms()
 {
 	free_pointer(conn_layer);
-	mutex_destroy(&send_mutex);
-	mutex_destroy(&recv_mutex);
 }
 
 bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint32_t baudrate)
@@ -156,14 +159,14 @@ bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, con
 
 bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
 {
-	if (conn_layer == NULL)return false;
+	if (conn_layer == NULL) return false;
 	return conn_layer->AddAddress(dest_id, address, port);
 }
 
 
 bool Comms::RemoveAddress(uint8_t dest_id)
 {
-	if (conn_layer == NULL)return false;
+	if (conn_layer == NULL) return false;
 	return conn_layer->RemoveAddress(dest_id);
 }
 
@@ -208,22 +211,22 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
 void Comms::Run()
 {
   CommNode::Run();
-//  COMMS_DEBUG("Running!\n");
   comm_thread_send = CommThread(&Comms::CommunicationHandlerSend, this);
   comm_thread_recv = CommThread(&Comms::CommunicationHandlerRecv, this);
-	//thread_create(&this->comm_thread_send, CommuincationHelperSend, this);
-	//thread_create(&this->comm_thread_recv, CommuincationHelperRecv, this);
-// COMMS_DEBUG("THREADS ARE RUNNING\n");
 }
 
 
 void Comms::Stop()
 {
-	CommNode::Stop();
+  CommNode::Stop();
 }
 
 
 void Comms::Pause()
 {
   CommNode::Pause();
+}
+
+
+void Comms::LogToConsoles() {
 }
