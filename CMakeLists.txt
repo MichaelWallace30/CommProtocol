@@ -25,6 +25,7 @@ option(static "Build static/lib of the library" ON)
 option(test "Build test executable to test library with" OFF)
 
 
+
 # Setting up crypto++
 add_subdirectory(Encryption/cryptopp564)
 
@@ -140,7 +141,13 @@ if (WIN32)
   include(cmake/visualc.cmake)
 endif()
 
-set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp564/debug)
+
+#link cryptopp dependencies directory
+if (CXX_COMPILER MATCHES "MSVC")
+	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp564/debug)
+else()
+	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp564)
+endif()
 link_directories(${ENCRYPTION_LIBDIR})
 
 if (shared)
