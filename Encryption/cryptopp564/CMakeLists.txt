@@ -12,7 +12,7 @@ include(TestBigEndian)
 # Settable options
 #============================================================================
 option(BUILD_STATIC "Build static library" ON)
-option(BUILD_SHARED "Build shared library" ON)
+option(BUILD_SHARED "Build shared library" OFF)
 #============================================================================
 # Internal compiler options
 #============================================================================
