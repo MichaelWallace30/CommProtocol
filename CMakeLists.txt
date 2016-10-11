@@ -20,7 +20,7 @@ endif()
 # switch between building 64bit or 32bit.
 option(build32 "Build library in 32 bit" OFF)
 option(build64 "Build library in 64 bit" ON)
-option(shared "Build shared/dll of the library" OFF)
+option(shared "Build shared/dll of the library" ON)
 option(static "Build static/lib of the library" ON)
 option(test "Build test executable to test library with" OFF)
 # Options to allow debug/release version of CommProtocol.
@@ -33,6 +33,7 @@ if (version_release)
 else()
   set (CMAKE_BUILD_TYPE Debug) 
 endif()
+
 
 
 
@@ -151,15 +152,26 @@ if (WIN32)
   include(cmake/visualc.cmake)
 endif()
 
+
+#link cryptopp dependencies directory
+if (CXX_COMPILER MATCHES "MSVC")
+	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp564/debug)
+else()
+	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp564)
+endif()
+link_directories(${ENCRYPTION_LIBDIR})
+
 if (shared)
   # Shared Library (.so for linux or .dll for Windows).
   add_library(CommProtoShared SHARED ${NGCP_GLOB})
+  target_link_libraries(CommProtoShared cryptopp-static)
   std_compiler_options(CommProtoShared)
 endif()
 
 if (static)
   # Static library (.a for linux or .lib for Windows).
   add_library(CommProtoStatic STATIC ${NGCP_GLOB})
+  target_link_libraries(CommProtoStatic cryptopp-static)    
   std_compiler_options(CommProtoStatic)
 endif()
 

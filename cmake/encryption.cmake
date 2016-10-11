@@ -7,7 +7,8 @@ set(ENCRYPTION_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/encryption/)
 
 set(ENCRYPTION_HEADERS
   ${ENCRYPTION_HEADER_DIR}encryption_interface.h
-  ${ENCRYPTION_HEADER_DIR}aes_encryption.h)
+  ${ENCRYPTION_HEADER_DIR}aes_encryption.h
+  ${ENCRYPTION_HEADER_DIR}comm_random.h)
   
 
 set(ENCRYPTION_SOURCES
