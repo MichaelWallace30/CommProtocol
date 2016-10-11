@@ -35,24 +35,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <zigbee/zdo.h>
 
 
-
-namespace comnet {
-namespace network {
-
-
-using namespace experimental;
-
 /// Used to track ZDO transactions in order to match responses to requests
 /// (#ZDO_MATCH_DESC_RESP).
-wpan_ep_state_t zdo_ep_state = { 0 };
+wpan_ep_state_t zdo_ep_state = {0};
 
 
 
 const struct wpan_cluster_table_entry_t digi_data_clusters[] = {
   // transparent serial goes here (cluster 0x0011)
   {
-    DIGI_CLUST_SERIAL, 
-    (wpan_aps_handler_fn )XBee::TransparentRx, 
+    DIGI_CLUST_SERIAL,
+    (wpan_aps_handler_fn)comnet::network::experimental::XBee::TransparentRx,
     NULL,
     WPAN_CLUST_FLAG_INOUT | WPAN_CLUST_FLAG_NOT_ZCL
   },
@@ -74,7 +67,7 @@ const struct wpan_endpoint_table_entry_t endpoints[] = {
     0x00,									// version
     digi_data_clusters				// clusters
   },
-  { WPAN_ENDPOINT_END_OF_LIST }
+  {WPAN_ENDPOINT_END_OF_LIST}
 };
 
 
@@ -87,9 +80,17 @@ const xbee_dispatch_table_entry_t xbee_frame_handlers[] = {
 
   // next two entries are used when ATAO is 0
   XBEE_FRAME_HANDLE_AO0_NODEID,			// for processing NODEID messages
-  {XBEE_FRAME_RECEIVE, 0, (xbee_frame_handler_fn )XBee::ReceiveHandler, NULL},		// rx messages direct
+  {XBEE_FRAME_RECEIVE, 0, (xbee_frame_handler_fn)comnet::network::experimental::XBee::ReceiveHandler, NULL},		
+  // rx messages direct
   XBEE_FRAME_TABLE_END
 };
+
+
+namespace comnet {
+namespace network {
+
+
+using namespace experimental;
 
 
 int XBee::TransparentRx(XBee& xbee, const wpan_envelope_t* envelope, void* context) {
