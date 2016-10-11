@@ -15,39 +15,44 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/headerpacket.h>
-
+#include <CommProto/architecture/os/comm_mutex.h>
 #include <cstring>
 
 namespace comnet {
 
 
-uint32_t Header::Serialize(uint8_t* buffer, uint32_t offset) {
-  memcpy(buffer + (offset++), &dest_id, 1);
-  memcpy(buffer + (offset++), &source_id, 1);
-  memcpy(buffer + offset, &msg_len, 2);
+architecture::os::CommMutex header_mutex;
+
+
+uint32_t Header::Serialize(Header& header, uint8_t* buffer, uint32_t offset) {
+  header_mutex.Lock();
+  memcpy(buffer + (offset++), &header.dest_id, 1);
+  memcpy(buffer + (offset++), &header.source_id, 1);
+  memcpy(buffer + offset, &header.msg_len, 2);
   offset += 2;
-  memcpy(buffer + offset, &msg_id, 2);
+  memcpy(buffer + offset, &header.msg_id, 2);
   offset += 2;
   for (int x = 0; x < KEY_LENGTH; x++){
-    memcpy(buffer + (offset++), &iv[x], 1);
+    memcpy(buffer + (offset++), &header.iv[x], 1);
   }
-
+  header_mutex.Unlock();
   return offset;
 }
 
 
-uint32_t Header::Deserialize(uint8_t* buffer, uint32_t offset) {
-  memcpy(&dest_id, buffer + (offset++), 1);
-  memcpy(&source_id, buffer + (offset++), 1);
-  memcpy(&msg_len, buffer + offset, 2);
+uint32_t Header::Deserialize(Header& header, uint8_t* buffer, uint32_t offset) {
+  header_mutex.Lock();
+  memcpy(&header.dest_id, buffer + (offset++), 1);
+  memcpy(&header.source_id, buffer + (offset++), 1);
+  memcpy(&header.msg_len, buffer + offset, 2);
   offset += 2;
-  memcpy(&msg_id, buffer + offset, 2);
+  memcpy(&header.msg_id, buffer + offset, 2);
   offset += 2;
   
   for (int x = 0; x < KEY_LENGTH; x++) {
-      memcpy(&iv[x], buffer + (offset++), 1);
+      memcpy(&header.iv[x], buffer + (offset++), 1);
   }
-
+  header_mutex.Unlock();
   return offset;  
 }
 } // comnet

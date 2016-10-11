@@ -57,6 +57,7 @@ private:
 class CommLock : public ::std::unique_lock< ::std::mutex> {
 public:
   CommLock(CommMutex& mut) : ::std::unique_lock< ::std::mutex>(mut.GetMutex()) { }
+  CommLock(CommMutex&& mut) { }
   ~CommLock() { }
 private:
 };

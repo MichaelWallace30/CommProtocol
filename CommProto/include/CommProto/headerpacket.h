@@ -43,9 +43,9 @@ public:
   uint16_t msg_id;
   uint8_t iv[KEY_LENGTH];//random init vector for encryption
 
-  uint32_t Serialize(uint8_t* buffer, uint32_t offset);
+  static uint32_t Serialize(Header& header, uint8_t* buffer, uint32_t offset);
 
-  uint32_t Deserialize(uint8_t* buffer, uint32_t offset);
+  static uint32_t Deserialize(Header& header, uint8_t* buffer, uint32_t offset);
 };
 } // comnet
 #endif//PACKET_H

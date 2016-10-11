@@ -50,14 +50,14 @@ void ObjectStream::SerializeHeader(Header header)
 {
 	//not sure if more is needed kind of a waste of space
 	header_packet.dest_id = header.dest_id;
-	header.Serialize(stream_buffer, 0);
+	Header::Serialize(header, stream_buffer, 0);
 }
 
 
 Header ObjectStream::DeserializeHeader()
 {
 	Header header;
-	header.Deserialize(stream_buffer, 0);	
+	Header::Deserialize(header, stream_buffer, 0);	
 	return header;
 }
 
