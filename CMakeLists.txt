@@ -23,6 +23,17 @@ option(build64 "Build library in 64 bit" ON)
 option(shared "Build shared/dll of the library" OFF)
 option(static "Build static/lib of the library" ON)
 option(test "Build test executable to test library with" OFF)
+# Options to allow debug/release version of CommProtocol.
+option(version_release "Compile the release version of CommProtocol" OFF)
+
+
+if (version_release)
+  message("Setting to release.")
+  set (CMAKE_BUILD_TYPE Release)
+else()
+  set (CMAKE_BUILD_TYPE Debug) 
+endif()
+
 
 
 # Setting up crypto++

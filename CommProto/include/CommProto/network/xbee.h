@@ -22,10 +22,13 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/connection/serial-config.h>
 
+#include <list>
+#include <memory>
+
 #include <xbee/platform.h>
 #include <xbee/device.h>
 #include <wpan/aps.h>
-
+#include <wpan/types.h>
 
 namespace comnet {
 namespace network {
@@ -66,8 +69,23 @@ public:
    */
   bool CloseXBeePort();
 
+  static int TransparentRx(XBee& xbee, const wpan_envelope_t* envelope, void* context);
+
+  static void TransparentDump(XBee& xbee, const addr64* ieee, const void* payload, uint16_t length);
+
+  static int ReceiveHandler(XBee& xbee, const void* raw, uint16_t length, void* context);
+
 private:
-  /**
+  struct XBeeMessage {
+    uint8_t message[256];
+    uint16_t length;
+  };
+
+  // Holds messages received by xbee.
+  ::std::list<std::unique_ptr<XBeeMessage> > message_queue;
+
+  
+ /**
     The information about the xbee device on this object.
    */
   struct xbee_serial_t serial;
