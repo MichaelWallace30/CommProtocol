@@ -143,7 +143,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, con
 		case ZIGBEE_LINK:
 		{
       str_length(address, length);
-      if (length < ADDRESS_LENGTH) {
+      if (length < ADDRESS_LENGTH + 2) {
         conn_layer = new experimental::XBeeLink();
         return conn_layer->InitConnection(port, NULL, baudrate);
       }

@@ -39,7 +39,7 @@ public:
 
   ~XBeeLink() {
     for (int i = 0; i < xbees->GetSize(); ++i ) {
-      XBee* xbee = xbees->At(i);
+      Cluster* xbee = xbees->At(i);
       free_pointer(xbee);
     }
   
@@ -68,9 +68,12 @@ public:
   bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
 private:
+  struct Cluster {
+    char    addr[16];
+  };
   // Home address xbee.
   XBee* home;
-  List< XBee* >* xbees;
+  List<Cluster*>* xbees;
 };
 } // namespace Experimental
 } // namespace Network

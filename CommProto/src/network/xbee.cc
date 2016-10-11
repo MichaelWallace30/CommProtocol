@@ -181,6 +181,7 @@ bool XBee::Initialize(const char* port, speed_t baudrate) {
   std::regex_replace(std::back_inserter(port_res),
                      port_str.begin(), port_str.end(), regularEx, "$2");
   serial.comport = atoi(port_res.c_str());
+  serial.hCom = NULL;
 #else // POSIX stuff instead.
   strncpy(serial.device, port, (sizeof serial.device) - 1);
   serial.device[(sizeof serial.device) - 1] = '\0';
@@ -209,11 +210,16 @@ bool XBee::Initialize(const char* port, speed_t baudrate) {
         // Discover xbee nodes.
         xbee_disc_discover_nodes(&device, NULL);
         success = true;
+      } else {
+        COMMS_DEBUG("Query status failed... Error code=%d", status);
       }
     }
   } else {
     COMMS_DEBUG("Failed to open serial port=%d", serial.comport);
   } 
+  if (!success) {
+    CloseXBeePort();
+  }
   return success;
 }
 

@@ -46,14 +46,15 @@ int main(int c, char** args) {
   comnet::architecture::os::CommLock commlock(mut);
   // This will cause the thread to wait for a few milliseconds, causing any other thread to wait.
   comnet::architecture::os::WaitForMilliseconds(commlock, cond, 1000); 
+
   std::cout << "Test complete!" << std::endl;
   std::cout << "Init connection succeeded: " 
             << std::boolalpha
-            << comm1.InitConnection(UDP_LINK, "1338", "127.0.0.1")
+            << comm1.InitConnection(ZIGBEE_LINK, "COM3")
             << std::endl;
   std::cout << "Connected to address: "
             << std::boolalpha
-            << comm1.AddAddress(2, "127.0.0.1", 1337)
+            << comm1.AddAddress(2, "0013A20040762067")
             << std::endl;
   comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
   Ping bing("I like cats");
