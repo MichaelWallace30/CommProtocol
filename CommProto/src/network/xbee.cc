@@ -38,7 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <zigbee/zdo.h>
 
 /**
-
 */
 void TransparentDump(const addr64* ieee, const void* payload,
                       uint16_t length) {
@@ -53,6 +52,7 @@ void TransparentDump(const addr64* ieee, const void* payload,
     COMMS_DEBUG("'%s':\n", node_id->node_info);
   } else {
     COMMS_DEBUG("%s:\n", addr64_format(buffer, ieee));
+    COMMS_DEBUG("THIS XBEE SOURCE IS UNKNOWN!!\n");
   }
   for(i = 0; i < length && isprint(message[i]); ++i);
   if(i == length) {
