@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/tools/data_structures/auto_vector.h>
 
-#include <string>
+#include <cstring>
 
 namespace comnet {
 namespace network {

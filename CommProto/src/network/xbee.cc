@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/headerpacket.h>
 
 #include <regex>
-#include <string>
+#include <cstring>
 #include <ctype.h>
 
 #include <xbee/atcmd.h>
