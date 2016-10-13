@@ -25,10 +25,23 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 
-
-#define _COMNET_MINIMUM_API_VERSION_            0x1000
-#define _COMNET_COMPATIBLE_API_VERSION_         0x1001
-#define _COMNET_CURRENT_API_VERSION_            0x1050
+////////////////////////////////////////////////////////////
+//        Versions for the API
+//  Set the API number to correspond to the version number.
+//  For example:    API verion: 1.5.3
+//                  Version set to:    0x153000
+//                                       
+//
+//  The first 4 nibbles are reserved for version number.
+//
+//  if number is in beta,  set 0xXXXXb0
+//  if number is in alpha, set 0xXXXXa0
+//  if number is in any version of alpha or beta, set the
+//  last bit to fit the corresponding version. 0xXXXXb1
+////////////////////////////////////////////////////////////
+#define _COMNET_MINIMUM_API_VERSION_            0x100000
+#define _COMNET_COMPATIBLE_API_VERSION_         0x100100
+#define _COMNET_CURRENT_API_VERSION_            0x105000
 
 #define obtain_api_version(_api_version) _api_version
 
