@@ -6,6 +6,7 @@ project(CPP_TEST)
 
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/../../../XbeeC/xbee_ansic_library/include/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/../../../CommProto/include/)
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/../../../Encryption/cryptopp564/)
 
 
 add_executable(CommProtoExe
@@ -19,3 +20,4 @@ else()
 endif()
 # Given that linux is different from windows
 target_link_libraries(CommProtoExe CommProtoStatic)
+target_link_libraries(CommProtoExe cryptopp-static)

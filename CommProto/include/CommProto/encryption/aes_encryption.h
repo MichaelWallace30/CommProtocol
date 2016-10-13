@@ -17,17 +17,17 @@ namespace comnet {
 		AesEncryption();
 		~AesEncryption();
 		/** input c string as the form of encrytion key*/
-		virtual uint8_t LoadKey(char* key);
+		 uint8_t LoadKey(char* key);
 		/** load file which contatins the encryption key by the file name*/
-		virtual uint8_t LoadKeyFromFile(char*keyFileName);
+		uint8_t LoadKeyFromFile(char*keyFileName);
 		/** Encrypt buffer for desired length of data stream and return any agumented legnth by reference
 		A return value of - value is an error */
-		virtual int32_t Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
+		int32_t Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
 		/** Decrypt buffer for desired length of data stream and return any agumented legnth by reference
 		A return value of - value is an error */
-		virtual int32_t Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
+		int32_t Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
 		/** Randome numbder generator which fills an array of size legnth*/
-		virtual uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length);
+		uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length);
 	};
 
 }//end namespace comnet
