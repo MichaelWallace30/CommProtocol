@@ -14,11 +14,11 @@ public:
   : CHAIN_ABSPACKET(Ping)
   , cat(cc) { }
 
-  void Pack(comnet::ObjectStream& obj) {
+  void Pack(REF_OBJECTSTREAM obj) {
     obj << cat;  // add cat
   }
 
-  void Unpack(comnet::ObjectStream& obj) {
+  void Unpack(REF_OBJECTSTREAM obj) {
     obj >> cat;
   }
   

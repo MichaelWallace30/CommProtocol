@@ -128,6 +128,11 @@ namespace serialization {
 	  ObjectStream& operator>>(real64_t& data); 
 
 };
+
+
+// Defines simplicity for calling objectstream.
+#define OBJECTSTREAM comnet::serialization::ObjectStream
+#define REF_OBJECTSTREAM comnet::serialization::ObjectStream&
 } // Serialization namespace
 } // Comnet namespace
 
