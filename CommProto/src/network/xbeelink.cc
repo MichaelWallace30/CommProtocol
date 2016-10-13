@@ -37,7 +37,7 @@ XBeeLink::XBeeLink()
 bool XBeeLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
   bool success = home->Initialize(port, baudrate);
   if (!success) {
-    COMMS_DEBUG("Home xbee failed to initialize!");
+    COMMS_DEBUG("Home xbee failed to initialize!\n");
   }
   return success;
 }
