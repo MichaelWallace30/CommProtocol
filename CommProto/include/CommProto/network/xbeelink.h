@@ -61,6 +61,8 @@ public:
    */
   bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
+  void DigestCommand(const char* cmd) { }
+
 private:
   struct XBeeInfo {
     char addr[17];

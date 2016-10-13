@@ -70,6 +70,11 @@ public:
     Receive a message from a protocol id.
   */
   virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length) = 0;
+
+  /**
+    Additional commands are used for set configuration features on the protocol of choice.
+  */
+  virtual void DigestCommand(const char* cmd) = 0;
   
   transport_protocol_t GetProtocol() { return protocol; }
 protected:

@@ -52,19 +52,19 @@ public:
 	
   Serial();
   Serial(uint32_t id);
-  virtual ~Serial();
+  ~Serial();
   
   /** Opens comport sets if it is connected on scucces, address is not need just use "" argument
       Returns false if opening comport fails
    */
-  virtual bool OpenConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
+  bool OpenConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /**
     Sends txData using its length of bytes through the serial connection. Connection is broadcast 
     dest_id is only used for packing / unpacking. 
 
     @return false if no proper connection is establish
    */	
-  virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
+  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
   /** 
     Sets recieved data to rxData and sets the length of the data to rxLength
 
@@ -72,7 +72,7 @@ public:
     @param txLength
     @return false if not aviable connection, No data is recieved, or time out
    */
-  virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length);
+  bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
   serial_status GetStatus();
 

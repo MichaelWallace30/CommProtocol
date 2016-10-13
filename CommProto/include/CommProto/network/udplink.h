@@ -43,22 +43,24 @@ public:
     Adds Address & port to dest_id value of array of aviable connections
     Returns false if connection is already connected
   */
-  virtual bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
   /** 
     Sets connection to not available
     Returns false is no connection is found
   */
-  virtual bool RemoveAddress(uint8_t dest_id);
+  bool RemoveAddress(uint8_t dest_id);
   /** 
     Sends txData using its length of bytes through the dest_id connection which is establish through add adress
     Return false if no proper connection is establish
   */
-  virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
+  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
   /** 
     Sets recieved data to rxData and sets the length of the data to rxLength
     Returns false if not aviable connection or no data is recieved
   */
-  virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length);
+  bool Recv(uint8_t* rx_data, uint32_t* rx_length);
+
+  void DigestCommand(const char* cmd) { }
 private:
   
   UDP local;
