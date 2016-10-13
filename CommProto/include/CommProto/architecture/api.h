@@ -26,7 +26,7 @@
 #include <CommProto/architecture/os/include_defines.h>
 
 ////////////////////////////////////////////////////////////
-//        Versions for the API
+//                 Versions for the API
 //  Set the API number to correspond to the version number.
 //  For example:    API verion: 1.5.3
 //                  Version set to:    0x153000
