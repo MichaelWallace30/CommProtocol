@@ -102,7 +102,7 @@ public:
   ObjectStream& operator<<(string_t& data);
   ObjectStream& operator<<(std::wstring& data);
   ObjectStream& operator<<(std::string& data);
-	ObjectStream& operator<<(uint8_t& data);  
+  ObjectStream& operator<<(uint8_t& data);  
   ObjectStream& operator<<(int8_t& data);
   ObjectStream& operator<<(uint16_t& data);
   ObjectStream& operator<<(int16_t& data);  
@@ -114,8 +114,8 @@ public:
   ObjectStream& operator<<(real64_t& data);
   
 
-	/** OVerloaded output stream operators to output variables to a variable from the object stream
-		string_t (char*) must use malloc when inputing data into new c-string variable*/  
+  /** OVerloaded output stream operators to output variables to a variable from the object stream
+    string_t (char*) must use malloc when inputing data into new c-string variable*/  
   ObjectStream& operator>>(string_t& data);
   ObjectStream& operator>>(std::wstring& data);
   ObjectStream& operator>>(std::string& data);
