@@ -267,5 +267,10 @@ bool XBee::CloseXBeePort() {
   }
   return success;
 }
+
+
+void XBee::DiscoverNodes() {
+  xbee_disc_discover_nodes(&device , NULL);
+}
 } // namespace Network
 } // namespace Comnet

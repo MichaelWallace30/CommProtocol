@@ -18,8 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/xbeelink.h>
 #include <CommProto/network/xbee.h>
+#include <CommProto/network/znodetable.h>
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/tools/data_structures/auto_vector.h>
+
+#include <string>
 
 namespace comnet {
 namespace network {
@@ -27,7 +30,7 @@ namespace experimental {
 
 
 XBeeLink::XBeeLink()
-: xbees(new ::comnet::tools::datastructures::AutoVector<XBeeInfo*>())
+: xbees(new std::unordered_map<uint16_t, std::unique_ptr<XBeeInfo>>())
 , home(new XBee())
 {
   this->protocol = ZIGBEE_LINK;
@@ -44,10 +47,27 @@ bool XBeeLink::InitConnection(const char* port, const char* address, uint32_t ba
 
 
 bool XBeeLink::AddAddress(uint8_t destId, const char* address, uint16_t port) {
-  //XBee* xbee = new XBee();
   bool success = false;
   // TODO(Garcia): Need to find devices near this xbee, return with addresses,
   // figure out if address is found, and add xbee to this list.
+  home->DiscoverNodes();
+  addr64 ieee;
+  int err = addr64_parse(&ieee, address);
+  if (!err) {
+    xbee_node_id_t* node_id;
+    node_id = NodeByAddr(&ieee);
+    if (node_id) {
+      XBeeInfo* xbee_info = new XBeeInfo;
+      std::memcpy(xbee_info->addr, address, 17);
+      xbee_info->id = destId;
+      
+      success = true;
+    } else {
+      COMMS_DEBUG("Could not find node id in range!\n");
+    }
+  } else {
+    COMMS_DEBUG("Address to addr64 parse fail!\n");
+  }
   return success;
 }
 
@@ -61,7 +81,11 @@ bool XBeeLink::RemoveAddress(uint8_t destId) {
 
 bool XBeeLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
   // TODO(Garcia): destId determines the address to send to.
-  return home->Send("", txData, txLength);
+  XBeeInfo* xbee = xbees->at(destId).get();
+  if (xbee && (xbee->id == destId)) {
+    return home->Send(xbee->addr, txData, txLength);
+  } 
+  return false;
 }
 
 

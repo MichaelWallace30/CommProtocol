@@ -20,15 +20,14 @@
 #define __XBEE_LINK_H
 
 #include <CommProto/network/commslink.h>
-#include <CommProto/tools/data_structures/interface/interface_list.h>
 #include <CommProto/architecture/macros.h>
+#include <unordered_map>
+#include <memory>
 
 namespace comnet {
 namespace network {
 namespace experimental {
 
-
-using namespace comnet::tools::datastructures::interface;
 
 class XBee;
 
@@ -38,11 +37,6 @@ public:
   XBeeLink();
 
   ~XBeeLink() {
-    for (int i = 0; i < xbees->GetSize(); ++i ) {
-      XBeeInfo* xbee = xbees->At(i);
-      free_pointer(xbee);
-    }
-  
     free_pointer(xbees);
   }
   /**
@@ -74,7 +68,7 @@ private:
   };
   // Home address xbee.
   XBee* home;
-  List<XBeeInfo*>* xbees;
+  std::unordered_map<uint16_t, std::unique_ptr<XBeeInfo> >* xbees;
 };
 } // namespace Experimental
 } // namespace Network

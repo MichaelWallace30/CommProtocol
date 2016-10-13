@@ -79,6 +79,10 @@ public:
 
   xbee_serial_t& GetSerial() { return serial; }
   xbee_dev_t& GetDevice() { return device; }
+  /**
+    Discover nodes on the network.
+   */  
+  void DiscoverNodes();
 
 private:
  /**
