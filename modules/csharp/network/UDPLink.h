@@ -46,33 +46,33 @@ namespace Comnet {
         @returns false if open socket or bind fails need baudrate for interface 
                 of CCommsLink method is overloaded below.
        */
-      virtual Boolean InitConnection( String^ port,  String^ address, uint32_t baudrate) override;
+      Boolean InitConnection( String^ port,  String^ address, uint32_t baudrate) override;
 			/** 
          Overloaded  initConnection
        */
-      virtual Boolean InitConnection(String^ port, String^ address);
+      Boolean InitConnection(String^ port, String^ address);
 			/** 
         Adds Address & port to destID value of array of aviable connections
 			  @returns false if connection is already connected
        */
-      virtual Boolean AddAddress(uint8_t destID,  String^ address, uint16_t port) override;
+      Boolean AddAddress(uint8_t destID,  String^ address, uint16_t port) override;
 			/** 
         Sets connection to not available
 			  @returns false is no connection is found
        */
-      virtual Boolean RemoveAddress(uint8_t destID) override;
+      Boolean RemoveAddress(uint8_t destID) override;
 			/** 
         Sends txData using its length of bytes through the destID connection which 
         is establish through add address.
 			  
         @return false if no proper connection is establish
        */
-      virtual Boolean Send(uint8_t destID, uint8_t* txData, uint32_t txLength) override;
+      Boolean Send(uint8_t destID, uint8_t* txData, uint32_t txLength) override;
 			/** 
         Sets recieved data to rxData and sets the length of the data to rxLength
 			  @returns false if not aviable connection or no data is recieved
        */
-      virtual Boolean Recv(uint8_t* rxData, UInt32% rxLength) override;
+      Boolean Recv(uint8_t* rxData, UInt32% rxLength) override;
     };
   } // namespace Network
 } // namespace Comnet

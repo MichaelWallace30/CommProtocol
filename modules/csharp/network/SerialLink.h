@@ -35,34 +35,34 @@ private:
   
 public:	
   SerialLink();
-  virtual ~SerialLink();
+  ~SerialLink();
   /** 
     Opens comport sets if it is connected on scucces, address is not need just use "" argument
     @returns false if opening comport fails
    */
-  virtual Boolean InitConnection(String^ port, String^ address, uint32_t baudrate) override;
+  Boolean InitConnection(String^ port, String^ address, uint32_t baudrate) override;
   /** 
     OVerride initConncetion.
    */
-  virtual Boolean InitConnection(String^ port, uint32_t baudrate);
+  Boolean InitConnection(String^ port, uint32_t baudrate);
   /** 
     Add serial address returns true does nothing 
    */
-  virtual Boolean AddAddress(uint8_t destID, String^ address, uint16_t port) override;
+  Boolean AddAddress(uint8_t destID, String^ address, uint16_t port) override;
   /** 
     Remove serial address returns true does nothing 
    */
-  virtual Boolean RemoveAddress(uint8_t destID) override;
+  Boolean RemoveAddress(uint8_t destID) override;
   /**
     Sends txData using its length of bytes through the serial connection. Connection is broadcast
     destID is only used for packing / unpacking. Return false if no proper connection is establish
   */
-  virtual Boolean Send(uint8_t destID, uint8_t* txData, uint32_t txLength) override;
+  Boolean Send(uint8_t destID, uint8_t* txData, uint32_t txLength) override;
   /** 
     Sets recieved data to rxData and sets the length of the data to rxLength
     @returns false if not aviable connection, No data is recieved, or time out
    */
-  virtual bool Recv(uint8_t* rxData, uint32_t% rxLength) override;
+  bool Recv(uint8_t* rxData, uint32_t% rxLength) override;
 
 };
 } // namespace Network
