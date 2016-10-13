@@ -3,5 +3,5 @@
 /win32/
 /linux/
 
-# Main file not required.
+# Test files not required.
 /CommProto/src/main.cpp

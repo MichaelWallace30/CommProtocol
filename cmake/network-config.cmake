@@ -14,11 +14,14 @@ set(NETWORK_HEADERS
   ${NETWORK_HEADER_DIR}commslink.h
   ${NETWORK_HEADER_DIR}crc32.h
   ${NETWORK_HEADER_DIR}parser.h
-  ${NETWORK_HEADER_DIR}znodetable.h
+  ${NETWORK_HEADER_DIR}znodetable.h)
+
+set(NETWORK_GRAPH_HEADERS
   ${NETWORK_HEADER_DIR}/network_graph/network_edge.h
   ${NETWORK_HEADER_DIR}/network_graph/network_graph.h
   ${NETWORK_HEADER_DIR}/network_graph/network_graph_builder.h
   ${NETWORK_HEADER_DIR}/network_graph/network_node.h)
+	
 
 set(NETWORK_SOURCES
   ${NETWORK_SOURCE_DIR}udp.cpp
@@ -35,5 +38,6 @@ set(NETWORK_SOURCES
 
 set (NGCP_GLOB
   ${NGCP_GLOB}
+  ${NETWORK_GRAPH_HEADERS}
   ${NETWORK_HEADERS}
   ${NETWORK_SOURCES})

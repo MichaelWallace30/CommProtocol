@@ -3,6 +3,19 @@ set(ARCHITECTURE_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommPr
 set(ARCHITECTURE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/architecture/)
 
 set(ARCHITECTURE_HEADERS
+  ${ARCHITECTURE_HEADER_DIR}/api.h
+  ${ARCHITECTURE_HEADER_DIR}/macros.h
+  ${ARCHITECTURE_HEADER_DIR}/cond.h)
+
+set(ARCH_CONNECTION_HEADERS
+  ${ARCHITECTURE_HEADER_DIR}/connection/socket-config.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/serial_status.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config_win32.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config_linux.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config.h
+  ${ARCHITECTURE_HEADER_DIR}/connection/transport_type.h)
+
+set(ARCH_OS_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/linux-config/linux-config.h
   ${ARCHITECTURE_HEADER_DIR}/os/include_defines.h
   ${ARCHITECTURE_HEADER_DIR}/os/arch.h
@@ -13,16 +26,7 @@ set(ARCHITECTURE_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/comm_mutex.h
   ${ARCHITECTURE_HEADER_DIR}/os/comm_thread.h
   ${ARCHITECTURE_HEADER_DIR}/os/comm_semaphore.h
-  ${ARCHITECTURE_HEADER_DIR}/os/comm_monitor.h
-  ${ARCHITECTURE_HEADER_DIR}/api.h
-  ${ARCHITECTURE_HEADER_DIR}/macros.h
-  ${ARCHITECTURE_HEADER_DIR}/cond.h
-  ${ARCHITECTURE_HEADER_DIR}/connection/socket-config.h
-  ${ARCHITECTURE_HEADER_DIR}/connection/serial_status.h
-  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config_win32.h
-  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config_linux.h
-  ${ARCHITECTURE_HEADER_DIR}/connection/serial-config.h
-  ${ARCHITECTURE_HEADER_DIR}/connection/transport_type.h)
+  ${ARCHITECTURE_HEADER_DIR}/os/comm_monitor.h)
 
 set(ARCHITECTURE_SOURCES
   ${ARCHITECTURE_SOURCE_DIR}/os/comm_monitor.cc
@@ -35,4 +39,6 @@ set(ARCHITECTURE_SOURCES
 set (NGCP_GLOB
   ${NGCP_GLOB}
   ${ARCHITECTURE_HEADERS}
+  ${ARCH_CONNECTION_HEADERS}
+  ${ARCH_OS_HEADERS}
   ${ARCHITECTURE_SOURCES})

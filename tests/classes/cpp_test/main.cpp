@@ -14,7 +14,7 @@ public:
   , cat(cc) { }
 
   void Pack(comnet::ObjectStream& obj) {
-    obj << cat;  
+    obj << cat;  // add cat
   }
 
   void Unpack(comnet::ObjectStream& obj) {
