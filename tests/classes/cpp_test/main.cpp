@@ -4,9 +4,10 @@
 #include <CommProto/architecture/os/comm_thread.h>
 #include <iostream>
 
-
+class Cat {
+};
 // Ping testing.
-class Ping : public comnet::AbstractPacket {
+class Ping : INHERITS_ABSPACKET {
 public:
   Ping() : ABSPACKET(Ping) { }
   Ping(std::string cc) 
