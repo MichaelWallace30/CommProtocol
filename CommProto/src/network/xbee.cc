@@ -89,7 +89,7 @@ int ReceiveHandler(xbee_dev_t *xbee, const void* raw,
 }
 
 
-wpan_ep_state_t zdo_ep_state = { 0} ;
+wpan_ep_state_t zdo_ep_state = { 0 } ;
 
 
 const wpan_cluster_table_entry_t digi_data_clusters[] = {
