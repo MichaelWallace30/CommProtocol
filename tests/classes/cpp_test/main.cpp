@@ -8,9 +8,9 @@
 // Ping testing.
 class Ping : public comnet::AbstractPacket {
 public:
-  Ping() : comnet::AbstractPacket("Ping") { }
+  Ping() : ABSPACKET(Ping) { }
   Ping(std::string cc) 
-  : comnet::AbstractPacket("Ping")
+  : ABSPACKET(Ping)
   , cat(cc) { }
 
   void Pack(comnet::ObjectStream& obj) {

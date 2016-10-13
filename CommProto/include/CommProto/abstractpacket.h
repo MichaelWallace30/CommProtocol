@@ -95,5 +95,7 @@ private:
   uint32_t type_id;
 
 };
+
+#define ABSPACKET(c_name) comnet::AbstractPacket(#c_name)
 } // Comnet namespace 
 #endif // __ABSTRACT_PACKET_H
