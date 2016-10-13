@@ -28,7 +28,7 @@
 
 #define _COMNET_MINIMUM_API_VERSION_            0x1000
 #define _COMNET_COMPATIBLE_API_VERSION_         0x1001
-#define _COMNET_CURRENT_API_VERSION_            0x1001
+#define _COMNET_CURRENT_API_VERSION_            0x1002
 
 #define obtain_api_version(_api_version) _api_version
 
