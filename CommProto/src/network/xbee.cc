@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <zigbee/zdo.h>
 
 /**
+  TODO(Garcia): UNSAFE! this message handler will accept any messages!
 */
 void TransparentDump(const addr64* ieee, const void* payload,
                       uint16_t length) {
