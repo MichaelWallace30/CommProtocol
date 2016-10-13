@@ -23,6 +23,7 @@ option(build64 "Build library in 64 bit" ON)
 option(shared "Build shared/dll of the library" ON)
 option(static "Build static/lib of the library" ON)
 option(test "Build test executable to test library with" OFF)
+option(csharp "Build C# DLL for .NET use" OFF)
 # Options to allow debug/release version of CommProtocol.
 option(version_release "Compile the release version of CommProtocol" OFF)
 
@@ -180,6 +181,12 @@ if (test)
   add_subdirectory(tests/classes/cpp_test)
   # Vistionary testing toolset.
   add_subdirectory(unit)
+endif()
+
+if (csharp)
+  # C# DLL building
+  message("C# DLL is building...")
+  add_subdirectory(modules/csharp/)
 endif()
 
 # Executable Unit Test
