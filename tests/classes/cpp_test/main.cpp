@@ -9,9 +9,9 @@ class Cat {
 // Ping testing.
 class Ping : INHERITS_ABSPACKET {
 public:
-  Ping() : ABSPACKET(Ping) { }
+  Ping() : CHAIN_ABSPACKET(Ping) { }
   Ping(std::string cc) 
-  : ABSPACKET(Ping)
+  : CHAIN_ABSPACKET(Ping)
   , cat(cc) { }
 
   void Pack(comnet::ObjectStream& obj) {
@@ -22,7 +22,7 @@ public:
     obj >> cat;
   }
   
-  comnet::AbstractPacket* Create() {
+  ABSPACKET* Create() {
     return new Ping();
   }
 

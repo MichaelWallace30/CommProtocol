@@ -97,8 +97,10 @@ private:
 };
 
 // Small defines for inheriting C++ AbstractPacket
-#define ABSPACKET(c_name) comnet::AbstractPacket(#c_name)
+#define CHAIN_ABSPACKET(class_name) comnet::AbstractPacket(#class_name)
 #define INHERITS_ABSPACKET public comnet::AbstractPacket
+#define ABSPACKET comnet::AbstractPacket
+typedef comnet::AbstractPacket ABSPacket;
 
 
 } // Comnet namespace 
