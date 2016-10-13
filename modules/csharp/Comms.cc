@@ -30,7 +30,7 @@ Void Comms::commHelperRecv() {
         callback = this->packetManager->Get(packet);
         if (callback) {
           error_t error;  
-          error = callback->CallFunction(header, packet);
+          error = callback->CallFunction(header, packet, static_cast<CommNode^>(this));
           // Do something with the packet.
           switch (error) {
             case CALLBACK_SUCCESS: break;

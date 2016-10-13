@@ -33,16 +33,20 @@ private:
 };
 
 
-error_t PingCallback(const comnet::Header& header, const Ping& packet) {
+error_t PingCallback(const comnet::Header& header, const Ping& packet, comnet::Comms& node) {
+  std::cout << "Source node: " << (int32_t)header.source_id << std::endl;
+  std::cout << "Message: " << std::endl;
   std::cout << "Packet contains: " << packet.GetCat() << std::endl;
+  Ping ping("I got your ping man...");
+  node.Send(&ping, 2);
   return comnet::CALLBACK_SUCCESS | comnet::CALLBACK_DESTROY_PACKET;
 }
 
 
 int main(int c, char** args) {
   std::condition_variable cond;
-  comnet::Comms comm1(1);
   std::cout << sizeof(comnet::Header) << std::endl;
+  comnet::Comms comm1(1);
   comnet::architecture::os::CommMutex mut;
   comnet::architecture::os::CommLock commlock(mut);
   // This will cause the thread to wait for a few milliseconds, causing any other thread to wait.
@@ -51,11 +55,11 @@ int main(int c, char** args) {
   std::cout << "Test complete!" << std::endl;
   std::cout << "Init connection succeeded: " 
             << std::boolalpha
-            << comm1.InitConnection(ZIGBEE_LINK, "COM3")
+            << comm1.InitConnection(UDP_LINK, "1338", "192.168.1.106")
             << std::endl;
   std::cout << "Connected to address: "
             << std::boolalpha
-            << comm1.AddAddress(2, "0013A20040762067")
+            << comm1.AddAddress(2, "192.168.1.106", 1337)
             << std::endl;
   comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
   Ping bing("I like cats");

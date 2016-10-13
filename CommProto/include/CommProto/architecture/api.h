@@ -40,8 +40,8 @@
 //  last bit to fit the corresponding version. 0xXXXXb1
 ////////////////////////////////////////////////////////////
 #define _COMNET_MINIMUM_API_VERSION_            0x100000
-#define _COMNET_COMPATIBLE_API_VERSION_         0x100100
-#define _COMNET_CURRENT_API_VERSION_            0x105000
+#define _COMNET_COMPATIBLE_API_VERSION_         0x105000
+#define _COMNET_CURRENT_API_VERSION_            0x106000
 
 #define obtain_api_version(_api_version) _api_version
 

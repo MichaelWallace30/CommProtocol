@@ -31,7 +31,7 @@ Callback::Callback(CallbackFunc call)
 
 
 Callback::Callback()
-: callback( [] (const Header& header, AbstractPacket& packet) {
+: callback( [] (const Header& header, AbstractPacket& packet, CommNode& node) {
     return -100;
   })
   { }
@@ -45,10 +45,12 @@ void Callback::SetCallbackListener(CallbackFunc call)
   { callback = call; }
 
 
-error_t Callback::CallFunction(const Header& header, const AbstractPacket& abPacket) { 
+error_t Callback::CallFunction(const Header& header, 
+                               AbstractPacket& abPacket, 
+                               CommNode& node) { 
   if (!callback) {
     return -1;
   }
-  return callback(header, (AbstractPacket&) abPacket); 
+  return callback(header, abPacket, node); 
 }
 } // namespace Comnet

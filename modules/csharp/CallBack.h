@@ -31,9 +31,10 @@ using namespace System;
 namespace Comnet {
 
 
+ref class CommNode;
 // Wrapped function pointer.
 [UnmanagedFunctionPointerAttribute(CallingConvention::Cdecl)]
-public delegate Int32 CommFunct(Header^, ABSPacket^);
+public delegate Int32 CommFunct(Header^, ABSPacket^, CommNode^);
 
 // Call back codes.
 public enum class CallBackCodes : Int32 {
@@ -56,7 +57,7 @@ public:
 
   void SetCallBackListenter(CommFunct^ ptr);
   
-  Int32 CallFunction(Header^ header, ABSPacket^ packet);
+  Int32 CallFunction(Header^ header, ABSPacket^ packet, CommNode^ node);
 
 private:
   CommFunct^ funct;

@@ -30,10 +30,11 @@ namespace comnet {
 
 
 class AbstractPacket;
+class CommNode;
 
 // Callback function pointer, it is not generic, it is just used as 
 // a reference to user defined callback functions.
-typedef error_t (*callback_t)(const Header&, AbstractPacket&);
+typedef error_t (*callback_t)(const Header&, AbstractPacket&, CommNode&);
 
 
 // Callback codes used for state machines in automating what may be done to the 
@@ -51,7 +52,7 @@ enum CallbackCodes {
    callbacks from within the protocol library.
 */
 class Callback {
-  typedef std::function < error_t (const Header&, AbstractPacket&) > CallbackFunc;
+  typedef std::function < error_t (const Header&, AbstractPacket&, CommNode&) > CallbackFunc;
 
   COMM_DISALLOW_COPYING(Callback);
 
@@ -73,7 +74,7 @@ public:
   /**
      Calls the function associated with a packet.
    */
-  error_t CallFunction(const Header& header, const AbstractPacket& abPacket);
+  error_t CallFunction(const Header& header, AbstractPacket& abPacket, CommNode& node);
 private:
   CallbackFunc callback;
 };

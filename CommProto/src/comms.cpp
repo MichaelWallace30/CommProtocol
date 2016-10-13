@@ -71,7 +71,7 @@ void Comms::CommunicationHandlerRecv() {
             on a new thread, to prevent it from stopping the Receive handler.
             User figures out what to do with the packet.
           */
-          error = callback->CallFunction(header, *packet);
+          error = callback->CallFunction(header, *packet, (CommNode& )*this);
           // Handle error.
           switch (error) {
             case CALLBACK_SUCCESS:
