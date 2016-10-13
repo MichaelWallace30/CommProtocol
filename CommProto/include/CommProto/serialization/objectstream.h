@@ -64,9 +64,13 @@ public:
 
   // Move constructions.
   ObjectStream(ObjectStream&& obj)
-    : stream_buffer(std::move(obj.stream_buffer))
-    , curr_pos(std::move(obj.curr_pos))
-    , header_packet(std::move(obj.header_packet)) { }
+    : stream_buffer(nullptr)
+    , curr_pos(0)
+    , header_packet(Header()) { 
+    std::swap(stream_buffer, obj.stream_buffer);
+    std::swap(curr_pos, obj.curr_pos);
+    std::swap(header_packet, obj.header_packet);
+  }
 
 
   ObjectStream& operator=(ObjectStream&& obj) {
