@@ -185,8 +185,12 @@ endif()
 
 if (csharp)
   # C# DLL building
-  message("C# DLL is building...")
-  add_subdirectory(modules/csharp/)
+  if (WIN32)
+    message("C# DLL is building...")
+    add_subdirectory(modules/csharp/)
+  else()
+    message(WARNING "Can not build C# .NET DLL on this platform. Skipping this module...")
+  endif()
 endif()
 
 # Executable Unit Test
