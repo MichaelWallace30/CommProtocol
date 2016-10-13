@@ -37,8 +37,6 @@ error_t PingCallback(const comnet::Header& header, const Ping& packet, comnet::C
   std::cout << "Source node: " << (int32_t)header.source_id << std::endl;
   std::cout << "Message: " << std::endl;
   std::cout << "Packet contains: " << packet.GetCat() << std::endl;
-  Ping ping("I got your ping man...");
-  node.Send(&ping, 2);
   return comnet::CALLBACK_SUCCESS | comnet::CALLBACK_DESTROY_PACKET;
 }
 
@@ -66,6 +64,7 @@ int main(int c, char** args) {
   comm1.Run();
   while (true) {
     std::cout << "Sleeping..." << std::endl;
+  comm1.Send(&bing, 2);
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
   std::cin.ignore();

@@ -58,25 +58,28 @@ namespace CommProtoCSharpText {
 	}
 
 	class Calls {
-		public int PingCallback(Header header, ABSPacket packet) {
+		public int PingCallback(Header header, ABSPacket packet, CommNode node) {
 			Ping ping = ABSPacket.GetValue<Ping>(packet);
 			Console.WriteLine("Ping message recieved: " + ping.GetMessage());
-			return (Int32)CallBackCodes.CALLBACK_SUCCESS;
+			Ping pins = new Ping("C# got dat message mate...");
+			node.Send(pins, header.GetSourceID());
+			return (Int32)(CallBackCodes.CALLBACK_SUCCESS | CallBackCodes.CALLBACK_DESTROY_PACKET);
 		}
 	}
 
 	class UnitTest {
 		static void Main(string[] args) {
 			Calls call = new Calls();
-			CommNode comm1 = new Comms(1);
+			CommNode comm1 = new Comms(2);
 
 			comm1.LinkCallback(new Ping(), new CallBack(call.PingCallback));
-			comm1.InitConnection(TransportProtocol.UDP_LINK, "1337", "127.0.0.1", 0);
-			comm1.AddAddress(2, "127.0.0.1", 1338);
-			
+			comm1.InitConnection(TransportProtocol.UDP_LINK, "1337", "192.168.1.106", 0);
+			Console.WriteLine(comm1.AddAddress(1, "192.168.1.116", 1338));
+			//Ping ping = new Ping("I am from C#!");
 			comm1.Run();
-
+			Ping ping = new Ping("From C#, do you read, over!");
 			while (true) {
+				comm1.Send(ping, 1);
 				System.Threading.Thread.Sleep(1000);
 			}
 		}
