@@ -36,7 +36,6 @@ xbee_node_id_t* NodeByName(const char* name);
 xbee_node_id_t* NodeByIndex(int idx);
 xbee_node_id_t* NodeAdd(const xbee_node_id_t* node_id);
 void NodeTableDump();
-
 } // network 
 } // comnet
 #endif // __ZNODETABLE_H

@@ -27,7 +27,7 @@ namespace experimental {
 
 
 XBeeLink::XBeeLink()
-: xbees(new ::comnet::tools::datastructures::AutoVector<Cluster*>())
+: xbees(new ::comnet::tools::datastructures::AutoVector<XBeeInfo*>())
 , home(new XBee())
 {
   this->protocol = ZIGBEE_LINK;

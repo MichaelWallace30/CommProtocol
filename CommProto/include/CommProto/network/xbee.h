@@ -27,12 +27,20 @@
 
 #include <xbee/platform.h>
 #include <xbee/device.h>
-#include <wpan/aps.h>
-#include <wpan/types.h>
 
 namespace comnet {
 namespace network {
 namespace experimental {
+
+
+// Message from XBee recv.
+struct XBeeMessage {
+  uint8_t message[256];
+  uint16_t length;
+};
+
+// Holds messages received by xbee.
+static ::std::list<std::unique_ptr<XBeeMessage> > message_queue;
 
 
 /**
@@ -69,22 +77,10 @@ public:
    */
   bool CloseXBeePort();
 
-  static int TransparentRx(XBee& xbee, const wpan_envelope_t* envelope, void* context);
-
-  static void TransparentDump(XBee& xbee, const addr64* ieee, const void* payload, uint16_t length);
-
-  static int ReceiveHandler(XBee& xbee, const void* raw, uint16_t length, void* context);
+  xbee_serial_t& GetSerial() { return serial; }
+  xbee_dev_t& GetDevice() { return device; }
 
 private:
-  struct XBeeMessage {
-    uint8_t message[256];
-    uint16_t length;
-  };
-
-  // Holds messages received by xbee.
-  ::std::list<std::unique_ptr<XBeeMessage> > message_queue;
-
-  
  /**
     The information about the xbee device on this object.
    */
@@ -93,7 +89,6 @@ private:
     Information about the WPAN address on this device, subject by IEEE 802.15.4 protocol.
    */
   struct xbee_dev_t device;
-  struct wpan_dev_t wpan_device;
 };
 } // namespace Experimental
 } // namespace Network
