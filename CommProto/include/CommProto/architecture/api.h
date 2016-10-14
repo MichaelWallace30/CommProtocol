@@ -67,21 +67,22 @@
 #define current_api_version obtain_api_version(_COMNET_CURRENT_API_VERSION_)
 
 // Definitions for exporting and importing certain classes and functions.
-#if (COM_TARGET_OS == COM_OS_WINDOWS)
- #if defined (COMMPROTO_DLL)
+#if defined (COMMPROTO_DLL)
+ #if (COM_TARGET_OS == COM_OS_WINDOWS)
   #define COMM_EXPORT __declspec(dllexport)
   #define COMM_IMPORT __declspec(dllimport)
+ #elif defined(__GNUC__)
+  #define COMM_EXPORT __attribute__((visibility ("default")))
+  #define COMM_IMPORT
  #else
   #define COMM_EXPORT
   #define COMM_IMPORT
  #endif
-#elif defined(__GNUC__)
- #define COMM_EXPORT __attribute__((visibility ("default")))
- #define COMM_IMPORT
-#else
+#else // No dll
  #define COMM_EXPORT
  #define COMM_IMPORT
 #endif
+
 
 //////////////////////////////////////////////////////////////////////////////////////
 // Post testing for the latest API Version.
