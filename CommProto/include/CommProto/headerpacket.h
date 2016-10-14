@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define HEADERPACKET_H
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 
 #define MAX_PACKET_SIZE 1024
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH and ENCRYPTION_BLOCK_BYTES should be the same
@@ -35,7 +36,7 @@ namespace comnet {
 
 
 /** Packet header stcture for sending messages*/
-class Header {
+class COMM_EXPORT Header {
 public:
   uint8_t dest_id;
   uint8_t source_id;

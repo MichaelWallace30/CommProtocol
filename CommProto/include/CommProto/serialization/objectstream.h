@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __OBJECT_STREAM_H
 #define __OBJECT_STREAM_H
 #define _DEBUG 1
+#include <CommProto/architecture/api.h>
 #include <CommProto/serialization/marshal.h>
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/headerpacket.h>
@@ -39,7 +40,7 @@ namespace serialization {
   Setting the buffer will erase information by setting current postion to new size of buffer.
   Inputing a buffer is used on the lower level when dealing directly with a data link.
 */
-class ObjectStream {
+class COMM_EXPORT ObjectStream {
 
   COMM_DISALLOW_COPYING(ObjectStream);
 

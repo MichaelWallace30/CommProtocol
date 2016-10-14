@@ -68,8 +68,13 @@
 
 // Definitions for exporting and importing certain classes and functions.
 #if (COM_TARGET_OS == COM_OS_WINDOWS)
- #define COMM_EXPORT __declspec(dllexport)
- #define COMM_EXPORT __declspec(dllimport)
+ #if defined (COMMPROTO_DLL)
+  #define COMM_EXPORT __declspec(dllexport)
+  #define COMM_IMPORT __declspec(dllimport)
+ #else
+  #define COMM_EXPORT
+  #define COMM_IMPORT
+ #endif
 #elif defined(__GNUC__)
  #define COMM_EXPORT __attribute__((visibility ("default")))
  #define COMM_IMPORT

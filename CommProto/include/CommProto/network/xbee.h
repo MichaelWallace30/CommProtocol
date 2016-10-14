@@ -47,7 +47,7 @@ static ::std::list<std::unique_ptr<XBeeMessage> > message_queue;
    XBee communications module. Used for any Xbee protocol connection made to 
    other devices. Still needs work.
 */
-class XBee {
+class COMM_EXPORT XBee {
 public:
   /**
     Constructor that autoinitializes when created. function initialize is automatically called from 
