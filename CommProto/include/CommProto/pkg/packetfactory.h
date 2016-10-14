@@ -20,6 +20,7 @@
 #define __PACKET_FACTORY_H
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 #include <CommProto/architecture/macros.h>
 
 #include <CommProto/abstractpacket.h>
@@ -32,7 +33,7 @@ namespace pkg {
    PacketFactory will be allow to handle the creation of the 
    Packet.
 */
-class PacketFactory {
+class COMM_EXPORT PacketFactory {
 public:  
   /**
      Constructor for the Packet Factory.

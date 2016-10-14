@@ -21,6 +21,7 @@
 
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 #include <CommProto/pkg/packetfactory.h>
 
 
@@ -41,7 +42,7 @@ class PacketTable;
    packets and associate them to Callbacks. If no callback is associated with
    a Packet, null should be returned.
 */
-class PacketManager {
+class COMM_EXPORT PacketManager {
 public:
 
   /**
