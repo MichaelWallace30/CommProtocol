@@ -21,6 +21,7 @@
 #define _DEBUG 1
 /* User Includes */
 #include <CommProto/architecture/connection/socket-config.h>
+#include <CommProto/architecture/api.h>
 #include <CommProto/headerpacket.h>
 #include <CommProto/architecture/macros.h>//str_length(char*,int)
 #include <stdio.h>//printf
@@ -36,7 +37,7 @@ namespace network {
 /**
 UDP class
 */
-class UDP {
+class COMM_EXPORT UDP {
 private:  
   /** Array of connections: address, port, and if connceted*/
   socket_t conn[MAX_CONNECTIONS];

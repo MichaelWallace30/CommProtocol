@@ -37,7 +37,7 @@ using comnet::tools::datastructures::interface::List;
   This is currently not the case, so we will keep it like this for future research on 
   swarm communications.
 */
-class SerialLink : public CommsLink {
+class COMM_EXPORT SerialLink : public CommsLink {
 public:
   /**
    */

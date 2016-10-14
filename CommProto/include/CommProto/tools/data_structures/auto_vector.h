@@ -43,7 +43,7 @@ namespace datastructures {
 */
 template<typename _Ty,
 	 typename _Alloc = std::allocator<_Ty> >
-class AutoVector : public interface::List<_Ty> {
+class COMM_EXPORT AutoVector : public interface::List<_Ty> {
   typedef const _Ty&                                        const_reference;
   typedef const _Ty*                                        const_pointer;
   typedef _Ty*                                              pointer;

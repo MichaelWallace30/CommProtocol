@@ -50,7 +50,7 @@
 
 #define COMM_DISALLOW_COPYING(c) \
           c(c& obj) { } \
-          c& operator=(c& obj) { }
+          c& operator=(c& obj) { return *this; }
 
 
  /*

@@ -33,7 +33,7 @@ namespace allocator {
    allocator for convenient methods.
 */
 template<typename _Ty>
-class NewAllocator : public Allocator<_Ty> {
+class COMM_EXPORT NewAllocator : public Allocator<_Ty> {
   typedef _Ty& reference;
   typedef _Ty&& move_type;
   typedef const _Ty& const_reference;

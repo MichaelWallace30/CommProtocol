@@ -32,7 +32,7 @@ namespace experimental {
 class XBee;
 
 
-class XBeeLink : public CommsLink {
+class COMM_EXPORT XBeeLink : public CommsLink {
 public:
   XBeeLink();
 

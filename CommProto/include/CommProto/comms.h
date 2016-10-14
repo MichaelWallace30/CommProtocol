@@ -47,7 +47,7 @@ namespace comnet {
     Comms is a standard CommNode node object. It handles elementary and intermediate 
     commands and functionality in order to work to the user's specifications of communications.
   */  
-  _COMNET_PUBLIC_API_ class Comms : public CommNode {
+  _COMNET_PUBLIC_API_ class COMM_EXPORT Comms : public CommNode {
 private:
 	CommMutex send_mutex;
 	CommMutex recv_mutex;

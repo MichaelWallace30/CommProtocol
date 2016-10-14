@@ -51,7 +51,7 @@ enum CallbackCodes {
    Callback is a class intended to be used for storing functions that request 
    callbacks from within the protocol library.
 */
-class Callback {
+class COMM_EXPORT Callback {
   typedef std::function < error_t (const Header&, AbstractPacket&, CommNode&) > CallbackFunc;
 
   COMM_DISALLOW_COPYING(Callback);

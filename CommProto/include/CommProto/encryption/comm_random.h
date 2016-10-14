@@ -1,12 +1,15 @@
-#include <time.h>
-#include <random>
+
 
 #ifndef COMM_RANDOM_H
 #define COMM_RANDOM_H
 
+#include <CommProto/architecture/api.h>
+#include <time.h>
+#include <random>
+
 namespace comnet {
 
-	class CommRandom
+	class COMM_EXPORT CommRandom
 	{
 	private:
 		std::mt19937 randomGenerator;

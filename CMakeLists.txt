@@ -165,6 +165,7 @@ link_directories(${ENCRYPTION_LIBDIR})
 if (shared)
   # Shared Library (.so for linux or .dll for Windows).
   add_library(CommProtoShared SHARED ${NGCP_GLOB})
+  target_compile_definitions(CommProtoShared PUBLIC COMMPROTO_DLL)
   target_link_libraries(CommProtoShared cryptopp-static)
   std_compiler_options(CommProtoShared)
 endif()

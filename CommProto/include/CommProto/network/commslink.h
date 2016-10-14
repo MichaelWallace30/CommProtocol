@@ -38,7 +38,7 @@ namespace network {
   Designed in this interface standard, the Connection of the node responsible with this 
   adapter-like interface will hold protocols to this specified object.
  */
-_COMNET_INTERFACE_ class CommsLink {
+_COMNET_INTERFACE_ class COMM_EXPORT CommsLink {
 public:
   /**
     Default Constuctor.

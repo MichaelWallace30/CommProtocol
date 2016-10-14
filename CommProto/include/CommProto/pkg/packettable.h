@@ -20,6 +20,7 @@
 #define __PACKET_TABLE_H
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/api.h>
 #include <CommProto/architecture/macros.h>
 
 
@@ -34,7 +35,7 @@ namespace pkg {
   Normal Packet table used for mapping packets in association of 
   Callbacks with Packets.
 */
-class PacketTable {
+class COMM_EXPORT PacketTable {
 public:
   /**
     Constructor of set size.

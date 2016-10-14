@@ -39,7 +39,7 @@ using namespace serialization;
     ALSO!!!!! Before your constructor, you must define name of the packet you are creating (not required
     but HIGHLY recommended).
 */
-class AbstractPacket {
+class COMM_EXPORT AbstractPacket {
 
   COMM_DISALLOW_COPYING(AbstractPacket);
 

@@ -28,11 +28,9 @@ namespace network {
 /** 
   CRC32 checksum function
 */
-unsigned int Crc32(unsigned char *message, int length);
-
-void AppendCrc32(uint8_t* buffer, uint32_t *length);
-
-unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length);
+COMM_EXPORT unsigned int Crc32(unsigned char *message, int length);
+COMM_EXPORT void AppendCrc32(uint8_t* buffer, uint32_t *length);
+COMM_EXPORT unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length);
 
 }//End NETWORK namespace
 }//End COMNET namespace

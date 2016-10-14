@@ -45,7 +45,7 @@ enum DataStructureType {
   Generic default for Information on the data structure At hand.
 */
 _COMNET_PRIVATE_API_
-class Generic {
+class COMM_EXPORT Generic {
 public:
   /** 
       Interface Constructor.

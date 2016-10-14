@@ -14,7 +14,7 @@ set(XBEE_HEADERS
   ${XBEE_HEADER_DIR}/xbee/atmode.h
   ${XBEE_HEADER_DIR}/xbee/byteorder.h
   ${XBEE_HEADER_DIR}/xbee/cbuf.h
-  ${XBEE_HEADER_DIR}/xbee/commissioning.h
+#  ${XBEE_HEADER_DIR}/xbee/commissioning.h
   ${XBEE_HEADER_DIR}/xbee/device.h
   ${XBEE_HEADER_DIR}/xbee/discovery.h
   ${XBEE_HEADER_DIR}/xbee/ebl_file.h
@@ -32,14 +32,16 @@ set(XBEE_HEADERS
   ${XBEE_HEADER_DIR}/xbee/transparent_serial.h
   ${XBEE_HEADER_DIR}/xbee/wpan.h
   ${XBEE_HEADER_DIR}/xbee/xmodem.h
-  ${XBEE_HEADER_DIR}/xbee/xmodem_crc16.h
+  ${XBEE_HEADER_DIR}/xbee/xmodem_crc16.h)
 
+
+set(ZIGBEE_HEADERS
   ${XBEE_HEADER_DIR}/zigbee/zcl.h
   ${XBEE_HEADER_DIR}/zigbee/zcl_bacnet.h
   ${XBEE_HEADER_DIR}/zigbee/zcl_basic.h
   ${XBEE_HEADER_DIR}/zigbee/zcl_basic_attributes.h
   ${XBEE_HEADER_DIR}/zigbee/zcl_client.h
-  ${XBEE_HEADER_DIR}/zigbee/zcl_commissioning.h
+#  ${XBEE_HEADER_DIR}/zigbee/zcl_commissioning.h
   ${XBEE_HEADER_DIR}/zigbee/zcl_identify.h
   ${XBEE_HEADER_DIR}/zigbee/zcl_onoff.h
   ${XBEE_HEADER_DIR}/zigbee/zcl_time.h
@@ -60,7 +62,7 @@ set(XBEE_SOURCES
   ${XBEE_SOURCE_DIR}/xbee/xbee_atcmd.c
   ${XBEE_SOURCE_DIR}/xbee/xbee_atmode.c
   ${XBEE_SOURCE_DIR}/xbee/xbee_cbuf.c
-  ${XBEE_SOURCE_DIR}/xbee/xbee_commissioning.c
+#  ${XBEE_SOURCE_DIR}/xbee/xbee_commissioning.c
   ${XBEE_SOURCE_DIR}/xbee/xbee_device.c
   ${XBEE_SOURCE_DIR}/xbee/xbee_discovery.c
   ${XBEE_SOURCE_DIR}/xbee/xbee_ebl_file.c
@@ -76,11 +78,12 @@ set(XBEE_SOURCES
   ${XBEE_SOURCE_DIR}/xbee/xbee_xmodem.c
 
   ${XBEE_SOURCE_DIR}/wpan/wpan_aps.c
-  ${XBEE_SOURCE_DIR}/wpan/wpan_types.c
+  ${XBEE_SOURCE_DIR}/wpan/wpan_types.c)
 
+set(ZIGBEE_SOURCES
   ${XBEE_SOURCE_DIR}/zigbee/zcl_basic.c
   ${XBEE_SOURCE_DIR}/zigbee/zcl_client.c
-  ${XBEE_SOURCE_DIR}/zigbee/zcl_commissioning.c
+#  ${XBEE_SOURCE_DIR}/zigbee/zcl_commissioning.c
   ${XBEE_SOURCE_DIR}/zigbee/zcl_identify.c
   ${XBEE_SOURCE_DIR}/zigbee/zcl_onoff.c
   ${XBEE_SOURCE_DIR}/zigbee/zcl_time.c
@@ -92,10 +95,12 @@ if (WIN32)
 
   set(XBEE_HEADERS
     ${XBEE_HEADERS}
+    ${ZIGBEE_HEADERS}
     ${XBEE_HEADER_DIR}/xbee/platform_win32.h)
 
   set(XBEE_SOURCES
     ${XBEE_SOURCES}
+    ${ZIGBEE_SOURCES}
     ${XBEE_SOURCE_DIR}/win32/xbee_platform_win32.c
     ${XBEE_SOURCE_DIR}/win32/xbee_serial_win32.c)
 
@@ -105,10 +110,12 @@ elseif(UNIX)
 
   set(XBEE_HEADERS
     ${XBEE_HEADERS}
+    ${ZIGBEE_HEADERS}
     ${XBEE_HEADER_DIR}/xbee/platform_posix.h)
 
   set(XBEE_SOURCES
     ${XBEE_SOURCES}
+    ${ZIGBEE_SOURCES}
     ${XBEE_SOURCE_DIR}/posix/xbee_platform_posix.c
     ${XBEE_SOURCE_DIR}/posix/xbee_serial_posix.c
     ${XBEE_SOURCE_DIR}/posix/xbee_readline.c)
