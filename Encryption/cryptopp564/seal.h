@@ -11,18 +11,13 @@
 
 NAMESPACE_BEGIN(CryptoPP)
 
-//! \class SEAL_Info
-//! \brief SEAL stream cipher information
-//! \tparam B Endianess of the stream cipher
+//! _
 template <class B = BigEndian>
 struct SEAL_Info : public FixedKeyLength<20, SimpleKeyingInterface::INTERNALLY_GENERATED_IV, 4>
 {
-	CRYPTOPP_CONSTEXPR static const char *StaticAlgorithmName() {return B::ToEnum() == LITTLE_ENDIAN_ORDER ? "SEAL-3.0-LE" : "SEAL-3.0-BE";}
+	static const char *StaticAlgorithmName() {return B::ToEnum() == LITTLE_ENDIAN_ORDER ? "SEAL-3.0-LE" : "SEAL-3.0-BE";}
 };
 
-//! \class SEAL_Policy
-//! \brief SEAL stream cipher operation
-//! \tparam B Endianess of the stream cipher
 template <class B = BigEndian>
 class CRYPTOPP_NO_VTABLE SEAL_Policy : public AdditiveCipherConcretePolicy<word32, 256>, public SEAL_Info<B>
 {
@@ -42,10 +37,7 @@ private:
 	word32 m_outsideCounter, m_insideCounter;
 };
 
-//! \class SEAL
-//! \brief SEAL stream cipher
-//! \tparam B Endianess of the stream cipher
-//! \sa <a href="http://www.weidai.com/scan-mirror/cs.html#SEAL-3.0-BE">SEAL</a>
+//! <a href="http://www.weidai.com/scan-mirror/cs.html#SEAL-3.0-BE">SEAL</a>
 template <class B = BigEndian>
 struct SEAL : public SEAL_Info<B>, public SymmetricCipherDocumentation
 {

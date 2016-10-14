@@ -3,11 +3,12 @@
 
 #include "config.h"
 
-#if !defined(NO_OS_DEPENDENCE) && defined(SOCKETS_AVAILABLE)
+#ifdef HIGHRES_TIMER_AVAILABLE
 
 #include "filters.h"
 #include "hrtimer.h"
-#include "stdcpp.h"
+
+#include <deque>
 
 NAMESPACE_BEGIN(CryptoPP)
 
@@ -37,7 +38,7 @@ public:
 	unsigned int GetMaxWaitObjectCount() const { return 0; }
 	void GetWaitObjects(WaitObjectContainer &container, const CallStack &callStack);
 
-private:
+private:	
 	lword m_maxBytesPerSecond;
 
 	typedef std::deque<std::pair<double, lword> > OpQueue;
@@ -229,6 +230,6 @@ private:
 
 NAMESPACE_END
 
-#endif	// SOCKETS_AVAILABLE
+#endif	// #ifdef HIGHRES_TIMER_AVAILABLE
 
-#endif  // CRYPTOPP_NETWORK_H
+#endif

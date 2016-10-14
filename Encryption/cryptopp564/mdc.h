@@ -1,10 +1,10 @@
-// mdc.h - written and placed in the public domain by Wei Dai
+ // mdc.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_MDC_H
 #define CRYPTOPP_MDC_H
 
-//! \file mdc.h
-//! \brief Classes for the MDC message digest
+/** \file
+*/
 
 #include "seckey.h"
 #include "secblock.h"
@@ -12,24 +12,18 @@
 
 NAMESPACE_BEGIN(CryptoPP)
 
-//! \class MDC_Info
-//! \brief MDC_Info cipher information
+//! _
 template <class T>
 struct MDC_Info : public FixedBlockSize<T::DIGESTSIZE>, public FixedKeyLength<T::BLOCKSIZE>
 {
 	static std::string StaticAlgorithmName() {return std::string("MDC/")+T::StaticAlgorithmName();}
 };
 
-
-//! \class MDC
-//! \brief MDC cipher
-//! \details MDC() is a construction by Peter Gutmann to turn an iterated hash function into a PRF
-//! \sa <a href="http://www.weidai.com/scan-mirror/cs.html#MDC">MDC</a>
+//! <a href="http://www.weidai.com/scan-mirror/cs.html#MDC">MDC</a>
+/*! a construction by Peter Gutmann to turn an iterated hash function into a PRF */
 template <class T>
 class MDC : public MDC_Info<T>
 {
-	//! \class Enc
-	//! \brief MDC cipher encryption operation
 	class CRYPTOPP_NO_VTABLE Enc : public BlockCipherImpl<MDC_Info<T> >
 	{
 		typedef typename T::HashWordType HashWordType;

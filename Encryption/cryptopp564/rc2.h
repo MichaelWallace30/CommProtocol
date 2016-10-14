@@ -13,16 +13,16 @@
 NAMESPACE_BEGIN(CryptoPP)
 
 //! \class RC2_Info
-//! \brief RC2 block cipher information
+//! \brief The RC2 cipher's key, iv, block size and name information.
 struct RC2_Info : public FixedBlockSize<8>, public VariableKeyLength<16, 1, 128>
 {
 	CRYPTOPP_CONSTANT(DEFAULT_EFFECTIVE_KEYLENGTH = 1024)
 	CRYPTOPP_CONSTANT(MAX_EFFECTIVE_KEYLENGTH = 1024)
-	CRYPTOPP_CONSTEXPR static const char *StaticAlgorithmName() {return "RC2";}
+	static const char *StaticAlgorithmName() {return "RC2";}
 };
 
 //! \class RC2
-//! \brief RC2 block cipher
+//! \brief The RC2 stream cipher
 //! \sa <a href="http://www.weidai.com/scan-mirror/cs.html#RC2">RC2</a> on the Crypto Lounge.
 class RC2 : public RC2_Info, public BlockCipherDocumentation
 {

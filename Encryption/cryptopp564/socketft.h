@@ -1,9 +1,7 @@
 #ifndef CRYPTOPP_SOCKETFT_H
 #define CRYPTOPP_SOCKETFT_H
 
-#include "config.h"
-
-#if !defined(NO_OS_DEPENDENCE) && defined(SOCKETS_AVAILABLE)
+#ifdef SOCKETS_AVAILABLE
 
 #include "cryptlib.h"
 #include "network.h"
@@ -220,6 +218,6 @@ private:
 
 NAMESPACE_END
 
-#endif	// SOCKETS_AVAILABLE
+#endif	// #ifdef SOCKETS_AVAILABLE
 
-#endif  // CRYPTOPP_SOCKETFT_H
+#endif

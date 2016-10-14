@@ -18,7 +18,7 @@ void Base32Encoder::IsolatedInitialize(const NameValuePairs &parameters)
 
 void Base32Decoder::IsolatedInitialize(const NameValuePairs &parameters)
 {
-	BaseN_Decoder::IsolatedInitialize(CombinedNameValuePairs(
+	BaseN_Decoder::Initialize(CombinedNameValuePairs(
 		parameters,
 		MakeParameters(Name::DecodingLookupArray(), GetDefaultDecodingLookupArray(), false)(Name::Log2Base(), 5, true)));
 }

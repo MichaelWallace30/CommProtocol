@@ -23,7 +23,7 @@ option(build64 "Build library in 64 bit" ON)
 option(shared "Build shared/dll of the library" OFF)
 option(static "Build static/lib of the library" ON)
 option(test "Build test executable to test library with" OFF)
-option(csharp "Build C# DLL for .NET use" OFF)
+option(csharp "Build C# DLL for .NET use" ON)
 # Options to allow debug/release version of CommProtocol.
 option(version_release "Compile the release version of CommProtocol" OFF)
 

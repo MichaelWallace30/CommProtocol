@@ -11,16 +11,13 @@
 
 NAMESPACE_BEGIN(CryptoPP)
 
-//! \class Square_Info
-//! \brief Square block cipher information
+//! _
 struct Square_Info : public FixedBlockSize<16>, public FixedKeyLength<16>, FixedRounds<8>
 {
-	CRYPTOPP_CONSTEXPR static const char *StaticAlgorithmName() {return "Square";}
+	static const char *StaticAlgorithmName() {return "Square";}
 };
 
-//! \class Square
-//! \brief Square block cipher
-//! \sa <a href="http://www.weidai.com/scan-mirror/cs.html#Square">Square</a>
+/// <a href="http://www.weidai.com/scan-mirror/cs.html#Square">Square</a>
 class Square : public Square_Info, public BlockCipherDocumentation
 {
 	class CRYPTOPP_NO_VTABLE Base : public BlockCipherImpl<Square_Info>

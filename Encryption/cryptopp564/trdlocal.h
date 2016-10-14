@@ -3,7 +3,7 @@
 
 #include "config.h"
 
-#if !defined(NO_OS_DEPENDENCE) && defined(THREADS_AVAILABLE)
+#ifdef THREADS_AVAILABLE
 
 #include "misc.h"
 
@@ -39,6 +39,6 @@ private:
 
 NAMESPACE_END
 
-#endif	// THREADS_AVAILABLE
+#endif	// #ifdef THREADS_AVAILABLE
 
-#endif  // CRYPTOPP_TRDLOCAL_H
+#endif

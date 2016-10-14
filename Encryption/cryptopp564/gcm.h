@@ -1,8 +1,8 @@
 // gcm.h - written and placed in the public domain by Wei Dai
 
-//! \file gcm.h
+//! \file
+//! \headerfile gcm.h
 //! \brief GCM block cipher mode of operation
-//! \since Crypto++ 5.6.0
 
 #ifndef CRYPTOPP_GCM_H
 #define CRYPTOPP_GCM_H
@@ -13,17 +13,12 @@
 NAMESPACE_BEGIN(CryptoPP)
 
 //! \enum GCM_TablesOption
-//! \brief GCM table size options
-enum GCM_TablesOption {
-	//! \brief Use a table with 2K entries
-	GCM_2K_Tables,
-	//! \brief Use a table with 64K entries
-	GCM_64K_Tables};
+//! \brief Use either 2K or 64K size tables.
+enum GCM_TablesOption {GCM_2K_Tables, GCM_64K_Tables};
 
 //! \class GCM_Base
-//! \brief GCM block cipher base implementation
-//! \details Base implementation of the AuthenticatedSymmetricCipher interface
-//! \since Crypto++ 5.6.0
+//! \brief CCM block cipher mode of operation.
+//! \details Implementations and overrides in \p GCM_Base apply to both \p ENCRYPTION and \p DECRYPTION directions
 class CRYPTOPP_DLL CRYPTOPP_NO_VTABLE GCM_Base : public AuthenticatedSymmetricCipherBase
 {
 public:
@@ -92,11 +87,13 @@ protected:
 };
 
 //! \class GCM_Final
-//! \brief GCM block cipher final implementation
+//! \brief Class specific methods used to operate the cipher.
 //! \tparam T_BlockCipher block cipher
 //! \tparam T_TablesOption table size, either \p GCM_2K_Tables or \p GCM_64K_Tables
 //! \tparam T_IsEncryption direction in which to operate the cipher
-//! \since Crypto++ 5.6.0
+//! \details Implementations and overrides in \p GCM_Final apply to either
+//!   \p ENCRYPTION or \p DECRYPTION, depending on the template parameter \p T_IsEncryption.
+//! \details \p GCM_Final does not use inner classes \p Enc and \p Dec.
 template <class T_BlockCipher, GCM_TablesOption T_TablesOption, bool T_IsEncryption>
 class GCM_Final : public GCM_Base
 {
@@ -113,13 +110,11 @@ private:
 };
 
 //! \class GCM
-//! \brief GCM block cipher mode of operation
+//! \brief The GCM mode of operation
 //! \tparam T_BlockCipher block cipher
 //! \tparam T_TablesOption table size, either \p GCM_2K_Tables or \p GCM_64K_Tables
-//! \details \p GCM provides the \p Encryption and \p Decryption typedef. See GCM_Base
-//!   and GCM_Final for the AuthenticatedSymmetricCipher implementation.
+//! \details \p GCM provides the \p Encryption and \p Decryption typedef.
 //! \sa <a href="http://www.cryptolounge.org/wiki/GCM">GCM</a> at the Crypto Lounge
-//! \since Crypto++ 5.6.0
 template <class T_BlockCipher, GCM_TablesOption T_TablesOption=GCM_2K_Tables>
 struct GCM : public AuthenticatedSymmetricCipherDocumentation
 {

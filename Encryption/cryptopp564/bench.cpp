@@ -1,4 +1,4 @@
-// bench1.cpp - written and placed in the public domain by Wei Dai
+// bench.cpp - written and placed in the public domain by Wei Dai
 
 #include "cryptlib.h"
 #include "bench.h"
@@ -44,55 +44,64 @@ static const byte defaultKey[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ
 
 void OutputResultBytes(const char *name, double length, double timeTaken)
 {
-	// Coverity finding, also see http://stackoverflow.com/a/34509163/608639.
-	StreamState ss(cout);
-
+	// Coverity finding (http://stackoverflow.com/a/30968371 does not squash the finding)
+	std::ostringstream out;
+	out.copyfmt(cout);
+	
 	// Coverity finding
 	if (length < 0.0000000001f) length = 0.000001f;
 	if (timeTaken < 0.0000000001f) timeTaken = 0.000001f;
 
 	double mbs = length / timeTaken / (1024*1024);
-	cout << "\n<TR><TH>" << name;
-//	cout << "<TD>" << setprecision(3) << length / (1024*1024);
-	cout << setiosflags(ios::fixed);
-//	cout << "<TD>" << setprecision(3) << timeTaken;
-	cout << "<TD>" << setprecision(0) << setiosflags(ios::fixed) << mbs;
+	out << "\n<TR><TH>" << name;
+//	out << "<TD>" << setprecision(3) << length / (1024*1024);
+	out << setiosflags(ios::fixed);
+//	out << "<TD>" << setprecision(3) << timeTaken;
+	out << "<TD>" << setprecision(0) << setiosflags(ios::fixed) << mbs;
 	if (g_hertz)
-		cout << "<TD>" << setprecision(1) << setiosflags(ios::fixed) << timeTaken * g_hertz / length;
+		out << "<TD>" << setprecision(1) << setiosflags(ios::fixed) << timeTaken * g_hertz / length;
 	logtotal += log(mbs);
 	logcount++;
+	
+	cout << out.str(); 
 }
 
 void OutputResultKeying(double iterations, double timeTaken)
 {
-	// Coverity finding, also see http://stackoverflow.com/a/34509163/608639.
-	StreamState ss(cout);
-
+	// Coverity finding (http://stackoverflow.com/a/30968371 does not squash the finding)
+	std::ostringstream out;
+	out.copyfmt(cout);
+	
 	// Coverity finding
 	if (iterations < 0.0000000001f) iterations = 0.000001f;
 	if (timeTaken < 0.0000000001f) timeTaken = 0.000001f;
 
-	cout << "<TD>" << setprecision(3) << setiosflags(ios::fixed) << (1000*1000*timeTaken/iterations);
+	out << "<TD>" << setprecision(3) << setiosflags(ios::fixed) << (1000*1000*timeTaken/iterations);
 	if (g_hertz)
-		cout << "<TD>" << setprecision(0) << setiosflags(ios::fixed) << timeTaken * g_hertz / iterations;
+		out << "<TD>" << setprecision(0) << setiosflags(ios::fixed) << timeTaken * g_hertz / iterations;
+	
+	cout << out.str(); 
 }
 
 void OutputResultOperations(const char *name, const char *operation, bool pc, unsigned long iterations, double timeTaken)
 {
-	// Coverity finding, also see http://stackoverflow.com/a/34509163/608639.
-	StreamState ss(cout);
-
+	// Coverity finding (http://stackoverflow.com/a/30968371 does not squash the finding)
+	std::ostringstream out;
+	out.copyfmt(cout);
+	
 	// Coverity finding
 	if (!iterations) iterations++;
 	if (timeTaken < 0.0000000001f) timeTaken = 0.000001f;
 
-	cout << "\n<TR><TH>" << name << " " << operation << (pc ? " with precomputation" : "");
-	cout << "<TD>" << setprecision(2) << setiosflags(ios::fixed) << (1000*timeTaken/iterations);
+	out << "\n<TR><TH>" << name << " " << operation << (pc ? " with precomputation" : "");
+	out << "<TD>" << setprecision(2) << setiosflags(ios::fixed) << (1000*timeTaken/iterations);
 	if (g_hertz)
-		cout << "<TD>" << setprecision(2) << setiosflags(ios::fixed) << timeTaken * g_hertz / iterations / 1000000;
+		out << "<TD>" << setprecision(2) << setiosflags(ios::fixed) << timeTaken * g_hertz / iterations / 1000000;
 
 	logtotal += log(iterations/timeTaken);
 	logcount++;
+	
+	cout << out.str(); 
 }
 
 /*
@@ -215,7 +224,7 @@ void BenchMarkByName2(const char *factoryName, size_t keyLength = 0, const char 
 
 	std::string name(factoryName ? factoryName : "");
 	member_ptr<T_FactoryOutput> obj(ObjectFactoryRegistry<T_FactoryOutput>::Registry().CreateObject(name.c_str()));
-
+	
 	if (!keyLength)
 		keyLength = obj->DefaultKeyLength();
 
@@ -304,29 +313,24 @@ void BenchmarkAll(double t, double hertz)
 	BenchMarkByName<MessageAuthenticationCode>("Two-Track-MAC");
 	BenchMarkByName<MessageAuthenticationCode>("CMAC(AES)");
 	BenchMarkByName<MessageAuthenticationCode>("DMAC(AES)");
-	BenchMarkByName<MessageAuthenticationCode>("BLAKE2s");
-	BenchMarkByName<MessageAuthenticationCode>("BLAKE2b");
 
 	cout << "\n<TBODY style=\"background: yellow\">";
 	BenchMarkByNameKeyLess<HashTransformation>("CRC32");
-	BenchMarkByNameKeyLess<HashTransformation>("CRC32C");
 	BenchMarkByNameKeyLess<HashTransformation>("Adler32");
 	BenchMarkByNameKeyLess<HashTransformation>("MD5");
 	BenchMarkByNameKeyLess<HashTransformation>("SHA-1");
 	BenchMarkByNameKeyLess<HashTransformation>("SHA-256");
 	BenchMarkByNameKeyLess<HashTransformation>("SHA-512");
-	BenchMarkByNameKeyLess<HashTransformation>("SHA3-224");
-	BenchMarkByNameKeyLess<HashTransformation>("SHA3-256");
-	BenchMarkByNameKeyLess<HashTransformation>("SHA3-384");
-	BenchMarkByNameKeyLess<HashTransformation>("SHA3-512");
+	BenchMarkByNameKeyLess<HashTransformation>("SHA-3-224");
+	BenchMarkByNameKeyLess<HashTransformation>("SHA-3-256");
+	BenchMarkByNameKeyLess<HashTransformation>("SHA-3-384");
+	BenchMarkByNameKeyLess<HashTransformation>("SHA-3-512");
 	BenchMarkByNameKeyLess<HashTransformation>("Tiger");
 	BenchMarkByNameKeyLess<HashTransformation>("Whirlpool");
 	BenchMarkByNameKeyLess<HashTransformation>("RIPEMD-160");
 	BenchMarkByNameKeyLess<HashTransformation>("RIPEMD-320");
 	BenchMarkByNameKeyLess<HashTransformation>("RIPEMD-128");
 	BenchMarkByNameKeyLess<HashTransformation>("RIPEMD-256");
-	BenchMarkByNameKeyLess<HashTransformation>("BLAKE2s");
-	BenchMarkByNameKeyLess<HashTransformation>("BLAKE2b");
 
 	cout << "\n<TBODY style=\"background: white\">";
 	BenchMarkByName<SymmetricCipher>("Panama-LE");
@@ -334,9 +338,6 @@ void BenchmarkAll(double t, double hertz)
 	BenchMarkByName<SymmetricCipher>("Salsa20");
 	BenchMarkByName<SymmetricCipher>("Salsa20", 0, "Salsa20/12", MakeParameters(Name::Rounds(), 12));
 	BenchMarkByName<SymmetricCipher>("Salsa20", 0, "Salsa20/8", MakeParameters(Name::Rounds(), 8));
-	BenchMarkByName<SymmetricCipher>("ChaCha20");
-	BenchMarkByName<SymmetricCipher>("ChaCha12");
-	BenchMarkByName<SymmetricCipher>("ChaCha8");
 	BenchMarkByName<SymmetricCipher>("Sosemanuk");
 	BenchMarkByName<SymmetricCipher>("MARC4");
 	BenchMarkByName<SymmetricCipher>("SEAL-3.0-LE");

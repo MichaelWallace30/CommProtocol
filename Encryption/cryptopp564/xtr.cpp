@@ -1,11 +1,10 @@
-// xtr.cpp - written and placed in the public domain by Wei Dai
+// cryptlib.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 
 #include "xtr.h"
 #include "nbtheory.h"
 #include "integer.h"
-#include "algebra.h"
 #include "modarith.h"
 #include "algebra.cpp"
 

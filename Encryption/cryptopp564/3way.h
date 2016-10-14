@@ -13,15 +13,16 @@
 NAMESPACE_BEGIN(CryptoPP)
 
 //! \class ThreeWay_Info
-//! \brief ThreeWay block cipher information
+//! \brief The cipher's key, iv, block size and name information.
 struct ThreeWay_Info : public FixedBlockSize<12>, public FixedKeyLength<12>, public VariableRounds<11>
 {
-	CRYPTOPP_CONSTEXPR static const char *StaticAlgorithmName() {return "3-Way";}
+	static const char *StaticAlgorithmName() {return "3-Way";}
 };
 
+// <a href="http://www.weidai.com/scan-mirror/cs.html#3-Way">3-Way</a>
+
 //! \class ThreeWay
-//! \brief ThreeWay block cipher
-//! \sa <a href="http://www.weidai.com/scan-mirror/cs.html#3-Way">3-Way</a>
+//! \brief Provides 3-Way encryption and decryption
 class ThreeWay : public ThreeWay_Info, public BlockCipherDocumentation
 {
 	//! \class Base

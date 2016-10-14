@@ -9,13 +9,11 @@
 #endif
 
 #ifndef CRYPTOPP_IMPORTS
-
-#if !defined(NO_OS_DEPENDENCE) && defined(THREADS_AVAILABLE)
+#ifdef THREADS_AVAILABLE
 
 #include "trdlocal.h"
 
 #ifdef HAS_WINTHREADS
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
 
@@ -102,5 +100,5 @@ void *ThreadLocalStorage::GetValue() const
 
 NAMESPACE_END
 
-#endif	// THREADS_AVAILABLE
-#endif  // CRYPTOPP_IMPORTS
+#endif	// #ifdef THREADS_AVAILABLE
+#endif

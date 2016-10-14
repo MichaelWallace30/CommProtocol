@@ -12,20 +12,15 @@
 
 NAMESPACE_BEGIN(CryptoPP)
 
-//! \class SHARK_Info
-//! \brief SHARK block cipher information
-struct SHARK_Info : public FixedBlockSize<8>, public FixedKeyLength<16>, public VariableRounds<6, 2>
+//! _
+struct SHARK_Info : public FixedBlockSize<8>, public VariableKeyLength<16, 1, 16>, public VariableRounds<6, 2>
 {
-	CRYPTOPP_CONSTEXPR static const char *StaticAlgorithmName() {return "SHARK-E";}
+	static const char *StaticAlgorithmName() {return "SHARK-E";}
 };
 
-//! \class SHARK
-//! \brief SHARK block cipher
 /// <a href="http://www.weidai.com/scan-mirror/cs.html#SHARK-E">SHARK-E</a>
 class SHARK : public SHARK_Info, public BlockCipherDocumentation
 {
-	//! \class Base
-	//! \brief SHARK block cipher default operation
 	class CRYPTOPP_NO_VTABLE Base : public BlockCipherImpl<SHARK_Info>
 	{
 	public:
@@ -36,8 +31,6 @@ class SHARK : public SHARK_Info, public BlockCipherDocumentation
 		SecBlock<word64> m_roundKeys;
 	};
 
-	//! \class Enc
-	//! \brief SHARK block cipher encryption operation
 	class CRYPTOPP_NO_VTABLE Enc : public Base
 	{
 	public:
@@ -51,8 +44,6 @@ class SHARK : public SHARK_Info, public BlockCipherDocumentation
 		static const word64 cbox[8][256];
 	};
 
-	//! \class Dec
-	//! \brief SHARK block cipher decryption operation
 	class CRYPTOPP_NO_VTABLE Dec : public Base
 	{
 	public:

@@ -12,13 +12,11 @@
 
 NAMESPACE_BEGIN(CryptoPP)
 
-//! \class WAKE_OFB_Info
-//! \brief WAKE stream cipher information
-//! \tparam B Endianess of the stream cipher
+//! _
 template <class B = BigEndian>
 struct WAKE_OFB_Info : public FixedKeyLength<32>
 {
-	CRYPTOPP_CONSTEXPR static const char *StaticAlgorithmName() {return B::ToEnum() == LITTLE_ENDIAN_ORDER ? "WAKE-OFB-LE" : "WAKE-OFB-BE";}
+	static const char *StaticAlgorithmName() {return B::ToEnum() == LITTLE_ENDIAN_ORDER ? "WAKE-OFB-LE" : "WAKE-OFB-BE";}
 };
 
 class CRYPTOPP_NO_VTABLE WAKE_Base
@@ -31,9 +29,6 @@ protected:
 	word32 r3, r4, r5, r6;
 };
 
-//! \class WAKE_Policy
-//! \brief WAKE stream cipher operation
-//! \tparam B Endianess of the stream cipher
 template <class B = BigEndian>
 class CRYPTOPP_NO_VTABLE WAKE_Policy : public AdditiveCipherConcretePolicy<word32, 1, 64>, protected WAKE_Base
 {
@@ -44,9 +39,7 @@ protected:
 	bool CipherIsRandomAccess() const {return false;}
 };
 
-//! \class WAKE_OFB
-//! \brief WAKE stream cipher
-//! \tparam B Endianess of the stream cipher
+//! WAKE-OFB
 template <class B = BigEndian>
 struct WAKE_OFB : public WAKE_OFB_Info<B>, public SymmetricCipherDocumentation
 {

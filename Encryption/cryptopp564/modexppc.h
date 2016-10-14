@@ -4,7 +4,6 @@
 #include "cryptlib.h"
 #include "modarith.h"
 #include "integer.h"
-#include "algebra.h"
 #include "eprecomp.h"
 #include "smartptr.h"
 #include "pubkey.h"

@@ -11,17 +11,14 @@
 
 NAMESPACE_BEGIN(CryptoPP)
 
-//! \class RC5_Info
-//! \brief RC5 block cipher information
+//! _
 struct RC5_Info : public FixedBlockSize<8>, public VariableKeyLength<16, 0, 255>, public VariableRounds<16>
 {
-	CRYPTOPP_CONSTEXPR static const char *StaticAlgorithmName() {return "RC5";}
+	static const char *StaticAlgorithmName() {return "RC5";}
 	typedef word32 RC5_WORD;
 };
 
-//! \class RC5
-//! \brief RC5 block cipher
-//! \sa <a href="http://www.weidai.com/scan-mirror/cs.html#RC5">RC5</a>
+/// <a href="http://www.weidai.com/scan-mirror/cs.html#RC5">RC5</a>
 class RC5 : public RC5_Info, public BlockCipherDocumentation
 {
 	class CRYPTOPP_NO_VTABLE Base : public BlockCipherImpl<RC5_Info>

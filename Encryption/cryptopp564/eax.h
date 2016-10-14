@@ -1,6 +1,7 @@
 // eax.h - written and placed in the public domain by Wei Dai
 
-//! \file eax.h
+//! \file
+//! \headerfile eax.h
 //! \brief EAX block cipher mode of operation
 
 #ifndef CRYPTOPP_EAX_H
@@ -13,9 +14,8 @@
 NAMESPACE_BEGIN(CryptoPP)
 
 //! \class EAX_Base
-//! \brief EAX block cipher base implementation
-//! \details Base implementation of the AuthenticatedSymmetricCipher interface
-//! \since Crypto++ 5.6.0
+//! \brief EAX block cipher mode of operation
+//! \details Implementations and overrides in \p EAX_Base apply to both \p ENCRYPTION and \p DECRYPTION directions
 class CRYPTOPP_NO_VTABLE EAX_Base : public AuthenticatedSymmetricCipherBase
 {
 public:
@@ -68,10 +68,12 @@ protected:
 };
 
 //! \class EAX_Final
-//! \brief EAX block cipher final implementation
+//! \brief Class specific methods used to operate the cipher.
 //! \tparam T_BlockCipher block cipher
 //! \tparam T_IsEncryption direction in which to operate the cipher
-//! \since Crypto++ 5.6.0
+//! \details Implementations and overrides in \p GCM_Final apply to either
+//!   \p ENCRYPTION or \p DECRYPTION, depending on the template parameter \p T_IsEncryption.
+//! \details \p EAX_Final does not use inner classes \p Enc and \p Dec.
 template <class T_BlockCipher, bool T_IsEncryption>
 class EAX_Final : public EAX_Base
 {
@@ -91,12 +93,13 @@ private:
 #endif
 
 //! \class EAX
-//! \brief EAX block cipher mode of operation
+//! \brief The EAX block cipher mode of operation
+//! \details EAX is an Authenticated Encryption with Associated Data (AEAD) block
+//!   cipher mode of operation designed to simultaneously provide both authentication
+//!   and privacy of the message.
 //! \tparam T_BlockCipher block cipher
-//! \details \p EAX provides the \p Encryption and \p Decryption typedef. See EAX_Base
-//!   and EAX_Final for the AuthenticatedSymmetricCipher implementation.
+//! \details \p EAX provides the \p Encryption and \p Decryption typedef.
 //! \sa <a href="http://www.cryptolounge.org/wiki/EAX">EAX</a> at the Crypto Lounge
-//! \since Crypto++ 5.6.0
 template <class T_BlockCipher>
 struct EAX : public AuthenticatedSymmetricCipherDocumentation
 {
