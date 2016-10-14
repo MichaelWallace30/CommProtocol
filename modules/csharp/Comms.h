@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CCOMMS_H
 #define __CCOMMS_H
 
+#include <CommProto/encryption/aes_encryption.h>
 #include <CommNode.h>
 #include <network/CommsLink.h>
 #include <vcclr.h>
@@ -35,6 +36,11 @@ public ref class Comms : public CommNode {
 public:
   Comms(UInt32 id);
   ~Comms();
+
+  Boolean LoadKey(String^ key){
+	  return true;
+  }
+  Boolean LoadKeyFromFile(String^ filename){ return true; }
   
   Boolean InitConnection(TransportProtocol connType, 
             String^ port, String^ addr, UInt32 baudrate) override;

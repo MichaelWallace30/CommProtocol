@@ -111,6 +111,19 @@ Comms::~Comms()
 	free_pointer(conn_layer);
 }
 
+
+
+bool Comms::LoadKey(char* key)
+{
+	return true;// return aes_encryption.LoadKey(key);
+}
+
+bool Comms::LoadKeyFromFile(char*keyFileName)
+{
+	return true;// return aes_encryption.LoadKeyFromFile(keyFileName);
+}
+
+
 bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint32_t baudrate)
 {
 	uint16_t length = 0;

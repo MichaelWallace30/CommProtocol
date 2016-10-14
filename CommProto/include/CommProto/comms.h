@@ -29,6 +29,7 @@
 #include <CommProto/abstractpacket.h>
 #include <CommProto/commnode.h>
 #include <CommProto/headerpacket.h>//Header which declares packet structs
+//#include <CommProto/encryption/aes_encryption.h>
 
 #include <iostream>//testing only
 #include <stdint.h>//needed for bit size variables
@@ -47,67 +48,71 @@ namespace comnet {
     commands and functionality in order to work to the user's specifications of communications.
   */  
   _COMNET_PUBLIC_API_ class Comms : public CommNode {
-	private:
-		CommMutex send_mutex;
-		CommMutex recv_mutex;
-    CommMutex console_mutex;
+private:
+	CommMutex send_mutex;
+	CommMutex recv_mutex;
+	CommMutex console_mutex;
+	
+	
+	/** AES encryption class for encrypting and decrypting buffer stream not header*/
+	//AesEncryption  aes_encryption;
 
-		/** Encryption key*/
-		uint8_t key[KEY_LENGTH];
-		/** Method to read key form text file*/
-		void LoadKey();
+	/** Length of data buffer for communication stream */
+	uint32_t rx_length;
 
-		/** Length of data buffer for communication stream */
-		uint32_t rx_length;
+	/** Thread to Run communication data */
+	CommThread comm_thread_send;
+	CommThread comm_thread_recv;
+	CommThread console_thread;
 
-		/** Thread to Run communication data */
-		CommThread comm_thread_send;
-		CommThread comm_thread_recv;
-    CommThread console_thread;
+	/** Method to Run in communication thread */
+	void CommunicationHandlerSend();
+	void CommunicationHandlerRecv();
 
-		/** Method to Run in communication thread */
-		void CommunicationHandlerSend();
-		void CommunicationHandlerRecv();
-
-		/** Polymorphic (Base Class) Communication link for connection code*/
-		CommsLink *conn_layer;
+	/** Polymorphic (Base Class) Communication link for connection code*/
+	CommsLink *conn_layer;
 
 
-	public:		
-		/** Constructor */
-		Comms(uint8_t platform_id);
-		/** Destructor */
-		~Comms();
+public:		
+	/** Constructor */
+	Comms(uint8_t platform_id);
+	/** Destructor */
+	~Comms();
 
-		/** Method will init the connection device and return false if connection failed to init properly
-		enum connection type to use serial, UDP, zigbee, ect
-		port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
-		baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */
-		bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address = NULL, uint32_t baudrate = 0);
+	/** input c string as the form of encrytion key*/
+	bool LoadKey(char* key);
+	/** load file which contatins the encryption key by the file name*/
+	bool LoadKeyFromFile(char*keyFileName);
 
-		/** The address entered will be paired for communication by destination ID
-		Adding address can be a UDP IPV4 or hex MAC address for zigbee
-		Adding an address is not need for serial and will default to ""*/
-		bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+	/** Method will init the connection device and return false if connection failed to init properly
+	enum connection type to use serial, UDP, zigbee, ect
+	port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
+	baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */
+	bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address = NULL, uint32_t baudrate = 0);
 
-		/** Removing an address removes the known association of address and destination ID by using id*/
-		bool RemoveAddress(uint8_t dest_id);
+	/** The address entered will be paired for communication by destination ID
+	Adding address can be a UDP IPV4 or hex MAC address for zigbee
+	Adding an address is not need for serial and will default to ""*/
+	bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
 
-		bool Send(AbstractPacket* packet, uint8_t dest_id);
-		AbstractPacket* Receive(uint8_t&  source_id);
+	/** Removing an address removes the known association of address and destination ID by using id*/
+	bool RemoveAddress(uint8_t dest_id);
 
-		/** Method to start communication*/
-		void Run();
-		/** Method to toggle Pause communication*/
-		void Pause();
-		/** Method to Stop communication*/
-		void Stop();
-    // Sets up the home console.
-    bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
+	bool Send(AbstractPacket* packet, uint8_t dest_id);
+	AbstractPacket* Receive(uint8_t&  source_id);
 
-	protected:
-		// Nothing yet.
-		void LogToConsoles();
+	/** Method to start communication*/
+	void Run();
+	/** Method to toggle Pause communication*/
+	void Pause();
+	/** Method to Stop communication*/
+	void Stop();
+	// Sets up the home console.
+	bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
+
+protected:
+	// Nothing yet.
+	void LogToConsoles();
 	};//End Comms class      
 } // namespace Comnet
 #endif//End if COMMS_H
