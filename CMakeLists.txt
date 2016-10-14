@@ -39,7 +39,7 @@ endif()
 
 
 # Setting up crypto++
-add_subdirectory(Encryption/cryptopp564)
+add_subdirectory(Encryption/cryptopp563)
 
 
 # Check the architecture variable. If the Architecture is 64 bit, we define a variable to state that we
@@ -156,9 +156,9 @@ endif()
 
 #link cryptopp dependencies directory
 if (CXX_COMPILER MATCHES "MSVC")
-	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp564/debug)
+	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp563/debug)
 else()
-	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp564)
+	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp563)
 endif()
 link_directories(${ENCRYPTION_LIBDIR})
 
