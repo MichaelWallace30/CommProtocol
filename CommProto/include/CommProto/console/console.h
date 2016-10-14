@@ -65,7 +65,7 @@ static int consoles = 0;
 
   calling processes is done by function within a program, for windows it is CreateProcess, for linux it is fork().
 */
-class Console {
+class COMM_EXPORT Console {
 public:
   Console(const char* address, uint16_t port);
   virtual ~Console();

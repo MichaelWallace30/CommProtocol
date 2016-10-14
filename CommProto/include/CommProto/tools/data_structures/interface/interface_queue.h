@@ -44,7 +44,7 @@ enum QueueType {
 */
 _COMNET_PRIVATE_API_
 template<typename _Ty>
-class Queue : public Generic {
+class COMM_EXPORT Queue : public Generic {
 public:
   /**
      Queue Constructor.

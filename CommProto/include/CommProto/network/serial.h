@@ -35,7 +35,7 @@ namespace network {
 /**
   Serial class
  */
-class Serial {
+class COMM_EXPORT Serial {
 private:
   int32_t id;
   serial_t h_serial;

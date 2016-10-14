@@ -35,7 +35,7 @@ namespace datastructures {
 */
 _COMNET_PUBLIC_API_
 template<typename _Ty>
-class AutoQueue : public interface::Queue<_Ty> {
+class COMM_EXPORT AutoQueue : public interface::Queue<_Ty> {
 public:
   /**
      Constructor for AutoQueue.

@@ -1,6 +1,7 @@
 #ifndef AES_ENCRYPTION_H
 #define AES_ENCRYPTION_H
 #include <CommProto/encryption/encryption_interface.h>
+#include <CommProto/architecture/api.h>
 #include <CommProto/headerpacket.h>
 #include <CommProto/encryption/comm_random.h>
 #include <aes.h>
@@ -8,7 +9,7 @@
 
 
 namespace comnet {
-	class AesEncryption : public EncryptionInterface
+	class COMM_EXPORT AesEncryption : public EncryptionInterface
 	{
 	private:
 		CryptoPP::SecByteBlock sec_key;

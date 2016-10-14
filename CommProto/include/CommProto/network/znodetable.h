@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __ZNODETABLE_H
 #define __ZNODETABLE_H
 
-
+#include <CommProto/architecture/api.h>
 #include <xbee/discovery.h>
 
 
@@ -31,11 +31,11 @@ namespace network {
 extern xbee_node_id_t node_table[NODE_TABLE_SIZE];
 
 
-xbee_node_id_t* NodeByAddr(const addr64* ieee_addr);
-xbee_node_id_t* NodeByName(const char* name);
-xbee_node_id_t* NodeByIndex(int idx);
-xbee_node_id_t* NodeAdd(const xbee_node_id_t* node_id);
-void NodeTableDump();
+COMM_EXPORT xbee_node_id_t* NodeByAddr(const addr64* ieee_addr);
+COMM_EXPORT xbee_node_id_t* NodeByName(const char* name);
+COMM_EXPORT xbee_node_id_t* NodeByIndex(int idx);
+COMM_EXPORT xbee_node_id_t* NodeAdd(const xbee_node_id_t* node_id);
+COMM_EXPORT void NodeTableDump();
 } // network 
 } // comnet
 #endif // __ZNODETABLE_H

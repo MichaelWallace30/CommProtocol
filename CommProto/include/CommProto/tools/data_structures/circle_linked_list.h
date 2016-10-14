@@ -41,7 +41,7 @@ namespace datastructures {
 template<typename _Ty,
 	 typename _Compare = StandardComparator<_Ty>,
 	 typename _Alloc   = allocator::NewAllocator<_Ty> >
-class CircleLinkedList : public interface::List<_Ty> {
+class COMM_EXPORT CircleLinkedList : public interface::List<_Ty> {
   typedef _Ty* pointer;
   typedef _Ty& reference;
   typedef const _Ty* const_pointer;

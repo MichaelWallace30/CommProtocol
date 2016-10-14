@@ -35,7 +35,7 @@ namespace datastructures {
 _COMNET_PUBLIC_API_
 template<typename _Ty,
 	 class    _Alloc = tools::allocator::NewAllocator<_Ty> >
-class LinkedQueue : public interface::Queue<_Ty>  { 
+class COMM_EXPORT LinkedQueue : public interface::Queue<_Ty>  { 
 public:
   /**
      Constructor for the Linked Queue. 

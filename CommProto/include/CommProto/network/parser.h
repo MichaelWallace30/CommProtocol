@@ -26,7 +26,7 @@ namespace comnet {
 namespace network {
 
 
-class Parser {
+class COMM_EXPORT Parser {
 	/** terminal sequence for start and Stop of message data*/
 	char terminal_sequence[TERMINAL_SEQUENCE_SIZE];
 	/** Holds current position or parsed data used for reading serial data*/

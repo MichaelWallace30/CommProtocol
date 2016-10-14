@@ -2,10 +2,11 @@
 #define ENCRYPTION_INTERFACE_H
 
 #include <stdint.h>
+#include <CommProto/architecture/api.h>
 #define BLOCK_SIZE 16
 
 //abstract class to use for aes encryption
-class EncryptionInterface
+class COMM_EXPORT EncryptionInterface
 {
 /** input c string as the form of encrytion key*/
 virtual uint8_t LoadKey(char* key) = 0;

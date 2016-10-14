@@ -34,7 +34,7 @@ namespace allocator {
    build your allocator based on the needs for your application, or for this library.
  */
 template<typename _Ty>
-class Allocator {
+class COMM_EXPORT Allocator {
   typedef _Ty& reference;
   typedef const _Ty* const_pointer;
   typedef const _Ty& const_reference;

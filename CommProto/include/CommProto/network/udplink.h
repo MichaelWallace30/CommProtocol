@@ -30,7 +30,7 @@ namespace network {
   UDP link works UDP connections. IT should work UDP connections, instead of UDP by itself, however
   the design needs to be redone in the future.
 */
-class UDPLink : public CommsLink {
+class COMM_EXPORT UDPLink : public CommsLink {
 public:
   // TODO(Garcia): UDP will need to have it's own list of udp objects to talk to.
   UDPLink() { protocol = UDP_LINK; }

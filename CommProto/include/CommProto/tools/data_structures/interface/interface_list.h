@@ -48,7 +48,7 @@ enum ListType {
 */
 _COMNET_PRIVATE_API_
 template<typename _Ty>
-class List : public Generic {
+class COMM_EXPORT List : public Generic {
   typedef const _Ty* const_pointer;
   typedef const _Ty& const_reference;
   typedef _Ty& reference_type;

@@ -37,7 +37,7 @@ _COMNET_PUBLIC_API_
 template<typename _Ty, 
          class    _Compare = StandardComparator<_Ty>,
 	 class    _Alloc   = tools::allocator::NewAllocator<_Ty> >
-class SingleLinkedList : public interface::List< _Ty > {
+class COMM_EXPORT SingleLinkedList : public interface::List< _Ty > {
 public:
   /**
      Constructor for the SingleLinkedList data structure.

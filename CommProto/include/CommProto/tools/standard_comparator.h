@@ -34,7 +34,7 @@ namespace tools {
 */
 _COMNET_PUBLIC_API_
 template<typename _Ty>
-class StandardComparator : public Comparator<_Ty> {
+class COMM_EXPORT StandardComparator : public Comparator<_Ty> {
   typedef const _Ty& const_reference;
 public:
   StandardComparator() { }

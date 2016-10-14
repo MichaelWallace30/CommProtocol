@@ -40,7 +40,7 @@ _COMNET_PUBLIC_API_
 template<typename _Ty,
 	 class    _Compare = StandardComparator<_Ty>,
 	 class    _Alloc   = tools::allocator::NewAllocator<_Ty> >
-class DoubleLinkedList : public interface::List<_Ty> {
+class COMM_EXPORT DoubleLinkedList : public interface::List<_Ty> {
   /*
     TODO(Garcia): We will need to make use of the Allocator.
    */
