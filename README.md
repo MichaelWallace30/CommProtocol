@@ -20,5 +20,24 @@ Features currently implementing:
 - C# and JNI Wrapping for communications use.  
 - Thread and Mutex redesigns.  
   
+## Setting Up CommProtocol
+Building CommProtocol should be relatively easy, you will need the following tools in order to make your life easier:
+  
+- CMake (At least 2.8 and above)
+  
+Simply download this repository (Clone if you will), navigate to the directory/folder of where you cloned this repository, and create a new folder called "build." inside this build directory, you will open a command prompt (or bash shell) inside and use the following command:
+
+```
+cmake -Dtest=ON ../
+```
+
+Which will execute the cmake build for CommProtocol. When finished, you will either see the .sln project of NGCP-Comnet-v2 (on Windows) OR a makefile for Linux.  
+If you are on Windows, simply open the .sln file which will hold all files and projects for CommProtocol, and compile from the ALL_BUILDS project.  
+If you are on Linux, simply call inside the current directory (assuming you are still in "build" directory):
+```
+make
+```
+
+Which will compile all the projects for CommProtocol.  
 ## Design Analysis
 Coming soon...
