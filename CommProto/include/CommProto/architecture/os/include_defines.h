@@ -49,8 +49,8 @@
 
 
 #define COMM_DISALLOW_COPYING(c) \
-          c(c& obj) { } \
-          c& operator=(c& obj) { return *this; }
+          c(c& obj) = delete; \
+          c& operator=(c& obj) = delete; 
 
 
  /*
