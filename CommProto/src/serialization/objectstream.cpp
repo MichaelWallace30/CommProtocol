@@ -16,7 +16,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#define _DEBUG 1
 #include <CommProto/serialization/objectstream.h>
 #include <CommProto/debug/comms_debug.h>
 

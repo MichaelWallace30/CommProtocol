@@ -31,8 +31,10 @@ option(version_release "Compile the release version of CommProtocol" OFF)
 if (version_release)
   message("Setting to release.")
   set (CMAKE_BUILD_TYPE Release)
+  add_definitions(-DCOMMPROTO_RELEASE)
 else()
   set (CMAKE_BUILD_TYPE Debug) 
+  add_definitions(-DCOMMPROTO_DEBUG)
 endif()
 
 

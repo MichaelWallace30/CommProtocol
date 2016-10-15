@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/architecture/api.h>
 #include <stdlib.h>
 
+
+
 #define MAX_CONNECTIONS 32
 
 #pragma managed

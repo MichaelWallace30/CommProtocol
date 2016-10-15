@@ -18,7 +18,6 @@
 */
 #ifndef UDP_H
 #define UDP_H
-#define _DEBUG 1
 /* User Includes */
 #include <CommProto/architecture/connection/socket-config.h>
 #include <CommProto/architecture/api.h>
