@@ -36,13 +36,13 @@ namespace os {
 
 
 // Mutex Wrapper for CommProtocol.
-class CommMutex {
+class COMM_EXPORT CommMutex {
 public:
   CommMutex() { }
 
   FORCE_INLINE void Lock() { mu.lock(); } 
   FORCE_INLINE void Unlock() { mu.unlock(); }
-  FORCE_INLINE bool TryLock() { mu.try_lock(); }
+  FORCE_INLINE bool TryLock() { return mu.try_lock(); }
   
   FORCE_INLINE ::std::mutex& GetMutex() { return mu; }
 private:

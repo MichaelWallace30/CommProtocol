@@ -36,7 +36,7 @@ namespace os {
   for operating system stuff. In order to remain cross compatible, we implement C++11 threads 
   rather than standalone C threads.
  */
-class CommThread {
+class COMM_EXPORT CommThread {
 
   COMM_DISALLOW_COPYING(CommThread);
 
