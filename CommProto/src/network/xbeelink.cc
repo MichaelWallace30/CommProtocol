@@ -61,7 +61,7 @@ bool XBeeLink::AddAddress(uint8_t destId, const char* address, uint16_t port) {
       XBeeInfo* xbee_info = new XBeeInfo;
       std::memcpy(xbee_info->addr, address, sizeof(xbee_info->addr));
       xbee_info->id = destId;
-      
+      xbees->insert(std::make_pair(destId, std::unique_ptr<XBeeInfo>(xbee_info)));
       success = true;
     } else {
       COMMS_DEBUG("Could not find node id in range!\n");
