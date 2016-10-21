@@ -203,7 +203,7 @@ bool XBee::Initialize(const char* port, speed_t baudrate) {
       }
     }
   } else {
-    COMMS_DEBUG("Failed to open serial port=%d\n", serial.comport);
+    // COMMS_DEBUG("Failed to open serial port=%d\n", serial.comport);
   } 
   if (!success) {
     CloseXBeePort();
@@ -245,7 +245,7 @@ bool XBee::Send(const char* wpan_addr, uint8_t* txData, uint32_t txLength) {
       env.length = txLength;
       err = xbee_transparent_serial(&env);
       if (!err) { 
-        COMMS_DEBUG("Sent: %d,\tover port=%d", env.length, serial.comport);
+       // COMMS_DEBUG("Sent: %d,\tover port=%d", env.length, serial.comport);
         success = true;
       } else {
         COMMS_DEBUG("Error sending packet! No packet sent...\n");
@@ -261,7 +261,7 @@ bool XBee::Send(const char* wpan_addr, uint8_t* txData, uint32_t txLength) {
 bool XBee::CloseXBeePort() {
   bool success = false;
   if(!xbee_ser_close(&serial)) {
-    COMMS_DEBUG("failed to close serial port=%d\n", serial.comport);
+    // COMMS_DEBUG("failed to close serial port=%d\n", serial.comport);
   } else {
     success = true;
   }
