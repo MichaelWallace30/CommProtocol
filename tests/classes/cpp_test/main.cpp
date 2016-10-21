@@ -35,7 +35,7 @@ private:
 
 // Callback function that we will be using to link to Ping packet.
 error_t PingCallback(const comnet::Header& header, const Ping& packet, comnet::Comms& node) {
-  std::cout << "=::RECEIVING PACKET::=" << std::endl;
+  std::cout << "=::RECEIVED PACKET::=" << std::endl;
   std::cout << std::endl << "Source node: " << (int32_t)header.source_id << std::endl;
   std::cout << "Message: " << std::endl;
   std::cout << "Packet contains: " << packet.GetCat() << std::endl;
@@ -80,7 +80,7 @@ int main(int c, char** args) {
 
 
   // Test packet.
-  Ping bing("I like cats");
+  Ping bing("I like cats. MEW :3. this is a test...");
   // NOTE(All): Be sure to run the nodes! If not, the threads won't execute!
   comm1.Run();
   comm2.Run();

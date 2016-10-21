@@ -17,11 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CXBEELINK_H
 #define __CXBEELINK_H
 
-#include <CommProto/network/xbeelink.h>
+//#include <CommProto/network/xbeelink.h>
 #include <network/CommsLink.h>
 
 
-using namespace comnet::network;
+// using namespace comnet::network;
 
 namespace Comnet {
 namespace Network {
@@ -53,7 +53,7 @@ public:
   Boolean Recv(uint8_t* rxData, UInt32% rxLength) override;
 
 private:
-  experimental::XBeeLink* node;
+  //experimental::XBeeLink* node;
 };
 } // Network
 } // Comnet

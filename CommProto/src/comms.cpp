@@ -23,7 +23,7 @@
 
 #include <CommProto/network/udplink.h>
 #include <CommProto/network/seriallink.h>
-#include <CommProto/network/xbeelink.h>
+// #include <CommProto/network/xbeelink.h>
 
 #include <CommProto/debug/comms_debug.h>
 
@@ -91,8 +91,12 @@ void Comms::CommunicationHandlerRecv() {
           error = callback->CallFunction(header, *packet, (CommNode& )*this);
           // Handle error.
           switch (error) {
+          case (CALLBACK_DESTROY_PACKET | CALLBACK_SUCCESS):
+              cout << "Destroying packet internally..." << std::endl;
+              free_pointer(packet);
             case CALLBACK_SUCCESS:
-              cout << "Successful callback" << endl; break;
+              cout << "Successful callback" << endl; 
+              break;
             default:  
               cout << "Nothing" << endl;
           };
@@ -172,8 +176,10 @@ bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, con
 		}
 		case ZIGBEE_LINK:
 		{
-      conn_layer = new experimental::XBeeLink();
-      return conn_layer->InitConnection(port, NULL, baudrate);
+      // conn_layer = new experimental::XBeeLink();
+      // return conn_layer->InitConnection(port, NULL, baudrate);
+      // TODO(Garcia): Will need to create throw directives instead.
+      COMMS_DEBUG("Not implemented...");
       break;
     }
 		default:

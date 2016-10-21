@@ -146,7 +146,7 @@ include(cmake/network-config.cmake)
 include(cmake/serialization-config.cmake)
 include(cmake/pkg.cmake)
 include(cmake/comnet_debug.cmake)
-include(cmake/xbee_ansic.cmake)
+# include(cmake/xbee_ansic.cmake) # We are no longer using this library.
 include(cmake/encryption.cmake)
 
 # contains the header/src filters for visual studio.
