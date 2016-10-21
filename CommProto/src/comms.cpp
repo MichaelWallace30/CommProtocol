@@ -56,7 +56,7 @@ void Comms::CommunicationHandlerSend()
 
 /** function for communication thread */
 void Comms::CommunicationHandlerRecv() {
-  while (this->IsRunning()) {
+  while (this->IsRunning() && conn_layer) {
     recv_mutex.Lock();
     AbstractPacket* packet = NULL;
     //Send data here
