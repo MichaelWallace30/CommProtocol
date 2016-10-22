@@ -22,7 +22,7 @@
 #include <CommProto/callback.h>
 
 
-#if COM_TARGET_OS != COM_OS_WINDOWS
+#if (COM_TARGET_OS != COM_OS_WINDOWS) && (COM_TARGET_OS != COM_OS_APPLE)
  #include <tr1/functional>
  #define COMMSTD std::tr1
 #else 
