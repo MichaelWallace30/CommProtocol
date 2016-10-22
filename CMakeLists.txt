@@ -42,6 +42,8 @@ endif()
 
 # Setting up crypto++
 add_subdirectory(Encryption/cryptopp563)
+#setyp libxbee3
+add_subdirectory(libxbee3)
 
 
 # Check the architecture variable. If the Architecture is 64 bit, we define a variable to state that we
@@ -159,23 +161,28 @@ endif()
 #link cryptopp dependencies directory
 if (CXX_COMPILER MATCHES "MSVC")
 	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp563/debug)
+    set(LIBXBEE3_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/libxbee3/debug)
 else()
 	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp563)
+    set(LIBXBEE3_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/libxbee3)
 endif()
 link_directories(${ENCRYPTION_LIBDIR})
+link_directories(${LIBXBEE3_LIBDIR})
 
 if (shared)
   # Shared Library (.so for linux or .dll for Windows).
   add_library(CommProtoShared SHARED ${NGCP_GLOB})
   target_compile_definitions(CommProtoShared PUBLIC COMMPROTO_DLL)
   target_link_libraries(CommProtoShared cryptopp-static)
+  target_link_libraries(CommProtoShared libxbee3)
   std_compiler_options(CommProtoShared)
 endif()
 
 if (static)
   # Static library (.a for linux or .lib for Windows).
   add_library(CommProtoStatic STATIC ${NGCP_GLOB})
-  target_link_libraries(CommProtoStatic cryptopp-static)    
+  target_link_libraries(CommProtoStatic cryptopp-static) 
+  target_link_libraries(CommProtoStatic libxbee3)  
   std_compiler_options(CommProtoStatic)
 endif()
 
