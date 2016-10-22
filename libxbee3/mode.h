@@ -1,7 +1,7 @@
 #ifndef __XBEE_MODE_H
 #define __XBEE_MODE_H
 
-#include "modes\xbee5\mode5.h"
+#include "modes/xbee5/mode5.h"
 
 /*
 	libxbee - a C/C++ library to aid the use of Digi's XBee wireless modules

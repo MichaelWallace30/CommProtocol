@@ -5,6 +5,7 @@ project("libxbee3")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 #needs pthreads and probably c++11 for g++
+#set(CMAKE_CXX_FLAS ${CMAKE_CXX_FLAGS} "-std=c++11 -pthread")
 
 add_library(libxbee3
 conn.h
