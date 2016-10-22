@@ -7,8 +7,8 @@ set(NETWORK_HEADERS
   ${NETWORK_HEADER_DIR}udp.h
   ${NETWORK_HEADER_DIR}serial.h
   ${NETWORK_HEADER_DIR}/seriallink.h
-  # ${NETWORK_HEADER_DIR}/xbee.h
-  # ${NETWORK_HEADER_DIR}/xbeelink.h
+  ${NETWORK_HEADER_DIR}/xbee.h
+  ${NETWORK_HEADER_DIR}/xbeelink.h
   ${NETWORK_HEADER_DIR}/udplink.h
   ${NETWORK_HEADER_DIR}commsocket.h
   ${NETWORK_HEADER_DIR}commslink.h
@@ -27,8 +27,8 @@ set(NETWORK_SOURCES
   ${NETWORK_SOURCE_DIR}udp.cpp
   ${NETWORK_SOURCE_DIR}serial.cpp
   ${NETWORK_SOURCE_DIR}/seriallink.cc
-  # ${NETWORK_SOURCE_DIR}/xbee.cc
-  # ${NETWORK_SOURCE_DIR}/xbeelink.cc
+  ${NETWORK_SOURCE_DIR}/xbee.cc
+  ${NETWORK_SOURCE_DIR}/xbeelink.cc
   ${NETWORK_SOURCE_DIR}/udplink.cc
   # ${NETWORK_SOURCE_DIR}/znodetable.cc
   ${NETWORK_SOURCE_DIR}tcpsocket.cpp

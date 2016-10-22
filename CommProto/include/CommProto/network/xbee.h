@@ -25,23 +25,8 @@
 #include <list>
 #include <memory>
 
-#include <xbee/platform.h>
-#include <xbee/device.h>
-
 namespace comnet {
 namespace network {
-namespace experimental {
-
-
-// Message from XBee recv.
-struct XBeeMessage {
-  uint8_t message[256];
-  uint16_t length;
-};
-
-// Holds messages received by xbee.
-static ::std::list<std::unique_ptr<XBeeMessage> > message_queue;
-
 
 /**
    XBee communications module. Used for any Xbee protocol connection made to 
@@ -55,7 +40,7 @@ public:
    */
   XBee(const char* port, speed_t baudrate);
 
-  XBee() { }
+  XBee();
   /**
      Default destructor.
    */
@@ -72,29 +57,12 @@ public:
     Check Receive data.
    */
   bool Recv(uint8_t* rxData, uint32_t* rxLength);
-  /**
-    Close the port.
-   */
-  bool CloseXBeePort();
-
-  xbee_serial_t& GetSerial() { return serial; }
-  xbee_dev_t& GetDevice() { return device; }
-  /**
-    Discover nodes on the network.
-   */  
-  void DiscoverNodes();
+  
+ 
 
 private:
- /**
-    The information about the xbee device on this object.
-   */
-  struct xbee_serial_t serial;
-  /**
-    Information about the WPAN address on this device, subject by IEEE 802.15.4 protocol.
-   */
-  struct xbee_dev_t device;
+ 
 };
-} // namespace Experimental
 } // namespace Network
 } // namespace Comnet
 #endif // __XBEE_H
