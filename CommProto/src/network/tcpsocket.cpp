@@ -24,7 +24,7 @@
 #include <CommProto/architecture/os/os_mutex.h>
 #include <CommProto/architecture/connection/socket-config.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <ctime>
 
 
@@ -118,7 +118,7 @@ public:
             }
             end_time = time(0);
             printf("Timer: %d\n", (end_time - start_time));
-          } while ((abs(end_time - start_time)) <= MAX_TICK);
+          } while ((std::abs(end_time - start_time)) <= MAX_TICK);
         }
       }
     }
