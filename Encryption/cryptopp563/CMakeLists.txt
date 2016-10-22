@@ -20,7 +20,7 @@ include(TestBigEndian)
 #============================================================================
 
 option(BUILD_STATIC "Build static library" ON)
-option(BUILD_SHARED "Build shared library" ON)
+option(BUILD_SHARED "Build shared library" OFF)
 
 
 option(DISABLE_ASM "Disable ASM" OFF)
