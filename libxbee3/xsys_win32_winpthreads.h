@@ -102,14 +102,15 @@
 #define PTHREAD_BARRIER_SERIAL_THREAD 1
 
 /* Windows doesn't have this, so declare it ourselves. */
-/*
+
+#if ( _MSC_VER <= 1800)
 struct timespec
 {
 	
 	long long tv_sec;
 	long long tv_nsec;
 };
-*/
+#endif
 
 typedef struct _pthread_cleanup _pthread_cleanup;
 struct _pthread_cleanup

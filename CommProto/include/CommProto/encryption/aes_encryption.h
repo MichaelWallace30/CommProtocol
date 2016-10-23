@@ -4,8 +4,8 @@
 #include <CommProto/architecture/api.h>
 #include <CommProto/headerpacket.h>
 #include <CommProto/encryption/comm_random.h>
-#include <aes.h>
-#include <modes.h>
+#include <aes.h>//cryptopp
+#include <modes.h>//cryptopp
 
 
 namespace comnet {

@@ -45,10 +45,15 @@ extern "C" {
 
 #if !defined(WIN_PTHREADS) && !defined(XBEE_NODEF_TIMESPEC)
 /* i still hate windows */
+
+#if ( _MSC_VER <= 1800)
 struct timespec {
   time_t  tv_sec;    /* seconds */
   long    tv_nsec;   /* nanoseconds */
 };
+#else
+#include <time.h>
+#endif
 #endif /* !WIN_PTHREADS && !XBEE_NODEF_TIMESPEC */
 
 #else /* !_WIN32 */

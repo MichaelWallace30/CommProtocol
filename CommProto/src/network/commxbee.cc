@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <CommProto/network/xbee.h>
+#include <CommProto/network/commxbee.h>
 //#include <CommProto/network/znodetable.h>
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/architecture/macros.h>
@@ -25,43 +25,64 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <regex>
 #include <cstring>
 #include <ctype.h>
-
-
-
+#include <xbee.h>
 
 namespace comnet {
 namespace network {
-	
 
-XBee::XBee(const char* port, speed_t baudrate) 
+CommXBee::CommXBee()
 {
- 
+
 }
 
 
-XBee::~XBee() 
+CommXBee::~CommXBee()
 {
 	
 }
 
 
 // Initialize the xbee device.
-bool XBee::Initialize(const char* port, speed_t baudrate) {
-	return false;
+bool CommXBee::Initialize(const char* port, speed_t baudrate) {
+
+	char port_name[55];
+	#if (COM_TARGET_OS == COM_OS_WINDOWS)
+		sprintf(port_name, "\\\\.\\%s", port);//change to com
+	#else
+		sprintf(port_name, "%s", port);
+	#endif	
+	
+	if ((ret = xbee_setup(&xbee, "xbee5", port_name, baudrate)) != XBEE_ENONE) {		
+		//printf("Construct ret: %d (%s)\n", ret, xbee_errorToStr(ret));		
+		return false;
+	}	
+	return true;
 }
 
 
 // Absolutely not sure this will work...
 // Need to test this.
-bool XBee::Recv(uint8_t* rxData, uint32_t* rxLength) {
+bool CommXBee::Recv(xbee_con *con, uint8_t* rxData, uint32_t* rxLength) {
+	
+		xbee_conRx(con, &pkt, NULL);	
+		// Package is not null, means we got a package from somewhere.
+		if (pkt != NULL) {
+			for (int i = 0; i < pkt->dataLen; i++) {
+				rxData[i] = pkt->data[i];
+			}
+
+			*rxLength = pkt->dataLen;
+			if (xbee_pktFree(pkt) != XBEE_ENONE);
+			return true;
+		}		
 	return false;
 }
 
 
-bool XBee::Send(const char* wpan_addr, uint8_t* txData, uint32_t txLength) {
+bool CommXBee::Send(xbee_con *con, uint8_t* txData, uint32_t txLength) {
+		xbee_connTx(con, NULL, txData, txLength);
 	return false;
 }
-
 
 } // namespace Network
 } // namespace Comnet

@@ -1,4 +1,5 @@
 # Tools config files, which are added into a set for compilation
+include_directories(SYSTEM libxbee3/)
 set(NETWORK_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/network/)
 set(NETWORK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/network/)
 
@@ -7,7 +8,7 @@ set(NETWORK_HEADERS
   ${NETWORK_HEADER_DIR}udp.h
   ${NETWORK_HEADER_DIR}serial.h
   ${NETWORK_HEADER_DIR}/seriallink.h
-  ${NETWORK_HEADER_DIR}/xbee.h
+  ${NETWORK_HEADER_DIR}/commxbee.h
   ${NETWORK_HEADER_DIR}/xbeelink.h
   ${NETWORK_HEADER_DIR}/udplink.h
   ${NETWORK_HEADER_DIR}commsocket.h
@@ -27,7 +28,7 @@ set(NETWORK_SOURCES
   ${NETWORK_SOURCE_DIR}udp.cpp
   ${NETWORK_SOURCE_DIR}serial.cpp
   ${NETWORK_SOURCE_DIR}/seriallink.cc
-  ${NETWORK_SOURCE_DIR}/xbee.cc
+  ${NETWORK_SOURCE_DIR}/commxbee.cc
   ${NETWORK_SOURCE_DIR}/xbeelink.cc
   ${NETWORK_SOURCE_DIR}/udplink.cc
   # ${NETWORK_SOURCE_DIR}/znodetable.cc

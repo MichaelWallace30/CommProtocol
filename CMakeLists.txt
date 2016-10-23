@@ -129,6 +129,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM CommProto/include/)
 
+
 # check global compiler options.
 check_global_compiler_options()
 

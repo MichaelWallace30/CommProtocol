@@ -25,7 +25,7 @@ namespace network {
 		
 
 
-	class XBee;
+	class CommXBee;
 
 
 	class COMM_EXPORT XBeeLink : public CommsLink {
@@ -65,7 +65,7 @@ namespace network {
 			uint16_t id;
 		};
 		// Home address xbee.
-		XBee* home;
+		CommXBee* home;
 		std::unordered_map<uint16_t, std::unique_ptr<XBeeInfo> >* xbees;
 	};
 		

@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/xbeelink.h>
-#include <CommProto/network/xbee.h>
+#include <CommProto/network/commxbee.h>
 //#include <CommProto/network/znodetable.h>
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/tools/data_structures/auto_vector.h>
@@ -30,7 +30,7 @@ namespace network {
 
 XBeeLink::XBeeLink()
 : xbees(new std::unordered_map<uint16_t, std::unique_ptr<XBeeInfo>>())
-, home(new XBee())
+, home(new CommXBee())
 {
   this->protocol = ZIGBEE_LINK;
 }
@@ -62,14 +62,15 @@ bool XBeeLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
   // TODO(Garcia): destId determines the address to send to.
   XBeeInfo* xbee = xbees->at(destId).get();
   if (xbee && (xbee->id == destId)) {
-    return home->Send(xbee->addr, txData, txLength);
+//    return home->Send(xbee->addr, txData, txLength);
   } 
   return false;
 }
 
 
 bool XBeeLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
-  return home->Recv(rxData, rxLength);
+ // return home->Recv(rxData, rxLength);
+	return false;
 }
 } // Network
 } // Comnet 

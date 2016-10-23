@@ -16,14 +16,20 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __XBEE_H
-#define __XBEE_H
+#ifndef __COMMXBEE_H
+#define __COMMXBEE_H
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/connection/serial-config.h>
 
 #include <list>
 #include <memory>
+#include <xbee.h>//should be libxbee3 
+
+#if (COM_TARGET_OS == COM_OS_WINDOWS)
+	#include <Windows.h>
+	#pragma comment (lib, "libxbee3.lib")
+#endif
 
 namespace comnet {
 namespace network {
@@ -32,19 +38,18 @@ namespace network {
    XBee communications module. Used for any Xbee protocol connection made to 
    other devices. Still needs work.
 */
-class COMM_EXPORT XBee {
+class COMM_EXPORT CommXBee {
 public:
   /**
     Constructor that autoinitializes when created. function initialize is automatically called from 
     this constructor. 
    */
-  XBee(const char* port, speed_t baudrate);
+  CommXBee();
 
-  XBee();
   /**
      Default destructor.
    */
-  ~XBee();
+  ~CommXBee();
   /**
     Initialize the port on this device.
    */
@@ -52,17 +57,31 @@ public:
   /**
     Send data over to the destination node.
    */
-  bool Send(const char* wpan_addr, uint8_t* txData, uint32_t txLength);
+  bool Send(xbee_con *con, uint8_t* txData, uint32_t txLength);
   /**
     Check Receive data.
    */
-  bool Recv(uint8_t* rxData, uint32_t* rxLength);
+  bool Recv(xbee_con *con, uint8_t* rxData, uint32_t* rxLength);
   
  
 
 private:
- 
+	//uint8_t hexCharToInt(unsigned char value);
+	//uint8_t doubleHexCharToInt(unsigned char c1, unsigned char c2);
+	//void stringToAddress(std::string str, uint8_t length, xbee_conAddress &address);
+
+	struct xbee *xbee;
+	struct xbee_pkt *pkt;
+	
+	//struct xbee_con *con;
+	//struct xbee_conAddress *address;
+	
+	//struct xbee_conSettings *settings;
+	
+	int ret;
+	
+
 };
 } // namespace Network
 } // namespace Comnet
-#endif // __XBEE_H
+#endif // __COMMXBEE_H
