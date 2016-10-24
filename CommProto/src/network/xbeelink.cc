@@ -29,19 +29,18 @@ namespace comnet {
 namespace network {
 
 XBeeLink::XBeeLink()
-: xbees(new std::unordered_map<uint16_t, std::unique_ptr<XBeeInfo>>())
-, home(new CommXBee())
+: home(new CommXBee())
 {
   this->protocol = ZIGBEE_LINK;
 }
 
 
 bool XBeeLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
-  bool success = home->Initialize(port, baudrate);
-  if (!success) {
-    COMMS_DEBUG("Home xbee failed to initialize!\n");
-  }
-  return success;
+  //bool success = home->Initialize(port, baudrate);
+  //if (!success) {
+  //  COMMS_DEBUG("Home xbee failed to initialize!\n");
+ // }
+  return false;
 }
 
 
@@ -60,10 +59,10 @@ bool XBeeLink::RemoveAddress(uint8_t destId) {
 
 bool XBeeLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
   // TODO(Garcia): destId determines the address to send to.
-  XBeeInfo* xbee = xbees->at(destId).get();
-  if (xbee && (xbee->id == destId)) {
+  //XBeeInfo* xbee = xbees->at(destId).get();
+  //if (xbee && (xbee->id == destId)) {
 //    return home->Send(xbee->addr, txData, txLength);
-  } 
+ // } 
   return false;
 }
 

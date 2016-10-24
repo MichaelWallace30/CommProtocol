@@ -55,6 +55,14 @@ public:
    */
   bool Initialize(const char* port, speed_t baudrate);
   /**
+  Adds an address to the link.
+  */
+  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+  /**
+  Remove an address from the link.
+  */
+  bool RemoveAddress(uint8_t dest_id);
+  /**
     Send data over to the destination node.
    */
   bool Send(xbee_con *con, uint8_t* txData, uint32_t txLength);
@@ -66,17 +74,19 @@ public:
  
 
 private:
-	//uint8_t hexCharToInt(unsigned char value);
-	//uint8_t doubleHexCharToInt(unsigned char c1, unsigned char c2);
-	//void stringToAddress(std::string str, uint8_t length, xbee_conAddress &address);
+	uint8_t hexCharToInt(unsigned char value);
+	uint8_t doubleHexCharToInt(unsigned char c1, unsigned char c2);
+	void stringToAddress(const char* str, uint8_t length, xbee_conAddress &address);
+
+	//unordered map of *con
 
 	struct xbee *xbee;
 	struct xbee_pkt *pkt;
-	
-	//struct xbee_con *con;
-	//struct xbee_conAddress *address;
-	
-	//struct xbee_conSettings *settings;
+
+
+	struct xbee_con *con;
+	struct xbee_conAddress *address;	
+	//struct xbee_conSettings *settings;//for broadcast recieve probably wont use
 	
 	int ret;
 	

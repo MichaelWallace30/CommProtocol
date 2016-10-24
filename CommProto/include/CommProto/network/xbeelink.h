@@ -32,9 +32,9 @@ namespace network {
 	public:
 		XBeeLink();
 
-		~XBeeLink() {
-			free_pointer(xbees);
-		}
+		~XBeeLink(){};
+			
+		
 		/**
 		Initialize a connection for this node. Address is not required.
 		*/
@@ -57,16 +57,12 @@ namespace network {
 		*/
 		bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
-		void DigestCommand(const char* cmd) { }
 
 	private:
-		struct XBeeInfo {
-			char addr[17];
-			uint16_t id;
-		};
+
 		// Home address xbee.
 		CommXBee* home;
-		std::unordered_map<uint16_t, std::unique_ptr<XBeeInfo> >* xbees;
+	
 	};
 		
 } // namespace Network

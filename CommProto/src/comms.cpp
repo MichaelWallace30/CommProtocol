@@ -120,7 +120,8 @@ void Comms::CommunicationHandlerRecv() {
 /******************* Public  *******************/
 /***********************************************/
 Comms::Comms(uint8_t platformID)
-: CommNode(platformID)
+: CommNode(platformID),
+comm_encryption()
 {
 	this->recv_queue = new AutoQueue <AbstractPacket*>;
 	this->send_queue = new AutoQueue <ObjectStream*>;
@@ -136,12 +137,12 @@ Comms::~Comms()
 
 bool Comms::LoadKey(char* key)
 {
-	return true;// return aes_encryption.LoadKey(key);
+	return comm_encryption.LoadKey(key);
 }
 
 bool Comms::LoadKeyFromFile(char*keyFileName)
 {
-	return true;// return aes_encryption.LoadKeyFromFile(keyFileName);
+	return comm_encryption.LoadKeyFromFile(keyFileName);
 }
 
 

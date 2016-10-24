@@ -29,7 +29,7 @@
 #include <CommProto/abstractpacket.h>
 #include <CommProto/commnode.h>
 #include <CommProto/headerpacket.h>//Header which declares packet structs
-//#include <CommProto/encryption/aes_encryption.h>
+#include <CommProto/encryption/aes_encryption.h>
 
 #include <iostream>//testing only
 #include <stdint.h>//needed for bit size variables
@@ -72,6 +72,9 @@ private:
 	/** Polymorphic (Base Class) Communication link for connection code*/
 	CommsLink *conn_layer;
 
+
+	/** Encryption class used to encrypt and dectrypt data */
+	AesEncryption comm_encryption;
 
 public:		
 	/** Constructor */
