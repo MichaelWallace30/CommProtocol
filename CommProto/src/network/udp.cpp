@@ -133,7 +133,7 @@ bool UDP::InitConnection(const char* port, const char* address, uint32_t baudrat
 }
 
 
-std::unique_ptr<UDP> UDP::AddAddress(uint8_t dest_id, const char* address, uint16_t port)
+std::unique_ptr<UDP> UDP::Connect(uint8_t dest_id, const char* address, uint16_t port)
 {
   uint16_t length = 0;
   str_length(address, length);

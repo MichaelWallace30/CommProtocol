@@ -76,7 +76,7 @@ private:
   bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /** Adds Address & port to dest_id value of array of aviable connections
       Returns false if connection is already connected*/
-  std::unique_ptr<UDP> AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+  std::unique_ptr<UDP> Connect(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
   /** Sets connection to not available
       Returns false is no connection is found*/
   //bool RemoveAddress(uint8_t dest_id);

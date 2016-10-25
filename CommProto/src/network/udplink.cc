@@ -31,7 +31,7 @@ bool UDPLink::InitConnection(const char* port, const char* address, uint32_t bau
 
 bool UDPLink::AddAddress(uint8_t dest_id, const char* address, uint16_t port) {
   bool success = false;
-  std::unique_ptr<UDP> udp = local.AddAddress(dest_id, address, port);
+  std::unique_ptr<UDP> udp = local.Connect(dest_id, address, port);
   if (udp != nullptr) {
     map[dest_id] = std::move(udp);
     success = true;
