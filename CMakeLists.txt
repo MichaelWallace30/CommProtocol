@@ -173,6 +173,7 @@ link_directories(${LIBXBEE3_LIBDIR})
 if (shared)
   # Shared Library (.so for linux or .dll for Windows).
   add_library(CommProtoShared SHARED ${NGCP_GLOB})
+  target_compile_definitions(CommProtoShared PUBLIC -fPIC)
   target_compile_definitions(CommProtoShared PUBLIC COMMPROTO_DLL)
   target_link_libraries(CommProtoShared cryptopp-static)
   target_link_libraries(CommProtoShared libxbee3)

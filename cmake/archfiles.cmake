@@ -29,7 +29,7 @@ set(ARCH_OS_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/comm_monitor.h)
 
 set(ARCHITECTURE_SOURCES
-  ${ARCHITECTURE_SOURCE_DIR}/os/comm_monitor.cc
+   ${ARCHITECTURE_SOURCE_DIR}/os/comm_monitor.cc
   ${ARCHITECTURE_SOURCE_DIR}/os/comm_semaphore.cc
   ${ARCHITECTURE_SOURCE_DIR}/os/comm_thread.cc
   ${ARCHITECTURE_SOURCE_DIR}/os/comm_mutex.cc
