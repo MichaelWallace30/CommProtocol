@@ -30,22 +30,48 @@ bool UDPLink::InitConnection(const char* port, const char* address, uint32_t bau
 
 
 bool UDPLink::AddAddress(uint8_t dest_id, const char* address, uint16_t port) {
-  return local.AddAddress(dest_id, address, port);
+  bool success = false;
+  std::unique_ptr<UDP> udp = local.AddAddress(dest_id, address, port);
+  if (udp != nullptr) {
+    map[dest_id] = std::move(udp);
+    success = true;
+  }
+  return success;
 }
 
 
 bool UDPLink::RemoveAddress(uint8_t dest_id) {
-  return local.RemoveAddress(dest_id);
+  bool success = false;
+  if (map[dest_id] != nullptr) {
+    map.erase(dest_id);
+  }
+  return success;
 }
 
 
 bool UDPLink::Send(uint8_t dest_id, uint8_t* txData, uint32_t txLength) {
-  return local.Send(dest_id, txData, txLength);
+  bool success = false;
+  if (map[dest_id] != nullptr) {
+    success = map[dest_id]->Send(txData, txLength);
+  }
+  return success;
 }
 
 
 bool UDPLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
-  return local.Recv(rxData, rxLength);
+  bool success = false;
+  /**
+    TODO(Anybody): We need a proper data structure for handling recv from multiple
+                  nodes.
+  */
+  for (std::map<uint8_t, std::unique_ptr<UDP>>::iterator it = map.begin(); 
+            it != map.end(); ++it) {
+    if (it->second->Recv(rxData, rxLength)) {
+      success = true;
+      break;
+    }
+  }
+  return success;
 }
 } // namespace Network
 } // namespace Comnet

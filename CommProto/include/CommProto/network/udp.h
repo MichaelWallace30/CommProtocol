@@ -23,8 +23,9 @@
 #include <CommProto/architecture/api.h>
 #include <CommProto/headerpacket.h>
 #include <CommProto/architecture/macros.h>//str_length(char*,int)
-#include <stdio.h>//printf
-#include <stdlib.h>//atoi
+#include <cstdio>
+#include <cstdlib>
+#include <memory>
 #include <CommProto/debug/comms_debug.h>
 
 #define ADDRESS_LENGTH 16
@@ -37,9 +38,10 @@ namespace network {
 UDP class
 */
 class COMM_EXPORT UDP {
+  COMM_DISALLOW_COPYING(UDP);
 private:  
   /** Array of connections: address, port, and if connceted*/
-  socket_t conn[MAX_CONNECTIONS];
+  //socket_t conn[MAX_CONNECTIONS];
   
   /** Socket id (socket descriptor returned by socket)*/
   int fd;	
@@ -61,28 +63,33 @@ private:
   /** Opens udp socket returns false if socket open fails*/
   bool UdpOpen(int* fd);
   
-  
  public:
   
   /**Constuctor*/
   UDP();
+  UDP(UDP&& udp);
   ~UDP();
   
+  UDP& operator=(UDP&& udp);
   /** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
       Returns false if open socket or bind fails*/
   bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /** Adds Address & port to dest_id value of array of aviable connections
       Returns false if connection is already connected*/
-  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+  std::unique_ptr<UDP> AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
   /** Sets connection to not available
       Returns false is no connection is found*/
-  bool RemoveAddress(uint8_t dest_id);
+  //bool RemoveAddress(uint8_t dest_id);
   /** Sends txData using its length of bytes through the dest_id connection which is establish through add adress
       Return false if no proper connection is establish*/
-  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
+  bool Send(uint8_t* tx_data, uint32_t tx_length);
   /** Sets recieved data to rxData and sets the length of the data to rxLength
       Returns false if not aviable connection or no data is recieved*/
   bool Recv(uint8_t* rx_data, uint32_t* rx_length);
+
+  socket_t& GetSocket() { return sockaddr; }
+
+  bool Close();
 };
 } // namespace Network
 } // namespace Comnet

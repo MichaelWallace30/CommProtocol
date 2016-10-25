@@ -34,7 +34,7 @@ bool UDP::UdpOpen(int* fd)
   initializeSockAPI(result);
   /** attempts to open socket 
       returns false if fails*/
-  if ((*fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+  if ((*fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
       COMMS_DEBUG("socket() failed\n");
       result = false;;
   }
@@ -51,11 +51,32 @@ UDP::UDP()
   //visual studio 2013 is having issues init array to 0
   //error is "cannot specify initializer of arrays knwon issues with 2013
   //make sure is node connected is set to false
-  for (int index = 0; index < MAX_CONNECTIONS; index++) {
-    conn[index].socket_status = SOCKET_OPEN;
-  }
+  // for (int index = 0; index < MAX_CONNECTIONS; index++) {
+  //   conn[index].socket_status = SOCKET_OPEN;
+  // }
 //  connected = false;
   sockaddr.socket_status = SOCKET_OPEN;
+}
+
+
+UDP::UDP(UDP&& udp)
+: fd(0)
+, slen(0)
+{
+  std::swap(rx_buf, udp.rx_buf);
+  std::swap(udp.sockaddr, sockaddr);
+  std::swap(si_other, udp.si_other);
+}
+
+
+UDP& UDP::operator=(UDP&& udp)
+{
+  std::swap(udp.sockaddr, sockaddr);
+  std::swap(si_other, udp.si_other);
+  std::swap(rx_buf, udp.rx_buf);
+  fd = udp.fd;
+  slen = udp.slen;
+  return *this;
 }
 
 
@@ -112,57 +133,59 @@ bool UDP::InitConnection(const char* port, const char* address, uint32_t baudrat
 }
 
 
-bool UDP::AddAddress(uint8_t dest_id, const char* address, uint16_t port)
+std::unique_ptr<UDP> UDP::AddAddress(uint8_t dest_id, const char* address, uint16_t port)
 {
   uint16_t length = 0;
   str_length(address, length);
-  if (conn[dest_id].socket_status == SOCKET_OPEN && length < ADDRESS_LENGTH) {
+  UDP* udp = new UDP();
+  if (udp->GetSocket().socket_status == SOCKET_OPEN && length < ADDRESS_LENGTH) {
     //setup address structure
-    memset((char *)&conn[dest_id].socket_address, 0, sizeof(conn[dest_id].socket_address));
-    conn[dest_id].socket_address.sin_family = AF_INET;
-    conn[dest_id].socket_address.sin_port = htons(port);
-    conn[dest_id].socket_address.sin_addr.s_addr = inet_addr((char*)address);
-    conn[dest_id].socket_status = SOCKET_CONNECTED;
-
-    return true;
+    memset((char *)&udp->GetSocket().socket_address, 0, sizeof(udp->GetSocket().socket_address));
+    udp->GetSocket().socket_address.sin_family = AF_INET;
+    udp->GetSocket().socket_address.sin_port = htons(port);
+    udp->GetSocket().socket_address.sin_addr.s_addr = inet_addr((char *)address);
+    udp->GetSocket().socket_status = SOCKET_CONNECTED;
+    udp->GetSocket().id = dest_id;
+    udp->GetSocket().port = port;
+    udp->fd = fd;
+    udp->slen = slen;
+    //udp->GetSocket().socket = ;
+    return std::unique_ptr<UDP>(udp);
   }
   
   //already connected node or address is invalid
-  return false;	
+  return std::unique_ptr<UDP>(nullptr);	
 }
 
 
-bool UDP::RemoveAddress(uint8_t dest_id)
-{  
-  if (conn[dest_id].socket_status == SOCKET_CONNECTED) {
-    conn[dest_id].socket_status = SOCKET_OPEN;
-    return true;
-  }
+// bool UDP::RemoveAddress(uint8_t dest_id)
+// {  
+//  if (conn[dest_id].socket_status == SOCKET_CONNECTED) {
+//    conn[dest_id].socket_status = SOCKET_OPEN;
+//    return true;
+//  }
+//
+//  return false;
+// }
 
-  return false;
-}
 
-
-bool UDP::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
+bool UDP::Send(uint8_t* tx_data, uint32_t tx_length)
 {
   if (sockaddr.socket_status == SOCKET_CONNECTED) {
-    int slenSend = sizeof(conn[dest_id].socket_address);
-    if (sendto(fd, 
-        (char *) tx_data, 
-        tx_length, 0, 
-        (struct sockaddr *) &conn[dest_id].socket_address, slen) < 0)
+    int slenSend = sizeof(sockaddr.socket_address);
+    if (sendto(fd, (char *) tx_data, tx_length, 0, (struct sockaddr *) &sockaddr.socket_address, slen) < 0)
 		{
-      COMMS_DEBUG("sendto() failed\n");
+      COMMS_DEBUG("sendto() failed. error=%d\n", GET_LAST_ERROR);
 
       return false;
 		} else {	  						
         COMMS_DEBUG("\n**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
-        tx_length, ntohs(conn[dest_id].socket_address.sin_port),
-        inet_ntoa(conn[dest_id].socket_address.sin_addr));		  
+        tx_length, ntohs(sockaddr.socket_address.sin_port),
+        inet_ntoa(sockaddr.socket_address.sin_addr));		  
 		}
   }
 
-  return false;
+  return true;
 }
 
 
@@ -177,7 +200,7 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
     length = recvfrom(fd, 
                       (char*)rx_data, MAX_BUFFER_SIZE, 
                       0, 
-                      (struct sockaddr *) &si_other.socket_address, 
+                      (struct sockaddr *) &sockaddr.socket_address, 
                       (socklen_t *) &slen);
   } else {
     COMMS_DEBUG("UDP not connected can't receive\n");
@@ -186,7 +209,8 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
   
   if (length < 0) return false;
     
-  COMMS_DEBUG("\n**  Recieved\t Length: %d, Port: %d, IP: %s **\n", length, ntohs(si_other.socket_address.sin_port) , inet_ntoa(si_other.socket_address.sin_addr));    
+  COMMS_DEBUG("\n**  Recieved\t Length: %d, Port: %d, IP: %s **\n", 
+      length, ntohs(sockaddr.socket_address.sin_port), inet_ntoa(sockaddr.socket_address.sin_addr));    
   *rx_length = (uint32_t)length;
 
   return true;

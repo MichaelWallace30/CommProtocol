@@ -21,7 +21,8 @@
 
 #include <CommProto/network/commslink.h>
 #include <CommProto/network/udp.h>
-
+#include <map>
+#include <memory>
 
 namespace comnet {
 namespace network {
@@ -64,6 +65,10 @@ public:
 private:
   
   UDP local;
+  /**
+    Uses uint8_t key for mapping destination id to the UDP object.
+  */
+  std::map<uint8_t, std::unique_ptr<UDP>> map;
 };
 } // namespace Network
 } // namespace Comnet
