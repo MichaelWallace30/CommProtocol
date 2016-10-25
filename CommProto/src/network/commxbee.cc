@@ -50,10 +50,9 @@ bool CommXBee::Initialize(const char* port, speed_t baudrate) {
 		sprintf(port_name, "\\\\.\\%s", port);//change to com
 	#else
 		sprintf(port_name, "%s", port);
-	#endif	
-	
-	if ((ret = xbee_setup(&xbee, "xbee5", port_name, baudrate)) != XBEE_ENONE) {		
-		//printf("Construct ret: %d (%s)\n", ret, xbee_errorToStr(ret));		
+	#endif		
+	if ((ret = xbee_setup(&xbee, "xbee5", "\\\\.\\COM4", 57600)) != XBEE_ENONE) {		
+		printf("Construct ret: %d (%s)\n", ret, xbee_errorToStr((xbee_err)ret));		
 		return false;
 	}	
 	return true;
@@ -63,26 +62,43 @@ bool CommXBee::Initialize(const char* port, speed_t baudrate) {
 /**
 Adds an address to the link.
 */
-bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0)
+bool CommXBee::AddAddress(uint8_t destId, const char* address64Hex , uint16_t port)
 {
-	return false;
+	struct xbee_conAddress conAddress;
+	memset(&conAddress, 0, sizeof(conAddress));
+	stringToAddress(address64Hex, 16, conAddress);	
+	struct xbee_con *con;
+	//xbee_conAlloc((con));
+
+	if ((ret = xbee_conNew(xbee, &con, "Data", &conAddress)) != XBEE_ENONE) {
+		COMMS_DEBUG("xbee_conNew() node_id: %d  returned: %d", destId, ret);		
+		return false;
+	}
+
+	xbees.insert({ destId, con });
+	return true;
 }
 /**
 Remove an address from the link.
 */
-bool RemoveAddress(uint8_t dest_id)
+bool CommXBee::RemoveAddress(uint8_t destId)
 {
+	xbees.erase(destId);
 	return false;
 }
 /**
 Send data over to the destination node.
 */
+bool CommXBee::Recv(uint8_t* rxData, uint32_t* rxLength) {
 
-// Absolutely not sure this will work...
-// Need to test this.
-bool CommXBee::Recv(xbee_con *con, uint8_t* rxData, uint32_t* rxLength) {
-	
-		xbee_conRx(con, &pkt, NULL);	
+
+	static auto it = xbees.begin();
+	rxLength = 0;
+	while (it != xbees.end())
+	{
+		xbee_conRx(it->second, &pkt, NULL);
+		it++;
+
 		// Package is not null, means we got a package from somewhere.
 		if (pkt != NULL) {
 			for (int i = 0; i < pkt->dataLen; i++) {
@@ -93,12 +109,25 @@ bool CommXBee::Recv(xbee_con *con, uint8_t* rxData, uint32_t* rxLength) {
 			if (xbee_pktFree(pkt) != XBEE_ENONE);
 			return true;
 		}		
+	}
+	//no error to report just no message recv
+	it = xbees.begin();
 	return false;
 }
 
 
-bool CommXBee::Send(xbee_con *con, uint8_t* txData, uint32_t txLength) {
-		xbee_connTx(con, NULL, txData, txLength);
+bool CommXBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
+	
+	auto it = xbees.find(destId);
+
+	if (it != xbees.end())
+	{
+		xbee_connTx(it->second, NULL, txData, txLength);
+		COMMS_DEBUG("Xbee sent data to DestID: %d!\n", destId);
+		return true;
+	}
+	
+	COMMS_DEBUG("DestID: %d on xbee not found!\n", destId);
 	return false;
 }
 
@@ -146,7 +175,7 @@ void CommXBee::stringToAddress(const char* str, uint8_t length, xbee_conAddress 
 	}
 	else
 	{
-		//throw error::InternalException(error::OSErrors::error_no_os, error::error_invalid_hex_string);
+		COMMS_DEBUG("Invalid hex to string conversion.\n");
 		return;
 	}
 }

@@ -57,7 +57,7 @@ namespace network {
 		*/
 		bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
-
+		void DigestCommand(const char* cmd) { ; }
 	private:
 
 		// Home address xbee.
