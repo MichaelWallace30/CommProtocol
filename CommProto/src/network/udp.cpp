@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/udp.h>
-#include <ctype.h>
+#include <cctype>
 
 namespace comnet {
 namespace network {
@@ -90,20 +90,20 @@ bool UDP::InitConnection(const char* port, const char* address, uint32_t baudrat
 {	
   //open socket and  check if socket is not already connected
   if (sockaddr.socket_status != SOCKET_CONNECTED && UdpOpen(&fd)) {
-
     uint16_t length = 0;
-
+    sockaddr.port = std::atoi(port);
+    sockaddr.id = 0; // Home
+    sockaddr.socket = fd;
     str_length(port, length);
     // check if port in number
     for (int x = 0; x < length; x++) {
       if (!isdigit(port[x])) {
-        COMMS_DEBUG("initConnection 'port' argument is not a numerical digit for udp connection\n");
-
+        COMMS_DEBUG("initConnection 'port' argument is not a numerical digit for udp connection\n");  
         return false;
       }
     }
 
-    uint32_t portInt = atoi((char*)port);
+    uint32_t portInt = std::atoi((char*)port);
 	         
       
     //setup address structure
