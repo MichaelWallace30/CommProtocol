@@ -176,6 +176,10 @@ die:
 	return ret;
 }
 EXPORT xbee_err xbee_setup(struct xbee **retXbee, const char *mode, ...) {
+
+#ifdef _WIN32
+	xbee_init();
+#endif
 	xbee_err ret;
 	va_list ap;
 	
