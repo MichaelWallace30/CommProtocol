@@ -23,7 +23,7 @@
 
 #include <CommProto/network/udplink.h>
 #include <CommProto/network/seriallink.h>
-// #include <CommProto/network/xbeelink.h>
+#include <CommProto/network/xbeelink.h>
 
 #include <CommProto/debug/comms_debug.h>
 
@@ -177,10 +177,10 @@ bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, con
 		}
 		case ZIGBEE_LINK:
 		{
-      // conn_layer = new experimental::XBeeLink();
-      // return conn_layer->InitConnection(port, NULL, baudrate);
+			 conn_layer = new XBeeLink();
+			return conn_layer->InitConnection(port, NULL, baudrate);
       // TODO(Garcia): Will need to create throw directives instead.
-      COMMS_DEBUG("Not implemented...");
+      
       break;
     }
 		default:

@@ -36,40 +36,35 @@ XBeeLink::XBeeLink()
 
 
 bool XBeeLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
-  //bool success = home->Initialize(port, baudrate);
-  //if (!success) {
-  //  COMMS_DEBUG("Home xbee failed to initialize!\n");
- // }
-  return false;
+  bool success = home->Initialize(port, baudrate);
+  if (!success) {
+    COMMS_DEBUG("Home xbee failed to initialize!\n");
+  }
+  return true;
 }
 
 
 bool XBeeLink::AddAddress(uint8_t destId, const char* address, uint16_t port) {
-  bool success = false;
+  bool success = home->AddAddress(destId, address);
   return success;
 }
 
 
 bool XBeeLink::RemoveAddress(uint8_t destId) {
-  bool success = false;
-  // remove xbee from here.
+  bool success = home->RemoveAddress(destId);  
   return success;
 }
 
 
 bool XBeeLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
-  // TODO(Garcia): destId determines the address to send to.
-  //XBeeInfo* xbee = xbees->at(destId).get();
-  //if (xbee && (xbee->id == destId)) {
-//    return home->Send(xbee->addr, txData, txLength);
- // } 
-  return false;
+	bool success = home->Send(destId, txData, txLength);
+	return success;
 }
 
 
 bool XBeeLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
- // return home->Recv(rxData, rxLength);
-	return false;
+	bool success = home->Recv(rxData, rxLength);
+	return success;
 }
 } // Network
 } // Comnet 

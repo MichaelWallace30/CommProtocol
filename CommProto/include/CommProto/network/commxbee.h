@@ -22,9 +22,8 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/connection/serial-config.h>
 
-#include <list>
-#include <memory>
 #include <xbee.h>//should be libxbee3 
+#include <unordered_map>
 
 #if (COM_TARGET_OS == COM_OS_WINDOWS)
 	#include <Windows.h>
@@ -57,19 +56,19 @@ public:
   /**
   Adds an address to the link.
   */
-  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+  bool AddAddress(uint8_t destId, const char* address64Hex, uint16_t port = 0);
   /**
   Remove an address from the link.
   */
-  bool RemoveAddress(uint8_t dest_id);
+  bool RemoveAddress(uint8_t destId);
   /**
     Send data over to the destination node.
    */
-  bool Send(xbee_con *con, uint8_t* txData, uint32_t txLength);
+  bool Send(uint8_t destId, uint8_t* txData, uint32_t txLength);
   /**
     Check Receive data.
    */
-  bool Recv(xbee_con *con, uint8_t* rxData, uint32_t* rxLength);
+  bool Recv(uint8_t* rxData, uint32_t* rxLength);
   
  
 
@@ -83,9 +82,10 @@ private:
 	struct xbee *xbee;
 	struct xbee_pkt *pkt;
 
+	std::unordered_map<uint8_t, struct xbee_con*> xbees;
 
-	struct xbee_con *con;
-	struct xbee_conAddress *address;	
+	
+	//struct xbee_conAddress *address;	
 	//struct xbee_conSettings *settings;//for broadcast recieve probably wont use
 	
 	int ret;
