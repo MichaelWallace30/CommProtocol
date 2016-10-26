@@ -25,11 +25,6 @@
 #include <xbee.h>//should be libxbee3 
 #include <map>
 
-#if (COM_TARGET_OS == COM_OS_WINDOWS)
-	#include <Windows.h>
-	#pragma comment (lib, "libxbee3.lib")
-#endif
-
 namespace comnet {
 namespace network {
 
