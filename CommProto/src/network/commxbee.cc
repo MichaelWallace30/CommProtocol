@@ -51,7 +51,7 @@ bool CommXBee::Initialize(const char* port, speed_t baudrate) {
 	#else
 		sprintf(port_name, "%s", port);
 	#endif		
-	if ((ret = xbee_setup(&xbee, "xbee5", port_name, port)) != XBEE_ENONE) {		
+	if ((ret = xbee_setup(&xbee, "xbee5", port_name, baudrate)) != XBEE_ENONE) {		
 		printf("Construct ret: %d (%s)\n", ret, xbee_errorToStr((xbee_err)ret));		
 		return false;
 	}	
