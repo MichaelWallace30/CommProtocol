@@ -89,7 +89,7 @@ bool CommXBee::RemoveAddress(uint8_t destId)
 /**
 Send data over to the destination node.
 */
-bool CommXBee::Recv(uint8_t* rxData, uint32_t* rxLength) {
+bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 	auto it = xbees.begin();
 	rxLength = 0;
 	while (it != xbees.end())
@@ -101,7 +101,7 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t* rxLength) {
 			for (int i = 0; i < pkt->dataLen; i++) {
 				rxData[i] = pkt->data[i];
 			}
-			*rxLength = pkt->dataLen;
+			rxLength = pkt->dataLen;
 			if (xbee_pktFree(pkt) != XBEE_ENONE);
 			return true;
 		}		
