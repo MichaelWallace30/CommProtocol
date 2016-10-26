@@ -190,7 +190,8 @@ endif()
 
 if (test)
   # C++ testing.
-  add_subdirectory(tests/classes/cpp_test)
+  add_subdirectory(tests/classes/cpp/udp/)
+  add_subdirectory(tests/classes/cpp/xbee/)
   # Vistionary testing toolset.
   add_subdirectory(unit)
 endif()
