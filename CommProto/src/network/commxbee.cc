@@ -105,7 +105,7 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 				rxData[i] = pkt->data[i];
 			}
 
-			*rxLength = pkt->dataLen;
+			rxLength = pkt->dataLen;
 			if (xbee_pktFree(pkt) != XBEE_ENONE);
 			return true;
 		}		
