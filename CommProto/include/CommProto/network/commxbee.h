@@ -68,7 +68,7 @@ public:
   /**
     Check Receive data.
    */
-  bool Recv(uint8_t* rxData, uint32_t* rxLength);
+  bool Recv(uint8_t* rxData, uint32_t& rxLength);
   
  
 
