@@ -44,6 +44,7 @@ bool UDPLink::RemoveAddress(uint8_t dest_id) {
   bool success = false;
   if (map[dest_id] != nullptr) {
     map.erase(dest_id);
+    success = true;
   }
   return success;
 }
