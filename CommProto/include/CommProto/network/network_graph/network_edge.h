@@ -36,13 +36,15 @@ class Edge {
   COMM_DISALLOW_COPYING(Edge);
 
 public:
-  Edge(Node* src, Node* dest) 
+  Edge(Node* src, Node* dest, int32_t dist) 
   : src(src)
-  , dest(dest) { }
+  , dest(dest)
+  , dist(dist) { }
 
   Edge()
   : src(NULL)
-  , dest(NULL) { }
+  , dest(NULL)
+  , dist(-1) { }
   
   ~Edge();
 
@@ -52,6 +54,7 @@ public:
 
   void ReLinkSrc(Node* new_src) { src.reset(new_src); }
   void ReLinkDest(Node* new_dest) { dest.reset(new_dest); } 
+  void SetDist(int32_t new_dist) { dist = new_dist; }
 private:
   /**
     Source node.
@@ -61,6 +64,9 @@ private:
     Destination node.
    */
   ::std::shared_ptr<Node> dest;
+  /**
+    Distance weight between the destination and source nodes.
+  */  
   int32_t dist;
 };
 
