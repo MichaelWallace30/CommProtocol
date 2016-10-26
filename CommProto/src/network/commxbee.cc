@@ -92,7 +92,7 @@ Send data over to the destination node.
 bool CommXBee::Recv(uint8_t* rxData, uint32_t* rxLength) {
 
 
-	std::unordered_map<uint8_t, struct xbee_con*>::iterator it = xbees.begin();
+	auto it = xbees.begin();
 	rxLength = 0;
 	while (it != xbees.end())
 	{
