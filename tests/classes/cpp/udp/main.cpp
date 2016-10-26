@@ -63,7 +63,7 @@ int main(int c, char** args) {
             << std::endl;
   std::cout << "Connected to address: "
             << std::boolalpha
-            << comm2.AddAddress(2, "127.0.0.1", 1337)
+            << comm2.AddAddress(1, "127.0.0.1", 1337)
             << std::endl;
   // CommNode 2 init and add Connection.
   std::cout << "Init connection succeeded: "
