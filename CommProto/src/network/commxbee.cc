@@ -90,28 +90,23 @@ bool CommXBee::RemoveAddress(uint8_t destId)
 Send data over to the destination node.
 */
 bool CommXBee::Recv(uint8_t* rxData, uint32_t* rxLength) {
-
-
 	auto it = xbees.begin();
 	rxLength = 0;
 	while (it != xbees.end())
 	{
 		xbee_conRx(it->second, &pkt, NULL);
 		it++;
-
 		// Package is not null, means we got a package from somewhere.
 		if (pkt != NULL) {
 			for (int i = 0; i < pkt->dataLen; i++) {
 				rxData[i] = pkt->data[i];
 			}
-
 			*rxLength = pkt->dataLen;
 			if (xbee_pktFree(pkt) != XBEE_ENONE);
 			return true;
 		}		
 	}
 	//no error to report just no message recv
-	it = xbees.begin();
 	return false;
 }
 

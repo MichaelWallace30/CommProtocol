@@ -23,7 +23,7 @@
 #include <CommProto/architecture/connection/serial-config.h>
 
 #include <xbee.h>//should be libxbee3 
-#include <unordered_map>
+#include <map>
 
 #if (COM_TARGET_OS == COM_OS_WINDOWS)
 	#include <Windows.h>
@@ -82,7 +82,7 @@ private:
 	struct xbee *xbee;
 	struct xbee_pkt *pkt;
 
-	std::unordered_map<uint8_t, struct xbee_con*> xbees;
+	std::map<uint8_t, struct xbee_con*> xbees;
 
 	
 	//struct xbee_conAddress *address;	

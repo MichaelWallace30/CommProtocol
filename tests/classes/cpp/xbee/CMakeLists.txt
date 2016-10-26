@@ -21,3 +21,4 @@ endif()
 # Given that linux is different from windows
 target_link_libraries(CommProtoXBee CommProtoStatic)
 target_link_libraries(CommProtoXBee cryptopp-static)
+target_link_libraries(CommProtoXBee libxbee3)
