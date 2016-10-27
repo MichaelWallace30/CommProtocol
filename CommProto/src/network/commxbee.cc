@@ -92,17 +92,32 @@ Send data over to the destination node.
 bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 	auto it = xbees.begin();
 	rxLength = 0;
+
+	unsigned char buffer[MAX_XBEE_PACKET_SIZE];
+
 	while (it != xbees.end())
 	{
 		xbee_conRx(it->second, &pkt, NULL);
 		it++;
 		// Package is not null, means we got a package from somewhere.
 		if (pkt != NULL) {
-			for (int i = 0; i < pkt->dataLen; i++) {
-				rxData[i] = pkt->data[i];
-			}
-			rxLength = pkt->dataLen;
-			if (xbee_pktFree(pkt) != XBEE_ENONE);
+			uint8_t seq;
+			uint8_t maxSeq;
+			do
+			{
+
+				for (int i = 0; i < pkt->dataLen; i++) {
+					buffer[i] = pkt->data[i];
+				}
+				int size = pkt->dataLen - 2;
+				seq = buffer[0];
+			    maxSeq = buffer[1];
+
+				memcpy(&rxData[(seq - 1) * MAX_XBEE_PACKET_SIZE -2], &buffer[2], size);
+
+				if (xbee_pktFree(pkt) != XBEE_ENONE);
+			} while (seq < maxSeq);
+
 			return true;
 		}		
 	}
@@ -113,12 +128,39 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 
 bool CommXBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
 	
+	uint8_t seq = 1;
+	uint8_t maxSeq;
+	uint8_t offset = 0;
+
+	unsigned char buffer[MAX_XBEE_PACKET_SIZE];
+
+	if (txLength % (MAX_XBEE_PACKET_SIZE - 2) != 0)
+	{
+		maxSeq = (uint8_t)(txLength / (MAX_XBEE_PACKET_SIZE - 2)) + 1;
+	}
+	else
+	{
+		maxSeq = (uint8_t)(txLength / (MAX_XBEE_PACKET_SIZE - 2));
+	}
+	
 	auto it = xbees.find(destId);
 
 	if (it != xbees.end())
 	{
-		xbee_connTx(it->second, NULL, txData, txLength);
-		COMMS_DEBUG("Xbee sent data to DestID: %d!\n", destId);
+
+		while (seq <= maxSeq)
+		{
+			buffer[0] = seq;
+			buffer[1] = maxSeq;
+
+			uint8_t size = (txLength - ((MAX_XBEE_PACKET_SIZE - 2) * seq));
+			if (size > (MAX_XBEE_PACKET_SIZE - 2)) size = MAX_XBEE_PACKET_SIZE - 2;
+			memcpy(&buffer[2], &txData[offset], size);
+
+			xbee_connTx(it->second, NULL, buffer, size + 2);
+			COMMS_DEBUG("Xbee sent data to DestID: %d!\n", destId);
+			seq++;
+		}
 		return true;
 	}
 	

@@ -27,7 +27,7 @@
 
 namespace comnet {
 namespace network {
-
+#define MAX_XBEE_PACKET_SIZE 72
 /**
    XBee communications module. Used for any Xbee protocol connection made to 
    other devices. Still needs work.
