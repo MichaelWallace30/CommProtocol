@@ -63,7 +63,7 @@ int main(int c, char** args) {
     << std::endl;
   std::cout << "Connected to address: "
     << std::boolalpha
-    << comm1.AddAddress(2, "0013A20040917A31")
+    << comm1.AddAddress(2, "0013A2004067E4AE")
     << std::endl;
   // ComNode 2 init and add Connection.
   std::cout << "Init connection succeeded: "
@@ -82,7 +82,7 @@ int main(int c, char** args) {
 
 
   // Test packet.
-  Ping bing("I like cats. MEW :3. this is a test...");
+  Ping bing("I like cats. MEW");
   // NOTE(All): Be sure to run the nodes! If not, the threads won't execute!
   comm1.Run();
   comm2.Run();
