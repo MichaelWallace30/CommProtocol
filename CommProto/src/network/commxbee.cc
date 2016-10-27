@@ -153,7 +153,7 @@ bool CommXBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
 			buffer[0] = seq;
 			buffer[1] = maxSeq;
 
-			uint8_t size = (txLength - ((MAX_XBEE_PACKET_SIZE - 2) * seq));
+			uint8_t size = (txLength - ((seq -1) *(MAX_XBEE_PACKET_SIZE - 2) * seq));
 			if (size > (MAX_XBEE_PACKET_SIZE - 2)) size = MAX_XBEE_PACKET_SIZE - 2;
 			memcpy(&buffer[2], &txData[offset], size);
 
