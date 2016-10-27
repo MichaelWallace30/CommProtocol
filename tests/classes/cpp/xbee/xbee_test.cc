@@ -81,8 +81,9 @@ int main(int c, char** args) {
   comm2.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
 
 
-  // Test packet.
-  Ping bing("I like cats. MEW");
+  // Test packet. 
+  Ping small("Cats. MEW :3");
+  Ping large("The quick brown fox jumps over a lazy dog.");
   // NOTE(All): Be sure to run the nodes! If not, the threads won't execute!
   comm1.Run();
   comm2.Run();
@@ -92,7 +93,7 @@ int main(int c, char** args) {
   while(true) {
     std::cout << "Sleeping..." << std::endl;
     // comm1 will be sending the packet.
-    comm1.Send(&bing, 2);
+    comm1.Send(&small, 2);
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
   std::cin.ignore();
