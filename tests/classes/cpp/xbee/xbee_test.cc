@@ -65,16 +65,27 @@ int main(int c, char** args) {
     << std::boolalpha
     << comm1.AddAddress(2, "0013A20040917A31")
     << std::endl;
+  // ComNode 2 init and add Connection.
+  std::cout << "Init connection succeeded: "
+	  << std::boolalpha
+	  << comm2.InitConnection(ZIGBEE_LINK, "COM6", "", 57600)
+	  << std::endl;
+  std::cout << "Connected to address: "
+	  << std::boolalpha
+	  << comm2.AddAddress(1, "0013A20040917A31", 5)
+	  << std::endl;
+  // CommNode 2 init and add Connection.
   // CommNode Callback linking.
+
   comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
-  
+  comm2.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
 
 
   // Test packet.
   Ping bing("I like cats. MEW :3. this is a test...");
   // NOTE(All): Be sure to run the nodes! If not, the threads won't execute!
   comm1.Run();
-  
+  comm2.Run();
 
   // Loop. To exit, Click the red button on the top left (Windows Visual Studio) OR 
   // CNTRL+C (Linux). 
