@@ -1,11 +1,13 @@
 #include <network/XbeeLink.h>
 
+#include <msclr/marshal.h>
+
 namespace Comnet {
 namespace Network {
 
 
 XBeeLink::XBeeLink()
-// : node(new experimental::XBeeLink())
+ : node(new comnet::network::XBeeLink())
 {
 }
 
@@ -17,14 +19,15 @@ XBeeLink::~XBeeLink()
 
 
 Boolean XBeeLink::InitConnection(String^ port, String^ address, uint32_t baudrate) {
-  char* portChar = (char*)(void*)Marshal::StringToHGlobalAnsi(port);
-  char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
-  return node->InitConnection(portChar, addressChar, baudrate);
+  msclr::interop::marshal_context ctx;
+  const char* portChar = ctx.marshal_as<const char*>(port);
+  return node->InitConnection(portChar, "", baudrate);
 }
 
 
 Boolean XBeeLink::AddAddress(uint8_t destId, String^ address, uint16_t port) {
-  char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
+  msclr::interop::marshal_context ctx;
+  const char* addressChar = ctx.marshal_as<const char*>(address);
   return node->AddAddress(destId, addressChar, port);
 }
 

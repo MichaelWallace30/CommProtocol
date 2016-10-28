@@ -17,7 +17,10 @@ UDPLink::~UDPLink(){
 Returns false if open socket or bind fails*/
 Boolean UDPLink::InitConnection( String^ port,  String^ address, uint32_t baudrate){	
 	char* portChar = (char*)(void*)Marshal::StringToHGlobalAnsi(port);
-	char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
+  char* addressChar = nullptr;
+  if (address != nullptr) {
+	  addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
+  }
 	return unmanagedUDPLink->InitConnection(portChar, addressChar, baudrate);
 }
 

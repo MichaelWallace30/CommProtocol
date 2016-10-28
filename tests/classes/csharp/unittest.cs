@@ -57,29 +57,75 @@ namespace CommProtoCSharpText {
 		}
 	}
 
+	class TargetDesignationCommand : ABSPacket {
+		public TargetDesignationCommand() : base("TargetDesignationCommand") {
+		}
+
+		public TargetDesignationCommand(float x, float y, float z) : base("TargetDesignationCommand") {
+			this.x = x; this.y = y; this.z = z;
+		}
+
+		public override ABSPacket Create() {
+			return new TargetDesignationCommand();
+		}
+
+		public override void Pack(ObjectStream obj) {
+			obj.Input(x);
+			obj.Input(y);
+			obj.Input(z);
+		}
+
+		public override void Unpack(ObjectStream obj) {
+			z = obj.OutputSingle();
+			y = obj.OutputSingle();
+			x = obj.OutputSingle();
+		}
+
+		public float x;
+		public float y;
+		public float z;
+	}
+
 	class Calls {
 		public int PingCallback(Header header, ABSPacket packet, CommNode node) {
 			Ping ping = ABSPacket.GetValue<Ping>(packet);
 			Console.WriteLine("Ping message recieved: " + ping.GetMessage());
 			Ping pins = new Ping("C# got dat message mate...");
-			node.Send(pins, header.GetSourceID());
 			return (Int32)(CallBackCodes.CALLBACK_SUCCESS | CallBackCodes.CALLBACK_DESTROY_PACKET);
+		}
+
+		public int TargetCallback(Header header, ABSPacket packet, CommNode node) {
+			TargetDesignationCommand comm = ABSPacket.GetValue<TargetDesignationCommand>(packet);
+			Console.WriteLine("I got.  X: {0}\tY: {1}\tZ: {2}", comm.x, comm.y, comm.z);
+			return (Int32)CallBackCodes.CALLBACK_SUCCESS;
 		}
 	}
 
 	class UnitTest {
 		static void Main(string[] args) {
 			Calls call = new Calls();
-			CommNode comm1 = new Comms(2);
+			CommNode comm1 = new Comms(1);
+			CommNode comm2 = new Comms(2);
 
 			comm1.LinkCallback(new Ping(), new CallBack(call.PingCallback));
-			comm1.InitConnection(TransportProtocol.UDP_LINK, "1337", "192.168.1.106", 0);
-			Console.WriteLine(comm1.AddAddress(1, "192.168.1.116", 1338));
+			comm2.LinkCallback(new Ping(), new CallBack(call.PingCallback));
+			
+			comm1.InitConnection(TransportProtocol.ZIGBEE_LINK, "COM5", "", 57600);
+			comm2.InitConnection(TransportProtocol.ZIGBEE_LINK, "COM6", "", 57600);
+			Console.WriteLine(comm1.AddAddress(2, "0013A2004067E4AE", 0));
+			Console.WriteLine(comm2.AddAddress(1, "0013A20040917A31", 0));
+			//comm1.InitConnection(TransportProtocol.UDP_LINK, "1337", "127.0.0.1", 57600);
+			//comm2.InitConnection(TransportProtocol.UDP_LINK, "1338", "127.0.0.1", 57600);
+			//Console.WriteLine(comm1.AddAddress(2, "127.0.0.1", 1338));
+			//Console.WriteLine(comm2.AddAddress(1, "127.0.0.1", 1337));
 			//Ping ping = new Ping("I am from C#!");
 			comm1.Run();
-			Ping ping = new Ping("From C#, do you read, over!");
+			comm2.Run();
+			Ping ping = new Ping("From C#, From the xbee!!");
+			//TargetDesignationCommand command = new TargetDesignationCommand(45.34f, 23.22f, 234.44f);
 			while (true) {
-				comm1.Send(ping, 1);
+				comm1.Send(ping, 2);
+				//comm1.Send(command, 1);
 				System.Threading.Thread.Sleep(1000);
 			}
 		}

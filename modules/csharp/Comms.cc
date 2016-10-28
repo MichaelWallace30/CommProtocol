@@ -33,9 +33,10 @@ Void Comms::commHelperRecv() {
           error = callback->CallFunction(header, packet, static_cast<CommNode^>(this));
           // Do something with the packet.
           switch (error) {
-            case CALLBACK_SUCCESS: break;
+            case CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET: break;
             case CALLBACK_FAIL: break;
             case CALLBACK_DESTROY_PACKET: break;
+              
             default: break;
           }
         }
