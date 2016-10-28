@@ -37,7 +37,21 @@ namespace architecture {
 enum PipeMode {
   READ,
   WRITE,
-  BOTH,
+  BOTH
+};
+
+
+enum PipeStatus {
+  NOT_CONNECTED,
+  CONNECTED_CLIENT,
+  CONNECTED_SERVER,
+  FAILED_CONNECT
+};
+
+
+enum PipeType {
+  PIPE_ANONYMOUS,
+  PIPE_NAMED,
 };
 
 
@@ -46,17 +60,27 @@ _INTERFACE_ COMM_EXPORT IPipe {
 public:
   IPipe() = default;
   virtual ~IPipe() { }
-  
-  virtual bool Create() = 0;
+  /**
+    Create Anonymous pipe for local communications.
+  */
+  virtual bool Create(PipeMode mode) = 0;
   /**
     Named Pipe creation, win32 deals with these handles in a magical world called WINAPIs, 
     while linux deals with file paths, in FIFO format. both deal with reading/writing through a file.
   */
   virtual bool CreateNamed(std::string path, PipeMode mode) = 0;
+  /**
+    Connect to the named pipe. 
+    NOTE(Garcia): For Win32, "\\\\.\\pipename" is used, whereas, linux is something else.
+   */
+  virtual bool Connect(std::string path, PipeMode mode) = 0;
   virtual bool Read(char* buf, uint32_t len) = 0;
   virtual bool Write(char* buf, uint32_t& len) = 0;
   virtual pipe_t& GetReadHandle() = 0;
   virtual pipe_t& GetWriteHandle() = 0;
+  virtual PipeStatus GetStatus() = 0;
+  virtual PipeType GetType() = 0;
+  virtual bool Close() = 0;
 };
 } // architecture
 } // comnet
