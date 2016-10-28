@@ -41,6 +41,7 @@ Void Comms::commHelperRecv() {
         }
       }
     }
+    System::Threading::Thread::Sleep(1000);
   }
 }
 
@@ -53,6 +54,7 @@ Void Comms::commHelperSend() {
                       temp->unmangedObjectStream->Get().GetBuffer(),
                       temp->unmangedObjectStream->Get().GetSize());
     }
+    System::Threading::Thread::Sleep(1000);
   }
 }
 
