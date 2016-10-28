@@ -63,21 +63,21 @@ void Comms::CommunicationHandlerRecv() {
 	  uint8_t stream_buffer[MAX_BUFFER_SIZE];
     uint32_t recv_len = 0;
     conn_layer->Recv(stream_buffer, &recv_len);
-    ObjectStream *temp = new ObjectStream();
-    temp->SetBuffer((char*)stream_buffer, recv_len);
+    ObjectStream temp;
+    temp.SetBuffer((char*)stream_buffer, recv_len);
     /*
       Algorithm should Get the header, Get the message id from header, then
       produce the packet from the header, finally Get the callback.
      */
-    if (temp->GetSize() > 0) {
+    if (temp.GetSize() > 0) {
       COMMS_DEBUG("Comms packet unpacking...\n");
-      Header header = temp->DeserializeHeader();
+      Header header = temp.DeserializeHeader();
       // Create the packet.
       packet = this->packet_manager.ProduceFromId(header.msg_id);
     
       if (packet) {
         // Unpack the object stream.
-        packet->Unpack(*temp);
+        packet->Unpack(temp);
         Callback* callback = NULL;
         callback = this->packet_manager.Get(*packet);
 
@@ -107,9 +107,7 @@ void Comms::CommunicationHandlerRecv() {
       } else {
         COMMS_DEBUG("Unknown packet recieved.\n");
       }	
-    }
-
-    free_pointer(temp);		
+    }		
     recv_mutex.Unlock();	
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
   }
@@ -148,46 +146,46 @@ bool Comms::LoadKeyFromFile(char*keyFileName)
 
 bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint32_t baudrate)
 {
-	uint16_t length = 0;
-	switch (conn_type)
-	{
-		case UDP_LINK:
-		{			
-			
-			str_length(address, length);
-			if (length < ADDRESS_LENGTH)
-			{	
-			  COMMS_DEBUG("UDP connection.\n");
-				conn_layer = new UDPLink();
-				return conn_layer->InitConnection(port, address);
-			}
-			break;
-		}
-		case SERIAL_LINK:
-		{
-			
-			str_length(address, length);
-			if (length < ADDRESS_LENGTH)
-			{
-				conn_layer = new SerialLink();
-				return conn_layer->InitConnection(port, NULL, baudrate);
-			}
-			break;
-		
-		}
-		case ZIGBEE_LINK:
-		{
+  if (conn_layer != nullptr) {
+    free_pointer(conn_layer);
+  }
+
+  uint16_t length = 0;
+  switch (conn_type) {
+    case UDP_LINK: 
+    {			
+      str_length(address, length);
+      if (length < ADDRESS_LENGTH)
+      {	
+        COMMS_DEBUG("UDP connection.\n");
+        conn_layer = new UDPLink();
+        return conn_layer->InitConnection(port, address);
+      }
+      break;
+    }
+    case SERIAL_LINK:
+    {
+      str_length(address, length);
+      if (length < ADDRESS_LENGTH)
+      {
+        conn_layer = new SerialLink();
+        return conn_layer->InitConnection(port, NULL, baudrate);
+      }
+      break;
+    }
+    case ZIGBEE_LINK:
+    {
 			 conn_layer = new XBeeLink();
 			return conn_layer->InitConnection(port, NULL, baudrate);
       // TODO(Garcia): Will need to create throw directives instead.
       
       break;
     }
-		default:
-		  COMMS_DEBUG("NO CONNECTION\n");
-		{return false;}
-	}
-	return true;
+    default:
+      COMMS_DEBUG("NO CONNECTION\n");
+    {return false;}
+  }
+  return true;
 }
 
 
