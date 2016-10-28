@@ -97,29 +97,34 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 
 	while (it != xbees.end())
 	{
-		xbee_conRx(it->second, &pkt, NULL);
+		struct xbee_con *con = it->second;
+		xbee_conRx(con, &pkt, NULL);
 		it++;
-		// Package is not null, means we got a package from somewhere.
+				
+		uint8_t seq;
+		uint8_t maxSeq;
 		if (pkt != NULL) {
-			uint8_t seq;
-			uint8_t maxSeq;
 			do
 			{
+				// Package is not null, means we got a package from somewhere.
+				if (pkt != NULL) {
+					for (int i = 0; i < pkt->dataLen; i++) {
+						buffer[i] = pkt->data[i];
+					}
+					int size = pkt->dataLen - 2;
+					seq = buffer[0];
+					maxSeq = buffer[1];
+					rxLength += size;
+					memcpy(&rxData[(seq - 1) * (MAX_XBEE_PACKET_SIZE - 2)], &buffer[2], size);
 
-				for (int i = 0; i < pkt->dataLen; i++) {
-					buffer[i] = pkt->data[i];
+					if (xbee_pktFree(pkt) != XBEE_ENONE);					
 				}
-				int size = pkt->dataLen - 2;
-				seq = buffer[0];
-			    maxSeq = buffer[1];
-
-				memcpy(&rxData[(seq - 1) * MAX_XBEE_PACKET_SIZE -2], &buffer[2], size);
-
-				if (xbee_pktFree(pkt) != XBEE_ENONE);
+				xbee_conRx(con, &pkt, NULL);
 			} while (seq < maxSeq);
+		}
 
-			return true;
-		}		
+		return true;
+		
 	}
 	//no error to report just no message recv
 	return false;
@@ -153,9 +158,10 @@ bool CommXBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
 			buffer[0] = seq;
 			buffer[1] = maxSeq;
 
-			uint8_t size = (txLength - ((seq -1) *(MAX_XBEE_PACKET_SIZE - 2) * seq));
-			if (size > (MAX_XBEE_PACKET_SIZE - 2)) size = MAX_XBEE_PACKET_SIZE - 2;
+			uint8_t size = (txLength - ((seq -1) *(MAX_XBEE_PACKET_SIZE - 2) * seq));			
+			if (size > (MAX_XBEE_PACKET_SIZE - 2)) size = MAX_XBEE_PACKET_SIZE - 2;			
 			memcpy(&buffer[2], &txData[offset], size);
+			offset += size;
 
 			xbee_connTx(it->second, NULL, buffer, size + 2);
 			COMMS_DEBUG("Xbee sent data to DestID: %d!\n", destId);

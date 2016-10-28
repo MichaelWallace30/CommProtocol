@@ -64,6 +64,7 @@ bool XBeeLink::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
 
 bool XBeeLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
 	bool success = home->Recv(rxData, *rxLength);
+	
 	return success;
 }
 } // Network
