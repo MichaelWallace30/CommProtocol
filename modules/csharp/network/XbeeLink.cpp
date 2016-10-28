@@ -1,7 +1,5 @@
 #include <network/XbeeLink.h>
 
-#include <msclr/marshal.h>
-
 namespace Comnet {
 namespace Network {
 
@@ -19,15 +17,14 @@ XBeeLink::~XBeeLink()
 
 
 Boolean XBeeLink::InitConnection(String^ port, String^ address, uint32_t baudrate) {
-  msclr::interop::marshal_context ctx;
-  const char* portChar = ctx.marshal_as<const char*>(port);
-  return node->InitConnection(portChar, "", baudrate);
+  char* portChar = (char*)(void*)Marshal::StringToHGlobalAnsi(port);
+  char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
+  return node->InitConnection(portChar, addressChar, baudrate);
 }
 
 
 Boolean XBeeLink::AddAddress(uint8_t destId, String^ address, uint16_t port) {
-  msclr::interop::marshal_context ctx;
-  const char* addressChar = ctx.marshal_as<const char*>(address);
+  char* addressChar = (char*)(void*)Marshal::StringToHGlobalAnsi(address);
   return node->AddAddress(destId, addressChar, port);
 }
 
