@@ -26,6 +26,8 @@ Features currently implementing:
 Building CommProtocol should be relatively easy, you will need the following tools in order to make your life easier:
   
 - CMake (At least 2.8 and above)
+- Visual Studio 2013+ (if using windows)
+- GCC 4.8+ (if using linux/posix operating systems)
   
 Simply download this repository (Clone if you will), navigate to the directory/folder of where you cloned this repository, and create a new folder called "build." inside this build directory, you will open a command prompt (or bash shell) inside and use the following command:
 
