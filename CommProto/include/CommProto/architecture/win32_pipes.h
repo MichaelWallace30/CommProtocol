@@ -1,5 +1,5 @@
 /*
-  Piping for Intercommunications.
+  Win32 pipe.
 
   Copyright (C) 2016  Mario Garcia.
 
@@ -16,41 +16,23 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __PIPING_H
-#define __PIPING_H
+#ifndef __WIN32_PIPES_H
+#define __WIN32_PIPES_H
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
-#include <CommProto/architecture/macros.h>
-#include <CommProto/architecture/pipe_config.h>
+#include <CommProto/architecture/pipes.h>
 
-#include <memory>
-
-
-
-namespace coment {
-namespace console {
+namespace comnet {
+namespace architecture {
 
 
-enum PipeCommands {
-  cp_OPEN,
-  cp_CLOSE,
-};
-
-
-/**
-  Pipe is an object abstraction, used to handle intercommunication processes between the 
-  CommNode and external applications. In order to communicate asyncronously with CommNode,
-  We use a separate pipe to an external application, for use with both applications, since two
-  CommNodes will need to be used. 
-*/
-class COMM_EXPORT CommPipe {
+class COMM_EXPORT Pipe : public IPipe {
 public:
-  
-private:
 
-  std::unique_ptr<comnet::architecture::IPipe> pipe;
+private:
+  pipe_t pipe;
 };
-} // console
-} // coment
-#endif // __PIPING_H
+} // architecture
+} // comnet
+#endif // __WIN32_PIPES_H
