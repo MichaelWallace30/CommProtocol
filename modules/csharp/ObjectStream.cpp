@@ -24,7 +24,6 @@ using namespace Comnet::Serialization;
 
 ObjectStream::ObjectStream()
 {
-  printf("new");
   try {
 	  unmangedObjectStream = new CommPointer<comnet::serialization::ObjectStream>(new comnet::serialization::ObjectStream());
   } catch (System::Runtime::InteropServices::SEHException()) {
@@ -39,7 +38,6 @@ ObjectStream::ObjectStream(CommPointer<comnet::serialization::ObjectStream>* poi
 
 ObjectStream::~ObjectStream()
 {
-  printf("del");
 	delete unmangedObjectStream;
 	unmangedObjectStream = NULL;
 }
