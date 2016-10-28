@@ -119,7 +119,7 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 
 					if (xbee_pktFree(pkt) != XBEE_ENONE);					
 				}
-				xbee_conRx(con, &pkt, NULL);
+				if(seq< maxSeq)xbee_conRx(con, &pkt, NULL);
 			} while (seq < maxSeq);
 		}
 
