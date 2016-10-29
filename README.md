@@ -41,12 +41,13 @@ If you are on Linux, simply call inside the current directory (assuming you are 
 ```
 make
 ```
+
+Which will compile all the projects for CommProtocol. 
+
 #Note 
 CommProtocol Library requires libxbee3 to execute copy the file to your bin folder (ie .exe)
 - Windows {build dir}\libxbee3\(debug or release)\libxbee3.dll
 - Linux: {build dir}\libxbee3\libxbee3.o
-
-
-Which will compile all the projects for CommProtocol.  
+ 
 ## Design Analysis
 Coming soon...
