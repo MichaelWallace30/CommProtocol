@@ -68,13 +68,13 @@ PacketTable::~PacketTable()
     
     if (pair) {
       if (pair->packet) {
-	delete pair->packet;
-	pair->packet = NULL;
+	       delete pair->packet;
+	       pair->packet = NULL;
       }
 
       if (pair->callback) {
-	delete pair->callback;
-	pair->callback = NULL;
+       	delete pair->callback;
+	       pair->callback = NULL;
       }
 
       delete pair;
@@ -99,16 +99,18 @@ bool PacketTable::Insert(const AbstractPacket* key, const Callback* callback) {
   pair->packet = (AbstractPacket* )key;
   pair->callback = (Callback* )callback;
 
+		//Iterates through the table until an empty element is found
   int saved = hash;
   while ( (*(table+hash)) != NULL  && (*(table+hash))->packet->GetId() != key->GetId() ) {
-    hash = TraverseIndex(hash);
+    //Moves hash along the array, will set to 0 when size is exceeded
+				hash = TraverseIndex(hash);
     
+				//Will only occur when all elements in the array have been checked
     if (hash == saved) {
       willStore = false;
       break;
     }
   }
-
 
   if ( *(table+hash) == NULL ) {
     *(table+hash) = pair;
@@ -120,12 +122,14 @@ bool PacketTable::Insert(const AbstractPacket* key, const Callback* callback) {
     free_pointer((*(table+hash))->callback);
     (*(table+hash))->callback = (Callback* )callback;
     stored = true;
-  }
-  
+		}
+  //TODO: Call the resize method when neither of the above conditionals are true
+
   return stored;
 }
 
 
+//TODO: May call the wrong callback if insert had to iterate through the array to insert an element
 Callback* PacketTable::GetCallback(uint32_t key) {
   uint32_t hash = KeyHash(key);
   Callback* result = NULL;
