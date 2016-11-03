@@ -90,6 +90,11 @@ private:
 	//struct xbee_conSettings *settings;//for broadcast recieve probably wont use
 	
 	int ret;
+
+	
+	std::map<uint8_t, struct xbee_con*>::iterator itXbeesRecv;
+	
+
 	
 
 };
