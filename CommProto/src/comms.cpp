@@ -118,9 +118,11 @@ void Comms::CommunicationHandlerRecv() {
 /******************* Public  *******************/
 /***********************************************/
 Comms::Comms(uint8_t platformID)
-: CommNode(platformID),
-comm_encryption()
+: CommNode(platformID)
+, encrypt(new encryption::CommEncryptor(encryption::AES))
 {
+  decrypt = std::shared_ptr<encryption::CommDecryptor>(
+          new encryption::CommDecryptor(encryption::AES, encrypt.get()));
 	this->recv_queue = new AutoQueue <AbstractPacket*>;
 	this->send_queue = new AutoQueue <ObjectStream*>;
 	conn_layer = NULL;
@@ -135,12 +137,12 @@ Comms::~Comms()
 
 bool Comms::LoadKey(char* key)
 {
-	return comm_encryption.LoadKey(key);
+  return encrypt->LoadKey(key);
 }
 
 bool Comms::LoadKeyFromFile(char*keyFileName)
 {
-	return comm_encryption.LoadKeyFromFile(keyFileName);
+	return encrypt->LoadKeyFromFile(keyFileName);
 }
 
 
