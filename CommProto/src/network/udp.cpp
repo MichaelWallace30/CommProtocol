@@ -39,7 +39,7 @@ bool UDP::UdpOpen(int* fd)
       result = false;
   }
   struct timeval tv;
-  // 100 ms timeout.
+  // 1 s timeout.
   tv.tv_sec = 1;
   tv.tv_usec = 0;
   if (result && setsockopt(*fd, SOL_SOCKET, SO_RCVTIMEO, (const char *)&tv, sizeof(tv)) == 0) {
