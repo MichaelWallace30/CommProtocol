@@ -120,10 +120,9 @@ void Comms::CommunicationHandlerRecv() {
 /***********************************************/
 Comms::Comms(uint8_t platformID)
 : CommNode(platformID)
-, encrypt(std::unique_ptr<encryption::CommEncryptor>(new encryption::CommEncryptor(encryption::AES)))
+, encrypt(encryption::CommEncryptor(encryption::AES))
 {
-  decrypt = std::unique_ptr<encryption::CommDecryptor>(
-              new encryption::CommDecryptor(encryption::AES, encrypt.get()));
+  decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
 	this->recv_queue = new AutoQueue <AbstractPacket*>;
 	this->send_queue = new AutoQueue <ObjectStream*>;
 	conn_layer = NULL;
@@ -141,12 +140,12 @@ Comms::~Comms()
 
 bool Comms::LoadKey(char* key)
 {
-  return encrypt->LoadKey(key);
+  return encrypt.LoadKey(key);
 }
 
 bool Comms::LoadKeyFromFile(char*keyFileName)
 {
-	return encrypt->LoadKeyFromFile(keyFileName);
+	return encrypt.LoadKeyFromFile(keyFileName);
 }
 
 

@@ -26,6 +26,14 @@ namespace comnet {
 namespace encryption {
 
 
+CommEncryptor::CommEncryptor()
+: protocol(NONE)
+, decryptor(nullptr)
+, encryption(nullptr)
+{
+}
+
+
 CommEncryptor::CommEncryptor(CryptProtocol proto)
 : protocol(proto)
 , decryptor(nullptr)
@@ -42,6 +50,22 @@ CommEncryptor::CommEncryptor(CryptProtocol proto, CommDecryptor* decryptor)
   encryption = std::shared_ptr<EncryptionInterface>(this->decryptor->encryption);
   this->decryptor->LinkEncryptor(this);
   protocol = this->decryptor->protocol;
+}
+
+
+CommEncryptor::CommEncryptor(CommEncryptor&& encrypt) 
+: encryption(encrypt.encryption)
+{
+  std::swap(decryptor, encrypt.decryptor);
+  std::swap(protocol, encrypt.protocol);
+}
+
+
+CommEncryptor& CommEncryptor::operator=(CommEncryptor&& encrypt) {
+  encryption = encrypt.encryption;
+  std::swap(decryptor, encrypt.decryptor);
+  std::swap(protocol, encrypt.protocol);
+  return *this;
 }
 
 

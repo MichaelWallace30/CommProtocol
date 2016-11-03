@@ -42,8 +42,11 @@ enum CryptProtocol {
 class COMM_EXPORT CommEncryptor {
   COMM_DISALLOW_COPYING(CommEncryptor);
 public:
+  CommEncryptor();
   CommEncryptor(CryptProtocol proto);
   CommEncryptor(CryptProtocol proto, CommDecryptor* decryptor);
+  CommEncryptor(CommEncryptor&& encrypt);
+  CommEncryptor& operator=(CommEncryptor&& encrypt);
   ~CommEncryptor();
 
   uint8_t LoadKey(char* key);

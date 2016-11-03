@@ -34,8 +34,11 @@ namespace encryption {
 class COMM_EXPORT CommDecryptor {
   COMM_DISALLOW_COPYING(CommDecryptor);
 public:
+  CommDecryptor();
   CommDecryptor(CryptProtocol proto);
   CommDecryptor(CryptProtocol proto, CommEncryptor* encryptor);
+  CommDecryptor(CommDecryptor&& decrypt);
+  CommDecryptor& operator=(CommDecryptor&& decrypt);
   ~CommDecryptor();
 
   uint8_t LoadKey(char* key);

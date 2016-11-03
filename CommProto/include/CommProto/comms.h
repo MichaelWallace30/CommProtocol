@@ -75,8 +75,8 @@ private:
 
 
 	/** Encryption class used to encrypt and dectrypt data */
-  std::unique_ptr<encryption::CommEncryptor> encrypt;
-  std::unique_ptr<encryption::CommDecryptor> decrypt;
+  encryption::CommEncryptor encrypt;
+  encryption::CommDecryptor decrypt;
 
 public:		
 	/** Constructor */
