@@ -52,7 +52,7 @@ void Comms::CommunicationHandlerSend()
 		}
 //		COMMS_DEBUG("IM GOING!!\n");
 	}
-  COMMS_DEBUG("send ends!");
+  COMMS_DEBUG("send ends!\n");
 }
 
 /** function for communication thread */
