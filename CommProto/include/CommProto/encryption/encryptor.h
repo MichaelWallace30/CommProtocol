@@ -50,14 +50,14 @@ public:
   uint8_t LoadKeyFromFile(char* filename_key);
   int32_t Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
 
-  CommDecryptor* GetDecryptor() { return decryptor.get(); }
-  void LinkDecryptor(CommDecryptor* decrypt) { decryptor.reset(decrypt); }
+  CommDecryptor* GetDecryptor() { return decryptor; }
+  void LinkDecryptor(CommDecryptor* decrypt) { decryptor = decrypt; }
   CryptProtocol GetEncryptionType() { return protocol; }
 private:
   void Setup();
 
   std::shared_ptr<EncryptionInterface> encryption;
-  std::shared_ptr<CommDecryptor> decryptor;
+  CommDecryptor* decryptor;
   CryptProtocol protocol;
   friend class CommDecryptor;
 };

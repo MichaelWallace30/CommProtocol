@@ -36,19 +36,19 @@ class COMM_EXPORT CommDecryptor {
 public:
   CommDecryptor(CryptProtocol proto);
   CommDecryptor(CryptProtocol proto, CommEncryptor* encryptor);
-  ~CommDecryptor() { }
+  ~CommDecryptor();
 
   uint8_t LoadKey(char* key);
   uint8_t LoadKeyFromFile(char* filename_key);
   int32_t Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
 
-  CommEncryptor* GetEncryptor() { return encryptor.get(); }
-  void LinkEncryptor(CommEncryptor* encrypt) { encryptor.reset(encrypt); }
+  CommEncryptor* GetEncryptor() { return encryptor; }
+  void LinkEncryptor(CommEncryptor* encrypt) { encryptor = encrypt; }
   CryptProtocol GetEncryptionType() { return protocol; }
 private:
   void Setup();
   std::shared_ptr<EncryptionInterface> encryption;
-  std::shared_ptr<CommEncryptor> encryptor;
+  CommEncryptor* encryptor;
   CryptProtocol protocol;
 
   friend class CommEncryptor;

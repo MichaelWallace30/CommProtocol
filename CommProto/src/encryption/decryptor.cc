@@ -19,6 +19,7 @@
 
 #include <CommProto/encryption/decryptor.h>
 #include <CommProto/encryption/encryptor.h>
+#include <CommProto/debug/comms_debug.h>
 #include "aes_encryption.h"
 
 namespace comnet {
@@ -27,7 +28,7 @@ namespace encryption {
 
 CommDecryptor::CommDecryptor(CryptProtocol proto)
 : protocol(proto)
-, encryptor(std::shared_ptr<CommEncryptor>(nullptr))
+, encryptor(nullptr)
 , encryption(std::shared_ptr<EncryptionInterface>(nullptr))
 {
   Setup();
@@ -36,11 +37,19 @@ CommDecryptor::CommDecryptor(CryptProtocol proto)
 
 CommDecryptor::CommDecryptor(CryptProtocol proto, CommEncryptor* encryptor)
 : protocol(proto)
-, encryptor(std::shared_ptr<CommEncryptor>(encryptor))
+, encryptor(encryptor)
 {
   encryption = std::shared_ptr<EncryptionInterface>(this->encryptor->encryption);
   this->encryptor->LinkDecryptor(this);
   protocol = encryptor->protocol;
+}
+
+
+CommDecryptor::~CommDecryptor() 
+{
+  if (encryptor != nullptr) {
+    encryptor->decryptor = nullptr;
+  }
 }
 
 
