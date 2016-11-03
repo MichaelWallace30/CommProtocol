@@ -38,7 +38,7 @@ using namespace comnet;
 /** function for communication thread */
 void Comms::CommunicationHandlerSend()
 {
-	while (this->IsRunning())
+	while (this->IsRunning() && conn_layer)
 	{
 		if (!send_queue->IsEmpty())
 		{
@@ -52,6 +52,7 @@ void Comms::CommunicationHandlerSend()
 		}
 //		COMMS_DEBUG("IM GOING!!\n");
 	}
+  COMMS_DEBUG("send ends!");
 }
 
 /** function for communication thread */
@@ -130,6 +131,9 @@ Comms::Comms(uint8_t platformID)
 
 Comms::~Comms()
 {
+  Stop();
+  comm_thread_recv.Join();
+  comm_thread_send.Join();
 	free_pointer(conn_layer);
 }
 
