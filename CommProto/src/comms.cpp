@@ -131,8 +131,10 @@ Comms::Comms(uint8_t platformID)
 Comms::~Comms()
 {
   Stop();
-  comm_thread_recv.Join();
-  comm_thread_send.Join();
+  while (comm_thread_recv.IsJoinable() || comm_thread_send.IsJoinable()) {
+    comm_thread_recv.Join();
+    comm_thread_send.Join();
+  }
 	free_pointer(conn_layer);
 }
 

@@ -3,7 +3,6 @@
 #include <CommProto/callback.h>
 #include <CommProto/architecture/os/comm_thread.h>
 #include <iostream>
-
 /*
 #Note 
 CommProtocol Library requires libxbee3 to execute copy the file to your bin folder (ie .exe)
