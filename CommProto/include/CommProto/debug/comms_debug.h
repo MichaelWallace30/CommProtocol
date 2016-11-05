@@ -47,11 +47,16 @@
  #ifdef __COMMS_DEBUG_LOG
   #define comms_fatal(messg, call) { \
             comms_debug_log("FATAL: "); \
-            comms_debug_log("%s", messg); \
-	    call = -1; \
+            comms_debug_log(messg); \
+	           call = -1; \
+            exit(1); \
           }
  #else
-  #define comms_fatal(messg, call)
+  #define comms_fatal(messg, call) { \
+            comms_debug_log("FATAL: "); \
+            comms_debug_log(messg); \
+	           call = -1; \
+          }
  #endif // __COMMS_DEBUG_FATAL_EXIT
 #else
  #define comms_fatal(messg, call)
