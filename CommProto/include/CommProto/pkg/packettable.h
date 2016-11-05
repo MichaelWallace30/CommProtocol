@@ -23,13 +23,28 @@
 #include <CommProto/architecture/api.h>
 #include <CommProto/architecture/macros.h>
 
-
 namespace comnet {
 
 class AbstractPacket;
 class Callback;
 
 namespace pkg {
+
+  namespace detail {
+    /**
+    Creates a pair.
+    */
+    struct Pair {
+      /**
+      The callback associated with this pair.
+      */
+      Callback* callback;
+      /**
+      The packet associated with this pair.
+      */
+      AbstractPacket* packet;
+    };
+  }
 
 /**
   Normal Packet table used for mapping packets in association of 
@@ -70,7 +85,24 @@ public:
    */
   bool Resize(uint32_t new_size);
 
+  /**
+    Iterates over the table and checks if the call parameter exists.
+  */
+  bool Contains(Callback* call);
+
+  /**
+    Accessor for the number of pairs that are inside the table.
+  */
+  uint32_t getNumOfPairs()
+  {
+    return numOfPairs;
+  }
+
 private:
+
+  static const double LOAD_FACTOR;
+
+  uint32_t FindArrPos(uint32_t key);
   /**
     Traverse the table.
    */  
@@ -79,23 +111,25 @@ private:
     The benevolent key hasher. 
    */  
   uint32_t KeyHash(uint32_t key);
+
   /**
-    Creates a pair.
-   */
-  struct Pair {
-    /**
-      The callback associated with this pair.
-     */
-    Callback* callback;
-    /**
-      The packet associated with this pair.
-     */
-    AbstractPacket* packet;
-  };
+    Stores a pointer to a Pair that will be used as a flag for elements that were removed from the table.
+    Must be allocated to guarantee that the space in memory can't be used by other elements.
+  */
+  static const detail::Pair* REMOVED_PTR;
+
+  /**
+    True if there is a valid object in the ptr, false otherwise
+  */
+  inline bool containsObject(detail::Pair* ptr)
+  {
+    return (ptr != NULL && ptr != REMOVED_PTR);
+  }
+
   /**
     The table that houses AbstractPacket-Callback pairs.
    */
-  Pair** table;
+  detail::Pair** table;
   /**
     Keeps track of the number of pairs in the table.
    */
@@ -104,6 +138,11 @@ private:
     Keeps track of the table size.
    */
   uint32_t tableSize;
+  
+  /**
+    The maximum number of pairs the table can store before resizing
+  */
+  uint32_t tableCapacity;
 };
 } // namespace Pkg
 } // namespace Comnet
