@@ -22,8 +22,14 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/connection/serial-config.h>
 
-#include <xbee.h>//should be libxbee3 
+
 #include <map>
+
+// Declarations from the xbee.h file of libxbee3.lib
+struct xbee;
+struct xbee_pkt;
+struct xbee_con;
+struct xbee_conAddress;
 
 namespace comnet {
 namespace network {
@@ -70,7 +76,7 @@ public:
 private:
 	uint8_t hexCharToInt(unsigned char value);
 	uint8_t doubleHexCharToInt(unsigned char c1, unsigned char c2);
-	void stringToAddress(const char* str, uint8_t length, xbee_conAddress &address);
+	void stringToAddress(const char* str, uint8_t length, struct xbee_conAddress &address);
 
 	//unordered map of *con
 

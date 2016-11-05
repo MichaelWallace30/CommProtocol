@@ -29,7 +29,8 @@
 #include <CommProto/abstractpacket.h>
 #include <CommProto/commnode.h>
 #include <CommProto/headerpacket.h>//Header which declares packet structs
-#include <CommProto/encryption/aes_encryption.h>
+#include <CommProto/encryption/encryptor.h>
+#include <CommProto/encryption/decryptor.h>
 
 #include <iostream>//testing only
 #include <stdint.h>//needed for bit size variables
@@ -74,7 +75,8 @@ private:
 
 
 	/** Encryption class used to encrypt and dectrypt data */
-	AesEncryption comm_encryption;
+  encryption::CommEncryptor encrypt;
+  encryption::CommDecryptor decrypt;
 
 public:		
 	/** Constructor */

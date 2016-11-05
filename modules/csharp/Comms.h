@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CCOMMS_H
 #define __CCOMMS_H
 
-#include <CommProto/encryption/aes_encryption.h>
 #include <CommNode.h>
 #include <network/CommsLink.h>
 #include <vcclr.h>

@@ -30,13 +30,23 @@ namespace network {
 
 bool UDP::UdpOpen(int* fd)
 {
-  bool result = false;
+  bool result = true;
   initializeSockAPI(result);
   /** attempts to open socket 
       returns false if fails*/
   if ((*fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
       COMMS_DEBUG("socket() failed\n");
-      result = false;;
+      result = false;
+  }
+  struct timeval tv;
+  // 1 s timeout.
+  tv.tv_sec = 1;
+  tv.tv_usec = 0;
+  if (result && setsockopt(*fd, SOL_SOCKET, SO_RCVTIMEO, (const char *)&tv, sizeof(tv)) == 0) {
+    COMMS_DEBUG("Successful socket option.\n");
+  } else {
+    COMMS_DEBUG("Timeout not set!\nerrno=%d", GET_LAST_ERROR);
+    result = false;
   }
   
   return result;

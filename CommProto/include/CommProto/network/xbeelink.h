@@ -32,7 +32,7 @@ namespace network {
 	public:
 		XBeeLink();
 
-		~XBeeLink(){};
+		~XBeeLink() { free_pointer(home); };
 			
 		
 		/**

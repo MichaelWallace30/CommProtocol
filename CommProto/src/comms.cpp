@@ -38,7 +38,7 @@ using namespace comnet;
 /** function for communication thread */
 void Comms::CommunicationHandlerSend()
 {
-	while (this->IsRunning())
+	while (this->IsRunning() && conn_layer)
 	{
 		if (!send_queue->IsEmpty())
 		{
@@ -52,6 +52,7 @@ void Comms::CommunicationHandlerSend()
 		}
 //		COMMS_DEBUG("IM GOING!!\n");
 	}
+  COMMS_DEBUG("send ends!\n");
 }
 
 /** function for communication thread */
@@ -118,9 +119,10 @@ void Comms::CommunicationHandlerRecv() {
 /******************* Public  *******************/
 /***********************************************/
 Comms::Comms(uint8_t platformID)
-: CommNode(platformID),
-comm_encryption()
+: CommNode(platformID)
+, encrypt(encryption::CommEncryptor(encryption::AES))
 {
+  decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
 	this->recv_queue = new AutoQueue <AbstractPacket*>;
 	this->send_queue = new AutoQueue <ObjectStream*>;
 	conn_layer = NULL;
@@ -128,6 +130,9 @@ comm_encryption()
 
 Comms::~Comms()
 {
+  Stop();
+  comm_thread_recv.Join();
+  comm_thread_send.Join();
 	free_pointer(conn_layer);
 }
 
@@ -135,12 +140,12 @@ Comms::~Comms()
 
 bool Comms::LoadKey(char* key)
 {
-	return comm_encryption.LoadKey(key);
+  return encrypt.LoadKey(key);
 }
 
 bool Comms::LoadKeyFromFile(char*keyFileName)
 {
-	return comm_encryption.LoadKeyFromFile(keyFileName);
+	return encrypt.LoadKeyFromFile(keyFileName);
 }
 
 
