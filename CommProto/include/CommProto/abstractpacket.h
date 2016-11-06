@@ -73,7 +73,7 @@ public:
   virtual AbstractPacket* Create() = 0;
 
   template<typename Type>
-  static Type& GetValue(AbstractPacket& packet) {
+  static Type& GetValue(AbstractPacket& packet) noexcept {
     try {
       return dynamic_cast< Type& >( packet );
     } catch ( std::bad_cast e ) {

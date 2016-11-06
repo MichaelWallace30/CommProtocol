@@ -39,25 +39,25 @@ public:
   /** 
     input c string as the form of encrytion key
    */
-  uint8_t LoadKey(char* key);
+  uint8_t LoadKey(char* key) override;
   /** 
     load file which contatins the encryption key by the file name
    */
-  uint8_t LoadKeyFromFile(char*keyFileName);
+  uint8_t LoadKeyFromFile(char*keyFileName) override;
   /** 
     Encrypt buffer for desired length of data stream and return any agumented legnth by reference
     A return value of - value is an error 
   */
-  int32_t Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
+  int32_t Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]) override;
   /** 
     Decrypt buffer for desired length of data stream and return any agumented legnth by reference
     @returns A return value of - value is an error 
    */
-  int32_t Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
+  int32_t Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]) override;
   /** 
     Random number generator which fills an array of size length
    */
-  uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length);
+  uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length) override;
 };
 } // encryption
 } // comnet

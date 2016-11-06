@@ -37,7 +37,7 @@ public:
     @param mode The mode of which you want this pipe to be using. This allows reading
                 one way, or writing one way, or none, or both.
   */
-  bool Create(PipeMode mode) {
+  bool Create(PipeMode mode) override {
     bool success = false;
     // Create an anonymous local pipe for windows.
     switch (mode) {
@@ -52,18 +52,18 @@ public:
   }
 
 
-  bool CreateNamed(std::string path, PipeMode mode);
-  bool Connect(std::string path, PipeMode mode);
-  bool Read(char* buf, uint32_t& len);
-  bool Write(char* buf, uint32_t len);
-  bool Close() {
+  bool CreateNamed(std::string path, PipeMode mode) override;
+  bool Connect(std::string path, PipeMode mode) override;
+  bool Read(char* buf, uint32_t& len) override;
+  bool Write(char* buf, uint32_t len) override;
+  bool Close() override {
     CloseHandle(rpipe);
     CloseHandle(wpipe);
   }
-  pipe_t& GetReadHandle() { return rpipe; }
-  pipe_t& GetWriteHandle() { return wpipe; }
-  PipeStatus GetStatus() { return status; }
-  PipeType GetType() { return type; }
+  pipe_t& GetReadHandle() override { return rpipe; }
+  pipe_t& GetWriteHandle() override { return wpipe; }
+  PipeStatus GetStatus() override { return status; }
+  PipeType GetType() override { return type; }
 private:
   pipe_t rpipe;
   pipe_t wpipe;
