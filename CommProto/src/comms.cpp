@@ -151,7 +151,10 @@ bool Comms::LoadKeyFromFile(char*keyFileName)
 }
 
 
-bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint32_t baudrate)
+bool Comms::InitConnection(transport_protocol_t conn_type, 
+                           const char* port, 
+                           const char* address, 
+                           uint32_t baudrate)
 {
   if (conn_layer != nullptr) {
     free_pointer(conn_layer);
@@ -210,19 +213,19 @@ bool Comms::RemoveAddress(uint8_t dest_id)
 }
 
 
-bool Comms::Send(AbstractPacket* packet, uint8_t dest_id) {
+bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   if (conn_layer == NULL) { 
     return false;
   }
   
   ObjectStream *stream = new ObjectStream();
   // Pack the stream with the packet.		
-  packet->Pack(*stream);		
+  packet.Pack(*stream);		
   Header header;
 
   header.dest_id = dest_id;
   header.source_id = this->GetNodeId();
-  header.msg_id = packet->GetId();
+  header.msg_id = packet.GetId();
   header.msg_len = stream->GetSize();
   //
   //call encryption here

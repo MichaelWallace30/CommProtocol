@@ -118,7 +118,7 @@ public:
   /**
      Send the packet to the specified destination address.
    */
-  virtual bool Send(AbstractPacket* packet, uint8_t dest_id) = 0;
+  virtual bool Send(AbstractPacket& packet, uint8_t dest_id) = 0;
   /**
      Check for packet if received. This is called manually by user, yet the node should
      be able to Run automatically checking for received packets. Any packets linked to a 
