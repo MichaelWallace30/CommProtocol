@@ -73,7 +73,6 @@ UDP::UDP(UDP&& udp)
 : fd(0)
 , slen(0)
 {
-  std::swap(rx_buf, udp.rx_buf);
   std::swap(udp.sockaddr, sockaddr);
 }
 
@@ -81,7 +80,6 @@ UDP::UDP(UDP&& udp)
 UDP& UDP::operator=(UDP&& udp)
 {
   std::swap(udp.sockaddr, sockaddr);
-  std::swap(rx_buf, udp.rx_buf);
   fd = udp.fd;
   slen = udp.slen;
   return *this;
