@@ -61,7 +61,6 @@ int main(int c, char** args) {
   // This will cause the thread to wait for a few milliseconds, causing any other thread to wait.
   comnet::architecture::os::WaitForMilliseconds(commlock, cond, 1000); 
 
-  std::cout << "Test complete!" << std::endl;
   // ComNode 1 init and add Connection.
   std::cout << "Init connection succeeded: " 
             << std::boolalpha

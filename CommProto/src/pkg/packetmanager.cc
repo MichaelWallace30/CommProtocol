@@ -21,14 +21,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/abstractpacket.h>
 #include <CommProto/callback.h>
 
-#define DEFAULT_TABLE_SIZE 1000
-
 namespace comnet {
 namespace pkg {
 
 
 PacketManager::PacketManager()
-  : table(new PacketTable(DEFAULT_TABLE_SIZE))
+  : table(new PacketTable())
 {
 }
 
@@ -55,6 +53,15 @@ Callback* PacketManager::Get(const AbstractPacket& key) {
   return table->GetCallback(key.GetId());
 }
 
+uint32_t PacketManager::GetSize()
+{
+  return table->getNumOfPairs();
+}
+
+bool PacketManager::Resize(uint32_t size)
+{
+  return table->Resize(size);
+}
 
 AbstractPacket* PacketManager::ProduceFromId(uint32_t key) {
   AbstractPacket* packet = table->GetPacket(key);
@@ -64,6 +71,10 @@ AbstractPacket* PacketManager::ProduceFromId(uint32_t key) {
 
 bool PacketManager::Remove(const AbstractPacket& key) {
   return table->Remove(key.GetId());
+}
+bool PacketManager::Contains(const AbstractPacket & key)
+{
+  return (table->GetPacket(key.GetId()) != NULL);
 }
 } // namespace Pkg
 } // namespace Comnet

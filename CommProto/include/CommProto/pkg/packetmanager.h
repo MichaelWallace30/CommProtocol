@@ -89,15 +89,15 @@ public:
   bool Contains(Callback* call);
 
   /**
-     Get the number of Packet-callback pairs in this table.
-   */
-  int32_t GetSize() { return size; }
+    Get the number of Packet-callback pairs in this table.
+  */
+		uint32_t GetSize();
 
-  /**
-     Resizes the manager table, when hitting a certain number of 
-     pairs relative to the overall size of the table.
-   */
-  void Resize();
+		/**
+		  Allocates more space for the hashtable.
+		*/
+		bool Resize(uint32_t size);
+
   /**
      Will produce a Packet from the provided id.
    */
@@ -107,14 +107,6 @@ private:
   PacketFactory factory;
 
   PacketTable* table;
-  /**
-     The current number of Pairs in this table.
-   */
-  int32_t size;
-  /**
-     The max overall size of the table.
-   */
-  int32_t MaxSize;
 };
 } // namespace Pkg
 } // namespace Comnet
