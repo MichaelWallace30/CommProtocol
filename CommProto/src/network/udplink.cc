@@ -22,7 +22,10 @@
 namespace comnet {
 namespace network {
 
-
+UDPLink::~UDPLink()
+{
+		local.Close();
+}
 
 bool UDPLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
   return local.InitConnection(port, address);

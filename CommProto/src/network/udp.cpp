@@ -65,15 +65,16 @@ UDP::UDP()
   //   conn[index].socket_status = SOCKET_OPEN;
   // }
 //  connected = false;
-  sockaddr.socket_status = SOCKET_OPEN;
+  sockaddr.socket_status = SOCKET_CLOSED;
 }
 
 
 UDP::UDP(UDP&& udp)
-: fd(0)
-, slen(0)
 {
   std::swap(udp.sockaddr, sockaddr);
+		fd = udp.fd;
+		slen = udp.slen;
+		udp.sockaddr.socket_status = SOCKET_CLOSED;
 }
 
 
@@ -82,20 +83,21 @@ UDP& UDP::operator=(UDP&& udp)
   std::swap(udp.sockaddr, sockaddr);
   fd = udp.fd;
   slen = udp.slen;
+		udp.sockaddr.socket_status = SOCKET_CLOSED;
   return *this;
 }
 
 
 UDP::~UDP()
-{	
-  closeSocket(fd);
+{   
+  
 }
 
 
 bool UDP::InitConnection(const char* port, const char* address)
 {	
   //open socket and  check if socket is not already connected
-  if (sockaddr.socket_status != SOCKET_CONNECTED && UdpOpen(&fd)) {
+  if (sockaddr.socket_status != SOCKET_OPEN && UdpOpen(&fd)) {
     uint16_t length = 0;
     sockaddr.port = std::atoi(port);
     sockaddr.id = 0; // Home
@@ -128,7 +130,7 @@ bool UDP::InitConnection(const char* port, const char* address)
     //set size of address
     slen = sizeof(sockaddr.socket_address);
     //set connected to true
-    sockaddr.socket_status = SOCKET_CONNECTED;
+    sockaddr.socket_status = SOCKET_OPEN;
 
     return true;
   }
@@ -144,7 +146,7 @@ std::unique_ptr<UDP> UDP::Connect(uint8_t dest_id, const char* address, uint16_t
   uint16_t length = 0;
   str_length(address, length);
   UDP* udp = new UDP();
-  if (udp->GetSocket().socket_status == SOCKET_OPEN && length < ADDRESS_LENGTH) {
+  if (udp->GetSocket().socket_status == SOCKET_CLOSED && length < ADDRESS_LENGTH) {
     //setup address structure
     memset((char *)&udp->GetSocket().socket_address, 0, sizeof(udp->GetSocket().socket_address));
     udp->GetSocket().socket_address.sin_family = AF_INET;
@@ -155,25 +157,12 @@ std::unique_ptr<UDP> UDP::Connect(uint8_t dest_id, const char* address, uint16_t
     udp->GetSocket().port = port;
     udp->fd = fd;
     udp->slen = slen;
-    //udp->GetSocket().socket = ;
     return std::unique_ptr<UDP>(udp);
   }
   
   //already connected node or address is invalid
   return std::unique_ptr<UDP>(nullptr);	
 }
-
-
-// bool UDP::RemoveAddress(uint8_t dest_id)
-// {  
-//  if (conn[dest_id].socket_status == SOCKET_CONNECTED) {
-//    conn[dest_id].socket_status = SOCKET_OPEN;
-//    return true;
-//  }
-//
-//  return false;
-// }
-
 
 bool UDP::Send(uint8_t* tx_data, uint32_t tx_length)
 {
@@ -219,6 +208,14 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
   *rx_length = (uint32_t)length;
 
   return true;
+}
+bool UDP::Close()
+{
+		if (sockaddr.socket_status != SOCKET_CLOSED) {
+				closeSocket(fd);
+				return true;
+		}
+		return false;
 }
 } // namespace Network
 } // namespace Comnet
