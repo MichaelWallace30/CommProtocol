@@ -19,6 +19,7 @@
 #ifndef __COMMS_DEBUG_H
 #define __COMMS_DEBUG_H
 
+#include <CommProto/architecture/os/include_defines.h>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -62,8 +63,16 @@
  #define comms_fatal(messg, call)
 #endif // __COMMS_DEBUG_LOG
 
+
+// Assertion functions are VERY useful, especially because they can tell which file the error is coming
+// from, even when defined in a dll or library obj.
+#define COMM_ASSERT(expression)              do { if (!(expression)) { COM_ASSERT(expression); } } while (0)
+#define COMM_ASSERT_MSG(expression, message) do { if (!(expression)) { COM_ASSERT(message && expression); } } while (0)
+
 namespace comnet {
 namespace debug {
+
+
 
 } // Console namespace
 } // Comnet namespace

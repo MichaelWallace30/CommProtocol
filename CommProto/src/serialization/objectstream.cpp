@@ -42,14 +42,15 @@ void ObjectStream::SetBuffer(const char* buffer, int len)
 	{
 		stream_buffer[curr_pos] = buffer[curr_pos];
 	}
+  DeserializeHeader();
 }
 
 
 void ObjectStream::SerializeHeader(Header header)
 {
 	//not sure if more is needed kind of a waste of space
-	header_packet.dest_id = header.dest_id;
 	Header::Serialize(header, stream_buffer, 0);
+  header_packet = header;
 }
 
 
@@ -57,6 +58,7 @@ Header ObjectStream::DeserializeHeader()
 {
 	Header header;
 	Header::Deserialize(header, stream_buffer, 0);	
+  header_packet = header;
 	return header;
 }
 

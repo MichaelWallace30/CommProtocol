@@ -43,16 +43,18 @@ public:
     Encrypt buffer for desired length of data stream and return any agumented legnth by reference
 	    A return value of - value is an error 
   */
-  virtual int32_t Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]) = 0;
+  virtual int32_t Encrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) = 0;
   /** 
     Decrypt buffer for desired length of data stream and return any agumented legnth by reference
 	    A return value of - value is an error 
   */
-  virtual int32_t Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]) = 0;
+  virtual int32_t Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) = 0;
   /** 
     Randome numbder generator which fills an array of size legnth
    */
   virtual uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length) = 0;
+
+  virtual bool KeyIsLoaded() = 0;
 };
 } // encryption
 } // comnet

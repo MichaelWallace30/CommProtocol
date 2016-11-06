@@ -18,6 +18,7 @@
 */
 #include <CommProto/encryption/encryptor.h>
 #include <CommProto/encryption/decryptor.h>
+#include <CommProto/encryption/comm_random.h>
 #include <CommProto/debug/comms_debug.h>
 
 #include "aes_encryption.h"
@@ -95,10 +96,14 @@ uint8_t CommEncryptor::LoadKeyFromFile(char* filename_key) {
 }
 
 
-int32_t CommEncryptor::Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]) {
+int32_t CommEncryptor::Encrypt(comnet::serialization::ObjectStream* obj) {
   int32_t result = 0;
-  if (encryption != nullptr) {
-    result = encryption->Encrypt(buffer, length, iv);
+  if (encryption != nullptr && KeyIsLoaded()) {
+    // TODO(Garcia): Will require encryption of the header!
+    encryption->GenerateRandomIV(obj->GetHeaderPacket().iv, BLOCK_SIZE);
+    result = encryption->Encrypt(obj->GetBuffer() + sizeof(Header), 
+                                 obj->GetHeaderPacket().msg_len, 
+                                 obj->GetHeaderPacket().iv);
   } 
   return result;
 }
@@ -112,6 +117,14 @@ void CommEncryptor::Setup() {
     default: // do nothing
       break;
   }
+}
+
+
+bool CommEncryptor::KeyIsLoaded() {
+  if (encryption != nullptr) {
+    return encryption->KeyIsLoaded();
+  }
+  return false;
 }
 } // encryption
 } // comnet

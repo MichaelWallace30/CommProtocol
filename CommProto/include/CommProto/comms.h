@@ -20,30 +20,25 @@
 #define COMMS_H
 
 #include <CommProto/tools/data_structures/interface/interface_queue.h>
-#include <CommProto/network/commslink.h> //communication layer interface/abstract base class
+#include <CommProto/debug/error_status.h>
 #include <CommProto/console/console.h>
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/comm_mutex.h>
 #include <CommProto/architecture/os/comm_thread.h>
-#include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
-#include <CommProto/abstractpacket.h>
+#include <CommProto/network/commslink.h>
 #include <CommProto/commnode.h>
-#include <CommProto/headerpacket.h>//Header which declares packet structs
 #include <CommProto/encryption/encryptor.h>
 #include <CommProto/encryption/decryptor.h>
-
-#include <iostream>//testing only
-#include <stdint.h>//needed for bit size variables
 
 
 namespace comnet {
   
 
-  using namespace std;
-  using namespace comnet::tools::datastructures;
-  using namespace comnet::serialization;
-  using namespace comnet::network;	
-  using namespace comnet::architecture::os;
+using namespace std;
+using namespace comnet::tools::datastructures;
+using namespace comnet::serialization;
+using namespace comnet::network;	
+using namespace comnet::architecture::os;
   /**
     Comms is a standard CommNode node object. It handles elementary and intermediate 
     commands and functionality in order to work to the user's specifications of communications.
@@ -93,7 +88,10 @@ public:
 	enum connection type to use serial, UDP, zigbee, ect
 	port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
 	baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */
-	bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address = NULL, uint32_t baudrate = 0) override;
+	bool InitConnection(transport_protocol_t conn_type, 
+			const char* port, 
+			const char* address = NULL, 
+			uint32_t baudrate = 0) override;
 
 	/** The address entered will be paired for communication by destination ID
 	Adding address can be a UDP IPV4 or hex MAC address for zigbee
@@ -103,8 +101,8 @@ public:
 	/** Removing an address removes the known association of address and destination ID by using id*/
 	bool RemoveAddress(uint8_t dest_id) override;
 
-	bool Send(AbstractPacket* packet, uint8_t dest_id);
-	AbstractPacket* Receive(uint8_t&  source_id);
+	bool Send(AbstractPacket& packet, uint8_t dest_id) override;
+	AbstractPacket* Receive(uint8_t&  source_id) override;
 
 	/** Method to start communication*/
 	void Run() override;
@@ -118,6 +116,9 @@ public:
 protected:
 	// Nothing yet.
 	void LogToConsoles();
+private:
+
+  void HandlePacket(error_t error, AbstractPacket* packet);
 	};//End Comms class      
 } // namespace Comnet
 #endif//End if COMMS_H

@@ -3,7 +3,6 @@
 #include <CommProto/callback.h>
 #include <CommProto/architecture/os/comm_thread.h>
 #include <iostream>
-
 /*
 #Note 
 CommProtocol Library requires libxbee3 to execute copy the file to your bin folder (ie .exe)
@@ -55,8 +54,10 @@ int main(int c, char** args) {
   std::cout << sizeof(comnet::Header) << std::endl;
   // CommNode 1
   comnet::Comms comm1(1);
+  std::cout << std::boolalpha << comm1.LoadKey("NGCP project 2016");
   // CommNode 2
   comnet::Comms comm2(2);
+  std::cout << std::boolalpha << comm2.LoadKey("NGCP project 2016");
   comnet::architecture::os::CommMutex mut;
   comnet::architecture::os::CommLock commlock(mut);
   // This will cause the thread to wait for a few milliseconds, causing any other thread to wait.
@@ -96,7 +97,7 @@ int main(int c, char** args) {
   while (true) {
     std::cout << "Sleeping..." << std::endl;
     // comm1 will be sending the packet.
-    comm1.Send(&bing, 2);
+    comm1.Send(bing, 2);
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
   std::cin.ignore();

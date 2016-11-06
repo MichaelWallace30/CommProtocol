@@ -60,55 +60,53 @@ void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning() && conn_layer) {
     recv_mutex.Lock();
     AbstractPacket* packet = NULL;
-    //Send data here
 	  uint8_t stream_buffer[MAX_BUFFER_SIZE];
     uint32_t recv_len = 0;
-    conn_layer->Recv(stream_buffer, &recv_len);
+    bool received = conn_layer->Recv(stream_buffer, &recv_len);
     ObjectStream temp;
-    temp.SetBuffer((char*)stream_buffer, recv_len);
-    /*
+    if ( received ) {
+      temp.SetBuffer((char*)stream_buffer, recv_len);
+      if(decrypt.Decrypt(&temp)) {
+        COMMS_DEBUG("Packet was decrypted!\n");
+      } else {
+        COMMS_DEBUG("Packet was not decrypted!\n Either encryption is not set or key was not loaded!\n");
+      }
+      /*
       Algorithm should Get the header, Get the message id from header, then
       produce the packet from the header, finally Get the callback.
-     */
-    if (temp.GetSize() > 0) {
-      COMMS_DEBUG("Comms packet unpacking...\n");
-      Header header = temp.DeserializeHeader();
-      // Create the packet.
-      packet = this->packet_manager.ProduceFromId(header.msg_id);
-    
-      if (packet) {
-        // Unpack the object stream.
-        packet->Unpack(temp);
-        Callback* callback = NULL;
-        callback = this->packet_manager.Get(*packet);
+      */
+      if(temp.GetSize() > 0) {
+        COMMS_DEBUG("Comms packet unpacking...\n");
+        Header header = temp.DeserializeHeader();
 
-        if (callback) {
-          error_t error;
-          /*
-            TODO(Wallace): This might need to Run on a separate thread, or 
+        // Create the packet.
+        packet = this->packet_manager.ProduceFromId(header.msg_id);
+
+        if(packet) {
+          // Unpack the object stream.
+          packet->Unpack(temp);
+          Callback* callback = NULL;
+          callback = this->packet_manager.Get(*packet);
+
+          if(callback) {
+            error_t error;
+            /*
+            TODO(Wallace): This might need to Run on a separate thread, or
             on a new thread, to prevent it from stopping the Receive handler.
             User figures out what to do with the packet.
-          */
-          error = callback->CallFunction(header, *packet, (CommNode& )*this);
-          // Handle error.
-          switch (error) {
-          case (CALLBACK_DESTROY_PACKET | CALLBACK_SUCCESS):
-              cout << "Destroying packet internally..." << std::endl;
-              free_pointer(packet);
-            case CALLBACK_SUCCESS:
-              cout << "Successful callback" << endl; 
-              break;
-            default:  
-              cout << "Nothing" << endl;
-          };
+            */
+            error = callback->CallFunction(header, *packet, (CommNode&)*this);
+            // Handle error.
+            HandlePacket(error, packet);
+          } else {
+            // store the packet into the Receive queue.
+            recv_queue->Enqueue(packet);
+          }
         } else {
-          // store the packet into the Receive queue.
-          recv_queue->Enqueue(packet);
+          COMMS_DEBUG("Unknown packet recieved.\n");
         }
-      } else {
-        COMMS_DEBUG("Unknown packet recieved.\n");
-      }	
-    }		
+      }
+    }
     recv_mutex.Unlock();	
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
   }
@@ -131,8 +129,10 @@ Comms::Comms(uint8_t platformID)
 Comms::~Comms()
 {
   Stop();
-  comm_thread_recv.Join();
-  comm_thread_send.Join();
+  while (comm_thread_recv.IsJoinable() || comm_thread_send.IsJoinable()) {
+    comm_thread_recv.Join();
+    comm_thread_send.Join();
+  }
 	free_pointer(conn_layer);
 }
 
@@ -143,13 +143,16 @@ bool Comms::LoadKey(char* key)
   return encrypt.LoadKey(key);
 }
 
-bool Comms::LoadKeyFromFile(char*keyFileName)
+bool Comms::LoadKeyFromFile(char* keyFileName)
 {
 	return encrypt.LoadKeyFromFile(keyFileName);
 }
 
 
-bool Comms::InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint32_t baudrate)
+bool Comms::InitConnection(transport_protocol_t conn_type, 
+                           const char* port, 
+                           const char* address, 
+                           uint32_t baudrate)
 {
   if (conn_layer != nullptr) {
     free_pointer(conn_layer);
@@ -208,24 +211,26 @@ bool Comms::RemoveAddress(uint8_t dest_id)
 }
 
 
-bool Comms::Send(AbstractPacket* packet, uint8_t dest_id) {
+bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   if (conn_layer == NULL) { 
     return false;
   }
   
   ObjectStream *stream = new ObjectStream();
   // Pack the stream with the packet.		
-  packet->Pack(*stream);		
+  packet.Pack(*stream);		
   Header header;
 
   header.dest_id = dest_id;
   header.source_id = this->GetNodeId();
-  header.msg_id = packet->GetId();
+  header.msg_id = packet.GetId();
   header.msg_len = stream->GetSize();
-  //
-  //call encryption here
-  //
   stream->SerializeHeader(header);
+  if(encrypt.Encrypt(stream)) {
+    COMMS_DEBUG("Packet was encrypted!\n");
+  } else {
+    COMMS_DEBUG("Packet was not encrypted! Either encryption was not created, or key was not loaded!\n");
+  }
   send_queue->Enqueue(stream);
 
   return true;
@@ -233,11 +238,11 @@ bool Comms::Send(AbstractPacket* packet, uint8_t dest_id) {
 
 
 AbstractPacket* Comms::Receive(uint8_t&  source_id) {
-  if (conn_layer == NULL) return NULL;
-  if (!recv_queue->IsEmpty()) {
-    cout << "Message recv in Comms" << endl;
+  AbstractPacket* packet = nullptr;
+  if (conn_layer != nullptr && !recv_queue->IsEmpty()) {
     // This is a manual Receive function. The user does not need to call this function,
     // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
+    packet = recv_queue->Front();
     recv_queue->Dequeue();  
   }
 	
@@ -266,4 +271,20 @@ void Comms::Pause()
 
 
 void Comms::LogToConsoles() {
+}
+
+
+void Comms::HandlePacket(error_t error, AbstractPacket* packet) {
+  if ((error & CALLBACK_SUCCESS) == CALLBACK_SUCCESS) {
+    COMMS_DEBUG("PACKET SUCCESSFULL.\n");
+  } else if ((error & CALLBACK_FAIL) == CALLBACK_FAIL) {
+    COMMS_DEBUG("PACKET FAILED.\n");
+  }
+  if ((error & CALLBACK_DESTROY_PACKET) == CALLBACK_DESTROY_PACKET) {
+    COMMS_DEBUG("DESTROYING PACKET.\n");
+    free_pointer(packet);
+  }
+  if ((error & CALLBACK_STORE_PACKET) == CALLBACK_STORE_PACKET) {
+    COMMS_DEBUG("STORING PACKET.\n");
+  }
 }

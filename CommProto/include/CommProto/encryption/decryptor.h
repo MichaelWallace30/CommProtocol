@@ -43,11 +43,12 @@ public:
 
   uint8_t LoadKey(char* key);
   uint8_t LoadKeyFromFile(char* filename_key);
-  int32_t Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
+  int32_t Decrypt(comnet::serialization::ObjectStream* obj);
 
   CommEncryptor* GetEncryptor() { return encryptor; }
   void LinkEncryptor(CommEncryptor* encrypt) { encryptor = encrypt; }
   CryptProtocol GetEncryptionType() { return protocol; }
+  bool KeyIsLoaded();
 private:
   void Setup();
   std::shared_ptr<EncryptionInterface> encryption;

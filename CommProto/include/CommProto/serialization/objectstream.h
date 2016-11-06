@@ -96,10 +96,6 @@ public:
   
   void SerializeHeader(Header header);
   Header DeserializeHeader();
-
-  //
-  //decrypt and encrypt header here
-  //
 		
   
   /** Overloaded input stream operators to put variables into the object stream*/  
