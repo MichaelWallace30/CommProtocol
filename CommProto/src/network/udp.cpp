@@ -75,14 +75,12 @@ UDP::UDP(UDP&& udp)
 {
   std::swap(rx_buf, udp.rx_buf);
   std::swap(udp.sockaddr, sockaddr);
-  std::swap(si_other, udp.si_other);
 }
 
 
 UDP& UDP::operator=(UDP&& udp)
 {
   std::swap(udp.sockaddr, sockaddr);
-  std::swap(si_other, udp.si_other);
   std::swap(rx_buf, udp.rx_buf);
   fd = udp.fd;
   slen = udp.slen;
@@ -96,7 +94,7 @@ UDP::~UDP()
 }
 
 
-bool UDP::InitConnection(const char* port, const char* address, uint32_t baudrate)
+bool UDP::InitConnection(const char* port, const char* address)
 {	
   //open socket and  check if socket is not already connected
   if (sockaddr.socket_status != SOCKET_CONNECTED && UdpOpen(&fd)) {
@@ -119,7 +117,7 @@ bool UDP::InitConnection(const char* port, const char* address, uint32_t baudrat
     //setup address structure
     memset((char *)&sockaddr.socket_address, 0, sizeof(sockaddr.socket_address));
     sockaddr.socket_address.sin_family = AF_INET;
-    sockaddr.socket_address.sin_port = htons(portInt);
+    sockaddr.socket_address.sin_port = htons(portInt);		//Converts to network byte order (big endian)
     sockaddr.socket_address.sin_addr.s_addr = inet_addr((char*)address);
       
     //bind socket
@@ -184,15 +182,14 @@ bool UDP::Send(uint8_t* tx_data, uint32_t tx_length)
   if (sockaddr.socket_status == SOCKET_CONNECTED) {
     int slenSend = sizeof(sockaddr.socket_address);
     if (sendto(fd, (char *) tx_data, tx_length, 0, (struct sockaddr *) &sockaddr.socket_address, slen) < 0)
-		{
+				{
       COMMS_DEBUG("sendto() failed. error=%d\n", GET_LAST_ERROR);
-
       return false;
-		} else {	  						
-        COMMS_DEBUG("\n**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
-        tx_length, ntohs(sockaddr.socket_address.sin_port),
-        inet_ntoa(sockaddr.socket_address.sin_addr));		  
-		}
+				} else {	  						
+      COMMS_DEBUG("\n**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
+      tx_length, ntohs(sockaddr.socket_address.sin_port),
+      inet_ntoa(sockaddr.socket_address.sin_addr));		  
+				}
   }
 
   return true;

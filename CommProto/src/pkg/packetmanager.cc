@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/pkg/packetmanager.h>
-#include <CommProto/pkg/packettable.h>
+#include <CommProto/pkg/packethashtable.h>
 #include <CommProto/abstractpacket.h>
 #include <CommProto/callback.h>
 
@@ -26,21 +26,20 @@ namespace pkg {
 
 
 PacketManager::PacketManager()
-  : table(new PacketTable())
+  : table(new PacketHashTable())
 {
 }
 
 
 PacketManager::PacketManager(uint32_t setSize)
-  : table(new PacketTable(setSize))
+  : table(new PacketHashTable(setSize))
 {
 }
 
 
 PacketManager::~PacketManager() 
 {
-  delete table;
-  nullify_pointer(table);
+		free_pointer(table);
 }
 
 
@@ -58,15 +57,15 @@ uint32_t PacketManager::GetSize()
   return table->getNumOfPairs();
 }
 
-bool PacketManager::Resize(uint32_t size)
+bool PacketManager::Reserve(uint32_t size)
 {
-  return table->Resize(size);
+  return table->Reserve(size);
 }
 
 AbstractPacket* PacketManager::ProduceFromId(uint32_t key) {
   AbstractPacket* packet = table->GetPacket(key);
   return factory.ProduceNewPacket(packet);
-}
+} 
 
 
 bool PacketManager::Remove(const AbstractPacket& key) {
@@ -75,6 +74,10 @@ bool PacketManager::Remove(const AbstractPacket& key) {
 bool PacketManager::Contains(const AbstractPacket & key)
 {
   return (table->GetPacket(key.GetId()) != NULL);
+}
+bool PacketManager::Contains(Callback * call)
+{
+		return (table->Contains(call));
 }
 } // namespace Pkg
 } // namespace Comnet

@@ -93,25 +93,25 @@ public:
 	enum connection type to use serial, UDP, zigbee, ect
 	port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
 	baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */
-	bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address = NULL, uint32_t baudrate = 0);
+	bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address = NULL, uint32_t baudrate = 0) override;
 
 	/** The address entered will be paired for communication by destination ID
 	Adding address can be a UDP IPV4 or hex MAC address for zigbee
 	Adding an address is not need for serial and will default to ""*/
-	bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+	bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
 
 	/** Removing an address removes the known association of address and destination ID by using id*/
-	bool RemoveAddress(uint8_t dest_id);
+	bool RemoveAddress(uint8_t dest_id) override;
 
 	bool Send(AbstractPacket* packet, uint8_t dest_id);
 	AbstractPacket* Receive(uint8_t&  source_id);
 
 	/** Method to start communication*/
-	void Run();
+	void Run() override;
 	/** Method to toggle Pause communication*/
-	void Pause();
+	void Pause() override;
 	/** Method to Stop communication*/
-	void Stop();
+	void Stop() override;
 	// Sets up the home console.
 	bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
 

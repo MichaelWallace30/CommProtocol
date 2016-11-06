@@ -96,7 +96,7 @@ public:
 		/**
 		  Allocates more space for the hashtable.
 		*/
-		bool Resize(uint32_t size);
+		bool Reserve(uint32_t size);
 
   /**
      Will produce a Packet from the provided id.
