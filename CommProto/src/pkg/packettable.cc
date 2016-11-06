@@ -197,7 +197,7 @@ bool PacketTable::Remove(uint32_t key) {
 				free_pointer(pair->packet);
 				free_pointer(pair->callback);
 				free_pointer(pair);
-				*(table + arrPos) = std::_Const_cast(REMOVED_PTR);
+				*(table + arrPos) = const_cast<std::remove_const<detail::Pair>::type*>(REMOVED_PTR);
 				numOfPairs--;
 				return true;
 		}
