@@ -64,6 +64,16 @@ public:
      Polymorphic Destructor.
    */
   virtual ~CommNode() { 
+    for (int32_t i = 0; i < recv_queue->GetSize(); ++i) {
+      AbstractPacket* abs = recv_queue->Front();
+      recv_queue->Dequeue();
+      free_pointer(abs);  
+    }
+    for (int32_t i = 0; i < send_queue->GetSize(); ++i) {
+      ObjectStream* obj = send_queue->Front();
+      send_queue->Dequeue();
+      free_pointer(obj);
+    }
     free_pointer(recv_queue);
     free_pointer(send_queue);
   }
