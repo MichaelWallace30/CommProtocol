@@ -91,16 +91,7 @@ void Comms::CommunicationHandlerRecv() {
           */
           error = callback->CallFunction(header, *packet, (CommNode& )*this);
           // Handle error.
-          switch (error) {
-          case (CALLBACK_DESTROY_PACKET | CALLBACK_SUCCESS):
-              cout << "Destroying packet internally..." << std::endl;
-              free_pointer(packet);
-            case CALLBACK_SUCCESS:
-              cout << "Successful callback" << endl; 
-              break;
-            default:  
-              cout << "Nothing" << endl;
-          };
+          HandlePacket(error, packet);
         } else {
           // store the packet into the Receive queue.
           recv_queue->Enqueue(packet);
@@ -238,11 +229,11 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
 
 
 AbstractPacket* Comms::Receive(uint8_t&  source_id) {
-  if (conn_layer == NULL) return NULL;
-  if (!recv_queue->IsEmpty()) {
-    cout << "Message recv in Comms" << endl;
+  AbstractPacket* packet = nullptr;
+  if (conn_layer != nullptr && !recv_queue->IsEmpty()) {
     // This is a manual Receive function. The user does not need to call this function,
     // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
+    packet = recv_queue->Front();
     recv_queue->Dequeue();  
   }
 	
@@ -271,4 +262,20 @@ void Comms::Pause()
 
 
 void Comms::LogToConsoles() {
+}
+
+
+void Comms::HandlePacket(error_t error, AbstractPacket* packet) {
+  if ((error & CALLBACK_SUCCESS) == CALLBACK_SUCCESS) {
+    COMMS_DEBUG("PACKET SUCCESSFULL.\n");
+  } else if ((error & CALLBACK_FAIL) == CALLBACK_FAIL) {
+    COMMS_DEBUG("PACKET FAILED.\n");
+  }
+  if ((error & CALLBACK_DESTROY_PACKET) == CALLBACK_DESTROY_PACKET) {
+    COMMS_DEBUG("DESTROYING PACKET.\n");
+    free_pointer(packet);
+  }
+  if ((error & CALLBACK_STORE_PACKET) == CALLBACK_STORE_PACKET) {
+    COMMS_DEBUG("STORING PACKET.\n");
+  }
 }

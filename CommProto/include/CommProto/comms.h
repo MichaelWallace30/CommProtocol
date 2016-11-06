@@ -20,30 +20,25 @@
 #define COMMS_H
 
 #include <CommProto/tools/data_structures/interface/interface_queue.h>
-#include <CommProto/network/commslink.h> //communication layer interface/abstract base class
+#include <CommProto/debug/error_status.h>
 #include <CommProto/console/console.h>
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/comm_mutex.h>
 #include <CommProto/architecture/os/comm_thread.h>
-#include <CommProto/architecture/macros.h>//str_lgnth(char*, int)
-#include <CommProto/abstractpacket.h>
+#include <CommProto/network/commslink.h>
 #include <CommProto/commnode.h>
-#include <CommProto/headerpacket.h>//Header which declares packet structs
 #include <CommProto/encryption/encryptor.h>
 #include <CommProto/encryption/decryptor.h>
-
-#include <iostream>//testing only
-#include <stdint.h>//needed for bit size variables
 
 
 namespace comnet {
   
 
-  using namespace std;
-  using namespace comnet::tools::datastructures;
-  using namespace comnet::serialization;
-  using namespace comnet::network;	
-  using namespace comnet::architecture::os;
+using namespace std;
+using namespace comnet::tools::datastructures;
+using namespace comnet::serialization;
+using namespace comnet::network;	
+using namespace comnet::architecture::os;
   /**
     Comms is a standard CommNode node object. It handles elementary and intermediate 
     commands and functionality in order to work to the user's specifications of communications.
@@ -121,6 +116,9 @@ public:
 protected:
 	// Nothing yet.
 	void LogToConsoles();
+private:
+
+  void HandlePacket(error_t error, AbstractPacket* packet);
 	};//End Comms class      
 } // namespace Comnet
 #endif//End if COMMS_H
