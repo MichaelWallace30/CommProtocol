@@ -78,7 +78,7 @@ uint8_t AesEncryption::LoadKeyFromFile(char*keyFileName){
 
 /** Encrypt buffer for desired length of data stream and return any agumented legnth by reference
 A return value of - value is an error */
-int32_t AesEncryption::Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]){
+int32_t AesEncryption::Encrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]){
 	CryptoPP::CFB_Mode<CryptoPP::AES>::Encryption cfbEncryption(sec_key, sec_key.size(), iv);
 	cfbEncryption.ProcessData((byte*)buffer, (byte*)buffer, length);
 	return 1;
@@ -87,7 +87,7 @@ int32_t AesEncryption::Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLO
 
 /** Decrypt buffer for desired length of data stream and return any agumented legnth by reference
 A return value of - value is an error */
-int32_t AesEncryption::Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]){
+int32_t AesEncryption::Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]){
 	CryptoPP::CFB_Mode<CryptoPP::AES>::Decryption cfbDecryption(sec_key, sec_key.size(), iv);
 	cfbDecryption.ProcessData((byte*)buffer, (byte*)buffer, length);
 	return 1; 

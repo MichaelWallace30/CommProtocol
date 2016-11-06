@@ -60,46 +60,53 @@ void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning() && conn_layer) {
     recv_mutex.Lock();
     AbstractPacket* packet = NULL;
-    //Send data here
 	  uint8_t stream_buffer[MAX_BUFFER_SIZE];
     uint32_t recv_len = 0;
-    conn_layer->Recv(stream_buffer, &recv_len);
+    bool received = conn_layer->Recv(stream_buffer, &recv_len);
     ObjectStream temp;
-    temp.SetBuffer((char*)stream_buffer, recv_len);
-    /*
+    if ( received ) {
+      temp.SetBuffer((char*)stream_buffer, recv_len);
+      if(decrypt.Decrypt(&temp)) {
+        COMMS_DEBUG("Packet was decrypted!\n");
+      } else {
+        COMMS_DEBUG("Packet was not decrypted!\n Either encryption is not set or key was not loaded!\n");
+      }
+      /*
       Algorithm should Get the header, Get the message id from header, then
       produce the packet from the header, finally Get the callback.
-     */
-    if (temp.GetSize() > 0) {
-      COMMS_DEBUG("Comms packet unpacking...\n");
-      Header header = temp.DeserializeHeader();
-      // Create the packet.
-      packet = this->packet_manager.ProduceFromId(header.msg_id);
-    
-      if (packet) {
-        // Unpack the object stream.
-        packet->Unpack(temp);
-        Callback* callback = NULL;
-        callback = this->packet_manager.Get(*packet);
+      */
+      if(temp.GetSize() > 0) {
+        COMMS_DEBUG("Comms packet unpacking...\n");
+        Header header = temp.DeserializeHeader();
 
-        if (callback) {
-          error_t error;
-          /*
-            TODO(Wallace): This might need to Run on a separate thread, or 
+        // Create the packet.
+        packet = this->packet_manager.ProduceFromId(header.msg_id);
+
+        if(packet) {
+          // Unpack the object stream.
+          packet->Unpack(temp);
+          Callback* callback = NULL;
+          callback = this->packet_manager.Get(*packet);
+
+          if(callback) {
+            error_t error;
+            /*
+            TODO(Wallace): This might need to Run on a separate thread, or
             on a new thread, to prevent it from stopping the Receive handler.
             User figures out what to do with the packet.
-          */
-          error = callback->CallFunction(header, *packet, (CommNode& )*this);
-          // Handle error.
-          HandlePacket(error, packet);
+            */
+            error = callback->CallFunction(header, *packet, (CommNode&)*this);
+            // Handle error.
+            HandlePacket(error, packet);
+          } else {
+            // store the packet into the Receive queue.
+            recv_queue->Enqueue(packet);
+          }
         } else {
-          // store the packet into the Receive queue.
-          recv_queue->Enqueue(packet);
+          COMMS_DEBUG("Unknown packet recieved.\n");
         }
-      } else {
-        COMMS_DEBUG("Unknown packet recieved.\n");
-      }	
-    }		
+      }
+    }
     recv_mutex.Unlock();	
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
   }
@@ -136,7 +143,7 @@ bool Comms::LoadKey(char* key)
   return encrypt.LoadKey(key);
 }
 
-bool Comms::LoadKeyFromFile(char*keyFileName)
+bool Comms::LoadKeyFromFile(char* keyFileName)
 {
 	return encrypt.LoadKeyFromFile(keyFileName);
 }
@@ -218,10 +225,12 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   header.source_id = this->GetNodeId();
   header.msg_id = packet.GetId();
   header.msg_len = stream->GetSize();
-  //
-  //call encryption here
-  //
   stream->SerializeHeader(header);
+  if(encrypt.Encrypt(stream)) {
+    COMMS_DEBUG("Packet was encrypted!\n");
+  } else {
+    COMMS_DEBUG("Packet was not encrypted! Either encryption was not created, or key was not loaded!\n");
+  }
   send_queue->Enqueue(stream);
 
   return true;

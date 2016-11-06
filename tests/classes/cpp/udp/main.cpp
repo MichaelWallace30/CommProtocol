@@ -54,8 +54,10 @@ int main(int c, char** args) {
   std::cout << sizeof(comnet::Header) << std::endl;
   // CommNode 1
   comnet::Comms comm1(1);
+  std::cout << std::boolalpha << comm1.LoadKey("NGCP project 2016");
   // CommNode 2
   comnet::Comms comm2(2);
+  std::cout << std::boolalpha << comm2.LoadKey("NGCP project 2016");
   comnet::architecture::os::CommMutex mut;
   comnet::architecture::os::CommLock commlock(mut);
   // This will cause the thread to wait for a few milliseconds, causing any other thread to wait.

@@ -48,16 +48,18 @@ public:
     Encrypt buffer for desired length of data stream and return any agumented legnth by reference
     A return value of - value is an error 
   */
-  int32_t Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]) override;
+  int32_t Encrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) override;
   /** 
     Decrypt buffer for desired length of data stream and return any agumented legnth by reference
     @returns A return value of - value is an error 
    */
-  int32_t Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]) override;
+  int32_t Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) override;
   /** 
     Random number generator which fills an array of size length
    */
   uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length) override;
+
+  bool KeyIsLoaded() override { return !sec_key.empty(); }
 };
 } // encryption
 } // comnet

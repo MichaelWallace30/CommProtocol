@@ -20,6 +20,8 @@
 #define __COMM_ENCRYPTOR_H
 
 #include <CommProto/encryption/encryption_interface.h>
+#include <CommProto/encryption/comm_random.h>
+#include <CommProto/serialization/objectstream.h>
 #include <memory>
 #include <cstdlib>
 
@@ -51,11 +53,12 @@ public:
 
   uint8_t LoadKey(char* key);
   uint8_t LoadKeyFromFile(char* filename_key);
-  int32_t Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]);
+  int32_t Encrypt(comnet::serialization::ObjectStream* obj);
 
   CommDecryptor* GetDecryptor() { return decryptor; }
   void LinkDecryptor(CommDecryptor* decrypt) { decryptor = decrypt; }
   CryptProtocol GetEncryptionType() { return protocol; }
+  bool KeyIsLoaded();
 private:
   void Setup();
 
