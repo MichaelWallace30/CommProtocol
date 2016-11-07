@@ -213,6 +213,7 @@ bool UDP::Close()
 {
 		if (sockaddr.socket_status != SOCKET_CLOSED) {
 				closeSocket(fd);
+				sockaddr.socket_status = SOCKET_CLOSED;
 				return true;
 		}
 		return false;

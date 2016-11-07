@@ -62,6 +62,7 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   //open up serial port  
   const char* comport = comPortCat;
 #endif
+		//Nonoverlapped port
   h_serial.h_serial = CreateFile(comport,
 				GENERIC_READ | GENERIC_WRITE,
 				0,
@@ -75,22 +76,21 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
 #endif
   
   if (h_serial.h_serial == INVALID_HANDLE_VALUE)
-    {
-      if (GetLastError() == ERROR_FILE_NOT_FOUND)
-	{
-	  //serial port does not exist.
-	  COMMS_DEBUG( "comport not found\n");
-	  return false;
-	}
-      // some other error occured.
-      COMMS_DEBUG( "Unknown error\n");
-      return false;
-    }
+  {
+    if (GetLastError() == ERROR_FILE_NOT_FOUND)
+				{
+						//serial port does not exist.
+						COMMS_DEBUG( "comport not found\n");
+						return false;
+				}
+    // some other error occured.
+    COMMS_DEBUG( "Unknown error\n");
+    return false;
+  }
   else
-    {
-      
-      COMMS_DEBUG( "Serial port created\n");
-    }
+  {
+    COMMS_DEBUG( "Serial port created\n");
+  }
   
   
   //setup parameters
@@ -100,11 +100,11 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
   
   if (!GetCommState(h_serial.h_serial, &dcbSerialParams))
-    {
-      //error getting state
-      COMMS_DEBUG( "Error getting state\n");
-      return false;
-    }
+  {
+    //error getting state
+    COMMS_DEBUG( "Error getting state\n");
+    return false;
+  }
   
   dcbSerialParams.BaudRate = (DWORD)baudrate;
   dcbSerialParams.ByteSize = 8;
@@ -112,11 +112,11 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   dcbSerialParams.Parity = NOPARITY;
   
   if (!SetCommState(h_serial.h_serial, &dcbSerialParams))
-    {
-      //error setting serial port state
-      COMMS_DEBUG( "Error setting serial port state\n");
-      return false;
-    }
+  {
+    //error setting serial port state
+    COMMS_DEBUG( "Error setting serial port state\n");
+    return false;
+  }
   
   
   COMMS_DEBUG( "Completed setting serial port state\n");
@@ -133,11 +133,11 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   timeouts.WriteTotalTimeoutMultiplier = 5;
   
   if (!SetCommTimeouts(h_serial.h_serial, &timeouts))
-    {
-      //error occureeed
-      COMMS_DEBUG( "Setting up times outs failed\n");
-      return false;
-    }
+  {
+    //error occureeed
+    COMMS_DEBUG( "Setting up times outs failed\n");
+    return false;
+  }
   
   COMMS_DEBUG( "Completed setting up time outs\n");
   h_serial.serial_s = SERIAL_CONNECTED;
@@ -341,7 +341,7 @@ ClosePortHelper(Serial& serial) {
 Serial::Serial()
 {		  
   connection_established = false;
-  h_serial.serial_s = SERIAL_OPEN;
+  h_serial.serial_s = SERIAL_CLOSED;
   id = -1;
 }
 
@@ -349,7 +349,7 @@ Serial::Serial(uint32_t id)
 : id(id)
 {
   connection_established = false;
-  h_serial.serial_s = SERIAL_OPEN;
+  h_serial.serial_s = SERIAL_CLOSED;
 }
 
 
@@ -361,7 +361,6 @@ bool Serial::OpenConnection(const char* port, const char* address, uint32_t baud
   
   //check os here
   connection_established = OpenPort(*this, port, baudrate);
-  h_serial.serial_s = SERIAL_CONNECTED;
   COMMS_DEBUG("Port is now: %d\n", h_serial.fd);
   return connection_established;
 }

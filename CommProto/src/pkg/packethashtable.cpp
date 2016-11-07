@@ -185,7 +185,7 @@ namespace comnet {
 								free_pointer(pair->packet);
 								free_pointer(pair->callback);
 								free_pointer(pair);
-								*(table + tableIndex) = std::_Const_cast(REMOVED_PTR);
+								*(table + tableIndex) = const_cast <Pair*>(REMOVED_PTR);
 								numOfPairs--;
 								return true;
 						}
