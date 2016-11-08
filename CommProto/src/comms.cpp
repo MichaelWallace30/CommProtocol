@@ -161,39 +161,35 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
   uint16_t length = 0;
   switch (conn_type) {
     case UDP_LINK: 
-    {			
-      str_length(address, length);
-      if (length < ADDRESS_LENGTH)
-      {	
-        COMMS_DEBUG("UDP connection.\n");
-        conn_layer = new UDPLink();
-        return conn_layer->InitConnection(port, address);
-      }
+    {
+						if (address != NULL)
+						{
+								str_length(address, length);
+								if (length < ADDRESS_LENGTH)
+								{
+										COMMS_DEBUG("UDP connection.\n");
+										conn_layer = new UDPLink();
+										return conn_layer->InitConnection(port, address);
+								}
+						}
       break;
     }
     case SERIAL_LINK:
     {
-      str_length(address, length);
-      if (length < ADDRESS_LENGTH)
-      {
-        conn_layer = new SerialLink();
-        return conn_layer->InitConnection(port, NULL, baudrate);
-      }
-      break;
+      conn_layer = new SerialLink();
+      return conn_layer->InitConnection(port, NULL, baudrate);
     }
     case ZIGBEE_LINK:
     {
-			 conn_layer = new XBeeLink();
-			return conn_layer->InitConnection(port, NULL, baudrate);
+						conn_layer = new XBeeLink();
+						return conn_layer->InitConnection(port, NULL, baudrate);
       // TODO(Garcia): Will need to create throw directives instead.
-      
-      break;
     }
     default:
       COMMS_DEBUG("NO CONNECTION\n");
     {return false;}
   }
-  return true;
+  return false;
 }
 
 
