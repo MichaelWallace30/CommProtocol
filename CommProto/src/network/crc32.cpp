@@ -65,11 +65,11 @@ void AppendCrc32(uint8_t* buffer, uint32_t *length){
 	//swap outter two
 	unsigned char e = a;
 	a = d;
-	d = a;
+	d = e;
 	//swap middle two
 	e = b;
 	b = c;
-	c = b;
+	c = e;
 	#endif
 
 	//add crc32
@@ -93,11 +93,11 @@ unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length){
 	//swap outter two
 	unsigned char e = a;
 	a = d;
-	d = a;
+	d = e;
 	//swap middle two
 	e = b;
 	b = c;
-	c = b;
+	c = e;
 	COMMS_DEBUG("Finished swapping abcd.\n");
 #endif
 
