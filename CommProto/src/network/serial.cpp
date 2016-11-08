@@ -186,6 +186,17 @@ WindowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   return false;//no error, no data recieved, connection timmed out, will retry next time.
 }
 
+inline bool
+WindowsClose(Serial& serial) {
+		serial_t& h_serial = serial.GetSerialPort();
+		if (h_serial.serial_s == SERIAL_CLOSED && CloseHandle(h_serial.h_serial))
+		{
+				h_serial.serial_s = SERIAL_CLOSED;
+				return true;
+		}
+		return false;
+}
+
 #else
 
 #define UNIX_SERIAL 
@@ -242,6 +253,7 @@ InitUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
 
     result = true;
     COMMS_DEBUG("Connected\n");
+				h_serial.serial_s = SERIAL_CONNECTED;
   }
 
   return result;
@@ -327,9 +339,9 @@ inline bool
 ClosePortHelper(Serial& serial) {
   serial_t& h_serial = serial.GetSerialPort();
 #if defined WINDOWS_SERIAL
-  ClosePort(h_serial.h_serial);
+		WindowsClose(serial);
 #elif defined UNIX_SERIAL
-  ClosePort(h_serial.fd);
+  UnixClosePort(h_serial.fd);
 #endif 
   return true;
 }
@@ -368,7 +380,6 @@ bool Serial::OpenConnection(const char* port, const char* address, uint32_t baud
 
 bool Serial::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
 { 
-  COMMS_DEBUG("Port send is: %d\n", h_serial.fd); 
   unsigned int crc = Crc32(tx_data, tx_length);
 		uint8_t crc_data[CRC32_SIZE];
 		Crc32ToArr(tx_data, tx_length, crc_data);
@@ -383,8 +394,7 @@ bool Serial::Recv(uint8_t* rx_data, uint32_t* rx_len) {
 //	COMMS_DEBUG("Parser Postion %d\n", parserPosition);
 	//COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
 	//Get new message if parser is done
-	if (parser.ParseReceiveDone()){		
-		COMMS_DEBUG("Port recv is: %d\n", h_serial.fd);			
+	if (parser.ParseReceiveDone()){					
 		valid = ReadFromPort(*this, buffer_recv, rx_len);
 	}
 	//parse data

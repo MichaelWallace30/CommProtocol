@@ -24,10 +24,6 @@
 
 typedef HANDLE serial_h;
 
-
-#define ClosePort CloseHandle
-
-
 struct serial_info {
 
   speed_t baudrate;

@@ -29,9 +29,7 @@
 #include <termios.h>
 
 
-#define ClosePort close
-
-
+#define UnixClosePort close
 
 struct serial_info {
   
