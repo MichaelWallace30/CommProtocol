@@ -176,8 +176,8 @@ WindowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
                                        // Im not sure if time out will return false for ReadFile
     return false;
   } else {
-    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recv_data);
     if (recv_data > 0) {
+						COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recv_data);
       *rx_len = recv_data;
       return true;
     }
