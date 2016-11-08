@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\conn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\error.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\frame.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\ll.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\log.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\mode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\mutex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\pkt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\prepare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\rx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\thread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\tx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\ver.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\xbee.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\xsys.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\at.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\dataExp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\identify.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\io.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\mode5.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\conn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\ll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\mode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\mutex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\pkt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\prepare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\rx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\tx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\xbee.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\xbeep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\xbee_int.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\xsys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\at.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\dataExp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\identify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\modes\xbee5\mode5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\libxbee3\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9025483B-DFDB-3A9A-A7AE-2F57646024D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{3903814F-8C7B-3844-B466-5622B3E935FB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

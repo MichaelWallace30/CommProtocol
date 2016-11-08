@@ -120,10 +120,10 @@ Comms::Comms(uint8_t platformID)
 : CommNode(platformID)
 , encrypt(encryption::CommEncryptor(encryption::AES))
 {
-  decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
-	this->recv_queue = new AutoQueue <AbstractPacket*>;
-	this->send_queue = new AutoQueue <ObjectStream*>;
-	conn_layer = NULL;
+		decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
+		this->recv_queue = new AutoQueue <AbstractPacket*>;
+		this->send_queue = new AutoQueue <ObjectStream*>;
+		conn_layer = NULL;
 }
 
 Comms::~Comms()

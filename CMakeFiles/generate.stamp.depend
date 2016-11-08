@@ -1,0 +1,35 @@
+# CMake generation dependency list for this directory.
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/CMakeLists.txt
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/CMakeFiles/3.6.0-rc2/CMakeSystem.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/CMakeFiles/3.6.0-rc2/CMakeCCompiler.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/CMakeFiles/3.6.0-rc2/CMakeCXXCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeSystemSpecificInformation.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeGenericSystem.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/Platform/Windows.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/Platform/WindowsPaths.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/Platform/Windows-MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/Platform/Windows-MSVC.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/CMakeFiles/3.6.0-rc2/CMakeRCCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeRCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeCXXInformation.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/Compiler/MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/Platform/Windows-MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/Platform/Windows-MSVC.cmake
+C:/Program Files/CMake/share/cmake-3.6/Modules/CMakeCommonLanguageInclude.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/macros.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/archfiles.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/tools-config.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/console.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/CommProto-config.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/hash-config.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/network-config.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/serialization-config.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/pkg.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/comnet_debug.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/encryption.cmake
+C:/Users/ajcra/Desktop/NGCP/CommProtocol/cmake/visualc.cmake

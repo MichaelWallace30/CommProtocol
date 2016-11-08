@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\architecture\os\comm_monitor.cc">
+      <Filter>Source Files\architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\architecture\os\comm_semaphore.cc">
+      <Filter>Source Files\architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\architecture\os\comm_thread.cc">
+      <Filter>Source Files\architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\architecture\os\comm_mutex.cc">
+      <Filter>Source Files\architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\architecture\os\os_threads.cpp">
+      <Filter>Source Files\architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\architecture\os\os_mutex.cpp">
+      <Filter>Source Files\architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\console\console.cc">
+      <Filter>Source Files\console</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\packets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\abstractpacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\headerpacket.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\comms.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\callback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\hash\ngcphash.cpp">
+      <Filter>Source Files\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\udp.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\serial.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\seriallink.cc">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\commxbee.cc">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\xbeelink.cc">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\udplink.cc">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\tcpsocket.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\crc32.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\parser.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\serialization\marshal.cpp">
+      <Filter>Source Files\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\serialization\objectstream.cpp">
+      <Filter>Source Files\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\pkg\packetmanager.cc">
+      <Filter>Source Files\pkg</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\pkg\packettable.cc">
+      <Filter>Source Files\pkg</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\encryption\aes_encryption.cpp">
+      <Filter>Source Files\encryption</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\encryption\encryptor.cc">
+      <Filter>Source Files\encryption</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\encryption\decryptor.cc">
+      <Filter>Source Files\encryption</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\api.h">
+      <Filter>Header Files\architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\macros.h">
+      <Filter>Header Files\architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\cond.h">
+      <Filter>Header Files\architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\win32_pipes.h">
+      <Filter>Header Files\architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\posix_pipes.h">
+      <Filter>Header Files\architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\pipe_config.h">
+      <Filter>Header Files\architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\pipes.h">
+      <Filter>Header Files\architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\connection\socket-config.h">
+      <Filter>Header Files\architecture\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\connection\serial_status.h">
+      <Filter>Header Files\architecture\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\connection\serial-config_win32.h">
+      <Filter>Header Files\architecture\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\connection\serial-config_linux.h">
+      <Filter>Header Files\architecture\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\connection\serial-config.h">
+      <Filter>Header Files\architecture\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\connection\transport_type.h">
+      <Filter>Header Files\architecture\connection</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\linux-config\linux-config.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\windows-config\win32-config.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\mac-config\mac-config.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\include_defines.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\arch.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\os_threads.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\thread-config.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\mutex-config.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\os_mutex.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\comm_mutex.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\comm_thread.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\comm_semaphore.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\architecture\os\comm_monitor.h">
+      <Filter>Header Files\architecture\os</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\comparable.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\comparator.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\standard_comparator.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\rbtree.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\btree.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\auto_queue.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\auto_vector.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\circle_linked_list.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\double_linked_list.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\single_linked_list.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\linked_queue.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\interface\generic.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\interface\interface_list.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\interface\interface_queue.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\interface\interface_map.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\interface\interface_tree.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\data_structures\interface\interface_stack.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\allocator\allocator.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\allocator\commpointer.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\allocator\newallocator.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\tools\allocator\stackallocator.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\console\code.h">
+      <Filter>Header Files\console</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\console\console.h">
+      <Filter>Header Files\console</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\console\parse_engine.h">
+      <Filter>Header Files\console</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\console\piping.h">
+      <Filter>Header Files\console</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\commnode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\comms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\abstractpacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\packets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\headerpacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\callback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\hash\ngcphash.h">
+      <Filter>Header Files\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\network_graph\network_edge.h">
+      <Filter>Header Files\network\network_graph</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\network_graph\network_graph.h">
+      <Filter>Header Files\network\network_graph</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\network_graph\network_graph_builder.h">
+      <Filter>Header Files\network\network_graph</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\network_graph\network_node.h">
+      <Filter>Header Files\network\network_graph</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\udp.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\serial.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\seriallink.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\commxbee.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\xbeelink.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\udplink.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\commsocket.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\commslink.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\crc32.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\network\parser.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\serialization\marshal.h">
+      <Filter>Header Files\serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\serialization\objectstream.h">
+      <Filter>Header Files\serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\pkg\packetmanager.h">
+      <Filter>Header Files\pkg</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\pkg\packettable.h">
+      <Filter>Header Files\pkg</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\pkg\packetfactory.h">
+      <Filter>Header Files\pkg</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\debug\comms_debug.h">
+      <Filter>Header Files\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\debug\error_status.h">
+      <Filter>Header Files\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\debug\log.h">
+      <Filter>Header Files\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\encryption\encryption_interface.h">
+      <Filter>Header Files\encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\encryption\comm_random.h">
+      <Filter>Header Files\encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\encryption\decryptor.h">
+      <Filter>Header Files\encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\include\CommProto\encryption\encryptor.h">
+      <Filter>Header Files\encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\encryption\aes_encryption.h">
+      <Filter>Source Files\encryption</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9025483B-DFDB-3A9A-A7AE-2F57646024D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{3903814F-8C7B-3844-B466-5622B3E935FB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\architecture">
+      <UniqueIdentifier>{255CB632-1D28-3276-BAD0-7664EDE3B446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\hash">
+      <UniqueIdentifier>{07B854E7-1DA8-3710-BA3A-5CE873F7B4C4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tools">
+      <UniqueIdentifier>{932DF5E0-14A0-36F1-B711-E506D33B1A16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\network">
+      <UniqueIdentifier>{62756FEC-8802-3B2D-BD71-442E5D8288C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\serialization">
+      <UniqueIdentifier>{4051B0E0-A260-301F-B095-A3BE7EEDFA59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pkg">
+      <UniqueIdentifier>{07D077D9-CC9E-3402-B569-DEEC5BD5189D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\debug">
+      <UniqueIdentifier>{086F4D65-DC12-3580-A1B3-B90B2597E346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\encryption">
+      <UniqueIdentifier>{32C1D98E-67E7-37E7-963E-D4B0C5E458F2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\console">
+      <UniqueIdentifier>{F0C9F9BF-EAD9-3B82-A064-870B439670EE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\network\network_graph">
+      <UniqueIdentifier>{26142DB8-B5AB-399F-A223-B629A5FFEE4A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\architecture\os">
+      <UniqueIdentifier>{3A2948AC-D333-3724-A2F7-5FD8C10BA462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\architecture\connection">
+      <UniqueIdentifier>{77BCB7B2-C2C3-3065-88EE-8CA550F0C7B6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\architecture">
+      <UniqueIdentifier>{85E34D8F-4C84-3832-B9AA-E98D57E2AC48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\hash">
+      <UniqueIdentifier>{F93D7D15-6872-3693-9788-37943C75AD9C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\network">
+      <UniqueIdentifier>{813AD1C4-424F-300A-87D0-519B1F17274A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\serialization">
+      <UniqueIdentifier>{D81A1523-75B6-3C61-AD32-B8389565BD5A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pkg">
+      <UniqueIdentifier>{E6F9FDFD-A509-38F4-973A-A6D1A63CA8F9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\encryption">
+      <UniqueIdentifier>{AC14EA1C-01BB-3D3A-A18A-4581C7A3EF49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\console">
+      <UniqueIdentifier>{AFAD0210-725D-3EFE-ADD3-D7DE3CC01B45}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

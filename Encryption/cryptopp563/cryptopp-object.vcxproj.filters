@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\cryptlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\cpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\3way.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\adler32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\algebra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\algparam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\arc4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\asn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\authenc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\base32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\base64.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\basecode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\bfinit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\blowfish.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\blumshub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\camellia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\cast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\casts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\cbcmac.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\ccm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\channels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\cmac.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\crc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\default.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\des.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\dessp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\dh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\dh2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\dll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\dsa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\eax.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\ec2n.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\eccrypto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\ecp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\elgamal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\emsa2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\eprecomp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\esign.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\files.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\filters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\fips140.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\gcm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\gf256.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\gf2_32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\gf2n.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\gfpcrypt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\gost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\gzip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\hex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\hmac.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\hrtimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\ida.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\idea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\integer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\iterhash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\luc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\mars.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\marss.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\md2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\md4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\md5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\modes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\mqueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\mqv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\nbtheory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\network.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\oaep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\osrng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\panama.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\pkcspad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\polynomi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\pssr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\pubkey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rabin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\randpool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rc2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rc5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rc6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rdrand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rdtables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rijndael.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\ripemd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rsa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\safer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\salsa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\seal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\seed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\serpent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\sha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\sha3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\shacal2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\shark.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\sharkbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\skipjack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\socketft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\sosemanuk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\square.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\squaretb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\strciphr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\tea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\tftables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\tiger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\tigertab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\trdlocal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\ttmac.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\twofish.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\vmac.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\wait.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\wake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\whrlpool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\xtr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\xtrcrypt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\zdeflate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\zinflate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\zlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\winpipes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="C:\Users\ajcra\Desktop\NGCP\CommProtocol\Encryption\cryptopp563\rdrand.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9025483B-DFDB-3A9A-A7AE-2F57646024D8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
