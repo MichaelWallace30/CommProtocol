@@ -370,8 +370,9 @@ bool Serial::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
 { 
   COMMS_DEBUG("Port send is: %d\n", h_serial.fd); 
   unsigned int crc = Crc32(tx_data, tx_length);
-  AppendCrc32(tx_data, &tx_length);  
-  parser.ParseSend(tx_data, tx_length, buffer_send);//length adjusted
+		uint8_t crc_data[CRC32_SIZE];
+		Crc32ToArr(tx_data, tx_length, crc_data);
+  parser.ParseSend(tx_data, tx_length, crc_data, buffer_send);//length adjusted
   return SendToPort(*this, dest_id, buffer_send, tx_length);
 }
 

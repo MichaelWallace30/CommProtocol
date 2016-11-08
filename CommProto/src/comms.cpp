@@ -42,13 +42,13 @@ void Comms::CommunicationHandlerSend()
 	{
 		if (!send_queue->IsEmpty())
 		{
-      send_mutex.Lock();
-			//Send data here
-			ObjectStream *temp = send_queue->Front();
-			send_queue->Dequeue();
-			conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
-			free_pointer(temp);
-      send_mutex.Unlock();
+     send_mutex.Lock();
+					//Send data here
+					ObjectStream *temp = send_queue->Front();
+					send_queue->Dequeue();
+					conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
+					free_pointer(temp);
+     send_mutex.Unlock();
 		}
 //		COMMS_DEBUG("IM GOING!!\n");
 	}

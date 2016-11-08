@@ -97,9 +97,9 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 	// + 2 for null termination + 1 for storing length of string as byte
 	if (curr_pos + strLen + 2 < MAX_PACKET_SIZE)
 	{
-	        COMMS_DEBUG("SIZE BEFORE: %d\n", curr_pos);
-		curr_pos += PackWideString(data,strLen, stream_buffer + curr_pos);
-		COMMS_DEBUG("SIZE AFTER: %d\n", curr_pos);
+	  COMMS_DEBUG("SIZE BEFORE: %d\n", curr_pos);
+	  curr_pos += PackWideString(data,strLen, stream_buffer + curr_pos);
+		 COMMS_DEBUG("SIZE AFTER: %d\n", curr_pos);
 	}
 	else
 	{

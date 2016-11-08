@@ -32,12 +32,14 @@ namespace network{
 
 	}
 
-	void Parser::ParseSend(uint8_t* tx_data, uint32_t &tx_length, uint8_t *parsed_data) {
+	void Parser::ParseSend(uint8_t* tx_data, uint32_t &tx_length, uint8_t* crc_data, uint8_t *parsed_data) {
 		memset(parsed_data, 0, sizeof(parsed_data));//zero out buffer
 		memcpy(parsed_data, terminal_sequence, TERMINAL_SEQUENCE_SIZE);//add terminal to Front
 		memcpy((parsed_data + TERMINAL_SEQUENCE_SIZE), tx_data, tx_length);//add tx data
-		memcpy((parsed_data + TERMINAL_SEQUENCE_SIZE + tx_length), terminal_sequence, TERMINAL_SEQUENCE_SIZE);//add temrinal to End
-		tx_length += (2 * TERMINAL_SEQUENCE_SIZE);//adjust length
+		memcpy((parsed_data + TERMINAL_SEQUENCE_SIZE + tx_length), crc_data, CRC32_SIZE);
+		memcpy((parsed_data + TERMINAL_SEQUENCE_SIZE + tx_length + CRC32_SIZE), terminal_sequence, TERMINAL_SEQUENCE_SIZE);//add temrinal to End
+		tx_length += (2 * TERMINAL_SEQUENCE_SIZE) + CRC32_SIZE;//adjust length
+		//tx_length += CRC32_SIZE;
 	}
 
 

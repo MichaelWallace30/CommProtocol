@@ -43,7 +43,7 @@ public:
 	/** 
     method takes tx buffer and adds terminal to Front and End. Also returns adjusted size by reference
    */
-	void ParseSend(uint8_t* tx_data, uint32_t &tx_length, uint8_t *parsed_data);
+	void ParseSend(uint8_t* tx_data, uint32_t &tx_length, uint8_t* crc_data, uint8_t *parsed_data);
 	/** 
     method takes rx buffer and removes terminal to Front and End. Also returns adjusted size by reference
    */

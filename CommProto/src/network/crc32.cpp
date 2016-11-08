@@ -23,7 +23,7 @@
 namespace comnet {
 namespace network {
 /** CRC32 checksum function*/
-unsigned int Crc32(unsigned char *message, int length) {
+unsigned int Crc32(unsigned char *message, uint32_t length) {
 	int i, j;
 	unsigned int byte, crc, mask;
 	static unsigned int table[256];
@@ -78,6 +78,32 @@ void AppendCrc32(uint8_t* buffer, uint32_t *length){
 	buffer[(*length)++] = c;
 	buffer[(*length)++] = d;
 			
+}
+
+COMM_EXPORT void Crc32ToArr(unsigned char * buffer, uint32_t length, uint8_t* crcBuffer)
+{
+		unsigned int crc = Crc32(buffer, length);//calculate crc32
+		unsigned char a = (crc >> 24) & 0xff;//leftmost
+		unsigned char b = (crc >> 16) & 0xff;//next byte
+		unsigned char c = (crc >> 8) & 0xff;//next byte
+		unsigned char d = (crc) & 0xff;//right most
+
+#ifdef LITTLE_ENDIAN_COMNET
+																																	//swap outter two
+		unsigned char e = a;
+		a = d;
+		d = e;
+		//swap middle two
+		e = b;
+		b = c;
+		c = e;
+#endif
+
+		//add crc32
+		crcBuffer[0] = a;
+		crcBuffer[1] = b;
+		crcBuffer[2] = c;
+		crcBuffer[3] = d;
 }
 
 unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length){
