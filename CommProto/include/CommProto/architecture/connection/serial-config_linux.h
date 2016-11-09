@@ -28,9 +28,6 @@
 #include <errno.h>
 #include <termios.h>
 
-
-#define UnixClosePort close
-
 struct serial_info {
   
   speed_t baudrate;

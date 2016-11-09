@@ -294,6 +294,19 @@ UnixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   return result;
 }
 
+inline bool
+UnixClose(Serial& serial) {
+  serial_t& h_serial = serial.GetSerialPort();
+  if (h_serial.serial_s != SERIAL_CLOSED) {
+    if (close(h_serial.fd) > 0)
+    {
+      h_serial.serial_s = SERIAL_CLOSED;
+      return true;
+    }
+  }
+  return false;
+}
+
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
 
@@ -341,7 +354,7 @@ ClosePortHelper(Serial& serial) {
 #if defined WINDOWS_SERIAL
 		WindowsClose(serial);
 #elif defined UNIX_SERIAL
-  UnixClosePort(h_serial.fd);
+  UnixClose(serial);
 #endif 
   return true;
 }

@@ -54,9 +54,9 @@ error_t PingCallback(const comnet::Header& header, const Ping& packet, comnet::C
 		return comnet::CALLBACK_SUCCESS | comnet::CALLBACK_DESTROY_PACKET;
 }
 
-static const char* PORT1 = "COM5";
+static const char* PORT1 = "/dev/ttyS11";
 
-static const char* PORT2 = "COM6";
+static const char* PORT2 = "/dev/ttyS10";
 
 static const int SEND_SLEEP_MILLIS = 4000;
 
