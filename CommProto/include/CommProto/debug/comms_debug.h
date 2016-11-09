@@ -49,14 +49,14 @@
   #define comms_fatal(messg, call) { \
             comms_debug_log("FATAL: "); \
             comms_debug_log(messg); \
-	           call = -1; \
+            call = -1; \
             exit(1); \
           }
  #else
   #define comms_fatal(messg, call) { \
             comms_debug_log("FATAL: "); \
             comms_debug_log(messg); \
-	           call = -1; \
+            call = -1; \
           }
  #endif // __COMMS_DEBUG_FATAL_EXIT
 #else

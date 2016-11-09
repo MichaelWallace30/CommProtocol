@@ -45,80 +45,80 @@ using namespace comnet::architecture::os;
   */  
   _COMNET_PUBLIC_API_ class COMM_EXPORT Comms : public CommNode {
 private:
-	CommMutex send_mutex;
-	CommMutex recv_mutex;
-	CommMutex console_mutex;
-	
-	
-	/** AES encryption class for encrypting and decrypting buffer stream not header*/
-	//AesEncryption  aes_encryption;
+ CommMutex send_mutex;
+ CommMutex recv_mutex;
+ CommMutex console_mutex;
+ 
+ 
+ /** AES encryption class for encrypting and decrypting buffer stream not header*/
+ //AesEncryption  aes_encryption;
 
-	/** Length of data buffer for communication stream */
-	uint32_t rx_length;
+ /** Length of data buffer for communication stream */
+ uint32_t rx_length;
 
-	/** Thread to Run communication data */
-	CommThread comm_thread_send;
-	CommThread comm_thread_recv;
-	CommThread console_thread;
+ /** Thread to Run communication data */
+ CommThread comm_thread_send;
+ CommThread comm_thread_recv;
+ CommThread console_thread;
 
-	/** Method to Run in communication thread */
-	void CommunicationHandlerSend();
-	void CommunicationHandlerRecv();
+ /** Method to Run in communication thread */
+ void CommunicationHandlerSend();
+ void CommunicationHandlerRecv();
 
-	/** Polymorphic (Base Class) Communication link for connection code*/
-	CommsLink *conn_layer;
+ /** Polymorphic (Base Class) Communication link for connection code*/
+ CommsLink *conn_layer;
 
 
-	/** Encryption class used to encrypt and dectrypt data */
+ /** Encryption class used to encrypt and dectrypt data */
   encryption::CommEncryptor encrypt;
   encryption::CommDecryptor decrypt;
 
 public:		
-	/** Constructor */
-	Comms(uint8_t platform_id);
-	/** Destructor */
-	~Comms();
+ /** Constructor */
+ Comms(uint8_t platform_id);
+ /** Destructor */
+ ~Comms();
 
-	/** input c string as the form of encrytion key*/
-	bool LoadKey(char* key);
-	/** load file which contatins the encryption key by the file name*/
-	bool LoadKeyFromFile(char*keyFileName);
+ /** input c string as the form of encrytion key*/
+ bool LoadKey(char* key);
+ /** load file which contatins the encryption key by the file name*/
+ bool LoadKeyFromFile(char*keyFileName);
 
-	/** Method will init the connection device and return false if connection failed to init properly
-	enum connection type to use serial, UDP, zigbee, ect
-	port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
-	baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */
-	bool InitConnection(transport_protocol_t conn_type, 
-                      const char* port, 
-                      const char* address = NULL, 
-                      uint32_t baudrate = 0) override;
+ /** Method will init the connection device and return false if connection failed to init properly
+ enum connection type to use serial, UDP, zigbee, ect
+ port number is the comport or UDP port used will differ from windows and Unix for comports COM05 or /dev/ttyUSB05
+ baud-rate is not used for for UDP which is not needed but for serial and zigbee it is needed for baud rate */
+ bool InitConnection(transport_protocol_t conn_type, 
+   const char* port, 
+   const char* address = NULL, 
+   uint32_t baudrate = 0) override;
 
-	/** The address entered will be paired for communication by destination ID
-	Adding address can be a UDP IPV4 or hex MAC address for zigbee
-	Adding an address is not need for serial and will default to ""*/
-	bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
+ /** The address entered will be paired for communication by destination ID
+ Adding address can be a UDP IPV4 or hex MAC address for zigbee
+ Adding an address is not need for serial and will default to ""*/
+ bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
 
-	/** Removing an address removes the known association of address and destination ID by using id*/
-	bool RemoveAddress(uint8_t dest_id) override;
+ /** Removing an address removes the known association of address and destination ID by using id*/
+ bool RemoveAddress(uint8_t dest_id) override;
 
-	bool Send(AbstractPacket& packet, uint8_t dest_id) override;
-	AbstractPacket* Receive(uint8_t&  source_id) override;
+ bool Send(AbstractPacket& packet, uint8_t dest_id) override;
+ AbstractPacket* Receive(uint8_t&  source_id) override;
 
-	/** Method to start communication*/
-	void Run() override;
-	/** Method to toggle Pause communication*/
-	void Pause() override;
-	/** Method to Stop communication*/
-	void Stop() override;
-	// Sets up the home console.
-	bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
+ /** Method to start communication*/
+ void Run() override;
+ /** Method to toggle Pause communication*/
+ void Pause() override;
+ /** Method to Stop communication*/
+ void Stop() override;
+ // Sets up the home console.
+ bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
 
 protected:
-	// Nothing yet.
-	void LogToConsoles();
+ // Nothing yet.
+ void LogToConsoles();
 private:
 
   void HandlePacket(error_t error, AbstractPacket* packet);
-	};//End Comms class      
+ };//End Comms class      
 } // namespace Comnet
 #endif//End if COMMS_H

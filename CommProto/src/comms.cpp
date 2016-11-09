@@ -38,20 +38,20 @@ using namespace comnet;
 /** function for communication thread */
 void Comms::CommunicationHandlerSend()
 {
-	while (this->IsRunning() && conn_layer)
-	{
-		if (!send_queue->IsEmpty())
-		{
-      send_mutex.Lock();
-			//Send data here
-			ObjectStream *temp = send_queue->Front();
-			send_queue->Dequeue();
-			conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
-			free_pointer(temp);
-      send_mutex.Unlock();
-		}
+ while (this->IsRunning() && conn_layer)
+ {
+  if (!send_queue->IsEmpty())
+  {
+     send_mutex.Lock();
+     //Send data here
+     ObjectStream *temp = send_queue->Front();
+     send_queue->Dequeue();
+     conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
+     free_pointer(temp);
+     send_mutex.Unlock();
+  }
 //		COMMS_DEBUG("IM GOING!!\n");
-	}
+ }
   COMMS_DEBUG("send ends!\n");
 }
 
@@ -60,7 +60,7 @@ void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning() && conn_layer) {
     recv_mutex.Lock();
     AbstractPacket* packet = NULL;
-	  uint8_t stream_buffer[MAX_BUFFER_SIZE];
+   uint8_t stream_buffer[MAX_BUFFER_SIZE];
     uint32_t recv_len = 0;
     bool received = conn_layer->Recv(stream_buffer, &recv_len);
     ObjectStream temp;
@@ -121,9 +121,9 @@ Comms::Comms(uint8_t platformID)
 , encrypt(encryption::CommEncryptor(encryption::AES))
 {
   decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
-	this->recv_queue = new AutoQueue <AbstractPacket*>;
-	this->send_queue = new AutoQueue <ObjectStream*>;
-	conn_layer = NULL;
+  this->recv_queue = new AutoQueue <AbstractPacket*>;
+  this->send_queue = new AutoQueue <ObjectStream*>;
+  conn_layer = NULL;
 }
 
 Comms::~Comms()
@@ -133,7 +133,7 @@ Comms::~Comms()
     comm_thread_recv.Join();
     comm_thread_send.Join();
   }
-	free_pointer(conn_layer);
+ free_pointer(conn_layer);
 }
 
 
@@ -145,7 +145,7 @@ bool Comms::LoadKey(char* key)
 
 bool Comms::LoadKeyFromFile(char* keyFileName)
 {
-	return encrypt.LoadKeyFromFile(keyFileName);
+ return encrypt.LoadKeyFromFile(keyFileName);
 }
 
 
@@ -161,53 +161,49 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
   uint16_t length = 0;
   switch (conn_type) {
     case UDP_LINK: 
-    {			
-      str_length(address, length);
-      if (length < ADDRESS_LENGTH)
-      {	
-        COMMS_DEBUG("UDP connection.\n");
-        conn_layer = new UDPLink();
-        return conn_layer->InitConnection(port, address);
+    {
+      if (address != NULL)
+      {
+        str_length(address, length);
+        if (length < ADDRESS_LENGTH)
+        {
+          COMMS_DEBUG("UDP connection.\n");
+          conn_layer = new UDPLink();
+          return conn_layer->InitConnection(port, address);
+        }
       }
       break;
     }
     case SERIAL_LINK:
     {
-      str_length(address, length);
-      if (length < ADDRESS_LENGTH)
-      {
-        conn_layer = new SerialLink();
-        return conn_layer->InitConnection(port, NULL, baudrate);
-      }
-      break;
+      conn_layer = new SerialLink();
+      return conn_layer->InitConnection(port, NULL, baudrate);
     }
     case ZIGBEE_LINK:
     {
-			 conn_layer = new XBeeLink();
-			return conn_layer->InitConnection(port, NULL, baudrate);
+      conn_layer = new XBeeLink();
+      return conn_layer->InitConnection(port, NULL, baudrate);
       // TODO(Garcia): Will need to create throw directives instead.
-      
-      break;
     }
     default:
       COMMS_DEBUG("NO CONNECTION\n");
     {return false;}
   }
-  return true;
+  return false;
 }
 
 
 bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
 {
-	if (conn_layer == NULL) return false;
-	return conn_layer->AddAddress(dest_id, address, port);
+ if (conn_layer == NULL) return false;
+ return conn_layer->AddAddress(dest_id, address, port);
 }
 
 
 bool Comms::RemoveAddress(uint8_t dest_id)
 {
-	if (conn_layer == NULL) return false;
-	return conn_layer->RemoveAddress(dest_id);
+ if (conn_layer == NULL) return false;
+ return conn_layer->RemoveAddress(dest_id);
 }
 
 
@@ -245,7 +241,7 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
     packet = recv_queue->Front();
     recv_queue->Dequeue();  
   }
-	
+ 
   return NULL;
 }
 

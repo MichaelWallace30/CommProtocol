@@ -1,7 +1,7 @@
 /*
   Packet Manager, handles an ADT storage for associating Packets.
 
-  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
+  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia, Alex Craig.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -91,12 +91,12 @@ public:
   /**
     Get the number of Packet-callback pairs in this table.
   */
-		uint32_t GetSize();
+  uint32_t GetSize();
 
-		/**
-		  Allocates more space for the hashtable.
-		*/
-		bool Resize(uint32_t size);
+  /**
+    Allocates more space for the hashtable.
+  */
+  bool Reserve(uint32_t size);
 
   /**
      Will produce a Packet from the provided id.
