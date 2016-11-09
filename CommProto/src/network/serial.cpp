@@ -1,7 +1,7 @@
 /* 
   Implementation of x-platform serial connections.
 
-  Copyright (C) 2016  Michael Wallace, Mario Garcia.
+  Copyright (C) 2016  Michael Wallace, Mario Garcia, Alex Craig.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -62,14 +62,14 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   //open up serial port  
   const char* comport = comPortCat;
 #endif
-		//Nonoverlapped port
+  //Nonoverlapped port
   h_serial.h_serial = CreateFile(comport,
-				GENERIC_READ | GENERIC_WRITE,
-				0,
-				0,
-				OPEN_EXISTING,
-				FILE_ATTRIBUTE_NORMAL,
-				0);
+    GENERIC_READ | GENERIC_WRITE,
+    0,
+    0,
+    OPEN_EXISTING,
+    FILE_ATTRIBUTE_NORMAL,
+    0);
 
 #ifdef UNICODE //clean up multybyte string to LPCWSTR
   delete str;
@@ -78,11 +78,11 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (h_serial.h_serial == INVALID_HANDLE_VALUE)
   {
     if (GetLastError() == ERROR_FILE_NOT_FOUND)
-				{
-						//serial port does not exist.
-						COMMS_DEBUG( "comport not found\n");
-						return false;
-				}
+    {
+      //serial port does not exist.
+      COMMS_DEBUG( "comport not found\n");
+      return false;
+    }
     // some other error occured.
     COMMS_DEBUG( "Unknown error\n");
     return false;
@@ -177,7 +177,7 @@ WindowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
     return false;
   } else {
     if (recv_data > 0) {
-						COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recv_data);
+      COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recv_data);
       *rx_len = recv_data;
       return true;
     }
@@ -188,13 +188,13 @@ WindowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
 
 inline bool
 WindowsClose(Serial& serial) {
-		serial_t& h_serial = serial.GetSerialPort();
-		if (h_serial.serial_s == SERIAL_CLOSED && CloseHandle(h_serial.h_serial))
-		{
-				h_serial.serial_s = SERIAL_CLOSED;
-				return true;
-		}
-		return false;
+  serial_t& h_serial = serial.GetSerialPort();
+  if (h_serial.serial_s == SERIAL_CLOSED && CloseHandle(h_serial.h_serial))
+  {
+    h_serial.serial_s = SERIAL_CLOSED;
+    return true;
+  }
+  return false;
 }
 
 #else
@@ -253,7 +253,7 @@ InitUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
 
     result = true;
     COMMS_DEBUG("Connected\n");
-				h_serial.serial_s = SERIAL_CONNECTED;
+    h_serial.serial_s = SERIAL_CONNECTED;
   }
 
   return result;
@@ -352,7 +352,7 @@ inline bool
 ClosePortHelper(Serial& serial) {
   serial_t& h_serial = serial.GetSerialPort();
 #if defined WINDOWS_SERIAL
-		WindowsClose(serial);
+  WindowsClose(serial);
 #elif defined UNIX_SERIAL
   UnixClose(serial);
 #endif 
@@ -394,35 +394,35 @@ bool Serial::OpenConnection(const char* port, const char* address, uint32_t baud
 bool Serial::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
 { 
   unsigned int crc = Crc32(tx_data, tx_length);
-		uint8_t crc_data[CRC32_SIZE];
-		Crc32ToArr(tx_data, tx_length, crc_data);
+  uint8_t crc_data[CRC32_SIZE];
+  Crc32ToArr(tx_data, tx_length, crc_data);
   parser.ParseSend(tx_data, tx_length, crc_data, buffer_send);//length adjusted
   return SendToPort(*this, dest_id, buffer_send, tx_length);
 }
 
 
 bool Serial::Recv(uint8_t* rx_data, uint32_t* rx_len) {
-	
-	bool valid = true;
+ 
+ bool valid = true;
 //	COMMS_DEBUG("Parser Postion %d\n", parserPosition);
-	//COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
-	//Get new message if parser is done
-	if (parser.ParseReceiveDone()){					
-		valid = ReadFromPort(*this, buffer_recv, rx_len);
-	}
-	//parse data
-	if (valid){
-		valid = parser.ParseReceive(rx_data, *rx_len, buffer_recv);
-		if (*rx_len > 0){
-			unsigned int crc_recv = TruncateCrc32(rx_data, rx_len);
-			unsigned int crc = Crc32(rx_data, *rx_len);
-			return crc_recv == crc;
-		}
-		else{
-			return false;
-		}
-	}		
-	
+ //COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
+ //Get new message if parser is done
+ if (parser.ParseReceiveDone()){					
+  valid = ReadFromPort(*this, buffer_recv, rx_len);
+ }
+ //parse data
+ if (valid){
+  valid = parser.ParseReceive(rx_data, *rx_len, buffer_recv);
+  if (*rx_len > 0){
+   unsigned int crc_recv = TruncateCrc32(rx_data, rx_len);
+   unsigned int crc = Crc32(rx_data, *rx_len);
+   return crc_recv == crc;
+  }
+  else{
+   return false;
+  }
+ }		
+ 
   return valid;
 }
 

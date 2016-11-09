@@ -1,7 +1,7 @@
 /*
   Parser algorithm.
 
-  Copyright (C) 2016  Michael Wallace, Mario Garcia.
+  Copyright (C) 2016  Michael Wallace, Mario Garcia, Alex Craig.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,31 +27,31 @@ namespace network {
 
 
 class COMM_EXPORT Parser {
-	/** terminal sequence for start and Stop of message data*/
-	char terminal_sequence[TERMINAL_SEQUENCE_SIZE];
-	/** Holds current position or parsed data used for reading serial data*/
-	uint32_t parser_position;
-	/** last recieveed length for parser information*/
-	uint32_t last_received_length;
+ /** terminal sequence for start and Stop of message data*/
+ char terminal_sequence[TERMINAL_SEQUENCE_SIZE];
+ /** Holds current position or parsed data used for reading serial data*/
+ uint32_t parser_position;
+ /** last recieveed length for parser information*/
+ uint32_t last_received_length;
 
 
 
 public:
-	Parser();
-	~Parser(){};
-	
-	/** 
+ Parser();
+ ~Parser(){};
+ 
+ /** 
     method takes tx buffer and adds terminal to Front and End. Also returns adjusted size by reference
    */
-	void ParseSend(uint8_t* tx_data, uint32_t &tx_length, uint8_t* crc_data, uint8_t *parsed_data);
-	/** 
+ void ParseSend(uint8_t* tx_data, uint32_t &tx_length, uint8_t* crc_data, uint8_t *parsed_data);
+ /** 
     method takes rx buffer and removes terminal to Front and End. Also returns adjusted size by reference
    */
-	bool ParseReceive(uint8_t* rx_data, uint32_t &rx_length, uint8_t *parsed_data);
-	/** 
+ bool ParseReceive(uint8_t* rx_data, uint32_t &rx_length, uint8_t *parsed_data);
+ /** 
     method determines if buffer has been parsed completely
    */
-	bool ParseReceiveDone()
+ bool ParseReceiveDone()
     { return parser_position == 0 || parser_position >= last_received_length - 1;}
 
 };

@@ -24,7 +24,7 @@ namespace network {
 
 UDPLink::~UDPLink()
 {
-		local.Close();
+  local.Close();
 }
 
 bool UDPLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {

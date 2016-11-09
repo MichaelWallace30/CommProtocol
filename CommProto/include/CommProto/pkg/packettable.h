@@ -38,17 +38,17 @@ public:
   /**
     Default constructor.
    */
-		PacketTable()
-		{
-				
-		}
+  PacketTable()
+  {
+    
+  }
   /**
     Default destructor.
    */
-		~PacketTable()
-		{
+  ~PacketTable()
+  {
 
-		}
+  }
   /**
     Inserts a Packet with a Callback associated with it.
    */
@@ -68,7 +68,7 @@ public:
   /**
     Reserves more memory to store Pairs. True on success, false otherwise.
    */
-		virtual bool Reserve(uint32_t new_size) = 0;
+  virtual bool Reserve(uint32_t new_size) = 0;
   /**
     Checks if the call parameter exists in the pairs.
   */
@@ -76,7 +76,7 @@ public:
   /**
     Accessor for the number of pairs stored.
   */
-		virtual uint32_t getNumOfPairs() = 0;
+  virtual uint32_t getNumOfPairs() = 0;
 };
 } // namespace Pkg
 } // namespace Comnet

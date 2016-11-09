@@ -142,9 +142,9 @@ public:
      Initialize connection.
    */
   virtual bool InitConnection(transport_protocol_t conn_type,
-			      const char* port, 
-			      const char* address, 
-			      uint32_t baud_rate = 0) = 0;
+         const char* port, 
+         const char* address, 
+         uint32_t baud_rate = 0) = 0;
 
   /**
      Add a communication address.

@@ -72,9 +72,9 @@ UDP::UDP()
 UDP::UDP(UDP&& udp)
 {
   std::swap(udp.sockaddr, sockaddr);
-		fd = udp.fd;
-		slen = udp.slen;
-		udp.sockaddr.socket_status = SOCKET_CLOSED;
+  fd = udp.fd;
+  slen = udp.slen;
+  udp.sockaddr.socket_status = SOCKET_CLOSED;
 }
 
 
@@ -83,7 +83,7 @@ UDP& UDP::operator=(UDP&& udp)
   std::swap(udp.sockaddr, sockaddr);
   fd = udp.fd;
   slen = udp.slen;
-		udp.sockaddr.socket_status = SOCKET_CLOSED;
+  udp.sockaddr.socket_status = SOCKET_CLOSED;
   return *this;
 }
 
@@ -112,7 +112,7 @@ bool UDP::InitConnection(const char* port, const char* address)
     }
 
     uint32_t portInt = std::atoi((char*)port);
-	         
+          
       
     //setup address structure
     memset((char *)&sockaddr.socket_address, 0, sizeof(sockaddr.socket_address));
@@ -169,14 +169,14 @@ bool UDP::Send(uint8_t* tx_data, uint32_t tx_length)
   if (sockaddr.socket_status == SOCKET_CONNECTED) {
     int slenSend = sizeof(sockaddr.socket_address);
     if (sendto(fd, (char *) tx_data, tx_length, 0, (struct sockaddr *) &sockaddr.socket_address, slen) < 0)
-				{
+    {
       COMMS_DEBUG("sendto() failed. error=%d\n", GET_LAST_ERROR);
       return false;
-				} else {	  						
+    } else {	  						
       COMMS_DEBUG("\n**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
       tx_length, ntohs(sockaddr.socket_address.sin_port),
       inet_ntoa(sockaddr.socket_address.sin_addr));		  
-				}
+    }
   }
 
   return true;
@@ -211,12 +211,12 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
 }
 bool UDP::Close()
 {
-		if (sockaddr.socket_status != SOCKET_CLOSED) {
-				closeSocket(fd);
-				sockaddr.socket_status = SOCKET_CLOSED;
-				return true;
-		}
-		return false;
+  if (sockaddr.socket_status != SOCKET_CLOSED) {
+    closeSocket(fd);
+    sockaddr.socket_status = SOCKET_CLOSED;
+    return true;
+  }
+  return false;
 }
 } // namespace Network
 } // namespace Comnet

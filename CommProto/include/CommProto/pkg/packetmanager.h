@@ -91,12 +91,12 @@ public:
   /**
     Get the number of Packet-callback pairs in this table.
   */
-		uint32_t GetSize();
+  uint32_t GetSize();
 
-		/**
-		  Allocates more space for the hashtable.
-		*/
-		bool Reserve(uint32_t size);
+  /**
+    Allocates more space for the hashtable.
+  */
+  bool Reserve(uint32_t size);
 
   /**
      Will produce a Packet from the provided id.

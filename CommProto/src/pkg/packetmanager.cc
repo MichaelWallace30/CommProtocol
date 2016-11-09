@@ -39,7 +39,7 @@ PacketManager::PacketManager(uint32_t setSize)
 
 PacketManager::~PacketManager() 
 {
-		free_pointer(table);
+  free_pointer(table);
 }
 
 
@@ -77,7 +77,7 @@ bool PacketManager::Contains(const AbstractPacket & key)
 }
 bool PacketManager::Contains(Callback * call)
 {
-		return (table->Contains(call));
+  return (table->Contains(call));
 }
 } // namespace Pkg
 } // namespace Comnet
