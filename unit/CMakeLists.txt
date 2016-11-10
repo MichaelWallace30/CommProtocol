@@ -11,7 +11,8 @@ include_directories(SYSTEM .)
 set(VISIONARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/visionary/)
 
 set(NGCP_UNIT_HEADERS 
-  ${VISIONARY_DIR}/test.h)
+  ${VISIONARY_DIR}/test.h
+  ${VISIONARY_DIR}/simulation.h)
 
 set (NGCP_UNIT_SOURCES
   ${VISIONARY_DIR}/test.cc)
