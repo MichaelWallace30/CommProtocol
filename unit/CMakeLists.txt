@@ -12,11 +12,12 @@ set(VISIONARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/visionary/)
 
 set(NGCP_UNIT_HEADERS 
   ${VISIONARY_DIR}/test.h
-  ${VISIONARY_DIR}/simulation.h)
+  ${VISIONARY_DIR}/simulation.h
+  ${VISIONARY_DIR}/unit.h)
 
 set (NGCP_UNIT_SOURCES
   ${VISIONARY_DIR}/test.cc)
 
-add_library(Visionary STATIC
-  ${NGCP_UNIT_HEADERS} 
+add_executable(Visionary
+  ${NGCP_UNIT_HEADERS}
   ${NGCP_UNIT_SOURCES})
