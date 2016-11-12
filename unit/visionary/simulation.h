@@ -68,6 +68,8 @@ public:
     std::for_each(simulations.begin(), simulations.end(), [] (detail::SimulationThread& thr) -> void {
       if (thr.Joinable()) {
         thr.Join();
+      } else {
+        thr.Detach();
       }
     });
   }

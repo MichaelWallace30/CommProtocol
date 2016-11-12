@@ -25,7 +25,7 @@
 #include <CommProto/network/seriallink.h>
 #include <CommProto/network/xbeelink.h>
 
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 
 #include <CommProto/callback.h>
 
@@ -52,7 +52,7 @@ void Comms::CommunicationHandlerSend()
   }
 //		COMMS_DEBUG("IM GOING!!\n");
  }
-  COMMS_DEBUG("send ends!\n");
+ debug::Log::Message(debug::LOG_DEBUG, "Send Ends!");
 }
 
 /** function for communication thread */
@@ -67,16 +67,17 @@ void Comms::CommunicationHandlerRecv() {
     if ( received ) {
       temp.SetBuffer((char*)stream_buffer, recv_len);
       if(decrypt.Decrypt(&temp)) {
-        COMMS_DEBUG("Packet was decrypted!\n");
+        debug::Log::Message(debug::LOG_NOTE, "Packet was decrypted!");
       } else {
-        COMMS_DEBUG("Packet was not decrypted!\n Either encryption is not set or key was not loaded!\n");
+        debug::Log::Message(debug::LOG_WARNING, 
+                        "Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
       }
       /*
       Algorithm should Get the header, Get the message id from header, then
       produce the packet from the header, finally Get the callback.
       */
       if(temp.GetSize() > 0) {
-        COMMS_DEBUG("Comms packet unpacking...\n");
+        debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
         Header header = temp.DeserializeHeader();
 
         // Create the packet.
@@ -103,14 +104,14 @@ void Comms::CommunicationHandlerRecv() {
             recv_queue->Enqueue(packet);
           }
         } else {
-          COMMS_DEBUG("Unknown packet recieved.\n");
+          debug::Log::Message(debug::LOG_NOTIFY, "Unknown packet recieved.");
         }
       }
     }
     recv_mutex.Unlock();	
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
   }
-  COMMS_DEBUG("recv ends!\n");
+  debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }
 
 /***********************************************/
@@ -167,7 +168,6 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
         str_length(address, length);
         if (length < ADDRESS_LENGTH)
         {
-          COMMS_DEBUG("UDP connection.\n");
           conn_layer = new UDPLink();
           return conn_layer->InitConnection(port, address);
         }
@@ -186,7 +186,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
       // TODO(Garcia): Will need to create throw directives instead.
     }
     default:
-      COMMS_DEBUG("NO CONNECTION\n");
+      debug::Log::Message(debug::LOG_WARNING, "NO CONNECTION ESTABLISHED!");
     {return false;}
   }
   return false;
@@ -223,9 +223,10 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   header.msg_len = stream->GetSize();
   stream->SerializeHeader(header);
   if(encrypt.Encrypt(stream)) {
-    COMMS_DEBUG("Packet was encrypted!\n");
+    debug::Log::Message(debug::LOG_NOTE, "Packet was encrypted!\n");
   } else {
-    COMMS_DEBUG("Packet was not encrypted! Either encryption was not created, or key was not loaded!\n");
+    debug::Log::Message(debug::LOG_WARNING, 
+                "Packet was not encrypted! Either encryption was not created, or key was not loaded!");
   }
   send_queue->Enqueue(stream);
 
@@ -272,15 +273,15 @@ void Comms::LogToConsoles() {
 
 void Comms::HandlePacket(error_t error, AbstractPacket* packet) {
   if ((error & CALLBACK_SUCCESS) == CALLBACK_SUCCESS) {
-    COMMS_DEBUG("PACKET SUCCESSFULL.\n");
+    debug::Log::Message(debug::LOG_NOTIFY, "PACKET SUCCESSFULL.");
   } else if ((error & CALLBACK_FAIL) == CALLBACK_FAIL) {
-    COMMS_DEBUG("PACKET FAILED.\n");
+    debug::Log::Message(debug::LOG_NOTIFY, "PACKET FAILED.");
   }
   if ((error & CALLBACK_DESTROY_PACKET) == CALLBACK_DESTROY_PACKET) {
-    COMMS_DEBUG("DESTROYING PACKET.\n");
+    debug::Log::Message(debug::LOG_NOTIFY, "DESTROYING PACKET.");
     free_pointer(packet);
   }
   if ((error & CALLBACK_STORE_PACKET) == CALLBACK_STORE_PACKET) {
-    COMMS_DEBUG("STORING PACKET.\n");
+    debug::Log::Message(debug::LOG_NOTIFY, "STORING PACKET.");
   }
 }
