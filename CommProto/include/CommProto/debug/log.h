@@ -43,7 +43,7 @@ enum LogStatus {
    Log is a notifier. It provides notifications and determines what should or shouldn't be
    displayed.
 */
-class Log {
+class COMM_EXPORT Log {
 public:
   /**
     Display message to the client.
