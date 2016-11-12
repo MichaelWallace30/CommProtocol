@@ -49,14 +49,5 @@
  #endif
 #endif
 
-
-#if defined(_MSC_VER)
- #if _MSC_VER > 1800
-  #define NOEXCEPT noexcept
- #else
-  #define NOEXCEPT
- #endif
-#endif
-
 #endif // COM_TARGET_OS == COM_OS_WINDOWS 
 #endif // __WIN32_CONFIG_H_
