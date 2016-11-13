@@ -3,6 +3,7 @@
 #include <CommProto/callback.h>
 #include <CommProto/architecture/os/comm_thread.h>
 #include <iostream>
+#include <CommProto/debug/log.h>
 /*
 #Note 
 CommProtocol Library requires libxbee3 to execute copy the file to your bin folder (ie .exe)
@@ -85,6 +86,10 @@ int main(int c, char** args) {
 		comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
 		comm2.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
 
+    // Allow client to suppress or unsuppress messages handled by the CommProtocol Library.
+    comnet::debug::Log::Suppress(comnet::debug::LOG_NOTIFY);
+    comnet::debug::Log::Suppress(comnet::debug::LOG_WARNING);
+    comnet::debug::Log::Suppress(comnet::debug::LOG_NOTE);
 
 		// Test packet.
 		Ping bing("I like cats. MEW :3. this is a test...");
