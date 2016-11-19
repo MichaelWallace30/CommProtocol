@@ -1,88 +1,39 @@
-/*
-  CommProtocol Runtime Logger.  
-
-  Copyright (C) 2016  Mario Garcia.
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (At your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-#ifndef __COMMS_LOG_H
-#define __COMMS_LOG_H
+#ifndef __LOG_H
+#define __LOG_H
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
 
-#include <string>
-#include <vector>
+#include <CommProto/debug/log_status.h>
 
 namespace comnet {
 namespace debug {
 
 
-enum LogStatus {
-  LOG_DEFAULT   = 0x0,
-  LOG_DEBUG     = 0x1,
-  LOG_NOTE      = 0x2,
-  LOG_NOTIFY    = 0x4,
-  LOG_WARNING   = 0x8,
-  LOG_ERROR     = 0x10,
-  LOG_FATAL     = 0x20,
-  LOG_UNKNOWN   = 0x40
-};
 /**
-   Log is a notifier. It provides notifications and determines what should or shouldn't be
-   displayed.
+   Log interface is a notifier. It provides notifications to the Logger Manager, 
+   which in turn will determine what to do with the message received.
 */
-class COMM_EXPORT Log {
+_COMNET_ABSTRACT_ class Log {
 public:
   /**
-    Display message to the client.
-  */
-  static void Message(LogStatus status, std::string message);
+     Default Constructor.
+   */
+  Log();
   /**
-    Store message in history.
-  */
-  static void StoreMessage(LogStatus status, std::string message);
-  /**
-    Dump all messages currently in history, this will display all messages that 
-    were previously stored!
-  */
-  static void Dump();
-  /** 
-    Clear all of the history!
-  */
-  static void ClearHistory();
-  /**
-    Suppress any messages that display the given status. This will prevent 
-    any messages from showing to the user.
-  */
-  static void Suppress(LogStatus status);
-  /**
-    Unsupress any message status that was previous supressed. This will 
-    enable the messages of that given status to display again.
-  */
-  static void UnSupress(LogStatus status);
+     Polymorphic destructor.
+   */
+  virtual ~Log();
 
-private:
-  /**
-    Suppressed message statuses in the form of a byte. 
-  */  
-  static char suppressed;
-  /**
-    History of messages that were stored.
-  */
-  static std::vector<std::pair<LogStatus, std::string>> history;
+  virtual char* GetLogMessage() = 0;
+  virtual char* Trace() = 0;
+
+  virtual void LogMessage(const char* message) = 0;
+
+protected:
+  LogStatus log_status;
 };
+
 } // Debug namespace
 } // Comnet namespace
-#endif // __COMMS_LOG_H
+#endif // __LOG_H

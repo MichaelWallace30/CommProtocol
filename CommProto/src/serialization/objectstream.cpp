@@ -42,15 +42,14 @@ void ObjectStream::SetBuffer(const char* buffer, int len)
 	{
 		stream_buffer[curr_pos] = buffer[curr_pos];
 	}
-  DeserializeHeader();
 }
 
 
 void ObjectStream::SerializeHeader(Header header)
 {
 	//not sure if more is needed kind of a waste of space
+	header_packet.dest_id = header.dest_id;
 	Header::Serialize(header, stream_buffer, 0);
-  header_packet = header;
 }
 
 
@@ -58,7 +57,6 @@ Header ObjectStream::DeserializeHeader()
 {
 	Header header;
 	Header::Deserialize(header, stream_buffer, 0);	
-  header_packet = header;
 	return header;
 }
 
@@ -97,9 +95,9 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 	// + 2 for null termination + 1 for storing length of string as byte
 	if (curr_pos + strLen + 2 < MAX_PACKET_SIZE)
 	{
-	  COMMS_DEBUG("SIZE BEFORE: %d\n", curr_pos);
-	  curr_pos += PackWideString(data,strLen, stream_buffer + curr_pos);
-		 COMMS_DEBUG("SIZE AFTER: %d\n", curr_pos);
+	        COMMS_DEBUG("SIZE BEFORE: %d\n", curr_pos);
+		curr_pos += PackWideString(data,strLen, stream_buffer + curr_pos);
+		COMMS_DEBUG("SIZE AFTER: %d\n", curr_pos);
 	}
 	else
 	{

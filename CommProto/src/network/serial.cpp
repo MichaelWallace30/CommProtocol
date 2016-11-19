@@ -1,7 +1,7 @@
 /* 
   Implementation of x-platform serial connections.
 
-  Copyright (C) 2016  Michael Wallace, Mario Garcia, Alex Craig.
+  Copyright (C) 2016  Michael Wallace, Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -62,35 +62,35 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   //open up serial port  
   const char* comport = comPortCat;
 #endif
-  //Nonoverlapped port
   h_serial.h_serial = CreateFile(comport,
-    GENERIC_READ | GENERIC_WRITE,
-    0,
-    0,
-    OPEN_EXISTING,
-    FILE_ATTRIBUTE_NORMAL,
-    0);
+				GENERIC_READ | GENERIC_WRITE,
+				0,
+				0,
+				OPEN_EXISTING,
+				FILE_ATTRIBUTE_NORMAL,
+				0);
 
 #ifdef UNICODE //clean up multybyte string to LPCWSTR
   delete str;
 #endif
   
   if (h_serial.h_serial == INVALID_HANDLE_VALUE)
-  {
-    if (GetLastError() == ERROR_FILE_NOT_FOUND)
     {
-      //serial port does not exist.
-      COMMS_DEBUG( "comport not found\n");
+      if (GetLastError() == ERROR_FILE_NOT_FOUND)
+	{
+	  //serial port does not exist.
+	  COMMS_DEBUG( "comport not found\n");
+	  return false;
+	}
+      // some other error occured.
+      COMMS_DEBUG( "Unknown error\n");
       return false;
     }
-    // some other error occured.
-    COMMS_DEBUG( "Unknown error\n");
-    return false;
-  }
   else
-  {
-    COMMS_DEBUG( "Serial port created\n");
-  }
+    {
+      
+      COMMS_DEBUG( "Serial port created\n");
+    }
   
   
   //setup parameters
@@ -100,11 +100,11 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
   
   if (!GetCommState(h_serial.h_serial, &dcbSerialParams))
-  {
-    //error getting state
-    COMMS_DEBUG( "Error getting state\n");
-    return false;
-  }
+    {
+      //error getting state
+      COMMS_DEBUG( "Error getting state\n");
+      return false;
+    }
   
   dcbSerialParams.BaudRate = (DWORD)baudrate;
   dcbSerialParams.ByteSize = 8;
@@ -112,11 +112,11 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   dcbSerialParams.Parity = NOPARITY;
   
   if (!SetCommState(h_serial.h_serial, &dcbSerialParams))
-  {
-    //error setting serial port state
-    COMMS_DEBUG( "Error setting serial port state\n");
-    return false;
-  }
+    {
+      //error setting serial port state
+      COMMS_DEBUG( "Error setting serial port state\n");
+      return false;
+    }
   
   
   COMMS_DEBUG( "Completed setting serial port state\n");
@@ -133,11 +133,11 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   timeouts.WriteTotalTimeoutMultiplier = 5;
   
   if (!SetCommTimeouts(h_serial.h_serial, &timeouts))
-  {
-    //error occureeed
-    COMMS_DEBUG( "Setting up times outs failed\n");
-    return false;
-  }
+    {
+      //error occureeed
+      COMMS_DEBUG( "Setting up times outs failed\n");
+      return false;
+    }
   
   COMMS_DEBUG( "Completed setting up time outs\n");
   h_serial.serial_s = SERIAL_CONNECTED;
@@ -176,25 +176,14 @@ WindowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
                                        // Im not sure if time out will return false for ReadFile
     return false;
   } else {
+    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recv_data);
     if (recv_data > 0) {
-      COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recv_data);
       *rx_len = recv_data;
       return true;
     }
   }
   
   return false;//no error, no data recieved, connection timmed out, will retry next time.
-}
-
-inline bool
-WindowsClose(Serial& serial) {
-  serial_t& h_serial = serial.GetSerialPort();
-  if (h_serial.serial_s == SERIAL_CLOSED && CloseHandle(h_serial.h_serial))
-  {
-    h_serial.serial_s = SERIAL_CLOSED;
-    return true;
-  }
-  return false;
 }
 
 #else
@@ -253,7 +242,6 @@ InitUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
 
     result = true;
     COMMS_DEBUG("Connected\n");
-    h_serial.serial_s = SERIAL_CONNECTED;
   }
 
   return result;
@@ -292,19 +280,6 @@ UnixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   }
 
   return result;
-}
-
-inline bool
-UnixClose(Serial& serial) {
-  serial_t& h_serial = serial.GetSerialPort();
-  if (h_serial.serial_s != SERIAL_CLOSED) {
-    if (close(h_serial.fd) > 0)
-    {
-      h_serial.serial_s = SERIAL_CLOSED;
-      return true;
-    }
-  }
-  return false;
 }
 
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
@@ -352,9 +327,9 @@ inline bool
 ClosePortHelper(Serial& serial) {
   serial_t& h_serial = serial.GetSerialPort();
 #if defined WINDOWS_SERIAL
-  WindowsClose(serial);
+  ClosePort(h_serial.h_serial);
 #elif defined UNIX_SERIAL
-  UnixClose(serial);
+  ClosePort(h_serial.fd);
 #endif 
   return true;
 }
@@ -366,7 +341,7 @@ ClosePortHelper(Serial& serial) {
 Serial::Serial()
 {		  
   connection_established = false;
-  h_serial.serial_s = SERIAL_CLOSED;
+  h_serial.serial_s = SERIAL_OPEN;
   id = -1;
 }
 
@@ -374,7 +349,7 @@ Serial::Serial(uint32_t id)
 : id(id)
 {
   connection_established = false;
-  h_serial.serial_s = SERIAL_CLOSED;
+  h_serial.serial_s = SERIAL_OPEN;
 }
 
 
@@ -386,6 +361,7 @@ bool Serial::OpenConnection(const char* port, const char* address, uint32_t baud
   
   //check os here
   connection_established = OpenPort(*this, port, baudrate);
+  h_serial.serial_s = SERIAL_CONNECTED;
   COMMS_DEBUG("Port is now: %d\n", h_serial.fd);
   return connection_established;
 }
@@ -393,36 +369,37 @@ bool Serial::OpenConnection(const char* port, const char* address, uint32_t baud
 
 bool Serial::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
 { 
+  COMMS_DEBUG("Port send is: %d\n", h_serial.fd); 
   unsigned int crc = Crc32(tx_data, tx_length);
-  uint8_t crc_data[CRC32_SIZE];
-  Crc32ToArr(tx_data, tx_length, crc_data);
-  parser.ParseSend(tx_data, tx_length, crc_data, buffer_send);//length adjusted
+  AppendCrc32(tx_data, &tx_length);  
+  parser.ParseSend(tx_data, tx_length, buffer_send);//length adjusted
   return SendToPort(*this, dest_id, buffer_send, tx_length);
 }
 
 
 bool Serial::Recv(uint8_t* rx_data, uint32_t* rx_len) {
- 
- bool valid = true;
+	
+	bool valid = true;
 //	COMMS_DEBUG("Parser Postion %d\n", parserPosition);
- //COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
- //Get new message if parser is done
- if (parser.ParseReceiveDone()){					
-  valid = ReadFromPort(*this, buffer_recv, rx_len);
- }
- //parse data
- if (valid){
-  valid = parser.ParseReceive(rx_data, *rx_len, buffer_recv);
-  if (*rx_len > 0){
-   unsigned int crc_recv = TruncateCrc32(rx_data, rx_len);
-   unsigned int crc = Crc32(rx_data, *rx_len);
-   return crc_recv == crc;
-  }
-  else{
-   return false;
-  }
- }		
- 
+	//COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
+	//Get new message if parser is done
+	if (parser.ParseReceiveDone()){		
+		COMMS_DEBUG("Port recv is: %d\n", h_serial.fd);			
+		valid = ReadFromPort(*this, buffer_recv, rx_len);
+	}
+	//parse data
+	if (valid){
+		valid = parser.ParseReceive(rx_data, *rx_len, buffer_recv);
+		if (*rx_len > 0){
+			unsigned int crc_recv = TruncateCrc32(rx_data, rx_len);
+			unsigned int crc = Crc32(rx_data, *rx_len);
+			return crc_recv == crc;
+		}
+		else{
+			return false;
+		}
+	}		
+	
   return valid;
 }
 

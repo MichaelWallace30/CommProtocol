@@ -74,8 +74,8 @@ public:
     NOTE(Garcia): For Win32, "\\\\.\\pipename" is used, whereas, linux is something else.
    */
   virtual bool Connect(std::string path, PipeMode mode) = 0;
-  virtual bool Read(char* buf, uint32_t& len) = 0;
-  virtual bool Write(char* buf, uint32_t len) = 0;
+  virtual bool Read(char* buf, uint32_t len) = 0;
+  virtual bool Write(char* buf, uint32_t& len) = 0;
   virtual pipe_t& GetReadHandle() = 0;
   virtual pipe_t& GetWriteHandle() = 0;
   virtual PipeStatus GetStatus() = 0;

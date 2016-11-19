@@ -28,47 +28,10 @@ namespace architecture {
 
 
 class COMM_EXPORT Pipe : public IPipe {
-  COMM_DISALLOW_COPYING(Pipe);
 public:
-  Pipe() { }
 
-  /**
-    Creates an anonymous local pipe, used for local communications to CommProtocol.
-    @param mode The mode of which you want this pipe to be using. This allows reading
-                one way, or writing one way, or none, or both.
-  */
-  bool Create(PipeMode mode) override {
-    bool success = false;
-    // Create an anonymous local pipe for windows.
-    switch (mode) {
-      case READ:
-        break;
-      case WRITE:
-        break;
-      default:
-    };
-    success = CreatePipe(rpipe, wpipe, NULL, 0);
-    return success; 
-  }
-
-
-  bool CreateNamed(std::string path, PipeMode mode) override;
-  bool Connect(std::string path, PipeMode mode) override;
-  bool Read(char* buf, uint32_t& len) override;
-  bool Write(char* buf, uint32_t len) override;
-  bool Close() override {
-    CloseHandle(rpipe);
-    CloseHandle(wpipe);
-  }
-  pipe_t& GetReadHandle() override { return rpipe; }
-  pipe_t& GetWriteHandle() override { return wpipe; }
-  PipeStatus GetStatus() override { return status; }
-  PipeType GetType() override { return type; }
 private:
-  pipe_t rpipe;
-  pipe_t wpipe;
-  PipeType type;
-  PipeStatus status;
+  pipe_t pipe;
 };
 } // architecture
 } // comnet

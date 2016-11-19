@@ -1,4 +1,4 @@
- /*
+/*
   Link for UDP connections.
 
   Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
@@ -35,42 +35,40 @@ class COMM_EXPORT UDPLink : public CommsLink {
 public:
   // TODO(Garcia): UDP will need to have it's own list of udp objects to talk to.
   UDPLink() { protocol = UDP_LINK; }
-  
-		~UDPLink();
-		/** 
+  /** 
     Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
     Returns false if open socket or bind fails
   */
-  bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0) override;
+  bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /** 
     Adds Address & port to dest_id value of array of aviable connections
     Returns false if connection is already connected
   */
-  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
+  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
   /** 
     Sets connection to not available
     Returns false is no connection is found
   */
-  bool RemoveAddress(uint8_t dest_id) override;
+  bool RemoveAddress(uint8_t dest_id);
   /** 
     Sends txData using its length of bytes through the dest_id connection which is establish through add adress
     Return false if no proper connection is establish
   */
-  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
+  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
   /** 
     Sets recieved data to rxData and sets the length of the data to rxLength
     Returns false if not aviable connection or no data is recieved
   */
-  bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
+  bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
-  void DigestCommand(const char* cmd) override { }
+  void DigestCommand(const char* cmd) { }
 private:
   
   UDP local;
   /**
     Uses uint8_t key for mapping destination id to the UDP object.
   */
-  std::map<uint8_t, std::unique_ptr<UDP>> clients;
+  std::map<uint8_t, std::unique_ptr<UDP>> map;
 };
 } // namespace Network
 } // namespace Comnet

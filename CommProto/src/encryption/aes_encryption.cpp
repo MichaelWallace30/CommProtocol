@@ -1,31 +1,9 @@
-/*
-  AES Encryption description.
+#include <CommProto/encryption/aes_encryption.h>//header file
+#include <CommProto/architecture/macros.h>//str_length
+#include <CommProto/debug/comms_debug.h>//COMMS_DEBUG
+#include <fstream>//file input
 
-  Copyright (C) 2016  Michael Wallace.
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (At your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-#include <CommProto/architecture/macros.h>
-#include <CommProto/debug/comms_debug.h>
-#include <CommProto/headerpacket.h>
-#include <fstream>
-
-// Private declaration
-#include "aes_encryption.h"
-
-namespace comnet {
-namespace encryption {
+using namespace comnet;
 
 AesEncryption::AesEncryption() :randomGen(0, 255){}
 
@@ -46,7 +24,6 @@ uint8_t AesEncryption::LoadKey(char* key){
 	}
 	return 1;//success
 }
-
 
 /** load file which contatins the encryption key by the file name*/
 uint8_t AesEncryption::LoadKeyFromFile(char*keyFileName){
@@ -75,24 +52,21 @@ uint8_t AesEncryption::LoadKeyFromFile(char*keyFileName){
 	return LoadKey(temp_key);//load key from temp key
 }
 
-
 /** Encrypt buffer for desired length of data stream and return any agumented legnth by reference
 A return value of - value is an error */
-int32_t AesEncryption::Encrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]){
+int32_t AesEncryption::Encrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]){
 	CryptoPP::CFB_Mode<CryptoPP::AES>::Encryption cfbEncryption(sec_key, sec_key.size(), iv);
 	cfbEncryption.ProcessData((byte*)buffer, (byte*)buffer, length);
 	return 1;
 }
 
-
 /** Decrypt buffer for desired length of data stream and return any agumented legnth by reference
 A return value of - value is an error */
-int32_t AesEncryption::Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]){
+int32_t AesEncryption::Decrypt(uint8_t* buffer, uint32_t& length, uint8_t iv[BLOCK_SIZE]){
 	CryptoPP::CFB_Mode<CryptoPP::AES>::Decryption cfbDecryption(sec_key, sec_key.size(), iv);
 	cfbDecryption.ProcessData((byte*)buffer, (byte*)buffer, length);
 	return 1; 
 }
-
 
 /** Randome numbder generator which fills an array of size legnth*/
 uint8_t AesEncryption::GenerateRandomIV(uint8_t * buffer, uint32_t length){	
@@ -101,5 +75,3 @@ uint8_t AesEncryption::GenerateRandomIV(uint8_t * buffer, uint32_t length){
 	}
 	return 1;
 }
-} // encryption
-} // comnet 
