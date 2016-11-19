@@ -2,6 +2,6 @@
 /build/
 /win32/
 /linux/
-
+tests/
 # Test files not required.
 /CommProto/src/main.cpp
