@@ -2,12 +2,6 @@
 /build/
 /win32/
 /linux/
-/tests/classes/cpp/udp/*.cc
-/tests/classes/cpp/udp/*.cpp
-/tests/classes/cpp/udp/*.C
-/tests/classes/cpp/udp/*.h
-/tests/classes/cpp/udp/*.hpp
-/tests/classes/cpp/udp/*.txt
 
 # Test files not required.
 /CommProto/src/main.cpp
