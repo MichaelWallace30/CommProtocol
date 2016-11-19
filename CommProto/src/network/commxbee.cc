@@ -32,7 +32,7 @@ namespace network {
 
 CommXBee::CommXBee()
 {
-
+	itXbeesRecv = xbees.begin();
 }
 
 
@@ -90,16 +90,19 @@ bool CommXBee::RemoveAddress(uint8_t destId)
 Send data over to the destination node.
 */
 bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
-	auto it = xbees.begin();
+	
 	rxLength = 0;
+	//xbees iterator is set in constructor as begin
+	//iterator should be left on last index + 1 of xbees when a message is recieved
+	//and start on next index when this method is called agan
 
 	unsigned char buffer[MAX_XBEE_PACKET_SIZE];
 
-	while (it != xbees.end())
+	while (itXbeesRecv != xbees.end())
 	{
-		struct xbee_con *con = it->second;
+		struct xbee_con *con = itXbeesRecv->second;
 		xbee_conRx(con, &pkt, NULL);
-		it++;
+		itXbeesRecv++;//next xbee connection
 				
 		uint8_t seq;
 		uint8_t maxSeq;
@@ -126,6 +129,7 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 		return true;
 		
 	}
+	itXbeesRecv = xbees.begin();//start iterator from begging
 	//no error to report just no message recv
 	return false;
 }

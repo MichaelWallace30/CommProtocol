@@ -64,6 +64,16 @@ public:
      Polymorphic Destructor.
    */
   virtual ~CommNode() { 
+    for (int32_t i = 0; i < recv_queue->GetSize(); ++i) {
+      AbstractPacket* abs = recv_queue->Front();
+      recv_queue->Dequeue();
+      free_pointer(abs);  
+    }
+    for (int32_t i = 0; i < send_queue->GetSize(); ++i) {
+      ObjectStream* obj = send_queue->Front();
+      send_queue->Dequeue();
+      free_pointer(obj);
+    }
     free_pointer(recv_queue);
     free_pointer(send_queue);
   }
@@ -118,7 +128,7 @@ public:
   /**
      Send the packet to the specified destination address.
    */
-  virtual bool Send(AbstractPacket* packet, uint8_t dest_id) = 0;
+  virtual bool Send(AbstractPacket& packet, uint8_t dest_id) = 0;
   /**
      Check for packet if received. This is called manually by user, yet the node should
      be able to Run automatically checking for received packets. Any packets linked to a 
@@ -132,9 +142,9 @@ public:
      Initialize connection.
    */
   virtual bool InitConnection(transport_protocol_t conn_type,
-			      const char* port, 
-			      const char* address, 
-			      uint32_t baud_rate = 0) = 0;
+         const char* port, 
+         const char* address, 
+         uint32_t baud_rate = 0) = 0;
 
   /**
      Add a communication address.
