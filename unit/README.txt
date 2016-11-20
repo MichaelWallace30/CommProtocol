@@ -1,3 +1,3 @@
-Visionary v0.0 Header Only library
+Visionary v0.0
 
 Unit Testing toolset for examples and CommProto runtime.

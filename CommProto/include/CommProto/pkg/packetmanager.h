@@ -1,7 +1,7 @@
 /*
   Packet Manager, handles an ADT storage for associating Packets.
 
-  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia, Alex Craig.
+  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -89,15 +89,15 @@ public:
   bool Contains(Callback* call);
 
   /**
-    Get the number of Packet-callback pairs in this table.
-  */
-  uint32_t GetSize();
+     Get the number of Packet-callback pairs in this table.
+   */
+  int32_t GetSize() { return size; }
 
   /**
-    Allocates more space for the hashtable.
-  */
-  bool Reserve(uint32_t size);
-
+     Resizes the manager table, when hitting a certain number of 
+     pairs relative to the overall size of the table.
+   */
+  void Resize();
   /**
      Will produce a Packet from the provided id.
    */
@@ -107,6 +107,14 @@ private:
   PacketFactory factory;
 
   PacketTable* table;
+  /**
+     The current number of Pairs in this table.
+   */
+  int32_t size;
+  /**
+     The max overall size of the table.
+   */
+  int32_t MaxSize;
 };
 } // namespace Pkg
 } // namespace Comnet

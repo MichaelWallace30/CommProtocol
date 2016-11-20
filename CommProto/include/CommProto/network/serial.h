@@ -18,7 +18,7 @@
 */
 
 /* Serial message parser implemented
- <start><header><data><checksum><End>*/
+	<start><header><data><checksum><End>*/
 #ifndef SERIAL_H
 #define SERIAL_H
 
@@ -49,7 +49,7 @@ private:
 
 public:
 
- 
+	
   Serial();
   Serial(uint32_t id);
   ~Serial();

@@ -1,7 +1,7 @@
 /*
   Windows serial configuration.
 
-  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia, Alex Craig.
+  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,6 +23,10 @@
 #include <CommProto/architecture/connection/serial_status.h>
 
 typedef HANDLE serial_h;
+
+
+#define ClosePort CloseHandle
+
 
 struct serial_info {
 

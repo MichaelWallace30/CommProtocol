@@ -1,7 +1,7 @@
 /*
-  Linux serial configuration.
+  UDP configurations.
 
-  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
+  Copyright (C) 2016  Michael Wallace, Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,31 +16,34 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __SERIAL_CONFIG_LINUX_H
-#define __SERIAL_CONFIG_LINUX_H
-
-#include <CommProto/architecture/connection/serial_status.h>
-
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <termios.h>
+#ifndef __LOG_STATUS_H
+#define __LOG_STATUS_H
 
 
-#define ClosePort close
+namespace comnet {
+namespace debug {
 
+class Log;
 
-
-struct serial_info {
-  
-  speed_t baudrate;
-  serial_status serial_s;
-  port_id fd;
-
-  char device[50];
+/**
+  The Log status for the Log object.
+*/
+enum LogStatus {
+  LOG_NOTHING,
+  LOG_SIMPLE,
+  LOG_NOTIFY,
+  LOG_WARNING,
+  LOG_ERROR,
 };
 
-typedef struct serial_info serial_t;
-#endif // __SERIAL_CONFIG_LINUX_H
+
+/**
+  Identifier for logs.
+*/
+LogStatus getLogStatus(Log& log);
+
+Log& convertTo(LogStatus status, Log& log);
+
+} // namespace Debug
+} // namespace Comnet
+#endif //__LOG_STATUS_H

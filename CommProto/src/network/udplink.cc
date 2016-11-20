@@ -22,10 +22,7 @@
 namespace comnet {
 namespace network {
 
-UDPLink::~UDPLink()
-{
-  local.Close();
-}
+
 
 bool UDPLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
   return local.InitConnection(port, address);
@@ -68,7 +65,7 @@ bool UDPLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
     TODO(Anybody): We need a proper data structure for handling recv from multiple
                   nodes.
   */
-  for (auto it = clients.begin(); 
+  for (std::map<uint8_t, std::unique_ptr<UDP>>::iterator it = clients.begin(); 
             it != clients.end(); ++it) {
     if (it->second->Recv(rxData, rxLength)) {
       success = true;

@@ -1,7 +1,7 @@
 /*
   CRC 32 checksum.
 
-  Copyright (C) 2016  Michael Wallace, Mario Garcia, Alex Craig.
+  Copyright (C) 2016  Michael Wallace, Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 */
 #ifndef CRC32
 #define CRC32
-#define CRC32_SIZE 4
 
 #include <CommProto/serialization/marshal.h>//endianess
 
@@ -29,10 +28,8 @@ namespace network {
 /** 
   CRC32 checksum function
 */
-COMM_EXPORT unsigned int Crc32(unsigned char *message, uint32_t length);
-//Now replaced by CrcToArr
+COMM_EXPORT unsigned int Crc32(unsigned char *message, int length);
 COMM_EXPORT void AppendCrc32(uint8_t* buffer, uint32_t *length);
-COMM_EXPORT void Crc32ToArr(unsigned char* message, uint32_t length, uint8_t* crcBuffer);
 COMM_EXPORT unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length);
 
 }//End NETWORK namespace

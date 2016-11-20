@@ -1,7 +1,7 @@
 /* 
   UDP configurations.
 
-  Copyright (C) 2016  Michael Wallace, Mario Garcia, Alex Craig.
+  Copyright (C) 2016  Michael Wallace, Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -48,8 +48,17 @@ private:
   /** Local address & port */
   //struct sockaddr_in sockaddr;
   socket_t sockaddr;
+  /** recieved address & port */
+  //struct sockaddr_in si_other;
+  socket_t si_other;
   /** Local address length */
   int slen;
+  
+  /** message buffer */
+  uint8_t rx_buf[MAX_BUFFER_SIZE];	
+  
+  /** Is local socket connected */
+//  bool connected;
   
   /** Opens udp socket returns false if socket open fails*/
   bool UdpOpen(int* fd);
@@ -64,7 +73,7 @@ private:
   UDP& operator=(UDP&& udp);
   /** Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
       Returns false if open socket or bind fails*/
-  bool InitConnection(const char* port = NULL, const char* address = NULL);
+  bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
   /** Adds Address & port to dest_id value of array of aviable connections
       Returns false if connection is already connected*/
   std::unique_ptr<UDP> Connect(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);

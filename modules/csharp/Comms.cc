@@ -18,33 +18,25 @@ Void Comms::commHelperRecv() {
     ABSPacket^ packet = nullptr;
     uint8_t stream_buffer[MAX_BUFFER_SIZE];
     UInt32 recv_length = 0;
-    ObjectStream^ temp = nullptr;
-    bool received = connLayer->Recv(stream_buffer, recv_length); 
-    if ( received ) {
-      temp = gcnew ObjectStream();
-      temp->unmangedObjectStream->Get().SetBuffer((char *)stream_buffer, recv_length);
-      if (decryptor->Decrypt(&temp->unmangedObjectStream->Get())) {
-        COMMS_DEBUG("DECRYPTED!\n"); 
-      } else {
-        COMMS_DEBUG("NOT DECRYPTED!\n");
-      }
-      if (temp->GetSize() > 0) {
-        Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().DeserializeHeader());
-        packet = this->packetManager->ProduceFromId(header->GetMessageID());
-        if (packet) {
-          packet->Unpack(temp);
-          CallBack^ callback = nullptr;
-          callback = this->packetManager->Get(packet);
-          if (callback) {
-            error_t error;  
-            error = callback->CallFunction(header, packet, static_cast<CommNode^>(this));
-            // Do something with the packet.
-            switch (error) {
-              case CALLBACK_SUCCESS: break;
-              case CALLBACK_FAIL: break;
-              case CALLBACK_DESTROY_PACKET: break;
-              default: break;
-            }
+    connLayer->Recv(stream_buffer, recv_length); 
+    ObjectStream^ temp = gcnew ObjectStream();
+    temp->unmangedObjectStream->Get().SetBuffer((char *)stream_buffer, recv_length);
+    if (temp->GetSize() > 0) {
+      Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().DeserializeHeader());
+      packet = this->packetManager->ProduceFromId(header->GetMessageID());
+      if (packet) {
+        packet->Unpack(temp);
+        CallBack^ callback = nullptr;
+        callback = this->packetManager->Get(packet);
+        if (callback) {
+          error_t error;  
+          error = callback->CallFunction(header, packet, static_cast<CommNode^>(this));
+          // Do something with the packet.
+          switch (error) {
+            case CALLBACK_SUCCESS: break;
+            case CALLBACK_FAIL: break;
+            case CALLBACK_DESTROY_PACKET: break;
+            default: break;
           }
         }
       }
@@ -69,9 +61,7 @@ Void Comms::commHelperSend() {
 
 Comms::Comms(UInt32 id)
 : CommNode(id) 
-, encryptor(new encryption::CommEncryptor(encryption::AES))
 {
-  decryptor = new encryption::CommDecryptor(encryption::AES, encryptor);
   this->recvQueue = gcnew AutoQueue<ABSPacket^>();
   this->sendQueue = gcnew AutoQueue<ObjectStream^>();
   this->sendMut = gcnew Threading::Mutex();
@@ -176,11 +166,6 @@ Boolean Comms::Send(ABSPacket^ packet, Byte destId) {
   header->SetMessageID(packet->GetAbstractPacket()->GetId());
   header->SetMessageLength(stream->GetSize());
   stream->SerializeHeader(header);
-  if (encryptor->Encrypt(&stream->unmangedObjectStream->Get())) {
-   COMMS_DEBUG("ENCRYPTED PACKET!\n");
-  } else {
-    COMMS_DEBUG("No encryption!\n");
-  }
   sendQueue->EnQueue(stream);
   COMMS_DEBUG("Sending packet...\n");
   return true;

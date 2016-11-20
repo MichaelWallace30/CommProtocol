@@ -1,12 +1,12 @@
 /*
-  Linux serial configuration.
+  Logger manager for controlling the management of Log Messages.
 
   Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
-  (At your option) any later version.
+  (at your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,31 +16,20 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __SERIAL_CONFIG_LINUX_H
-#define __SERIAL_CONFIG_LINUX_H
+#ifndef __LOGGER_MANAGER_H
+#define __LOGGER_MANAGER_H
 
-#include <CommProto/architecture/connection/serial_status.h>
+#include <CommProto/architecture/os/include_defines.h>
 
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <termios.h>
+namespace Comnet {
+namespace Debug {
 
 
-#define ClosePort close
+class LoggerManager {
+public:
 
-
-
-struct serial_info {
   
-  speed_t baudrate;
-  serial_status serial_s;
-  port_id fd;
-
-  char device[50];
 };
-
-typedef struct serial_info serial_t;
-#endif // __SERIAL_CONFIG_LINUX_H
+} // namespace Debug
+} // namespace Comnet 
+#endif // __LOGGER_MANAGER_H

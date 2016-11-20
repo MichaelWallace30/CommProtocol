@@ -32,32 +32,32 @@ namespace network {
 	public:
 		XBeeLink();
 
-		~XBeeLink() { free_pointer(home); };
+		~XBeeLink(){};
 			
 		
 		/**
 		Initialize a connection for this node. Address is not required.
 		*/
-		bool InitConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0) override;
+		bool InitConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0);
 		/**
 		Adds an address to the link.
 		TODO(Garcia, Wallace): Cluster communications required here!
 		*/
-		bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
+		bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
 		/**
 		Remove an address from the link.
 		*/
-		bool RemoveAddress(uint8_t dest_id) override;
+		bool RemoveAddress(uint8_t dest_id);
 		/**
 		Send a message to the specified id of which an address is associated with.
 		*/
-		bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
+		bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
 		/**
 		Receive a message from a protocol id.
 		*/
-		bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
+		bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
-		void DigestCommand(const char* cmd) override { ; }
+		void DigestCommand(const char* cmd) { ; }
 	private:
 
 		// Home address xbee.

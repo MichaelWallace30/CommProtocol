@@ -49,6 +49,7 @@
 // Apple : OSX
 #if defined(__APPLE__) && defined(__MACH__)
  #undef COM_TARGET_OS
+  #define COM_TARGET_OS       COM_OS_APPLE
  #define COM_TARGET_OS        COM_OS_APPLE
 #endif // __APPLE__ && __MACH__
 
