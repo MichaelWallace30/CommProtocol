@@ -68,7 +68,7 @@ private:
   /**
     Uses uint8_t key for mapping destination id to the UDP object.
   */
-  std::map<uint8_t, std::unique_ptr<UDP>> map;
+  std::map<uint8_t, std::unique_ptr<UDP>> clients;
 };
 } // namespace Network
 } // namespace Comnet
