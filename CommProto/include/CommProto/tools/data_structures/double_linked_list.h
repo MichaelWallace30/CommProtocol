@@ -122,7 +122,7 @@ public:
   /**
      Default destructor for the data structure.
    */
-  ~DoubleLinkedList() {
+  virtual ~DoubleLinkedList() {
     _delete_list(DNode, this->size);
     nullify_pointer(root);
     nullify_pointer(tail);
@@ -131,7 +131,7 @@ public:
   /**
      Inserts a value into the data structure.
    */
-  void Insert(const_reference value) {
+  virtual void Insert(const_reference value) {
     DNode* new_node = new DNode(*this);
     nullify_pointer(new_node->next);
     nullify_pointer(new_node->previous);
@@ -237,7 +237,7 @@ public:
      Removes a node based on the specified value. This may be a greedy method, considering it will not
      remove all nodes similar to specified value.
    */
-  bool Remove(const_reference value) {
+  virtual bool Remove(const_reference value) {
     bool success = false;
     if (this->IsEmpty()) {
       return success;
@@ -280,7 +280,7 @@ public:
   /**
      Remove a node from the list on the specified index.
    */
-  bool RemoveAt(const int32_t index) {
+  bool RemoveAt(const int32_t index) override {
     bool success = false;
     if (index >= this->size || index < 0) {
       return success;
@@ -337,17 +337,17 @@ public:
   /**
      Get the Front root value of this data structure.
    */
-  reference_type Front() {
+  virtual reference_type Front() {
     return *root->data;
   }
   /**
      Get the Back, tail, value of this data structure.
    */
-  reference_type Back() { 
+  virtual reference_type Back() { 
     return *tail->data;
   }
 
-  reference_type At(const int32_t index) {
+  virtual reference_type At(const int32_t index) {
     if (root->index == index) {
       return *root->data;
     } else if (tail->index == index) {
@@ -355,24 +355,24 @@ public:
     } else if (cursor->index == index) {
       return *cursor->data;
     } else {
-      if (cursor->index > index) {
-	cursor = cursor->previous;
-	while (cursor != NULL) {
-	  if (cursor->index == index) {
-	    return *cursor->data;
-	  } else {
-	    cursor = cursor->previous;
-	  }
-	}
-      } else {
-	cursor = cursor->next;
-	while (cursor != NULL) {
-	  if (cursor->index == index) {
-	    return *cursor->data;
-	  } else {
-	    cursor = cursor->next;
-	  }
-	}
+						if (cursor->index > index) {
+								cursor = cursor->previous;
+								while (cursor != NULL) {
+										if (cursor->index == index) {
+												return *cursor->data;
+										} else {
+												cursor = cursor->previous;
+										}
+								}
+						} else {
+						  cursor = cursor->next;
+								while (cursor != NULL) {
+										if (cursor->index == index) {
+												return *cursor->data;
+										} else {
+												cursor = cursor->next;
+										}
+								}
       }
     }
   }
@@ -380,7 +380,7 @@ public:
   /**
      Checks if the specified value is in this data structure.
    */
-  bool Contains(const_reference value) {
+  virtual bool Contains(const_reference value) {
     bool success = false;
     
     if (cmp.Equal(*root->data, value) ||
@@ -403,7 +403,7 @@ public:
   /**
      Get the cursor value.
    */
-  const _Ty& GetCurrent() {
+  virtual const _Ty& GetCurrent() {
     return *cursor->data;
   }
 private:
