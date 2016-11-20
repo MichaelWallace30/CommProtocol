@@ -36,7 +36,7 @@ public:
   // TODO(Garcia): UDP will need to have it's own list of udp objects to talk to.
   UDPLink() { protocol = UDP_LINK; }
   
-		~UDPLink();
+		~UDPLink() { }
 		/** 
     Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
     Returns false if open socket or bind fails
