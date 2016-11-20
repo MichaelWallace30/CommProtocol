@@ -21,6 +21,8 @@ set(ARCH_CONNECTION_HEADERS
 
 set(ARCH_OS_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/linux-config/linux-config.h
+  ${ARCHITECTURE_HEADER_DIR}/os/windows-config/win32-config.h
+  ${ARCHITECTURE_HEADER_DIR}/os/mac-config/mac-config.h
   ${ARCHITECTURE_HEADER_DIR}/os/include_defines.h
   ${ARCHITECTURE_HEADER_DIR}/os/arch.h
   ${ARCHITECTURE_HEADER_DIR}/os/os_threads.h

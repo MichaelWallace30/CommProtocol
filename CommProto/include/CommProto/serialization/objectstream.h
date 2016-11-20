@@ -92,15 +92,11 @@ public:
   /** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
   void SetBuffer(const char* buffer, int len);
 
-		
+  
   
   void SerializeHeader(Header header);
   Header DeserializeHeader();
-
-  //
-  //decrypt and encrypt header here
-  //
-		
+  
   
   /** Overloaded input stream operators to put variables into the object stream*/  
   ObjectStream& operator<<(string_t& data);

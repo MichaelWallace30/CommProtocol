@@ -1,7 +1,7 @@
 /*
   PacketFactory that creates packets in the library.
 
-  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
+  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia, Alex Craig.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ public:
      Constructor for the Packet Factory.
 
    */
-  PacketFactory() : id(1) { }
+  PacketFactory() { }
   /**
      Produces a packet from the associated table.
    */
@@ -50,13 +50,6 @@ public:
 
     return ref->Create(); 
   }
- 
-  
-private:
-  /**
-     PacketFactory id.
-   */
-  uint32_t id;
 };
 } // namespace Pkg
 } // namespace Comnet
