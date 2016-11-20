@@ -22,8 +22,6 @@
 #include <CommProto/tools/data_structures/interface/interface_queue.h>
 
 #include <queue>
-#include <lock>
-#include <shared_mutex>
 
 namespace comnet {
 namespace tools {
@@ -50,75 +48,44 @@ public:
   /**
      Grab the size of this queue.
   */
-  int32_t GetSize() { 
-				std::shared_lock <std::shared_mutex> sharedLock(mutex);
-				return queue.size(); 
-		}
+  int32_t GetSize() { return queue.size(); }
   /**
      Insert a value into the Back of this queue.
   */
-  void Enqueue(const _Ty& data) { 
-				std::unique_lock <std::shared_mutex> sharedLock(mutex);
-				queue.push(data); 
-		}
+  void Enqueue(const _Ty& data) { queue.push(data); }
   /**
      Remove a value from Front of the queue.
   */
-  void Dequeue() { 
-				std::unique_lock <std::shared_mutex> sharedLock(mutex);
-				queue.pop(); 
-		}
+  void Dequeue() { queue.pop(); }
   /**
      Check the value infront of the queue.
   */
-  const _Ty& Front() {
-				std::shared_lock <std::shared_mutex> sharedLock(mutex);
-				return queue.front(); 
-		}
+  const _Ty& Front() { return queue.front(); }
   /**
      Check the value in Back of the queue.
   */
-  const _Ty& Back() {
-				std::shared_lock <std::shared_mutex> sharedLock(mutex);
-				return queue.back(); 
-		}
+  const _Ty& Back() { return queue.back(); }
   /**
      Check if this queue is empty.
   */
-  bool IsEmpty() { 
-				std::shared_lock <std::shared_mutex> sharedLock(mutex);
-				return queue.empty(); 
-		}
+  bool IsEmpty() { return queue.empty(); }
   /**
      Check if queue is empty. Similar to IsEmpty().
   */
-  bool Empty() {
-				return IsEmpty();
-		}
+  bool Empty() { return IsEmpty(); }
   /**
      Push a value into the Front of the queue. Similar to enQueue().
   */
-  void Push(const _Ty& data) { 
-				std::unique_lock <std::shared_mutex> sharedLock(mutex);
-				queue.push(data); 
-		}
+  void Push(const _Ty& data) { queue.push(data); }
   /**
      Pop a value from the Front of the queue. Similar to deQueue().
   */
-  void Pop() { 
-				std::unique_lock <std::shared_mutex> sharedLock(mutex);
-				queue.pop(); 
-		}
+  void Pop() { queue.pop(); }
 private:
   /** 
-     Standard Template Library Queue, which this Class AutoQueue is wrapping over.
+      Standard Template Library Queue, which this Class AutoQueue is wrapping over.
   */
   std::queue<_Ty> queue;
-
-		/**
-				Allows for multiple threads to read from the queue at the same time but provides unique access to writers.
-		*/
-		std::shared_mutex mutex;
 };
 } // DataStructure
 } // Tools

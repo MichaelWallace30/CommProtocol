@@ -1,4 +1,4 @@
-/*
+ /*
   Link for UDP connections.
 
   Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
@@ -35,33 +35,35 @@ class COMM_EXPORT UDPLink : public CommsLink {
 public:
   // TODO(Garcia): UDP will need to have it's own list of udp objects to talk to.
   UDPLink() { protocol = UDP_LINK; }
-  /** 
+  
+		~UDPLink();
+		/** 
     Opens socket, assigns local address & port, binds socket, sets slen to length of address, sets is connected on scucces/
     Returns false if open socket or bind fails
   */
-  bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
+  bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0) override;
   /** 
     Adds Address & port to dest_id value of array of aviable connections
     Returns false if connection is already connected
   */
-  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
   /** 
     Sets connection to not available
     Returns false is no connection is found
   */
-  bool RemoveAddress(uint8_t dest_id);
+  bool RemoveAddress(uint8_t dest_id) override;
   /** 
     Sends txData using its length of bytes through the dest_id connection which is establish through add adress
     Return false if no proper connection is establish
   */
-  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
+  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
   /** 
     Sets recieved data to rxData and sets the length of the data to rxLength
     Returns false if not aviable connection or no data is recieved
   */
-  bool Recv(uint8_t* rx_data, uint32_t* rx_length);
+  bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
 
-  void DigestCommand(const char* cmd) { }
+  void DigestCommand(const char* cmd) override { }
 private:
   
   UDP local;

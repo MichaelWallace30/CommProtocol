@@ -1,7 +1,7 @@
 /*
   Linux serial configuration.
 
-  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia.
+  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia, Alex Craig.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,11 +27,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <termios.h>
-
-
-#define ClosePort close
-
-
 
 struct serial_info {
   

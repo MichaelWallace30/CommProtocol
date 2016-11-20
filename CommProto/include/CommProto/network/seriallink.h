@@ -49,27 +49,27 @@ public:
     Opens comport sets if it is connected on scucces, address is not need just use "" argument
     Returns false if opening comport fails
   */
-  bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
+  bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0) override;
   /** 
     Add serial address returns true does nothing 
   */
-  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
   /** 
     Remove serial address returns true does nothing 
   */
-  bool RemoveAddress(uint8_t dest_id);
+  bool RemoveAddress(uint8_t dest_id) override;
   /**
     Sends txData using its length of bytes through the serial connection. Connection is broadcast
     dest_id is only used for packing / unpacking. Return false if no proper connection is establish
   */
-  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
+  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
   /** 
     Sets recieved data to rxData and sets the length of the data to rxLength
     Returns false if not aviable connection, No data is recieved, or time out
   */
-  bool Recv(uint8_t* rx_data, uint32_t* rx_length);
+  bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
 
-  void DigestCommand(const char* cmd) { }
+  void DigestCommand(const char* cmd) override { }
 private:
   Serial* local;
   /**

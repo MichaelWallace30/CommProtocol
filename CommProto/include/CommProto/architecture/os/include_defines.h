@@ -52,14 +52,20 @@
           c(c& obj) = delete; \
           c& operator=(c& obj) = delete; 
 
-
+#define NOEXCEPT noexcept
  /*
  TODO(): This will need to be defined with windows.
  */
 #if COM_TARGET_OS == COM_OS_WINDOWS
-#define FORCE_INLINE __forceinline
+ #define FORCE_INLINE __forceinline 
+ #if defined(_MSC_VER) && defined(NOEXCEPT)
+  #if _MSC_VER <= 1800
+   #undef NOEXCEPT
+   #define NOEXCEPT
+  #endif
+ #endif
 #else
-#define FORCE_INLINE __inline __attribute__((always_inline))
+ #define FORCE_INLINE __inline __attribute__((always_inline))
 #endif // COM_TARGET_OS == COM_OS_WINDOWS
 
 #endif // __INCLUDE_DEFINES_H

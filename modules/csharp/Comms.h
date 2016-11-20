@@ -17,9 +17,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CCOMMS_H
 #define __CCOMMS_H
 
-#include <CommProto/encryption/aes_encryption.h>
 #include <CommNode.h>
 #include <network/CommsLink.h>
+#include <CommProto/encryption/decryptor.h>
+#include <CommProto/encryption/encryptor.h>
 #include <vcclr.h>
 #using <mscorlib.dll>
 
@@ -38,9 +39,23 @@ public:
   ~Comms();
 
   Boolean LoadKey(String^ key){
-	  return true;
+    char* unsafe_key = (char *)(void *)Marshal::StringToHGlobalAnsi(key);
+    uint8_t result = encryptor->LoadKey(unsafe_key);
+    if (result == 1) {
+      return true;
+    }
+	  return false;
   }
-  Boolean LoadKeyFromFile(String^ filename){ return true; }
+
+
+  Boolean LoadKeyFromFile(String^ filename){
+    char* unsafe_filename = (char *)(void *)Marshal::StringToHGlobalAnsi(filename);
+    uint8_t result = encryptor->LoadKeyFromFile(unsafe_filename);
+    if ( result == 1) {
+      return true;
+    }
+    return false; 
+  }
   
   Boolean InitConnection(TransportProtocol connType, 
             String^ port, String^ addr, UInt32 baudrate) override;
@@ -55,6 +70,8 @@ public:
   Void Stop() override;
 
 private:
+  comnet::encryption::CommDecryptor* decryptor;
+  comnet::encryption::CommEncryptor* encryptor;
   Network::CommsLink^ connLayer;
 
   System::Threading::Thread^ sendThr;

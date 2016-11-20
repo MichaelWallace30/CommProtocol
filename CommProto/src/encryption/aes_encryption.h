@@ -16,46 +16,51 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ENCRYPTION_INTERFACE_H
-#define ENCRYPTION_INTERFACE_H
-
-#include <stdint.h>
+#ifndef AES_ENCRYPTION_H
+#define AES_ENCRYPTION_H
+#include <CommProto/encryption/encryption_interface.h>
 #include <CommProto/architecture/api.h>
-#define BLOCK_SIZE 16
+#include <CommProto/encryption/comm_random.h>
+#include <aes.h>//cryptopp
+#include <modes.h>//cryptopp
+
 
 namespace comnet {
 namespace encryption {
 
 
-// abstract class to use for aes encryption
-class COMM_EXPORT EncryptionInterface {
+class COMM_EXPORT AesEncryption : public EncryptionInterface {
+private:
+  CryptoPP::SecByteBlock sec_key;
+  CommRandom randomGen;
 public:
-  virtual ~EncryptionInterface() { }
+  AesEncryption();
+  ~AesEncryption();
   /** 
     input c string as the form of encrytion key
    */
-  virtual uint8_t LoadKey(char* key) = 0;
+  uint8_t LoadKey(char* key) override;
   /** 
     load file which contatins the encryption key by the file name
-  */
-  virtual uint8_t LoadKeyFromFile(char*keyFileName) = 0;
+   */
+  uint8_t LoadKeyFromFile(char*keyFileName) override;
   /** 
     Encrypt buffer for desired length of data stream and return any agumented legnth by reference
-	    A return value of - value is an error 
+    A return value of - value is an error 
   */
-  virtual int32_t Encrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) = 0;
+  int32_t Encrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) override;
   /** 
     Decrypt buffer for desired length of data stream and return any agumented legnth by reference
-	    A return value of - value is an error 
-  */
-  virtual int32_t Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) = 0;
-  /** 
-    Randome numbder generator which fills an array of size legnth
+    @returns A return value of - value is an error 
    */
-  virtual uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length) = 0;
+  int32_t Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) override;
+  /** 
+    Random number generator which fills an array of size length
+   */
+  uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length) override;
 
-  virtual bool KeyIsLoaded() = 0;
+  bool KeyIsLoaded() override { return !sec_key.empty(); }
 };
 } // encryption
 } // comnet
-#endif // ENCRYPTION_INTERFACE_H
+#endif // AES_ENCRYPTION_H
