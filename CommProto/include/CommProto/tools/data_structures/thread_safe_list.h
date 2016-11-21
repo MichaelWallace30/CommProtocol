@@ -22,7 +22,8 @@
 
 #include <CommProto/tools/data_structures/double_linked_list.h>
 #include <CommProto/architecture/os/comm_mutex.h>
-#include <mutex>
+
+using namespace comnet::architecture::os;
 
 namespace comnet {
 namespace tools {

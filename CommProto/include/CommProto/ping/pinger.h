@@ -19,16 +19,21 @@
 #ifndef __PINGER_H
 #define __PINGER_H
 
-#include <ctime>
+#include <chrono>
 #include <stdint.h>
 #include <CommProto/architecture/os/comm_mutex.h>
+
+typedef std::chrono::high_resolution_clock Time;
+typedef std::chrono::milliseconds ms;
+typedef std::chrono::time_point <std::chrono::steady_clock> TimePoint;
+typedef std::chrono::duration<float> fsec;
 
 namespace comnet {
 namespace ping {
 
 using namespace comnet::architecture::os;
 
-typedef int32_t MillisInt;
+typedef long MillisInt;
 
 /**
   Handles the ping of one remote CommNode.
@@ -39,7 +44,9 @@ public:
 		/**
 		  The amount of time passed since lastReceiveTime before a pingpacket shoudl be sent.
 		*/
-		static const MillisInt PING_TIME_MILLIS = 1000;
+		static const MillisInt PING_TIME_MILLIS = 5000;
+
+		static const MillisInt PING_RESEND_TIME_MILLIS = 2000;
 
 		/**
 	  	The amount of time passed since lastReceiveTime before a connection should be marked as inactive.
@@ -52,7 +59,14 @@ public:
   Pinger(uint8_t destID);
 
 		/**
-		  Rests the lastReceiveTime to the current time.
+		  Resets lastPingTime to current time.  Sets pingTime to 
+				PING_RESEND_TIME_MILLIS because this method is only called after a ping packet was sent.
+		*/
+		void ResetToResendPingTime();
+
+		/**
+		  Resets the lastReceiveTime and lastPingTime to the current time.
+				Sets pingTime to PING_TIME_MILLIS because calling this method means a packet from this destID was received.
 		*/
 		void ResetReceiveTime();
 
@@ -63,7 +77,7 @@ public:
 		MillisInt GetNextPingTimeMillis();
 
 		/**
-		  The id of the remote CommNode associated with this Pinger.
+		  The destinationID of the comm node associated with this Pinger
 		*/
 		uint8_t GetDestID()
 		{
@@ -77,14 +91,25 @@ public:
 
 private:
 		/**
-		  The id of the remote CommNode associated with this pinger
+		  The amount of milliseconds after lastPingTime to send another ping packet.
 		*/
-		const uint8_t destID;
+		MillisInt pingTime;
+
+		/**
+		  The destination ID of the comm node associated with this Pinger.
+		*/
+		uint8_t destID;
 
 		/**
 		  The last time since a packet was received.
 		*/
-		clock_t lastReceiveTime;
+		TimePoint lastReceiveTime;
+
+		/**
+		  Will be set to current time whenever a packet has been received or a ping has been sent.
+				Used by the GetNextPingTimeMilliseconds() to help determine when to send anotehr ping packet.
+		*/
+		TimePoint lastPingTime;
 
 		/**
 		  Prevents lastReceiveTime from being modified and read at the same time.

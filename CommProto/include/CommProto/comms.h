@@ -29,6 +29,8 @@
 #include <CommProto/commnode.h>
 #include <CommProto/encryption/encryptor.h>
 #include <CommProto/encryption/decryptor.h>
+#include <CommProto/ping/pingmanager.h>
+#include <memory>
 
 
 namespace comnet {
@@ -39,6 +41,7 @@ using namespace comnet::tools::datastructures;
 using namespace comnet::serialization;
 using namespace comnet::network;	
 using namespace comnet::architecture::os;
+using namespace comnet::ping;
   /**
     Comms is a standard CommNode node object. It handles elementary and intermediate 
     commands and functionality in order to work to the user's specifications of communications.
@@ -72,6 +75,8 @@ private:
  /** Encryption class used to encrypt and dectrypt data */
   encryption::CommEncryptor encrypt;
   encryption::CommDecryptor decrypt;
+
+		std::shared_ptr <PingManager> pingManager;
 
 public:		
  /** Constructor */

@@ -23,24 +23,26 @@
 #include <CommProto/ping/pingpacket.h>
 #include <CommProto/ping/pinger.h>
 #include <CommProto/callback.h>
-#include <CommProto/comms.h>
 #include <CommProto/tools/data_structures/thread_safe_list.h>
 #include <CommProto/architecture/os/comm_mutex.h>
 #include <CommProto/architecture/os/comm_thread.h>
+#include <thread>
+#include <unordered_map>
 #include <memory>
+#include <iostream>
 
 namespace comnet {
+
+class Comms;
+
 namespace ping {
 
 using namespace comnet::tools::datastructures;
 
 /**
-  The callback linked to the pingPacket.  Will call 
+  The callback linked to the pingPacket.  Will call.
 */
-error_t PingCallback(const comnet::Header& header, const PingPacket& packet, comnet::Comms& node)
-{
-
-}
+error_t PingCallback(const comnet::Header& header, PingPacket& packet, comnet::Comms& node);
 
 /**
   Manages the Pingers and does the sending and receiving of PingPackets
@@ -57,32 +59,117 @@ public:
 		/**
 		  Initializes and detaches the pingSendThread.
 		*/
-		bool Init();
+		bool Run()
+		{
+				running = true;
+				pingSendThread = std::make_shared <CommThread>(&PingManager::HandlePingUpdate, shared_from_this());
+				pingSendThread->Detach();
+				return true;
+		}
+
+		/**
+		  Resets the nextPingerTime() on the pinger with the same destID as the argument.
+				Moves the pinger to the end of the pingerTimes list.
+		*/
+		void ResetPingTime(uint8_t destID)
+		{
+				pingerMutex.lock();
+				auto mapIter = destPingerMap.find(destID);
+				if (mapIter != destPingerMap.end())
+				{
+						mapIter->second->ResetReceiveTime();
+						pingerTimes.splice(pingerTimes.end(), pingerTimes, mapIter->second);  //Move pinger to end of the list because its nextPingTime() has been reset to the maximum value.
+				}
+				pingerMutex.unlock();
+		}
 
 		/**
 		  The method run by the pingSendThread.  Checks if a pingPacket
 				needs to be sent to any element of pinger.  Will also close the connection
 				if enough time has passed without receiving a packet from a client.
 		*/
-		void HandlePingUpdate();
+		void HandlePingUpdate()
+		{
+				while (true)
+				{
+						runningMutex.Lock();
+						//Checks if the thread should still be running
+						if (!running)
+						{
+								runningMutex.Unlock();
+								return;
+						}
+						runningMutex.Unlock();
+						//The amount of milliseconds the thread should sleep for after finished
+						MillisInt sleepTime;
+						pingerMutex.lock();
+						if (!pingerTimes.empty())	//While there are pingers
+						{
+								//Starts at the pinger with the lowest NextPingTime and ends once no more pingers need to be sent to (when NextPingTIme is positive)
+								//or when the end of the list has been reached.
+								for (auto it = pingerTimes.begin(); it != pingerTimes.end(); it++)
+								{
+										//Gets the amount of milliseconds until the pinger needs to be sent to
+										MillisInt nextPingTime = it->GetNextPingTimeMillis();
+										//WHen nextPingTIme is less than 0 that means its ready to be sent a ping
+										if (nextPingTime <= 0)
+										{
+												SendPingPacket(it->GetDestID());		//Sends a ping packet to the pinger
+												it->ResetToResendPingTime();		//Will reset nextPingTime so that it will only be negative after Pinger::PING_RESEND_TIME_MILLIS has passed
+										}
+										else
+										{
+												if (it != pingerTimes.begin())		//If we've ResetToResendPingTime() any packets, this needs to be called.
+												{
+														auto spliceIter = it;	//Iterator representing the position to insert elements into
+														while (spliceIter != pingerTimes.end() && spliceIter->GetNextPingTimeMillis() < Pinger::PING_RESEND_TIME_MILLIS)
+														{
+																spliceIter++;
+														}
+														//Puts the pingers that were sento to into the spliceIter position
+														pingerTimes.splice(spliceIter, pingerTimes, pingerTimes.begin(), it);
+												}
+												break;		//Break because we don't need to send a ping to any other packets
+										}
+								}
+								sleepTime = pingerTimes.front().GetNextPingTimeMillis();		//The top element should always have the lowest nextPingTime()
+						}
+						else
+						{
+								sleepTime = EMPTY_SLEEP_TIME_MILLIS;		//If there are no elements set pingTime to this value.
+						}
+						pingerMutex.unlock();
+						std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));		//Thread will sleep until a send is needed
+				}
+		}
 
 		/**
 				Creates a new Pinger using the argument and adds it to pingers.
 		*/
-		void AddPinger(uint8_t destID);
-
-		/**
-		  Finds the Pinger with the same destID. Returns nullptr if not found.
-		*/
-		Pinger* GetPinger(uint8_t destID)
+		void AddPinger(uint8_t destID)
 		{
-
+				pingerMutex.lock();
+				pingerTimes.emplace_back(destID);
+				destPingerMap.emplace(std::make_pair(destID, --pingerTimes.end()));
+				pingerMutex.unlock();
 		}
 
 		/**
 		  Removes the Pinger with a destID matching the argumeng from pingers.
 		*/
-		void RemovePinger(uint8_t destID);
+		void RemovePinger(uint8_t destID)
+		{
+				pingerMutex.lock();
+				auto mapIter = destPingerMap.find(destID);
+				if (mapIter != destPingerMap.end())
+				{
+						pingerTimes.erase(mapIter->second);
+						destPingerMap.erase(mapIter);
+				}
+				pingerMutex.unlock();
+		}
+
+		void SendPingPacket(uint8_t destID);
 
 		/**
 		  Sets running to false allowing the pingSendThread to terminate cleanly.
@@ -91,13 +178,25 @@ public:
 
 private:
 		/**
-		  This will probably change... I think an unordered_map might be better.
-				But whatever it is, we need to make it thread safe.
-				
-				Stores the pingers, the Pingers are ordered by the amount of time
-				until they need to be pinged from lowest to highest.
+		  Temporary.  Prevents receive thread and ping thread from accessing pingerTimes or destPingerMap at the same time.
 		*/
-		ThreadSafeList <Pinger*> pingers;
+		std::mutex pingerMutex;
+
+		/**
+		  The amount of milliseconds the ping thread should sleep for when there are no pingers.
+		*/
+		static const MillisInt EMPTY_SLEEP_TIME_MILLIS = Pinger::PING_TIME_MILLIS;
+
+		/**
+		  Holds all of their pingers.  Lowest nextPingTime() is at the beginning, highest nextPingTime() is at the end.
+		*/
+		std::list <Pinger> pingerTimes;
+
+		/**
+		  The key is the destination id of the Pinger.  When a packet is received, it will use the dest_id to reset the pinger and move the
+				list iterator to the end of pingerTimes.
+		*/
+		std::unordered_map <uint8_t, std::list <Pinger>::iterator> destPingerMap;
 
 		/**
 		  The thread that runs the HandlePingUpdate() method.  Will shut down once

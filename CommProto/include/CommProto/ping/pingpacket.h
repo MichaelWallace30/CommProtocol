@@ -36,13 +36,13 @@ public:
 		  Overrides the AbstractPacket method to output data to stream.  Currently
 				there is no data to output (this is probably best to save bandwidth).
 		*/
-		void Pack(OBJECTSTREAM& objOut) override;
+		void Pack(REF_OBJECTSTREAM objOut) override;
 
 		/**
 		  Overrides the AbstractPacket method to convert the stream into objects.
 				Currently there is no objects to unpack.
 		*/
-		void Unpack(OBJECTSTREAM& objIn) override;
+		void Unpack(REF_OBJECTSTREAM objIn) override;
 
 		/**
 		  Returns another object of the same type.
@@ -53,9 +53,31 @@ public:
 		}
 
 		/**
+		  Accessor for the ping field.
+		*/
+		bool isPing()
+		{
+				return ping;
+		}
+
+		/**
+		  Modifier for the ping field.
+		*/
+		void setPing(bool mode)
+		{
+				ping = mode;
+		}
+
+		/**
 		  Default destructor.
 		*/
   ~PingPacket();
+
+private:
+		/**
+		  When true, another ping should be sent in reply.  When false, a ping should not be sent back.
+		*/
+		bool ping;
 };
 } //namespace ping
 } //namespace comnet
