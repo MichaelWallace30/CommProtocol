@@ -20,13 +20,41 @@
 #define __PING_PACKET_H
 
 #include <CommProto/abstractpacket.h>
+#include <string>
 
 namespace comnet {
 namespace ping {
+/**
+  Packet to be sent and received to ping.
+*/
 class PingPacket : INHERITS_ABSPACKET
 {
 public:
   PingPacket();
+
+		/**
+		  Overrides the AbstractPacket method to output data to stream.  Currently
+				there is no data to output (this is probably best to save bandwidth).
+		*/
+		void Pack(OBJECTSTREAM& objOut) override;
+
+		/**
+		  Overrides the AbstractPacket method to convert the stream into objects.
+				Currently there is no objects to unpack.
+		*/
+		void Unpack(OBJECTSTREAM& objIn) override;
+
+		/**
+		  Returns another object of the same type.
+		*/
+		AbstractPacket* Create() override
+		{
+				return new PingPacket();
+		}
+
+		/**
+		  Default destructor.
+		*/
   ~PingPacket();
 };
 } //namespace ping

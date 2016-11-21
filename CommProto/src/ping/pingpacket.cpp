@@ -8,6 +8,16 @@ PingPacket::PingPacket()
 {
 }
 
+void PingPacket::Pack(OBJECTSTREAM & objOut)
+{
+		
+}
+
+void PingPacket::Unpack(OBJECTSTREAM & objIn)
+{
+		
+}
+
 
 PingPacket::~PingPacket()
 {

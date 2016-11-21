@@ -21,6 +21,7 @@
 #define __THREAD_SAFE_LIST_H
 
 #include <CommProto/tools/data_structures/double_linked_list.h>
+#include <CommProto/architecture/os/comm_mutex.h>
 #include <mutex>
 
 namespace comnet {
@@ -46,7 +47,7 @@ public:
           
   }
 
-  ThreadSafeList(const _Alloc& allocator = _Alloc())
+  ThreadSafeList(const _Alloc& allocator)
     :DoubleLinkList(allocator)
   {
 
@@ -129,7 +130,7 @@ private:
   /**
     Prevents more than one thread from reading and modifyig the list.
   */
-  std::mutex listMutex;
+  CommMutex listMutex;
 };
 } //datastructures namespace
 } //tools namespace

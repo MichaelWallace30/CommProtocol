@@ -3,10 +3,19 @@
 namespace comnet {
 namespace ping {
 
-Pinger::Pinger()
+Pinger::Pinger(uint8_t destID)
+		:destID(destID)
 {
 }
 
+void Pinger::ResetReceiveTime()
+{
+}
+
+MillisInt Pinger::GetNextPingTimeMillis()
+{
+		return MillisInt();
+}
 
 Pinger::~Pinger()
 {
