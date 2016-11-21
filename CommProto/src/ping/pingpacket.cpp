@@ -4,7 +4,7 @@ namespace comnet {
 namespace ping {
 
 PingPacket::PingPacket()
-		:CHAIN_ABSPACKET(PingPacket)
+  :CHAIN_ABSPACKET(PingPacket)
 {
 }
 

@@ -38,8 +38,8 @@ namespace datastructures {
  */
 _COMNET_PUBLIC_API_
 template<typename _Ty,
-	 class    _Compare = StandardComparator<_Ty>,
-	 class    _Alloc   = tools::allocator::NewAllocator<_Ty> >
+  class    _Compare = StandardComparator<_Ty>,
+  class    _Alloc   = tools::allocator::NewAllocator<_Ty> >
 class COMM_EXPORT DoubleLinkedList : public interface::List<_Ty> {
   /*
     TODO(Garcia): We will need to make use of the Allocator.
@@ -98,7 +98,7 @@ public:
      Default Constructor for data structure. 
    */
   DoubleLinkedList(const _Compare& comparator = _Compare(),
-		   const _Alloc& allocator = _Alloc() )
+     const _Alloc& allocator = _Alloc() )
   : root(NULL)
   , tail(NULL)
   , cursor(NULL)
@@ -255,16 +255,16 @@ public:
       cursor = root->next;
       
       while (cursor != tail && cursor != NULL) {
-	if (cmp.Equal(*cursor->data , value)) {
-	  rem_node = cursor;
-	  cursor = cursor->next;
-	  
-	  cursor->previous = rem_node->previous;
-	  rem_node->previous->next = cursor;
-	  break;
-	}
-	
-	cursor = cursor->next;
+ if (cmp.Equal(*cursor->data , value)) {
+   rem_node = cursor;
+   cursor = cursor->next;
+   
+   cursor->previous = rem_node->previous;
+   rem_node->previous->next = cursor;
+   break;
+ }
+ 
+ cursor = cursor->next;
       }
     }
 
@@ -297,31 +297,31 @@ public:
       rem_node = HandleCursorRemoval(rem_node);
     } else {
       if (cursor->index > index) {
-	cursor = cursor->previous;
-	while (cursor != NULL) {
-	  if (cursor->index == index) {
-	    rem_node = cursor;
-	    cursor = cursor->next;
-	    
-	    cursor->previous = rem_node->previous;
-	    rem_node->previous->next = cursor;
-	    break;
-	  }
-	  cursor->previous;
-	}
+ cursor = cursor->previous;
+ while (cursor != NULL) {
+   if (cursor->index == index) {
+     rem_node = cursor;
+     cursor = cursor->next;
+     
+     cursor->previous = rem_node->previous;
+     rem_node->previous->next = cursor;
+     break;
+   }
+   cursor->previous;
+ }
       } else {
-	cursor = cursor->next;
-	while (cursor != NULL) {
-	  if (cursor->index == index) {
-	    rem_node = cursor;
-	    cursor = cursor->next;
-	    
-	    cursor->previous = rem_node->previous;
-	    rem_node->previous->next = cursor;
-	    break;
-	  }
-	  cursor = cursor->next;
-	}
+ cursor = cursor->next;
+ while (cursor != NULL) {
+   if (cursor->index == index) {
+     rem_node = cursor;
+     cursor = cursor->next;
+     
+     cursor->previous = rem_node->previous;
+     rem_node->previous->next = cursor;
+     break;
+   }
+   cursor = cursor->next;
+ }
       }
     }
 
@@ -355,24 +355,24 @@ public:
     } else if (cursor->index == index) {
       return *cursor->data;
     } else {
-						if (cursor->index > index) {
-								cursor = cursor->previous;
-								while (cursor != NULL) {
-										if (cursor->index == index) {
-												return *cursor->data;
-										} else {
-												cursor = cursor->previous;
-										}
-								}
-						} else {
-						  cursor = cursor->next;
-								while (cursor != NULL) {
-										if (cursor->index == index) {
-												return *cursor->data;
-										} else {
-												cursor = cursor->next;
-										}
-								}
+      if (cursor->index > index) {
+        cursor = cursor->previous;
+        while (cursor != NULL) {
+          if (cursor->index == index) {
+            return *cursor->data;
+          } else {
+            cursor = cursor->previous;
+          }
+        }
+      } else {
+        cursor = cursor->next;
+        while (cursor != NULL) {
+          if (cursor->index == index) {
+            return *cursor->data;
+          } else {
+            cursor = cursor->next;
+          }
+        }
       }
     }
   }
@@ -384,17 +384,17 @@ public:
     bool success = false;
     
     if (cmp.Equal(*root->data, value) ||
-	cmp.Equal(*tail->data, value) ||
-	cmp.Equal(*cursor->data, value)) {
+ cmp.Equal(*tail->data, value) ||
+ cmp.Equal(*cursor->data, value)) {
       success = true;
     } else {
       cursor = root->next;
       while (cursor != NULL) {
-	if (cmp.Equal(*cursor->data, value)) {
-	  success = true;
-	  break;
-	}
-	cursor = cursor->next;
+ if (cmp.Equal(*cursor->data, value)) {
+   success = true;
+   break;
+ }
+ cursor = cursor->next;
       }
     }
 
