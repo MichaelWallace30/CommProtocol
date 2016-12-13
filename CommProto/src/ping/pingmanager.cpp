@@ -7,12 +7,17 @@ error_t PingCallback(const comnet::Header & header, PingPacket & packet, comnet:
 {
 		if (packet.isPing())
 		{
+				std::cout << "PING" << std::endl;
 				if (node.getPingManager()->CanPong(header.source_id))
 				{
 						PingPacket pingPacket;
 						pingPacket.setPing(false);
 						node.Send(pingPacket, header.source_id);
 				}
+		}
+		else
+		{
+				std::cout << "PONG" << std::endl;
 		}
 		return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 }

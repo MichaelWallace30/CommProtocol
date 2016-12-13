@@ -111,7 +111,7 @@ void Comms::CommunicationHandlerRecv() {
       }
     }
     recv_mutex.Unlock();	
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
+    //std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }
