@@ -166,7 +166,7 @@ std::unique_ptr<UDP> UDP::Connect(uint8_t dest_id, const char* address, uint16_t
 
 bool UDP::Send(uint8_t* tx_data, uint32_t tx_length)
 {
-  if (sockaddr.socket_status == SOCKET_CONNECTED) {
+  if (sockaddr.socket_status == SOCKET_CONNECTED || sockaddr.socket_status == SOCKET_INACTIVE) {
     int slenSend = sizeof(sockaddr.socket_address);
     if (sendto(fd, (char *) tx_data, tx_length, 0, (struct sockaddr *) &sockaddr.socket_address, slen) < 0)
     {
@@ -190,7 +190,7 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
   /*
     TODO(Garcia): We need to set recvfrom() to nonblocking!
    */
-  if (sockaddr.socket_status == SOCKET_CONNECTED) {
+  if (sockaddr.socket_status == SOCKET_CONNECTED || sockaddr.socket_status == SOCKET_INACTIVE) {
     length = recvfrom(fd, 
                       (char*)rx_data, MAX_BUFFER_SIZE, 
                       0, 
@@ -208,6 +208,19 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
   *rx_length = (uint32_t)length;
 
   return true;
+}
+bool UDP::SetActiveState(bool active)
+{
+		if (sockaddr.socket_status == SOCKET_CONNECTED && !active) {
+				sockaddr.socket_status = SOCKET_INACTIVE;
+				return true;
+		}
+		else if (sockaddr.socket_status == SOCKET_INACTIVE && active)
+		{
+				sockaddr.socket_status = SOCKET_CONNECTED;
+				return true;
+		}
+		return false;
 }
 bool UDP::Close()
 {

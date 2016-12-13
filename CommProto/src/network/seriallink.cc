@@ -114,5 +114,10 @@ bool SerialLink::Recv(uint8_t* rx_data, uint32_t* rx_length) {
   success = local->Recv(rx_data, rx_length);
   return success;
 }
+bool SerialLink::SetActiveState(uint8_t destID, bool active)
+{
+		//for now.
+		return local->SetActiveState(active);
+}
 } // namespace Network
 } // namespace Comnet

@@ -78,6 +78,8 @@ private:
       Returns false if not aviable connection or no data is recieved*/
   bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
+		bool SetActiveState(bool active);
+
   socket_t& GetSocket() { return sockaddr; }
 
   bool Close();

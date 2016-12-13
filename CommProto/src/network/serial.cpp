@@ -322,7 +322,7 @@ OpenPort(Serial& serial, const char* comport, uint32_t baudrate) {
 inline bool
 SendToPort(Serial& serial, uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) {
   serial_t& h_serial = serial.GetSerialPort();
-  if (h_serial.serial_s == SERIAL_CONNECTED) {
+  if (h_serial.serial_s == SERIAL_CONNECTED || h_serial.serial_s == SERIAL_INACTIVE) {
 #if defined WINDOWS_SERIAL
     return WindowsSend(serial, dest_id, tx_data, tx_length);
 #elif defined UNIX_SERIAL
@@ -337,7 +337,7 @@ SendToPort(Serial& serial, uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length
 inline bool
 ReadFromPort(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   serial_t& h_serial = serial.GetSerialPort();
-  if (h_serial.serial_s == SERIAL_CONNECTED) {
+  if (h_serial.serial_s == SERIAL_CONNECTED || h_serial.serial_s == SERIAL_INACTIVE) {
 #if defined WINDOWS_SERIAL
     return WindowsRead(serial, rx_data, rx_len);
 #elif defined UNIX_SERIAL
@@ -383,7 +383,6 @@ Serial::~Serial() {  }
 
 bool Serial::OpenConnection(const char* port, const char* address, uint32_t baudrate)
 { 
-  
   //check os here
   connection_established = OpenPort(*this, port, baudrate);
   COMMS_DEBUG("Port is now: %d\n", h_serial.fd);
@@ -392,7 +391,7 @@ bool Serial::OpenConnection(const char* port, const char* address, uint32_t baud
 
 
 bool Serial::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
-{ 
+{
   unsigned int crc = Crc32(tx_data, tx_length);
   uint8_t crc_data[CRC32_SIZE];
   Crc32ToArr(tx_data, tx_length, crc_data);
@@ -439,6 +438,21 @@ bool Serial::CloseSerialPort() {
 
 serial_t& Serial::GetSerialPort() {
   return h_serial;
+}
+
+bool Serial::SetActiveState(bool active)
+{
+		if (active && h_serial.serial_s == SERIAL_INACTIVE)
+		{
+				h_serial.serial_s = SERIAL_CONNECTED;
+				return true;
+		}
+		else if (!active && h_serial.serial_s == SERIAL_CONNECTED)
+		{
+				h_serial.serial_s = SERIAL_INACTIVE;
+				return true;
+		}
+		return false;
 }
 
 } // namespace Network

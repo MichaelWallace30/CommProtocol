@@ -55,52 +55,80 @@ int main(int c, char** args) {
 		std::cout << sizeof(comnet::Header) << std::endl;
 		// CommNode 1
 		comnet::Comms comm1(1);
-		std::cout << std::boolalpha << comm1.LoadKey("NGCP project 2016");
-		// CommNode 2
-		comnet::Comms comm2(2);
-		std::cout << std::boolalpha << comm2.LoadKey("NGCP project 2016");
+		comm1.LoadKey("NGCP project 2016");
+		int numClients = 0;
+		while (true)
+		{
+				std::cout << "Enter number of clients: ";
+				std::cin >> numClients;
+				if (numClients <= 0 || numClients >= 255)
+				{
+						std::cerr << "Invalid number of clients" << std::endl;
+				}
+				else
+				{
+						break;
+				}
+		}
+		// CommNode 
+		std::vector <comnet::Comms*> comms;
+		for (int i = 0; i < numClients; i++)
+		{
+				comms.push_back(new comnet::Comms(i + 2));
+				comms.at(i)->LoadKey("NGCP project 2016");
+		}
 		comnet::architecture::os::CommMutex mut;
 		comnet::architecture::os::CommLock commlock(mut);
 		// This will cause the thread to wait for a few milliseconds, causing any other thread to wait.
 		comnet::architecture::os::WaitForMilliseconds(commlock, cond, 1000); 
 
+		// Allow client to suppress or unsuppress messages handled by the CommProtocol Library.
+		comnet::debug::Log::Suppress(comnet::debug::LOG_NOTIFY);
+		comnet::debug::Log::Suppress(comnet::debug::LOG_WARNING);
+		comnet::debug::Log::Suppress(comnet::debug::LOG_NOTE);
+
 		// ComNode 1 init and add Connection.
 		std::cout << "Init connection succeeded: " 
 												<< std::boolalpha
-												<< comm2.InitConnection(UDP_LINK, "1338", "127.0.0.1")
+												<< comm1.InitConnection(UDP_LINK, "1338", "127.0.0.1")
 												<< std::endl;
-		std::cout << "Connected to address: "
-												<< std::boolalpha
-												<< comm2.AddAddress(1, "127.0.0.1", 1337)
-												<< std::endl;
-		// CommNode 2 init and add Connection.
-		std::cout << "Init connection succeeded: "
-				<< std::boolalpha
-				<< comm1.InitConnection(UDP_LINK, "1337", "127.0.0.1")
-				<< std::endl;
-		std::cout << "Connected to address: "
-				<< std::boolalpha
-				<< comm1.AddAddress(2, "127.0.0.1", 1338)
-				<< std::endl;
+
 		// CommNode Callback linking.
 		comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
-		comm2.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
-
-  // Allow client to suppress or unsuppress messages handled by the CommProtocol Library.
-  comnet::debug::Log::Suppress(comnet::debug::LOG_NOTIFY);
-  comnet::debug::Log::Suppress(comnet::debug::LOG_WARNING);
-  comnet::debug::Log::Suppress(comnet::debug::LOG_NOTE);
+		
+		bool clientInitSuccess = true;
+		for (int i = 0; i < comms.size(); i++)
+		{
+				if (comms.at(i)->InitConnection(UDP_LINK, std::to_string(1339 + i).c_str(), "127.0.0.1") &&
+						comms.at(i)->AddAddress(1, "127.0.0.1", 1338) &&
+						comm1.AddAddress(i + 2, "127.0.0.1", 1339 + i) &&
+						comms.at(i)->LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback)))
+				{
+						comms.at(i)->Run();
+				}
+				else
+				{
+						clientInitSuccess = false;
+				}
+		}
+		if (!clientInitSuccess)
+		{
+				std::cerr << "Failed to add address" << std::endl;
+		}
+		else
+		{
+				std::cout << "Addresses added successfully" << std::endl;
+		}
 
 		// Test packet.
 		Ping bing("I like cats. MEW :3. this is a test...");
 		// NOTE(All): Be sure to run the nodes! If not, the threads won't execute!
 		comm1.Run();
-		comm2.Run();
 
 		// Loop. To exit, Click the red button on the top left (Windows Visual Studio) OR 
 		// CNTRL+C (Linux). 
 		while (true) {
-				std::cout << "Sleeping..." << std::endl;
+				//std::cout << "Sleeping..." << std::endl;
 				//comm1 will be sending the packet.
 				//comm1.Send(bing, 2);
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000));

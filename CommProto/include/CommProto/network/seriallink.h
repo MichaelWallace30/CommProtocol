@@ -69,6 +69,8 @@ public:
   */
   bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
 
+		bool SetActiveState(uint8_t destID, bool active) override;
+
   void DigestCommand(const char* cmd) override { }
 private:
   Serial* local;

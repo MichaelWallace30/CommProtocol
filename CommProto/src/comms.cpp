@@ -47,7 +47,8 @@ void Comms::CommunicationHandlerSend()
      ObjectStream *temp = send_queue->Front();
      send_queue->Dequeue();
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
-     free_pointer(temp);
+					pingManager->ResetSendTime(temp->header_packet.dest_id);
+					free_pointer(temp);
      send_mutex.Unlock();
   }
 //		COMMS_DEBUG("IM GOING!!\n");
@@ -60,7 +61,7 @@ void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning() && conn_layer) {
     recv_mutex.Lock();
     AbstractPacket* packet = NULL;
-   uint8_t stream_buffer[MAX_BUFFER_SIZE];
+    uint8_t stream_buffer[MAX_BUFFER_SIZE];
     uint32_t recv_len = 0;
     bool received = conn_layer->Recv(stream_buffer, &recv_len);
     ObjectStream temp;
@@ -254,6 +255,11 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
   }
  
   return NULL;
+}
+
+bool comnet::Comms::SetActiveState(uint8_t destID, bool active)
+{
+		return conn_layer->SetActiveState(destID, active);
 }
 
 

@@ -11,7 +11,7 @@ PingPacket::PingPacket()
 
 void PingPacket::Pack(REF_OBJECTSTREAM objOut)
 {
-		std::string str = (ping ? "I" : "O");
+		std::string str = (ping ? "I" : "O");	//I can only serialize strings?
 		objOut << str;
 }
 
@@ -19,14 +19,7 @@ void PingPacket::Unpack(REF_OBJECTSTREAM objIn)
 {
 		std::string str;
 		objIn >> str;
-		if (str == "I")
-		{
-				ping = true;
-		}
-		else
-		{
-				ping = false;
-		}
+		ping = (str == "I");
 }
 
 PingPacket::~PingPacket()

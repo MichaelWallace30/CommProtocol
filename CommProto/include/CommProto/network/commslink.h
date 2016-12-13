@@ -71,6 +71,8 @@ public:
   */
   virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length) = 0;
 
+		virtual bool SetActiveState(uint8_t destID, bool active) = 0;
+
   /**
     Additional commands are used for set configuration features on the protocol of choice.
   */

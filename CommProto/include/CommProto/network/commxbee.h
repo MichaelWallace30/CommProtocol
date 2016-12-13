@@ -70,9 +70,9 @@ public:
     Check Receive data.
    */
   bool Recv(uint8_t* rxData, uint32_t& rxLength);
-  
- 
 
+		bool SetActiveState(uint8_t destID, bool active);
+ 
 private:
 	uint8_t hexCharToInt(unsigned char value);
 	uint8_t doubleHexCharToInt(unsigned char c1, unsigned char c2);
@@ -93,9 +93,6 @@ private:
 
 	
 	std::map<uint8_t, struct xbee_con*>::iterator itXbeesRecv;
-	
-
-	
 
 };
 } // namespace Network

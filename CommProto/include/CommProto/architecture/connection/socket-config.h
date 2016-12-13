@@ -80,6 +80,7 @@ enum socket_status_t {
   SOCKET_CONNECTED,
   SOCKET_LISTENING,
   SOCKET_FAILED,
+		SOCKET_INACTIVE
 };
 
 /**

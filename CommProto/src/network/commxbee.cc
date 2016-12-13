@@ -134,6 +134,11 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 	return false;
 }
 
+bool CommXBee::SetActiveState(uint8_t destID, bool active)
+{
+		return false;
+}
+
 
 bool CommXBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
 	

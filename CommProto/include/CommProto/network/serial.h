@@ -80,6 +80,8 @@ public:
 
   serial_t& GetSerialPort();
 
+		bool SetActiveState(bool active);
+
   void SetId(uint32_t id)
     { this->id = id; }
 };

@@ -7,14 +7,12 @@ error_t PingCallback(const comnet::Header & header, PingPacket & packet, comnet:
 {
 		if (packet.isPing())
 		{
-				std::cout << "PING RECEIVED" << std::endl;
-				PingPacket pingPacket;
-				pingPacket.setPing(false);
-				node.Send(pingPacket, header.source_id);
-		}
-		else
-		{
-				std::cout << "PONG RECEIVED" << std::endl;
+				if (node.getPingManager()->CanPong(header.source_id))
+				{
+						PingPacket pingPacket;
+						pingPacket.setPing(false);
+						node.Send(pingPacket, header.source_id);
+				}
 		}
 		return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 }
@@ -38,6 +36,19 @@ PingManager::~PingManager()
 		runningMutex.Lock();
 		running = false;
 		runningMutex.Unlock();
+}
+
+void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)
+{
+		activePingers.splice(activePingers.end(), inactivePingers, it);
+		ownerComms->SetActiveState(it->GetDestID(), true);
+}
+
+void PingManager::TransferToInactivePingers(std::list<Pinger>::iterator it)
+{
+		std::cout << "Pinger set to inactive" << std::endl;
+		inactivePingers.splice(inactivePingers.end(), activePingers, it);
+		ownerComms->SetActiveState(it->GetDestID(), false);
 }
 
 } //namespace ping

@@ -107,7 +107,10 @@ public:
  bool RemoveAddress(uint8_t dest_id) override;
 
  bool Send(AbstractPacket& packet, uint8_t dest_id) override;
+
  AbstractPacket* Receive(uint8_t&  source_id) override;
+
+	bool SetActiveState(uint8_t destID, bool active);
 
  /** Method to start communication*/
  void Run() override;
@@ -117,6 +120,10 @@ public:
  void Stop() override;
  // Sets up the home console.
  bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
+
+	std::shared_ptr <PingManager> getPingManager() {
+			return pingManager;
+	}
 
 protected:
  // Nothing yet.
