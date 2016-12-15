@@ -111,14 +111,6 @@ public:
 
  AbstractPacket* Receive(uint8_t&  source_id) override;
 
-	/** 
-	  Called by {@link PingManager} to call {@link CommsLink#setActiveState}.
-			@param destID The id of the remote comms node to set to set the active state of.
-			@param active Whether the remote node is marked as active or inactive.
-			@return {@code true} on successful status change, {@code false} otherwise.
-	*/
-	bool SetActiveState(uint8_t destID, bool active);
-
  /** Method to start communication*/
  void Run() override;
  /** Method to toggle Pause communication*/

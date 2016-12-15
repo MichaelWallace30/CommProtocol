@@ -263,11 +263,6 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
   return NULL;
 }
 
-bool comnet::Comms::SetActiveState(uint8_t destID, bool active)
-{
-		return conn_layer->SetActiveState(destID, active);
-}
-
 
 void Comms::Run()
 {

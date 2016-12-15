@@ -49,7 +49,7 @@ public:
     Polymorphic Destructor.
   */  
   virtual ~CommsLink()
-    { }  
+    { }
   /**
     Initialize the connection.
   */
@@ -70,14 +70,6 @@ public:
     Receive a message from a protocol id.
   */
   virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length) = 0;
-
-		/**
-				Called by {@link PingManager} to set the active state of a remote comms node.
-				@param destID The id of the remote comms node to set to set the active state of.
-				@param active Whether the remote node is marked as active or inactive.
-				@return {@code true} on successful status change, {@code false} otherwise.
-		*/
-		virtual bool SetActiveState(uint8_t destID, bool active) = 0;
 
   /**
     Additional commands are used for set configuration features on the protocol of choice.

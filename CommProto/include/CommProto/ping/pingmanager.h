@@ -88,6 +88,22 @@ public:
 		}
 
 		/**
+		  Checks if the {@link Pinger} that matches the destID is active.
+				@param destID The node_id of to check.
+				@return {@code true} if active, {@code false} if inactive or not found.
+		*/
+		bool IsActive(uint8_t destID)
+		{
+				CommLock lock(destPingerMapMutex);
+				auto mapIt = destPingerMap.find(destID);
+				if (mapIt != destPingerMap.end())
+				{
+						return !mapIt->second->IsInactive();
+				}
+				return false;
+		}
+
+		/**
 		  Resets the {@link Pinger#nextPingerTime()} on the {@link Pinger} with the same id as the argument.
 				In other words, it moves the corresponding {@link Pinger} to the end of {@link #activePingers}.
 				@param The node_id of the {@link Pinger} to reset.

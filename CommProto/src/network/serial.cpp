@@ -322,7 +322,7 @@ OpenPort(Serial& serial, const char* comport, uint32_t baudrate) {
 inline bool
 SendToPort(Serial& serial, uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) {
   serial_t& h_serial = serial.GetSerialPort();
-  if (h_serial.serial_s == SERIAL_CONNECTED || h_serial.serial_s == SERIAL_INACTIVE) {
+  if (h_serial.serial_s == SERIAL_CONNECTED) {
 #if defined WINDOWS_SERIAL
     return WindowsSend(serial, dest_id, tx_data, tx_length);
 #elif defined UNIX_SERIAL
@@ -337,7 +337,7 @@ SendToPort(Serial& serial, uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length
 inline bool
 ReadFromPort(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   serial_t& h_serial = serial.GetSerialPort();
-  if (h_serial.serial_s == SERIAL_CONNECTED || h_serial.serial_s == SERIAL_INACTIVE) {
+  if (h_serial.serial_s == SERIAL_CONNECTED) {
 #if defined WINDOWS_SERIAL
     return WindowsRead(serial, rx_data, rx_len);
 #elif defined UNIX_SERIAL
@@ -439,21 +439,5 @@ bool Serial::CloseSerialPort() {
 serial_t& Serial::GetSerialPort() {
   return h_serial;
 }
-
-bool Serial::SetActiveState(bool active)
-{
-		if (active && h_serial.serial_s == SERIAL_INACTIVE)
-		{
-				h_serial.serial_s = SERIAL_CONNECTED;
-				return true;
-		}
-		else if (!active && h_serial.serial_s == SERIAL_CONNECTED)
-		{
-				h_serial.serial_s = SERIAL_INACTIVE;
-				return true;
-		}
-		return false;
-}
-
 } // namespace Network
 } // namespace Comnet 

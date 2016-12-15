@@ -74,7 +74,6 @@ bool CommXBee::AddAddress(uint8_t destId, const char* address64Hex , uint16_t po
 		COMMS_DEBUG("xbee_conNew() node_id: %d  returned: %d", destId, ret);		
 		return false;
 	}
-	xbee_conSetActiveState(con, 1);
 
 	xbees.insert({ destId, con });
 
@@ -135,23 +134,6 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 	//no error to report just no message recv
 	return false;
 }
-
-bool CommXBee::SetActiveState(uint8_t destID, bool active)
-{
-		auto mapIt = xbees.find(destID);
-		if (mapIt != xbees.end())
-		{
-				int currentState;
-				xbee_conGetActiveState(mapIt->second, &currentState);
-				if (currentState != active)
-				{
-						xbee_conSetActiveState(mapIt->second, active);
-						return true;
-				}
-		}
-		return false;
-}
-
 
 bool CommXBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
 	

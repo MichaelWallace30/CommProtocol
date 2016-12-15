@@ -238,10 +238,6 @@ typedef void(*xbee_t_conCallback)(struct xbee *xbee, struct xbee_con *con, struc
 
 EXPORT xbee_err xbee_conGetTypes(struct xbee *xbee, char ***retList);
 /* - */
-
-EXPORT xbee_err xbee_conSetActiveState(struct xbee_con *con, int state);
-EXPORT xbee_err xbee_conGetActiveState(struct xbee_con *con, int* retState);
-
 EXPORT xbee_err xbee_conNew(struct xbee *xbee, struct xbee_con **retCon, const char *type, struct xbee_conAddress *address);
 EXPORT xbee_err xbee_conValidate(struct xbee_con *con);
 EXPORT xbee_err xbee_conGetXBee(struct xbee_con *con, struct xbee **xbee);

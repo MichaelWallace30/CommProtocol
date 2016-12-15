@@ -67,10 +67,5 @@ bool XBeeLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
 	
 	return success;
 }
-
-bool XBeeLink::SetActiveState(uint8_t destID, bool active)
-{
-		return home->SetActiveState(destID, active);
-}
 } // Network
 } // Comnet 

@@ -78,13 +78,6 @@ private:
       Returns false if not aviable connection or no data is recieved*/
   bool Recv(uint8_t* rx_data, uint32_t* rx_length);
 
-		/**
-	   Changes the {@link sockaddr#socket_status} to active or inactive.
-				@param active Indicates what status to set the socket to.
-				@return {@code true} when changed succesfully, {@code false} otherwise.
-		*/
-		bool SetActiveState(bool active);
-
   socket_t& GetSocket() { return sockaddr; }
 
   bool Close();

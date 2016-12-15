@@ -74,14 +74,5 @@ bool UDPLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
   }
   return success;
 }
-bool UDPLink::SetActiveState(uint8_t destID, bool active)
-{
-		auto clientIter = clients.find(destID);
-		if (clientIter != clients.end())
-		{
-				return clientIter->second->SetActiveState(active);
-		}
-		return false;
-}
 } // namespace Network
 } // namespace Comnet

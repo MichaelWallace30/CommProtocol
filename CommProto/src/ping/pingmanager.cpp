@@ -64,7 +64,6 @@ PingManager::~PingManager()
 void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)
 {
 		activePingers.splice(activePingers.end(), inactivePingers, it);
-		ownerComms->SetActiveState(it->GetDestID(), true);
 		std::string debugMsg = "Pinger with destID ";
 		debugMsg += std::to_string((int)it->GetDestID());
 		debugMsg += " in NodeID ";
@@ -76,7 +75,6 @@ void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)
 void PingManager::TransferToInactivePingers(std::list<Pinger>::iterator it)
 {
 		inactivePingers.splice(inactivePingers.end(), activePingers, it);
-		ownerComms->SetActiveState(it->GetDestID(), false);
 		std::string debugMsg = "Pinger with destID ";
 		debugMsg += std::to_string((int)it->GetDestID());
 		debugMsg += " in NodeID ";
