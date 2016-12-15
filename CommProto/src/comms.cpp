@@ -111,7 +111,7 @@ void Comms::CommunicationHandlerRecv() {
       }
     }
     recv_mutex.Unlock();	
-    //std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));	
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }
@@ -163,6 +163,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
   }
 
   uint16_t length = 0;
+		bool connectionInitialized = false;
   switch (conn_type) {
     case UDP_LINK: 
     {
@@ -172,7 +173,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
         if (length < ADDRESS_LENGTH)
         {
           conn_layer = new UDPLink();
-          return conn_layer->InitConnection(port, address);
+          connectionInitialized = conn_layer->InitConnection(port, address);
         }
       }
       break;
@@ -180,19 +181,24 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     case SERIAL_LINK:
     {
       conn_layer = new SerialLink();
-      return conn_layer->InitConnection(port, NULL, baudrate);
+      connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
     }
     case ZIGBEE_LINK:
     {
       conn_layer = new XBeeLink();
-      return conn_layer->InitConnection(port, NULL, baudrate);
+      connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
       // TODO(Garcia): Will need to create throw directives instead.
     }
     default:
-      debug::Log::Message(debug::LOG_WARNING, "NO CONNECTION ESTABLISHED!");
-    {return false;}
+				{
+						debug::Log::Message(debug::LOG_WARNING, "NO CONNECTION ESTABLISHED!");
+				}
   }
-  return false;
+		if (connectionInitialized) {
+				pingManager->LinkPingCallback();
+				return true;
+		}
+		return false;
 }
 
 

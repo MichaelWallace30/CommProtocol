@@ -128,7 +128,7 @@ int main(int c, char** args) {
 		// Loop. To exit, Click the red button on the top left (Windows Visual Studio) OR 
 		// CNTRL+C (Linux). 
 		while (true) {
-				//std::cout << "Sleeping..." << std::endl;
+				std::cout << "Sleeping..." << std::endl;
 				//comm1 will be sending the packet.
 				//comm1.Send(bing, 2);
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000));

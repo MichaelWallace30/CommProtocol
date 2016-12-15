@@ -40,30 +40,44 @@ namespace ping {
 using namespace comnet::tools::datastructures;
 
 /**
-  The callback linked to the pingPacket.  Will call.
+  The callback linked to {@link #pingPacket}.  Checks whether the {@link PingPacket} is a ping
+		and if a pong should be sent back.
+		@param header The header data of the packet, only used field is source_id.
+		@param packet The {@link PingPacket} that will either be a Ping or a Pong.
+		@param node The {@link Comms} that owns the {@link PingManager} that linked the callback.
+		@return Tells {@link Comms} how the packet should be finalized.
 */
 error_t PingCallback(const comnet::Header& header, PingPacket& packet, comnet::Comms& node);
 
 /**
-  Manages the Pingers and does the sending and receiving of PingPackets
+  Manages {@link Pinger}s and handles the sending and receiving of {@link PingPacket}s
 */
 class PingManager : public std::enable_shared_from_this <PingManager>
 {
 private:
 		/**
-		The amount of milliseconds the ping thread should sleep for when there are no pingers.
+		  The amount of milliseconds the {@link #pingSendThread} should sleep for when there are no 
+				elements in {@link #activePingers}.
 		*/
 		static const MillisInt EMPTY_SLEEP_TIME_MILLIS = Pinger::PING_TIME_MILLIS;
 
 public:
 		/**
-		  Creates a new instance of PingManager setting the commsOwner field
+		  Creates a new instance of {@link PingManager} setting the commsOwner field
 				to the argument and links the PingCallaback.
+				@param commsOwner The {@link Comms} that owns {@code this}.
+				@return An instance of {@link PingManager}.
 		*/
   PingManager(Comms* commsOwner);
 
 		/**
+		  Links {@link PingCallback} to {@link #pingPacket} in the {@link #ownerComms}.
+		*/
+		void LinkPingCallback();
+
+		/**
 		  Initializes and detaches the pingSendThread.
+				{@code true} when successfully running, {@code false} otherwise.
 		*/
 		bool Run()
 		{
@@ -74,8 +88,9 @@ public:
 		}
 
 		/**
-		  Resets the nextPingerTime() on the pinger with the same destID as the argument.
-				Moves the pinger to the end of the pingerTimes list.
+		  Resets the {@link Pinger#nextPingerTime()} on the {@link Pinger} with the same id as the argument.
+				In other words, it moves the corresponding {@link Pinger} to the end of {@link #activePingers}.
+				@param The node_id of the {@link Pinger} to reset.
 		*/
 		void ResetPingTime(uint8_t destID)
 		{
@@ -83,7 +98,7 @@ public:
 				auto mapIter = destPingerMap.find(destID);
 				if (mapIter != destPingerMap.end())
 				{
-						if (mapIter->second->isInactive())
+						if (mapIter->second->IsInactive())
 						{
 								activePingersMutex.Lock();
 								inactivePingersMutex.Lock();
@@ -102,6 +117,11 @@ public:
 				destPingerMapMutex.Unlock();
 		}
 
+		/**
+		  Resets the {@link Pinger#GetSendTimePassed} of the {@link Pinger} with the id
+				of the argument.
+				@param destID The node_id of the {@link Pinger} to reset the send time of.
+		*/
 		void ResetSendTime(uint8_t destID)
 		{
 				destPingerMapMutex.Lock();
@@ -113,9 +133,9 @@ public:
 		}
 
 		/**
-		  The method run by the pingSendThread.  Checks if a pingPacket
-				needs to be sent to any element of pinger.  Will also close the connection
-				if enough time has passed without receiving a packet from a client.
+		  The method run by the {@link #pingSendThread}.  Checks if a {@link PingPacket}
+				needs to be sent to any element of {@link #activePingers}.  Will also deactivate
+				{@link Pinger}s if enough time has passed without receiving a packet from a client.
 		*/
 		void HandlePingUpdate()
 		{
@@ -146,7 +166,7 @@ public:
 										{
 												SendPingPacket(it->GetDestID());		//Sends a ping packet to the pinger
 												it->ResetToResendPingTime();		//Will reset nextPingTime so that it will only be negative after Pinger::PING_RESEND_TIME_MILLIS has passed
-												if (it->isInactive()) {
+												if (it->IsInactive()) {
 														auto prevIt = it;
 														it++;
 														inactivePingersMutex.Lock();
@@ -186,7 +206,9 @@ public:
 		}
 
 		/**
-				Creates a new Pinger using the argument and adds it to pingers.
+				Creates a new Pinger using the argument and adds it to {@link #activePingers}
+				and {@link #destPingerMap}.
+				@param destID The remote node_id that the {@link Pinger} will be bound to.
 		*/
 		void AddPinger(uint8_t destID)
 		{
@@ -199,7 +221,8 @@ public:
 		}
 
 		/**
-		  Removes the Pinger with a destID matching the argumeng from pingers.
+		  Removes the {@link Pinger} with a destID matching the argument.
+				@param destID The remote node_id of the {@link Pinger} that should be removed.
 		*/
 		void RemovePinger(uint8_t destID)
 		{
@@ -207,7 +230,7 @@ public:
 				auto mapIter = destPingerMap.find(destID);
 				if (mapIter != destPingerMap.end())
 				{
-						if (mapIter->second->isInactive())
+						if (mapIter->second->IsInactive())
 						{
 								inactivePingersMutex.Lock();
 								inactivePingers.erase(mapIter->second);
@@ -223,13 +246,20 @@ public:
 				}
 		}
 
+		/**
+		  Checks if enough time has passed since the last time a packet was sent
+				to the remote node_id for a Pong to be sent back. This avoids unecessarily
+				sending more packets.
+				@param The id of the remote comms node that should be checked.
+				@return {@code true} if a Pong should be sent, {@code false} otherwise.	
+	*/
 		bool CanPong(uint8_t destID)
 		{
 				CommLock lock(destPingerMapMutex);
 				auto mapIter = destPingerMap.find(destID);
 				if (mapIter != destPingerMap.end())
 				{
-						if (mapIter->second->getSendTimePassed() > Pinger::PONG_TIME_MILLIS)
+						if (mapIter->second->GetSendTimePassed() > Pinger::PONG_TIME_MILLIS)
 						{
 								return true;
 						}
@@ -237,25 +267,47 @@ public:
 				return false;
 		}
 
+		/**
+		  Sends a {@link PingPacket} to the specified destID.
+				@param The id of the remote node to send the ping to.
+		*/
 		void SendPingPacket(uint8_t destID);
 
 		/**
-		  Sets running to false allowing the pingSendThread to terminate cleanly.
+		  Sets {@link #running} to {@code false} allowing the {@link #pingSendThread} to terminate cleanly.
 		*/
   ~PingManager();
 
 private:
+		/**
+		  Called when a packet was received from a {@link Pinger} that was
+				considered inactive. The method will move the specified {@link Pinger}
+				from {@link #inactivePingers} to {@link #activePingers}.
+				@param it The iterator pointing to the {@link Pinger} that should be transfered.
+		*/
 		void TransferToActivePingers(std::list <Pinger>::iterator it);
 
+		/**
+		  Called when {@link Pinger#isInactive} is {@code true}. Will move
+				the {@link Pinger} from {@link #activePingers} to {@link #inactivePingers}
+				so it will no longer be sent anymore {@link PingPacket}s.
+				@param it The iterator pointing to the {@link Pinger} that should be transfered.
+		*/
 		void TransferToInactivePingers(std::list <Pinger>::iterator it);
 
 		/**
-		  Temporary.  Prevents receive thread and ping thread from accessing pingerTimes or destPingerMap at the same time.
+		  Prevents threads from reading and modifying {@link #inactivePingers} at the same time.
 		*/
 		CommMutex inactivePingersMutex;
 
+		/**
+		  Prevents threads from reading and modifying {@link #activePingers} at the same time.
+		*/
 		CommMutex activePingersMutex;
 
+		/**
+		  Prevents threads from reading and modifying {@link #destPingerMapMutex} at the same time.
+		*/
 		CommMutex destPingerMapMutex;
 
 		/**
@@ -264,41 +316,41 @@ private:
 		std::list <Pinger> activePingers;
 
 		/**
-		  Holds Pingers that have been declared as closed after taking too long to respond.
+		  Holds {@link Pinger}s that have been declared as inactive after taking too long to respond.
 		*/
 		std::list <Pinger> inactivePingers;
 
 		/**
-		  The key is the destination id of the Pinger.  When a packet is received, it will use the dest_id to reset the pinger and move the
-				list iterator to the end of pingerTimes.
+		  The key is the destination id of the {@link Pinger}.  When a packet is received, it will use the dest_id to access
+				the corresponding {@link Pinger}.
 		*/
 		std::unordered_map <uint8_t, std::list <Pinger>::iterator> destPingerMap;
 
 		/**
-		  The thread that runs the HandlePingUpdate() method.  Will shut down once
-				running is set to false.
+		  The thread that runs the {@link #HandlePingUpdate} method.  Will shut down once
+				{@link #running} is set to {@code false}.
 		*/
 		std::shared_ptr<CommThread> pingSendThread;
 
 		/**
-				Prevents running from being modified at the same time HandlePingUpdate()
+				Prevents {@link #running} from being modified at the same time {@link #HandlePingUpdate}
 				is checking it.
 		*/
 		CommMutex runningMutex;
 
 		/**
-		  The packet used for sending pings. Can we use one packet for all pinging?
-				Or do we have to make a new one each time?
+		  The packet used for linking the callback in {@link #LinkPingCallback}.
 		*/
 		PingPacket* pingPacket;
 
 		/**
-		  The Comms object that owns this PingManager.
+		  The {@link Comms} object that owns {@code this}.
 		*/
 		Comms* ownerComms;
 
 		/**
-		  True when the sendThread should be running, false otherwise.
+		  {@code true} when the {@link #pingSendThread} should be running, {@code false} when the thread
+				should stop running.
 		*/
 		bool running;
 };

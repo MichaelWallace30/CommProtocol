@@ -80,6 +80,11 @@ public:
 
   serial_t& GetSerialPort();
 
+		/**
+		  Sets {@link h_serial#serial_s} to the active state.
+				@param active Whether the status should be set to active or inactive.
+				@return {@code true} when the status was changed succesfully, {@code false} otherwise.
+		*/
 		bool SetActiveState(bool active);
 
   void SetId(uint32_t id)

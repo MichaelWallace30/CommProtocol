@@ -1,3 +1,22 @@
+/*
+		Runs a thread to update pingers.
+
+		Copyright (C) 2016  Alex Craig, Michael Wallace, Mario Garcia.
+
+		This program is free software: you can redistribute it and/or modify
+		it under the terms of the GNU General Public License as published by
+		the Free Software Foundation, either version 3 of the License, or
+		(At your option) any later version.
+
+		This program is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		GNU General Public License for more details.
+
+		You should have received a copy of the GNU General Public License
+		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include <CommProto/ping/pingmanager.h>
 #include <CommProto/comms.h>
 
@@ -7,17 +26,12 @@ error_t PingCallback(const comnet::Header & header, PingPacket & packet, comnet:
 {
 		if (packet.isPing())
 		{
-				std::cout << "PING" << std::endl;
-				if (node.getPingManager()->CanPong(header.source_id))
+				if (node.GetPingManager()->CanPong(header.source_id))
 				{
 						PingPacket pingPacket;
 						pingPacket.setPing(false);
 						node.Send(pingPacket, header.source_id);
 				}
-		}
-		else
-		{
-				std::cout << "PONG" << std::endl;
 		}
 		return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 }
@@ -26,7 +40,11 @@ PingManager::PingManager(Comms* ownerComms)
 		:std::enable_shared_from_this <PingManager>(), ownerComms(ownerComms)
 {
 				pingPacket = new PingPacket();
-				ownerComms->LinkCallback(pingPacket, new Callback((comnet::callback_t)PingCallback));
+}
+
+void PingManager::LinkPingCallback()
+{
+		ownerComms->LinkCallback(pingPacket, new Callback((comnet::callback_t)PingCallback));
 }
 
 void PingManager::SendPingPacket(uint8_t destID)
@@ -47,13 +65,24 @@ void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)
 {
 		activePingers.splice(activePingers.end(), inactivePingers, it);
 		ownerComms->SetActiveState(it->GetDestID(), true);
+		std::string debugMsg = "Pinger with destID ";
+		debugMsg += std::to_string((int)it->GetDestID());
+		debugMsg += " in NodeID ";
+		debugMsg += std::to_string((int)ownerComms->GetNodeId());
+		debugMsg += " was set to active";
+		comnet::debug::Log::Message(comnet::debug::LOG_DEBUG, debugMsg);
 }
 
 void PingManager::TransferToInactivePingers(std::list<Pinger>::iterator it)
 {
-		std::cout << "Pinger set to inactive" << std::endl;
 		inactivePingers.splice(inactivePingers.end(), activePingers, it);
 		ownerComms->SetActiveState(it->GetDestID(), false);
+		std::string debugMsg = "Pinger with destID ";
+		debugMsg += std::to_string((int)it->GetDestID());
+		debugMsg += " in NodeID ";
+		debugMsg += std::to_string((int)ownerComms->GetNodeId());
+		debugMsg += " was set to inactive";
+		comnet::debug::Log::Message(comnet::debug::LOG_DEBUG, debugMsg);
 }
 
 } //namespace ping

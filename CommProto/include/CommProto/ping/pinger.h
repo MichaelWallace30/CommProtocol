@@ -16,6 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef __PINGER_H
 #define __PINGER_H
 
@@ -36,26 +37,50 @@ using namespace comnet::architecture::os;
 typedef long MillisInt;
 
 /**
-  Handles the ping of one remote CommNode.
+  Handles the pinging of one remote {@link CommNode}.
 */
 class Pinger
 {
 public:
 		/**
-		  The amount of time passed since lastReceiveTime before a pingpacket shoudl be sent.
+		  The amount of that must pass since the last time a packet
+				was received from the {@link #destID} before
+				a {@link PingPacket} is sent.
 		*/
-		static const MillisInt PING_TIME_MILLIS = 10000;
+		static const MillisInt PING_TIME_MILLIS = 7500;
 
-		static const MillisInt PING_RESEND_TIME_MILLIS = 4000;
+		/**
+		  The amount of milliseconds that must pass since {@link #lastPingTime} before
+				attempting to send another {@link PingPacket} after no response from the {@link #destID}.
+		*/
+		static const MillisInt PING_RESEND_TIME_MILLIS = 2500;
 
-		static const MillisInt PONG_TIME_MILLIS = 3000;
+		/**
+		  The amount of milliseconds that must pass since {@link #lastSendTime} before
+				a Pong reply will be send when receiving a {@link PingPacket}.
+		*/
+		static const MillisInt PONG_TIME_MILLIS = 1500;
 
+		/**
+		  The maximum amount times to attempt to send a {@link PingPacket} wihtout
+				receiving any response from {@link #destID}.  Once exceeded, the {@link Pinger}
+				is considered inactive.
+		*/
 		static const uint8_t MAX_PING_ATTEMPTS = 5;
 
+		/**
+		  Gets the current time.
+				@return The current time.
+		*/
 		static TimePoint GetNow() {
 				return Time::now();
 		}
 
+		/**
+		  Gets the difference between the current time and the time point provided.
+				@param time The time to be compared to the current time.
+				@return The amount of milliseconds that have passed since time.
+		*/
 		static MillisInt GetMillisPassed(TimePoint time) {
 				fsec fs = GetNow() - time;	//amount of time that has passed since lastPingTime
 				ms millis = std::chrono::duration_cast<ms>(fs);		//converting time to milliseconds
@@ -63,10 +88,10 @@ public:
 		}
 
 		/**
-	  	The amount of time passed since lastReceiveTime before a connection should be marked as inactive.
+		  Used for copy and swap idiom.
+				@param first {@link Pinger} to be copied to.
+				@param second {@link Pinger} that is about to be destroyed.
 		*/
-		static const MillisInt CLOSE_TIME_MILLIS = PING_TIME_MILLIS * 2;
-
 		static void swap(Pinger& first, Pinger& second) {
 				std::swap(first.destID, second.destID);
 				std::swap(first.pingTime, second.pingTime);
@@ -75,11 +100,20 @@ public:
 				std::swap(first.pingAttempts, second.pingAttempts);
 		}
 
-		/**
-		  Creates a new instance of Pinger given a destID.
-		*/
-  Pinger(uint8_t destID);
 
+	 /**
+		  Creates a new instance of {@link Pinger}.
+				@param destID The nodeID the {@link Pinger} will be sending and
+				receiving from.
+				@return A new instance of {@link Pinger}.
+		*/
+		Pinger(uint8_t destID);
+
+		/**
+		  Copies a {@link Pinger}. Not thread-safe.
+				@param other The {@link Pinger} to be copied.
+				@return A new instance of {@link Pinger}.
+		*/
 		Pinger(Pinger& other) 
 		{
 				destID = other.destID;
@@ -89,55 +123,79 @@ public:
 				lastSendTime = other.lastSendTime;
 		}
 
+		/**
+		  Move constructor that copies the {@link Pinger} passed into it.
+				Not thread-safe.
+				@param mover The {@link Pinger} to be copied.
+				@return A new instance of {@link Pinger}.
+		*/
 		Pinger(Pinger&& mover)
 		{
 			 swap(*this, mover);
 		}
 
+		/**
+		  Uses the copy and swap idiom to copy the passed in {@link Pinger} to {@code this}.
+				@param other {@link Pinger} to be copied.
+				@return A new instance of {@link Pinger}.
+		*/
 		Pinger& operator=(Pinger other) {
 			 swap(*this, other);
 				return *this;
 		}
 
 		/**
-		  Resets lastPingTime to current time.  Sets pingTime to 
-				PING_RESEND_TIME_MILLIS because this method is only called after a ping packet was sent.
+		  Resets {@link #lastPingTime} to the current time.  Sets {@link #pingTime} to 
+				{@link #PING_RESEND_TIME_MILLIS} because this method is only called after a 
+				{@link PingPacket} was sent to {@link #destID}.
 		*/
 		void ResetToResendPingTime();
 
 		/**
-		  Resets the lastReceiveTime and lastPingTime to the current time.
-				Sets pingTime to PING_TIME_MILLIS because calling this method means a packet from this destID was received.
+		  Resets the {@link #lastPingTime} to the current time.
+				Sets {@link #pingTime} to {@link #PING_TIME_MILLIS} because calling this method 
+				means a packet from comms node with {@link #destID} was received.
 		*/
 		void ResetReceiveTime();
 
 		/**
-				Resets the lastSendTime to the current time.
+				Resets the {@link #lastSendTime} to the current time.
+				Called whenever a packet is sent to {@link #destID}.
 		*/
 		void ResetSendTime();
 
 		/**
-		  The destinationID of the comm node associated with this Pinger
+		  Accessor for the {@link #destID} of the comm_node associated with {@code this}.
+				@return A copy of {@link #destID}.
 		*/
 		uint8_t GetDestID()
 		{
 				return destID;
 		}
 
-		MillisInt getSendTimePassed()
+		/**
+		  Calculates the amount of milliseconds since {@link #lastSendTime}.
+				@return Milliseconds since {@link #lastSendTime}.
+		*/
+		MillisInt GetSendTimePassed()
 		{
 				CommLock lock(sendTimeMutex);
 				return GetMillisPassed(lastSendTime);
 		}
 
-		bool isInactive() {
+		/**
+		 Checks whether {@code this} should still be pinged by seeing if {@link #pingAttempts} exceeds {@link #MAX_PING_ATTEMPTS}.
+			@return {@code true} when should no longer be pinged, {@code false} when should be pinged.
+		*/
+		bool IsInactive() {
 				CommLock lock(pingAttemptsMutex);
 				return (pingAttempts > MAX_PING_ATTEMPTS);
 		}
 
 		/**
-		Gets the amount of time in seconds before another PingPacket needs to be send,
+		Gets the amount of time in milliseconds before another {@link PingPacket} needs to be sent,
 		if positive, no packet needs to be send, if negative, send the packet.
+		@return The amount of milliseconds before another {@link PingPacket} should be sent.
 		*/
 		MillisInt GetNextPingTimeMillis();
 
@@ -147,6 +205,11 @@ public:
   ~Pinger();
 
 private:
+		/**
+		  Stores how many times a {@link PingPacket} has been sent to the {@link #destID}
+				without receiving any packet.  Reset to 0 by {@link #ResetReceiveTime} and 
+				incremented by {@link #ResetToResetPingTime}.
+		*/
 		uint8_t pingAttempts;
 
 		/**
@@ -155,31 +218,36 @@ private:
 		MillisInt pingTime;
 
 		/**
-		  The destination ID of the comm node associated with this Pinger.
+		  The {@link CommNode#node_id} associated with {@code this}. Used to
+				check if times should be reset when recieving and sending to a
+				{@link CommNode#node_id}.
 		*/
 		uint8_t destID;
 
 		/**
 		  Will be set to current time whenever a packet has been received or a ping has been sent.
-				Used by the GetNextPingTimeMilliseconds() to help determine when to send anotehr ping packet.
+				Used by the {@link #GetNextPingTimeMilliseconds()} to determine when to send another {@link PingPacket}.
 		*/
 		TimePoint lastPingTime;
 
 		/**
-		  Stores the last time a packet was sent to the destination id.
+		  Stores the last time a packet was sent to the {@link #destID}.
 		*/
 		TimePoint lastSendTime;
 
 		/**
-		  Prevents lastReceiveTime from being modified and read at the same time.
+		  Prevents {@link #lastPingTime} from being modified and read at the same time.
 		*/
 		CommMutex pingTimeMutex;
 
 		/**
-		  Prevents lastSendTime from being modified and read at the same time.
+		  Prevents {@link #lastSendTime} from being modified and read at the same time.
 		*/
 		CommMutex sendTimeMutex;
 
+		/**
+		  Prevents {@link #pingAttempts} from being modified and read at the same time.
+		*/
 		CommMutex pingAttemptsMutex;
 };
 } //namespace ping

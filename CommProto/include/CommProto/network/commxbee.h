@@ -71,6 +71,7 @@ public:
    */
   bool Recv(uint8_t* rxData, uint32_t& rxLength);
 
+		//TODO
 		bool SetActiveState(uint8_t destID, bool active);
  
 private:
