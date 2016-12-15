@@ -47,8 +47,8 @@ void Comms::CommunicationHandlerSend()
      ObjectStream *temp = send_queue->Front();
      send_queue->Dequeue();
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
-					pingManager->ResetSendTime(temp->header_packet.dest_id);
-					free_pointer(temp);
+     pingManager->ResetSendTime(temp->header_packet.dest_id);
+     free_pointer(temp);
      send_mutex.Unlock();
   }
 //		COMMS_DEBUG("IM GOING!!\n");
@@ -80,7 +80,7 @@ void Comms::CommunicationHandlerRecv() {
       if(temp.GetSize() > 0) {
         debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
         Header header = temp.DeserializeHeader();
-								pingManager->ResetPingTime(header.source_id);
+        pingManager->ResetPingTime(header.source_id);
 
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
@@ -126,7 +126,7 @@ Comms::Comms(uint8_t platformID)
   decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
   this->recv_queue = new AutoQueue <AbstractPacket*>;
   this->send_queue = new AutoQueue <ObjectStream*>;
-		pingManager = std::make_shared <PingManager>(this);
+  pingManager = std::make_shared <PingManager>(this);
   conn_layer = NULL;
 }
 
@@ -163,7 +163,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
   }
 
   uint16_t length = 0;
-		bool connectionInitialized = false;
+  bool connectionInitialized = false;
   switch (conn_type) {
     case UDP_LINK: 
     {
@@ -190,37 +190,37 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
       // TODO(Garcia): Will need to create throw directives instead.
     }
     default:
-				{
-						debug::Log::Message(debug::LOG_WARNING, "NO CONNECTION ESTABLISHED!");
-				}
+    {
+      debug::Log::Message(debug::LOG_WARNING, "NO CONNECTION ESTABLISHED!");
+    }
   }
-		if (connectionInitialized) {
-				pingManager->LinkPingCallback();
-				return true;
-		}
-		return false;
+  if (connectionInitialized) {
+    pingManager->LinkPingCallback();
+    return true;
+  }
+  return false;
 }
 
 
 bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
 {
  if (conn_layer == NULL) return false;
-	if (conn_layer->AddAddress(dest_id, address, port))
-	{
-			pingManager->AddPinger(dest_id);
-			return true;
-	}
-	return false;
+ if (conn_layer->AddAddress(dest_id, address, port))
+ {
+   pingManager->AddPinger(dest_id);
+   return true;
+ }
+ return false;
 }
 
 
 bool Comms::RemoveAddress(uint8_t dest_id)
 {
  if (conn_layer == NULL) return false;
-	if (conn_layer->RemoveAddress(dest_id))
-	{
-			pingManager->AddPinger(dest_id);
-	}
+ if (conn_layer->RemoveAddress(dest_id))
+ {
+   pingManager->AddPinger(dest_id);
+ }
 }
 
 
@@ -269,7 +269,7 @@ void Comms::Run()
   CommNode::Run();
   comm_thread_send = CommThread(&Comms::CommunicationHandlerSend, this);
   comm_thread_recv = CommThread(&Comms::CommunicationHandlerRecv, this);
-		pingManager->Run();
+  pingManager->Run();
 }
 
 

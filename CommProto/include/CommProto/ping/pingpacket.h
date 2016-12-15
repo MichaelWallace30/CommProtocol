@@ -31,61 +31,61 @@ namespace ping {
 class PingPacket : INHERITS_ABSPACKET
 {
 public:
-		/**
-		  Creates a new instance of {@link PingPacket}.
-				@return A new {@link PingPacket}.
-		*/
+  /**
+    Creates a new instance of {@link PingPacket}.
+    @return A new {@link PingPacket}.
+  */
   PingPacket();
 
-		/**
-		  Serializes {@link #ping} to the stream.
-				@param objOut The stream to serialize the data to.
-		*/
-		void Pack(REF_OBJECTSTREAM objOut) override;
+  /**
+    Serializes {@link #ping} to the stream.
+    @param objOut The stream to serialize the data to.
+  */
+  void Pack(REF_OBJECTSTREAM objOut) override;
 
-		/**
-		  Parses {@link #ping} from the stream.
-				@param objIn The stream to parse data from.
-		*/
-		void Unpack(REF_OBJECTSTREAM objIn) override;
+  /**
+    Parses {@link #ping} from the stream.
+    @param objIn The stream to parse data from.
+  */
+  void Unpack(REF_OBJECTSTREAM objIn) override;
 
-		/**
-		  Creates a new instance of {@link PingPacket}.
-				@return New instance of {@link PingPacket}.
-		*/
-		AbstractPacket* Create() override
-		{
-				return new PingPacket();
-		}
+  /**
+    Creates a new instance of {@link PingPacket}.
+    @return New instance of {@link PingPacket}.
+  */
+  AbstractPacket* Create() override
+  {
+    return new PingPacket();
+  }
 
-		/**
-		  Accessor for {@link #ping}.
-				@return {@code true} when is a ping, {@code false} when a pong.
-		*/
-		bool isPing()
-		{
-				return ping;
-		}
+  /**
+    Accessor for {@link #ping}.
+    @return {@code true} when is a ping, {@code false} when a pong.
+  */
+  bool isPing()
+  {
+    return ping;
+  }
 
-		/**
-		  Modifier for the {@link #ping} field.
-				@param mode Value to set {@link #ping} to.
-		*/
-		void setPing(bool mode)
-		{
-				ping = mode;
-		}
+  /**
+    Modifier for the {@link #ping} field.
+    @param mode Value to set {@link #ping} to.
+  */
+  void setPing(bool mode)
+  {
+    ping = mode;
+  }
 
-		/**
-		  Default destructor.
-		*/
+  /**
+    Default destructor.
+  */
   ~PingPacket();
 
 private:
-		/**
-		  When {@code true}, {@code this} represents a ping.  When {@code false}, {@code this} represents a pong.
-		*/
-		bool ping;
+  /**
+    When {@code true}, {@code this} represents a ping.  When {@code false}, {@code this} represents a pong.
+  */
+  bool ping;
 };
 } //namespace ping
 } //namespace comnet

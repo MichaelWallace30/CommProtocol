@@ -76,8 +76,8 @@ private:
   encryption::CommEncryptor encrypt;
   encryption::CommDecryptor decrypt;
 
-		/** Used to check if remote comms are active or inactive. */
-		std::shared_ptr <PingManager> pingManager;
+  /** Used to check if remote comms are active or inactive. */
+  std::shared_ptr <PingManager> pingManager;
 
 public:		
  /** Constructor */
@@ -120,10 +120,10 @@ public:
  // Sets up the home console.
  bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
 
-	/** Accessor for {@link #pingManager}.*/
-	std::shared_ptr <PingManager> GetPingManager() {
-			return pingManager;
-	}
+ /** Accessor for {@link #pingManager}.*/
+ std::shared_ptr <PingManager> GetPingManager() {
+   return pingManager;
+ }
 
 protected:
  // Nothing yet.
