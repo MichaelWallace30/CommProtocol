@@ -74,8 +74,10 @@ bool CommXBee::AddAddress(uint8_t destId, const char* address64Hex , uint16_t po
 		COMMS_DEBUG("xbee_conNew() node_id: %d  returned: %d", destId, ret);		
 		return false;
 	}
+	xbee_conSetActiveState(con, 1);
 
 	xbees.insert({ destId, con });
+
 	return true;
 }
 /**
@@ -136,6 +138,17 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 
 bool CommXBee::SetActiveState(uint8_t destID, bool active)
 {
+		auto mapIt = xbees.find(destID);
+		if (mapIt != xbees.end())
+		{
+				int currentState;
+				xbee_conGetActiveState(mapIt->second, &currentState);
+				if (currentState != active)
+				{
+						xbee_conSetActiveState(mapIt->second, active);
+						return true;
+				}
+		}
 		return false;
 }
 

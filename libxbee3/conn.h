@@ -40,6 +40,7 @@ struct xbee_con {
 	struct xbee_threadInfo *callbackThread;
 	xsys_sem callbackSem;
 	
+	int activeState;
 	xsys_mutex txMutex;
 	unsigned char frameId;
 	
@@ -48,6 +49,9 @@ struct xbee_con {
 	struct xbee_conInfo info;
 	struct xbee_conSettings settings;
 };
+
+xbee_err _xbee_conSetActiveState(struct xbee_con *con, int state);
+xbee_err _xbee_conGetActiveState(struct xbee_con *con, int* retState);
 
 xbee_err xbee_conAlloc(struct xbee_con **nCon);
 xbee_err xbee_conFree(struct xbee_con *con);

@@ -71,7 +71,12 @@ public:
    */
   bool Recv(uint8_t* rxData, uint32_t& rxLength);
 
-		//TODO
+		/**
+				Changes the active state of the remote comms node with the matching destID.
+				@param destID The id of the remote comms node to modify the active state of.
+				@param active Indicates what to set the active state to.
+				@return {@code true} when changed succesfully, {@code false} otherwise.
+		*/
 		bool SetActiveState(uint8_t destID, bool active);
  
 private:

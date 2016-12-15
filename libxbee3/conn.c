@@ -39,6 +39,18 @@ struct xbee_ll_head *conList = NULL;
 /* ########################################################################## */
 static xbee_err _xbee_conFree(struct xbee_con *con);
 
+xbee_err _xbee_conSetActiveState(struct xbee_con * con, int state)
+{
+		con->activeState = state;
+		return XBEE_ENONE;
+}
+
+xbee_err _xbee_conGetActiveState(struct xbee_con * con, int * retState)
+{
+		*retState = con->activeState;
+		return XBEE_ENONE;
+}
+
 xbee_err xbee_conAlloc(struct xbee_con **nCon) {
 	size_t memSize;
 	struct xbee_con *con;
@@ -502,6 +514,17 @@ xbee_err _xbee_conNew(struct xbee *xbee, struct xbee_interface *iface, int allow
 }
 EXPORT xbee_err xbee_conNew(struct xbee *xbee, struct xbee_con **retCon, const char *type, struct xbee_conAddress *address) {
 	return _xbee_conNew(xbee, &xbee->iface, 0, retCon, type, address);
+}
+
+
+EXPORT xbee_err xbee_conSetActiveState(struct xbee_con * con, int state)
+{
+		return _xbee_conSetActiveState(con, state);
+}
+
+EXPORT xbee_err xbee_conGetActiveState(struct xbee_con * con, int* retState)
+{
+		return _xbee_conGetActiveState(con, retState);
 }
 
 EXPORT xbee_err xbee_conValidate(struct xbee_con *con) {
