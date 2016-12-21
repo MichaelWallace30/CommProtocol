@@ -147,6 +147,7 @@ include(cmake/CommProto-config.cmake)
 include(cmake/hash-config.cmake)
 include(cmake/network-config.cmake)
 include(cmake/serialization-config.cmake)
+include(cmake/ping.cmake)
 include(cmake/pkg.cmake)
 include(cmake/comnet_debug.cmake)
 # include(cmake/xbee_ansic.cmake) # We are no longer using this library.

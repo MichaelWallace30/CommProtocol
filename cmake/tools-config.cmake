@@ -14,6 +14,7 @@ set(TOOLS_HEADERS
   ${TOOLS_HEADER_DIR}/data_structures/double_linked_list.h
   ${TOOLS_HEADER_DIR}/data_structures/single_linked_list.h
   ${TOOLS_HEADER_DIR}/data_structures/linked_queue.h
+  ${TOOLS_HEADER_DIR}/data_structures/thread_safe_list.h
   ${TOOLS_HEADER_DIR}/data_structures/interface/generic.h
   ${TOOLS_HEADER_DIR}/data_structures/interface/interface_list.h
   ${TOOLS_HEADER_DIR}/data_structures/interface/interface_queue.h

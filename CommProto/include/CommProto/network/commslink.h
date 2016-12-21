@@ -49,7 +49,7 @@ public:
     Polymorphic Destructor.
   */  
   virtual ~CommsLink()
-    { }  
+    { }
   /**
     Initialize the connection.
   */

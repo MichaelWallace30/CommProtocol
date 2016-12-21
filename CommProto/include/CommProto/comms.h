@@ -29,6 +29,8 @@
 #include <CommProto/commnode.h>
 #include <CommProto/encryption/encryptor.h>
 #include <CommProto/encryption/decryptor.h>
+#include <CommProto/ping/pingmanager.h>
+#include <memory>
 
 
 namespace comnet {
@@ -39,6 +41,7 @@ using namespace comnet::tools::datastructures;
 using namespace comnet::serialization;
 using namespace comnet::network;	
 using namespace comnet::architecture::os;
+using namespace comnet::ping;
   /**
     Comms is a standard CommNode node object. It handles elementary and intermediate 
     commands and functionality in order to work to the user's specifications of communications.
@@ -73,6 +76,9 @@ private:
   encryption::CommEncryptor encrypt;
   encryption::CommDecryptor decrypt;
 
+  /** Used to check if remote comms are active or inactive. */
+  std::shared_ptr <PingManager> pingManager;
+
 public:		
  /** Constructor */
  Comms(uint8_t platform_id);
@@ -102,6 +108,7 @@ public:
  bool RemoveAddress(uint8_t dest_id) override;
 
  bool Send(AbstractPacket& packet, uint8_t dest_id) override;
+
  AbstractPacket* Receive(uint8_t&  source_id) override;
 
  /** Method to start communication*/
@@ -112,6 +119,11 @@ public:
  void Stop() override;
  // Sets up the home console.
  bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
+
+ /** Accessor for {@link #pingManager}.*/
+ std::shared_ptr <PingManager> GetPingManager() {
+   return pingManager;
+ }
 
 protected:
  // Nothing yet.

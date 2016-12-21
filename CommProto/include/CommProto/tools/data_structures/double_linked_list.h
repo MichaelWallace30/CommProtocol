@@ -38,8 +38,8 @@ namespace datastructures {
  */
 _COMNET_PUBLIC_API_
 template<typename _Ty,
-	 class    _Compare = StandardComparator<_Ty>,
-	 class    _Alloc   = tools::allocator::NewAllocator<_Ty> >
+  class    _Compare = StandardComparator<_Ty>,
+  class    _Alloc   = tools::allocator::NewAllocator<_Ty> >
 class COMM_EXPORT DoubleLinkedList : public interface::List<_Ty> {
   /*
     TODO(Garcia): We will need to make use of the Allocator.
@@ -98,7 +98,7 @@ public:
      Default Constructor for data structure. 
    */
   DoubleLinkedList(const _Compare& comparator = _Compare(),
-		   const _Alloc& allocator = _Alloc() )
+     const _Alloc& allocator = _Alloc() )
   : root(NULL)
   , tail(NULL)
   , cursor(NULL)
@@ -122,7 +122,7 @@ public:
   /**
      Default destructor for the data structure.
    */
-  ~DoubleLinkedList() {
+  virtual ~DoubleLinkedList() {
     _delete_list(DNode, this->size);
     nullify_pointer(root);
     nullify_pointer(tail);
@@ -131,7 +131,7 @@ public:
   /**
      Inserts a value into the data structure.
    */
-  void Insert(const_reference value) {
+  virtual void Insert(const_reference value) {
     DNode* new_node = new DNode(*this);
     nullify_pointer(new_node->next);
     nullify_pointer(new_node->previous);
@@ -237,7 +237,7 @@ public:
      Removes a node based on the specified value. This may be a greedy method, considering it will not
      remove all nodes similar to specified value.
    */
-  bool Remove(const_reference value) {
+  virtual bool Remove(const_reference value) {
     bool success = false;
     if (this->IsEmpty()) {
       return success;
@@ -255,16 +255,16 @@ public:
       cursor = root->next;
       
       while (cursor != tail && cursor != NULL) {
-	if (cmp.Equal(*cursor->data , value)) {
-	  rem_node = cursor;
-	  cursor = cursor->next;
-	  
-	  cursor->previous = rem_node->previous;
-	  rem_node->previous->next = cursor;
-	  break;
-	}
-	
-	cursor = cursor->next;
+ if (cmp.Equal(*cursor->data , value)) {
+   rem_node = cursor;
+   cursor = cursor->next;
+   
+   cursor->previous = rem_node->previous;
+   rem_node->previous->next = cursor;
+   break;
+ }
+ 
+ cursor = cursor->next;
       }
     }
 
@@ -280,7 +280,7 @@ public:
   /**
      Remove a node from the list on the specified index.
    */
-  bool RemoveAt(const int32_t index) {
+  bool RemoveAt(const int32_t index) override {
     bool success = false;
     if (index >= this->size || index < 0) {
       return success;
@@ -297,31 +297,31 @@ public:
       rem_node = HandleCursorRemoval(rem_node);
     } else {
       if (cursor->index > index) {
-	cursor = cursor->previous;
-	while (cursor != NULL) {
-	  if (cursor->index == index) {
-	    rem_node = cursor;
-	    cursor = cursor->next;
-	    
-	    cursor->previous = rem_node->previous;
-	    rem_node->previous->next = cursor;
-	    break;
-	  }
-	  cursor->previous;
-	}
+ cursor = cursor->previous;
+ while (cursor != NULL) {
+   if (cursor->index == index) {
+     rem_node = cursor;
+     cursor = cursor->next;
+     
+     cursor->previous = rem_node->previous;
+     rem_node->previous->next = cursor;
+     break;
+   }
+   cursor->previous;
+ }
       } else {
-	cursor = cursor->next;
-	while (cursor != NULL) {
-	  if (cursor->index == index) {
-	    rem_node = cursor;
-	    cursor = cursor->next;
-	    
-	    cursor->previous = rem_node->previous;
-	    rem_node->previous->next = cursor;
-	    break;
-	  }
-	  cursor = cursor->next;
-	}
+ cursor = cursor->next;
+ while (cursor != NULL) {
+   if (cursor->index == index) {
+     rem_node = cursor;
+     cursor = cursor->next;
+     
+     cursor->previous = rem_node->previous;
+     rem_node->previous->next = cursor;
+     break;
+   }
+   cursor = cursor->next;
+ }
       }
     }
 
@@ -337,17 +337,17 @@ public:
   /**
      Get the Front root value of this data structure.
    */
-  reference_type Front() {
+  virtual reference_type Front() {
     return *root->data;
   }
   /**
      Get the Back, tail, value of this data structure.
    */
-  reference_type Back() { 
+  virtual reference_type Back() { 
     return *tail->data;
   }
 
-  reference_type At(const int32_t index) {
+  virtual reference_type At(const int32_t index) {
     if (root->index == index) {
       return *root->data;
     } else if (tail->index == index) {
@@ -356,23 +356,23 @@ public:
       return *cursor->data;
     } else {
       if (cursor->index > index) {
-	cursor = cursor->previous;
-	while (cursor != NULL) {
-	  if (cursor->index == index) {
-	    return *cursor->data;
-	  } else {
-	    cursor = cursor->previous;
-	  }
-	}
+        cursor = cursor->previous;
+        while (cursor != NULL) {
+          if (cursor->index == index) {
+            return *cursor->data;
+          } else {
+            cursor = cursor->previous;
+          }
+        }
       } else {
-	cursor = cursor->next;
-	while (cursor != NULL) {
-	  if (cursor->index == index) {
-	    return *cursor->data;
-	  } else {
-	    cursor = cursor->next;
-	  }
-	}
+        cursor = cursor->next;
+        while (cursor != NULL) {
+          if (cursor->index == index) {
+            return *cursor->data;
+          } else {
+            cursor = cursor->next;
+          }
+        }
       }
     }
   }
@@ -380,21 +380,21 @@ public:
   /**
      Checks if the specified value is in this data structure.
    */
-  bool Contains(const_reference value) {
+  virtual bool Contains(const_reference value) {
     bool success = false;
     
     if (cmp.Equal(*root->data, value) ||
-	cmp.Equal(*tail->data, value) ||
-	cmp.Equal(*cursor->data, value)) {
+ cmp.Equal(*tail->data, value) ||
+ cmp.Equal(*cursor->data, value)) {
       success = true;
     } else {
       cursor = root->next;
       while (cursor != NULL) {
-	if (cmp.Equal(*cursor->data, value)) {
-	  success = true;
-	  break;
-	}
-	cursor = cursor->next;
+ if (cmp.Equal(*cursor->data, value)) {
+   success = true;
+   break;
+ }
+ cursor = cursor->next;
       }
     }
 
@@ -403,7 +403,7 @@ public:
   /**
      Get the cursor value.
    */
-  const _Ty& GetCurrent() {
+  virtual const _Ty& GetCurrent() {
     return *cursor->data;
   }
 private:

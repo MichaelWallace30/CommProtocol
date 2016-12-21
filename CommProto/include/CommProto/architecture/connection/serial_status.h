@@ -27,8 +27,7 @@ enum serial_status_t {
   SERIAL_OPEN,
   SERIAL_CLOSED,
   SERIAL_CONNECTED,
-  SERIAL_TRANSMIT,
-
+  SERIAL_TRANSMIT
 };
 
 typedef enum serial_status_t serial_status;

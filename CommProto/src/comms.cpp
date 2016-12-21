@@ -47,6 +47,7 @@ void Comms::CommunicationHandlerSend()
      ObjectStream *temp = send_queue->Front();
      send_queue->Dequeue();
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
+     pingManager->ResetSendTime(temp->header_packet.dest_id);
      free_pointer(temp);
      send_mutex.Unlock();
   }
@@ -60,7 +61,7 @@ void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning() && conn_layer) {
     recv_mutex.Lock();
     AbstractPacket* packet = NULL;
-   uint8_t stream_buffer[MAX_BUFFER_SIZE];
+    uint8_t stream_buffer[MAX_BUFFER_SIZE];
     uint32_t recv_len = 0;
     bool received = conn_layer->Recv(stream_buffer, &recv_len);
     ObjectStream temp;
@@ -79,6 +80,7 @@ void Comms::CommunicationHandlerRecv() {
       if(temp.GetSize() > 0) {
         debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
         Header header = temp.DeserializeHeader();
+        pingManager->ResetPingTime(header.source_id);
 
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
@@ -109,7 +111,7 @@ void Comms::CommunicationHandlerRecv() {
       }
     }
     recv_mutex.Unlock();	
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));	
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));	
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }
@@ -124,6 +126,7 @@ Comms::Comms(uint8_t platformID)
   decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
   this->recv_queue = new AutoQueue <AbstractPacket*>;
   this->send_queue = new AutoQueue <ObjectStream*>;
+  pingManager = std::make_shared <PingManager>(this);
   conn_layer = NULL;
 }
 
@@ -160,6 +163,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
   }
 
   uint16_t length = 0;
+  bool connectionInitialized = false;
   switch (conn_type) {
     case UDP_LINK: 
     {
@@ -169,7 +173,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
         if (length < ADDRESS_LENGTH)
         {
           conn_layer = new UDPLink();
-          return conn_layer->InitConnection(port, address);
+          connectionInitialized = conn_layer->InitConnection(port, address);
         }
       }
       break;
@@ -177,17 +181,22 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     case SERIAL_LINK:
     {
       conn_layer = new SerialLink();
-      return conn_layer->InitConnection(port, NULL, baudrate);
+      connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
     }
     case ZIGBEE_LINK:
     {
       conn_layer = new XBeeLink();
-      return conn_layer->InitConnection(port, NULL, baudrate);
+      connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
       // TODO(Garcia): Will need to create throw directives instead.
     }
     default:
+    {
       debug::Log::Message(debug::LOG_WARNING, "NO CONNECTION ESTABLISHED!");
-    {return false;}
+    }
+  }
+  if (connectionInitialized) {
+    pingManager->LinkPingCallback();
+    return true;
   }
   return false;
 }
@@ -196,14 +205,22 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
 bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
 {
  if (conn_layer == NULL) return false;
- return conn_layer->AddAddress(dest_id, address, port);
+ if (conn_layer->AddAddress(dest_id, address, port))
+ {
+   pingManager->AddPinger(dest_id);
+   return true;
+ }
+ return false;
 }
 
 
 bool Comms::RemoveAddress(uint8_t dest_id)
 {
  if (conn_layer == NULL) return false;
- return conn_layer->RemoveAddress(dest_id);
+ if (conn_layer->RemoveAddress(dest_id))
+ {
+   pingManager->AddPinger(dest_id);
+ }
 }
 
 
@@ -240,7 +257,7 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
     // This is a manual Receive function. The user does not need to call this function,
     // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
     packet = recv_queue->Front();
-    recv_queue->Dequeue();  
+    recv_queue->Dequeue();
   }
  
   return NULL;
@@ -252,6 +269,7 @@ void Comms::Run()
   CommNode::Run();
   comm_thread_send = CommThread(&Comms::CommunicationHandlerSend, this);
   comm_thread_recv = CommThread(&Comms::CommunicationHandlerRecv, this);
+  pingManager->Run();
 }
 
 

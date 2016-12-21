@@ -70,32 +70,27 @@ public:
     Check Receive data.
    */
   bool Recv(uint8_t* rxData, uint32_t& rxLength);
-  
  
-
 private:
-	uint8_t hexCharToInt(unsigned char value);
-	uint8_t doubleHexCharToInt(unsigned char c1, unsigned char c2);
-	void stringToAddress(const char* str, uint8_t length, struct xbee_conAddress &address);
+ uint8_t hexCharToInt(unsigned char value);
+ uint8_t doubleHexCharToInt(unsigned char c1, unsigned char c2);
+ void stringToAddress(const char* str, uint8_t length, struct xbee_conAddress &address);
 
-	//unordered map of *con
+ //unordered map of *con
 
-	struct xbee *xbee;
-	struct xbee_pkt *pkt;
+ struct xbee *xbee;
+ struct xbee_pkt *pkt;
 
-	std::map<uint8_t, struct xbee_con*> xbees;
+ std::map<uint8_t, struct xbee_con*> xbees;
 
-	
-	//struct xbee_conAddress *address;	
-	//struct xbee_conSettings *settings;//for broadcast recieve probably wont use
-	
-	int ret;
+ 
+ //struct xbee_conAddress *address;	
+ //struct xbee_conSettings *settings;//for broadcast recieve probably wont use
+ 
+ int ret;
 
-	
-	std::map<uint8_t, struct xbee_con*>::iterator itXbeesRecv;
-	
-
-	
+ 
+ std::map<uint8_t, struct xbee_con*>::iterator itXbeesRecv;
 
 };
 } // namespace Network

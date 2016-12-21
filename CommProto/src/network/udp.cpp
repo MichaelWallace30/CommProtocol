@@ -209,6 +209,7 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
 
   return true;
 }
+
 bool UDP::Close()
 {
   if (sockaddr.socket_status != SOCKET_CLOSED) {
