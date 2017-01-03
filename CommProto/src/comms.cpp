@@ -43,13 +43,13 @@ void Comms::CommunicationHandlerSend()
   if (!send_queue->IsEmpty())
   {
      send_mutex.Lock();
-     //Send data here
      ObjectStream *temp = send_queue->Front();
      send_queue->Dequeue();
+					send_mutex.Unlock();
+					//Send data here
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
      pingManager->ResetSendTime(temp->header_packet.dest_id);
      free_pointer(temp);
-     send_mutex.Unlock();
   }
 //		COMMS_DEBUG("IM GOING!!\n");
  }
@@ -221,7 +221,7 @@ bool Comms::RemoveAddress(uint8_t dest_id)
  if (conn_layer == NULL) return false;
  if (conn_layer->RemoveAddress(dest_id))
  {
-   pingManager->AddPinger(dest_id);
+			pingManager->RemovePinger(dest_id);
  }
 }
 
@@ -247,21 +247,22 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
     debug::Log::Message(debug::LOG_WARNING, 
                 "Packet was not encrypted! Either encryption was not created, or key was not loaded!");
   }
+		send_mutex.Lock();
   send_queue->Enqueue(stream);
-
+		send_mutex.Unlock();
   return true;
 }
 
 
 AbstractPacket* Comms::Receive(uint8_t&  source_id) {
-  AbstractPacket* packet = nullptr;
-  if (conn_layer != nullptr && !recv_queue->IsEmpty()) {
-    // This is a manual Receive function. The user does not need to call this function,
-    // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
-    packet = recv_queue->Front();
-    recv_queue->Dequeue();
-  }
- 
+		CommLock recvLock(recv_mutex);
+		AbstractPacket* packet = nullptr;
+		if (conn_layer != nullptr && !recv_queue->IsEmpty()) {
+				// This is a manual Receive function. The user does not need to call this function,
+				// however it SHOULD be used to manually grab a packet from the "orphanage" queue.
+				packet = recv_queue->Front();
+				recv_queue->Dequeue();
+		}
   return NULL;
 }
 
