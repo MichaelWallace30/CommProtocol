@@ -182,11 +182,13 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     {
       conn_layer = new SerialLink();
       connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
+	  break;
     }
     case ZIGBEE_LINK:
     {
       conn_layer = new XBeeLink();
       connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
+	  break;
       // TODO(Garcia): Will need to create throw directives instead.
     }
     default:
