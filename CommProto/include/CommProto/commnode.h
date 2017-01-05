@@ -24,6 +24,7 @@
 #include <CommProto/architecture/connection/transport_type.h>
 #include <CommProto/pkg/packetmanager.h>
 #include <CommProto/tools/data_structures/interface/interface_queue.h>
+#include <unordered_map>
 
 namespace comnet {
 
@@ -63,19 +64,10 @@ public:
   /**
      Polymorphic Destructor.
    */
-  virtual ~CommNode() { 
-    for (int32_t i = 0; i < recv_queue->GetSize(); ++i) {
-      AbstractPacket* abs = recv_queue->Front();
-      recv_queue->Dequeue();
-      free_pointer(abs);  
-    }
-    for (int32_t i = 0; i < send_queue->GetSize(); ++i) {
-      ObjectStream* obj = send_queue->Front();
-      send_queue->Dequeue();
-      free_pointer(obj);
-    }
-    free_pointer(recv_queue);
-    free_pointer(send_queue);
+  virtual ~CommNode() {
+				//May not be thread safe... do we have to lock mutex here?
+				ReplaceSendQueue(nullptr);
+				ReplaceReceiveMap(nullptr);
   }
   /**
      Add a packet to the call chain.
@@ -112,7 +104,12 @@ public:
     Replace the Send queue of this node.
   */
   virtual bool ReplaceSendQueue(const Queue<ObjectStream*>* queue) {
-    free_pointer(send_queue);
+				for (int32_t i = 0; i < send_queue->GetSize(); ++i) {
+						ObjectStream* obj = send_queue->Front();
+						send_queue->Dequeue();
+						free_pointer(obj);
+				}
+				free_pointer(send_queue);
     send_queue = (Queue<ObjectStream*> *) queue;
     return true;
   }
@@ -120,9 +117,13 @@ public:
   /**
     Replace the recv queue of this node.
   */
-  virtual bool ReplaceReceiveQueue(const Queue<AbstractPacket*>* queue) {
-    free_pointer(recv_queue);
-    recv_queue = (Queue<AbstractPacket*> *) queue;
+  virtual bool ReplaceReceiveMap(std::unordered_multimap<uint8_t, AbstractPacket*>* map) {
+				for (auto it = recv_map->begin(); it != recv_map->end(); it++) {
+						AbstractPacket* absPack = it->second;
+						free_pointer(absPack);
+				}
+				free_pointer(recv_map);
+				recv_map = map;
     return true;
   }
   /**
@@ -218,7 +219,7 @@ protected:
   /**
     Queue that holds AbstractPacket types for receiving.
   */  
-  Queue<AbstractPacket*>* recv_queue;
+		std::unordered_multimap <uint8_t, AbstractPacket*>* recv_map;
   /**
     Queue that holds ObjectStreams used for sending out.
   */

@@ -59,7 +59,6 @@ void Comms::CommunicationHandlerSend()
 /** function for communication thread */
 void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning() && conn_layer) {
-    recv_mutex.Lock();
     AbstractPacket* packet = NULL;
     uint8_t stream_buffer[MAX_BUFFER_SIZE];
     uint32_t recv_len = 0;
@@ -103,14 +102,14 @@ void Comms::CommunicationHandlerRecv() {
             HandlePacket(error, packet);
           } else {
             // store the packet into the Receive queue.
-            recv_queue->Enqueue(packet);
+												CommLock recvLock(recv_mutex);
+												recv_map->emplace(header.source_id, packet);
           }
         } else {
           debug::Log::Message(debug::LOG_NOTIFY, "Unknown packet recieved.");
         }
       }
     }
-    recv_mutex.Unlock();	
     std::this_thread::sleep_for(std::chrono::milliseconds(50));	
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
@@ -124,7 +123,7 @@ Comms::Comms(uint8_t platformID)
 , encrypt(encryption::CommEncryptor(encryption::AES))
 {
   decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
-  this->recv_queue = new AutoQueue <AbstractPacket*>;
+  this->recv_map = new std::unordered_multimap <uint8_t, AbstractPacket*>;
   this->send_queue = new AutoQueue <ObjectStream*>;
   pingManager = std::make_shared <PingManager>(this);
   conn_layer = NULL;
@@ -253,15 +252,32 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   return true;
 }
 
+bool comnet::Comms::ReplaceSendQueue(const Queue<ObjectStream*>* queue)
+{
+		CommLock sendLock(send_mutex);
+		return comnet::CommNode::ReplaceSendQueue(queue);
+}
+
+bool comnet::Comms::ReplaceReceiveMap(std::unordered_multimap<uint8_t, AbstractPacket*>* map)
+{
+		CommLock recvLock(recv_mutex);
+		return comnet::CommNode::ReplaceReceiveMap(map);
+}
+
 
 AbstractPacket* Comms::Receive(uint8_t&  source_id) {
 		CommLock recvLock(recv_mutex);
 		AbstractPacket* packet = nullptr;
-		if (conn_layer != nullptr && !recv_queue->IsEmpty()) {
+		if (conn_layer != nullptr && !recv_map->empty()) {
 				// This is a manual Receive function. The user does not need to call this function,
 				// however it SHOULD be used to manually grab a packet from the "orphanage" queue.
-				packet = recv_queue->Front();
-				recv_queue->Dequeue();
+				auto mapIter = recv_map->find(source_id);  //Get the oldest packet from the queue that matches the source_id
+				if (mapIter != recv_map->end())  //True if the iterator is valid
+				{
+					 AbstractPacket* recvPack = mapIter->second;
+						recv_map->erase(mapIter);  //Remove element from the map (other elements with same key should be kept)
+						return recvPack;
+				}
 		}
   return NULL;
 }
