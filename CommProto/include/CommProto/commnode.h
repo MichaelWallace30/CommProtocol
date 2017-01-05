@@ -65,9 +65,9 @@ public:
      Polymorphic Destructor.
    */
   virtual ~CommNode() {
-				//May not be thread safe... do we have to lock mutex here?
-				ReplaceSendQueue(nullptr);
-				ReplaceReceiveMap(nullptr);
+    //May not be thread safe... do we have to lock mutex here?
+    ReplaceSendQueue(nullptr);
+    ReplaceReceiveMap(nullptr);
   }
   /**
      Add a packet to the call chain.
@@ -104,12 +104,12 @@ public:
     Replace the Send queue of this node.
   */
   virtual bool ReplaceSendQueue(const Queue<ObjectStream*>* queue) {
-				for (int32_t i = 0; i < send_queue->GetSize(); ++i) {
-						ObjectStream* obj = send_queue->Front();
-						send_queue->Dequeue();
-						free_pointer(obj);
-				}
-				free_pointer(send_queue);
+    for (int32_t i = 0; i < send_queue->GetSize(); ++i) {
+      ObjectStream* obj = send_queue->Front();
+      send_queue->Dequeue();
+      free_pointer(obj);
+    }
+    free_pointer(send_queue);
     send_queue = (Queue<ObjectStream*> *) queue;
     return true;
   }
@@ -118,12 +118,12 @@ public:
     Replace the recv queue of this node.
   */
   virtual bool ReplaceReceiveMap(std::unordered_multimap<uint8_t, AbstractPacket*>* map) {
-				for (auto it = recv_map->begin(); it != recv_map->end(); it++) {
-						AbstractPacket* absPack = it->second;
-						free_pointer(absPack);
-				}
-				free_pointer(recv_map);
-				recv_map = map;
+    for (auto it = recv_map->begin(); it != recv_map->end(); it++) {
+      AbstractPacket* absPack = it->second;
+      free_pointer(absPack);
+    }
+    free_pointer(recv_map);
+    recv_map = map;
     return true;
   }
   /**
@@ -219,7 +219,7 @@ protected:
   /**
     Queue that holds AbstractPacket types for receiving.
   */  
-		std::unordered_multimap <uint8_t, AbstractPacket*>* recv_map;
+  std::unordered_multimap <uint8_t, AbstractPacket*>* recv_map;
   /**
     Queue that holds ObjectStreams used for sending out.
   */

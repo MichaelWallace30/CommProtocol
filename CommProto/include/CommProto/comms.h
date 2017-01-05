@@ -109,9 +109,9 @@ public:
 
  bool Send(AbstractPacket& packet, uint8_t dest_id) override;
 
-	bool ReplaceSendQueue(const Queue<ObjectStream*>* queue) override;
+ bool ReplaceSendQueue(const Queue<ObjectStream*>* queue) override;
 
-	bool ReplaceReceiveMap(std::unordered_multimap<uint8_t, AbstractPacket*>* map);
+ bool ReplaceReceiveMap(std::unordered_multimap<uint8_t, AbstractPacket*>* map);
 
  AbstractPacket* Receive(uint8_t&  source_id) override;
 

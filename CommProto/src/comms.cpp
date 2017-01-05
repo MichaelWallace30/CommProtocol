@@ -45,8 +45,8 @@ void Comms::CommunicationHandlerSend()
      send_mutex.Lock();
      ObjectStream *temp = send_queue->Front();
      send_queue->Dequeue();
-					send_mutex.Unlock();
-					//Send data here
+     send_mutex.Unlock();
+     //Send data here
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
      pingManager->ResetSendTime(temp->header_packet.dest_id);
      free_pointer(temp);
@@ -102,8 +102,8 @@ void Comms::CommunicationHandlerRecv() {
             HandlePacket(error, packet);
           } else {
             // store the packet into the Receive queue.
-												CommLock recvLock(recv_mutex);
-												recv_map->emplace(header.source_id, packet);
+            CommLock recvLock(recv_mutex);
+            recv_map->emplace(header.source_id, packet);
           }
         } else {
           debug::Log::Message(debug::LOG_NOTIFY, "Unknown packet recieved.");
@@ -181,13 +181,13 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     {
       conn_layer = new SerialLink();
       connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
-	  break;
+   break;
     }
     case ZIGBEE_LINK:
     {
       conn_layer = new XBeeLink();
       connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
-	  break;
+   break;
       // TODO(Garcia): Will need to create throw directives instead.
     }
     default:
@@ -220,7 +220,7 @@ bool Comms::RemoveAddress(uint8_t dest_id)
  if (conn_layer == NULL) return false;
  if (conn_layer->RemoveAddress(dest_id))
  {
-			pingManager->RemovePinger(dest_id);
+   pingManager->RemovePinger(dest_id);
  }
 }
 
@@ -246,39 +246,39 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
     debug::Log::Message(debug::LOG_WARNING, 
                 "Packet was not encrypted! Either encryption was not created, or key was not loaded!");
   }
-		send_mutex.Lock();
+  send_mutex.Lock();
   send_queue->Enqueue(stream);
-		send_mutex.Unlock();
+  send_mutex.Unlock();
   return true;
 }
 
 bool comnet::Comms::ReplaceSendQueue(const Queue<ObjectStream*>* queue)
 {
-		CommLock sendLock(send_mutex);
-		return comnet::CommNode::ReplaceSendQueue(queue);
+  CommLock sendLock(send_mutex);
+  return comnet::CommNode::ReplaceSendQueue(queue);
 }
 
 bool comnet::Comms::ReplaceReceiveMap(std::unordered_multimap<uint8_t, AbstractPacket*>* map)
 {
-		CommLock recvLock(recv_mutex);
-		return comnet::CommNode::ReplaceReceiveMap(map);
+  CommLock recvLock(recv_mutex);
+  return comnet::CommNode::ReplaceReceiveMap(map);
 }
 
 
 AbstractPacket* Comms::Receive(uint8_t&  source_id) {
-		CommLock recvLock(recv_mutex);
-		AbstractPacket* packet = nullptr;
-		if (conn_layer != nullptr && !recv_map->empty()) {
-				// This is a manual Receive function. The user does not need to call this function,
-				// however it SHOULD be used to manually grab a packet from the "orphanage" queue.
-				auto mapIter = recv_map->find(source_id);  //Get the oldest packet from the queue that matches the source_id
-				if (mapIter != recv_map->end())  //True if the iterator is valid
-				{
-					 AbstractPacket* recvPack = mapIter->second;
-						recv_map->erase(mapIter);  //Remove element from the map (other elements with same key should be kept)
-						return recvPack;
-				}
-		}
+  CommLock recvLock(recv_mutex);
+  AbstractPacket* packet = nullptr;
+  if (conn_layer != nullptr && !recv_map->empty()) {
+    // This is a manual Receive function. The user does not need to call this function,
+    // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
+    auto mapIter = recv_map->find(source_id);  //Get the oldest packet from the queue that matches the source_id
+    if (mapIter != recv_map->end())  //True if the iterator is valid
+    {
+      AbstractPacket* recvPack = mapIter->second;
+      recv_map->erase(mapIter);  //Remove element from the map (other elements with same key should be kept)
+      return recvPack;
+    }
+  }
   return NULL;
 }
 

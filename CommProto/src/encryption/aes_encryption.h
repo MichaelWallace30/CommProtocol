@@ -32,8 +32,8 @@ namespace encryption {
 class COMM_EXPORT AesEncryption : public EncryptionInterface {
 private:
   CryptoPP::SecByteBlock sec_key;
-		static const int RANDOM_GEN_MIN = 0;
-		static const int RANDOM_GEN_MAX = 255;
+  static const int RANDOM_GEN_MIN = 0;
+  static const int RANDOM_GEN_MAX = 255;
 public:
   AesEncryption();
   ~AesEncryption();
