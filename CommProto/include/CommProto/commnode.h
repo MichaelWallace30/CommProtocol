@@ -67,7 +67,7 @@ public:
   virtual ~CommNode() {
     //May not be thread safe... do we have to lock mutex here?
     ReplaceSendQueue(nullptr);
-    ReplaceReceiveMap(nullptr);
+    ReplaceReceiveQueue(nullptr);
   }
   /**
      Add a packet to the call chain.
@@ -97,7 +97,7 @@ public:
      Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
      All packages received will go into a queue anyway.
    */
-  virtual bool LinkQueue(const AbstractPacket* packet, const Queue<AbstractPacket*>* queue) 
+  virtual bool LinkQueue(const AbstractPacket* packet, const Queue<std::pair<Header*, AbstractPacket*>>* queue) 
     { return ~0; }
 
   /**
@@ -117,13 +117,14 @@ public:
   /**
     Replace the recv queue of this node.
   */
-  virtual bool ReplaceReceiveMap(std::unordered_multimap<uint8_t, AbstractPacket*>* map) {
-    for (auto it = recv_map->begin(); it != recv_map->end(); it++) {
-      AbstractPacket* absPack = it->second;
-      free_pointer(absPack);
-    }
-    free_pointer(recv_map);
-    recv_map = map;
+  virtual bool ReplaceReceiveQueue(const Queue<std::pair<uint8_t, AbstractPacket*>>* queue) {
+				for (int32_t i = 0; i < recv_queue->GetSize(); ++i) {
+						AbstractPacket* absPacket = recv_queue->Front().second;
+						recv_queue->Dequeue();
+						free_pointer(absPacket);
+				}
+				free_pointer(recv_queue);
+				recv_queue = (Queue<std::pair<uint8_t, AbstractPacket*>>*) queue;
     return true;
   }
   /**
@@ -212,6 +213,7 @@ public:
   bool IsPaused()
     { return paused; }
 protected:
+
   /**
   Packet Manager is a manager controller, designed to hold packets for the node.
   */
@@ -219,7 +221,7 @@ protected:
   /**
     Queue that holds AbstractPacket types for receiving.
   */  
-  std::unordered_multimap <uint8_t, AbstractPacket*>* recv_map;
+  Queue<std::pair<uint8_t, AbstractPacket*>>* recv_queue;
   /**
     Queue that holds ObjectStreams used for sending out.
   */

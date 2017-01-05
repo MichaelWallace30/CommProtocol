@@ -83,8 +83,10 @@ int main(int c, char** args) {
     << comm1.AddAddress(2, "127.0.0.1", 1338)
     << std::endl;
   // CommNode Callback linking.
-  comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
-  comm2.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
+		comm1.AddPacket(new Ping());
+		comm2.AddPacket(new Ping());
+  //comm1.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
+  //comm2.LinkCallback(new Ping(), new comnet::Callback((comnet::callback_t)PingCallback));
 
   // Allow client to suppress or unsuppress messages handled by the CommProtocol Library.
   comnet::debug::Log::Suppress(comnet::debug::LOG_NOTIFY);
@@ -93,16 +95,22 @@ int main(int c, char** args) {
 
   // Test packet.
   Ping bing("I like cats. MEW :3. this is a test...");
+		Ping bing2("I like dogs.");
   // NOTE(All): Be sure to run the nodes! If not, the threads won't execute!
   comm1.Run();
   comm2.Run();
 
   // Loop. To exit, Click the red button on the top left (Windows Visual Studio) OR 
   // CNTRL+C (Linux). 
-  while (true) {
-    std::cout << "Sleeping..." << std::endl;
-    //comm1 will be sending the packet.
-    comm1.Send(bing, 2);
+		comm1.Send(bing, 2);
+		comm1.Send(bing2, 2);
+		while (true) {
+				uint8_t receiveID;
+				ABSPACKET* absPack = (ABSPACKET*)comm2.Receive(receiveID);
+				std::cout << "RUN" << std::endl;
+				if (absPack != nullptr && absPack->GetId() == bing.GetId()) {
+						std::cout << ((Ping*)absPack)->GetCat() << std::endl;
+				}
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
   std::cin.ignore();

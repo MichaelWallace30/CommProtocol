@@ -102,8 +102,9 @@ void Comms::CommunicationHandlerRecv() {
             HandlePacket(error, packet);
           } else {
             // store the packet into the Receive queue.
+												std::cout << "Added to orphanage" << std::endl;
             CommLock recvLock(recv_mutex);
-            recv_map->emplace(header.source_id, packet);
+												recv_queue->Enqueue(std::make_pair(header.source_id, packet));
           }
         } else {
           debug::Log::Message(debug::LOG_NOTIFY, "Unknown packet recieved.");
@@ -123,7 +124,7 @@ Comms::Comms(uint8_t platformID)
 , encrypt(encryption::CommEncryptor(encryption::AES))
 {
   decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
-  this->recv_map = new std::unordered_multimap <uint8_t, AbstractPacket*>;
+  this->recv_queue = new AutoQueue <std::pair<uint8_t, AbstractPacket*>>;
   this->send_queue = new AutoQueue <ObjectStream*>;
   pingManager = std::make_shared <PingManager>(this);
   conn_layer = NULL;
@@ -258,26 +259,23 @@ bool comnet::Comms::ReplaceSendQueue(const Queue<ObjectStream*>* queue)
   return comnet::CommNode::ReplaceSendQueue(queue);
 }
 
-bool comnet::Comms::ReplaceReceiveMap(std::unordered_multimap<uint8_t, AbstractPacket*>* map)
+bool comnet::Comms::ReplaceReceiveQueue(const Queue<std::pair<uint8_t, AbstractPacket*>>* queue)
 {
   CommLock recvLock(recv_mutex);
-  return comnet::CommNode::ReplaceReceiveMap(map);
+  return comnet::CommNode::ReplaceReceiveQueue(queue);
 }
 
 
 AbstractPacket* Comms::Receive(uint8_t&  source_id) {
   CommLock recvLock(recv_mutex);
   AbstractPacket* packet = nullptr;
-  if (conn_layer != nullptr && !recv_map->empty()) {
+  if (conn_layer != nullptr && !recv_queue->IsEmpty()) {
     // This is a manual Receive function. The user does not need to call this function,
     // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
-    auto mapIter = recv_map->find(source_id);  //Get the oldest packet from the queue that matches the source_id
-    if (mapIter != recv_map->end())  //True if the iterator is valid
-    {
-      AbstractPacket* recvPack = mapIter->second;
-      recv_map->erase(mapIter);  //Remove element from the map (other elements with same key should be kept)
-      return recvPack;
-    }
+				std::pair <uint8_t, AbstractPacket*> queueElm = recv_queue->Front();
+				recv_queue->Dequeue();
+				source_id = queueElm.first;
+				return queueElm.second;
   }
   return NULL;
 }
