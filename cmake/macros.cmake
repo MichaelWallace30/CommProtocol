@@ -27,3 +27,8 @@ macro(check_global_compiler_options)
     endif()
   endif()
 endmacro()
+
+macro(build_updatefile)
+  set(REPO_CONFIG "{ \"version\":${} }")
+  file(WRITE "")
+endmacro()
