@@ -24,7 +24,7 @@
 #include <stdint.h>
 #include <CommProto/architecture/os/comm_mutex.h>
 
-typedef std::chrono::high_resolution_clock Time;
+typedef std::chrono::steady_clock Time;
 typedef std::chrono::milliseconds ms;
 typedef std::chrono::time_point <std::chrono::steady_clock> TimePoint;
 typedef std::chrono::duration<float> fsec;

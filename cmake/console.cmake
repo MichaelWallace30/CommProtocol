@@ -9,8 +9,9 @@ set(CONSOLE_HEADERS
   ${CONSOLE_HEADER_DIR}/parse_engine.h
   ${CONSOLE_HEADER_DIR}/piping.h)
 
-set(CONSOLE_SOURCES
-  ${CONSOLE_SOURCE_DIR}/console.cc)
+# Console is not active yet.
+#set(CONSOLE_SOURCES
+#  ${CONSOLE_SOURCE_DIR}/console.cc)
 
 
 set (NGCP_GLOB

@@ -38,18 +38,19 @@ _COMNET_PUBLIC_API_
   class    _Alloc = tools::allocator::NewAllocator<_Ty> >
 class COMM_EXPORT ThreadSafeList : public DoubleLinkedList <_Ty> {
   typedef const _Ty& const_reference;
+  typedef _Ty& reference_type;
 public:
   /**
     Default Constructor for data structure.
   */
   ThreadSafeList(const _Compare& comparator = _Compare(), const _Alloc& allocator = _Alloc())
-    :DoubleLinkList(comparator, allocator)
+    : DoubleLinkedList<_Ty>(comparator, allocator)
   {
           
   }
 
   ThreadSafeList(const _Alloc& allocator)
-    :DoubleLinkList(allocator)
+    : DoubleLinkedList<_Ty>(allocator)
   {
 
   }
@@ -58,8 +59,8 @@ public:
     Inserts a value into the data structure.  Thread safe.
   */
   void Insert(const_reference value) override {
-    std::lock <std::mutex> lock(listMutex);
-    DoubleLinkList::Insert(value);
+    CommLock lock(listMutex);
+    DoubleLinkedList<_Ty>::Insert(value);
   }
 
   /**
@@ -67,56 +68,56 @@ public:
    nodes similar to the value.  Thread safe.
   */
   bool Remove(const_reference value) override {
-    std::lock <std::mutex> lock(listMutex);
-    return DoubleLinkList::Remove(value);
+    CommLock lock(listMutex);
+    return DoubleLinkedList<_Ty>::Remove(value);
   }
 
   /**
     Remove a node from the list on the specified index.  Thread safe.
   */
   bool RemoveAt(const int32_t index) override {
-    std::lock <std::mutex> lock(listMutex);
-    return DoubleLinkList::RemoveAt(index);
+    CommLock lock(listMutex);
+    return DoubleLinkedList<_Ty>::RemoveAt(index);
   }
 
   /**
     Get the root value of the list.  Thread safe.
   */
   reference_type Front() override {
-    std::lock <std::mutex> lock(listMutex);
-    return DoubleLinkList::Front();
+    CommLock lock(listMutex);
+    return DoubleLinkedList<_Ty>::Front();
   }
 
   /**
     Get the last/tail value of the list.  Thread safe.
   */
   reference_type Back() override {
-    std::lock <std::mutex> lock(listMutex);
-    return DoubleLinkList::Back();
+    CommLock lock(listMutex);
+    return DoubleLinkedList<_Ty>::Back();
   }
 
   /**
     Iterates to the index specified and returns it's value.  Thread safe.
   */
   reference_type At(const int32_t index) override {
-    std::lock <std::mutex> lock(listMutex);
-    return DoubleLinkList::At(index);
+    CommLock lock(listMutex);
+    return DoubleLinkedList<_Ty>::At(index);
   }
 
   /**
     Checks if the specified value is in this data structure.  Thread safe.
   */
   bool Contains(const_reference value) {
-    std::lock <std::mutex> lock(listMutex);
-    return DoubleLinkList::Contains(value);
+    CommLock lock(listMutex);
+    return DoubleLinkedList<_Ty>::Contains(value);
   }
 
   /**
     Get the cursor value. Thread safe.
   */
   const _Ty& GetCurrent() {
-    std::lock <std::mutex> lock(listMutex);
-    return *cursor->data;
+    CommLock lock(listMutex);
+    return *this->cursor->data;
   }
 
   /**
