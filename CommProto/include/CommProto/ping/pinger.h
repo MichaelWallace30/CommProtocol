@@ -24,7 +24,7 @@
 #include <stdint.h>
 #include <CommProto/architecture/os/comm_mutex.h>
 
-typedef std::chrono::steady_clock Time;
+typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::milliseconds ms;
 typedef std::chrono::high_resolution_clock::time_point TimePoint;// std::chrono::time_point <std::chrono::steady_clock> TimePoint;
 typedef std::chrono::duration<float> fsec;
@@ -73,7 +73,7 @@ public:
     @return The current time.
   */
   static TimePoint GetNow() {
-    return std::chrono::high_resolution_clock::now();    
+    return Time::now();    
   }
 
   /**

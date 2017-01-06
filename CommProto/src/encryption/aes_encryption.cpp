@@ -98,7 +98,7 @@ int32_t AesEncryption::Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOC
 
 /** Random number generator which fills an array of size length*/
 uint8_t AesEncryption::GenerateRandomIV(uint8_t * buffer, uint32_t length){	
-		static thread_local CommRandom randomGen(RANDOM_GEN_MIN, RANDOM_GEN_MAX);
+		static THREAD_LOCAL CommRandom randomGen(RANDOM_GEN_MIN, RANDOM_GEN_MAX);
 		for (int x = 0; x < length; x++){
 		buffer[x] = randomGen.randomUint8();
 	}

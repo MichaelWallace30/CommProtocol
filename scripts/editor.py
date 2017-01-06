@@ -16,24 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 import os
-import shutil
-import editor
+import string
 
-repo= {"version":""}
-
-def ZipInstall():
-    socket = 1
-    str = "kit cat"
-    editor.VersionEdit(str)
-
-def main():
-    """
-    Main function.
-    :return:
-    """
-    ZipInstall()
-    return 1
-
-
-if __name__ == '__main__':
-    main()
+def VersionEdit(str):
+    str.lower()
