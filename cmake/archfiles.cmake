@@ -25,6 +25,7 @@ set(ARCH_OS_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/mac-config/mac-config.h
   ${ARCHITECTURE_HEADER_DIR}/os/include_defines.h
   ${ARCHITECTURE_HEADER_DIR}/os/arch.h
+  ${ARCHITECTURE_HEADER_DIR}/os/os_mutex.h
   ${ARCHITECTURE_HEADER_DIR}/os/os_threads.h
   ${ARCHITECTURE_HEADER_DIR}/os/thread-config.h
   ${ARCHITECTURE_HEADER_DIR}/os/mutex-config.h
@@ -34,11 +35,7 @@ set(ARCH_OS_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/comm_semaphore.h
   ${ARCHITECTURE_HEADER_DIR}/os/comm_monitor.h)
 
-set(ARCHITECTURE_SOURCES
-   ${ARCHITECTURE_SOURCE_DIR}/os/comm_monitor.cc
-  ${ARCHITECTURE_SOURCE_DIR}/os/comm_semaphore.cc
-  ${ARCHITECTURE_SOURCE_DIR}/os/comm_thread.cc
-  ${ARCHITECTURE_SOURCE_DIR}/os/comm_mutex.cc
+ set(ARCHITECTURE_SOURCES
   ${ARCHITECTURE_SOURCE_DIR}/os/os_threads.cpp
   ${ARCHITECTURE_SOURCE_DIR}/os/os_mutex.cpp)
 

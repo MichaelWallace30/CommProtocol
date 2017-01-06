@@ -26,7 +26,9 @@
 #include <CommProto/tools/data_structures/thread_safe_list.h>
 #include <CommProto/architecture/os/comm_mutex.h>
 #include <CommProto/architecture/os/comm_thread.h>
+
 #include <thread>
+#include <list>
 #include <unordered_map>
 #include <memory>
 #include <iostream>
