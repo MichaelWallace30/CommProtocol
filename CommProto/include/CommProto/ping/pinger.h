@@ -26,7 +26,7 @@
 
 typedef std::chrono::steady_clock Time;
 typedef std::chrono::milliseconds ms;
-typedef std::chrono::steady_clock::time_point TimePoint;// std::chrono::time_point <std::chrono::steady_clock> TimePoint;
+typedef std::chrono::high_resolution_clock::time_point TimePoint;// std::chrono::time_point <std::chrono::steady_clock> TimePoint;
 typedef std::chrono::duration<float> fsec;
 
 namespace comnet {
@@ -73,7 +73,7 @@ public:
     @return The current time.
   */
   static TimePoint GetNow() {
-    return Time::now();    
+    return std::chrono::high_resolution_clock::now();    
   }
 
   /**
