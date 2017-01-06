@@ -63,19 +63,12 @@ public:
   /**
      Polymorphic Destructor.
    */
-  virtual ~CommNode() { 
-    for (int32_t i = 0; i < recv_queue->GetSize(); ++i) {
-      AbstractPacket* abs = recv_queue->Front();
-      recv_queue->Dequeue();
-      free_pointer(abs);  
-    }
-    for (int32_t i = 0; i < send_queue->GetSize(); ++i) {
-      ObjectStream* obj = send_queue->Front();
-      send_queue->Dequeue();
-      free_pointer(obj);
-    }
-    free_pointer(recv_queue);
-    free_pointer(send_queue);
+  virtual ~CommNode() {
+    /*This is thread-safe but is a bit odd. Perhaps a protected method called
+				DeleteSendQueue and DeleteReceiveQueue can be used by both the ReplaceQueue methods
+				and this destructor*/
+    ReplaceSendQueue(nullptr);
+    ReplaceReceiveQueue(nullptr);
   }
   /**
      Add a packet to the call chain.
@@ -105,13 +98,18 @@ public:
      Links the queue of a specified node to a specific queue. Not mandatory, this is optional.
      All packages received will go into a queue anyway.
    */
-  virtual bool LinkQueue(const AbstractPacket* packet, const Queue<AbstractPacket*>* queue) 
+  virtual bool LinkQueue(const AbstractPacket* packet, const Queue<std::pair<Header*, AbstractPacket*>>* queue) 
     { return ~0; }
 
   /**
     Replace the Send queue of this node.
   */
   virtual bool ReplaceSendQueue(const Queue<ObjectStream*>* queue) {
+    for (int32_t i = 0; i < send_queue->GetSize(); ++i) {
+      ObjectStream* obj = send_queue->Front();
+      send_queue->Dequeue();
+      free_pointer(obj);
+    }
     free_pointer(send_queue);
     send_queue = (Queue<ObjectStream*> *) queue;
     return true;
@@ -120,9 +118,14 @@ public:
   /**
     Replace the recv queue of this node.
   */
-  virtual bool ReplaceReceiveQueue(const Queue<AbstractPacket*>* queue) {
-    free_pointer(recv_queue);
-    recv_queue = (Queue<AbstractPacket*> *) queue;
+  virtual bool ReplaceReceiveQueue(const Queue<std::pair<uint8_t, AbstractPacket*>>* queue) {
+				for (int32_t i = 0; i < recv_queue->GetSize(); ++i) {
+						AbstractPacket* absPacket = recv_queue->Front().second;
+						recv_queue->Dequeue();
+						free_pointer(absPacket);
+				}
+				free_pointer(recv_queue);
+				recv_queue = (Queue<std::pair<uint8_t, AbstractPacket*>>*) queue;
     return true;
   }
   /**
@@ -211,6 +214,7 @@ public:
   bool IsPaused()
     { return paused; }
 protected:
+
   /**
   Packet Manager is a manager controller, designed to hold packets for the node.
   */
@@ -218,7 +222,7 @@ protected:
   /**
     Queue that holds AbstractPacket types for receiving.
   */  
-  Queue<AbstractPacket*>* recv_queue;
+  Queue<std::pair<uint8_t, AbstractPacket*>>* recv_queue;
   /**
     Queue that holds ObjectStreams used for sending out.
   */

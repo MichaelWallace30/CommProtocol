@@ -43,13 +43,13 @@ void Comms::CommunicationHandlerSend()
   if (!send_queue->IsEmpty())
   {
      send_mutex.Lock();
-     //Send data here
      ObjectStream *temp = send_queue->Front();
      send_queue->Dequeue();
+     send_mutex.Unlock();
+     //Send data here
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
      pingManager->ResetSendTime(temp->header_packet.dest_id);
      free_pointer(temp);
-     send_mutex.Unlock();
   }
 //		COMMS_DEBUG("IM GOING!!\n");
  }
@@ -59,7 +59,6 @@ void Comms::CommunicationHandlerSend()
 /** function for communication thread */
 void Comms::CommunicationHandlerRecv() {
   while (this->IsRunning() && conn_layer) {
-    recv_mutex.Lock();
     AbstractPacket* packet = NULL;
     uint8_t stream_buffer[MAX_BUFFER_SIZE];
     uint32_t recv_len = 0;
@@ -103,14 +102,14 @@ void Comms::CommunicationHandlerRecv() {
             HandlePacket(error, packet);
           } else {
             // store the packet into the Receive queue.
-            recv_queue->Enqueue(packet);
+            CommLock recvLock(recv_mutex);
+            recv_queue->Enqueue(std::make_pair(header.source_id, packet));
           }
         } else {
           debug::Log::Message(debug::LOG_NOTIFY, "Unknown packet recieved.");
         }
       }
     }
-    recv_mutex.Unlock();	
     std::this_thread::sleep_for(std::chrono::milliseconds(50));	
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
@@ -124,7 +123,7 @@ Comms::Comms(uint8_t platformID)
 , encrypt(encryption::CommEncryptor(encryption::AES))
 {
   decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
-  this->recv_queue = new AutoQueue <AbstractPacket*>;
+  this->recv_queue = new AutoQueue <std::pair<uint8_t, AbstractPacket*>>;
   this->send_queue = new AutoQueue <ObjectStream*>;
   pingManager = std::make_shared <PingManager>(this);
   conn_layer = NULL;
@@ -182,13 +181,13 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     {
       conn_layer = new SerialLink();
       connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
-	  break;
+   break;
     }
     case ZIGBEE_LINK:
     {
       conn_layer = new XBeeLink();
       connectionInitialized = conn_layer->InitConnection(port, NULL, baudrate);
-	  break;
+   break;
       // TODO(Garcia): Will need to create throw directives instead.
     }
     default:
@@ -221,7 +220,7 @@ bool Comms::RemoveAddress(uint8_t dest_id)
  if (conn_layer == NULL) return false;
  if (conn_layer->RemoveAddress(dest_id))
  {
-   pingManager->AddPinger(dest_id);
+   pingManager->RemovePinger(dest_id);
  }
 }
 
@@ -247,21 +246,36 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
     debug::Log::Message(debug::LOG_WARNING, 
                 "Packet was not encrypted! Either encryption was not created, or key was not loaded!");
   }
+  send_mutex.Lock();
   send_queue->Enqueue(stream);
-
+  send_mutex.Unlock();
   return true;
+}
+
+bool comnet::Comms::ReplaceSendQueue(const Queue<ObjectStream*>* queue)
+{
+  CommLock sendLock(send_mutex);
+  return comnet::CommNode::ReplaceSendQueue(queue);
+}
+
+bool comnet::Comms::ReplaceReceiveQueue(const Queue<std::pair<uint8_t, AbstractPacket*>>* queue)
+{
+  CommLock recvLock(recv_mutex);
+  return comnet::CommNode::ReplaceReceiveQueue(queue);
 }
 
 
 AbstractPacket* Comms::Receive(uint8_t&  source_id) {
+  CommLock recvLock(recv_mutex);
   AbstractPacket* packet = nullptr;
   if (conn_layer != nullptr && !recv_queue->IsEmpty()) {
     // This is a manual Receive function. The user does not need to call this function,
     // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
-    packet = recv_queue->Front();
+    std::pair <uint8_t, AbstractPacket*> queueElm = recv_queue->Front();
     recv_queue->Dequeue();
+    source_id = queueElm.first;
+    return queueElm.second;
   }
- 
   return NULL;
 }
 

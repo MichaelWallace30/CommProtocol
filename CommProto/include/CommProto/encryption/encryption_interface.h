@@ -50,7 +50,7 @@ public:
   */
   virtual int32_t Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOCK_SIZE]) = 0;
   /** 
-    Randome numbder generator which fills an array of size legnth
+    Random number generator which fills an array of size length
    */
   virtual uint8_t GenerateRandomIV(uint8_t * buffer, uint32_t length) = 0;
 
