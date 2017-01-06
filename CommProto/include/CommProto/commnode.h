@@ -24,7 +24,6 @@
 #include <CommProto/architecture/connection/transport_type.h>
 #include <CommProto/pkg/packetmanager.h>
 #include <CommProto/tools/data_structures/interface/interface_queue.h>
-#include <unordered_map>
 
 namespace comnet {
 
@@ -65,7 +64,9 @@ public:
      Polymorphic Destructor.
    */
   virtual ~CommNode() {
-    //May not be thread safe... do we have to lock mutex here?
+    /*This is thread-safe but is a bit odd. Perhaps a protected method called
+				DeleteSendQueue and DeleteReceiveQueue can be used by both the ReplaceQueue methods
+				and this destructor*/
     ReplaceSendQueue(nullptr);
     ReplaceReceiveQueue(nullptr);
   }

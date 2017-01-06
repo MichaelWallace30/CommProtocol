@@ -102,9 +102,8 @@ void Comms::CommunicationHandlerRecv() {
             HandlePacket(error, packet);
           } else {
             // store the packet into the Receive queue.
-												std::cout << "Added to orphanage" << std::endl;
             CommLock recvLock(recv_mutex);
-												recv_queue->Enqueue(std::make_pair(header.source_id, packet));
+            recv_queue->Enqueue(std::make_pair(header.source_id, packet));
           }
         } else {
           debug::Log::Message(debug::LOG_NOTIFY, "Unknown packet recieved.");
@@ -272,10 +271,10 @@ AbstractPacket* Comms::Receive(uint8_t&  source_id) {
   if (conn_layer != nullptr && !recv_queue->IsEmpty()) {
     // This is a manual Receive function. The user does not need to call this function,
     // however it SHOULD be used to manually grab a packet from the "orphanage" queue.
-				std::pair <uint8_t, AbstractPacket*> queueElm = recv_queue->Front();
-				recv_queue->Dequeue();
-				source_id = queueElm.first;
-				return queueElm.second;
+    std::pair <uint8_t, AbstractPacket*> queueElm = recv_queue->Front();
+    recv_queue->Dequeue();
+    source_id = queueElm.first;
+    return queueElm.second;
   }
   return NULL;
 }
