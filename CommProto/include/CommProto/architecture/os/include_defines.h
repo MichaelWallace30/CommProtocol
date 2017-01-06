@@ -53,12 +53,13 @@
           c& operator=(c& obj) = delete; 
 
 #define NOEXCEPT noexcept
+#define THREAD_LOCAL thread_local
+
  /*
  TODO(): This will need to be defined with windows.
  */
 #if COM_TARGET_OS == COM_OS_WINDOWS
  #define FORCE_INLINE __forceinline 
- #define THREAD_LOCAL thread_local
  #if defined(_MSC_VER) && defined(NOEXCEPT)
   #if _MSC_VER <= 1800
    #undef NOEXCEPT
