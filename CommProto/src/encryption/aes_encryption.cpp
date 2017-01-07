@@ -27,7 +27,9 @@
 namespace comnet {
 namespace encryption {
 
-AesEncryption::AesEncryption() :randomGen(0, 255){}
+AesEncryption::AesEncryption() {
+		
+}
 
 AesEncryption::~AesEncryption(){}
 
@@ -94,9 +96,10 @@ int32_t AesEncryption::Decrypt(uint8_t* buffer, uint32_t length, uint8_t iv[BLOC
 }
 
 
-/** Randome numbder generator which fills an array of size legnth*/
+/** Random number generator which fills an array of size length*/
 uint8_t AesEncryption::GenerateRandomIV(uint8_t * buffer, uint32_t length){	
-	for (int x = 0; x < length; x++){
+		static THREAD_LOCAL CommRandom randomGen(RANDOM_GEN_MIN, RANDOM_GEN_MAX);
+		for (uint32_t x = 0; x < length; x++){
 		buffer[x] = randomGen.randomUint8();
 	}
 	return 1;

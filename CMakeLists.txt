@@ -1,6 +1,30 @@
+####################################################################################
+#  Main CMake script for which to run the build                                    #
+#                                                                                  #
+#  Copyright(C) 2016  Alex Craig, Michael Wallace, Mario Garcia.                   #
+#                                                                                  #
+#  This program is free software : you can redistribute it and / or modify         #
+#  it under the terms of the GNU General Public License as published by            #
+#  the Free Software Foundation, either version 3 of the License, or               #
+#  (At your option) any later version.                                             #
+#                                                                                  #
+#  This program is distributed in the hope that it will be useful,                 #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of                  #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                    #
+#  GNU General Public License for more details.                                    #
+#                                                                                  #
+#  You should have received a copy of the GNU General Public License               #
+#  along with this program.If not, see <http://www.gnu.org/licenses/>.             #
+#                                                                                  #
+####################################################################################
 cmake_minimum_required( VERSION 2.8 )
 
 project( "NGCP-Comnet-v2" )
+
+# Commprotocol Versioning
+#
+set(COMMPROTO_VERSION "v1.0.7b")
+set(COMMPROTO_NAME "CommProtocol")
 
 # Must set this policy to interpret if() arguments as variables and/or kewords when unquoted.
 # Must check if the version is greater than 3.0.2 to use CMP0054 OLD policy
@@ -160,6 +184,11 @@ if (WIN32)
 endif()
 
 
+# Final Name for the Commprotocol Library
+#
+set(COMMPROTO_FINAL "${COMMPROTO_NAME}_${COMMPROTO_VERSION}")
+
+
 #link cryptopp dependencies directory
 if (CXX_COMPILER MATCHES "MSVC")
 	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp563/debug)
@@ -171,22 +200,25 @@ endif()
 link_directories(${ENCRYPTION_LIBDIR})
 link_directories(${LIBXBEE3_LIBDIR})
 
+
 if (shared)
+  set(COMMPROTO_FINAL_SHARED "${COMMPROTO_FINAL}-s")
   # Shared Library (.so for linux or .dll for Windows).
-  add_library(CommProtoShared SHARED ${NGCP_GLOB})
-  target_compile_definitions(CommProtoShared PUBLIC -fPIC)
-  target_compile_definitions(CommProtoShared PUBLIC COMMPROTO_DLL)
-  target_link_libraries(CommProtoShared cryptopp-static)
-  target_link_libraries(CommProtoShared libxbee3)
-  std_compiler_options(CommProtoShared)
+  add_library(${COMMPROTO_FINAL_SHARED} SHARED ${NGCP_GLOB})
+  target_compile_options(${COMMPROTO_FINAL_SHARED} PUBLIC -fPIC)
+  target_compile_definitions(${COMMPROTO_FINAL_SHARED}  PUBLIC COMMPROTO_DLL)
+  target_link_libraries(${COMMPROTO_FINAL_SHARED} cryptopp-static)
+  target_link_libraries(${COMMPROTO_FINAL_SHARED} libxbee3)
+  std_compiler_options(${COMMPROTO_FINAL_SHARED})
 endif()
 
 if (static)
+  set(COMMPROTO_FINAL_STATIC "${COMMPROTO_FINAL}-a")
   # Static library (.a for linux or .lib for Windows).
-  add_library(CommProtoStatic STATIC ${NGCP_GLOB})
-  target_link_libraries(CommProtoStatic cryptopp-static) 
-  target_link_libraries(CommProtoStatic libxbee3)  
-  std_compiler_options(CommProtoStatic)
+  add_library(${COMMPROTO_FINAL_STATIC} STATIC ${NGCP_GLOB})
+  target_link_libraries(${COMMPROTO_FINAL_STATIC} cryptopp-static) 
+  target_link_libraries(${COMMPROTO_FINAL_STATIC} libxbee3)  
+  std_compiler_options(${COMMPROTO_FINAL_STATIC})
 endif()
 
 if (test)

@@ -16,6 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef __PING_PACKET_H
 #define __PING_PACKET_H
 
@@ -25,59 +26,66 @@
 namespace comnet {
 namespace ping {
 /**
-  Packet to be sent and received to ping.
+  Packet to be sent and received to ping and pong.
 */
 class PingPacket : INHERITS_ABSPACKET
 {
 public:
+  /**
+    Creates a new instance of {@link PingPacket}.
+    @return A new {@link PingPacket}.
+  */
   PingPacket();
 
-		/**
-		  Overrides the AbstractPacket method to output data to stream.  Currently
-				there is no data to output (this is probably best to save bandwidth).
-		*/
-		void Pack(REF_OBJECTSTREAM objOut) override;
+  /**
+    Serializes {@link #ping} to the stream.
+    @param objOut The stream to serialize the data to.
+  */
+  void Pack(REF_OBJECTSTREAM objOut) override;
 
-		/**
-		  Overrides the AbstractPacket method to convert the stream into objects.
-				Currently there is no objects to unpack.
-		*/
-		void Unpack(REF_OBJECTSTREAM objIn) override;
+  /**
+    Parses {@link #ping} from the stream.
+    @param objIn The stream to parse data from.
+  */
+  void Unpack(REF_OBJECTSTREAM objIn) override;
 
-		/**
-		  Returns another object of the same type.
-		*/
-		AbstractPacket* Create() override
-		{
-				return new PingPacket();
-		}
+  /**
+    Creates a new instance of {@link PingPacket}.
+    @return New instance of {@link PingPacket}.
+  */
+  AbstractPacket* Create() override
+  {
+    return new PingPacket();
+  }
 
-		/**
-		  Accessor for the ping field.
-		*/
-		bool isPing()
-		{
-				return ping;
-		}
+  /**
+    Accessor for {@link #ping}.
+    @return {@code true} when is a ping, {@code false} when a pong.
+  */
+  bool isPing()
+  {
+    return ping;
+  }
 
-		/**
-		  Modifier for the ping field.
-		*/
-		void setPing(bool mode)
-		{
-				ping = mode;
-		}
+  /**
+    Modifier for the {@link #ping} field.
+    @param mode Value to set {@link #ping} to.
+  */
+  void setPing(bool mode)
+  {
+    ping = mode;
+  }
 
-		/**
-		  Default destructor.
-		*/
+  /**
+    Default destructor.
+  */
   ~PingPacket();
 
 private:
-		/**
-		  When true, another ping should be sent in reply.  When false, a ping should not be sent back.
-		*/
-		bool ping;
+  /**
+    When {@code true}, {@code this} represents a ping.  When {@code false}, {@code this} represents a pong.
+  */
+  bool ping;
 };
 } //namespace ping
 } //namespace comnet

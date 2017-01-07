@@ -22,49 +22,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace comnet {
 namespace network {
-		
+  
 
 
-	class CommXBee;
+ class CommXBee;
 
 
-	class COMM_EXPORT XBeeLink : public CommsLink {
-	public:
-		XBeeLink();
+ class COMM_EXPORT XBeeLink : public CommsLink {
+ public:
+  XBeeLink();
 
-		~XBeeLink() { free_pointer(home); };
-			
-		
-		/**
-		Initialize a connection for this node. Address is not required.
-		*/
-		bool InitConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0) override;
-		/**
-		Adds an address to the link.
-		TODO(Garcia, Wallace): Cluster communications required here!
-		*/
-		bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
-		/**
-		Remove an address from the link.
-		*/
-		bool RemoveAddress(uint8_t dest_id) override;
-		/**
-		Send a message to the specified id of which an address is associated with.
-		*/
-		bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
-		/**
-		Receive a message from a protocol id.
-		*/
-		bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
+  ~XBeeLink() { free_pointer(home); };
+   
+  
+  /**
+  Initialize a connection for this node. Address is not required.
+  */
+  bool InitConnection(const char* port = NULL, const char* = NULL, uint32_t baudrate = 0) override;
+  /**
+  Adds an address to the link.
+  TODO(Garcia, Wallace): Cluster communications required here!
+  */
+  bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
+  /**
+  Remove an address from the link.
+  */
+  bool RemoveAddress(uint8_t dest_id) override;
+  /**
+  Send a message to the specified id of which an address is associated with.
+  */
+  bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
+  /**
+  Receive a message from a protocol id.
+  */
+  bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
 
-		void DigestCommand(const char* cmd) override { ; }
-	private:
+  void DigestCommand(const char* cmd) override { ; }
+ private:
 
-		// Home address xbee.
-		CommXBee* home;
-	
-	};
-		
+  // Home address xbee.
+  CommXBee *home = nullptr;
+ 
+ };
+  
 } // namespace Network
 } // namespace Comnet
 #endif // __XBEE_HANDLER_H

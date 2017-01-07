@@ -44,7 +44,7 @@ namespace network {
   an interface. This class can Create a listening server, or a client from which to make 
   connections with.
 */
-class TcpSocket : public CommSocket {
+class COMM_EXPORT TcpSocket : public CommSocket {
 public:
   /**
     Constructor method for initializing this socket.

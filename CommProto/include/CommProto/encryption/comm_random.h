@@ -36,7 +36,7 @@ private:
 
 public:
   CommRandom(int min, int max)
-  : randomGenerator(std::mt19937(time(0))) 
+  : randomGenerator(std::mt19937(static_cast<unsigned int>(time(0)))) 
   , intDistribution(std::uniform_int_distribution<int>(min, max)) { }
 
   ~CommRandom() { }

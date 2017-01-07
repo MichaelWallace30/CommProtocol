@@ -406,7 +406,7 @@ public:
   virtual const _Ty& GetCurrent() {
     return *cursor->data;
   }
-private:
+protected:
   /**
      Root node, the Front, head, of the data structure.
    */

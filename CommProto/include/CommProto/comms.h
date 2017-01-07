@@ -76,7 +76,8 @@ private:
   encryption::CommEncryptor encrypt;
   encryption::CommDecryptor decrypt;
 
-		std::shared_ptr <PingManager> pingManager;
+  /** Used to check if remote comms are active or inactive. */
+  std::shared_ptr <PingManager> pingManager;
 
 public:		
  /** Constructor */
@@ -107,6 +108,11 @@ public:
  bool RemoveAddress(uint8_t dest_id) override;
 
  bool Send(AbstractPacket& packet, uint8_t dest_id) override;
+
+ bool ReplaceSendQueue(const Queue<ObjectStream*>* queue) override;
+
+ bool ReplaceReceiveQueue(const Queue<std::pair<uint8_t, AbstractPacket*>>* queue);
+
  AbstractPacket* Receive(uint8_t&  source_id) override;
 
  /** Method to start communication*/
@@ -118,12 +124,17 @@ public:
  // Sets up the home console.
  bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
 
+ /** Accessor for {@link #pingManager}.*/
+ std::shared_ptr <PingManager> GetPingManager() {
+   return pingManager;
+ }
+
 protected:
  // Nothing yet.
  void LogToConsoles();
 private:
 
-  void HandlePacket(error_t error, AbstractPacket* packet);
+  void HandlePacket(error_t error, uint8_t sourceID, AbstractPacket* packet);
  };//End Comms class      
 } // namespace Comnet
 #endif//End if COMMS_H

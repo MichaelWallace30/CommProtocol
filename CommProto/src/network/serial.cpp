@@ -383,7 +383,6 @@ Serial::~Serial() {  }
 
 bool Serial::OpenConnection(const char* port, const char* address, uint32_t baudrate)
 { 
-  
   //check os here
   connection_established = OpenPort(*this, port, baudrate);
   COMMS_DEBUG("Port is now: %d\n", h_serial.fd);
@@ -392,7 +391,7 @@ bool Serial::OpenConnection(const char* port, const char* address, uint32_t baud
 
 
 bool Serial::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
-{ 
+{
   unsigned int crc = Crc32(tx_data, tx_length);
   uint8_t crc_data[CRC32_SIZE];
   Crc32ToArr(tx_data, tx_length, crc_data);
@@ -440,6 +439,5 @@ bool Serial::CloseSerialPort() {
 serial_t& Serial::GetSerialPort() {
   return h_serial;
 }
-
 } // namespace Network
 } // namespace Comnet 
