@@ -42,8 +42,7 @@ typedef error_t (*callback_t)(const Header&, AbstractPacket&, CommNode&);
 enum CallbackCodes {
   CALLBACK_SUCCESS                      = 0x1,
   CALLBACK_FAIL                         = 0x2,
-  CALLBACK_STORE_PACKET                 = 0x4,
-  CALLBACK_DESTROY_PACKET               = 0x8,
+  CALLBACK_DESTROY_PACKET               = 0x4
 };
 
 

@@ -134,7 +134,7 @@ protected:
  void LogToConsoles();
 private:
 
-  void HandlePacket(error_t error, AbstractPacket* packet);
+  void HandlePacket(error_t error, uint8_t sourceID, AbstractPacket* packet);
  };//End Comms class      
 } // namespace Comnet
 #endif//End if COMMS_H

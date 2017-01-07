@@ -99,7 +99,7 @@ void Comms::CommunicationHandlerRecv() {
             */
             error = callback->CallFunction(header, *packet, (CommNode&)*this);
             // Handle error.
-            HandlePacket(error, packet);
+            HandlePacket(error, header.source_id, packet);
           } else {
             // store the packet into the Receive queue.
             CommLock recvLock(recv_mutex);
@@ -305,7 +305,7 @@ void Comms::LogToConsoles() {
 }
 
 
-void Comms::HandlePacket(error_t error, AbstractPacket* packet) {
+void Comms::HandlePacket(error_t error, uint8_t sourceID, AbstractPacket* packet) {
   if ((error & CALLBACK_SUCCESS) == CALLBACK_SUCCESS) {
     debug::Log::Message(debug::LOG_NOTIFY, "PACKET SUCCESSFULL.");
   } else if ((error & CALLBACK_FAIL) == CALLBACK_FAIL) {
@@ -315,7 +315,11 @@ void Comms::HandlePacket(error_t error, AbstractPacket* packet) {
     debug::Log::Message(debug::LOG_NOTIFY, "DESTROYING PACKET.");
     free_pointer(packet);
   }
-  if ((error & CALLBACK_STORE_PACKET) == CALLBACK_STORE_PACKET) {
-    debug::Log::Message(debug::LOG_NOTIFY, "STORING PACKET.");
+  else {
+    if (packet != nullptr) {
+      debug::Log::Message(debug::LOG_NOTIFY, "STORING PACKET.");
+      CommLock recvLock(recv_mutex);
+      recv_queue->Enqueue(std::make_pair(sourceID, packet));
+    }
   }
 }
