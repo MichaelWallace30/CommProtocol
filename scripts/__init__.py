@@ -15,25 +15,5 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-import os
-import shutil
-import editor
+import importlib
 
-repo= {"version":""}
-
-def ZipInstall():
-    socket = 1
-    str = "kit cat"
-    editor.VersionEdit(str)
-
-def main():
-    """
-    Main function.
-    :return:
-    """
-    ZipInstall()
-    return 1
-
-
-if __name__ == '__main__':
-    main()
