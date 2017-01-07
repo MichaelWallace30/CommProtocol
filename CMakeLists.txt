@@ -186,7 +186,7 @@ if (shared)
   set(COMMPROTO_FINAL_SHARED "${COMMPROTO_FINAL}-s")
   # Shared Library (.so for linux or .dll for Windows).
   add_library(${COMMPROTO_FINAL_SHARED} SHARED ${NGCP_GLOB})
-  target_compile_definitions(${COMMPROTO_FINAL_SHARED} PUBLIC -fPIC)
+  target_compile_options(${COMMPROTO_FINAL_SHARED} PUBLIC -fPIC)
   target_compile_definitions(${COMMPROTO_FINAL_SHARED}  PUBLIC COMMPROTO_DLL)
   target_link_libraries(${COMMPROTO_FINAL_SHARED} cryptopp-static)
   target_link_libraries(${COMMPROTO_FINAL_SHARED} libxbee3)
