@@ -12,12 +12,13 @@ Current Beta Features:
 - Cross-platform library (Linux/POSIX/Windows)
 - Supports Loose Coupling.
 - Allows connections via Serial, UDP, and Zigbee.
-- C# Wrapper
+- C# Wrapper.
+- Encrypted connection with AES.
 - Designed in an Object Oriented manner to make it easier to use the library.  
   
 Features currently implementing:  
 - TCP implementation  
-- AES Encryptions for protocol.  
+- custom AES Encryption implementation for protocol.  
 - JNI Wrapping for communications use.  
 - Network Automation
 - Publish/Subscribe designing
