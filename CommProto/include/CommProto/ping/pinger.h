@@ -84,7 +84,7 @@ public:
   static MillisInt GetMillisPassed(TimePoint time) {
     fsec fs = GetNow() - time;	//amount of time that has passed since lastPingTime
     ms millis = std::chrono::duration_cast<ms>(fs);		//converting time to milliseconds
-    return millis.count();
+    return static_cast<comnet::ping::MillisInt>(millis.count());
   }
 
   /**

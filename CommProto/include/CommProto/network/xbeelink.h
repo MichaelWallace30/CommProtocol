@@ -61,7 +61,7 @@ namespace network {
  private:
 
   // Home address xbee.
-  CommXBee* home;
+  CommXBee *home = nullptr;
  
  };
   

@@ -143,12 +143,20 @@ Comms::~Comms()
 
 bool Comms::LoadKey(char* key)
 {
-  return encrypt.LoadKey(key);
+  if (encrypt.LoadKey(key) > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool Comms::LoadKeyFromFile(char* keyFileName)
 {
- return encrypt.LoadKeyFromFile(keyFileName);
+  if (encrypt.LoadKeyFromFile(keyFileName) > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 
