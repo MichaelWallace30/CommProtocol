@@ -52,8 +52,8 @@ public:
 
   void SetCost(int32_t c) { cost = c; }
 
-  std::vector<std::shared_ptr<Edge>> GetOutgoing() { return outgoing.GetEdges(); }
-  std::vector<std::shared_ptr<Edge>> GetIncoming() { return incoming.GetEdges(); } 
+  std::vector<std::shared_ptr<Edge>> &GetOutgoing() { return outgoing.GetEdges(); }
+  std::vector<std::shared_ptr<Edge>> &GetIncoming() { return incoming.GetEdges(); } 
  
 private:
   EdgeContainer outgoing;

@@ -56,27 +56,27 @@ void BFS(NetworkGraph *graph, Node *root, CommsLink &target, Callback handler) {
 
   Implementation is not tested! We need to test later on... Handler is not used yet.
 */
-template<typename ClusterCompare,
-         typename NodeCompare,
-         typename Callback = std::function<void()> >
-void Dijkstra(NetworkGraph *graph, Node *source, Callback handler) {
+void Dijkstra(NetworkGraph *graph, Node *source) {
   auto nodes = graph->GetNodes();
   std::unordered_map<int32_t, Node *> visited;
-  std::priority_queue<Node *, std::vector<Node *>, NodeCompare> unvisited;
+  auto cmp = [] (Node *node1, Node *node2) { return node1->GetCost() < node2->GetCost(); };
+  std::priority_queue<Node *, std::vector<Node *>, decltype(cmp)> unvisited(cmp);
   for (int i = 0; i < nodes.size(); ++i) {
-    if (nodes.at(i) != source) {
-      nodes.at(i)->SetCost(std::numeric_limits<int32_t>::max);
+    if (nodes.at(i).get() != source) {
+      // Windows windef.h has a macro under the name 'max', workaround is to use paranthesis around
+      // numeric limits.
+      nodes.at(i)->SetCost((std::numeric_limits<int32_t>::max)());
     }
-    unvisited.push(nodes.at(i));
+    unvisited.push(nodes.at(i).get());
   }
   source->SetCost(0);
   while (!unvisited.empty()) {
     Node *current = unvisited.top();
     unvisited.pop();
     visited[current->GetId()] = current;
-    std::vector<Edge *> edges = current->GetOutgoing();
+    std::vector<std::shared_ptr<Edge> > &edges = current->GetOutgoing();
     for (uint32_t i = 0; i < edges.size(); ++i) {
-      Edge *edge = edges[i];
+      Edge *edge = edges[i].get();
       Node *t = edge->GetDest();
       if (visited.find(t->GetId()) == visited.end()) {
         if (current->GetCost() + edge->GetDist() < t->GetCost()) {

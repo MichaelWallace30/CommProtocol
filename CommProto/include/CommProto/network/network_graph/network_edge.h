@@ -83,7 +83,7 @@ public:
   Edge* GetEdge(Node* src, Node* dest);
   bool ReattachEdge(Node* src, Node* dest, Node* new_dest);
 
-  std::vector< ::std::shared_ptr<Edge>>& GetEdges() { return edges; } 
+  std::vector< ::std::shared_ptr<Edge>> &GetEdges() { return edges; } 
   
 private:
   // List of shared pointers. 
