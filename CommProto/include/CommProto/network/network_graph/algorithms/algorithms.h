@@ -13,7 +13,6 @@
 #include <functional>
 #include <queue>
 #include <set>
-#include <unordered_map>
 
 namespace comnet {
 namespace network {
@@ -58,7 +57,7 @@ void BFS(NetworkGraph *graph, Node *root, CommsLink &target, Callback handler) {
 */
 void Dijkstra(NetworkGraph *graph, Node *source) {
   auto nodes = graph->GetNodes();
-  std::unordered_map<int32_t, Node *> visited;
+  std::set<Node *> visited;
   auto cmp = [] (Node *node1, Node *node2) { return node1->GetCost() < node2->GetCost(); };
   std::priority_queue<Node *, std::vector<Node *>, decltype(cmp)> unvisited(cmp);
   for (int i = 0; i < nodes.size(); ++i) {
@@ -73,12 +72,12 @@ void Dijkstra(NetworkGraph *graph, Node *source) {
   while (!unvisited.empty()) {
     Node *current = unvisited.top();
     unvisited.pop();
-    visited[current->GetId()] = current;
+    visited.insert(current);
     std::vector<std::shared_ptr<Edge> > &edges = current->GetOutgoing();
     for (uint32_t i = 0; i < edges.size(); ++i) {
       Edge *edge = edges[i].get();
       Node *t = edge->GetDest();
-      if (visited.find(t->GetId()) == visited.end()) {
+      if (visited.find(t) == visited.end()) {
         if (current->GetCost() + edge->GetDist() < t->GetCost()) {
           t->SetCost(current->GetCost() + edge->GetDist());
         }
