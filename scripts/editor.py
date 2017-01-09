@@ -19,4 +19,4 @@ import os
 import string
 
 def VersionEdit(str):
-    str.lower()
+    print("testing python modules.")

@@ -18,6 +18,7 @@
 import os
 import time
 import sys
+import scripts.editor as editor
 
 def InstallCMake():
     """
@@ -38,6 +39,7 @@ def CheckOS(cmake_cmd):
     Check the operating system that this script is setting up on.
     :return:
     """
+    editor.VersionEdit("cat")
     platform = sys.platform
     if platform.startswith('linux'):
         print("Running on Linux")
