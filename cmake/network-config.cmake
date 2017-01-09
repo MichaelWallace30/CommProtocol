@@ -18,6 +18,7 @@ set(NETWORK_HEADERS
   #${NETWORK_HEADER_DIR}znodetable.h)
 
 set(NETWORK_GRAPH_HEADERS
+  ${NETWORK_HEADER_DIR}/network_graph/algorithms/algorithms.h
   ${NETWORK_HEADER_DIR}/network_graph/network_edge.h
   ${NETWORK_HEADER_DIR}/network_graph/network_graph.h
   ${NETWORK_HEADER_DIR}/network_graph/network_graph_builder.h

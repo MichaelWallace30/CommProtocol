@@ -66,7 +66,7 @@ private:
   /**
   Traverse the table.
   */
-  Int32 traverseIndex(Int32 i);
+  UInt32 traverseIndex(UInt32 i);
   /**
   The benevolent key hasher.
   */

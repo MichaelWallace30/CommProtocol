@@ -105,7 +105,7 @@ Boolean PacketTable::Resize(UInt32 newSize) {
 }
 
 
-Int32 PacketTable::traverseIndex(Int32 i) {
+UInt32 PacketTable::traverseIndex(UInt32 i) {
   i++;
   if (i >= tableSize) {
     i = 0;

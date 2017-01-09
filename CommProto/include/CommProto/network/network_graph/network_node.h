@@ -48,7 +48,13 @@ public:
   CommsLink* GetCluster() const { return cluster.get(); }
   bool SwapCluster(CommsLink* clust) { cluster.reset(clust); }
   int32_t GetId() const { return id; }
+  int32_t GetCost() const { return cost; }
 
+  void SetCost(int32_t c) { cost = c; }
+
+  std::vector<std::shared_ptr<Edge>> &GetOutgoing() { return outgoing.GetEdges(); }
+  std::vector<std::shared_ptr<Edge>> &GetIncoming() { return incoming.GetEdges(); } 
+ 
 private:
   EdgeContainer outgoing;
   EdgeContainer incoming;
@@ -58,6 +64,7 @@ private:
     Identification of the node.
    */
   int32_t id;
+  int32_t cost;
 
   // friendly neighborhood NetworkGraph...
   friend class NetworkGraph;

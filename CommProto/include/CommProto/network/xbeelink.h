@@ -32,7 +32,7 @@ namespace network {
  public:
   XBeeLink();
 
-  ~XBeeLink() { free_pointer(home); };
+  ~XBeeLink();
    
   
   /**
@@ -61,7 +61,7 @@ namespace network {
  private:
 
   // Home address xbee.
-  CommXBee* home;
+  CommXBee *home = nullptr;
  
  };
   

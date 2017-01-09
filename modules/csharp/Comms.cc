@@ -145,8 +145,8 @@ Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
 
 Boolean Comms::RemoveAddress(UInt16 destId) {
   if (connLayer) {
-				if (connLayer->RemoveAddress(destId)) {
-						pingManager->RemovePinger(destId);
+				if (connLayer->RemoveAddress(static_cast<uint8_t>destId)) {
+						pingManager->RemovePinger(static_cast<uint8_t>destId);
 						return true;
 				}
   }
@@ -174,7 +174,7 @@ Void Comms::Pause() {
 
 
 Void Comms::Stop() {
-  Comms::Stop();
+  CommNode::Stop();
   if (!IsRunning() && !IsPaused()) {
     sendThr->Suspend();
     recvThr->Suspend();

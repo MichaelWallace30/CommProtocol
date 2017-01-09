@@ -16,12 +16,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 import os
+import sys
 import shutil
+from urllib.request import urlopen
+from urllib.error import HTTPError
 import editor
 
-repo= {"version":""}
+# This will likely need to change
+repo = {"version":"v0.0.0", "parent_repo":"https://github.com/MichaelWallace30/CommProtocol", "filename":""}
 
-def ZipInstall():
+def DownloadZipFile():
+    """
+    Download the zip file from Github repo of CommProtocol.
+    :return: Nothing.
+    """
+    url = repo["parent_repo"] + repo["filename"] + ".zip"
+    try:
+        file = urlopen(url) # Download the zip file from the link and the filename
+    except HTTPError as e:
+        if e.code == 404:
+            print("Error: Could not find file from url: '%s'" % repo["parent_repo"])
+        print("Https request failed, error code: " + str(e.code) + ", reason: " + e.read())
+        sys.exit(-1)
+    print("Commencing download...")
+    # After downloading...
+    with open(os.path.basename(url), "wb") as local_file:
+        # local file gets downloaded into a directory
+        local_file.write(file.read())
+    print("Finished downloading!")
+    ZipInstall(local_file)
+
+def ZipInstall(file):
+    """
+    :param file: File of which to extract the zip file with.
+    :return:
+    """
+    print("Unpacking zip...")
     socket = 1
     str = "kit cat"
     editor.VersionEdit(str)
@@ -31,9 +61,7 @@ def main():
     Main function.
     :return:
     """
-    ZipInstall()
-    return 1
-
+    DownloadZipFile()
 
 if __name__ == '__main__':
     main()

@@ -128,7 +128,7 @@ namespace comnet {
       /**
         Traverses the index through the table, increments by 1 and resets index to 0 when end is reached.
        */
-      int32_t TraverseIndex(int32_t i);
+      uint32_t TraverseIndex(uint32_t i);
       /**
         Returns a hash of the key parameter.
        */

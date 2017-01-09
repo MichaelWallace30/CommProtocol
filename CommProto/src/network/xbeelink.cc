@@ -35,6 +35,12 @@ XBeeLink::XBeeLink()
 }
 
 
+XBeeLink::~XBeeLink() 
+{
+  free_pointer(home);
+}
+
+
 bool XBeeLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
   bool success = home->Initialize(port, baudrate);
   if (!success) {

@@ -39,6 +39,9 @@ public:
   NetworkGraph();
   ~NetworkGraph();
 
+
+  int32_t GetSize() { return nodes.size(); }
+  std::vector<std::shared_ptr<Node> >& GetNodes() { return nodes; }
   
 private:
   /**

@@ -99,7 +99,7 @@ public:
      All packages received will go into a queue anyway.
    */
   virtual bool LinkQueue(const AbstractPacket* packet, const Queue<std::pair<Header*, AbstractPacket*>>* queue) 
-    { return ~0; }
+    { return static_cast<bool>(~0); }
 
   /**
     Replace the Send queue of this node.

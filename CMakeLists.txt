@@ -1,3 +1,22 @@
+####################################################################################
+#  Main CMake script for which to run the build                                    #
+#                                                                                  #
+#  Copyright(C) 2016  Alex Craig, Michael Wallace, Mario Garcia.                   #
+#                                                                                  #
+#  This program is free software : you can redistribute it and / or modify         #
+#  it under the terms of the GNU General Public License as published by            #
+#  the Free Software Foundation, either version 3 of the License, or               #
+#  (At your option) any later version.                                             #
+#                                                                                  #
+#  This program is distributed in the hope that it will be useful,                 #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of                  #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                    #
+#  GNU General Public License for more details.                                    #
+#                                                                                  #
+#  You should have received a copy of the GNU General Public License               #
+#  along with this program.If not, see <http://www.gnu.org/licenses/>.             #
+#                                                                                  #
+####################################################################################
 cmake_minimum_required( VERSION 2.8 )
 
 project( "NGCP-Comnet-v2" )
@@ -129,7 +148,7 @@ endif()
 include(cmake/macros.cmake)
 
 # Add the cmake module path, for module build paths for this cmake file.
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM CommProto/include/)
@@ -145,18 +164,18 @@ set (NGCP_GLOB)
 # check for problems and situations arising from our code base. We will most likely
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
 # or linux and OS X.
-include(cmake/archfiles.cmake)
-include(cmake/tools-config.cmake)
-include(cmake/console.cmake)
-include(cmake/CommProto-config.cmake)
-include(cmake/hash-config.cmake)
-include(cmake/network-config.cmake)
-include(cmake/serialization-config.cmake)
-include(cmake/ping.cmake)
-include(cmake/pkg.cmake)
-include(cmake/comnet_debug.cmake)
-# include(cmake/xbee_ansic.cmake) # We are no longer using this library.
-include(cmake/encryption.cmake)
+include(archfiles)
+include(tools-config)
+include(console)
+include(CommProto-config)
+include(hash-config)
+include(network-config)
+include(serialization-config)
+include(ping)
+include(pkg)
+include(comnet_debug)
+# include(xbee_ansic) # We are no longer using this library.
+include(encryption)
 
 # contains the header/src filters for visual studio.
 #
@@ -186,7 +205,7 @@ if (shared)
   set(COMMPROTO_FINAL_SHARED "${COMMPROTO_FINAL}-s")
   # Shared Library (.so for linux or .dll for Windows).
   add_library(${COMMPROTO_FINAL_SHARED} SHARED ${NGCP_GLOB})
-  target_compile_definitions(${COMMPROTO_FINAL_SHARED} PUBLIC -fPIC)
+  target_compile_options(${COMMPROTO_FINAL_SHARED} PUBLIC -fPIC)
   target_compile_definitions(${COMMPROTO_FINAL_SHARED}  PUBLIC COMMPROTO_DLL)
   target_link_libraries(${COMMPROTO_FINAL_SHARED} cryptopp-static)
   target_link_libraries(${COMMPROTO_FINAL_SHARED} libxbee3)

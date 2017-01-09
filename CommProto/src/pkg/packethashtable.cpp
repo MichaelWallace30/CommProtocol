@@ -43,7 +43,7 @@ namespace comnet {
       : table(new Pair*[setSize])
       , numOfPairs(0)
       , tableSize(setSize)
-      , tableCapacity(tableSize * LOAD_FACTOR)
+      , tableCapacity(static_cast<uint32_t>(tableSize * LOAD_FACTOR))
     {
 
       nullifyAttributesInTable(table, tableSize);
@@ -55,7 +55,7 @@ namespace comnet {
       : table(new Pair*[DEFAULT_TABLE_SIZE])
       , numOfPairs(0)
       , tableSize(DEFAULT_TABLE_SIZE)
-      , tableCapacity(tableSize * LOAD_FACTOR)
+      , tableCapacity(static_cast<uint32_t>(tableSize * LOAD_FACTOR))
     {
 
       nullifyAttributesInTable(table, tableSize);
@@ -202,7 +202,7 @@ namespace comnet {
       tableSize = newSize;
       table = new Pair*[tableSize];	//Allocate new table
       nullifyAttributesInTable(table, tableSize);
-      for (int i = 0; i < oldTableSize; i++) {
+      for (uint32_t i = 0; i < oldTableSize; i++) {
         if (containsObject(oldTable[i])) {
           uint32_t tableIndex = FindTableIndex(oldTable[i]->packet->GetId());
           table[tableIndex] = oldTable[i];		//Transfer old array element to the new array
@@ -230,7 +230,7 @@ namespace comnet {
     }
 
 
-    int32_t PacketHashTable::TraverseIndex(int32_t i) {
+    uint32_t PacketHashTable::TraverseIndex(uint32_t i) {
       i++;
       if (i >= tableSize) {
         i = 0;
@@ -244,7 +244,7 @@ namespace comnet {
     }
     bool PacketHashTable::Contains(Callback * call)
     {
-      for (int i = 0; i < tableSize; i++)
+      for (uint32_t i = 0; i < tableSize; i++)
       {
         if (containsObject(table[i]) && table[i]->callback == call) {
           return true;
