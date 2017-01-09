@@ -232,10 +232,10 @@ public:
   {
     activePingersMutex.Lock();
     activePingers.emplace_back(destID);
-    activePingersMutex.Unlock();
     destPingerMapMutex.Lock();
     destPingerMap.emplace(std::make_pair(destID, --activePingers.end()));
     destPingerMapMutex.Unlock();
+				activePingersMutex.Unlock();
   }
 
   /**

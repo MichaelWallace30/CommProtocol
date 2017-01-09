@@ -221,7 +221,9 @@ bool Comms::RemoveAddress(uint8_t dest_id)
  if (conn_layer->RemoveAddress(dest_id))
  {
    pingManager->RemovePinger(dest_id);
+			return true;
  }
+	return false;
 }
 
 

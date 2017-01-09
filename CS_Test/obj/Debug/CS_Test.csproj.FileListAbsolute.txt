@@ -1,0 +1,8 @@
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CS_Test\bin\Debug\CS_Test.exe.config
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CS_Test\bin\Debug\CS_Test.exe
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CS_Test\bin\Debug\CS_Test.pdb
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CS_Test\bin\Debug\CommProtoCSharp.dll
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CS_Test\bin\Debug\CommProtoCSharp.pdb
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CS_Test\obj\Debug\CS_Test.csprojResolveAssemblyReference.cache
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CS_Test\obj\Debug\CS_Test.exe
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CS_Test\obj\Debug\CS_Test.pdb

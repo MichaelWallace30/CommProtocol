@@ -62,7 +62,7 @@ public:
     Accessor for {@link #ping}.
     @return {@code true} when is a ping, {@code false} when a pong.
   */
-  bool isPing()
+  bool IsPing()
   {
     return ping;
   }
@@ -71,7 +71,7 @@ public:
     Modifier for the {@link #ping} field.
     @param mode Value to set {@link #ping} to.
   */
-  void setPing(bool mode)
+  void SetPing(bool mode)
   {
     ping = mode;
   }

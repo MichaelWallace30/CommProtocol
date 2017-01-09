@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CommNode.h>
 #include <network/CommsLink.h>
+#include <ping/PingManager.h>
 #include <CommProto/encryption/decryptor.h>
 #include <CommProto/encryption/encryptor.h>
 #include <vcclr.h>
@@ -56,7 +57,7 @@ public:
     }
     return false; 
   }
-  
+
   Boolean InitConnection(TransportProtocol connType, 
             String^ port, String^ addr, UInt32 baudrate) override;
 
@@ -69,6 +70,10 @@ public:
   Void Pause() override;
   Void Stop() override;
 
+		Ping::PingManager^ GetPingManager() {
+				return pingManager;
+		}
+
 private:
   comnet::encryption::CommDecryptor* decryptor;
   comnet::encryption::CommEncryptor* encryptor;
@@ -79,6 +84,8 @@ private:
 
   System::Threading::Mutex^ sendMut;
   System::Threading::Mutex^ recvMut;
+
+		Ping::PingManager^ pingManager;
 
   Void commHelperSend();
   Void commHelperRecv();

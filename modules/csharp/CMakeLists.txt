@@ -25,6 +25,9 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/pkg/PacketManager.h
   ${CSHARP_DIR}/pkg/PacketTable.h
   ${CSHARP_DIR}/pkg/PacketFactory.h
+  ${CSHARP_DIR}/ping/PingManager.h
+  ${CSHARP_DIR}/ping/Pinger.h
+  ${CSHARP_DIR}/ping/PingPacket.h
   ${CSHARP_DIR}/CommNode.h
   ${CSHARP_DIR}/Comms.h
   ${CSHARP_DIR}/Header.h
@@ -39,6 +42,9 @@ set(COMMPROTO_WRAPPER_SOURCE_DIR
   ${CSHARP_DIR}/tools/data_structures/AutoQueue.cc
   ${CSHARP_DIR}/pkg/PacketTable.cc
   ${CSHARP_DIR}/pkg/PacketManager.cc
+  ${CSHARP_DIR}/ping/PingManager.cc
+  ${CSHARP_DIR}/ping/Pinger.cc
+  ${CSHARP_DIR}/ping/PingPacket.cc
   ${CSHARP_DIR}/CommNode.cc
   ${CSHARP_DIR}/Comms.cc
   ${CSHARP_DIR}/Header.cpp

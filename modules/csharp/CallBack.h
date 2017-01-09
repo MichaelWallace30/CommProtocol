@@ -40,7 +40,6 @@ public delegate Int32 CommFunct(Header^, ABSPacket^, CommNode^);
 public enum class CallBackCodes : Int32 {
   CALLBACK_SUCCESS         = CallbackCodes::CALLBACK_SUCCESS,
   CALLBACK_FAIL            = CallbackCodes::CALLBACK_FAIL,
-  CALLBACK_STORE_PACKET    = CallbackCodes::CALLBACK_STORE_PACKET,
   CALLBACK_DESTROY_PACKET  = CallbackCodes::CALLBACK_DESTROY_PACKET,
 };
 
