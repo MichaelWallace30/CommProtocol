@@ -16,26 +16,72 @@
 """
 # Still figuring out the tools to work with.
 import os
+import time
+import sys
+
+def InstallCMake():
+    """
+    Install CMake on this machine.
+    :return:
+    """
+    return
+
+def CheckCMake():
+    """
+    Check if Cmake is on this machine.
+    :return:
+    """
+    return
+
+def CheckOS(cmake_cmd):
+    """
+    Check the operating system that this script is setting up on.
+    :return:
+    """
+    platform = sys.platform
+    if platform.startswith('linux'):
+        print("Running on Linux")
+        # nothing to do...
+    elif platform.startswith('win32'):
+        print("Running on Windows")
+        usr = input("*\n*\n*\nDo you wish to build the C# module as well? (Y/n): ")
+        if usr.lower() == "y" or usr.lower() == "yes":
+            print("Building with the C# module...")
+            cmake_cmd = cmake_cmd + " -Dcsharp=ON"
+        else:
+            print("Skipping C# build")
+            cmake_cmd = cmake_cmd + " -Dcsharp=OFF"
+    return cmake_cmd
 
 def main():
     """
     Sets up the build folder for the user.
     :return:
     """
+    build_dir = "build"
+    cmake_cmd = "cmake"
     print("Setting up Git Repository.")
     os.chdir("../")
-    if os.path.isdir("build"):
+    if os.path.isdir(build_dir):
         print("build folder already exists!")
-        usr = input("Does the user wish to overwrite this build folder?")
-        if usr.lower() == "y" or usr.lower() == "yes":
-            print("Overwriting old build folder.")
-        else:
-            print("Routing to another build folder...")
+        print("Overwriting old build folder.")
     else:
         print("Creating build folder...")
-        os.mkdir("build")
-        print("build folder created!")
-
+        os.mkdir(build_dir)
+    usr = input("*\n*\n*\nDo you wish to add in tests? (Y/n): ")
+    if usr.lower() == "y" or usr.lower() == "yes":
+        print("Adding test cases...")
+        cmake_cmd = cmake_cmd + " -Dtest=ON"
+    else:
+        cmake_cmd = cmake_cmd + " -Dtest=OFF"
+    cmake_cmd = CheckOS(cmake_cmd)
+    start = time.monotonic()
+    os.chdir(build_dir)
+    print("Executing cmake...")
+    os.system(cmake_cmd + " -Dversion_release=ON -Dshared=ON"  + " ../")
+    print("CMake finished.")
+    end = time.monotonic()
+    print("Build successfully finished. Took " + str((end - start)) + " sec")
     return 0
 
 
