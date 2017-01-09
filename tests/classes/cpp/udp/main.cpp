@@ -1,9 +1,23 @@
-#include <CommProto/architecture/os/comm_mutex.h>
-#include <CommProto/comms.h>
-#include <CommProto/callback.h>
-#include <CommProto/architecture/os/comm_thread.h>
-#include <iostream>
-#include <CommProto/debug/log.h>
+/*
+  Sample test with using the CommProtocol library.  
+
+  Copyright (C) 2016  Michael Wallace, Kartik Soni, Mario Garcia, Alex Craig.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (At your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#include <CommProto/commproto.h>
+
 /*
 #Note
 CommProtocol Library requires libxbee3 to execute copy the file to your bin folder (ie .exe)
