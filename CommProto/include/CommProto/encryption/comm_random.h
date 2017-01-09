@@ -36,12 +36,17 @@ private:
 
 public:
   CommRandom(int min, int max)
-  : randomGenerator(std::mt19937(static_cast<unsigned int>(time(0)))) 
-  , intDistribution(std::uniform_int_distribution<int>(min, max)) { }
+  : randomGenerator(std::mt19937(static_cast<uint32_t>(time(0)))) 
+  , intDistribution(std::uniform_int_distribution<int>(min, max)) 
+  { 
+    std::seed_seq sseq{0x11, 0x55, 0x44, 0x66, 0x0000ffff, 0x10};
+    randomGenerator.seed(sseq);
+  }
 
   ~CommRandom() { }
 
-  int randomUint8() { return intDistribution(randomGenerator); }
+  uint8_t RandomUint8() { return static_cast<uint8_t>(intDistribution(randomGenerator)); }
+  int32_t RandomInt32() { return intDistribution(randomGenerator); }
 };
 } // end namespace coment
 #endif//end COMM_RANDOM_H

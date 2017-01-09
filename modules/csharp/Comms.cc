@@ -131,7 +131,8 @@ Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
 
 Boolean Comms::RemoveAddress(UInt16 destId) {
   if (connLayer) {
-    return connLayer->RemoveAddress(destId);
+    // TODO(Wallace): Why do we have an unknown node id type?
+    return connLayer->RemoveAddress(static_cast<uint8_t>(destId));
   }
   return false;
 }
@@ -156,7 +157,7 @@ Void Comms::Pause() {
 
 
 Void Comms::Stop() {
-  Comms::Stop();
+  CommNode::Stop();
   if (!IsRunning() && !IsPaused()) {
     sendThr->Suspend();
     recvThr->Suspend();

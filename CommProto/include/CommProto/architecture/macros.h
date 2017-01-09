@@ -96,7 +96,7 @@ _COMNET_PUBLIC_API_
 // Check if number
 #define is_number(string, result) { \
           result = true; \
-          for (int i = 0; i < string.length(); ++i) { \
+          for (uint32_t i = 0; i < string.length(); ++i) { \
             if (!isdigit(string[i])) { \
               result = false; \
               break; \
@@ -107,13 +107,13 @@ _COMNET_PUBLIC_API_
 _COMNET_PUBLIC_API_
 // Nullify the indices in the table.
 #define nullifyAttributesInTable(theTable, size) { \
-          for (int i = 0; i < size; ++i) { \
+          for (uint32_t i = 0; i < size; ++i) { \
 	    theTable[i] = NULL; \
 	  } \
         }
 
 #define cleanupListPointerAttributes(listPointer) { \
-          for (int32_t i = 0; i < listPointer->GetSize(); ++i) { \
+          for (uint32_t i = 0; i < listPointer->GetSize(); ++i) { \
             delete listPointer->At(i); \
           } \
         }

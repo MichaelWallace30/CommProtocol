@@ -25,6 +25,9 @@
 
 #include <CommProto/architecture/macros.h>
 
+#include <string>
+#include <exception>
+
 namespace comnet {
 namespace tools {
 namespace datastructures {
@@ -348,6 +351,9 @@ public:
   }
 
   virtual reference_type At(const int32_t index) {
+    if (index >= this->GetSize() || index < 0) {
+      throw std::range_error("segmentation fault: access index: " + std::to_string(index));
+    }
     if (root->index == index) {
       return *root->data;
     } else if (tail->index == index) {
