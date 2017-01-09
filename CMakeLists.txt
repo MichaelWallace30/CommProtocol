@@ -148,7 +148,7 @@ endif()
 include(cmake/macros.cmake)
 
 # Add the cmake module path, for module build paths for this cmake file.
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_PATH}/cmake/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM CommProto/include/)
@@ -164,18 +164,18 @@ set (NGCP_GLOB)
 # check for problems and situations arising from our code base. We will most likely
 # debug using an IDE such as Visual Studio for Windows, and possibly NewBeans or Eclipse 
 # or linux and OS X.
-include(cmake/archfiles.cmake)
-include(cmake/tools-config.cmake)
-include(cmake/console.cmake)
-include(cmake/CommProto-config.cmake)
-include(cmake/hash-config.cmake)
-include(cmake/network-config.cmake)
-include(cmake/serialization-config.cmake)
-include(cmake/ping.cmake)
-include(cmake/pkg.cmake)
-include(cmake/comnet_debug.cmake)
-# include(cmake/xbee_ansic.cmake) # We are no longer using this library.
-include(cmake/encryption.cmake)
+include(archfiles)
+include(tools-config)
+include(console)
+include(CommProto-config)
+include(hash-config)
+include(network-config)
+include(serialization-config)
+include(ping)
+include(pkg)
+include(comnet_debug)
+# include(xbee_ansic) # We are no longer using this library.
+include(encryption)
 
 # contains the header/src filters for visual studio.
 #

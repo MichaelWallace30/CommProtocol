@@ -61,7 +61,8 @@ def main():
     build_dir = "build"
     cmake_cmd = "cmake"
     print("Setting up Git Repository.")
-    os.chdir("../")
+    path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(path)
     if os.path.isdir(build_dir):
         print("build folder already exists!")
         print("Overwriting old build folder.")
