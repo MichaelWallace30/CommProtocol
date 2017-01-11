@@ -27,8 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <tools/data_structures/interface/Queue.h>
 #include <network/TransportProtocol.h>
 #include <pkg/PacketManager.h>
+#include <vcclr.h>
+#using <mscorlib.dll>
 
-#pragma once
 #pragma managed
 
 namespace Comnet {

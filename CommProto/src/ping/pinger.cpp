@@ -27,6 +27,7 @@ Pinger::Pinger(uint8_t destID)
   :destID(destID), pingAttempts(0)
 {
   ResetReceiveTime();
+		ResetSendTime();
 }
 
 void Pinger::ResetToResendPingTime()

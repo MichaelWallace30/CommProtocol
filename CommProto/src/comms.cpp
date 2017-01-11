@@ -143,20 +143,17 @@ Comms::~Comms()
 
 bool Comms::LoadKey(char* key)
 {
-  if (encrypt.LoadKey(key) > 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return encrypt.LoadKey(key);
 }
 
 bool Comms::LoadKeyFromFile(char* keyFileName)
 {
-  if (encrypt.LoadKeyFromFile(keyFileName) > 0) {
-    return true;
-  } else {
-    return false;
-  }
+		if (encrypt.LoadKeyFromFile(keyFileName) > 0) {
+				return true;
+		}
+		else {
+				return false;
+		}
 }
 
 
@@ -225,13 +222,14 @@ bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
 
 bool Comms::RemoveAddress(uint8_t dest_id)
 {
- if (conn_layer == NULL) return false;
- if (conn_layer->RemoveAddress(dest_id))
- {
-   pingManager->RemovePinger(dest_id);
- }
+		if (conn_layer == NULL) return false;
+		if (conn_layer->RemoveAddress(dest_id))
+		{
+				pingManager->RemovePinger(dest_id);
+				return true;
+		}
+		return false;
 }
-
 
 bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   if (conn_layer == NULL) { 

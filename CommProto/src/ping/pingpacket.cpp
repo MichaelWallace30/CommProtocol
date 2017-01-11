@@ -17,7 +17,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma unmanaged
 #include <CommProto/ping/pingpacket.h>
+#pragma managed
 #include <CommProto/serialization/objectstream.h>
 #include <iostream>
 
@@ -25,7 +27,7 @@ namespace comnet {
 namespace ping {
 
 PingPacket::PingPacket()
-  :CHAIN_ABSPACKET(PingPacket)
+  :CHAIN_ABSPACKET(PingPacket), ping(false)
 {
 }
 

@@ -24,12 +24,12 @@ namespace comnet {
 namespace ping {
 error_t PingCallback(const comnet::Header & header, PingPacket & packet, comnet::Comms & node)
 {
-  if (packet.isPing())
+  if (packet.IsPing())
   {
     if (node.GetPingManager()->CanPong(header.source_id))
     {
       PingPacket pingPacket;
-      pingPacket.setPing(false);
+      pingPacket.SetPing(false);
       node.Send(pingPacket, header.source_id);
     }
   }
@@ -50,7 +50,7 @@ void PingManager::LinkPingCallback()
 void PingManager::SendPingPacket(uint8_t destID)
 {
   PingPacket sendPacket;
-  sendPacket.setPing(true);
+  sendPacket.SetPing(true);
   ownerComms->Send(sendPacket, destID);
 }
 
