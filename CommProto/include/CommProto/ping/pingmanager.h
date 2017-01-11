@@ -56,14 +56,13 @@ error_t PingCallback(const comnet::Header& header, PingPacket& packet, comnet::C
 */
 class PingManager : public std::enable_shared_from_this <PingManager>
 {
-private:
+public:
   /**
-    The amount of milliseconds the {@link #pingSendThread} should sleep for when there are no 
-    elements in {@link #activePingers}.
+  The amount of milliseconds the {@link #pingSendThread} should sleep for when there are no
+  elements in {@link #activePingers}.
   */
   static const MillisInt EMPTY_SLEEP_TIME_MILLIS = Pinger::PING_TIME_MILLIS;
 
-public:
   /**
     Creates a new instance of {@link PingManager} setting the commsOwner field
     to the argument and links the PingCallaback.
@@ -235,7 +234,7 @@ public:
     destPingerMapMutex.Lock();
     destPingerMap.emplace(std::make_pair(destID, --activePingers.end()));
     destPingerMapMutex.Unlock();
-				activePingersMutex.Unlock();
+    activePingersMutex.Unlock();
   }
 
   /**

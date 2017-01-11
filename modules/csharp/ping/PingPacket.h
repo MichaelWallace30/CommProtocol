@@ -7,37 +7,37 @@
 #include <ABSPacket.h>
 
 namespace Comnet {
-		namespace Ping {
+  namespace Ping {
 #pragma managed
-				using namespace System;
-				public ref class PingPacket : public ABSPacket
-				{
-				public:
-						PingPacket();
+    using namespace System;
+    public ref class PingPacket : public ABSPacket
+    {
+    public:
+      PingPacket();
 
-						Void Pack(ObjectStream^ objOut) override;
+      Void Pack(ObjectStream^ objOut) override;
 
-						Void Unpack(ObjectStream^ objIn) override;
+      Void Unpack(ObjectStream^ objIn) override;
 
-						ABSPacket^ Create() override
-						{
-								return gcnew PingPacket();
-						}
+      ABSPacket^ Create() override
+      {
+        return gcnew PingPacket();
+      }
 
-						Boolean IsPing()
-						{
-								return ping;
-						}
+      Boolean IsPing()
+      {
+        return ping;
+      }
 
-						Void SetPing(bool mode)
-						{
-								ping = mode;
-						}
+      Void SetPing(bool mode)
+      {
+        ping = mode;
+      }
 
-				private:
-						bool ping;
-				};
-		}
+    private:
+      bool ping;
+    };
+  }
 }
 
 #endif

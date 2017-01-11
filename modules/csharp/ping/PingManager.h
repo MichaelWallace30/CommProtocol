@@ -31,73 +31,73 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ping/Pinger.h>
 
 namespace Comnet {
-		ref class Comms;
-		namespace Ping {
-				ref class PingPacket;
-				using namespace System::Collections::Generic;
+  ref class Comms;
+  namespace Ping {
+    ref class PingPacket;
+    using namespace System::Collections::Generic;
 #pragma managed
 
-				Int32 PingCallback(Header^ header, ABSPacket^ absPacket, CommNode^ node);
+    Int32 PingCallback(Header^ header, ABSPacket^ absPacket, CommNode^ node);
 
-				public ref class PingManager {
-				public:
-						typedef gcroot<Pinger^> Pinger_Ptr;
-						static const MillisInt EMPTY_SLEEP_TIME_MILLIS = Pinger::PING_TIME_MILLIS;
+    public ref class PingManager {
+    public:
+      typedef gcroot<Pinger^> Pinger_Ptr;
+      static const MillisInt EMPTY_SLEEP_TIME_MILLIS = Pinger::PING_TIME_MILLIS;
 
-						PingManager(Comms^ owner);
+      PingManager(Comms^ owner);
 
-						Void LinkPingCallback();
+      Void LinkPingCallback();
 
-						Boolean Run();
+      Boolean Run();
 
-						Boolean IsActive(uint8_t destID);
+      Boolean IsActive(uint8_t destID);
 
-						Void ResetPingTime(uint8_t destID);
+      Void ResetPingTime(uint8_t destID);
 
-						Void ResetSendTime(uint8_t destID);
+      Void ResetSendTime(uint8_t destID);
 
-						Void HandlePingUpdate();
+      Void HandlePingUpdate();
 
-						Void AddPinger(uint8_t destID);
+      Void AddPinger(uint8_t destID);
 
-						Void RemovePinger(uint8_t destID);
+      Void RemovePinger(uint8_t destID);
 
-						Boolean CanPong(uint8_t destID);
+      Boolean CanPong(uint8_t destID);
 
-						Void SendPingPacket(uint8_t destID);
+      Void SendPingPacket(uint8_t destID);
 
-						~PingManager();
+      ~PingManager();
 
-						!PingManager();
+      !PingManager();
 
-				private:
-						Void TransferToActivePingers(std::list<Pinger_Ptr>::iterator it);
+    private:
+      Void TransferToActivePingers(std::list<Pinger_Ptr>::iterator it);
 
-						Void TransferToInactivePingers(std::list<Pinger_Ptr>::iterator it);
+      Void TransferToInactivePingers(std::list<Pinger_Ptr>::iterator it);
 
-					 std::list<Pinger_Ptr>* activePingers;
+      std::list<Pinger_Ptr>* activePingers;
 
-						std::list<Pinger_Ptr>* inactivePingers;
+      std::list<Pinger_Ptr>* inactivePingers;
 
-						std::unordered_map<uint8_t, std::list<Pinger_Ptr>::iterator>* destPingerMap;
+      std::unordered_map<uint8_t, std::list<Pinger_Ptr>::iterator>* destPingerMap;
 
-						Threading::Mutex^ inactivePingersMutex;
+      Threading::Mutex^ inactivePingersMutex;
 
-						Threading::Mutex^ activePingersMutex;
+      Threading::Mutex^ activePingersMutex;
 
-						Threading::Mutex^ destPingerMapMutex;
+      Threading::Mutex^ destPingerMapMutex;
 
-						Threading::Thread^ pingSendThread;
+      Threading::Thread^ pingSendThread;
 
-					 Comms^ owner;  //May prevent deletion of Comms
+      Comms^ owner;  //May prevent deletion of Comms
 
-						bool running;
+      bool running;
 
-						Threading::Mutex^ runningMutex;
+      Threading::Mutex^ runningMutex;
 
-						PingPacket^ pingPacket;
-				};
-		}
+      PingPacket^ pingPacket;
+    };
+  }
 }
 
 #endif

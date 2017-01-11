@@ -30,9 +30,9 @@ Void Comms::commHelperRecv() {
       }
       if (temp->GetSize() > 0) {
         Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().DeserializeHeader());
-								pingManager->ResetPingTime(header->GetSourceID());
-								
-								packet = this->packetManager->ProduceFromId(header->GetMessageID());
+        pingManager->ResetPingTime(header->GetSourceID());
+        
+        packet = this->packetManager->ProduceFromId(header->GetMessageID());
         if (packet) {
           packet->Unpack(temp);
           CallBack^ callback = nullptr;
@@ -63,7 +63,7 @@ Void Comms::commHelperSend() {
       connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
                       temp->unmangedObjectStream->Get().GetBuffer(),
                       temp->unmangedObjectStream->Get().GetSize());
-						pingManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
+      pingManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
     }
     System::Threading::Thread::Sleep(15);
   }
@@ -81,9 +81,9 @@ Comms::Comms(UInt32 id)
   this->recvMut = gcnew Threading::Mutex();
   recvThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &Comms::commHelperRecv));
   sendThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &Comms::commHelperSend));
-		connLayer = nullptr;
+  connLayer = nullptr;
   this->packetManager = gcnew PacketManager();
-		pingManager = gcnew Ping::PingManager(this);
+  pingManager = gcnew Ping::PingManager(this);
 }
 
 
@@ -97,7 +97,7 @@ Comms::~Comms()
 
 Boolean Comms::InitConnection(TransportProtocol connType, String^ port, String^ addr, UInt32 baudrate) {
   UInt16 length = 0;
-		bool connectionInitialized = false;
+  bool connectionInitialized = false;
   switch (connType) {
     case TransportProtocol::UDP_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
@@ -109,46 +109,46 @@ Boolean Comms::InitConnection(TransportProtocol connType, String^ port, String^ 
     case TransportProtocol::SERIAL_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
         connLayer = gcnew Network::SerialLink();
-								connectionInitialized = connLayer->InitConnection(port, nullptr, baudrate);
+        connectionInitialized = connLayer->InitConnection(port, nullptr, baudrate);
       }
       break;
     }
     case TransportProtocol::ZIGBEE_LINK: {
       if (addr->Length < ADDRESS_LENGTH) {
         connLayer = gcnew Network::XBeeLink();
-								connectionInitialized = connLayer->InitConnection(port, nullptr, baudrate);
+        connectionInitialized = connLayer->InitConnection(port, nullptr, baudrate);
       }
       break;
     }
     default:
       return false;
   }
-		if (connectionInitialized)
-		{
-				pingManager->LinkPingCallback();
-				return true;
-		}
+  if (connectionInitialized)
+  {
+    pingManager->LinkPingCallback();
+    return true;
+  }
   return false;
 }
 
 
 Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
   if (connLayer == nullptr) return false;
-		if (connLayer->AddAddress(destId, addr, port))
-		{
-				pingManager->AddPinger(destId);
-				return true;
-		}
-		return false;
+  if (connLayer->AddAddress(destId, addr, port))
+  {
+    pingManager->AddPinger(destId);
+    return true;
+  }
+  return false;
 }
 
 
 Boolean Comms::RemoveAddress(UInt16 destId) {
   if (connLayer) {
-				if (connLayer->RemoveAddress(static_cast<uint8_t>(destId))) {
-						pingManager->RemovePinger(static_cast<uint8_t>(destId));
-						return true;
-				}
+    if (connLayer->RemoveAddress(static_cast<uint8_t>(destId))) {
+      pingManager->RemovePinger(static_cast<uint8_t>(destId));
+      return true;
+    }
   }
   return false;
 }
@@ -159,7 +159,7 @@ Void Comms::Run() {
   if (IsRunning()) {
     recvThr->Start();
     sendThr->Start();
-				pingManager->Run();
+    pingManager->Run();
   }
 }
 

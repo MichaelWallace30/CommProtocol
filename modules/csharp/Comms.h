@@ -45,7 +45,7 @@ public:
     if (result == 1) {
       return true;
     }
-	  return false;
+   return false;
   }
 
 
@@ -70,9 +70,9 @@ public:
   Void Pause() override;
   Void Stop() override;
 
-		Ping::PingManager^ GetPingManager() {
-				return pingManager;
-		}
+  Ping::PingManager^ GetPingManager() {
+    return pingManager;
+  }
 
 private:
   comnet::encryption::CommDecryptor* decryptor;
@@ -85,7 +85,7 @@ private:
   System::Threading::Mutex^ sendMut;
   System::Threading::Mutex^ recvMut;
 
-		Ping::PingManager^ pingManager;
+  Ping::PingManager^ pingManager;
 
   Void commHelperSend();
   Void commHelperRecv();
