@@ -75,9 +75,9 @@ namespace Comnet {
 
 						Void TransferToInactivePingers(std::list<Pinger_Ptr>::iterator it);
 
-					 std::list<gcroot<Pinger^>>* activePingers;
+					 std::list<Pinger_Ptr>* activePingers;
 
-						std::list<gcroot<Pinger^>>* inactivePingers;
+						std::list<Pinger_Ptr>* inactivePingers;
 
 						std::unordered_map<uint8_t, std::list<Pinger_Ptr>::iterator>* destPingerMap;
 

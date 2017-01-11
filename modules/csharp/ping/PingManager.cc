@@ -7,27 +7,63 @@ namespace Comnet {
 			 Int32 PingCallback(Header^ header, ABSPacket^ absPacket, CommNode^ node) {
 						PingPacket^ packet = static_cast<PingPacket^>(absPacket);
 						Comms^ comms = static_cast<Comms^>(node);
+						
 						if (packet->IsPing())
 						{
+								/*
+								std::string str = "PING RECEIVED BY ";
+								str += std::to_string((int)comms->GetNodeId());
+								str += " SENT FROM ";
+								str += std::to_string((int)header->GetSourceID());
+								str += "\n";
+								COMMS_DEBUG(str.c_str());
+								*/
 								if (comms->GetPingManager()->CanPong(header->GetSourceID()))
 								{
+										/*
+										str = "PONG SENT TO ";
+										str += std::to_string((int)header->GetSourceID());
+										str += " FROM ";
+										str += std::to_string((int)comms->GetNodeId());
+										str += "\n";
+										COMMS_DEBUG(str.c_str());
+										*/
 										PingPacket^ pingPacket = gcnew PingPacket();
 										pingPacket->SetPing(false);
 										comms->Send(pingPacket, header->GetSourceID());
 								}
 						}
+						else
+						{
+								/*
+								std::string str = "PONG RECEIVED BY ";
+								str += std::to_string((int)comms->GetNodeId());
+								str += " SENT FROM ";
+								str += std::to_string((int)header->GetSourceID());
+								str += "\n";
+								COMMS_DEBUG(str.c_str());
+								*/
+						}
 						return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 				}
 
 				PingManager::PingManager(Comms^ owner)
-						:owner(owner)
+						:owner(owner), pingSendThread(nullptr)
 				{
 						pingPacket = gcnew PingPacket();
+						activePingers = new std::list<Pinger_Ptr>();
+						inactivePingers = new std::list<Pinger_Ptr>();
+						destPingerMap = new std::unordered_map<uint8_t, std::list<Pinger_Ptr>::iterator>();
+
+						activePingersMutex = gcnew Threading::Mutex();
+						inactivePingersMutex = gcnew Threading::Mutex();
+						destPingerMapMutex = gcnew Threading::Mutex();
+						runningMutex = gcnew Threading::Mutex();
 				}
 
 				Void PingManager::LinkPingCallback()
 				{
-						owner->LinkCallback(pingPacket, gcnew CallBack(gcnew CommFunct(PingCallback)));
+						owner->LinkCallback(pingPacket, gcnew CallBack(gcnew CommFunct(Comnet::Ping::PingCallback)));
 				}
 
 				Boolean PingManager::Run()
@@ -91,6 +127,7 @@ namespace Comnet {
 				{
 						while (true)
 						{
+								Console::WriteLine("iter1");
 								runningMutex->WaitOne();
 								if (!running)
 								{
@@ -104,13 +141,16 @@ namespace Comnet {
 										//Starts at the pinger with the lowest NextPingTime and ends once no more pingers need to be sent to (when NextPingTIme is positive)
 										//or when the end of the list has been reached.
 										auto it = activePingers->begin();
+										Console::WriteLine("iter2");
 										while (it != activePingers->end())
 										{
+												Console::WriteLine("iter3");
 												//Gets the amount of milliseconds until the pinger needs to be sent to
 												MillisInt nextPingTime = (*it)->GetNextPingTimeMillis();
 												//When nextPingTime is less than 0 that means its ready to be sent a ping
 												if (nextPingTime <= 0)
 												{
+														Console::WriteLine("iter4");
 														SendPingPacket((*it)->GetDestID());		//Sends a ping packet to the pinger
 														(*it)->ResetToResendPingTime();		//Will reset nextPingTime so that it will only be negative after Pinger::PING_RESEND_TIME_MILLIS has passed
 														if ((*it)->IsInactive()) {
@@ -124,6 +164,7 @@ namespace Comnet {
 												}
 												else
 												{
+														Console::WriteLine("iter5");
 														if (it != activePingers->begin())		//Makes sure that packets actually had their ping time changed
 														{
 																auto spliceIter = it;	//Iterator representing the position to insert elements into
@@ -139,6 +180,7 @@ namespace Comnet {
 												it++;
 										}
 								}
+								Console::WriteLine("iter6");
 								if (activePingers->empty())
 								{
 										sleepTime = EMPTY_SLEEP_TIME_MILLIS;
@@ -146,6 +188,10 @@ namespace Comnet {
 								else
 								{
 										sleepTime = activePingers->front()->GetNextPingTimeMillis();
+										if (sleepTime < 0)
+										{
+												sleepTime = 1;  //prevents C# out of bounds error when provided with a negative sleepTime
+										}
 								}
 								activePingersMutex->ReleaseMutex();
 								System::Threading::Thread::Sleep(sleepTime);
@@ -203,8 +249,16 @@ namespace Comnet {
 
 				Void PingManager::SendPingPacket(uint8_t destID) {
 						PingPacket^ sendPacket = gcnew PingPacket();
-						pingPacket->SetPing(true);
-						owner->Send(sendPacket, destID);
+					 sendPacket->SetPing(true);
+						/*
+						std::string str = "PING SENT TO ";
+						str += std::to_string((int)destID);
+						str += " FROM ";
+						str += std::to_string((int)owner->GetNodeId());
+						str += "\n";
+						COMMS_DEBUG(str.c_str());
+						*/
+						//owner->Send(sendPacket, destID);
 				}
 
 				PingManager::~PingManager()

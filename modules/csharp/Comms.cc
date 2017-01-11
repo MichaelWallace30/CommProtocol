@@ -51,7 +51,7 @@ Void Comms::commHelperRecv() {
         }
       }
     }
-    System::Threading::Thread::Sleep(1000);
+    System::Threading::Thread::Sleep(15);
   }
 }
 
@@ -65,7 +65,7 @@ Void Comms::commHelperSend() {
                       temp->unmangedObjectStream->Get().GetSize());
 						pingManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
     }
-    System::Threading::Thread::Sleep(1000);
+    System::Threading::Thread::Sleep(15);
   }
 }
 
@@ -145,8 +145,8 @@ Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
 
 Boolean Comms::RemoveAddress(UInt16 destId) {
   if (connLayer) {
-				if (connLayer->RemoveAddress(static_cast<uint8_t>destId)) {
-						pingManager->RemovePinger(static_cast<uint8_t>destId);
+				if (connLayer->RemoveAddress(static_cast<uint8_t>(destId))) {
+						pingManager->RemovePinger(static_cast<uint8_t>(destId));
 						return true;
 				}
   }
