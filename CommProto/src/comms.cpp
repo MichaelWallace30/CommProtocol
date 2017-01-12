@@ -66,12 +66,14 @@ void Comms::CommunicationHandlerRecv() {
     ObjectStream temp;
     if ( received ) {
       temp.SetBuffer((char*)stream_buffer, recv_len);
+						
       if(decrypt.Decrypt(&temp)) {
         debug::Log::Message(debug::LOG_NOTE, "Packet was decrypted!");
-      } else {
-        debug::Log::Message(debug::LOG_WARNING, 
-                        "Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
-      }
+						}
+						else {
+								debug::Log::Message(debug::LOG_WARNING,
+										"Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
+						}
       /*
       Algorithm should Get the header, Get the message id from header, then
       produce the packet from the header, finally Get the callback.
@@ -79,7 +81,7 @@ void Comms::CommunicationHandlerRecv() {
       if(temp.GetSize() > 0) {
         debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
         Header header = temp.DeserializeHeader();
-        pingManager->ResetPingTime(header.source_id);
+        pingManager->ResetPingTime(header.source_id, 0);
 
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
@@ -249,13 +251,16 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   header.source_id = this->GetNodeId();
   header.msg_id = packet.GetId();
   header.msg_len = stream->GetSize();
+		header.source_time = Pinger::GetTimeSinceStart();
   stream->SerializeHeader(header);
+		
   if(encrypt.Encrypt(stream)) {
     debug::Log::Message(debug::LOG_NOTE, "Packet was encrypted!\n");
   } else {
     debug::Log::Message(debug::LOG_WARNING, 
                 "Packet was not encrypted! Either encryption was not created, or key was not loaded!");
   }
+		
   send_mutex.Lock();
   send_queue->Enqueue(stream);
   send_mutex.Unlock();

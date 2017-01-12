@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <CommProto/ping/pingmanager.h>
+#include <CommProto/ping/ping_manager.h>
 #include <CommProto/comms.h>
 
 namespace comnet {
@@ -59,6 +59,27 @@ void PingManager::Stop()
   runningMutex.Lock();
   running = false;
   runningMutex.Unlock();
+}
+
+void PingManager::SyncTime(uint8_t nodeID, int32_t timeOff)
+{
+		CommLock lock(destPingerMapMutex);
+		auto mapIter = destPingerMap.find(nodeID);
+		if (mapIter != destPingerMap.end())
+		{
+				//syncManager->syncTime(Pinger* pinger, int32_t timeOff)
+		}
+}
+
+int16_t PingManager::GetPing(uint8_t nodeID)
+{
+		CommLock lock(destPingerMapMutex);
+		auto mapIter = destPingerMap.find(nodeID);
+		if (mapIter != destPingerMap.end())
+		{
+				return mapIter->second->GetPing();
+		}
+		return -1;
 }
 
 PingManager::~PingManager()

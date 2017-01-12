@@ -30,7 +30,7 @@
 #include <CommProto/commnode.h>
 #include <CommProto/encryption/encryptor.h>
 #include <CommProto/encryption/decryptor.h>
-#include <CommProto/ping/pingmanager.h>
+#include <CommProto/ping/ping_manager.h>
 #include <memory>
 
 

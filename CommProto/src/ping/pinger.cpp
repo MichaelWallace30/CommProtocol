@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace comnet {
 namespace ping {
 
+const TimePoint Pinger::START_TIME = Pinger::GetNow();
+
 Pinger::Pinger(uint8_t destID)
   :destID(destID), pingAttempts(0)
 {
@@ -54,10 +56,39 @@ void Pinger::ResetSendTime()
   lastSendTime = GetNow();
 }
 
+bool Pinger::IsSynced()
+{
+		CommLock syncLock(syncMutex);
+		return numSyncPackReceieved >= NUM_SYNC_PACKS;
+}
+
+void Pinger::SyncTime(int32_t timeOff)
+{
+		if (numSyncPackReceieved < UINT8_MAX)
+		{
+				numSyncPackReceieved++;
+				timeOffMillis = ((numSyncPackReceieved - 1) / numSyncPackReceieved) * this->timeOffMillis + (1 / numSyncPackReceieved) * timeOff;
+		}
+}
+
+void Pinger::ResetPing(int32_t time)
+{
+		if (numSyncPackReceieved > 0)
+		{
+				ping = GetTimeSinceStart() - (time + timeOffMillis);
+		}
+}
+
 MillisInt Pinger::GetNextPingTimeMillis()
 {
-  CommLock lock(pingTimeMutex);
-  return pingTime - GetMillisPassed(lastPingTime);
+		CommLock pingTimeLock(pingTimeMutex);
+	 return pingTime - GetMillisPassed(lastPingTime);
+}
+
+MillisInt Pinger::GetNextSyncTimeMillis()
+{
+		CommLock syncLock(syncMutex);
+		return SYNC_PACK_SEND_MILLIS - GetMillisPassed(lastSyncPackSentTime);
 }
 
 Pinger::~Pinger()

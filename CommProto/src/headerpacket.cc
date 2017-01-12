@@ -32,6 +32,9 @@ uint32_t Header::Serialize(Header& header, uint8_t* buffer, uint32_t offset) {
   offset += 2;
   memcpy(buffer + offset, &header.msg_id, 2);
   offset += 2;
+		memcpy(buffer + offset, &header.source_time, 4);
+		offset += 4;
+
   for (int x = 0; x < KEY_LENGTH; x++){
     memcpy(buffer + (offset++), &header.iv[x], 1);
   }
@@ -48,6 +51,8 @@ uint32_t Header::Deserialize(Header& header, uint8_t* buffer, uint32_t offset) {
   offset += 2;
   memcpy(&header.msg_id, buffer + offset, 2);
   offset += 2;
+		memcpy(&header.source_time, buffer + offset, 4);
+		offset += 4;
   
   for (int x = 0; x < KEY_LENGTH; x++) {
       memcpy(&header.iv[x], buffer + (offset++), 1);

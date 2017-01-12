@@ -20,7 +20,7 @@
 #ifndef __PING_MANAGER_H
 #define __PING_MANAGER_H
 
-#include <CommProto/ping/pingpacket.h>
+#include <CommProto/ping/ping_packet.h>
 #include <CommProto/ping/pinger.h>
 #include <CommProto/callback.h>
 #include <CommProto/tools/data_structures/thread_safe_list.h>
@@ -109,7 +109,7 @@ public:
     In other words, it moves the corresponding {@link Pinger} to the end of {@link #activePingers}.
     @param The node_id of the {@link Pinger} to reset.
   */
-  void ResetPingTime(uint8_t destID)
+  void ResetPingTime(uint8_t destID, int32_t time)
   {
     destPingerMapMutex.Lock();
     auto mapIter = destPingerMap.find(destID);
@@ -130,6 +130,7 @@ public:
         activePingersMutex.Unlock();
       }
       mapIter->second->ResetReceiveTime();
+						mapIter->second->ResetPing(time);
     }
     destPingerMapMutex.Unlock();
   }
@@ -177,26 +178,27 @@ public:
         {
           //Gets the amount of milliseconds until the pinger needs to be sent to
           MillisInt nextPingTime = it->GetNextPingTimeMillis();
-          //When nextPingTime is less than 0 that means its ready to be sent a ping
-          if (nextPingTime <= 0)
-          {
-            SendPingPacket(it->GetDestID());		//Sends a ping packet to the pinger
-            it->ResetToResendPingTime();		//Will reset nextPingTime so that it will only be negative after Pinger::PING_RESEND_TIME_MILLIS has passed
-            if (it->IsInactive()) {
-              auto prevIt = it;
-              it++;
-              inactivePingersMutex.Lock();
-              TransferToInactivePingers(prevIt);
-              inactivePingersMutex.Unlock();
-              continue;
-            }
+										if (nextPingTime <= 0)
+										{
+												//When nextPingTime is less than 0 that means its ready to be sent a ping
+												SendPingPacket(it->GetDestID());		//Sends a ping packet to the pinger
+												it->ResetToResendPingTime();		//Will reset nextPingTime so that it will only be negative after Pinger::PING_RESEND_TIME_MILLIS has passed
+												if (it->IsInactive()) {
+														auto prevIt = it;
+														it++;
+														inactivePingersMutex.Lock();
+														TransferToInactivePingers(prevIt);
+														inactivePingersMutex.Unlock();
+														continue;
+												}
           }
           else
           {
             if (it != activePingers.begin())		//Makes sure that packets actually had their ping time changed
             {
               auto spliceIter = it;	//Iterator representing the position to insert elements into
-              while (spliceIter != activePingers.end() && spliceIter->GetNextPingTimeMillis() < Pinger::PING_RESEND_TIME_MILLIS)
+              while (spliceIter != activePingers.end() && 
+																spliceIter->GetNextPingTimeMillis() < Pinger::PING_RESEND_TIME_MILLIS)
               {
                 spliceIter++;
               }
@@ -291,6 +293,10 @@ public:
   void SendPingPacket(uint8_t destID);
 
   void Stop();
+
+		void SyncTime(uint8_t nodeID, int32_t timeOff);
+
+		int16_t GetPing(uint8_t nodeID);
 
   /**
     Sets {@link #running} to {@code false} allowing the {@link #pingSendThread} to terminate cleanly.
