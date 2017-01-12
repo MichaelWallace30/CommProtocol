@@ -138,7 +138,7 @@ Comms::~Comms()
   }
   free_pointer(conn_layer);
   if (pingManager) {
-    pingManager->ownerComms = nullptr;
+				pingManager->Stop();
   }
 }
 
