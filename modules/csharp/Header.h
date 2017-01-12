@@ -14,12 +14,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+#pragma once
 #include <CommProto/headerpacket.h>
+#include <vcclr.h>
+#using <mscorlib.dll>
 
 using namespace System;
 using namespace System::Runtime::InteropServices;
 
-#pragma once
 namespace Comnet{
 #pragma managed	
 public ref class Header sealed
