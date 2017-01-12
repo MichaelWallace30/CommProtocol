@@ -216,7 +216,7 @@ public:
       {
         sleepTime = activePingers.front().GetNextPingTimeMillis();		//The top element should always have the lowest nextPingTime()
       }
-						runningMutex.Unlock();
+      runningMutex.Unlock();
       activePingersMutex.Unlock();
       std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));		//Thread will sleep until a send is needed
     }
@@ -290,7 +290,7 @@ public:
   */
   void SendPingPacket(uint8_t destID);
 
-		void Stop();
+  void Stop();
 
   /**
     Sets {@link #running} to {@code false} allowing the {@link #pingSendThread} to terminate cleanly.

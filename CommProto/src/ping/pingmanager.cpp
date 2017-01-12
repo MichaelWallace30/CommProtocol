@@ -56,9 +56,9 @@ void PingManager::SendPingPacket(uint8_t destID)
 
 void PingManager::Stop()
 {
-		runningMutex.Lock();
-		running = false;
-		runningMutex.Unlock();
+  runningMutex.Lock();
+  running = false;
+  runningMutex.Unlock();
 }
 
 PingManager::~PingManager()
