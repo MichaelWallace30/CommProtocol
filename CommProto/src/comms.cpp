@@ -136,7 +136,10 @@ Comms::~Comms()
     comm_thread_recv.Join();
     comm_thread_send.Join();
   }
- free_pointer(conn_layer);
+  free_pointer(conn_layer);
+  if (pingManager) {
+    pingManager->ownerComms = nullptr;
+  }
 }
 
 

@@ -157,7 +157,7 @@ public:
   */
   void HandlePingUpdate()
   {
-    while (true)
+    while (ownerComms)
     {
       runningMutex.Lock();
       //Checks if the thread should still be running
@@ -371,6 +371,8 @@ private:
     should stop running.
   */
   bool running;
+
+  friend class Comms;
 };
 } // namespace ping
 }  // namespace comnet
