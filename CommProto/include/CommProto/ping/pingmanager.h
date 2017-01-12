@@ -371,7 +371,7 @@ private:
   */
   bool running;
 
-  friend class Comms;
+  friend class comnet::Comms;
 };
 } // namespace ping
 }  // namespace comnet
