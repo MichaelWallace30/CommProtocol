@@ -39,6 +39,8 @@ class Comms;
 
 namespace ping {
 
+class SyncManager;
+
 using namespace comnet::tools::datastructures;
 
 /**
@@ -74,19 +76,13 @@ public:
   /**
     Links {@link PingCallback} to {@link #pingPacket} in the {@link #ownerComms}.
   */
-  void LinkPingCallback();
+  void LinkCallbacks();
 
   /**
     Initializes and detaches the pingSendThread.
     {@code true} when successfully running, {@code false} otherwise.
   */
-  bool Run()
-  {
-    running = true;
-    pingSendThread = std::make_shared <CommThread>(&PingManager::HandlePingUpdate, shared_from_this());
-    pingSendThread->Detach();
-    return true;
-  }
+		bool Run();
 
   /**
     Checks if the {@link Pinger} that matches the destID is active.
@@ -229,41 +225,13 @@ public:
     and {@link #destPingerMap}.
     @param destID The remote node_id that the {@link Pinger} will be bound to.
   */
-  void AddPinger(uint8_t destID)
-  {
-    activePingersMutex.Lock();
-    activePingers.emplace_back(destID);
-    destPingerMapMutex.Lock();
-    destPingerMap.emplace(std::make_pair(destID, --activePingers.end()));
-    destPingerMapMutex.Unlock();
-    activePingersMutex.Unlock();
-  }
+		void AddPinger(uint8_t destID);
 
   /**
     Removes the {@link Pinger} with a destID matching the argument.
     @param destID The remote node_id of the {@link Pinger} that should be removed.
   */
-  void RemovePinger(uint8_t destID)
-  {
-    CommLock lock(destPingerMapMutex);
-    auto mapIter = destPingerMap.find(destID);
-    if (mapIter != destPingerMap.end())
-    {
-      if (mapIter->second->IsInactive())
-      {
-        inactivePingersMutex.Lock();
-        inactivePingers.erase(mapIter->second);
-        inactivePingersMutex.Unlock();
-      }
-      else
-      {
-        activePingersMutex.Lock();
-        activePingers.erase(mapIter->second);
-        activePingersMutex.Unlock();
-      }
-      destPingerMap.erase(mapIter);
-    }
-  }
+		void RemovePinger(uint8_t destID);
 
   /**
     Checks if enough time has passed since the last time a packet was sent
@@ -355,7 +323,7 @@ private:
     The thread that runs the {@link #HandlePingUpdate} method.  Will shut down once
     {@link #running} is set to {@code false}.
   */
-  std::shared_ptr<CommThread> pingSendThread;
+  CommThread* pingSendThread;
 
   /**
     Prevents {@link #running} from being modified at the same time {@link #HandlePingUpdate}
@@ -372,6 +340,8 @@ private:
     The {@link Comms} object that owns {@code this}.
   */
   Comms* ownerComms;
+
+		std::shared_ptr <SyncManager> syncManager;
 
   /**
     {@code true} when the {@link #pingSendThread} should be running, {@code false} when the thread

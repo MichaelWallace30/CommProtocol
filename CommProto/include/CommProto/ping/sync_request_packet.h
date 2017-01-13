@@ -57,30 +57,6 @@ namespace comnet {
 						{
 								return new SyncRequestPacket();
 						}
-
-						void SetTime(int32_t time)
-						{
-								this->time = time;
-						}
-
-						void SetRequest(bool mode)
-						{
-								this->request = mode;
-						}
-
-						bool IsRequest()
-						{
-								return request;
-						}
-
-						int32_t GetTime()
-						{
-								return time;
-						}
-
-				private:
-						int32_t time;
-						bool request;
 				};
 		} //namespace ping
 } //namespace comnet

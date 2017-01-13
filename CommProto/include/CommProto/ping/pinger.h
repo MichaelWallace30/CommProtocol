@@ -157,11 +157,7 @@ public:
 
 		/**
 		*/
-		void ResetSyncPackSentTime()
-		{
-				CommLock lock(syncMutex);
-				lastSyncPackSentTime = GetNow();
-		}
+		void ResetSyncPackSentTime();
 
   /**
     Resets {@link #lastPingTime} to the current time.  Sets {@link #pingTime} to 
@@ -282,9 +278,11 @@ private:
   */
   CommMutex pingAttemptsMutex;
 
-		uint8_t numSyncPackReceieved;
+		uint8_t numSyncPacksReceived;
 
 		int32_t timeOffMillis;
+
+		MillisInt syncSendDelay;
 
 		int16_t ping;
 

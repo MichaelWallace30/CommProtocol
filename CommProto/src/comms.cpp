@@ -81,7 +81,7 @@ void Comms::CommunicationHandlerRecv() {
       if(temp.GetSize() > 0) {
         debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
         Header header = temp.DeserializeHeader();
-        pingManager->ResetPingTime(header.source_id, 0);
+        pingManager->ResetPingTime(header.source_id, header.source_time);
 
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
@@ -207,7 +207,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     }
   }
   if (connectionInitialized) {
-    pingManager->LinkPingCallback();
+    pingManager->LinkCallbacks();
     return true;
   }
   return false;

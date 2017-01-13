@@ -20,15 +20,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __SYNC_MANAGER_H
 #define __SYNC_MANAGER_H
 
+#include <CommProto/callback.h>
+#include <CommProto/architecture/os/comm_thread.h>
+#include <mutex>
+#include <list>
+#include <memory>
+
 namespace comnet
 {
+		class Comms;
 namespace ping
 {
-		class SyncManager {
-		public:
-				SyncManager();
+		using namespace comnet::architecture::os;
 
-				
+		class Pinger;
+		class SyncRequestPacket;
+		class SyncReplyPacket;
+
+		error_t SyncRequestCallback(const comnet::Header& header, SyncRequestPacket& packet, comnet::Comms& node);
+
+		error_t SyncReplyCallback(const comnet::Header& header, SyncReplyPacket& packet, comnet::Comms& node);
+		class SyncManager : public std::enable_shared_from_this<SyncManager>
+		{
+		public:
+				SyncManager(Comms* owner);
+
+				void SyncSendHandler();
+
+				void AddUnsyncedPinger(Pinger* pinger);
+
+				void RemoveUnsyncedPinger(Pinger* pinger);
+
+				void SyncTime(Pinger* pinger, int32_t time);
+
+				void SendSyncRequest(uint8_t destID);
+
+				void LinkCallbacks();
+
+				void Run();
+
+				void Stop();
+
+				~SyncManager();
+
+		private:
+				std::condition_variable syncHandlerCV;
+				std::mutex syncHandlerMutex;
+				std::mutex unsyncedPingersMutex;
+				std::mutex runningMutex;
+				CommThread* syncSendThread;
+
+				std::list <Pinger*> unsyncedPingers;
+
+				bool awake;
+
+				bool running;
+
+				SyncRequestPacket* syncRequestPack;
+				SyncReplyPacket* syncReplyPack;
+
+				Comms* owner;
 		};
 }
 }
