@@ -45,12 +45,15 @@ void ObjectStream::SetBuffer(const char* buffer, int len)
   DeserializeHeader();
 }
 
-
-void ObjectStream::SerializeHeader(Header header)
+void ObjectStream::SetHeader(Header& header)
 {
-	//not sure if more is needed kind of a waste of space
-	Header::Serialize(header, stream_buffer, 0);
-  header_packet = header;
+		header_packet = header;
+}
+
+void ObjectStream::SerializeHeader()
+{
+		//not sure if more is needed kind of a waste of space
+		Header::Serialize(header_packet, stream_buffer, 0);
 }
 
 

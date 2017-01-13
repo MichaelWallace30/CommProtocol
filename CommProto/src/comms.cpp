@@ -46,6 +46,11 @@ void Comms::CommunicationHandlerSend()
      ObjectStream *temp = send_queue->Front();
      send_queue->Dequeue();
      send_mutex.Unlock();
+
+					int32_t timeSinceStart = (int32_t)Pinger::GetTimeSinceStart();
+					temp->GetHeaderPacket().source_time = timeSinceStart;
+					temp->SerializeHeader();
+
      //Send data here
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
      pingManager->ResetSendTime(temp->header_packet.dest_id);
@@ -81,10 +86,11 @@ void Comms::CommunicationHandlerRecv() {
       if(temp.GetSize() > 0) {
         debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
         Header header = temp.DeserializeHeader();
-        pingManager->ResetPingTime(header.source_id, header.source_time);
 
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
+
+								pingManager->ResetPingTime(header.source_id, header.source_time);
 
         if(packet) {
           // Unpack the object stream.
@@ -112,7 +118,7 @@ void Comms::CommunicationHandlerRecv() {
         }
       }
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));	
+    //std::this_thread::sleep_for(std::chrono::milliseconds(50));	
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }
@@ -251,8 +257,7 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   header.source_id = this->GetNodeId();
   header.msg_id = packet.GetId();
   header.msg_len = stream->GetSize();
-		header.source_time = Pinger::GetTimeSinceStart();
-  stream->SerializeHeader(header);
+		stream->SetHeader(header);
 		
   if(encrypt.Encrypt(stream)) {
     debug::Log::Message(debug::LOG_NOTE, "Packet was encrypted!\n");

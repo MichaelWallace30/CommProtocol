@@ -65,7 +65,7 @@ public:
 
 		static const MillisInt CHECK_OFF_MILLIS = 50;
 
-		static const int NUM_SYNC_PACKS = 3;
+		static const int NUM_SYNC_PACKS = 8;
 
   /**
     The maximum amount times to attempt to send a {@link PingPacket} wihtout

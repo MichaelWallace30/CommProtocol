@@ -40,6 +40,7 @@ namespace comnet {
 						int32_t estDestTimeStamp = header.source_time + estSendTime;
 						int32_t timeOff = Pinger::GetTimeSinceStart() - estDestTimeStamp;
 						node.GetPingManager()->SyncTime(header.source_id, timeOff);
+						std::cout << "Real ping: " << estSendTime * 2 << std::endl;
 						return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 				}
 
