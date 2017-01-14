@@ -48,7 +48,7 @@ void Comms::CommunicationHandlerSend()
      send_mutex.Unlock();
 
 					int32_t timeSinceStart = (int32_t)Pinger::GetTimeSinceStart();
-					temp->GetHeaderPacket().source_time = timeSinceStart;
+					temp->GetHeaderPacket().SetSourceTime(timeSinceStart);
 					temp->SerializeHeader();
 
      //Send data here
@@ -90,7 +90,7 @@ void Comms::CommunicationHandlerRecv() {
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
 
-								pingManager->ResetPingTime(header.source_id, header.source_time);
+								pingManager->ResetPingTime(header.source_id, header.GetSourceTime());
 
         if(packet) {
           // Unpack the object stream.

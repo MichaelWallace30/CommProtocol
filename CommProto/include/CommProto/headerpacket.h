@@ -45,7 +45,7 @@ public:
 		uint8_t source_time_arr[4];
   uint8_t iv[KEY_LENGTH];//random init vector for encryption
 
-		int32_t GetSourceTime();
+		int32_t GetSourceTime() const;
 
 		void SetSourceTime(int32_t source_time);
 

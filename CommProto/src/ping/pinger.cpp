@@ -80,7 +80,6 @@ void Pinger::ResetPing(int32_t time)
 		if (numSyncPacksReceived > 0)
 		{
 				ping = GetTimeSinceStart() - (time + timeOffMillis);
-				std::cout << "PING: " << ping << std::endl;
 		}
 }
 

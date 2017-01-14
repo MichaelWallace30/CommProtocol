@@ -4,43 +4,22 @@
 #include <CommProto/ping/pinger.h>
 #include <CommProto/comms.h>
 
-/*
-error_t SyncCallback(const comnet::Header & header, SyncPacket & packet, comnet::Comms & node)
-{
-		if (packet.IsRequest())
-		{
-				SyncPacket replyPacket;
-				replyPacket.SetRequest(false);
-				replyPacket.SetTime(header.source_time);
-				node.Send(replyPacket, header.source_id);
-		}
-		else
-		{
-				int32_t estSendTime = (Pinger::GetTimeSinceStart() - packet.GetTime()) / 2;
-				int32_t estDestTimeStamp = header.source_time + estSendTime;
-				int32_t timeOff = Pinger::GetTimeSinceStart() - estDestTimeStamp;
-				node.GetPingManager()->SyncTime(header.source_id, timeOff);
-		}
-}
-*/
 namespace comnet {
 		namespace ping {
 				error_t SyncRequestCallback(const comnet::Header & header, SyncRequestPacket & packet, comnet::Comms & node)
 				{
 						SyncReplyPacket replyPacket;
-						replyPacket.SetRequestSentTime(header.source_time);
+						replyPacket.SetRequestSentTime(header.GetSourceTime());
 						node.Send(replyPacket, header.source_id);
-						std::cout << "REQUEST RECEIVED" << std::endl;
 						return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 				}
 
 				error_t SyncReplyCallback(const comnet::Header & header, SyncReplyPacket & packet, comnet::Comms & node)
 				{
 						int32_t estSendTime = (Pinger::GetTimeSinceStart() - packet.GetRequestSentTime()) / 2;
-						int32_t estDestTimeStamp = header.source_time + estSendTime;
+						int32_t estDestTimeStamp = header.GetSourceTime() + estSendTime;
 						int32_t timeOff = Pinger::GetTimeSinceStart() - estDestTimeStamp;
 						node.GetPingManager()->SyncTime(header.source_id, timeOff);
-						std::cout << "Real ping: " << estSendTime * 2 << std::endl;
 						return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 				}
 
