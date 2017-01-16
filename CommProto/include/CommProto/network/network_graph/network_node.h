@@ -32,25 +32,67 @@ namespace network {
 class NetworkGraph;
 
 
+/**
+  Checks the status of the network for a given node.
+*/
+enum NetworkStatus {
+  NETWORK_UNKNOWN,
+  NETWORK_OFFLINE,
+  NETWORK_ONLINE,
+  NETWORK_DOWN,
+  NETWORK_BLOCKED
+};
+
+
+/**
+  String value of the network name.
+*/
+struct NetworkName {
+  uint32_t size;
+  char name[32];
+};
+
+/**
+  Network data.
+*/
+struct NetworkData {
+  uint32_t              latency;
+  uint32_t              cluster_id;
+  transport_protocol_t  protocol;
+  NetworkStatus         status;
+  NetworkName           name;
+};
+
+
 // Network node definitions.
 class Node {
 public:
-  Node(CommsLink* link);
   Node();
 
   ~Node();
 
-  bool AddEdge(Node* dest);
-  bool RemoveEdge(Node* dest);
+  bool AddEdge(Node *dest);
+  bool RemoveEdge(Node *dest);
   
-  Edge* GetEdge(Node* dest);
+  Edge* GetEdge(Node *dest);
   
-  CommsLink* GetCluster() const { return cluster.get(); }
-  bool SwapCluster(CommsLink* clust) { cluster.reset(clust); }
-  int32_t GetId() const { return id; }
-  int32_t GetCost() const { return cost; }
+  uint32_t GetLatency() const { return m_data.latency; }
+  transport_protocol_t GetProtocol() const { return m_data.protocol; }
+  NetworkStatus GetNetworkStatus() const { return m_data.status; }
+  uint32_t GetClusterId() const { return m_data.cluster_id; } 
+  NetworkName GetNetworkName() const { return m_data.name; }
 
-  void SetCost(int32_t c) { cost = c; }
+  bool SwapData(NetworkData &data) { 
+    std::swap(data, m_data); 
+  }
+
+  int32_t GetId() const { return id; }
+
+  void SetLatency(int32_t c) { m_data.latency = c; }
+  void SetNetworkStatus(NetworkStatus status) { m_data.status = status; }
+  void SetNetworkProtocol(transport_protocol_t proto) { m_data.protocol = proto; }
+  void SetClusterId(uint32_t id) { m_data.cluster_id = id; }
+  void SetNetworkName(const char *name);
 
   std::vector<std::shared_ptr<Edge>> &GetOutgoing() { return outgoing.GetEdges(); }
   std::vector<std::shared_ptr<Edge>> &GetIncoming() { return incoming.GetEdges(); } 
@@ -58,13 +100,12 @@ public:
 private:
   EdgeContainer outgoing;
   EdgeContainer incoming;
-  // CommsLink cluster.
-  ::std::unique_ptr<CommsLink> cluster;
+  // Network data.
+  NetworkData m_data;
   /**
     Identification of the node.
    */
   int32_t id;
-  int32_t cost;
 
   // friendly neighborhood NetworkGraph...
   friend class NetworkGraph;

@@ -46,7 +46,7 @@ public:
   , dest(NULL)
   , dist(-1) { }
   
-  ~Edge();
+  ~Edge() { }
 
   Node* GetSrc() { return src.get(); }
   Node* GetDest() { return dest.get(); }
@@ -74,9 +74,9 @@ private:
 // Contains edges.
 class EdgeContainer {
 public:
-  EdgeContainer();
-  ~EdgeContainer();
-  
+  EdgeContainer() { } 
+  ~EdgeContainer() { }
+
   bool AddEdge(Node* src, Node* dest);
   bool RemoveEdge(Node* src, Node* dest);
   

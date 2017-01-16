@@ -56,19 +56,19 @@ void BFS(NetworkGraph *graph, Node *root, CommsLink &target, Callback handler) {
   Implementation is not tested! We need to test later on... Handler is not used yet.
 */
 void Dijkstra(NetworkGraph *graph, Node *source) {
-  auto nodes = graph->GetNodes();
+  std::vector<std::shared_ptr<Node> > nodes = graph->GetNodes();
   std::set<Node *> visited;
-  auto cmp = [] (Node *node1, Node *node2) { return node1->GetCost() < node2->GetCost(); };
+  auto cmp = [] (Node *node1, Node *node2) { return node1->GetLatency() < node2->GetLatency(); };
   std::priority_queue<Node *, std::vector<Node *>, decltype(cmp)> unvisited(cmp);
   for (int i = 0; i < nodes.size(); ++i) {
     if (nodes.at(i).get() != source) {
       // Windows windef.h has a macro under the name 'max', workaround is to use paranthesis around
       // numeric limits.
-      nodes.at(i)->SetCost((std::numeric_limits<int32_t>::max)());
+      nodes.at(i)->SetLatency((std::numeric_limits<int32_t>::max)());
     }
     unvisited.push(nodes.at(i).get());
   }
-  source->SetCost(0);
+  source->SetLatency(0);
   while (!unvisited.empty()) {
     Node *current = unvisited.top();
     unvisited.pop();
@@ -78,8 +78,8 @@ void Dijkstra(NetworkGraph *graph, Node *source) {
       Edge *edge = edges[i].get();
       Node *t = edge->GetDest();
       if (visited.find(t) == visited.end()) {
-        if (current->GetCost() + edge->GetDist() < t->GetCost()) {
-          t->SetCost(current->GetCost() + edge->GetDist());
+        if (current->GetLatency() + edge->GetDist() < t->GetLatency()) {
+          t->SetLatency(current->GetLatency() + edge->GetDist());
         }
       }
     }
