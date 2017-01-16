@@ -46,6 +46,11 @@ void Comms::CommunicationHandlerSend()
      ObjectStream *temp = send_queue->Front();
      send_queue->Dequeue();
      send_mutex.Unlock();
+
+					int32_t timeSinceStart = (int32_t)Pinger::GetTimeSinceStart();
+					temp->GetHeaderPacket().SetSourceTime(timeSinceStart);
+					temp->SerializeHeader();
+
      //Send data here
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
      pingManager->ResetSendTime(temp->header_packet.dest_id);
@@ -66,12 +71,14 @@ void Comms::CommunicationHandlerRecv() {
     ObjectStream temp;
     if ( received ) {
       temp.SetBuffer((char*)stream_buffer, recv_len);
+						
       if(decrypt.Decrypt(&temp)) {
         debug::Log::Message(debug::LOG_NOTE, "Packet was decrypted!");
-      } else {
-        debug::Log::Message(debug::LOG_WARNING, 
-                        "Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
-      }
+						}
+						else {
+								debug::Log::Message(debug::LOG_WARNING,
+										"Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
+						}
       /*
       Algorithm should Get the header, Get the message id from header, then
       produce the packet from the header, finally Get the callback.
@@ -79,10 +86,11 @@ void Comms::CommunicationHandlerRecv() {
       if(temp.GetSize() > 0) {
         debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
         Header header = temp.DeserializeHeader();
-        pingManager->ResetPingTime(header.source_id);
 
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
+
+								pingManager->ResetPingTime(header.source_id, header.GetSourceTime());
 
         if(packet) {
           // Unpack the object stream.
@@ -110,7 +118,7 @@ void Comms::CommunicationHandlerRecv() {
         }
       }
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));	
+    //std::this_thread::sleep_for(std::chrono::milliseconds(50));	
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }
@@ -205,7 +213,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     }
   }
   if (connectionInitialized) {
-    pingManager->LinkPingCallback();
+    pingManager->LinkCallbacks();
     return true;
   }
   return false;
@@ -249,13 +257,15 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   header.source_id = this->GetNodeId();
   header.msg_id = packet.GetId();
   header.msg_len = stream->GetSize();
-  stream->SerializeHeader(header);
+		stream->SetHeader(header);
+		
   if(encrypt.Encrypt(stream)) {
     debug::Log::Message(debug::LOG_NOTE, "Packet was encrypted!\n");
   } else {
     debug::Log::Message(debug::LOG_WARNING, 
                 "Packet was not encrypted! Either encryption was not created, or key was not loaded!");
   }
+		
   send_mutex.Lock();
   send_queue->Enqueue(stream);
   send_mutex.Unlock();

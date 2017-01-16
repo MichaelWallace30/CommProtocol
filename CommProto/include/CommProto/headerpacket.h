@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MAX_PACKET_SIZE 1024
 #define KEY_LENGTH 16//AES::DEFAULT_KEYLENGTH and ENCRYPTION_BLOCK_BYTES should be the same
-#define HEADER_SIZE 22 + KEY_LENGTH //22 + RANDOM iv SIZE which is the same as key length
+#define HEADER_SIZE 26 + KEY_LENGTH //26 + RANDOM iv SIZE which is the same as key length
 #define MAX_BUFFER_SIZE MAX_PACKET_SIZE + HEADER_SIZE + CRC32_SIZE
 #define TERMINAL_SEQUENCE_SIZE 3		
 /** 
@@ -42,7 +42,12 @@ public:
   uint8_t source_id;
   uint16_t msg_len;
   uint16_t msg_id;
+		uint8_t source_time_arr[4];
   uint8_t iv[KEY_LENGTH];//random init vector for encryption
+
+		int32_t GetSourceTime() const;
+
+		void SetSourceTime(int32_t source_time);
 
   static uint32_t Serialize(Header& header, uint8_t* buffer, uint32_t offset);
 

@@ -23,11 +23,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace comnet {
 namespace ping {
 
+const TimePoint Pinger::START_TIME = Pinger::GetNow();
+
 Pinger::Pinger(uint8_t destID)
-  :destID(destID), pingAttempts(0)
+  :destID(destID), pingAttempts(0), numSyncPacksReceived(0), ping(-1), timeOffMillis(0), syncSendDelay(-1)
 {
   ResetReceiveTime();
 		ResetSendTime();
+}
+
+void Pinger::ResetSyncPackSentTime()
+{
+		CommLock lock(syncMutex);
+		lastSyncPackSentTime = GetNow();
+		syncSendDelay = SYNC_PACK_SEND_MILLIS;
 }
 
 void Pinger::ResetToResendPingTime()
@@ -54,10 +63,36 @@ void Pinger::ResetSendTime()
   lastSendTime = GetNow();
 }
 
+bool Pinger::IsSynced()
+{
+		CommLock syncLock(syncMutex);
+		return numSyncPacksReceived >= NUM_SYNC_PACKS;
+}
+
+void Pinger::SyncTime(int32_t timeOff)
+{
+		numSyncPacksReceived++;
+		timeOffMillis = ((numSyncPacksReceived - 1) / numSyncPacksReceived) * this->timeOffMillis + (1 / numSyncPacksReceived) * timeOff;
+}
+
+void Pinger::ResetPing(int32_t time)
+{
+		if (numSyncPacksReceived > 0)
+		{
+				ping = GetTimeSinceStart() - (time + timeOffMillis);
+		}
+}
+
 MillisInt Pinger::GetNextPingTimeMillis()
 {
-  CommLock lock(pingTimeMutex);
-  return pingTime - GetMillisPassed(lastPingTime);
+		CommLock pingTimeLock(pingTimeMutex);
+	 return pingTime - GetMillisPassed(lastPingTime);
+}
+
+MillisInt Pinger::GetNextSyncTimeMillis()
+{
+		CommLock syncLock(syncMutex);
+		return syncSendDelay - GetMillisPassed(lastSyncPackSentTime);
 }
 
 Pinger::~Pinger()

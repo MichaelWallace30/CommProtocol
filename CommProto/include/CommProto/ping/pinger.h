@@ -61,6 +61,12 @@ public:
   */
   static const MillisInt PONG_TIME_MILLIS = 1500;
 
+		static const MillisInt SYNC_PACK_SEND_MILLIS = 2000;
+
+		static const MillisInt CHECK_OFF_MILLIS = 50;
+
+		static const int NUM_SYNC_PACKS = 8;
+
   /**
     The maximum amount times to attempt to send a {@link PingPacket} wihtout
     receiving any response from {@link #destID}.  Once exceeded, the {@link Pinger}
@@ -68,6 +74,7 @@ public:
   */
   static const uint8_t MAX_PING_ATTEMPTS = 5;
 
+		static const TimePoint START_TIME;
   /**
     Gets the current time.
     @return The current time.
@@ -86,6 +93,10 @@ public:
     ms millis = std::chrono::duration_cast<ms>(fs);		//converting time to milliseconds
     return static_cast<comnet::ping::MillisInt>(millis.count());
   }
+
+		static MillisInt GetTimeSinceStart() {
+				return GetMillisPassed(START_TIME);
+		}
 
   /**
     Used for copy and swap idiom.
@@ -144,6 +155,10 @@ public:
     return *this;
   }
 
+		/**
+		*/
+		void ResetSyncPackSentTime();
+
   /**
     Resets {@link #lastPingTime} to the current time.  Sets {@link #pingTime} to 
     {@link #PING_RESEND_TIME_MILLIS} because this method is only called after a 
@@ -192,12 +207,25 @@ public:
     return (pingAttempts > MAX_PING_ATTEMPTS);
   }
 
+		bool IsSynced();
+
+		void SyncTime(int32_t timeOff);
+
+		void ResetPing(int32_t time);
+
   /**
   Gets the amount of time in milliseconds before another {@link PingPacket} needs to be sent,
   if positive, no packet needs to be send, if negative, send the packet.
   @return The amount of milliseconds before another {@link PingPacket} should be sent.
   */
   MillisInt GetNextPingTimeMillis();
+
+		MillisInt GetNextSyncTimeMillis();
+
+		int16_t GetPing()
+		{
+				return ping;
+		}
 
   /**
     Default destructor.
@@ -249,6 +277,20 @@ private:
     Prevents {@link #pingAttempts} from being modified and read at the same time.
   */
   CommMutex pingAttemptsMutex;
+
+		uint8_t numSyncPacksReceived;
+
+		int32_t timeOffMillis;
+
+		MillisInt syncSendDelay;
+
+		int16_t ping;
+
+		TimePoint lastSyncPackSentTime;
+
+		CommMutex pingMutex;
+
+		CommMutex syncMutex;
 };
 } //namespace ping
 } //namespace comnet

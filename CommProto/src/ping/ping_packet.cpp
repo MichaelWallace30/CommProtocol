@@ -18,7 +18,7 @@
 */
 
 #pragma unmanaged
-#include <CommProto/ping/pingpacket.h>
+#include <CommProto/ping/ping_packet.h>
 #pragma managed
 #include <CommProto/serialization/objectstream.h>
 #include <iostream>
