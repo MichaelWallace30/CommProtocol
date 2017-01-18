@@ -140,6 +140,10 @@ PingManager::~PingManager()
 
 void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)
 {
+		if (!it->IsSynced())
+		{
+				syncManager->AddUnsyncedPinger(&(*it));
+		}
   activePingers.splice(activePingers.end(), inactivePingers, it);
   std::string debugMsg = "Pinger with destID ";
   debugMsg += std::to_string((int)it->GetDestID());
@@ -151,6 +155,7 @@ void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)
 
 void PingManager::TransferToInactivePingers(std::list<Pinger>::iterator it)
 {
+		syncManager->RemoveUnsyncedPinger(&(*it));
   inactivePingers.splice(inactivePingers.end(), activePingers, it);
   std::string debugMsg = "Pinger with destID ";
   debugMsg += std::to_string((int)it->GetDestID());
