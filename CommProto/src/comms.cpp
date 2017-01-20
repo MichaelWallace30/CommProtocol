@@ -28,6 +28,7 @@
 #include <CommProto/debug/log.h>
 
 #include <CommProto/callback.h>
+#include <CommProto/tools/observer.h>
 
 using namespace comnet;
 
@@ -154,7 +155,7 @@ Comms::~Comms()
 
 bool Comms::LoadKey(char* key)
 {
-  return encrypt.LoadKey(key);
+  return static_cast<bool>(encrypt.LoadKey(key));
 }
 
 

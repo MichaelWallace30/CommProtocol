@@ -3,6 +3,7 @@ set(TOOLS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/include/CommProto/too
 set(TOOLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CommProto/src/tools/)
 
 set(TOOLS_HEADERS
+  ${TOOLS_HEADER_DIR}/observer.h
   ${TOOLS_HEADER_DIR}/comparable.h
   ${TOOLS_HEADER_DIR}/comparator.h
   ${TOOLS_HEADER_DIR}/standard_comparator.h

@@ -12,6 +12,7 @@ set(NETWORK_HEADERS
   ${NETWORK_HEADER_DIR}/xbeelink.h
   ${NETWORK_HEADER_DIR}/udplink.h
   ${NETWORK_HEADER_DIR}commsocket.h
+  ${NETWORK_HEADER_DIR}/network_manager.h
   ${NETWORK_HEADER_DIR}commslink.h
   ${NETWORK_HEADER_DIR}crc32.h
   ${NETWORK_HEADER_DIR}parser.h)
@@ -23,7 +24,11 @@ set(NETWORK_GRAPH_HEADERS
   ${NETWORK_HEADER_DIR}/network_graph/network_graph.h
   ${NETWORK_HEADER_DIR}/network_graph/network_graph_builder.h
   ${NETWORK_HEADER_DIR}/network_graph/network_node.h)
-	
+
+set(NETWORK_GRAPH_SOURCES
+  ${NETWORK_SOURCE_DIR}/network_graph/network_edge.cc
+  ${NETWORK_SOURCE_DIR}/network_graph/network_graph.cc
+  ${NETWORK_SOURCE_DIR}/network_graph/network_node.cc)	
 
 set(NETWORK_SOURCES
   ${NETWORK_SOURCE_DIR}udp.cpp
@@ -33,6 +38,7 @@ set(NETWORK_SOURCES
   ${NETWORK_SOURCE_DIR}/xbeelink.cc
   ${NETWORK_SOURCE_DIR}/udplink.cc
   # ${NETWORK_SOURCE_DIR}/znodetable.cc
+  ${NETWORK_SOURCE_DIR}/network_manager.cc
   ${NETWORK_SOURCE_DIR}tcpsocket.cpp
   ${NETWORK_SOURCE_DIR}crc32.cpp
   ${NETWORK_SOURCE_DIR}parser.cpp)
@@ -41,5 +47,6 @@ set(NETWORK_SOURCES
 set (NGCP_GLOB
   ${NGCP_GLOB}
   ${NETWORK_GRAPH_HEADERS}
+  ${NETWORK_GRAPH_SOURCES}
   ${NETWORK_HEADERS}
   ${NETWORK_SOURCES})

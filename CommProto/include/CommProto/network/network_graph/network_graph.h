@@ -23,7 +23,6 @@
 
 #include <CommProto/network/network_graph/network_edge.h>
 #include <CommProto/network/network_graph/network_node.h>
-
 #include <memory>
 #include <vector>
 #include <unordered_map>

@@ -30,6 +30,7 @@ namespace comnet {
 namespace network {
 
 class NetworkGraph;
+typedef uint32_t cluster_t;
 
 
 /**
@@ -57,7 +58,7 @@ struct NetworkName {
 */
 struct NetworkData {
   uint32_t              latency;
-  uint32_t              cluster_id;
+  cluster_t             cluster_id;
   transport_protocol_t  protocol;
   NetworkStatus         status;
   NetworkName           name;
