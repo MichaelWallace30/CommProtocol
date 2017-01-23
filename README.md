@@ -1,12 +1,12 @@
 # CommProtocol version 1.0.7b
-Git hub to work on new Comm Protocol design.
+CommProtocol is an adaptable, backend protocol tool for scalable systems. It is intended for abstractly communicating over via TCP/IP, UDP, Serial, and/or wireless network layers, while also giving you the freedom to work with servers and clients seemlessly, high performance. Being a large state machine that handles communications universally, CommProtocol is a fantastic tool to work the backbone of communications with simplicity.
 
 ## Design Goals
 - Powerful
 - Robust
 - Adaptable
 
-This Com Protocol should be able to handle data dynamically, without needing to be hardcoded in. This will allow programmers more flexibility to change and adapt based on the agreement from both ends of the link, without too much work on the library itself. It should be able to allow programmers to define what is needed to be sent between both parties, so that the maintainers of this library have room to optimize the library itself without having to figure out what needs to be sent.
+CommProtocol should be able to handle data dynamically, without needing to be hardcoded in. This will allow programmers more flexibility to change and adapt based on the agreement from both ends of the link, without too much work on the library itself. It should be able to allow programmers to define what is needed to be sent between both parties, so that the maintainers of this library have room to optimize the library itself without having to figure out what needs to be sent.
   
 Current Beta Features:
 - Cross-platform library (Linux/POSIX/Windows)
@@ -15,6 +15,7 @@ Current Beta Features:
 - C# Wrapper.
 - Encrypted connection with AES.
 - Designed in an Object Oriented manner to make it easier to use the library.  
+- Pinging system/ heartbeat networks.
   
 Features currently implementing:  
 - TCP implementation  
@@ -29,6 +30,7 @@ Building CommProtocol should be relatively easy, you will need the following too
 - CMake (At least 2.8 and above)
 - Visual Studio 2013+ (if using windows)
 - GCC 4.8+ (if using linux/posix operating systems)
+- Python 3.0+ (optional to make it easier to set up)
   
 Simply download this repository (Clone if you will), navigate to the directory/folder of where you cloned this repository, and create a new folder called "build." inside this build directory, you will open a command prompt (or bash shell) inside and use the following command:
 

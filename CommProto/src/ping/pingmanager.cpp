@@ -54,11 +54,16 @@ void PingManager::SendPingPacket(uint8_t destID)
   ownerComms->Send(sendPacket, destID);
 }
 
-PingManager::~PingManager()
+void PingManager::Stop()
 {
   runningMutex.Lock();
   running = false;
   runningMutex.Unlock();
+}
+
+PingManager::~PingManager()
+{
+  
 }
 
 void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)

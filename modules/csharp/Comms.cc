@@ -89,6 +89,11 @@ Comms::Comms(UInt32 id)
 
 Comms::~Comms()
 {
+  this->!Comms();
+}
+
+Comms::!Comms()
+{
   if (connLayer) {
     delete connLayer;
   }
@@ -176,8 +181,9 @@ Void Comms::Pause() {
 Void Comms::Stop() {
   CommNode::Stop();
   if (!IsRunning() && !IsPaused()) {
-    sendThr->Suspend();
-    recvThr->Suspend();
+    sendThr->Abort();
+    recvThr->Abort();
+    pingManager->Stop();
   }
 }
 

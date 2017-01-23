@@ -165,7 +165,6 @@ public:
         runningMutex.Unlock();
         return;
       }
-      runningMutex.Unlock();
       //The amount of milliseconds the thread should sleep for after finished
       MillisInt sleepTime;
       activePingersMutex.Lock();
@@ -217,6 +216,7 @@ public:
       {
         sleepTime = activePingers.front().GetNextPingTimeMillis();		//The top element should always have the lowest nextPingTime()
       }
+      runningMutex.Unlock();
       activePingersMutex.Unlock();
       std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));		//Thread will sleep until a send is needed
     }
@@ -289,6 +289,8 @@ public:
     @param The id of the remote node to send the ping to.
   */
   void SendPingPacket(uint8_t destID);
+
+  void Stop();
 
   /**
     Sets {@link #running} to {@code false} allowing the {@link #pingSendThread} to terminate cleanly.

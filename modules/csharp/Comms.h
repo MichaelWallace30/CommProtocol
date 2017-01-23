@@ -38,6 +38,7 @@ public ref class Comms : public CommNode {
 public:
   Comms(UInt32 id);
   ~Comms();
+  !Comms();
 
   Boolean LoadKey(String^ key){
     char* unsafe_key = (char *)(void *)Marshal::StringToHGlobalAnsi(key);
