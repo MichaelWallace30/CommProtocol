@@ -1,0 +1,4 @@
+Run the following commands to install the PacketGen submodule
+
+git submodule init
+git submodule update
