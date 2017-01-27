@@ -1,5 +1,5 @@
 /*
-Packet for syncing time
+Reply to SyncRequestPacket containing the time the request was sent.
 
 Copyright (C) 2016  Alex Craig, Michael Wallace, Mario Garcia.
 
@@ -23,39 +23,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/abstractpacket.h>
 
 namespace comnet {
-		namespace ping {
-				class SyncReplyPacket : INHERITS_ABSPACKET
-				{
-				public:
-						SyncReplyPacket()
-								: CHAIN_ABSPACKET(ABSPacket)
-						{
+  namespace ping {
+    /**
+    Packet to be sent when replying to SyncRequestPacket.
+    */
+    class SyncReplyPacket : INHERITS_ABSPACKET
+    {
+    public:
+      /**
+      Creates a new instance of {@link SyncRequestPacket}.
+      @return A new {@link SyncRequestPacket}.
+      */
+      SyncReplyPacket()
+        : CHAIN_ABSPACKET(ABSPacket)
+      {
 
-						}
+      }
 
-						void Pack(REF_OBJECTSTREAM objOut) override;
+      /**
+      requestSentTime is serialized to objOut.
+      @param objOut The stream to serialize data to.
+      */
+      void Pack(REF_OBJECTSTREAM objOut) override;
 
-						void Unpack(REF_OBJECTSTREAM objIn) override;
+      /**
+      requestSentTime is deserialized from the objIn stream.
+      @param objIn The stream to deserialize data from.
+      */
+      void Unpack(REF_OBJECTSTREAM objIn) override;
 
-						void SetRequestSentTime(int32_t requestSentTime)
-						{
-								this->requestSentTime = requestSentTime;
-						}
+      /**
+      Modifier for requestSentTime
+      */
+      void SetRequestSentTime(int32_t requestSentTime)
+      {
+        this->requestSentTime = requestSentTime;
+      }
 
-						int32_t GetRequestSentTime()
-						{
-								return requestSentTime;
-						}
+      /**
+      Accessor for requestSentTime
+      */
+      int32_t GetRequestSentTime()
+      {
+        return requestSentTime;
+      }
 
-						AbstractPacket* Create() override
-						{
-								return new SyncReplyPacket();
-						}
+      /**
+      Creates a new instance of {@link SyncReplyPacket}.
+      */
+      AbstractPacket* Create() override
+      {
+        return new SyncReplyPacket();
+      }
 
-				private:
-						int32_t requestSentTime;
-				};
-		}
+    private:
+      /**
+      The timestamp of the peer that sent the SyncRequestPack.
+      */
+      int32_t requestSentTime;
+    };
+  }
 }
 
 #endif

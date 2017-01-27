@@ -82,7 +82,7 @@ public:
     Initializes and detaches the pingSendThread.
     {@code true} when successfully running, {@code false} otherwise.
   */
-		bool Run();
+  bool Run();
 
   /**
     Checks if the {@link Pinger} that matches the destID is active.
@@ -126,7 +126,7 @@ public:
         activePingersMutex.Unlock();
       }
       mapIter->second->ResetReceiveTime();
-						mapIter->second->ResetPing(time);
+      mapIter->second->ResetPing(time);
     }
     destPingerMapMutex.Unlock();
   }
@@ -174,19 +174,19 @@ public:
         {
           //Gets the amount of milliseconds until the pinger needs to be sent to
           MillisInt nextPingTime = it->GetNextPingTimeMillis();
-										if (nextPingTime <= 0)
-										{
-												//When nextPingTime is less than 0 that means its ready to be sent a ping
-												SendPingPacket(it->GetDestID());		//Sends a ping packet to the pinger
-												it->ResetToResendPingTime();		//Will reset nextPingTime so that it will only be negative after Pinger::PING_RESEND_TIME_MILLIS has passed
-												if (it->IsInactive()) {
-														auto prevIt = it;
-														it++;
-														inactivePingersMutex.Lock();
-														TransferToInactivePingers(prevIt);
-														inactivePingersMutex.Unlock();
-														continue;
-												}
+          if (nextPingTime <= 0)
+          {
+            //When nextPingTime is less than 0 that means its ready to be sent a ping
+            SendPingPacket(it->GetDestID());		//Sends a ping packet to the pinger
+            it->ResetToResendPingTime();		//Will reset nextPingTime so that it will only be negative after Pinger::PING_RESEND_TIME_MILLIS has passed
+            if (it->IsInactive()) {
+              auto prevIt = it;
+              it++;
+              inactivePingersMutex.Lock();
+              TransferToInactivePingers(prevIt);
+              inactivePingersMutex.Unlock();
+              continue;
+            }
           }
           else
           {
@@ -194,7 +194,7 @@ public:
             {
               auto spliceIter = it;	//Iterator representing the position to insert elements into
               while (spliceIter != activePingers.end() && 
-																spliceIter->GetNextPingTimeMillis() < Pinger::PING_RESEND_TIME_MILLIS)
+                spliceIter->GetNextPingTimeMillis() < Pinger::PING_RESEND_TIME_MILLIS)
               {
                 spliceIter++;
               }
@@ -225,13 +225,13 @@ public:
     and {@link #destPingerMap}.
     @param destID The remote node_id that the {@link Pinger} will be bound to.
   */
-		void AddPinger(uint8_t destID);
+  void AddPinger(uint8_t destID);
 
   /**
     Removes the {@link Pinger} with a destID matching the argument.
     @param destID The remote node_id of the {@link Pinger} that should be removed.
   */
-		void RemovePinger(uint8_t destID);
+  void RemovePinger(uint8_t destID);
 
   /**
     Checks if enough time has passed since the last time a packet was sent
@@ -260,11 +260,21 @@ public:
   */
   void SendPingPacket(uint8_t destID);
 
+  /**
+    Must be called before destructor. Stops {@link #pingSendThead}
+    and {@link #syncManager} from running.
+  */
   void Stop();
 
-		void SyncTime(uint8_t nodeID, int32_t timeOff);
+  /**
+  Called by {@link SyncReplyPacket} callback to sync timestamp of peer.
+  */
+  void SyncTime(uint8_t nodeID, int32_t timeOff);
 
-		int16_t GetPing(uint8_t nodeID);
+  /**
+  Get the estimated ping in ms of a {@link Pinger}.
+  */
+  int16_t GetPing(uint8_t nodeID);
 
   /**
     Sets {@link #running} to {@code false} allowing the {@link #pingSendThread} to terminate cleanly.
@@ -341,7 +351,10 @@ private:
   */
   Comms* ownerComms;
 
-		std::shared_ptr <SyncManager> syncManager;
+  /**
+    Manages the estimation of ping in ms.
+  */
+  std::shared_ptr <SyncManager> syncManager;
 
   /**
     {@code true} when the {@link #pingSendThread} should be running, {@code false} when the thread
