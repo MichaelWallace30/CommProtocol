@@ -56,6 +56,7 @@ void Comms::CommunicationHandlerSend()
      pingManager->ResetSendTime(temp->header_packet.dest_id);
      free_pointer(temp);
   }
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 //		COMMS_DEBUG("IM GOING!!\n");
  }
  debug::Log::Message(debug::LOG_DEBUG, "Send Ends!");
@@ -118,7 +119,7 @@ void Comms::CommunicationHandlerRecv() {
         }
       }
     }
-    //std::this_thread::sleep_for(std::chrono::milliseconds(50));	
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));	
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }

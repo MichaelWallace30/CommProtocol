@@ -39,7 +39,8 @@ public ref class Header sealed
 		void SetMessageLength(UInt16 mesageLength);
 		uint16_t GetMessageLength();
 		void SetMessageID(UInt16 messageID);
-		uint16_t GetMessageID();		
+		uint16_t GetMessageID();
+		int32_t GetSourceTime();
 		void SetIV(cli::array<Byte>^ IV);		
 		cli::array<Byte>^ GetIV();
 

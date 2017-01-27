@@ -71,15 +71,22 @@ bool Pinger::IsSynced()
 
 void Pinger::SyncTime(int32_t timeOff)
 {
+		CommLock syncLock(syncMutex);
 		numSyncPacksReceived++;
-		timeOffMillis = ((numSyncPacksReceived - 1) / numSyncPacksReceived) * this->timeOffMillis + (1 / numSyncPacksReceived) * timeOff;
+		timeOffMillis = (MillisInt)((float)(numSyncPacksReceived - 1) / (float)numSyncPacksReceived) * this->timeOffMillis + (1.0f / (float)numSyncPacksReceived) * timeOff;
 }
 
 void Pinger::ResetPing(int32_t time)
 {
+		CommLock syncLock(syncMutex);
 		if (numSyncPacksReceived > 0)
 		{
 				ping = GetTimeSinceStart() - (time + timeOffMillis);
+				if (ping < 0)
+				{
+						ping = 0;
+				}
+				std::cout << "PING: " << ping << std::endl;
 		}
 }
 

@@ -58,12 +58,42 @@ namespace Comnet {
       pingAttemptsMutex->ReleaseMutex();
     }
 
-    void Pinger::ResetSendTime()
+    Void Pinger::ResetSendTime()
     {
       sendTimeMutex->WaitOne();
       lastSendTime->Restart();
       sendTimeMutex->ReleaseMutex();
     }
+
+				Boolean Pinger::IsSynced()
+				{
+						syncMutex->WaitOne();
+						bool isSynced = numSyncPacksReceived >= NUM_SYNC_PACKS;
+						syncMutex->ReleaseMutex();
+						return isSynced;
+				}
+
+				Void Pinger::SyncTime(int32_t timeOff)
+				{
+						syncMutex->WaitOne();
+						numSyncPacksReceived++;
+						timeOffMillis = (MillisInt)((float)(numSyncPacksReceived - 1) / (float)numSyncPacksReceived) * this->timeOffMillis + (1.0f / (float)numSyncPacksReceived) * timeOff;
+						syncMutex->ReleaseMutex();
+				}
+
+				Void Pinger::ResetPing(int32_t time)
+				{
+						syncMutex->WaitOne();
+						if (numSyncPacksReceived > 0)
+						{
+								ping = GetTimeSinceStart() - (time + timeOffMillis);
+								if (ping < 0)
+								{
+										ping = 0;
+								}
+						}
+						syncMutex->ReleaseMutex();
+				}
 
     MillisInt Pinger::GetNextPingTimeMillis()
     {
@@ -73,5 +103,12 @@ namespace Comnet {
       return nextPingTime;
     }
 
+				MillisInt Pinger::GetNextSyncTimeMillis()
+				{
+						syncMutex->WaitOne();
+						MillisInt nextSyncTime = syncSendDelay - GetMillisPassed(lastSyncPackSentTime);
+						syncMutex->ReleaseMutex();
+						return nextSyncTime;
+				}
   } //namespace ping
 } //namespace comnet

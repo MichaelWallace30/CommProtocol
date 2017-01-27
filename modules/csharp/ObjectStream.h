@@ -34,7 +34,9 @@ namespace Comnet {
 			Int32 GetPosition();
 			Int32 GetSize();
 
-			void SerializeHeader(Header ^ header);
+			void SetHeader(Header^ header);
+
+			void SerializeHeader();
 			Header^ DeserializeHeader();
 
 			//intput
@@ -61,7 +63,7 @@ namespace Comnet {
 			UInt64 OutputUInt64();
 			Int64 OutputInt64();
 			Single OutputSingle();
-			Double OutputDouble();			
+			Double OutputDouble();
 
 internal:
   ObjectStream(CommPointer<comnet::serialization::ObjectStream>* pointer);

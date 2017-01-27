@@ -34,6 +34,7 @@ namespace Comnet {
   ref class Comms;
   namespace Ping {
     ref class PingPacket;
+				ref class SyncManager;
     using namespace System::Collections::Generic;
 #pragma managed
 
@@ -66,6 +67,8 @@ namespace Comnet {
 
       Void SendPingPacket(uint8_t destID);
 
+						Void SyncTime(uint8_t nodeID, int32_t timeOff);
+
       ~PingManager();
 
       !PingManager();
@@ -88,6 +91,8 @@ namespace Comnet {
       Threading::Mutex^ destPingerMapMutex;
 
       Threading::Thread^ pingSendThread;
+
+						SyncManager^ syncManager;
 
       Comms^ owner;  //May prevent deletion of Comms
 

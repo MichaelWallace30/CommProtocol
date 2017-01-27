@@ -5,6 +5,7 @@
 #include <tools/data_structures/AutoQueue.h>
 #include <ObjectStream.h>
 #include <pkg/PacketManager.h>
+#include <ping/Pinger.h>
 
 
 namespace Comnet {
@@ -51,7 +52,7 @@ Void Comms::commHelperRecv() {
         }
       }
     }
-    System::Threading::Thread::Sleep(15);
+    System::Threading::Thread::Sleep(50);
   }
 }
 
@@ -60,12 +61,14 @@ Void Comms::commHelperSend() {
   while (IsRunning()) {
     if (!sendQueue->IsEmpty()) {
       ObjectStream^ temp = sendQueue->DeQueue();
-      connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
+						temp->unmangedObjectStream->Get().header_packet.SetSourceTime((int32_t)Ping::Pinger::START_TIME->ElapsedMilliseconds);
+						temp->SerializeHeader();
+						connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
                       temp->unmangedObjectStream->Get().GetBuffer(),
                       temp->unmangedObjectStream->Get().GetSize());
       pingManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
     }
-    System::Threading::Thread::Sleep(15);
+    System::Threading::Thread::Sleep(50);
   }
 }
 
@@ -193,7 +196,7 @@ Boolean Comms::Send(ABSPacket^ packet, Byte destId) {
   header->SetSourceID(this->GetNodeId());
   header->SetMessageID(packet->GetAbstractPacket()->GetId());
   header->SetMessageLength(stream->GetSize());
-  stream->SerializeHeader(header);
+  stream->SetHeader(header);
   if (encryptor->Encrypt(&stream->unmangedObjectStream->Get())) {
    COMMS_DEBUG("ENCRYPTED PACKET!\n");
   } else {

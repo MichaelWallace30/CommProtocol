@@ -1,5 +1,6 @@
 #include <ping/PingManager.h>
 #include <ping/PingPacket.h>
+#include <ping/SyncManager.h>
 #include <Comms.h>
 
 namespace Comnet {
@@ -220,6 +221,17 @@ namespace Comnet {
       owner->Send(sendPacket, destID);
     }
 
+				Void PingManager::SyncTime(uint8_t nodeID, int32_t timeOff)
+				{
+						destPingerMapMutex->WaitOne();
+						auto mapIter = destPingerMap->find(nodeID);
+						if (mapIter != destPingerMap->end() && !(*mapIter->second)->IsSynced())
+						{
+								syncManager->SyncTime(*mapIter->second, timeOff);
+						}
+						destPingerMapMutex->ReleaseMutex();
+				}
+
     PingManager::~PingManager()
     {
       this->!PingManager();
@@ -256,5 +268,6 @@ namespace Comnet {
       debugMsg += " was set to inactive";
       comnet::debug::Log::Message(comnet::debug::LOG_DEBUG, debugMsg);
     }
+
   }
 }

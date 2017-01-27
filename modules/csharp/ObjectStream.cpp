@@ -52,17 +52,21 @@ Int32 ObjectStream::GetSize()
 	return unmangedObjectStream->Get().GetSize();
 }
 
-void ObjectStream::SerializeHeader(Header ^ header)
+void ObjectStream::SetHeader(Header^ header)
 {
-	unmangedObjectStream->Get().header_packet.dest_id = header->GetDestID();
-	unmangedObjectStream->Get().header_packet.source_id = header->GetSourceID();
-	unmangedObjectStream->Get().header_packet.msg_len = header->GetMessageLength();
-	unmangedObjectStream->Get().header_packet.msg_id = header->GetMessageID();
-	for (int x = 0; x < KEY_LENGTH; x++)
-	{
-		unmangedObjectStream->Get().header_packet.iv[x] = header->GetIV()[x];
-	}
-	unmangedObjectStream->Get().SerializeHeader(unmangedObjectStream->Get().header_packet);
+		unmangedObjectStream->Get().header_packet.dest_id = header->GetDestID();
+		unmangedObjectStream->Get().header_packet.source_id = header->GetSourceID();
+		unmangedObjectStream->Get().header_packet.msg_len = header->GetMessageLength();
+		unmangedObjectStream->Get().header_packet.msg_id = header->GetMessageID();
+		for (int x = 0; x < KEY_LENGTH; x++)
+		{
+				unmangedObjectStream->Get().header_packet.iv[x] = header->GetIV()[x];
+		}
+}
+
+void ObjectStream::SerializeHeader()
+{
+	unmangedObjectStream->Get().SerializeHeader();
 }
 
 Header^ ObjectStream::DeserializeHeader()

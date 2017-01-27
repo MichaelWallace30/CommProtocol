@@ -38,7 +38,12 @@ namespace Comnet {
     public ref class Pinger
     {
     public:
-      /**
+						static Diagnostics::Stopwatch^ START_TIME = Diagnostics::Stopwatch::StartNew();
+      
+						static MillisInt GetTimeSinceStart() {
+								return (MillisInt)START_TIME->ElapsedMilliseconds;
+						}
+						/**
       The amount of that must pass since the last time a packet
       was received from the {@link #destID} before
       a {@link PingPacket} is sent.
@@ -57,6 +62,9 @@ namespace Comnet {
       */
       static const MillisInt PONG_TIME_MILLIS = 1500;
 
+						static const MillisInt SYNC_PACK_SEND_MILLIS = 2000;
+
+						static const int NUM_SYNC_PACKS = 8;
       /**
       The maximum amount times to attempt to send a {@link PingPacket} wihtout
       receiving any response from {@link #destID}.  Once exceeded, the {@link Pinger}
@@ -80,6 +88,8 @@ namespace Comnet {
       @return A new instance of {@link Pinger}.
       */
       Pinger(uint8_t destID);
+
+						Void ResetSyncPackSentTime();
 
       /**
       Resets {@link #lastPingTime} to the current time.  Sets {@link #pingTime} to
@@ -134,12 +144,25 @@ namespace Comnet {
         return result;
       }
 
+						Boolean IsSynced();
+
+						Void SyncTime(int32_t timeOff);
+
+						Void ResetPing(int32_t time);
+
       /**
       Gets the amount of time in milliseconds before another {@link PingPacket} needs to be sent,
       if positive, no packet needs to be send, if negative, send the packet.
       @return The amount of milliseconds before another {@link PingPacket} should be sent.
       */
       MillisInt GetNextPingTimeMillis();
+
+						MillisInt GetNextSyncTimeMillis();
+
+						int16_t GetPing()
+						{
+								return ping;
+						}
 
     private:
       /**
@@ -186,6 +209,20 @@ namespace Comnet {
       Prevents {@link #pingAttempts} from being modified and read at the same time.
       */
       Threading::Mutex^ pingAttemptsMutex;
+
+						uint8_t numSyncPacksReceived;
+
+						int32_t timeOffMillis;
+
+						MillisInt syncSendDelay;
+
+						int16_t ping;
+
+						Diagnostics::Stopwatch^ lastSyncPackSentTime;
+
+						Threading::Mutex^ pingMutex;
+
+						Threading::Mutex^ syncMutex;
     };
   } //namespace ping
 } //namespace comnet
