@@ -1,5 +1,5 @@
 /*
-Packet for syncing time
+Packet for syncing time.
 
 Copyright (C) 2016  Alex Craig, Michael Wallace, Mario Garcia.
 
@@ -24,40 +24,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 namespace comnet {
-		namespace ping {
-				/**
-				Packet to be sent and received to ping and pong.
-				*/
-				class SyncRequestPacket : INHERITS_ABSPACKET
-				{
-				public:
-						/**
-						Creates a new instance of {@link PingPacket}.
-						@return A new {@link PingPacket}.
-						*/
-						SyncRequestPacket();
+  namespace ping {
+    /**
+    Packet to be sent when requesting the timestamp of the peer.
+    */
+    class SyncRequestPacket : INHERITS_ABSPACKET
+    {
+    public:
+      /**
+      Creates a new instance of {@link SyncRequestPacket}.
+      @return A new {@link SyncRequestPacket}.
+      */
+      SyncRequestPacket();
 
-						/**
-						Serializes {@link #ping} to the stream.
-						@param objOut The stream to serialize the data to.
-						*/
-						void Pack(REF_OBJECTSTREAM objOut) override;
+      /**
+      No data is serialized.
+      @param objOut The stream to serialize the data to.
+      */
+      void Pack(REF_OBJECTSTREAM objOut) override;
 
-						/**
-						Parses {@link #ping} from the stream.
-						@param objIn The stream to parse data from.
-						*/
-						void Unpack(REF_OBJECTSTREAM objIn) override;
+      /**
+      No data is parsed.
+      @param objIn The stream to parse data from.
+      */
+      void Unpack(REF_OBJECTSTREAM objIn) override;
 
-						/**
-						Creates a new instance of {@link PingPacket}.
-						@return New instance of {@link PingPacket}.
-						*/
-						AbstractPacket* Create() override
-						{
-								return new SyncRequestPacket();
-						}
-				};
-		} //namespace ping
+      /**
+      Creates a new instance of {@link SyncRequestPacket}.
+      @return New instance of {@link SyncRequestPacket}.
+      */
+      AbstractPacket* Create() override
+      {
+        return new SyncRequestPacket();
+      }
+    };
+  } //namespace ping
 } //namespace comnet
 #endif //__PING_PACKET_H

@@ -61,11 +61,17 @@ public:
   */
   static const MillisInt PONG_TIME_MILLIS = 1500;
 
-		static const MillisInt SYNC_PACK_SEND_MILLIS = 2000;
+  /**
+    The amount of milliseconds that must pass before sending
+    another {@link SyncRequestPacket}.
+  */
+  static const MillisInt SYNC_PACK_SEND_MILLIS = 2000;
 
-		static const MillisInt CHECK_OFF_MILLIS = 50;
-
-		static const int NUM_SYNC_PACKS = 8;
+  /**
+   The number of {@link SyncRequestPacket}s that must be received
+   before a {@link Pinger} is considered synced.
+  */
+  static const int NUM_SYNC_PACKS = 8;
 
   /**
     The maximum amount times to attempt to send a {@link PingPacket} wihtout
@@ -74,7 +80,10 @@ public:
   */
   static const uint8_t MAX_PING_ATTEMPTS = 5;
 
-		static const TimePoint START_TIME;
+  /**
+    Stores the timestamp at the beginning of the program.
+  */
+  static const TimePoint START_TIME;
   /**
     Gets the current time.
     @return The current time.
@@ -94,9 +103,12 @@ public:
     return static_cast<comnet::ping::MillisInt>(millis.count());
   }
 
-		static MillisInt GetTimeSinceStart() {
-				return GetMillisPassed(START_TIME);
-		}
+  /**
+    Get time passed since program start and current time.
+  */
+  static MillisInt GetTimeSinceStart() {
+    return GetMillisPassed(START_TIME);
+  }
 
   /**
     Used for copy and swap idiom.
@@ -155,9 +167,10 @@ public:
     return *this;
   }
 
-		/**
-		*/
-		void ResetSyncPackSentTime();
+  /**
+    Reset the the time a {@link SyncRequestPacket} was sent to now.
+  */
+  void ResetSyncPackSentTime();
 
   /**
     Resets {@link #lastPingTime} to the current time.  Sets {@link #pingTime} to 
@@ -207,25 +220,40 @@ public:
     return (pingAttempts > MAX_PING_ATTEMPTS);
   }
 
-		bool IsSynced();
-
-		void SyncTime(int32_t timeOff);
-
-		void ResetPing(int32_t time);
+  /**
+    True when {@link #numSyncPacksReceived} is greater than or equal to {@link #NUM_SYNC_PACKS}
+  */
+  bool IsSynced();
 
   /**
-  Gets the amount of time in milliseconds before another {@link PingPacket} needs to be sent,
-  if positive, no packet needs to be send, if negative, send the packet.
-  @return The amount of milliseconds before another {@link PingPacket} should be sent.
+    Adjusts {@link #timeOffMillis}.
+  */
+  void SyncTime(int32_t timeOff);
+
+  /**
+    Sets {@link #ping} based on the time parameter and {@link #timeOffMillis}
+  */
+  void ResetPing(int32_t time);
+
+  /**
+    Gets the amount of time in milliseconds before another {@link PingPacket} needs to be sent,
+    if positive, no packet needs to be send, if negative, send the packet.
+    @return The amount of milliseconds before another {@link PingPacket} should be sent.
   */
   MillisInt GetNextPingTimeMillis();
 
-		MillisInt GetNextSyncTimeMillis();
+  /**
+    Gets the next time a {@link SyncRequestPacket} must be sent.
+  */
+  MillisInt GetNextSyncTimeMillis();
 
-		int16_t GetPing()
-		{
-				return ping;
-		}
+  /**
+    Accessor for {@link #ping}.
+  */
+  int16_t GetPing()
+  {
+    return ping;
+  }
 
   /**
     Default destructor.
@@ -278,19 +306,43 @@ private:
   */
   CommMutex pingAttemptsMutex;
 
-		uint8_t numSyncPacksReceived;
+  /**
+    Keeps track fo the number of times {@link #SyncTime} was called.
+  */
+  uint8_t numSyncPacksReceived;
 
-		int32_t timeOffMillis;
+  /**
+    The number of milliseconds the peer's timestamp differs from this
+    timestamp.
+  */
+  int32_t timeOffMillis;
 
-		MillisInt syncSendDelay;
+  /**
+    The amount of milliseconds that need to pass before sending another
+    {@link SyncRequestPacket}.
+  */
+  MillisInt syncSendDelay;
 
-		int16_t ping;
+  /**
+    The estimated ping of the peer.
+  */
+  int16_t ping;
 
-		TimePoint lastSyncPackSentTime;
+  /**
+    The last time a {@link SyncRequestPacket} was sent.
+  */
+  TimePoint lastSyncPackSentTime;
 
-		CommMutex pingMutex;
+  /**
+    Prevents {@link #ping} from being modified at the same time.
+  */
+  CommMutex pingMutex;
 
-		CommMutex syncMutex;
+  /**
+    Prevents {@link #lastSyncPackSentTime} from being modified at
+    the same time.
+  */
+  CommMutex syncMutex;
 };
 } //namespace ping
 } //namespace comnet
