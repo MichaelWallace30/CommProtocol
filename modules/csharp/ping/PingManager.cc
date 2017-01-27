@@ -47,6 +47,13 @@ namespace Comnet {
       pingSendThread->Start();
       return true;
     }
+
+    void PingManager::Stop()
+    {
+      runningMutex->WaitOne();
+      running = false;
+      runningMutex->ReleaseMutex();
+    }
     
     Boolean PingManager::IsActive(uint8_t destID)
     {
@@ -217,7 +224,7 @@ namespace Comnet {
 
     Void PingManager::SendPingPacket(uint8_t destID) {
       PingPacket^ sendPacket = gcnew PingPacket();
-						sendPacket->SetPing(true);
+      sendPacket->SetPing(true);
       owner->Send(sendPacket, destID);
     }
 

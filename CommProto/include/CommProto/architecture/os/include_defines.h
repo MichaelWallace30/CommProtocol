@@ -26,6 +26,11 @@
 #include <CommProto/architecture/os/arch.h>
 #include <stdint.h>
 
+
+typedef float real32_t;
+typedef double real64_t;
+
+
 #define COMM_PROGRAM_START_TIME __TIME__
 #define COMM_PROGRAM_START_DATE __DATE__
 

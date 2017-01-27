@@ -67,6 +67,8 @@ namespace Comnet {
 
       Void SendPingPacket(uint8_t destID);
 
+      Void Stop();
+
 						Void SyncTime(uint8_t nodeID, int32_t timeOff);
 
       ~PingManager();

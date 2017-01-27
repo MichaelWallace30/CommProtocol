@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CommProto/callback.h>
 #include <CommProto/architecture/os/comm_thread.h>
+#include <CommProto/architecture/os/comm_mutex.h>
+
 #include <mutex>
 #include <list>
 #include <memory>

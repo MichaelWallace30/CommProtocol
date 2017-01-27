@@ -20,8 +20,12 @@
 
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/api.h>
+
+#include <CommProto/network/network_graph/network_edge.h>
+#include <CommProto/network/network_graph/network_node.h>
 #include <memory>
 #include <vector>
+#include <unordered_map>
 #include <algorithm>
 
 
@@ -39,16 +43,54 @@ public:
   NetworkGraph();
   ~NetworkGraph();
 
-
+  /**
+    Get the overall number of nodes in this network graph.
+  */
   int32_t GetSize() { return nodes.size(); }
+  
+  /**
+    Get the list of all nodes in this network graph.
+  */
   std::vector<std::shared_ptr<Node> >& GetNodes() { return nodes; }
   
+  /**
+    Inserts a new node into the Network Graph. On success, function returns the 
+    address of the newly created node.
+  */
+  Node *InsertNode(transport_protocol_t protocol, uint32_t cluster_id);
+
+  /**
+    Removes the specified node.
+  */
+  int32_t RemoveNode(uint32_t cluster_id);
+  int32_t RemoveNode(Node *node);
+
+  /**
+    Gets the node with the specified cluster_id. Returns nullptr if no node was
+    found.
+  */
+  Node *Search(uint32_t cluster_id);
+  
+  /**
+    Checks if this network graph is empty.
+  */
+  bool IsEmpty() { return nodes.empty(); }
+
 private:
+  /**
+    {cluster_id, Node_addr} key.
+  */
+  std::unordered_map<uint32_t, Node *> node_map;
+
   /**
     Node pile.
    */
   ::std::vector< ::std::shared_ptr<Node> > nodes;
   
+  /*
+    Checks if the Network graph requires an update.
+  */
+  bool dirty;
 };
 } // network
 } // comnet

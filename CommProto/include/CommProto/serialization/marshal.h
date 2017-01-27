@@ -34,9 +34,6 @@ namespace serialization {
 	typedef uint8_t* marshal_t;
 	typedef char* string_t;
 
-	typedef float real32_t;
-	typedef double real64_t;
-
 	uint32_t PackString(string_t data, uint8_t len, marshal_t input);
 	uint32_t UnpackString(string_t data, uint8_t len, marshal_t input);
 
