@@ -71,6 +71,8 @@ namespace Comnet {
 
 						Void SyncTime(uint8_t nodeID, int32_t timeOff);
 
+						Void CheckResync(uint8_t nodeID, int64_t unixHighResTimeDif);
+
 						int16_t GetPing(uint8_t nodeID);
 
       ~PingManager();

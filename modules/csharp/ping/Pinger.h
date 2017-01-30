@@ -50,6 +50,8 @@ namespace Comnet {
       */
       static const MillisInt PING_TIME_MILLIS = 7500;
 
+						static const MillisInt MAX_CLOCK_DIF = 2000;
+
       /**
       The amount of milliseconds that must pass since {@link #lastPingTime} before
       attempting to send another {@link PingPacket} after no response from the {@link #destID}.
@@ -146,6 +148,15 @@ namespace Comnet {
 
 						Void SetAsUnsynced();
 
+						Boolean CheckResync(int64_t unixHighResTimeDif);
+
+						Void SetUnixHighResTimeDif(int64_t unixHighResTimeDif)
+						{
+								this->unixHighResTimeDif = unixHighResTimeDif;
+						}
+
+						Void Resync();
+
 						Boolean IsSynced();
 
 						Void SyncTime(int32_t timeOff);
@@ -215,6 +226,8 @@ namespace Comnet {
 						uint8_t numSyncPackReplysReceived;
 
 						int32_t timeOffMillis;
+
+						int64_t unixHighResTimeDif;
 
 						MillisInt syncSendDelay;
 

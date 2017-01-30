@@ -24,17 +24,18 @@ namespace Comnet {
 								return gcnew SyncRequestPacket();
 						}
 
-						Void SetRequestNum(uint8_t syncRequestNum)
+						Void SetTimeDif(int64_t unixTimeMillis, int64_t highResTimeMillis)
 						{
-								this->syncRequestNum = syncRequestNum;
+								unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
 						}
 
-						uint8_t GetSyncRequestNum() {
-								return this->syncRequestNum;
+						int64_t GetTimeDif()
+						{
+								return unixTimeHighResTimeDif;
 						}
 
 				private:
-						uint8_t syncRequestNum;
+						int64_t unixTimeHighResTimeDif;
 				};
 		}
 }

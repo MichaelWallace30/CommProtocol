@@ -19,6 +19,16 @@ namespace Comnet {
 
 						Void Unpack(ObjectStream^ objIn) override;
 
+						Void SetTimeDif(Int64 unixTimeMillis, Int64 highResTimeMillis)
+						{
+								unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
+						}
+
+						Int64 GetTimeDif()
+						{
+								return unixTimeHighResTimeDif;
+						}
+
 					 Int32 GetRequestSentTime()
 						{
 								return requestSentTime;
@@ -36,6 +46,8 @@ namespace Comnet {
 
 				private:
 						Int32 requestSentTime;
+
+						Int64 unixTimeHighResTimeDif;
 				};
 		}
 }

@@ -3,19 +3,19 @@
 namespace Comnet {
 		namespace Ping {
 				SyncRequestPacket::SyncRequestPacket()
-						:ABSPacket("SyncRequestPacket"), syncRequestNum(0)
+						:ABSPacket("SyncRequestPacket"), unixTimeHighResTimeDif(0)
 				{
 
 				}
 
 				Void SyncRequestPacket::Pack(ObjectStream^ objOut)
 				{
-						objOut->Input(syncRequestNum);
+						objOut->Input(unixTimeHighResTimeDif);
 				}
 
 				Void SyncRequestPacket::Unpack(ObjectStream^ objIn)
 				{
-						syncRequestNum = (uint8_t)objIn->OutputByte();
+						unixTimeHighResTimeDif = objIn->OutputInt64();
 				}
 		}
 }

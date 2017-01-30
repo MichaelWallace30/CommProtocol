@@ -11,10 +11,12 @@ namespace Comnet {
 				Void SyncReplyPacket::Pack(ObjectStream^ objOut)
 				{
 						objOut->Input(requestSentTime);
+						objOut->Input(unixTimeHighResTimeDif);
 				}
 
 				Void SyncReplyPacket::Unpack(ObjectStream^ objIn)
 				{
+						unixTimeHighResTimeDif = objIn->OutputInt64();
 						requestSentTime = objIn->OutputInt32();
 				}
 		}

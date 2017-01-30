@@ -53,10 +53,10 @@ namespace comnet {
       Creates a new instance of {@link SyncRequestPacket}.
       @return New instance of {@link SyncRequestPacket}.
       */
-      AbstractPacket* Create() override
-      {
-        return new SyncRequestPacket();
-      }
+						AbstractPacket* Create() override
+						{
+								return new SyncRequestPacket();
+						}
     };
   } //namespace ping
 } //namespace comnet

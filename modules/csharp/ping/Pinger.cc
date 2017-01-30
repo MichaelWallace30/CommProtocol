@@ -25,7 +25,9 @@ namespace Comnet {
     using namespace System;
 
     Pinger::Pinger(uint8_t destID)
-      :destID(destID), pingAttempts(0)
+      :destID(destID), pingAttempts(0), ping(-1), syncSendDelay(0), 
+						unixHighResTimeDif(0), timeOffMillis(0),
+						numSyncPackReplysReceived(0), pingTime(0)
     {
       lastPingTime = gcnew Diagnostics::Stopwatch();
       lastSendTime = gcnew Diagnostics::Stopwatch();
@@ -81,6 +83,27 @@ namespace Comnet {
 						syncMutex->WaitOne();
 						numSyncPackReplysReceived = 0;
 						syncMutex->ReleaseMutex();
+				}
+
+				Boolean Pinger::CheckResync(int64_t unixHighResTimeDif)
+				{
+						bool resyncRequired = false;
+						syncMutex->WaitOne();
+						if (numSyncPackReplysReceived > 0 && abs(this->unixHighResTimeDif - unixHighResTimeDif) > MAX_CLOCK_DIF) {
+								resyncRequired = true;
+						}
+						syncMutex->ReleaseMutex();
+						return resyncRequired;
+				}
+
+				Void Pinger::Resync()
+				{
+						syncMutex->WaitOne();
+						numSyncPackReplysReceived = 0;
+						syncMutex->ReleaseMutex();
+						pingMutex->WaitOne();
+						ping = -1;
+						pingMutex->ReleaseMutex();
 				}
 
 				Boolean Pinger::IsSynced()

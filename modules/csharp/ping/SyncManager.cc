@@ -8,11 +8,14 @@ namespace Comnet {
 		namespace Ping {
 				Int32 SyncRequestCallback(Header^ header, ABSPacket^ absPacket, CommNode^ node)
 				{
+						SyncRequestPacket^ requestPacket = (SyncRequestPacket^)absPacket;
 						SyncReplyPacket^ replyPacket = gcnew SyncReplyPacket();
 						replyPacket->SetRequestSentTime(header->GetSourceTime());
+						Int64 unixTimeMillis = (DateTime::UtcNow - DateTime(1970, 1, 1)).TotalMilliseconds;
+						replyPacket->SetTimeDif(unixTimeMillis, Pinger::GetTimeSinceStart());
 						std::cout << "HEADER SOURCE TIME: " << header->GetSourceTime() << std::endl;
 						node->Send(replyPacket, header->GetSourceID());
-						
+						((Comms^)node)->GetPingManager()->CheckResync(header->GetSourceID(), requestPacket->GetTimeDif());
 						return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 				}
 
@@ -23,6 +26,8 @@ namespace Comnet {
 						float estSendTime = (float)(Pinger::GetTimeSinceStart() - syncReplyPacket->GetRequestSentTime()) / 2.0f;
 						float estDestTimeStamp = header->GetSourceTime() + estSendTime;
 					 int32_t timeOff = (int32_t)(Pinger::GetTimeSinceStart() - estDestTimeStamp);
+						int64_t unixHighResTimeDif = syncReplyPacket->GetTimeDif();
+						((Comms^)node)->GetPingManager()->CheckResync(header->GetSourceID(), syncReplyPacket->GetTimeDif());
 						((Comms^)node)->GetPingManager()->SyncTime(header->GetSourceID(), timeOff);
 						return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 				}
@@ -117,6 +122,8 @@ namespace Comnet {
 				{
 						std::cout << "SYNC REQUEST SENT" << std::endl;
 						SyncRequestPacket^ syncRequest = gcnew SyncRequestPacket();
+					 Int64 unixTimeMillis = (DateTime::UtcNow - DateTime(1970, 1, 1)).TotalMilliseconds;
+						syncRequest->SetTimeDif(unixTimeMillis, Pinger::GetTimeSinceStart());
 						owner->Send(syncRequest, destPinger->GetDestID());
 				}
 

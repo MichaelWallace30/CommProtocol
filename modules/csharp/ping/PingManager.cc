@@ -251,6 +251,27 @@ namespace Comnet {
 						destPingerMapMutex->ReleaseMutex();
 				}
 
+				Void PingManager::CheckResync(uint8_t nodeID, int64_t unixHighResTimeDif)
+				{
+						destPingerMapMutex->WaitOne();
+						auto mapIter = destPingerMap->find(nodeID);
+						if (mapIter != destPingerMap->end())
+						{
+								std::cout << "UNIX TIME DIF: " << unixHighResTimeDif << std::endl;
+								if ((*mapIter->second)->CheckResync(unixHighResTimeDif))
+								{
+										if ((*mapIter->second)->IsSynced())
+										{
+												syncManager->AddUnsyncedPinger(*mapIter->second);
+										}
+										(*mapIter->second)->Resync();
+										std::cout << "RESYNC CALLED\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
+								}
+								(*mapIter->second)->SetUnixHighResTimeDif(unixHighResTimeDif);
+						}
+						destPingerMapMutex->ReleaseMutex();
+				}
+
 				int16_t PingManager::GetPing(uint8_t nodeID)
 				{
 						int16_t ping;
