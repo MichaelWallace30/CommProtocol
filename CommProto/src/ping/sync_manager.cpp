@@ -116,11 +116,12 @@ namespace comnet {
 						owner->LinkCallback(syncReplyPack, new comnet::Callback((comnet::callback_t)SyncReplyCallback));
 				}
 
-				void SyncManager::Run()
+				bool SyncManager::Run()
 				{
 						running = true;
 						syncSendThread = new CommThread(&SyncManager::SyncSendHandler, shared_from_this());
 						syncSendThread->Detach();
+						return true;
 				}
 
 				void SyncManager::Stop()

@@ -35,7 +35,7 @@ namespace Comnet {
 
 						Void SyncTime(Pinger_Ptr pinger, Int32 time);
 
-						Void SendSyncRequest(uint8_t destID);
+						Void SendSyncRequest(Pinger_Ptr destPinger);
 
 						Void LinkCallbacks();
 
@@ -43,12 +43,16 @@ namespace Comnet {
 
 						Void Stop();
 
+						~SyncManager();
+
+						!SyncManager();
+
 				private:
+						std::list <Pinger_Ptr>* unsyncedPingers;
 						Threading::AutoResetEvent^ syncHandlerRE;
 						Threading::Mutex^ runningMutex;
 						Threading::Mutex^ unsyncedPingerMutex;
 						Threading::Thread^ syncSendThread;
-						std::list <Pinger_Ptr>* unsyncedPingers;
 						SyncRequestPacket^ syncRequestPack;
 						SyncReplyPacket^ syncReplyPack;
 						Comms^ owner;

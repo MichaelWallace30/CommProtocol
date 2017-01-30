@@ -53,7 +53,7 @@ namespace Comnet {
 
       Boolean IsActive(uint8_t destID);
 
-      Void ResetPingTime(uint8_t destID);
+      Void ResetPingTime(uint8_t destID, int32_t time);
 
       Void ResetSendTime(uint8_t destID);
 
@@ -70,6 +70,8 @@ namespace Comnet {
       Void Stop();
 
 						Void SyncTime(uint8_t nodeID, int32_t timeOff);
+
+						int16_t GetPing(uint8_t nodeID);
 
       ~PingManager();
 

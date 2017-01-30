@@ -73,7 +73,7 @@ void Pinger::SyncTime(int32_t timeOff)
 {
 		CommLock syncLock(syncMutex);
 		numSyncPacksReceived++;
-		timeOffMillis = (MillisInt)((float)(numSyncPacksReceived - 1) / (float)numSyncPacksReceived) * this->timeOffMillis + (1.0f / (float)numSyncPacksReceived) * timeOff;
+		timeOffMillis = (MillisInt)(((float)(numSyncPacksReceived - 1) / (float)numSyncPacksReceived) * this->timeOffMillis + (1.0f / (float)numSyncPacksReceived) * timeOff);
 }
 
 void Pinger::ResetPing(int32_t time)

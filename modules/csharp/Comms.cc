@@ -31,7 +31,7 @@ Void Comms::commHelperRecv() {
       }
       if (temp->GetSize() > 0) {
         Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().DeserializeHeader());
-        pingManager->ResetPingTime(header->GetSourceID());
+        pingManager->ResetPingTime(header->GetSourceID(), header->GetSourceTime());
         
         packet = this->packetManager->ProduceFromId(header->GetMessageID());
         if (packet) {
@@ -61,7 +61,7 @@ Void Comms::commHelperSend() {
   while (IsRunning()) {
     if (!sendQueue->IsEmpty()) {
       ObjectStream^ temp = sendQueue->DeQueue();
-						temp->unmangedObjectStream->Get().header_packet.SetSourceTime((int32_t)Ping::Pinger::START_TIME->ElapsedMilliseconds);
+						temp->unmangedObjectStream->Get().header_packet.SetSourceTime(Ping::Pinger::GetTimeSinceStart());
 						temp->SerializeHeader();
 						connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
                       temp->unmangedObjectStream->Get().GetBuffer(),

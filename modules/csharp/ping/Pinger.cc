@@ -29,12 +29,23 @@ namespace Comnet {
     {
       lastPingTime = gcnew Diagnostics::Stopwatch();
       lastSendTime = gcnew Diagnostics::Stopwatch();
+						lastSyncPackSentTime = gcnew Diagnostics::Stopwatch();
       pingTimeMutex = gcnew Threading::Mutex();
       sendTimeMutex = gcnew Threading::Mutex();
       pingAttemptsMutex = gcnew Threading::Mutex();
+						pingMutex = gcnew Threading::Mutex();
+						syncMutex = gcnew Threading::Mutex();
       ResetReceiveTime();
       ResetSendTime();
     }
+
+				Void Pinger::ResetSyncPackSentTime()
+				{
+						syncMutex->WaitOne();
+						lastSyncPackSentTime->Restart();
+						syncSendDelay = SYNC_PACK_SEND_MILLIS;
+						syncMutex->ReleaseMutex();
+				}
 
     Void Pinger::ResetToResendPingTime()
     {
@@ -65,10 +76,17 @@ namespace Comnet {
       sendTimeMutex->ReleaseMutex();
     }
 
+				Void Pinger::SetAsUnsynced()
+				{
+						syncMutex->WaitOne();
+						numSyncPackReplysReceived = 0;
+						syncMutex->ReleaseMutex();
+				}
+
 				Boolean Pinger::IsSynced()
 				{
 						syncMutex->WaitOne();
-						bool isSynced = numSyncPacksReceived >= NUM_SYNC_PACKS;
+						bool isSynced = numSyncPackReplysReceived >= NUM_SYNC_PACKS;
 						syncMutex->ReleaseMutex();
 						return isSynced;
 				}
@@ -76,17 +94,18 @@ namespace Comnet {
 				Void Pinger::SyncTime(int32_t timeOff)
 				{
 						syncMutex->WaitOne();
-						numSyncPacksReceived++;
-						timeOffMillis = (MillisInt)((float)(numSyncPacksReceived - 1) / (float)numSyncPacksReceived) * this->timeOffMillis + (1.0f / (float)numSyncPacksReceived) * timeOff;
+						numSyncPackReplysReceived++;
+						timeOffMillis = (MillisInt)(((float)(numSyncPackReplysReceived - 1) / (float)numSyncPackReplysReceived) * this->timeOffMillis + (1.0f / (float)numSyncPackReplysReceived) * timeOff);
 						syncMutex->ReleaseMutex();
 				}
 
 				Void Pinger::ResetPing(int32_t time)
 				{
 						syncMutex->WaitOne();
-						if (numSyncPacksReceived > 0)
+						if (numSyncPackReplysReceived > 0)
 						{
 								ping = GetTimeSinceStart() - (time + timeOffMillis);
+								std::cout << "PING: " << ping << std::endl;
 								if (ping < 0)
 								{
 										ping = 0;

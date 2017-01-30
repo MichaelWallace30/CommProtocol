@@ -24,7 +24,7 @@ namespace Comnet {
 								return requestSentTime;
 						}
 
-						Void SetRequestSentTime(int32_t requestTimeSent)
+						Void SetRequestSentTime(int32_t requestSentTime)
 						{
 								this->requestSentTime = requestSentTime;
 						}

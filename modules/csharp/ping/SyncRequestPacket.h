@@ -23,6 +23,18 @@ namespace Comnet {
 						{
 								return gcnew SyncRequestPacket();
 						}
+
+						Void SetRequestNum(uint8_t syncRequestNum)
+						{
+								this->syncRequestNum = syncRequestNum;
+						}
+
+						uint8_t GetSyncRequestNum() {
+								return this->syncRequestNum;
+						}
+
+				private:
+						uint8_t syncRequestNum;
 				};
 		}
 }

@@ -144,6 +144,8 @@ namespace Comnet {
         return result;
       }
 
+						Void SetAsUnsynced();
+
 						Boolean IsSynced();
 
 						Void SyncTime(int32_t timeOff);
@@ -210,7 +212,7 @@ namespace Comnet {
       */
       Threading::Mutex^ pingAttemptsMutex;
 
-						uint8_t numSyncPacksReceived;
+						uint8_t numSyncPackReplysReceived;
 
 						int32_t timeOffMillis;
 

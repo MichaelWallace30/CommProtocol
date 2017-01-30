@@ -105,7 +105,7 @@ namespace ping
     /**
     Detaches {@link #syncSendThread} to run {@link #SyncSendHandler}.
     */
-    void Run();
+    bool Run();
 
     /**
     Stops {@link #syncSendThread} from running. Must be called before destructor.
