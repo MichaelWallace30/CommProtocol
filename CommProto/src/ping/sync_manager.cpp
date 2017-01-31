@@ -86,7 +86,7 @@ namespace comnet {
 						unsyncedPingers.push_front(pinger);
 						unsyncedPingersMutex.unlock();
 						{
-								std::unique_lock <std::mutex> syncHandlerLock;
+								std::unique_lock <std::mutex> syncHandlerLock(syncHandlerMutex);
 								awake = true;
 						}
 						syncHandlerCV.notify_one();

@@ -28,7 +28,11 @@ const TimePoint Pinger::START_TIME = Pinger::GetNow();
 Pinger::Pinger(uint8_t destID)
   :destID(destID), pingAttempts(0), numSyncPackReplysReceived(0), ping(-1), timeOffMillis(0), syncSendDelay(-1)
 {
-  ResetReceiveTime();
+		CommLock pingLock(pingTimeMutex);
+		lastPingTime = GetNow();  //Set to current time
+		pingTime = 0;  //Now that we have received a packet, we no longer have to resend the pingpacket more often so set pingTime back to PING_TIME_MILLIS
+		CommLock attemptLock(pingAttemptsMutex);
+		pingAttempts = 0;
 		ResetSendTime();
 }
 

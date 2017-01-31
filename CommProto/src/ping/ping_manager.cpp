@@ -62,7 +62,12 @@ bool PingManager::Run()
 void PingManager::AddPinger(uint8_t destID)
 {
 		activePingersMutex.Lock();
-		activePingers.emplace_back(destID);
+		activePingers.emplace_front(destID);
+		{
+				std::unique_lock <std::mutex> pingHandlerLock(pingHandlerMutex);
+				awake = true;
+		}
+		pingHandlerCV.notify_one();
 		destPingerMapMutex.Lock();
 		destPingerMap.emplace(std::make_pair(destID, --activePingers.end()));
 		destPingerMapMutex.Unlock();
@@ -98,6 +103,7 @@ void PingManager::RemovePinger(uint8_t destID)
 
 void PingManager::SendPingPacket(uint8_t destID)
 {
+		std::cout << "PING SENT\n\n\n\n";
   PingPacket sendPacket;
   sendPacket.SetPing(true);
   ownerComms->Send(sendPacket, destID);

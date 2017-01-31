@@ -165,6 +165,7 @@ public:
       //The amount of milliseconds the thread should sleep for after finished
       MillisInt sleepTime;
       activePingersMutex.Lock();
+						awake = false;
       if (!activePingers.empty())	//While there are pingers
       {
         //Starts at the pinger with the lowest NextPingTime and ends once no more pingers need to be sent to (when NextPingTIme is positive)
@@ -206,17 +207,22 @@ public:
           it++;
         }
       }
+					
       if (activePingers.empty())
       {
-        sleepTime = EMPTY_SLEEP_TIME_MILLIS;		//If there are no elements set pingTime to this value.
+								std::unique_lock<std::mutex> pingHandleLock(pingHandlerMutex);
+								activePingersMutex.Unlock();
+								runningMutex.Unlock();
+								pingHandlerCV.wait(pingHandleLock, [&] {return awake; });
       }
       else
       {
         sleepTime = activePingers.front().GetNextPingTimeMillis();		//The top element should always have the lowest nextPingTime()
-      }
-      runningMutex.Unlock();
-      activePingersMutex.Unlock();
-      std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));		//Thread will sleep until a send is needed
+								std::unique_lock<std::mutex> pingHandleLock(pingHandlerMutex);
+								runningMutex.Unlock();
+								activePingersMutex.Unlock();
+								pingHandlerCV.wait_for(pingHandleLock, (std::chrono::milliseconds)sleepTime, [&] {return awake; });
+						}
     }
   }
 
@@ -300,6 +306,10 @@ private:
   */
   void TransferToInactivePingers(std::list <Pinger>::iterator it);
 
+		std::condition_variable pingHandlerCV;
+
+		std::mutex pingHandlerMutex;
+
   /**
     Prevents threads from reading and modifying {@link #inactivePingers} at the same time.
   */
@@ -363,6 +373,8 @@ private:
     should stop running.
   */
   bool running;
+
+		bool awake;
 };
 } // namespace ping
 }  // namespace comnet
