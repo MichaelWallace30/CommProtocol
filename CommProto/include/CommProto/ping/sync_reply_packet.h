@@ -35,7 +35,7 @@ namespace comnet {
       @return A new {@link SyncRequestPacket}.
       */
       SyncReplyPacket()
-        : CHAIN_ABSPACKET(ABSPacket)
+        : CHAIN_ABSPACKET(ABSPacket), unixTimeHighResTimeDif(0)
       {
 
       }
@@ -60,6 +60,16 @@ namespace comnet {
         this->requestSentTime = requestSentTime;
       }
 
+						void SetTimeDif(int64_t unixTimeMillis, int64_t highResTimeMillis)
+						{
+								this->unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
+						}
+
+						int64_t GetTimeDif()
+						{
+								return unixTimeHighResTimeDif;
+						}
+
       /**
       Accessor for requestSentTime
       */
@@ -81,6 +91,8 @@ namespace comnet {
       The timestamp of the peer that sent the SyncRequestPack.
       */
       int32_t requestSentTime;
+
+						int64_t unixTimeHighResTimeDif;
     };
   }
 }

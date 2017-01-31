@@ -78,13 +78,6 @@ namespace Comnet {
       sendTimeMutex->ReleaseMutex();
     }
 
-				Void Pinger::SetAsUnsynced()
-				{
-						syncMutex->WaitOne();
-						numSyncPackReplysReceived = 0;
-						syncMutex->ReleaseMutex();
-				}
-
 				Boolean Pinger::CheckResync(int64_t unixHighResTimeDif)
 				{
 						bool resyncRequired = false;

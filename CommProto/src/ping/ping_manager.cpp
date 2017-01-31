@@ -111,6 +111,25 @@ void PingManager::Stop()
 		syncManager->Stop();
 }
 
+void PingManager::CheckResync(uint8_t nodeID, int64_t unixHighResTimeDif)
+{
+		CommLock lock(destPingerMapMutex);
+		auto mapIter = destPingerMap.find(nodeID);
+		if (mapIter != destPingerMap.end())
+		{
+				if (mapIter->second->CheckResync(unixHighResTimeDif))
+				{
+						if (mapIter->second->IsSynced())
+						{
+								syncManager->AddUnsyncedPinger(&*mapIter->second);
+						}
+						std::cout << "RESYNCED\n\n\n\n\n\n\n\n\n\n";
+						mapIter->second->Resync();
+				}
+				mapIter->second->SetUnixHighResTimeDif(unixHighResTimeDif);
+		}
+}
+
 void PingManager::SyncTime(uint8_t nodeID, int32_t timeOff)
 {
 		CommLock lock(destPingerMapMutex);

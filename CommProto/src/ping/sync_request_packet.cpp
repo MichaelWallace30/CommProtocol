@@ -24,19 +24,19 @@ namespace comnet
 		namespace ping
 		{
 				SyncRequestPacket::SyncRequestPacket()
-						:CHAIN_ABSPACKET(SyncRequestPacket)
+						:CHAIN_ABSPACKET(SyncRequestPacket), unixTimeHighResTimeDif(0)
 				{
 						
 				}
 
 				void SyncRequestPacket::Pack(REF_OBJECTSTREAM objOut)
 				{
-						
+						objOut << unixTimeHighResTimeDif;
 				}
 
 				void SyncRequestPacket::Unpack(REF_OBJECTSTREAM objIn)
 				{
-					
+						objIn >> unixTimeHighResTimeDif;
 				}
 
 		}

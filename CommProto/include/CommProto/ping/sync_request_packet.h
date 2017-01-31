@@ -49,6 +49,15 @@ namespace comnet {
       */
       void Unpack(REF_OBJECTSTREAM objIn) override;
 
+						void SetTimeDif(int64_t unixTimeMillis, int64_t highResTimeMillis)
+						{
+								this->unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
+						}
+
+						int64_t GetTimeDif() {
+								return this->unixTimeHighResTimeDif;
+						}
+
       /**
       Creates a new instance of {@link SyncRequestPacket}.
       @return New instance of {@link SyncRequestPacket}.
@@ -57,6 +66,9 @@ namespace comnet {
 						{
 								return new SyncRequestPacket();
 						}
+
+				private:
+						int64_t unixTimeHighResTimeDif;
     };
   } //namespace ping
 } //namespace comnet

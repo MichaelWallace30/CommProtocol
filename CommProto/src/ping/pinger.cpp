@@ -26,7 +26,7 @@ namespace ping {
 const TimePoint Pinger::START_TIME = Pinger::GetNow();
 
 Pinger::Pinger(uint8_t destID)
-  :destID(destID), pingAttempts(0), numSyncPacksReceived(0), ping(-1), timeOffMillis(0), syncSendDelay(-1)
+  :destID(destID), pingAttempts(0), numSyncPackReplysReceived(0), ping(-1), timeOffMillis(0), syncSendDelay(-1)
 {
   ResetReceiveTime();
 		ResetSendTime();
@@ -66,20 +66,34 @@ void Pinger::ResetSendTime()
 bool Pinger::IsSynced()
 {
 		CommLock syncLock(syncMutex);
-		return numSyncPacksReceived >= NUM_SYNC_PACKS;
+		return numSyncPackReplysReceived >= NUM_SYNC_PACKS;
+}
+
+bool Pinger::CheckResync(int64_t unixHighResTimeDif)
+{
+		CommLock lock(syncMutex);
+		return numSyncPackReplysReceived > 0 && abs(this->unixHighResTimeDif - unixHighResTimeDif) > MAX_CLOCK_DIF;
+}
+
+void Pinger::Resync()
+{
+		CommLock syncLock(syncMutex);
+		CommLock pingLock(pingMutex);
+		ping = -1;
+		numSyncPackReplysReceived = 0;
 }
 
 void Pinger::SyncTime(int32_t timeOff)
 {
 		CommLock syncLock(syncMutex);
-		numSyncPacksReceived++;
-		timeOffMillis = (MillisInt)(((float)(numSyncPacksReceived - 1) / (float)numSyncPacksReceived) * this->timeOffMillis + (1.0f / (float)numSyncPacksReceived) * timeOff);
+		numSyncPackReplysReceived++;
+		timeOffMillis = (MillisInt)(((float)(numSyncPackReplysReceived - 1) / (float)numSyncPackReplysReceived) * this->timeOffMillis + (1.0f / (float)numSyncPackReplysReceived) * timeOff);
 }
 
 void Pinger::ResetPing(int32_t time)
 {
 		CommLock syncLock(syncMutex);
-		if (numSyncPacksReceived > 0)
+		if (numSyncPackReplysReceived > 0)
 		{
 				ping = GetTimeSinceStart() - (time + timeOffMillis);
 				if (ping < 0)

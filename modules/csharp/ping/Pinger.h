@@ -83,6 +83,10 @@ namespace Comnet {
         return (MillisInt)time->ElapsedMilliseconds;	//amount of time that has passed since lastPingTime
       }
 
+						static Int64 GetUnixTimeMillis() {
+								return (DateTime::UtcNow - DateTime(1970, 1, 1)).TotalMilliseconds;
+						}
+
       /**
       Creates a new instance of {@link Pinger}.
       @param destID The nodeID the {@link Pinger} will be sending and
@@ -145,8 +149,6 @@ namespace Comnet {
         pingAttemptsMutex->ReleaseMutex();
         return result;
       }
-
-						Void SetAsUnsynced();
 
 						Boolean CheckResync(int64_t unixHighResTimeDif);
 

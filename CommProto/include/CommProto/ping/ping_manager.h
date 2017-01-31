@@ -271,6 +271,8 @@ public:
   */
   void SyncTime(uint8_t nodeID, int32_t timeOff);
 
+		void CheckResync(uint8_t nodeID, int64_t unixHighResTimeDif);
+
   /**
   Get the estimated ping in ms of a {@link Pinger}.
   */

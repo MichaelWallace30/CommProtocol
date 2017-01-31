@@ -42,6 +42,9 @@ typedef long MillisInt;
 class Pinger
 {
 public:
+
+		static const MillisInt MAX_CLOCK_DIF = 2000;
+
   /**
     The amount of that must pass since the last time a packet
     was received from the {@link #destID} before
@@ -89,7 +92,7 @@ public:
     @return The current time.
   */
   static TimePoint GetNow() {
-    return Time::now();    
+    return Time::now();
   }
 
   /**
@@ -109,6 +112,11 @@ public:
   static MillisInt GetTimeSinceStart() {
     return GetMillisPassed(START_TIME);
   }
+
+		static int64_t GetUnixTimeMillis() {
+				return std::chrono::duration_cast< std::chrono::milliseconds >(
+						std::chrono::system_clock::now().time_since_epoch()).count();
+		}
 
   /**
     Used for copy and swap idiom.
@@ -225,6 +233,15 @@ public:
   */
   bool IsSynced();
 
+		bool CheckResync(int64_t unixHighResTimeDif);
+
+		void SetUnixHighResTimeDif(int64_t unixHighResTimeDif)
+		{
+				this->unixHighResTimeDif = unixHighResTimeDif;
+		}
+
+		void Resync();
+
   /**
     Adjusts {@link #timeOffMillis}.
   */
@@ -309,13 +326,15 @@ private:
   /**
     Keeps track fo the number of times {@link #SyncTime} was called.
   */
-  uint8_t numSyncPacksReceived;
+  uint8_t numSyncPackReplysReceived;
 
   /**
     The number of milliseconds the peer's timestamp differs from this
     timestamp.
   */
   int32_t timeOffMillis;
+
+		int64_t unixHighResTimeDif;
 
   /**
     The amount of milliseconds that need to pass before sending another

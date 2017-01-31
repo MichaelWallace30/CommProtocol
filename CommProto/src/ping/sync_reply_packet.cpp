@@ -5,9 +5,11 @@ namespace comnet {
 				void SyncReplyPacket::Pack(REF_OBJECTSTREAM objOut)
 				{
 						objOut << requestSentTime;
+						objOut << unixTimeHighResTimeDif;
 				}
 				void SyncReplyPacket::Unpack(REF_OBJECTSTREAM objIn)
 				{
+						objIn >> unixTimeHighResTimeDif;
 						objIn >> requestSentTime;
 				}
 		}

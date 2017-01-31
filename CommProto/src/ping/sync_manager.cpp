@@ -10,7 +10,9 @@ namespace comnet {
 				{
 						SyncReplyPacket replyPacket;
 						replyPacket.SetRequestSentTime(header.GetSourceTime());
+						replyPacket.SetTimeDif(Pinger::GetUnixTimeMillis(), Pinger::GetTimeSinceStart());
 						node.Send(replyPacket, header.source_id);
+						node.GetPingManager()->CheckResync(header.source_id, packet.GetTimeDif());
 						return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 				}
 
@@ -19,6 +21,7 @@ namespace comnet {
 						int32_t estSendTime = (Pinger::GetTimeSinceStart() - packet.GetRequestSentTime()) / 2;
 						int32_t estDestTimeStamp = header.GetSourceTime() + estSendTime;
 						int32_t timeOff = Pinger::GetTimeSinceStart() - estDestTimeStamp;
+						node.GetPingManager()->CheckResync(header.source_id, packet.GetTimeDif());
 						node.GetPingManager()->SyncTime(header.source_id, timeOff);
 						return CALLBACK_SUCCESS | CALLBACK_DESTROY_PACKET;
 				}
@@ -107,6 +110,7 @@ namespace comnet {
 				void SyncManager::SendSyncRequest(uint8_t destID)
 				{
 						SyncRequestPacket syncRequest;
+						syncRequest.SetTimeDif(Pinger::GetUnixTimeMillis(), Pinger::GetTimeSinceStart());
 						owner->Send(syncRequest, destID);
 				}
 
