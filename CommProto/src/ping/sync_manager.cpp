@@ -82,6 +82,7 @@ namespace comnet {
 
 				void SyncManager::AddUnsyncedPinger(Pinger * pinger)
 				{
+						std::cout << "UNSYNCED PINGER ADDED" << std::endl;
 						unsyncedPingersMutex.lock();
 						unsyncedPingers.push_front(pinger);
 						unsyncedPingersMutex.unlock();
@@ -90,12 +91,15 @@ namespace comnet {
 								awake = true;
 						}
 						syncHandlerCV.notify_one();
+						pinger->SetInUnsyncedList(true);
 				}
 
 				void SyncManager::RemoveUnsyncedPinger(Pinger * pinger)
 				{
+						std::cout << "UNSYNCED PINGER REMOVED" << std::endl;
 						std::unique_lock <std::mutex> lock(unsyncedPingersMutex);
 						unsyncedPingers.remove(pinger);
+						pinger->SetInUnsyncedList(false);
 				}
 
 				void SyncManager::SyncTime(Pinger * pinger, int32_t timeOff)

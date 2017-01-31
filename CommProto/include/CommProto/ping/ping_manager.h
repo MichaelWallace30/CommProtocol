@@ -105,31 +105,7 @@ public:
     In other words, it moves the corresponding {@link Pinger} to the end of {@link #activePingers}.
     @param The node_id of the {@link Pinger} to reset.
   */
-  void ResetPingTime(uint8_t destID, int32_t time)
-  {
-    destPingerMapMutex.Lock();
-    auto mapIter = destPingerMap.find(destID);
-    if (mapIter != destPingerMap.end())
-    {
-      if (mapIter->second->IsInactive())
-      {
-        activePingersMutex.Lock();
-        inactivePingersMutex.Lock();
-        TransferToActivePingers(mapIter->second);
-        inactivePingersMutex.Unlock();
-        activePingersMutex.Unlock();
-      }
-      else
-      {
-        activePingersMutex.Lock();
-        activePingers.splice(activePingers.end(), activePingers, mapIter->second);  //Move pinger to end of the list because its nextPingTime() has been reset to the maximum value.
-        activePingersMutex.Unlock();
-      }
-      mapIter->second->ResetReceiveTime();
-      mapIter->second->ResetPing(time);
-    }
-    destPingerMapMutex.Unlock();
-  }
+		void ResetPingTime(uint8_t destID, int32_t time);
 
   /**
     Resets the {@link Pinger#GetSendTimePassed} of the {@link Pinger} with the id

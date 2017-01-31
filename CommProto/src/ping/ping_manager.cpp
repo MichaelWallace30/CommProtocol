@@ -71,7 +71,6 @@ void PingManager::AddPinger(uint8_t destID)
 		destPingerMapMutex.Lock();
 		destPingerMap.emplace(std::make_pair(destID, --activePingers.end()));
 		destPingerMapMutex.Unlock();
-		syncManager->AddUnsyncedPinger(&activePingers.back());
 		activePingersMutex.Unlock();
 }
 
@@ -81,12 +80,11 @@ void PingManager::RemovePinger(uint8_t destID)
 		auto mapIter = destPingerMap.find(destID);
 		if (mapIter != destPingerMap.end())
 		{
-				if (!mapIter->second->IsSynced())
+				if (mapIter->second->IsInUnsyncedList())
 				{
 						syncManager->RemoveUnsyncedPinger(&(*mapIter->second));
 				}
-				if (mapIter->second->IsInactive())
-				{
+				if (mapIter->second->IsInactive()) {
 						inactivePingersMutex.Lock();
 						inactivePingers.erase(mapIter->second);
 						inactivePingersMutex.Unlock();
@@ -136,6 +134,36 @@ void PingManager::CheckResync(uint8_t nodeID, int64_t unixHighResTimeDif)
 		}
 }
 
+void PingManager::ResetPingTime(uint8_t destID, int32_t time)
+{
+		destPingerMapMutex.Lock();
+		auto mapIter = destPingerMap.find(destID);
+		if (mapIter != destPingerMap.end())
+		{
+				if (mapIter->second->IsInactive())
+				{
+						activePingersMutex.Lock();
+						inactivePingersMutex.Lock();
+						TransferToActivePingers(mapIter->second);
+						inactivePingersMutex.Unlock();
+						activePingersMutex.Unlock();
+				}
+				else
+				{
+						activePingersMutex.Lock();
+						activePingers.splice(activePingers.end(), activePingers, mapIter->second);  //Move pinger to end of the list because its nextPingTime() has been reset to the maximum value.
+						activePingersMutex.Unlock();
+				}
+				mapIter->second->ResetReceiveTime();
+				mapIter->second->ResetPing(time);
+				if (!mapIter->second->IsSynced() && !mapIter->second->IsInUnsyncedList())
+				{
+						syncManager->AddUnsyncedPinger(&*mapIter->second);
+				}
+		}
+		destPingerMapMutex.Unlock();
+}
+
 void PingManager::SyncTime(uint8_t nodeID, int32_t timeOff)
 {
 		CommLock lock(destPingerMapMutex);
@@ -165,11 +193,12 @@ PingManager::~PingManager()
 
 void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)
 {
-		if (!it->IsSynced())
-		{
-				syncManager->AddUnsyncedPinger(&(*it));
-		}
   activePingers.splice(activePingers.end(), inactivePingers, it);
+		{
+				std::unique_lock <std::mutex> pingHandlerLock(pingHandlerMutex);
+				awake = true;
+		}
+		pingHandlerCV.notify_one();
   std::string debugMsg = "Pinger with destID ";
   debugMsg += std::to_string((int)it->GetDestID());
   debugMsg += " in NodeID ";
@@ -180,8 +209,7 @@ void PingManager::TransferToActivePingers(std::list<Pinger>::iterator it)
 
 void PingManager::TransferToInactivePingers(std::list<Pinger>::iterator it)
 {
-		if (!it->IsSynced())
-		{
+		if (it->IsInUnsyncedList()) {
 				syncManager->RemoveUnsyncedPinger(&(*it));
 		}
   inactivePingers.splice(inactivePingers.end(), activePingers, it);

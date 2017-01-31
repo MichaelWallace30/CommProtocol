@@ -272,12 +272,23 @@ public:
     return ping;
   }
 
+		bool IsInUnsyncedList()
+		{
+				return inUnsyncedList;
+		}
+
+		void SetInUnsyncedList(bool mode)
+		{
+				inUnsyncedList = mode;
+		}
+
   /**
     Default destructor.
   */
   ~Pinger();
 
 private:
+		bool inUnsyncedList;
   /**
     Stores how many times a {@link PingPacket} has been sent to the {@link #destID}
     without receiving any packet.  Reset to 0 by {@link #ResetReceiveTime} and 

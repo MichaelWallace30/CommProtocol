@@ -26,7 +26,8 @@ namespace ping {
 const TimePoint Pinger::START_TIME = Pinger::GetNow();
 
 Pinger::Pinger(uint8_t destID)
-  :destID(destID), pingAttempts(0), numSyncPackReplysReceived(0), ping(-1), timeOffMillis(0), syncSendDelay(-1)
+  :destID(destID), pingAttempts(0), numSyncPackReplysReceived(0), 
+		ping(-1), timeOffMillis(0), syncSendDelay(-1), inUnsyncedList(false)
 {
 		CommLock pingLock(pingTimeMutex);
 		lastPingTime = GetNow();  //Set to current time
