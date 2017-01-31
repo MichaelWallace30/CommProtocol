@@ -112,6 +112,11 @@ void PingManager::Stop()
   runningMutex.Lock();
   running = false;
   runningMutex.Unlock();
+		{
+				std::unique_lock <std::mutex> syncHandlerLock(pingHandlerMutex);
+				awake = true;
+		}
+		pingHandlerCV.notify_one();
 		syncManager->Stop();
 }
 

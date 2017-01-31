@@ -98,6 +98,8 @@ namespace Comnet {
 
       Threading::Thread^ pingSendThread;
 
+						Threading::AutoResetEvent^ pingHandlerRE;
+
 						SyncManager^ syncManager;
 
       Comms^ owner;  //May prevent deletion of Comms

@@ -27,7 +27,7 @@ namespace Comnet {
     Pinger::Pinger(uint8_t destID)
       :destID(destID), pingAttempts(0), ping(-1), syncSendDelay(0), 
 						unixHighResTimeDif(0), timeOffMillis(0),
-						numSyncPackReplysReceived(0), pingTime(0)
+						numSyncPackReplysReceived(0), pingTime(0), inUnsyncedList(false)
     {
       lastPingTime = gcnew Diagnostics::Stopwatch();
       lastSendTime = gcnew Diagnostics::Stopwatch();
@@ -37,7 +37,12 @@ namespace Comnet {
       pingAttemptsMutex = gcnew Threading::Mutex();
 						pingMutex = gcnew Threading::Mutex();
 						syncMutex = gcnew Threading::Mutex();
-      ResetReceiveTime();
+						inUnsyncedListMutex = gcnew Threading::Mutex();
+						
+						pingTimeMutex->WaitOne();
+						lastPingTime->Restart();
+						pingTime = 0;  //Now that we have received a packet, we no longer have to resend the pingpacket more often so set pingTime back to PING_TIME_MILLIS
+						pingTimeMutex->ReleaseMutex();
       ResetSendTime();
     }
 

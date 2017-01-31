@@ -36,6 +36,8 @@ namespace Comnet {
       runningMutex = gcnew Threading::Mutex();
 
 						syncManager = gcnew SyncManager(owner);
+
+						pingHandlerRE = gcnew Threading::AutoResetEvent(false);
     }
 
     Void PingManager::LinkPingCallback()
@@ -94,6 +96,10 @@ namespace Comnet {
           activePingers->splice(activePingers->end(), *activePingers, mapIter->second);
           activePingersMutex->ReleaseMutex();
         }
+								if (!(*mapIter->second)->IsSynced() && !(*mapIter->second)->IsInUnsyncedList())
+								{
+										syncManager->AddUnsyncedPinger(*mapIter->second);
+								}
         (*mapIter->second)->ResetReceiveTime();
 								(*mapIter->second)->ResetPing(time);
       }
@@ -121,7 +127,6 @@ namespace Comnet {
           runningMutex->ReleaseMutex();
           return;
         }
-        runningMutex->ReleaseMutex();
         MillisInt sleepTime;
         activePingersMutex->WaitOne();
         if (!activePingers->empty()) {
@@ -163,32 +168,34 @@ namespace Comnet {
             it++;
           }
         }
+								runningMutex->ReleaseMutex();
         if (activePingers->empty())
         {
-          sleepTime = EMPTY_SLEEP_TIME_MILLIS;
+										activePingersMutex->ReleaseMutex();
+										pingHandlerRE->WaitOne();
         }
         else
         {
           sleepTime = activePingers->front()->GetNextPingTimeMillis();
+										activePingersMutex->ReleaseMutex();
           if (sleepTime < 0)
           {
             sleepTime = 1;  //prevents C# out of bounds error when provided with a negative sleepTime
           }
+										pingHandlerRE->WaitOne(sleepTime);
         }
-        activePingersMutex->ReleaseMutex();
-        System::Threading::Thread::Sleep(sleepTime);
       }
     }
 
     Void PingManager::AddPinger(uint8_t destID)
     {
       activePingersMutex->WaitOne();
-      activePingers->push_back(gcroot<Pinger^>(gcnew Pinger(destID)));
+      activePingers->push_front(gcroot<Pinger^>(gcnew Pinger(destID)));
       destPingerMapMutex->WaitOne();
       destPingerMap->emplace(std::make_pair(destID, --activePingers->end()));
       destPingerMapMutex->ReleaseMutex();
-						syncManager->AddUnsyncedPinger(activePingers->back());
       activePingersMutex->ReleaseMutex();
+						pingHandlerRE->Set();
     }
 
     Void PingManager::RemovePinger(uint8_t destID)
@@ -197,7 +204,7 @@ namespace Comnet {
       auto mapIter = destPingerMap->find(destID);
       if (mapIter != destPingerMap->end())
       {
-								if (!(*mapIter->second)->IsSynced())
+								if ((*mapIter->second)->IsInUnsyncedList())
 								{
 										syncManager->RemoveUnsyncedPinger(*mapIter->second);
 								}
@@ -235,6 +242,7 @@ namespace Comnet {
     }
 
     Void PingManager::SendPingPacket(uint8_t destID) {
+						std::cout << "PING PACKET SENT!!!" << std::endl;
       PingPacket^ sendPacket = gcnew PingPacket();
       sendPacket->SetPing(true);
       owner->Send(sendPacket, destID);
@@ -302,12 +310,9 @@ namespace Comnet {
 
     Void PingManager::TransferToActivePingers(std::list <Pinger_Ptr>::iterator it)
     {
-						if (!(*it)->IsSynced())
-						{
-								syncManager->AddUnsyncedPinger(*it);
-						}
       activePingers->splice(activePingers->end(), *inactivePingers, it);
-      std::string debugMsg = "Pinger with destID ";
+						pingHandlerRE->Set();
+						std::string debugMsg = "Pinger with destID ";
       debugMsg += std::to_string((int)(*it)->GetDestID());
       debugMsg += " in NodeID ";
       debugMsg += std::to_string((int)owner->GetNodeId());
@@ -317,7 +322,7 @@ namespace Comnet {
 
     Void PingManager::TransferToInactivePingers(std::list <Pinger_Ptr>::iterator it)
     {
-						if (!(*it)->IsSynced())
+						if ((*it)->IsInUnsyncedList())
 						{
 								syncManager->RemoveUnsyncedPinger(*it);
 						}

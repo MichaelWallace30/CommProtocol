@@ -179,7 +179,25 @@ namespace Comnet {
 								return ping;
 						}
 
+						Void SetInUnsyncedList(bool mode)
+						{
+								inUnsyncedListMutex->WaitOne();
+								inUnsyncedList = mode;
+								inUnsyncedListMutex->ReleaseMutex();
+						}
+
+						Boolean IsInUnsyncedList() {
+								inUnsyncedListMutex->WaitOne();
+								bool val = inUnsyncedList;
+								inUnsyncedListMutex->ReleaseMutex();
+								return val;
+						}
+
     private:
+						bool inUnsyncedList;
+
+						Threading::Mutex^ inUnsyncedListMutex;
+
       /**
       Stores how many times a {@link PingPacket} has been sent to the {@link #destID}
       without receiving any packet.  Reset to 0 by {@link #ResetReceiveTime} and

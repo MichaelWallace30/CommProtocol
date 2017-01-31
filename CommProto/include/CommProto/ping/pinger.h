@@ -269,16 +269,19 @@ public:
   */
   int16_t GetPing()
   {
+				CommLock lock(pingMutex);
     return ping;
   }
 
 		bool IsInUnsyncedList()
 		{
+				CommLock lock(inUnsyncedListMutex);
 				return inUnsyncedList;
 		}
 
 		void SetInUnsyncedList(bool mode)
 		{
+				CommLock lock(inUnsyncedListMutex);
 				inUnsyncedList = mode;
 		}
 
@@ -289,6 +292,8 @@ public:
 
 private:
 		bool inUnsyncedList;
+
+		CommMutex inUnsyncedListMutex;
   /**
     Stores how many times a {@link PingPacket} has been sent to the {@link #destID}
     without receiving any packet.  Reset to 0 by {@link #ResetReceiveTime} and 

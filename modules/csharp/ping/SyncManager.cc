@@ -71,12 +71,14 @@ namespace Comnet {
 										{
 												unsyncedPingers->splice(unsyncedPingers->end(), *unsyncedPingers, unsyncedPingers->begin(), it);
 										}
+										runningMutex->ReleaseMutex();
 										unsyncedPingerMutex->ReleaseMutex();
 										MillisInt sleepTime = unsyncedPingers->front()->GetNextSyncTimeMillis();
 										syncHandlerRE->WaitOne(sleepTime);
 								}
 								else
 								{
+										runningMutex->ReleaseMutex();
 										unsyncedPingerMutex->ReleaseMutex();
 										syncHandlerRE->WaitOne();
 								}
@@ -88,6 +90,7 @@ namespace Comnet {
 						unsyncedPingerMutex->WaitOne();
 						unsyncedPingers->push_front(pinger);
 						unsyncedPingerMutex->ReleaseMutex();
+						pinger->SetInUnsyncedList(true);
 						syncHandlerRE->Set();
 				}
 
@@ -101,6 +104,7 @@ namespace Comnet {
 								{
 										std::cout << "REMOVE SUCCESFULL" << std::endl;
 										unsyncedPingers->erase(it);
+										pinger->SetInUnsyncedList(false);
 										break;
 								}
 						}
