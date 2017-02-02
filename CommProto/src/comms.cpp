@@ -48,13 +48,13 @@ void Comms::CommunicationHandlerSend()
      send_queue->Dequeue();
      send_mutex.Unlock();
 
-					int32_t timeSinceStart = (int32_t)Pinger::GetTimeSinceStart();
+					int32_t timeSinceStart = (int32_t)GetTimeSinceStart();
 					temp->GetHeaderPacket().SetSourceTime(timeSinceStart);
 					temp->SerializeHeader();
 
      //Send data here
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
-     pingManager->ResetSendTime(temp->header_packet.dest_id);
+     conStateManager->ResetSendTime(temp->header_packet.dest_id);
      free_pointer(temp);
   }
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -92,7 +92,7 @@ void Comms::CommunicationHandlerRecv() {
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
 
-								pingManager->ResetPingTime(header.source_id, header.GetSourceTime());
+								conStateManager->UpdatePing(header.source_id, header.GetSourceTime());
 
         if(packet) {
           // Unpack the object stream.
@@ -135,7 +135,7 @@ Comms::Comms(uint8_t platformID)
   decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
   this->recv_queue = new AutoQueue <std::pair<uint8_t, AbstractPacket*>>;
   this->send_queue = new AutoQueue <ObjectStream*>;
-  pingManager = std::make_shared <PingManager>(this);
+  conStateManager = std::make_shared <ConnectionStateManager>(this);
   conn_layer = NULL;
 }
 
@@ -147,8 +147,8 @@ Comms::~Comms()
     comm_thread_send.Join();
   }
   free_pointer(conn_layer);
-  if (pingManager) {
-    pingManager->Stop();
+  if (conStateManager) {
+    conStateManager->Stop();
   }
 }
 
@@ -215,7 +215,7 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     }
   }
   if (connectionInitialized) {
-    pingManager->LinkCallbacks();
+    conStateManager->LinkCallbacks();
     return true;
   }
   return false;
@@ -227,7 +227,7 @@ bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
  if (conn_layer == NULL) return false;
  if (conn_layer->AddAddress(dest_id, address, port))
  {
-   pingManager->AddPinger(dest_id);
+   conStateManager->AddConState(dest_id);
    return true;
  }
  return false;
@@ -239,7 +239,7 @@ bool Comms::RemoveAddress(uint8_t dest_id)
   if (conn_layer == NULL) return false;
   if (conn_layer->RemoveAddress(dest_id))
   {
-    pingManager->RemovePinger(dest_id);
+    conStateManager->RemoveConState(dest_id);
     return true;
   }
   return false;
@@ -307,7 +307,7 @@ void Comms::Run()
   CommNode::Run();
   comm_thread_send = CommThread(&Comms::CommunicationHandlerSend, this);
   comm_thread_recv = CommThread(&Comms::CommunicationHandlerRecv, this);
-  pingManager->Run();
+  conStateManager->Run();
 }
 
 

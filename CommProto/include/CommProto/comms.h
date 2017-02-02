@@ -30,7 +30,7 @@
 #include <CommProto/commnode.h>
 #include <CommProto/encryption/encryptor.h>
 #include <CommProto/encryption/decryptor.h>
-#include <CommProto/ping/ping_manager.h>
+#include <CommProto/constate/connection_state_manager.h>
 #include <memory>
 
 
@@ -42,7 +42,7 @@ using namespace comnet::tools::datastructures;
 using namespace comnet::serialization;
 using namespace comnet::network;	
 using namespace comnet::architecture::os;
-using namespace comnet::ping;
+using namespace comnet::constate;
   /**
     Comms is a standard CommNode node object. It handles elementary and intermediate 
     commands and functionality in order to work to the user's specifications of communications.
@@ -78,7 +78,7 @@ private:
   encryption::CommDecryptor decrypt;
 
   /** Used to check if remote comms are active or inactive. */
-  std::shared_ptr <PingManager> pingManager;
+  std::shared_ptr <ConnectionStateManager> conStateManager;
 
 public:		
  /** Constructor */
@@ -126,8 +126,8 @@ public:
  bool SetupConsole(uint16_t port, const char* addr = nullptr) { return false; }
 
  /** Accessor for {@link #pingManager}.*/
- std::shared_ptr <PingManager> GetPingManager() {
-   return pingManager;
+ std::shared_ptr <ConnectionStateManager> GetConStateManager() {
+   return conStateManager;
  }
 
 protected:
