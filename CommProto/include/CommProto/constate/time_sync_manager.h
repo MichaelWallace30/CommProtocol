@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/callback.h>
 #include <CommProto/architecture/os/comm_thread.h>
 #include <CommProto/architecture/os/comm_mutex.h>
+#include <CommProto/architecture/os/comm_condvar.h>
 
 #include <mutex>
 #include <list>
@@ -143,17 +144,7 @@ private:
   Prevents {@link #syncSendThread} from running when there are
   no elements in {@link #unsyncedConStates}.
   */
-  std::condition_variable syncHandlerCV;
-
-  /**
-  Mutex locked by {@link #syncHandlerCV}.
-  */
-  std::mutex syncHandlerMutex;
-
-  /**
-  Indicates whether unlocking the {@link #syncHandlerCV} was intentional.
-  */
-  bool awake;
+  CommConditionVariable syncHandlerCV;
 
   /**
   Called by {@link #SyncSendHandler} to send {@link TimeSyncRequest}s to a {@link ConnectionState}.
@@ -169,7 +160,7 @@ private:
   /**
   Prevents multiple threads from accessing {@link #unsyncedConStates}.
   */
-  std::mutex unsyncedConStatesMutex;
+  CommMutex unsyncedConStatesMutex;
   /**
   True when {@link #syncSendThread} is detached, false otherwise.
   */
@@ -178,7 +169,7 @@ private:
   /**
   Prevents multiple threads from accessing {@link #running}.
   */
-  std::mutex runningMutex;
+  CommMutex runningMutex;
 
   /**
   Packet that will be linked to callback.

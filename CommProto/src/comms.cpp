@@ -29,6 +29,7 @@
 
 #include <CommProto/callback.h>
 #include <CommProto/tools/observer.h>
+#include <iostream>
 
 using namespace comnet;
 
@@ -41,24 +42,34 @@ void Comms::CommunicationHandlerSend()
 {
  while (this->IsRunning() && conn_layer)
  {
-  if (!send_queue->IsEmpty())
+  send_mutex.Lock();
+  bool isEmpty = send_queue->IsEmpty();
+  send_mutex.Unlock();
+  if (isEmpty)
   {
-     send_mutex.Lock();
-     ObjectStream *temp = send_queue->Front();
-     send_queue->Dequeue();
-     send_mutex.Unlock();
-
-     int32_t timeSinceStart = (int32_t)GetTimeSinceStart();
-     temp->GetHeaderPacket().SetSourceTime(timeSinceStart);
-     temp->SerializeHeader();
-
-     //Send data here
-     conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
-     conStateManager->ResetSendTime(temp->header_packet.dest_id);
-     free_pointer(temp);
+    comm_cond_var_send.Wait();
   }
-  std::this_thread::sleep_for(std::chrono::milliseconds(50));
-//		COMMS_DEBUG("IM GOING!!\n");
+  send_mutex.Lock();
+  isEmpty = send_queue->IsEmpty();
+  send_mutex.Unlock();
+  if (!isEmpty)
+  {
+    send_mutex.Lock();
+    ObjectStream *temp = send_queue->Front();
+    send_queue->Dequeue();
+    send_mutex.Unlock();
+
+    int32_t timeSinceStart = (int32_t)GetTimeSinceStart();
+    temp->GetHeaderPacket().SetSourceTime(timeSinceStart);
+    temp->SerializeHeader();
+
+    //Send data here
+    conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
+    conStateManager->ResetSendTime(temp->header_packet.dest_id);
+    free_pointer(temp);
+  }
+  std:cout << "Send run" << std::endl;
+  //		COMMS_DEBUG("IM GOING!!\n");
  }
  debug::Log::Message(debug::LOG_DEBUG, "Send Ends!");
 }
@@ -144,6 +155,7 @@ Comms::~Comms()
   Stop();
   while (comm_thread_recv.IsJoinable() || comm_thread_send.IsJoinable()) {
     comm_thread_recv.Join();
+    comm_cond_var_send.Set();
     comm_thread_send.Join();
   }
   free_pointer(conn_layer);
@@ -271,6 +283,7 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   send_mutex.Lock();
   send_queue->Enqueue(stream);
   send_mutex.Unlock();
+  comm_cond_var_send.Set();
   return true;
 }
 

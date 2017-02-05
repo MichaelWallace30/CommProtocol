@@ -26,6 +26,7 @@
 #include <CommProto/architecture/os/include_defines.h>
 #include <CommProto/architecture/os/comm_mutex.h>
 #include <CommProto/architecture/os/comm_thread.h>
+#include <CommProto/architecture/os/comm_condvar.h>
 #include <CommProto/network/commslink.h>
 #include <CommProto/commnode.h>
 #include <CommProto/encryption/encryptor.h>
@@ -52,6 +53,7 @@ private:
  CommMutex send_mutex;
  CommMutex recv_mutex;
  CommMutex console_mutex;
+ CommConditionVariable comm_cond_var_send;
  
  
  /** AES encryption class for encrypting and decrypting buffer stream not header*/

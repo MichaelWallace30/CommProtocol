@@ -85,6 +85,7 @@ private:
 
   System::Threading::Mutex^ sendMut;
   System::Threading::Mutex^ recvMut;
+  System::Threading::AutoResetEvent^ sendCondVar;
 
   Constate::ConnectionStateManager^ conStateManager;
 

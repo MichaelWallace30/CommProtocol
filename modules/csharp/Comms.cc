@@ -5,6 +5,7 @@
 #include <tools/data_structures/AutoQueue.h>
 #include <ObjectStream.h>
 #include <pkg/PacketManager.h>
+#include <iostream>
 
 
 namespace Comnet {
@@ -58,8 +59,20 @@ Void Comms::commHelperRecv() {
 
 Void Comms::commHelperSend() {
   while (IsRunning()) {
-    if (!sendQueue->IsEmpty()) {
+    sendMut->WaitOne();
+    bool isEmpty = sendQueue->IsEmpty();
+    sendMut->ReleaseMutex();
+    if (isEmpty)
+    {
+      sendCondVar->WaitOne();
+    }
+    sendMut->WaitOne();
+    isEmpty = sendQueue->IsEmpty();
+    sendMut->ReleaseMutex();
+    if (!isEmpty) {
+      sendMut->WaitOne();
       ObjectStream^ temp = sendQueue->DeQueue();
+      sendMut->ReleaseMutex();
       temp->unmangedObjectStream->Get().header_packet.SetSourceTime(Constate::GetTimeSinceStart());
       temp->SerializeHeader();
       connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
@@ -67,7 +80,7 @@ Void Comms::commHelperSend() {
                       temp->unmangedObjectStream->Get().GetSize());
       conStateManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
     }
-    System::Threading::Thread::Sleep(50);
+    std::cout << "Send run" << std::endl;
   }
 }
 
@@ -81,6 +94,7 @@ Comms::Comms(UInt32 id)
   this->sendQueue = gcnew AutoQueue<ObjectStream^>();
   this->sendMut = gcnew Threading::Mutex();
   this->recvMut = gcnew Threading::Mutex();
+  this->sendCondVar = gcnew Threading::AutoResetEvent(false);
   recvThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &Comms::commHelperRecv));
   sendThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &Comms::commHelperSend));
   connLayer = nullptr;
@@ -207,7 +221,10 @@ Boolean Comms::Send(ABSPacket^ packet, Byte destId) {
   } else {
     COMMS_DEBUG("No encryption!\n");
   }
+  sendMut->WaitOne();
   sendQueue->EnQueue(stream);
+  sendMut->ReleaseMutex();
+  sendCondVar->Set();
   COMMS_DEBUG("Sending packet...\n");
   return true;
 }

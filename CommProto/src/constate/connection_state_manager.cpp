@@ -42,7 +42,7 @@ error_t CheckConnectReplyCallback(const comnet::Header & header, CheckConnectRep
 
 ConnectionStateManager::ConnectionStateManager(Comms * owner)
   :std::enable_shared_from_this <ConnectionStateManager>(),
-  owner(owner), running(false), awake(false), conStateUpdateThread(nullptr)
+  owner(owner), running(false), conStateUpdateThread(nullptr)
 {
   checkConRequestPack = new CheckConnectRequest();
   checkConReplyPack = new CheckConnectReply();
@@ -70,11 +70,7 @@ void ConnectionStateManager::Stop()
   runningMutex.Lock();
   running = false;
   runningMutex.Unlock();
-  {
-    std::unique_lock <std::mutex> conStateHandlerLock(conStateHandlerMutex);
-    awake = true;
-  }
-  conStateHandlerCV.notify_one();
+  conStateHandlerCV.Set();
   syncManager->Stop();
 }
 
@@ -86,11 +82,7 @@ void ConnectionStateManager::AddConState(uint8_t nodeID)
   destConStateMap.emplace(std::make_pair(nodeID, activeConStates.begin()));
   destConStateMapMutex.Unlock();
   activeConStatesMutex.Unlock();
-  {
-    std::unique_lock <std::mutex> conStateHandlerLock(conStateHandlerMutex);
-    awake = true;
-  }
-  conStateHandlerCV.notify_one();
+  conStateHandlerCV.Set();
 }
 
 void ConnectionStateManager::RemoveConState(uint8_t nodeID)
@@ -245,7 +237,6 @@ void ConnectionStateManager::ConStateUpdateHandler()
     //The amount of milliseconds the thread should sleep for after finished
     MillisInt sleepTime;
     activeConStatesMutex.Lock();
-    awake = false;
     if (!activeConStates.empty())	//While there are ConStates
     {
       //Starts at the ConState with the lowest NextPingTime and ends once no more ConStates need to be sent to (when NextPingTIme is positive)
@@ -290,18 +281,16 @@ void ConnectionStateManager::ConStateUpdateHandler()
 
     if (activeConStates.empty())
     {
-      std::unique_lock<std::mutex> conStateHandleLock(conStateHandlerMutex);
       activeConStatesMutex.Unlock();
       runningMutex.Unlock();
-      conStateHandlerCV.wait(conStateHandleLock, [&] {return awake; });
+      conStateHandlerCV.Wait();
     }
     else
     {
       sleepTime = activeConStates.front().GetTimeUntilSendCheckConnectRequest();		//The top element should always have the lowest nextPingTime()
-      std::unique_lock<std::mutex> conStateHandleLock(conStateHandlerMutex);
       runningMutex.Unlock();
       activeConStatesMutex.Unlock();
-      conStateHandlerCV.wait_for(conStateHandleLock, (std::chrono::milliseconds)sleepTime, [&] {return awake; });
+      conStateHandlerCV.Wait((std::chrono::milliseconds)sleepTime);
     }
   }
 }
@@ -315,11 +304,7 @@ void ConnectionStateManager::SendCheckConReq(uint8_t nodeID)
 void ConnectionStateManager::TransferToActiveConStates(std::list<ConnectionState>::iterator it)
 {
   activeConStates.splice(activeConStates.end(), inactiveConStates, it);
-  {
-    std::unique_lock <std::mutex> conStateHandlerLock(conStateHandlerMutex);
-    awake = true;
-  }
-  conStateHandlerCV.notify_one();
+  conStateHandlerCV.Set();
   std::string debugMsg = "ConState with destID ";
   debugMsg += std::to_string((int)it->GetNodeID());
   debugMsg += " in NodeID ";

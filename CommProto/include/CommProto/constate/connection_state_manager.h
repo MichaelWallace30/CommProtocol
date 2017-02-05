@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/tools/data_structures/thread_safe_list.h>
 #include <CommProto/architecture/os/comm_mutex.h>
 #include <CommProto/architecture/os/comm_thread.h>
+#include <CommProto/architecture/os/comm_condvar.h>
 
 #include <thread>
 #include <list>
@@ -189,17 +190,7 @@ private:
   Prevents {@link #ConStateUpdateHandler} from continiousluy running.
   Allowing it to sleep until there is an element in {@link #activeConStates}.
   */
-  std::condition_variable conStateHandlerCV;
-
-  /**
-  Mutex used alongside {@link #conStateHandlerCV}.
-  */
-  std::mutex conStateHandlerMutex;
-
-  /**
-  Indicates whether unlocking the {@link #conStateHandlerCV} was intentional.
-  */
-  bool awake;
+  CommConditionVariable conStateHandlerCV;
 
   /**
   {@code true} when the {@link #ConStateUpdateHandler} is running, {@code false} when the thread

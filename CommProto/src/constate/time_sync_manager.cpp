@@ -27,7 +27,7 @@ error_t TimeSyncReplyCallback(const comnet::Header & header, TimeSyncReply & pac
     
 TimeSyncManager::TimeSyncManager(Comms * owner)
   :std::enable_shared_from_this <TimeSyncManager>(),
-  owner(owner), running(false), awake(false), syncSendThread(nullptr)
+  owner(owner), running(false), syncSendThread(nullptr)
 {
   syncRequestPack = new TimeSyncRequest();
   syncReplyPack = new TimeSyncReply();
@@ -49,32 +49,24 @@ bool TimeSyncManager::Run()
 
 void TimeSyncManager::Stop()
 {
-  runningMutex.lock();
+  runningMutex.Lock();
   running = false;
-  runningMutex.unlock();
-  {
-    std::unique_lock <std::mutex> syncHandlerLock(syncHandlerMutex);
-    awake = true;
-  }
-  syncHandlerCV.notify_one();
+  runningMutex.Unlock();
+  syncHandlerCV.Set();
 }
 
 void TimeSyncManager::AddUnsyncedConState(ConnectionState * conState)
 {
-  unsyncedConStatesMutex.lock();
+  unsyncedConStatesMutex.Lock();
   unsyncedConStates.push_front(conState);
-  unsyncedConStatesMutex.unlock();
-  {
-    std::unique_lock <std::mutex> syncHandlerLock(syncHandlerMutex);
-    awake = true;
-  }
-  syncHandlerCV.notify_one();
+  unsyncedConStatesMutex.Unlock();
   conState->SetInUnsyncedList(true);
+  syncHandlerCV.Set();
 }
 
 void TimeSyncManager::RemoveUnsyncedConState(ConnectionState * conState)
 {
-  std::unique_lock <std::mutex> lock(unsyncedConStatesMutex);
+  CommLock lock(unsyncedConStatesMutex);
   unsyncedConStates.remove(conState);
   conState->SetInUnsyncedList(false);
 }
@@ -112,12 +104,12 @@ void TimeSyncManager::SyncSendHandler()
 {
   while (true)
   {
-    runningMutex.lock();
+    runningMutex.Lock();
     if (!running) {
-      runningMutex.unlock();
+      runningMutex.Unlock();
       return;
     }
-    unsyncedConStatesMutex.lock();
+    unsyncedConStatesMutex.Lock();
     if (!unsyncedConStates.empty())
     {
       std::list <ConnectionState*>::iterator it;
@@ -134,19 +126,15 @@ void TimeSyncManager::SyncSendHandler()
         unsyncedConStates.splice(unsyncedConStates.end(), unsyncedConStates, unsyncedConStates.begin(), it);
       }
       MillisInt sleepTime = unsyncedConStates.front()->GetTimeUntilSendSyncRequest();
-      std::unique_lock<std::mutex> syncHandleLock(syncHandlerMutex);
-      awake = false;
-      runningMutex.unlock();
-      unsyncedConStatesMutex.unlock();
-      syncHandlerCV.wait_for(syncHandleLock, (std::chrono::milliseconds)sleepTime, [&] {return awake; });
+      runningMutex.Unlock();
+      unsyncedConStatesMutex.Unlock();
+      syncHandlerCV.Wait((std::chrono::milliseconds)sleepTime);
     }
     else
     {
-      std::unique_lock<std::mutex> syncHandleLock(syncHandlerMutex);
-      awake = false;
-      unsyncedConStatesMutex.unlock();
-      runningMutex.unlock();
-      syncHandlerCV.wait(syncHandleLock, [&] {return awake; });
+      unsyncedConStatesMutex.Unlock();
+      runningMutex.Unlock();
+      syncHandlerCV.Wait();
     }
   }
 }

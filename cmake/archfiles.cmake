@@ -32,6 +32,7 @@ set(ARCH_OS_HEADERS
   ${ARCHITECTURE_HEADER_DIR}/os/os_mutex.h
   ${ARCHITECTURE_HEADER_DIR}/os/comm_mutex.h
   ${ARCHITECTURE_HEADER_DIR}/os/comm_thread.h
+    ${ARCHITECTURE_HEADER_DIR}/os/comm_condvar.h
   ${ARCHITECTURE_HEADER_DIR}/os/comm_semaphore.h
   ${ARCHITECTURE_HEADER_DIR}/os/comm_monitor.h)
 
