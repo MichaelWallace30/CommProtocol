@@ -24,47 +24,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/abstractpacket.h>
 
 namespace comnet {
-		namespace constate {
-				/**
-				Packet for requesting that a {@link CheckConnectReply} be sent to prove a connection
-				still exists.
-				*/
-				class CheckConnectRequest : INHERITS_ABSPACKET
-				{
-				public:
-						/**
-						Creates a new instance of {@link CheckConnectRequest}.
-						*/
-						CheckConnectRequest()
-								:CHAIN_ABSPACKET(CheckConnectRequest)
-						{
-						}
+namespace constate {
+/**
+Packet for requesting that a {@link CheckConnectReply} be sent to prove a connection
+still exists.
+*/
+class CheckConnectRequest : INHERITS_ABSPACKET
+{
+public:
+  /**
+  Creates a new instance of {@link CheckConnectRequest}.
+  */
+  CheckConnectRequest()
+    :CHAIN_ABSPACKET(CheckConnectRequest)
+  {
+  }
 
-						/**
-						No data is serialized
-						@param objOut The stream to serialize the data to.
-						*/
-						void Pack(REF_OBJECTSTREAM objOut) override
-						{
-						}
+  /**
+  No data is serialized
+  @param objOut The stream to serialize the data to.
+  */
+  void Pack(REF_OBJECTSTREAM objOut) override
+  {
+  }
 
-						/**
-						No data is deserialized
-						@param objIn The stream to parse data from.
-						*/
-						void Unpack(REF_OBJECTSTREAM objIn) override
-						{
-						}
+  /**
+  No data is deserialized
+  @param objIn The stream to parse data from.
+  */
+  void Unpack(REF_OBJECTSTREAM objIn) override
+  {
+  }
 
-						/**
-						Creates a new instance of {@link CheckConnectRequest}.
-						@return New instance of {@link CheckConnectRequest}.
-						*/
-						AbstractPacket* Create() override
-						{
-								return new CheckConnectRequest();
-						}
-				};
-		} //namespace ping
+  /**
+  Creates a new instance of {@link CheckConnectRequest}.
+  @return New instance of {@link CheckConnectRequest}.
+  */
+  AbstractPacket* Create() override
+  {
+    return new CheckConnectRequest();
+  }
+};
+} //namespace constate
 } //namespace comnet
 #endif //__CHECK_CONNECT_REQUEST_H

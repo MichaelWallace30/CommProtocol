@@ -23,46 +23,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/abstractpacket.h>
 
 namespace comnet {
-		namespace constate {
-				/**
-				Packet to reply to CheckConnectRequests, contains no data
-				*/
-				class CheckConnectReply : INHERITS_ABSPACKET
-				{
-				public:
-						/**
-						Creates a new instance of {@link CheckConnectReply}.
-						*/
-						CheckConnectReply()
-								:CHAIN_ABSPACKET(CheckConnectReply)
-						{
-						}
+namespace constate {
+/**
+Packet to reply to CheckConnectRequests, contains no data
+*/
+class CheckConnectReply : INHERITS_ABSPACKET
+{
+public:
+  /**
+  Creates a new instance of {@link CheckConnectReply}.
+  */
+  CheckConnectReply()
+    :CHAIN_ABSPACKET(CheckConnectReply)
+  {
+  }
 
-						/**
-						No data is serialized
-						@param objOut The stream to serialize the data to.
-						*/
-						void Pack(REF_OBJECTSTREAM objOut) override
-						{
-						}
+  /**
+  No data is serialized
+  @param objOut The stream to serialize the data to.
+  */
+  void Pack(REF_OBJECTSTREAM objOut) override
+  {
+  }
 
-						/**
-						No data is deserailized
-						@param objIn The stream to parse data from.
-						*/
-						void Unpack(REF_OBJECTSTREAM objIn) override
-						{
-						}
+  /**
+  No data is deserailized
+  @param objIn The stream to parse data from.
+  */
+  void Unpack(REF_OBJECTSTREAM objIn) override
+  {
+  }
 
-						/**
-						Creates a new instance of {@link CheckConnectReply}.
-						@return New instance of {@link CheckConnectReply}.
-						*/
-						AbstractPacket* Create() override
-						{
-								return new CheckConnectReply();
-						}
-				};
-		} //namespace ping
+  /**
+  Creates a new instance of {@link CheckConnectReply}.
+  @return New instance of {@link CheckConnectReply}.
+  */
+  AbstractPacket* Create() override
+  {
+    return new CheckConnectReply();
+  }
+};
+} //namespace constate
 } //namespace comnet
 #endif //__CHECK_CONNECT_REPLY_H

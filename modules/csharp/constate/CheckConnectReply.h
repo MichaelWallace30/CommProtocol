@@ -28,46 +28,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <constate/ConnectionState.h>
 
 namespace Comnet {
-		namespace Constate {
-				/**
-				Packet to reply to CheckConnectRequests, contains no data
-				*/
-				public ref class CheckConnectReply : public ABSPacket
-				{
-				public:
-						/**
-						Creates a new instance of {@link CheckConnectReply}.
-						*/
-						CheckConnectReply()
-								:ABSPacket("CheckConnectReply")
-						{
-						}
+namespace Constate {
+/**
+Packet to reply to CheckConnectRequests, contains no data
+*/
+public ref class CheckConnectReply : public ABSPacket
+{
+public:
+  /**
+  Creates a new instance of {@link CheckConnectReply}.
+  */
+  CheckConnectReply()
+    :ABSPacket("CheckConnectReply")
+  {
+  }
 
-						/**
-						No data is serialized
-						@param objOut The stream to serialize the data to.
-						*/
-						Void Pack(ObjectStream^ objOut) override
-						{
-						}
+  /**
+  No data is serialized
+  @param objOut The stream to serialize the data to.
+  */
+  Void Pack(ObjectStream^ objOut) override
+  {
+  }
 
-						/**
-						No data is deserailized
-						@param objIn The stream to parse data from.
-						*/
-						Void Unpack(ObjectStream^ objIn) override
-						{
-						}
+  /**
+  No data is deserailized
+  @param objIn The stream to parse data from.
+  */
+  Void Unpack(ObjectStream^ objIn) override
+  {
+  }
 
-						/**
-						Creates a new instance of {@link CheckConnectReply}.
-						@return New instance of {@link CheckConnectReply}.
-						*/
-						ABSPacket^ Create() override
-						{
-								return gcnew CheckConnectReply();
-						}
-				};
-		} //namespace ping
+  /**
+  Creates a new instance of {@link CheckConnectReply}.
+  @return New instance of {@link CheckConnectReply}.
+  */
+  ABSPacket^ Create() override
+  {
+    return gcnew CheckConnectReply();
+  }
+};
+} //namespace constate
 } //namespace comnet
-#endif //__CHECK_CONNECT_REPLY_H
+#endif //__CSHARP_CHECK_CONNECT_REPLY_H

@@ -29,105 +29,105 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <constate/ConnectionState.h>
 
 namespace Comnet {
-		namespace Constate {
+namespace Constate {
 #pragma managed
-				using namespace System;
-				/**
-				Packet to reply to {@link TimeSyncRequest}. Contains information vital to
-				calculate the ping.
-				*/
-				public ref class TimeSyncReply : public ABSPacket
-				{
-				public:
-						/**
-						Creates a new instance of {@link TimeSyncReply}.
-						*/
-						TimeSyncReply()
-								: ABSPacket("TimeSyncReply"), requestSentTime(0), unixTimeHighResTimeDif(0)
-						{
-						}
+using namespace System;
+/**
+Packet to reply to {@link TimeSyncRequest}. Contains information vital to
+calculate the ping.
+*/
+public ref class TimeSyncReply : public ABSPacket
+{
+public:
+  /**
+  Creates a new instance of {@link TimeSyncReply}.
+  */
+  TimeSyncReply()
+    : ABSPacket("TimeSyncReply"), requestSentTime(0), unixTimeHighResTimeDif(0)
+  {
+  }
 
-						/**
-						Serializes {@link #requestSentTime} and {@link #unixTimeHighResTimeDif}.
-						@param objOut The stream to serialize data to.
-						*/
-						Void Pack(ObjectStream^ objOut) override
-						{
-								objOut->Input(requestSentTime);
-								objOut->Input(unixTimeHighResTimeDif);
-						}
+  /**
+  Serializes {@link #requestSentTime} and {@link #unixTimeHighResTimeDif}.
+  @param objOut The stream to serialize data to.
+  */
+  Void Pack(ObjectStream^ objOut) override
+  {
+    objOut->Input(requestSentTime);
+    objOut->Input(unixTimeHighResTimeDif);
+  }
 
-						/**
-						Deserialized {@link #unixTimeHighResTimeDif} and {@link #requestSentTime}.
-						@param objIn The stream to deserialize data from.
-						*/
-						Void Unpack(ObjectStream^ objIn) override
-						{
-								unixTimeHighResTimeDif = objIn->OutputInt64();
-								requestSentTime = objIn->OutputInt32();
-						}
+  /**
+  Deserialized {@link #unixTimeHighResTimeDif} and {@link #requestSentTime}.
+  @param objIn The stream to deserialize data from.
+  */
+  Void Unpack(ObjectStream^ objIn) override
+  {
+    unixTimeHighResTimeDif = objIn->OutputInt64();
+    requestSentTime = objIn->OutputInt32();
+  }
 
-						/**
-						Modifier for {@link #requestSentTime}.
-						*/
-						Void SetRequestSentTime(MillisInt requestSentTime)
-						{
-								this->requestSentTime = requestSentTime;
-						}
+  /**
+  Modifier for {@link #requestSentTime}.
+  */
+  Void SetRequestSentTime(MillisInt requestSentTime)
+  {
+    this->requestSentTime = requestSentTime;
+  }
 
-						/**
-						Set the {@link #unixTimeHighResTimeDif} to the difference between the two arguments.
-						@param unixTimeMillis The unix time stamp
-						@param highResTimeMillis The time value of the high resolution clock
-						*/
-						Void SetTimeDif(UnixMillisInt unixTimeMillis, UnixMillisInt highResTimeMillis)
-						{
-								this->unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
-						}
+  /**
+  Set the {@link #unixTimeHighResTimeDif} to the difference between the two arguments.
+  @param unixTimeMillis The unix time stamp
+  @param highResTimeMillis The time value of the high resolution clock
+  */
+  Void SetTimeDif(UnixMillisInt unixTimeMillis, UnixMillisInt highResTimeMillis)
+  {
+    this->unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
+  }
 
-						/**
-						Accessor for {@link #unixTimeHighResTimeDif}.
-						*/
-						UnixMillisInt GetTimeDif()
-						{
-								return unixTimeHighResTimeDif;
-						}
+  /**
+  Accessor for {@link #unixTimeHighResTimeDif}.
+  */
+  UnixMillisInt GetTimeDif()
+  {
+    return unixTimeHighResTimeDif;
+  }
 
-						/**
-						Accessor for {@link #requestSentTime}.
-						*/
-						MillisInt GetRequestSentTime()
-						{
-								return requestSentTime;
-						}
+  /**
+  Accessor for {@link #requestSentTime}.
+  */
+  MillisInt GetRequestSentTime()
+  {
+    return requestSentTime;
+  }
 
-						/**
-						Creates a new instance of {@link SyncReplyPacket}.
-						*/
-						ABSPacket^ Create() override
-						{
-								return gcnew TimeSyncReply();
-						}
+  /**
+  Creates a new instance of {@link SyncReplyPacket}.
+  */
+  ABSPacket^ Create() override
+  {
+    return gcnew TimeSyncReply();
+  }
 
-						/**
-						Default destructor.
-						*/
-						~TimeSyncReply()
-						{
-						}
+  /**
+  Default destructor.
+  */
+  ~TimeSyncReply()
+  {
+  }
 
-				private:
-						/**
-						The timestamp of the peer that sent the {@link TimeSyncRequest}.
-						*/
-						MillisInt requestSentTime;
+private:
+  /**
+  The timestamp of the peer that sent the {@link TimeSyncRequest}.
+  */
+  MillisInt requestSentTime;
 
-						/**
-						The difference between the unix time stamp and the high resolution clock.
-						*/
-						UnixMillisInt unixTimeHighResTimeDif;
-				};
-		}
-}
+  /**
+  The difference between the unix time stamp and the high resolution clock.
+  */
+  UnixMillisInt unixTimeHighResTimeDif;
+};
+} //namespace constate
+} //namespace comnet
 
 #endif //__CSHARP_TIME_SYNC_REPLY_H

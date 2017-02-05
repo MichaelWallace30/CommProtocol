@@ -27,25 +27,25 @@ namespace Comnet{
 #pragma managed	
 public ref class Header sealed
 {
-	public:
-		comnet::Header *header;	
-		Header();
+ public:
+  comnet::Header *header;	
+  Header();
     Header(comnet::Header* header);
-		~Header();
-		void SetDestID(Byte destID);
-		uint8_t GetDestID();
-		void SetSourceID(Byte sourceID);
-		uint8_t GetSourceID();
-		void SetMessageLength(UInt16 mesageLength);
-		uint16_t GetMessageLength();
-		void SetMessageID(UInt16 messageID);
-		uint16_t GetMessageID();
-		int32_t GetSourceTime();
-		void SetIV(cli::array<Byte>^ IV);		
-		cli::array<Byte>^ GetIV();
+  ~Header();
+  void SetDestID(Byte destID);
+  uint8_t GetDestID();
+  void SetSourceID(Byte sourceID);
+  uint8_t GetSourceID();
+  void SetMessageLength(UInt16 mesageLength);
+  uint16_t GetMessageLength();
+  void SetMessageID(UInt16 messageID);
+  uint16_t GetMessageID();
+  int32_t GetSourceTime();
+  void SetIV(cli::array<Byte>^ IV);		
+  cli::array<Byte>^ GetIV();
 
     comnet::Header* GetHeader() {
       return header;
     }
-	};
+ };
 }

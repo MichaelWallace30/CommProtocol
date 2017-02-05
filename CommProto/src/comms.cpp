@@ -48,16 +48,16 @@ void Comms::CommunicationHandlerSend()
      send_queue->Dequeue();
      send_mutex.Unlock();
 
-					int32_t timeSinceStart = (int32_t)GetTimeSinceStart();
-					temp->GetHeaderPacket().SetSourceTime(timeSinceStart);
-					temp->SerializeHeader();
+     int32_t timeSinceStart = (int32_t)GetTimeSinceStart();
+     temp->GetHeaderPacket().SetSourceTime(timeSinceStart);
+     temp->SerializeHeader();
 
      //Send data here
      conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
      conStateManager->ResetSendTime(temp->header_packet.dest_id);
      free_pointer(temp);
   }
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
 //		COMMS_DEBUG("IM GOING!!\n");
  }
  debug::Log::Message(debug::LOG_DEBUG, "Send Ends!");
@@ -73,26 +73,26 @@ void Comms::CommunicationHandlerRecv() {
     ObjectStream temp;
     if ( received ) {
       temp.SetBuffer((char*)stream_buffer, recv_len);
-						
+      
       if(decrypt.Decrypt(&temp)) {
         debug::Log::Message(debug::LOG_NOTE, "Packet was decrypted!");
-						}
-						else {
-								debug::Log::Message(debug::LOG_WARNING,
-										"Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
-						}
+      }
+      else {
+        debug::Log::Message(debug::LOG_WARNING,
+          "Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
+      }
       /*
       Algorithm should Get the header, Get the message id from header, then
       produce the packet from the header, finally Get the callback.
       */
       if(temp.GetSize() > 0) {
         debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
-								Header header = temp.GetHeaderPacket();
+        Header header = temp.GetHeaderPacket();
 
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
 
-								conStateManager->UpdatePing(header.source_id, header.GetSourceTime());
+        conStateManager->UpdatePing(header.source_id, header.GetSourceTime());
 
         if(packet) {
           // Unpack the object stream.
@@ -259,15 +259,15 @@ bool Comms::Send(AbstractPacket& packet, uint8_t dest_id) {
   header.source_id = this->GetNodeId();
   header.msg_id = packet.GetId();
   header.msg_len = stream->GetSize();
-		stream->SetHeader(header);
-		
+  stream->SetHeader(header);
+  
   if(encrypt.Encrypt(stream)) {
     debug::Log::Message(debug::LOG_NOTE, "Packet was encrypted!\n");
   } else {
     debug::Log::Message(debug::LOG_WARNING, 
                 "Packet was not encrypted! Either encryption was not created, or key was not loaded!");
   }
-		
+  
   send_mutex.Lock();
   send_queue->Enqueue(stream);
   send_mutex.Unlock();

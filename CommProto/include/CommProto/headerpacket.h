@@ -42,12 +42,12 @@ public:
   uint8_t source_id;
   uint16_t msg_len;
   uint16_t msg_id;
-		uint8_t source_time_arr[4];
+  uint8_t source_time_arr[4];
   uint8_t iv[KEY_LENGTH];//random init vector for encryption
 
-		int32_t GetSourceTime() const;
+  int32_t GetSourceTime() const;
 
-		void SetSourceTime(int32_t source_time);
+  void SetSourceTime(int32_t source_time);
 
   static uint32_t Serialize(Header& header, uint8_t* buffer, uint32_t offset);
 

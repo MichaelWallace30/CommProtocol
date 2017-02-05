@@ -24,77 +24,77 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/constate/connection_state.h>
 
 namespace comnet {
-		namespace constate {
-				/**
-				Packet to be sent when requesting the timestamp of the peer.
-				*/
-				class TimeSyncRequest : INHERITS_ABSPACKET
-				{
-				public:
-						/**
-						Creates a new instance of {@link SyncRequestPacket}.
-						@return A new {@link SyncRequestPacket}.
-						*/
-						TimeSyncRequest()
-								:CHAIN_ABSPACKET(TimeSyncRequest), unixTimeHighResTimeDif(0)
-						{
-						}
+namespace constate {
+/**
+Packet to be sent when requesting the timestamp of the peer.
+*/
+class TimeSyncRequest : INHERITS_ABSPACKET
+{
+public:
+  /**
+  Creates a new instance of {@link SyncRequestPacket}.
+  @return A new {@link SyncRequestPacket}.
+  */
+  TimeSyncRequest()
+    :CHAIN_ABSPACKET(TimeSyncRequest), unixTimeHighResTimeDif(0)
+  {
+  }
 
-						/**
-						Serialize the {@link #unixTimeHighResTimeDif}.
-						@param objOut The stream to serialize the data to.
-						*/
-						void Pack(REF_OBJECTSTREAM objOut) override
-						{
-								objOut << unixTimeHighResTimeDif;
-						}
+  /**
+  Serialize the {@link #unixTimeHighResTimeDif}.
+  @param objOut The stream to serialize the data to.
+  */
+  void Pack(REF_OBJECTSTREAM objOut) override
+  {
+    objOut << unixTimeHighResTimeDif;
+  }
 
-						/**
-					 Deserialize the {@link #unixTimeHighResTimeDif}.
-						@param objIn The stream to parse data from.
-						*/
-						void Unpack(REF_OBJECTSTREAM objIn) override
-						{
-								objIn >> unixTimeHighResTimeDif;
-						}
+  /**
+  Deserialize the {@link #unixTimeHighResTimeDif}.
+  @param objIn The stream to parse data from.
+  */
+  void Unpack(REF_OBJECTSTREAM objIn) override
+  {
+    objIn >> unixTimeHighResTimeDif;
+  }
 
-						/**
-						Set the {@link #unixTimeHighResTimeDif} to the difference between the two arguments.
-						@param unixTimeMillis The unix time stamp
-						@param highResTimeMillis The time value of the high resolution clock
-						*/
-						void SetTimeDif(UnixMillisInt unixTimeMillis, UnixMillisInt highResTimeMillis) {
-								this->unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
-						}
+  /**
+  Set the {@link #unixTimeHighResTimeDif} to the difference between the two arguments.
+  @param unixTimeMillis The unix time stamp
+  @param highResTimeMillis The time value of the high resolution clock
+  */
+  void SetTimeDif(UnixMillisInt unixTimeMillis, UnixMillisInt highResTimeMillis) {
+    this->unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
+  }
 
-						/**
-						Accessor for {@link #unixTimeHighResTimeDif}.
-						*/
-						UnixMillisInt GetTimeDif() {
-								return this->unixTimeHighResTimeDif;
-						}
+  /**
+  Accessor for {@link #unixTimeHighResTimeDif}.
+  */
+  UnixMillisInt GetTimeDif() {
+    return this->unixTimeHighResTimeDif;
+  }
 
-						/**
-						Creates a new instance of {@link TimeSyncRequest}.
-						@return New instance of {@link TimeSyncRequest}.
-						*/
-						AbstractPacket* Create() override {
-								return new TimeSyncRequest();
-						}
+  /**
+  Creates a new instance of {@link TimeSyncRequest}.
+  @return New instance of {@link TimeSyncRequest}.
+  */
+  AbstractPacket* Create() override {
+    return new TimeSyncRequest();
+  }
 
-						/**
-						Default destructor.
-						*/
-						~TimeSyncRequest()
-						{
-						}
+  /**
+  Default destructor.
+  */
+  ~TimeSyncRequest()
+  {
+  }
 
-				private:
-						/**
-						The difference between the unix time stamp and the high resolution clock.
-						*/
-						 UnixMillisInt unixTimeHighResTimeDif;
-				};
-		} //namespace ping
+private:
+  /**
+  The difference between the unix time stamp and the high resolution clock.
+  */
+    UnixMillisInt unixTimeHighResTimeDif;
+};
+} //namespace constate
 } //namespace comnet
 #endif //__TIME_SYNC_REQUEST_H

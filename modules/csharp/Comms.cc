@@ -30,7 +30,7 @@ Void Comms::commHelperRecv() {
       }
       if (temp->GetSize() > 0) {
         Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().GetHeaderPacket());
-								conStateManager->UpdatePing(header->GetSourceID(), header->GetSourceTime());
+        conStateManager->UpdatePing(header->GetSourceID(), header->GetSourceTime());
         
         packet = this->packetManager->ProduceFromId(header->GetMessageID());
         if (packet) {
@@ -60,9 +60,9 @@ Void Comms::commHelperSend() {
   while (IsRunning()) {
     if (!sendQueue->IsEmpty()) {
       ObjectStream^ temp = sendQueue->DeQueue();
-						temp->unmangedObjectStream->Get().header_packet.SetSourceTime(Constate::GetTimeSinceStart());
-						temp->SerializeHeader();
-						connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
+      temp->unmangedObjectStream->Get().header_packet.SetSourceTime(Constate::GetTimeSinceStart());
+      temp->SerializeHeader();
+      connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
                       temp->unmangedObjectStream->Get().GetBuffer(),
                       temp->unmangedObjectStream->Get().GetSize());
       conStateManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
@@ -132,7 +132,7 @@ Boolean Comms::InitConnection(TransportProtocol connType, String^ port, String^ 
   }
   if (connectionInitialized)
   {
-				conStateManager->LinkCallbacks();
+    conStateManager->LinkCallbacks();
     return true;
   }
   return false;

@@ -29,49 +29,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <constate/ConnectionState.h>
 
 namespace Comnet {
-		namespace Constate {
+namespace Constate {
 #pragma managed
-				using namespace System;
-				/**
-				Packet for requesting that a {@link CheckConnectReply} be sent to prove a connection
-				still exists.
-				*/
-				public ref class CheckConnectRequest : public ABSPacket
-				{
-				public:
-						/**
-						Creates a new instance of {@link CheckConnectRequest}.
-						*/
-						CheckConnectRequest()
-								:ABSPacket("CheckConnectRequest")
-						{
-						}
+using namespace System;
+/**
+Packet for requesting that a {@link CheckConnectReply} be sent to prove a connection
+still exists.
+*/
+public ref class CheckConnectRequest : public ABSPacket
+{
+public:
+  /**
+  Creates a new instance of {@link CheckConnectRequest}.
+  */
+  CheckConnectRequest()
+    :ABSPacket("CheckConnectRequest")
+  {
+  }
 
-						/**
-						No data is serialized
-						@param objOut The stream to serialize the data to.
-						*/
-						Void Pack(ObjectStream^ objOut) override
-						{
-						}
+  /**
+  No data is serialized
+  @param objOut The stream to serialize the data to.
+  */
+  Void Pack(ObjectStream^ objOut) override
+  {
+  }
 
-						/**
-						No data is deserialized
-						@param objIn The stream to parse data from.
-						*/
-						Void Unpack(ObjectStream^ objIn) override
-						{
-						}
+  /**
+  No data is deserialized
+  @param objIn The stream to parse data from.
+  */
+  Void Unpack(ObjectStream^ objIn) override
+  {
+  }
 
-						/**
-						Creates a new instance of {@link CheckConnectRequest}.
-						@return New instance of {@link CheckConnectRequest}.
-						*/
-						ABSPacket^ Create() override
-						{
-								return gcnew CheckConnectRequest();
-						}
-				};
-		} //namespace ping
+  /**
+  Creates a new instance of {@link CheckConnectRequest}.
+  @return New instance of {@link CheckConnectRequest}.
+  */
+  ABSPacket^ Create() override
+  {
+    return gcnew CheckConnectRequest();
+  }
+};
+} //namespace constate
 } //namespace comnet
 #endif //__CSHARP_CHECK_CONNECT_REQUEST_H

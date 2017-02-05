@@ -25,103 +25,103 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/abstractpacket.h>
 
 namespace comnet {
-		namespace constate {
-				/**
-				Packet to reply to {@link TimeSyncRequest}. Contains information vital to
-				calculate the ping.
-				*/
-				class TimeSyncReply : INHERITS_ABSPACKET
-				{
-				public:
-						/**
-						Creates a new instance of {@link TimeSyncReply}.
-						*/
-						TimeSyncReply()
-								: CHAIN_ABSPACKET(TimeSyncReply), requestSentTime(0), unixTimeHighResTimeDif(0)
-						{
-						}
+namespace constate {
+/**
+Packet to reply to {@link TimeSyncRequest}. Contains information vital to
+calculate the ping.
+*/
+class TimeSyncReply : INHERITS_ABSPACKET
+{
+public:
+  /**
+  Creates a new instance of {@link TimeSyncReply}.
+  */
+  TimeSyncReply()
+    : CHAIN_ABSPACKET(TimeSyncReply), requestSentTime(0), unixTimeHighResTimeDif(0)
+  {
+  }
 
-						/**
-						Serializes {@link #requestSentTime} and {@link #unixTimeHighResTimeDif}.
-						@param objOut The stream to serialize data to.
-						*/
-						void Pack(REF_OBJECTSTREAM objOut) override
-						{
-								objOut << requestSentTime;
-								objOut << unixTimeHighResTimeDif;
-						}
+  /**
+  Serializes {@link #requestSentTime} and {@link #unixTimeHighResTimeDif}.
+  @param objOut The stream to serialize data to.
+  */
+  void Pack(REF_OBJECTSTREAM objOut) override
+  {
+    objOut << requestSentTime;
+    objOut << unixTimeHighResTimeDif;
+  }
 
-						/**
-					 Deserialized {@link #unixTimeHighResTimeDif} and {@link #requestSentTime}.
-						@param objIn The stream to deserialize data from.
-						*/
-						void Unpack(REF_OBJECTSTREAM objIn) override
-						{
-								objIn >> unixTimeHighResTimeDif;
-								objIn >> requestSentTime;
-						}
+  /**
+  Deserialized {@link #unixTimeHighResTimeDif} and {@link #requestSentTime}.
+  @param objIn The stream to deserialize data from.
+  */
+  void Unpack(REF_OBJECTSTREAM objIn) override
+  {
+    objIn >> unixTimeHighResTimeDif;
+    objIn >> requestSentTime;
+  }
 
-						/**
-						Modifier for {@link #requestSentTime}.
-						*/
-						void SetRequestSentTime(int32_t requestSentTime)
-						{
-								this->requestSentTime = requestSentTime;
-						}
+  /**
+  Modifier for {@link #requestSentTime}.
+  */
+  void SetRequestSentTime(int32_t requestSentTime)
+  {
+    this->requestSentTime = requestSentTime;
+  }
 
-						/**
-						Set the {@link #unixTimeHighResTimeDif} to the difference between the two arguments.
-						@param unixTimeMillis The unix time stamp
-						@param highResTimeMillis The time value of the high resolution clock
-						*/
-						void SetTimeDif(UnixMillisInt unixTimeMillis, UnixMillisInt highResTimeMillis)
-						{
-								this->unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
-						}
+  /**
+  Set the {@link #unixTimeHighResTimeDif} to the difference between the two arguments.
+  @param unixTimeMillis The unix time stamp
+  @param highResTimeMillis The time value of the high resolution clock
+  */
+  void SetTimeDif(UnixMillisInt unixTimeMillis, UnixMillisInt highResTimeMillis)
+  {
+    this->unixTimeHighResTimeDif = unixTimeMillis - highResTimeMillis;
+  }
 
-						/**
-						Accessor for {@link #unixTimeHighResTimeDif}.
-						*/
-						UnixMillisInt GetTimeDif()
-						{
-								return unixTimeHighResTimeDif;
-						}
+  /**
+  Accessor for {@link #unixTimeHighResTimeDif}.
+  */
+  UnixMillisInt GetTimeDif()
+  {
+    return unixTimeHighResTimeDif;
+  }
 
-						/**
-						Accessor for {@link #requestSentTime}.
-						*/
-						MillisInt GetRequestSentTime()
-						{
-								return requestSentTime;
-						}
+  /**
+  Accessor for {@link #requestSentTime}.
+  */
+  MillisInt GetRequestSentTime()
+  {
+    return requestSentTime;
+  }
 
-						/**
-						Creates a new instance of {@link SyncReplyPacket}.
-						*/
-						AbstractPacket* Create() override
-						{
-								return new TimeSyncReply();
-						}
+  /**
+  Creates a new instance of {@link SyncReplyPacket}.
+  */
+  AbstractPacket* Create() override
+  {
+    return new TimeSyncReply();
+  }
 
-						/**
-						Default destructor.
-						*/
-						~TimeSyncReply()
-						{
-						}
+  /**
+  Default destructor.
+  */
+  ~TimeSyncReply()
+  {
+  }
 
-				private:
-						/**
-						The timestamp of the peer that sent the {@link TimeSyncRequest}.
-						*/
-						MillisInt requestSentTime;
+private:
+  /**
+  The timestamp of the peer that sent the {@link TimeSyncRequest}.
+  */
+  MillisInt requestSentTime;
 
-						/**
-						The difference between the unix time stamp and the high resolution clock.
-						*/
-						UnixMillisInt unixTimeHighResTimeDif;
-				};
-		}
-}
+  /**
+  The difference between the unix time stamp and the high resolution clock.
+  */
+  UnixMillisInt unixTimeHighResTimeDif;
+};
+} //namespace constate
+} //namespace comnet
 
 #endif //__TIME_SYNC_REPLY_H

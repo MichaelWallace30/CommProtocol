@@ -65,8 +65,8 @@ public:
    */
   virtual ~CommNode() {
     /*This is thread-safe but is a bit odd. Perhaps a protected method called
-				DeleteSendQueue and DeleteReceiveQueue can be used by both the ReplaceQueue methods
-				and this destructor*/
+    DeleteSendQueue and DeleteReceiveQueue can be used by both the ReplaceQueue methods
+    and this destructor*/
     ReplaceSendQueue(nullptr);
     ReplaceReceiveQueue(nullptr);
   }
@@ -119,13 +119,13 @@ public:
     Replace the recv queue of this node.
   */
   virtual bool ReplaceReceiveQueue(const Queue<std::pair<uint8_t, AbstractPacket*>>* queue) {
-				for (int32_t i = 0; i < recv_queue->GetSize(); ++i) {
-						AbstractPacket* absPacket = recv_queue->Front().second;
-						recv_queue->Dequeue();
-						free_pointer(absPacket);
-				}
-				free_pointer(recv_queue);
-				recv_queue = (Queue<std::pair<uint8_t, AbstractPacket*>>*) queue;
+    for (int32_t i = 0; i < recv_queue->GetSize(); ++i) {
+      AbstractPacket* absPacket = recv_queue->Front().second;
+      recv_queue->Dequeue();
+      free_pointer(absPacket);
+    }
+    free_pointer(recv_queue);
+    recv_queue = (Queue<std::pair<uint8_t, AbstractPacket*>>*) queue;
     return true;
   }
   /**
@@ -231,11 +231,11 @@ private:
   /**
      The node id associated with this node. This id is used for outside communications.
      Be sure to set an id that would most likely be identifiable with your node.
-   */
+  */
   int32_t node_id;
   /**
     The unique id used for inside communications. This id CANNOT be changed.
-   */  
+  */  
   const int32_t unique_id;
   /**
   Check if this node is currently running.
