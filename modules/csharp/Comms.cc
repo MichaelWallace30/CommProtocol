@@ -5,7 +5,6 @@
 #include <tools/data_structures/AutoQueue.h>
 #include <ObjectStream.h>
 #include <pkg/PacketManager.h>
-#include <iostream>
 
 
 namespace Comnet {
@@ -80,7 +79,6 @@ Void Comms::commHelperSend() {
                       temp->unmangedObjectStream->Get().GetSize());
       conStateManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
     }
-    std::cout << "Send run" << std::endl;
   }
 }
 

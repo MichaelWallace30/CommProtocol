@@ -29,7 +29,6 @@
 
 #include <CommProto/callback.h>
 #include <CommProto/tools/observer.h>
-#include <iostream>
 
 using namespace comnet;
 
@@ -68,7 +67,6 @@ void Comms::CommunicationHandlerSend()
     conStateManager->ResetSendTime(temp->header_packet.dest_id);
     free_pointer(temp);
   }
-  std:cout << "Send run" << std::endl;
   //		COMMS_DEBUG("IM GOING!!\n");
  }
  debug::Log::Message(debug::LOG_DEBUG, "Send Ends!");
