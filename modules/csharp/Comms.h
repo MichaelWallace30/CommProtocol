@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CommNode.h>
 #include <network/CommsLink.h>
-#include <ping/PingManager.h>
+#include <constate/ConnectionStateManager.h>
 #include <CommProto/encryption/decryptor.h>
 #include <CommProto/encryption/encryptor.h>
 #include <vcclr.h>
@@ -71,8 +71,8 @@ public:
   Void Pause() override;
   Void Stop() override;
 
-  Ping::PingManager^ GetPingManager() {
-    return pingManager;
+  Constate::ConnectionStateManager^ GetConStateManager() {
+    return conStateManager;
   }
 
 private:
@@ -86,7 +86,7 @@ private:
   System::Threading::Mutex^ sendMut;
   System::Threading::Mutex^ recvMut;
 
-  Ping::PingManager^ pingManager;
+  Constate::ConnectionStateManager^ conStateManager;
 
   Void commHelperSend();
   Void commHelperRecv();

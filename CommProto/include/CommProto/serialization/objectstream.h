@@ -92,7 +92,7 @@ public:
   /** setBuffer will take a pointer to an array of char and its len to become the new stream of data*/
   void SetBuffer(const char* buffer, int len);
 
-		void SetHeader(Header& header);
+  void SetHeader(Header& header);
   
   void SerializeHeader();
   Header DeserializeHeader();

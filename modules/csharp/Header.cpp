@@ -49,6 +49,9 @@ uint16_t Header::GetMessageLength(){ return header->msg_len; }
 
 void Header::SetMessageID(UInt16 messageID){ header->msg_id = messageID; }
 uint16_t Header::GetMessageID(){ return header->msg_id; }
+int32_t Header::GetSourceTime() {
+		return header->GetSourceTime();
+}
 
 void Header::SetIV(cli::array<Byte>^ IV)
 {

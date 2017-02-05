@@ -173,7 +173,7 @@ include(CommProto-config)
 include(hash-config)
 include(network-config)
 include(serialization-config)
-include(ping)
+include(constate)
 include(pkg)
 include(comnet_debug)
 # include(xbee_ansic) # We are no longer using this library.
