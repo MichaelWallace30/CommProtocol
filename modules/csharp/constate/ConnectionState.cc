@@ -17,89 +17,103 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <CommProto/constate/connection_state.h>
+#include "ConnectionState.h"
+#include <math.h>
 
-namespace comnet {
-		namespace constate {
-
-				TimePoint GetNow() {
-						return Time::now();
+namespace Comnet {
+		namespace Constate {
+				MillisInt GetMillisPassed(Diagnostics::Stopwatch ^ timer) {
+						return (MillisInt)timer->ElapsedMilliseconds;
 				}
-
-				MillisInt GetMillisPassed(TimePoint time) {
-						fsec fs = GetNow() - time;	//amount of time that has passed since lastPingTime
-						ms millis = std::chrono::duration_cast<ms>(fs);		//converting time to milliseconds
-						return (MillisInt)(millis.count());
-				}
-
 				MillisInt GetTimeSinceStart() {
-						return GetMillisPassed(START_TIME);
+						return (MillisInt)ConnectionState::START_TIME->ElapsedMilliseconds;
 				}
 
 				UnixMillisInt GetUnixTimeMillis() {
-						return std::chrono::duration_cast< std::chrono::milliseconds >(
-								std::chrono::system_clock::now().time_since_epoch()).count();
+						return (DateTime::UtcNow - DateTime(1970, 1, 1)).TotalMilliseconds;
 				}
 
 				ConnectionState::ConnectionState(uint8_t nodeID)
-						:nodeID(nodeID), lastSyncPackSentTime(GetNow()),
-						syncRequestSendDelay(0), lastCheckConnectRequestSentTime(GetNow()),
-						checkConnectRequestSendDelay(0), numUnansweredCheckConnectRequests(0),
-						lastCheckConnectReplySentTime(GetNow()), inUnsyncedList(false), 
-						timeOff(0), numSyncRepliesReceived(0), ping(PING_UNKNOWN), receivedFrom(false)
+						:nodeID(nodeID), syncRequestSendDelay(0), checkConnectRequestSendDelay(0),
+						numUnansweredCheckConnectRequests(0), inUnsyncedList(false), timeOff(0),
+						numSyncRepliesReceived(0), ping(PING_UNKNOWN), receivedFrom(false)
 				{
-						
+						lastSyncPackSentTimer = Diagnostics::Stopwatch::StartNew();
+						lastCheckConnectRequestSentTimer = Diagnostics::Stopwatch::StartNew();
+						checkConnectRequestMutex = gcnew Threading::Mutex();
+						lastCheckConnectReplySentTimer = Diagnostics::Stopwatch::StartNew();
+						checkConnectReplyMutex = gcnew Threading::Mutex();
+						pingMutex = gcnew Threading::Mutex();
 				}
 
 				void ConnectionState::ResetSyncRequestSentTime()
 				{
-						lastSyncPackSentTime = GetNow();
+						lastSyncPackSentTimer->Restart();
 						syncRequestSendDelay = SYNC_REQUEST_SEND_DELAY;
 				}
 
 				MillisInt ConnectionState::GetTimeUntilSendSyncRequest()
 				{
-						return syncRequestSendDelay - GetMillisPassed(lastSyncPackSentTime);
+						return syncRequestSendDelay - GetMillisPassed(lastSyncPackSentTimer);
 				}
 
 				void ConnectionState::ResetCheckConnectRequestSentTimeToSend()
 				{
-						lastCheckConnectRequestSentTime = GetNow();  //Set to current time
+						checkConnectRequestMutex->WaitOne();
+						lastCheckConnectRequestSentTimer->Restart();  //Set to current time
 						checkConnectRequestSendDelay = CHECK_CONNECT_REQUEST_SEND_DELAY;  //Now that we have received a packet, we no longer have to resend the pingpacket more often so set pingTime back to PING_TIME_MILLIS
 						numUnansweredCheckConnectRequests = 0;
 						receivedFrom = true;
+						checkConnectRequestMutex->ReleaseMutex();
 				}
 
 				void ConnectionState::ResetCheckConnectRequestSentTimeToResend()
 				{
-						lastCheckConnectRequestSentTime = GetNow();  //Set to current time
+						checkConnectRequestMutex->WaitOne();
+						lastCheckConnectRequestSentTimer->Restart();  //Set to current time
+						
 						checkConnectRequestSendDelay = CHECK_CONNECT_REQUEST_RESEND_DELAY;  //Now that we have received a packet, we no longer have to resend the pingpacket more often so set pingTime back to PING_TIME_MILLIS
 						numUnansweredCheckConnectRequests++;
+						checkConnectRequestMutex->ReleaseMutex();
 				}
 
 				MillisInt ConnectionState::GetTimeUntilSendCheckConnectRequest()
 				{
-						return checkConnectRequestSendDelay - GetMillisPassed(lastCheckConnectRequestSentTime);
+						checkConnectRequestMutex->WaitOne();
+						MillisInt timeUntil = checkConnectRequestSendDelay - GetMillisPassed(lastCheckConnectRequestSentTimer);
+						checkConnectRequestMutex->ReleaseMutex();
+						return timeUntil;
 				}
 
 				bool ConnectionState::IsActive()
 				{
-						return numUnansweredCheckConnectRequests <= MAX_CHECK_CONNECT_REQUESTS;
+						checkConnectRequestMutex->WaitOne();
+						bool active = numUnansweredCheckConnectRequests <= MAX_CHECK_CONNECT_REQUESTS;
+						checkConnectRequestMutex->ReleaseMutex();
+						return active;
 				}
 
 				bool ConnectionState::IsConnected()
 				{
-						return receivedFrom && IsActive();
+						checkConnectRequestMutex->WaitOne();
+						bool receivedFromCpy = receivedFrom;
+						checkConnectRequestMutex->ReleaseMutex();
+					 return receivedFromCpy && IsActive();
 				}
 
 				void ConnectionState::ResetCheckConnectReplySentTime()
 				{
-						lastCheckConnectReplySentTime = GetNow();
+						checkConnectReplyMutex->WaitOne();
+						lastCheckConnectReplySentTimer->Restart();
+						checkConnectReplyMutex->ReleaseMutex();
 				}
 
 				MillisInt ConnectionState::GetTimeUntilSendCheckConnectReply()
 				{
-						return CHECK_CONNECT_REPLY_SEND_DELAY - GetMillisPassed(lastCheckConnectReplySentTime);
+						checkConnectReplyMutex->WaitOne();
+						MillisInt timeUntil = CHECK_CONNECT_REPLY_SEND_DELAY - GetMillisPassed(lastCheckConnectReplySentTimer);
+						checkConnectReplyMutex->ReleaseMutex();
+						return timeUntil;
 				}
 
 				bool ConnectionState::IsResyncRequired(UnixMillisInt unixTime)
@@ -120,14 +134,20 @@ namespace comnet {
 
 				void ConnectionState::SyncTime(MillisInt timeOff)
 				{
+						pingMutex->WaitOne();
 						numSyncRepliesReceived++;
-						this->timeOff = (MillisInt)(((float)(numSyncRepliesReceived - 1) / (float)numSyncRepliesReceived) * this->timeOff + 
+						this->timeOff = (MillisInt)(((float)(numSyncRepliesReceived - 1) / (float)numSyncRepliesReceived) * this->timeOff +
 								(1.0f / (float)numSyncRepliesReceived) * timeOff);
+						pingMutex->ReleaseMutex();
 				}
 
 				bool ConnectionState::IsSynced()
 				{
-						return numSyncRepliesReceived >= NUM_SYNC_REPLIES_TO_SYNC;
+						bool synced = false;
+						pingMutex->WaitOne();
+					 synced = numSyncRepliesReceived >= NUM_SYNC_REPLIES_TO_SYNC;
+						pingMutex->ReleaseMutex();
+						return synced;
 				}
 
 				bool ConnectionState::IsInUnsyncedList()
@@ -142,6 +162,7 @@ namespace comnet {
 
 				void ConnectionState::UpdatePing(MillisInt time)
 				{
+						pingMutex->WaitOne();
 						if (numSyncRepliesReceived > 0)
 						{
 								ping = GetTimeSinceStart() - (time + timeOff);
@@ -149,14 +170,14 @@ namespace comnet {
 										ping = 0;
 								}
 						}
+						pingMutex->ReleaseMutex();
 				}
 				PingMillisInt ConnectionState::GetPing()
 				{
-						return ping;
-				}
-
-				ConnectionState::~ConnectionState()
-				{
+						pingMutex->WaitOne();
+						PingMillisInt pingCpy = ping;
+						pingMutex->ReleaseMutex();
+						return pingCpy;
 				}
 		} //namespace ping
 } //namespace comnet

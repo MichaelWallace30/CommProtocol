@@ -5,7 +5,6 @@
 #include <tools/data_structures/AutoQueue.h>
 #include <ObjectStream.h>
 #include <pkg/PacketManager.h>
-#include <ping/Pinger.h>
 
 
 namespace Comnet {
@@ -30,8 +29,8 @@ Void Comms::commHelperRecv() {
         COMMS_DEBUG("NOT DECRYPTED!\n");
       }
       if (temp->GetSize() > 0) {
-        Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().DeserializeHeader());
-        pingManager->ResetPingTime(header->GetSourceID(), header->GetSourceTime());
+        Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().GetHeaderPacket());
+								conStateManager->UpdatePing(header->GetSourceID(), header->GetSourceTime());
         
         packet = this->packetManager->ProduceFromId(header->GetMessageID());
         if (packet) {
@@ -61,12 +60,12 @@ Void Comms::commHelperSend() {
   while (IsRunning()) {
     if (!sendQueue->IsEmpty()) {
       ObjectStream^ temp = sendQueue->DeQueue();
-						temp->unmangedObjectStream->Get().header_packet.SetSourceTime(Ping::Pinger::GetTimeSinceStart());
+						temp->unmangedObjectStream->Get().header_packet.SetSourceTime(Constate::GetTimeSinceStart());
 						temp->SerializeHeader();
 						connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
                       temp->unmangedObjectStream->Get().GetBuffer(),
                       temp->unmangedObjectStream->Get().GetSize());
-      pingManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
+      conStateManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
     }
     System::Threading::Thread::Sleep(50);
   }
@@ -86,7 +85,7 @@ Comms::Comms(UInt32 id)
   sendThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &Comms::commHelperSend));
   connLayer = nullptr;
   this->packetManager = gcnew PacketManager();
-  pingManager = gcnew Ping::PingManager(this);
+  conStateManager = gcnew Constate::ConnectionStateManager(this);
 }
 
 
@@ -133,7 +132,7 @@ Boolean Comms::InitConnection(TransportProtocol connType, String^ port, String^ 
   }
   if (connectionInitialized)
   {
-    pingManager->LinkPingCallback();
+				conStateManager->LinkCallbacks();
     return true;
   }
   return false;
@@ -144,7 +143,7 @@ Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
   if (connLayer == nullptr) return false;
   if (connLayer->AddAddress(destId, addr, port))
   {
-    pingManager->AddPinger(destId);
+    conStateManager->AddConState(destId);
     return true;
   }
   return false;
@@ -154,7 +153,7 @@ Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
 Boolean Comms::RemoveAddress(UInt16 destId) {
   if (connLayer) {
     if (connLayer->RemoveAddress(static_cast<uint8_t>(destId))) {
-      pingManager->RemovePinger(static_cast<uint8_t>(destId));
+      conStateManager->RemoveConState(static_cast<uint8_t>(destId));
       return true;
     }
   }
@@ -167,7 +166,7 @@ Void Comms::Run() {
   if (IsRunning()) {
     recvThr->Start();
     sendThr->Start();
-    pingManager->Run();
+    conStateManager->Run();
   }
 }
 
@@ -186,7 +185,7 @@ Void Comms::Stop() {
   if (!IsRunning() && !IsPaused()) {
     sendThr->Abort();
     recvThr->Abort();
-    pingManager->Stop();
+    conStateManager->Stop();
   }
 }
 

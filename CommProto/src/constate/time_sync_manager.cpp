@@ -74,7 +74,6 @@ namespace comnet {
 
 				void TimeSyncManager::RemoveUnsyncedConState(ConnectionState * conState)
 				{
-						std::cout << "UNSYNCED ConState REMOVED" << std::endl;
 						std::unique_lock <std::mutex> lock(unsyncedConStatesMutex);
 						unsyncedConStates.remove(conState);
 						conState->SetInUnsyncedList(false);
@@ -154,7 +153,6 @@ namespace comnet {
 
 				void TimeSyncManager::SendSyncRequest(uint8_t destID)
 				{
-						std::cout << "\nSYNC_REQUEST_SENT\n" << std::endl;
 						TimeSyncRequest syncRequest;
 						syncRequest.SetTimeDif(GetUnixTimeMillis(), GetTimeSinceStart());
 						owner->Send(syncRequest, destID);

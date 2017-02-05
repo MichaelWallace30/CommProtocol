@@ -87,7 +87,7 @@ void Comms::CommunicationHandlerRecv() {
       */
       if(temp.GetSize() > 0) {
         debug::Log::Message(debug::LOG_DEBUG, "Comms packet unpacking...\n");
-        Header header = temp.DeserializeHeader();
+								Header header = temp.GetHeaderPacket();
 
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);

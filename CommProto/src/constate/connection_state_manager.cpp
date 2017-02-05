@@ -82,15 +82,15 @@ namespace constate {
 		{
 				activeConStatesMutex.Lock();
 				activeConStates.emplace_front(nodeID);
+				destConStateMapMutex.Lock();
+				destConStateMap.emplace(std::make_pair(nodeID, activeConStates.begin()));
+				destConStateMapMutex.Unlock();
+				activeConStatesMutex.Unlock();
 				{
 						std::unique_lock <std::mutex> conStateHandlerLock(conStateHandlerMutex);
 						awake = true;
 				}
 				conStateHandlerCV.notify_one();
-				destConStateMapMutex.Lock();
-				destConStateMap.emplace(std::make_pair(nodeID, --activeConStates.end()));
-				destConStateMapMutex.Unlock();
-				activeConStatesMutex.Unlock();
 		}
 
 		void ConnectionStateManager::RemoveConState(uint8_t nodeID)
