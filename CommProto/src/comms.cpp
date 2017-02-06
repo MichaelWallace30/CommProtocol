@@ -129,7 +129,7 @@ void Comms::CommunicationHandlerRecv() {
         }
       }
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));	
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }

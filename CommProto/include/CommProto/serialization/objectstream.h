@@ -23,6 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/serialization/marshal.h>
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/headerpacket.h>
+#include <unordered_map>
+#include <unordered_set>
+#include <set>
+#include <vector>
+#include <map>
+#include <list>
 #include <string>
 
 namespace comnet {
@@ -99,20 +105,566 @@ public:
   
   
   /** Overloaded input stream operators to put variables into the object stream*/  
-  ObjectStream& operator<<(string_t& data);
-  ObjectStream& operator<<(std::wstring& data);
-  ObjectStream& operator<<(std::string& data);
-  ObjectStream& operator<<(uint8_t& data);  
-  ObjectStream& operator<<(int8_t& data);
-  ObjectStream& operator<<(uint16_t& data);
-  ObjectStream& operator<<(int16_t& data);  
-  ObjectStream& operator<<(int32_t& data);
-  ObjectStream& operator<<(uint32_t& data);
-  ObjectStream& operator<<(int64_t& data);
-  ObjectStream& operator<<(uint64_t& data);
-  ObjectStream& operator<<(real32_t& data);
-  ObjectStream& operator<<(real64_t& data);
-  
+  ObjectStream& operator<<(const string_t& data);
+  ObjectStream& operator<<(const std::wstring& data);
+  ObjectStream& operator<<(const std::string& data);
+  ObjectStream& operator<<(const uint8_t& data);  
+  ObjectStream& operator<<(const int8_t& data);
+  ObjectStream& operator<<(const uint16_t& data);
+  ObjectStream& operator<<(const int16_t& data);  
+  ObjectStream& operator<<(const int32_t& data);
+  ObjectStream& operator<<(const uint32_t& data);
+  ObjectStream& operator<<(const int64_t& data);
+  ObjectStream& operator<<(const uint64_t& data);
+  ObjectStream& operator<<(const real32_t& data);
+  ObjectStream& operator<<(const real64_t& data);
+		
+		template <typename T>
+		ObjectStream& operator<<(const std::vector<T>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++)
+				{
+						*this << *it;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::vector<T*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0) {
+						std::unordered_map<T*, uint16_t> elmIndexMap;
+						uint16_t i = 0;
+						for (; i < size; i++) {
+								auto mapIter = elmIndexMap.find(data.at(i));
+								if (mapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(data.at(i), i));
+								}
+						}
+						i--;
+						for (; i >= 0; i--) {
+								auto mapIter = elmIndexMap.find(data.at(i));
+								if (mapIter->second == i) {
+										*this << *mapIter->first;
+								}
+								*this << mapIter->second;
+								if (i == 0) {
+										break;
+								}
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::list<T>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++)
+				{
+						*this << *it;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::list<T*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map<T*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t i = 0;
+						uint16_t elmI = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto mapIter = elmIndexMap.find(*it);
+								if (mapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(*it, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto mapIter = elmIndexMap.find(*it);
+								if (mapIter->second.first == i) {
+										*this << *mapIter->first;
+								}
+								*this << mapIter->second.second;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::set<T>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++)
+				{
+						*this << *it;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::set<T*>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++)
+				{
+						*this << **it;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::multiset<T>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++)
+				{
+						*this << *it;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::multiset<T*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map<T*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t i = 0;
+						uint16_t elmI = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto mapIter = elmIndexMap.find(*it);
+								if (mapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(*it, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto mapIter = elmIndexMap.find(*it);
+								if (mapIter->second.first == i) {
+										*this << *mapIter->first;
+								}
+								*this << mapIter->second.second;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::unordered_set<T>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++)
+				{
+						*this << *it;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::unordered_set<T*>& data)
+		{
+				uint16_t size = data.size();
+				for (auto it = data.rbegin(); it != data.rend(); it++)
+				{
+						*this << **it;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::unordered_multiset<T>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++)
+				{
+						*this << *it;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator<<(const std::unordered_multiset<T*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map<T*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t i = 0;
+						uint16_t elmI = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto mapIter = elmIndexMap.find(*it);
+								if (mapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(*it, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto mapIter = elmIndexMap.find(*it);
+								if (mapIter->second.first == i) {
+										*this << *mapIter->first;
+								}
+								*this << mapIter->second.second;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator<<(const std::map<T, D>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++) {
+						*this << it->second;
+						*this << it->first;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator <<(const std::map<T, D*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map <D*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t elmI = 0;
+						uint16_t i = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(it->second, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter->second.first == i) {
+										*this << *elmMapIter->first;
+								}
+								*this << elmMapIter->second.second;
+								*this << it->first;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator <<(const std::map<T*, D*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map <D*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t elmI = 0;
+						uint16_t i = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(it->second, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter->second.first == i) {
+										*this << *elmMapIter->first;
+								}
+								*this << elmMapIter->second.second;
+								*this << *it->first;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator<<(const std::multimap<T, D>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++) {
+						*this << it->second;
+						*this << it->first;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator <<(const std::multimap<T, D*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map <D*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t elmI = 0;
+						uint16_t i = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(it->second, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter->second.first == i) {
+										*this << *elmMapIter->first;
+								}
+								*this << elmMapIter->second.second;
+								*this << it->first;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator <<(const std::multimap<T*, D*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map <T*, std::pair<uint16_t, uint16_t>> keyIndexMap;
+						std::unordered_map <D*, std::pair<uint16_t, uint16_t>> valIndexMap;
+						uint16_t keyI = 0;
+						uint16_t valI = 0;
+						uint16_t i = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto keyMapIter = keyIndexMap.find(it->first);
+								if (keyMapIter == keyIndexMap.end())
+								{
+										keyIndexMap.emplace(std::make_pair(it->first, std::make_pair(i, keyI)));
+										keyI++;
+								}
+								auto valMapIter = valIndexMap.find(it->second);
+								if (valMapIter == valIndexMap.end()) {
+										valIndexMap.emplace(std::make_pair(it->second, std::make_pair(i, valI)));
+										valI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto valMapIter = valIndexMap.find(it->second);
+								if (valMapIter->second.first == i) {
+										*this << *valMapIter->first;
+								}
+								*this << valMapIter->second.second;
+								auto keyMapIter = keyIndexMap.find(it->first);
+								if (keyMapIter->second.first == i) {
+										*this << *keyMapIter->first;
+								}
+								*this << *keyMapIter->second.second;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator<<(const std::unordered_map<T, D>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++) {
+						*this << it->second;
+						*this << it->first;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator <<(const std::unordered_map<T, D*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map <D*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t elmI = 0;
+						uint16_t i = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(it->second, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter->second.first == i) {
+										*this << *elmMapIter->first;
+								}
+								*this << elmMapIter->second.second;
+								*this << it->first;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator <<(const std::unordered_map<T*, D*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map <D*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t elmI = 0;
+						uint16_t i = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(it->second, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter->second.first == i) {
+										*this << *elmMapIter->first;
+								}
+								*this << elmMapIter->second.second;
+								*this << *it->first;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator<<(const std::unordered_multimap<T, D>& data)
+		{
+				for (auto it = data.rbegin(); it != data.rend(); it++) {
+						*this << it->second;
+						*this << it->first;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator <<(const std::unordered_multimap<T, D*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map <D*, std::pair<uint16_t, uint16_t>> elmIndexMap;
+						uint16_t elmI = 0;
+						uint16_t i = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter == elmIndexMap.end()) {
+										elmIndexMap.emplace(std::make_pair(it->second, std::make_pair(i, elmI)));
+										elmI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto elmMapIter = elmIndexMap.find(it->second);
+								if (elmMapIter->second.first == i) {
+										*this << *elmMapIter->first;
+								}
+								*this << elmMapIter->second.second;
+								*this << it->first;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator <<(const std::unordered_multimap<T*, D*>& data)
+		{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+						std::unordered_map <T*, std::pair<uint16_t, uint16_t>> keyIndexMap;
+						std::unordered_map <D*, std::pair<uint16_t, uint16_t>> valIndexMap;
+						uint16_t keyI = 0;
+						uint16_t valI = 0;
+						uint16_t i = 0;
+						for (auto it = data.begin(); it != data.end(); it++) {
+								auto keyMapIter = keyIndexMap.find(it->first);
+								if (keyMapIter == keyIndexMap.end())
+								{
+										keyIndexMap.emplace(std::make_pair(it->first, std::make_pair(i, keyI)));
+										keyI++;
+								}
+								auto valMapIter = valIndexMap.find(it->second);
+								if (valMapIter == valIndexMap.end()) {
+										valIndexMap.emplace(std::make_pair(it->second, std::make_pair(i, valI)));
+										valI++;
+								}
+								i++;
+						}
+						i--;
+						for (auto it = data.rbegin(); it != data.rend(); it++) {
+								auto valMapIter = valIndexMap.find(it->second);
+								if (valMapIter->second.first == i) {
+										*this << *valMapIter->first;
+								}
+								*this << valMapIter->second.second;
+								auto keyMapIter = keyIndexMap.find(it->first);
+								if (keyMapIter->second.first == i) {
+										*this << *keyMapIter->first;
+								}
+								*this << *keyMapIter->second.second;
+								i--;
+						}
+				}
+				*this << size;
+				return *this;
+		}
 
   /** OVerloaded output stream operators to output variables to a variable from the object stream
     string_t (char*) must use malloc when inputing data into new c-string variable*/  
@@ -128,7 +680,503 @@ public:
   ObjectStream& operator>>(uint64_t& data);
   ObjectStream& operator>>(int64_t& data);
   ObjectStream& operator>>(real32_t& data);
-  ObjectStream& operator>>(real64_t& data); 
+  ObjectStream& operator>>(real64_t& data);
+		template <typename T>
+		ObjectStream& operator>>(std::vector<T>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				data.reserve(size);
+				for (int i = 0; i < size; i++) {
+						T elm;
+						*this >> elm;
+						data.push_back(std::move(elm));
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::vector<T*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				data.resize(size);
+				for (int i = 0; i < size; i++) {
+						uint16_t dataI;
+						*this >> dataI;
+						if (dataI == i) {
+								T* elm = new T();
+								*this >> *elm;
+								data.at(i) = elm;
+						}
+						else
+						{
+								data.at(i) = data.at(dataI);
+						}
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator>>(std::list<T>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T elm;
+						*this >> elm;
+						data.push_back(std::move(elm));
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::list<T*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> elms;
+				for (int i = 0; i < size; i++) {
+						uint16_t elmI;
+						*this >> elmI;
+						if (elmI == elms.size())
+						{
+								T* elm = new T();
+								*this >> *elm;
+								elms.push_back(elm);
+						}
+						data.push_back(elms.at(elmI));
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::set<T>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T elm;
+						*this >> elm;
+						data.push_back(std::move(elm));
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::set<T*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T* elm = new T();
+						*this >> *elm;
+						data.push_back(elm);
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::multiset<T>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T elm;
+						*this >> elm;
+						data.push_back(std::move(elm));
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::multiset<T*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> elms;
+				for (int i = 0; i < size; i++) {
+						uint16_t elmI;
+						*this >> elmI;
+						if (elmI == elms.size())
+						{
+								T* elm = new T();
+								*this >> *elm;
+								elms.push_back(elm);
+						}
+						data.push_back(elms.at(elmI));
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::unordered_set<T>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T elm;
+						*this >> elm;
+						data.push_back(std::move(elm));
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::unordered_set<T*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T* elm = new T();
+						*this >> *elm;
+						data.push_back(elm);
+				}
+				return *this;
+		}
+
+
+		template <typename T>
+		ObjectStream& operator >> (std::unordered_multiset<T>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T elm;
+						*this >> elm;
+						data.push_back(std::move(elm));
+				}
+				return *this;
+		}
+
+		template <typename T>
+		ObjectStream& operator >> (std::unordered_multiset<T*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> elms;
+				for (int i = 0; i < size; i++) {
+						uint16_t elmI;
+						*this >> elmI;
+						if (elmI == elms.size())
+						{
+								T* elm = new T();
+								*this >> *elm;
+								elms.push_back(elm);
+						}
+						data.push_back(elms.at(elmI));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator>>(std::map<T, D>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T key;
+						*this >> key;
+						D val;
+						*this >> val;
+						data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::map<T, D*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+						T key;
+						*this >> key;
+						uint16_t elmI;
+						*this >> elmI;
+						D* val = nullptr;
+						if (elmI == elms.size())
+						{
+								val = new D();
+								*this >> *val;
+								elms.push_back(val);
+						}
+						else
+						{
+								val = elms.at(elmI);
+						}
+						data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::map<T*, D*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+						T* key = new T();
+						*this >> *key;
+						uint16_t elmI;
+						*this >> elmI;
+						D* val = nullptr;
+						if (elmI == elms.size())
+						{
+								val = new D();
+								*this >> *val;
+								elms.push_back(val);
+						}
+						else
+						{
+								val = elms.at(elmI);
+						}
+						data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+		}
+
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::multimap<T, D>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T key;
+						*this >> key;
+						D val;
+						*this >> val;
+						data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::multimap<T, D*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+						T key;
+						*this >> key;
+						uint16_t elmI;
+						*this >> elmI;
+						D* val = nullptr;
+						if (elmI == elms.size())
+						{
+								val = new D();
+								*this >> *val;
+								elms.push_back(val);
+						}
+						else
+						{
+								val = elms.at(elmI);
+						}
+						data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::multimap <T*, D*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> keys;
+				std::vector <D*> vals;
+				for (int i = 0; i < size; i++)
+				{
+						uint16_t keyI;
+						*this >> keyI;
+						T* key = nullptr;
+						if (keyI == keys.size())
+						{
+								key = new T();
+								*this >> *key;
+								keys.push_back(key);
+						}
+						else
+						{
+								key = keys.at(keyI);
+						}
+						uint16_t valI;
+						*this >> valI;
+						D* val = nullptr;
+						if (valI == vals.size())
+						{
+								val = new D();
+								*this >> *val;
+								vals.push_back(val);
+						}
+						else
+						{
+								val = vals.at(valI);
+						}
+						data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::unordered_map<T, D>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T key;
+						*this >> key;
+						D val;
+						*this >> val;
+						data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::unordered_map<T, D*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+						T key;
+						*this >> key;
+						uint16_t elmI;
+						*this >> elmI;
+						D* val = nullptr;
+						if (elmI == elms.size())
+						{
+								val = new D();
+								*this >> *val;
+								elms.push_back(val);
+						}
+						else
+						{
+								val = elms.at(elmI);
+						}
+						data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::unordered_map<T*, D*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+						T* key = new T();
+						*this >> *key;
+						uint16_t elmI;
+						*this >> elmI;
+						D* val = nullptr;
+						if (elmI == elms.size())
+						{
+								val = new D();
+								*this >> *val;
+								elms.push_back(val);
+						}
+						else
+						{
+								val = elms.at(elmI);
+						}
+						data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::unordered_multimap<T, D>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+						T key;
+						*this >> key;
+						D val;
+						*this >> val;
+						data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::unordered_multimap<T, D*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+						T key;
+						*this >> key;
+						uint16_t elmI;
+						*this >> elmI;
+						D* val = nullptr;
+						if (elmI == elms.size())
+						{
+								val = new D();
+								*this >> *val;
+								elms.push_back(val);
+						}
+						else
+						{
+								val = elms.at(elmI);
+						}
+						data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+		}
+
+		template <typename T, typename D>
+		ObjectStream& operator >> (std::unordered_multimap<T*, D*>& data)
+		{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> keys;
+				std::vector <D*> vals;
+				for (int i = 0; i < size; i++)
+				{
+						uint16_t keyI;
+						*this >> keyI;
+						T* key = nullptr;
+						if (keyI == keys.size())
+						{
+								key = new T();
+								*this >> *key;
+								keys.push_back(key);
+						}
+						else
+						{
+								key = keys.at(keyI);
+						}
+						uint16_t valI;
+						*this >> valI;
+						D* val = nullptr;
+						if (valI == vals.size())
+						{
+								val = new D();
+								*this >> *val;
+								vals.push_back(val);
+						}
+						else
+						{
+								val = vals.at(valI);
+						}
+						data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+		}
 };
 
 
