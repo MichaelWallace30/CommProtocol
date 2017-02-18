@@ -55,8 +55,10 @@ int main(int c, char** args) {
   std::cout << sizeof(comnet::Header) << std::endl;
   // CommNode 1
   comnet::Comms comm1(1);
+  comm1.LoadKey("01234567890ABCDEF");
   // CommNode 2
   comnet::Comms comm2(2);
+  comm2.LoadKey("01234567890ABCDEF");
   comnet::architecture::os::CommMutex mut;
   comnet::architecture::os::CommLock commlock(mut);
   // This will cause the thread to wait for a few milliseconds, causing any other thread to wait.
@@ -79,7 +81,7 @@ int main(int c, char** args) {
 	  << std::endl;
   std::cout << "Connected to address: "
 	  << std::boolalpha
-	  << comm2.AddAddress(1, "0013A20040917A31", 5)
+	  << comm2.AddAddress(1, "0013A20040917A31")
 	  << std::endl;
   // CommNode 2 init and add Connection.
   // CommNode Callback linking.
