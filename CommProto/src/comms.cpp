@@ -82,13 +82,15 @@ void Comms::CommunicationHandlerRecv() {
     ObjectStream temp;
     if ( received ) {
       temp.SetBuffer((char*)stream_buffer, recv_len);
-      
-      if(decrypt.Decrypt(&temp)) {
+      int32_t err = decrypt.Decrypt(&temp);
+      if(err == 1) {
         debug::Log::Message(debug::LOG_NOTE, "Packet was decrypted!");
       }
-      else {
+      else if (err == 0) {
         debug::Log::Message(debug::LOG_WARNING,
           "Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
+      } else {
+        debug::Log::Message(debug::LOG_DEBUG, "Discarding garbage data...");
       }
       /*
       Algorithm should Get the header, Get the message id from header, then
