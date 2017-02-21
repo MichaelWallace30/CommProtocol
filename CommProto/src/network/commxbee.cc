@@ -99,7 +99,7 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 
  unsigned char buffer[MAX_XBEE_PACKET_SIZE];
 
- while (itXbeesRecv != xbees.end())
+ while (itXbeesRecv != xbees.end())//loop through all connections
  {
   struct xbee_con *con = itXbeesRecv->second;
   xbee_conRx(con, &pkt, NULL);
@@ -125,11 +125,10 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
     }
     if(seq< maxSeq)xbee_conRx(con, &pkt, NULL);
    } while (seq < maxSeq);
+   return true;
   }
-
-  return true;
-  
  }
+
  itXbeesRecv = xbees.begin();//start iterator from begging
  //no error to report just no message recv
  return false;
