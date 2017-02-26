@@ -150,7 +150,7 @@ endif()
 include(cmake/macros.cmake)
 
 # Add the cmake module path, for module build paths for this cmake file.
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 # Don't forget to include the directories for the compiler to check for.
 include_directories(SYSTEM CommProto/include/)
