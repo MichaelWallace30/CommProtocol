@@ -19,6 +19,6 @@ else()
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -std=c++11 -pthread")
 endif()
 # Given that linux is different from windows
-target_link_libraries(CommProtoXBee ${COMMPROTO_FINAL_STATIC})
+target_link_libraries(CommProtoXBee CommProtocol-Static)
 target_link_libraries(CommProtoXBee cryptopp-static)
 target_link_libraries(CommProtoXBee libxbee3)
