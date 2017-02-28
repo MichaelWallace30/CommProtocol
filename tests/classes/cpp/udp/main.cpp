@@ -65,6 +65,9 @@ error_t PingCallback(const comnet::Header& header, const Ping& packet, comnet::C
 
 
 int main(int c, char** args) {
+  //Disables Pinging to make reading output easier
+  comnet::constate::ConnectionStateManager::ConStateEnabled = false;
+
   std::condition_variable cond;
   std::cout << sizeof(comnet::Header) << std::endl;
   // CommNode 1

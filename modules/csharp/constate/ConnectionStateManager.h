@@ -72,6 +72,8 @@ Runs a thread to check the connection of peers. Also runs the {@link TimeSyncMan
 public ref class ConnectionStateManager
 {
 public:
+  static bool ConStateEnabled = true;
+
   /**
   Creates a new instance of {@link ConnectionStateManager} setting the {@link #owner} field
   to the argument and initializes the CheckConnect packets.

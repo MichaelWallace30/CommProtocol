@@ -30,7 +30,9 @@ Void Comms::commHelperRecv() {
       }
       if (temp->GetSize() > 0) {
         Header^ header = gcnew Header(&temp->unmangedObjectStream->Get().GetHeaderPacket());
-        conStateManager->UpdatePing(header->GetSourceID(), header->GetSourceTime());
+        if (conStateManager) {
+          conStateManager->UpdatePing(header->GetSourceID(), header->GetSourceTime());
+        }
         
         packet = this->packetManager->ProduceFromId(header->GetMessageID());
         if (packet) {
@@ -77,7 +79,9 @@ Void Comms::commHelperSend() {
       connLayer->Send(temp->unmangedObjectStream->Get().header_packet.dest_id, 
                       temp->unmangedObjectStream->Get().GetBuffer(),
                       temp->unmangedObjectStream->Get().GetSize());
-      conStateManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
+      if (conStateManager) {
+        conStateManager->ResetSendTime(temp->unmangedObjectStream->Get().header_packet.dest_id);
+      }
     }
   }
 }
@@ -86,6 +90,7 @@ Void Comms::commHelperSend() {
 Comms::Comms(UInt32 id)
 : CommNode(id) 
 , encryptor(new encryption::CommEncryptor(encryption::AES))
+, conStateManager(nullptr)
 {
   decryptor = new encryption::CommDecryptor(encryption::AES, encryptor);
   this->recvQueue = gcnew AutoQueue<ABSPacket^>();
@@ -97,7 +102,9 @@ Comms::Comms(UInt32 id)
   sendThr = gcnew Threading::Thread(gcnew Threading::ThreadStart(this, &Comms::commHelperSend));
   connLayer = nullptr;
   this->packetManager = gcnew PacketManager();
-  conStateManager = gcnew Constate::ConnectionStateManager(this);
+  if (Constate::ConnectionStateManager::ConStateEnabled) {
+    conStateManager = gcnew Constate::ConnectionStateManager(this);
+  }
 }
 
 
@@ -144,7 +151,9 @@ Boolean Comms::InitConnection(TransportProtocol connType, String^ port, String^ 
   }
   if (connectionInitialized)
   {
-    conStateManager->LinkCallbacks();
+    if (conStateManager) {
+      conStateManager->LinkCallbacks();
+    }
     return true;
   }
   return false;
@@ -155,7 +164,9 @@ Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
   if (connLayer == nullptr) return false;
   if (connLayer->AddAddress(destId, addr, port))
   {
-    conStateManager->AddConState(destId);
+    if (conStateManager) {
+      conStateManager->AddConState(destId);
+    }
     return true;
   }
   return false;
@@ -165,7 +176,9 @@ Boolean Comms::AddAddress(UInt16 destId, String^ addr, UInt16 port) {
 Boolean Comms::RemoveAddress(UInt16 destId) {
   if (connLayer) {
     if (connLayer->RemoveAddress(static_cast<uint8_t>(destId))) {
-      conStateManager->RemoveConState(static_cast<uint8_t>(destId));
+      if (conStateManager) {
+        conStateManager->RemoveConState(static_cast<uint8_t>(destId));
+      }
       return true;
     }
   }
@@ -178,7 +191,9 @@ Void Comms::Run() {
   if (IsRunning()) {
     recvThr->Start();
     sendThr->Start();
-    conStateManager->Run();
+    if (conStateManager) {
+      conStateManager->Run();
+    }
   }
 }
 
@@ -197,7 +212,9 @@ Void Comms::Stop() {
   if (!IsRunning() && !IsPaused()) {
     sendThr->Abort();
     recvThr->Abort();
-    conStateManager->Stop();
+    if (conStateManager) {
+      conStateManager->Stop();
+    }
   }
 }
 
