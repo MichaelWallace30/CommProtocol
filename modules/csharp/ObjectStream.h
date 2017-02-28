@@ -53,17 +53,17 @@ namespace Comnet {
    void Input(Double data);
 
    //output
-   String^ OutputString();			
-   Byte OutputByte();
-   SByte OutputSByte();
-   UInt16 OutputUInt16();
-   Int16 OutputInt16();
-   UInt32 OutputUInt32();
-   Int32 OutputInt32();
-   UInt64 OutputUInt64();
-   Int64 OutputInt64();
-   Single OutputSingle();
-   Double OutputDouble();
+   void Output(String^% data);			
+   void Output(Byte% data);
+   void Output(SByte% data);
+   void Output(UInt16% data);
+   void Output(Int16% data);
+   void Output(UInt32% data);
+   void Output(Int32% data);
+   void Output(UInt64% data);
+   void Output(Int64% data);
+   void Output(Single% data);
+   void Output(Double% data);
 
 internal:
   ObjectStream(CommPointer<comnet::serialization::ObjectStream>* pointer);

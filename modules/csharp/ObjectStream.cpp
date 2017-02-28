@@ -104,19 +104,19 @@ void ObjectStream::Input(Single data){ unmangedObjectStream->Get() << data; }
 void ObjectStream::Input(Double data){ unmangedObjectStream->Get() << data; }
 
 //Ooutput
-String^ ObjectStream::OutputString()
+void ObjectStream::Output(String^% data)
 {
  std::string value;
   comnet::serialization::ObjectStream& obj = unmangedObjectStream->Get();
  obj >> value;
- return gcnew String(value.c_str());	
+ data = gcnew String(value.c_str());	
 }
-Byte ObjectStream::OutputByte()    { uint8_t data; unmangedObjectStream->Get() >> data; return data; }
-SByte ObjectStream::OutputSByte()  { int8_t data; unmangedObjectStream->Get() >> data; return data; }
-UInt16 ObjectStream::OutputUInt16(){ UInt16 data; unmangedObjectStream->Get() >> data; return data; }
-Int16 ObjectStream::OutputInt16()  { Int16 data;  unmangedObjectStream->Get() >> data; return data; }
-UInt32 ObjectStream::OutputUInt32(){ UInt32 data; unmangedObjectStream->Get() >> data; return data; }
-Int32 ObjectStream::OutputInt32()  { 
+void ObjectStream::Output(Byte% data) { unmangedObjectStream->Get() >> (uint8_t)data; }
+void ObjectStream::Output(SByte% data) { unmangedObjectStream->Get() >> (int8_t)data; }
+void ObjectStream::Output(UInt16% data){ unmangedObjectStream->Get() >> (uint16_t)data; }
+void ObjectStream::Output(Int16% data)  { Int16 data;  unmangedObjectStream->Get() >> data; return data; }
+void ObjectStream::Output(){ UInt32 data; unmangedObjectStream->Get() >> data; return data; }
+void ObjectStream::Output()  { 
     Int32 data;  
     unmangedObjectStream->Get() >> data;
     return data; 
