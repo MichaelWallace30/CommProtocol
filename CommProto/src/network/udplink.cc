@@ -42,7 +42,7 @@ bool UDPLink::AddAddress(uint8_t dest_id, const char* address, uint16_t port) {
 
 bool UDPLink::RemoveAddress(uint8_t dest_id) {
   bool success = false;
-  if (clients[dest_id] != nullptr) {
+  if (clients.find(dest_id) != clients.end()) {
     clients.erase(dest_id);
     success = true;
   }
@@ -52,7 +52,7 @@ bool UDPLink::RemoveAddress(uint8_t dest_id) {
 
 bool UDPLink::Send(uint8_t dest_id, uint8_t* txData, uint32_t txLength) {
   bool success = false;
-  if (clients[dest_id] != nullptr) {
+  if (clients.find(dest_id) != clients.end()) {
     success = clients[dest_id]->Send(txData, txLength);
   }
   return success;
@@ -65,9 +65,9 @@ bool UDPLink::Recv(uint8_t* rxData, uint32_t* rxLength) {
     TODO(Anybody): We need a proper data structure for handling recv from multiple
                   nodes.
   */
-  for (std::map<uint8_t, std::unique_ptr<UDP>>::iterator it = clients.begin(); 
+  for (std::map<uint8_t, std::unique_ptr<UDP> >::iterator it = clients.begin(); 
             it != clients.end(); ++it) {
-    if (it->second->Recv(rxData, rxLength)) {
+    if (it->second && it->second->Recv(rxData, rxLength)) {
       success = true;
       break;
     }
