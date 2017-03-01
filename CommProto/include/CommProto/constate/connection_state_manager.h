@@ -72,6 +72,11 @@ class ConnectionStateManager : public std::enable_shared_from_this <ConnectionSt
 {
 public:
   /**
+  When true, the ConnectionStateManager will be initialized in Comms objects
+  When false, this object will not be made
+  */
+  static bool ConStateEnabled;
+  /**
   Creates a new instance of {@link ConnectionStateManager} setting the {@link #owner} field
   to the argument and initializes the CheckConnect packets.
   @param commsOwner The {@link Comms} that owns this.

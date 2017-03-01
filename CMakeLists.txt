@@ -19,12 +19,10 @@
 ####################################################################################
 cmake_minimum_required( VERSION 2.8 )
 
-project( "NGCP-Comnet-v2" )
+project( "CommProtocol" )
 
 # Commprotocol Versioning
 #
-set(COMMPROTO_VERSION "v1.0.7b")
-set(COMMPROTO_NAME "CommProtocol")
 
 # Must set this policy to interpret if() arguments as variables and/or kewords when unquoted.
 # Must check if the version is greater than 3.0.2 to use CMP0054 OLD policy
@@ -101,7 +99,6 @@ if (build32)
     message("NOTICE: This operating system supports both 64 and 32 bit applications...")
     message(WARNING "WARNING: Before compiling, be sure you have 32-bit version of your compiler's libraries.")
   endif()
-  set(COMMPROTO_NAME "${COMMPROTO_NAME}32")
   set(COMPILER_BUILD "-m32")
 elseif (build64)
   if (${ARCH_DIR} STREQUAL "64-bit")
@@ -110,7 +107,6 @@ elseif (build64)
     message("NOTICE: This operating system is not able to run 64-bit libraries and applications. However, build will continue as 64-bit...")
     message(WARNING "WARNING: Before compiling, be sure you have 32-bit version of your compiler's libraries.")
   endif()
-  set(COMMPROTO_NAME "${COMMPROTO_NAME}64")
   set(COMPILER_BUILD "-m64")
 else()
   message(FATAL_ERROR "Attempting to build both 64 and 32 bit builds. Build will now exit.")
@@ -186,11 +182,6 @@ if (WIN32)
 endif()
 
 
-# Final Name for the Commprotocol Library
-#
-set(COMMPROTO_FINAL "${COMMPROTO_NAME}_${COMMPROTO_VERSION}")
-
-
 #link cryptopp dependencies directory
 if (CXX_COMPILER MATCHES "MSVC")
 	set(ENCRYPTION_LIBDIR ${CMAKE_CURRENT_BINARY_DIR}/cryptopp563/debug)
@@ -204,23 +195,21 @@ link_directories(${LIBXBEE3_LIBDIR})
 
 
 if (shared)
-  set(COMMPROTO_FINAL_SHARED "${COMMPROTO_FINAL}-s")
   # Shared Library (.so for linux or .dll for Windows).
-  add_library(${COMMPROTO_FINAL_SHARED} SHARED ${NGCP_GLOB})
-  target_compile_options(${COMMPROTO_FINAL_SHARED} PUBLIC -fPIC)
-  target_compile_definitions(${COMMPROTO_FINAL_SHARED}  PUBLIC COMMPROTO_DLL)
-  target_link_libraries(${COMMPROTO_FINAL_SHARED} cryptopp-static)
-  target_link_libraries(${COMMPROTO_FINAL_SHARED} libxbee3)
-  std_compiler_options(${COMMPROTO_FINAL_SHARED})
+  add_library(CommProtocol-Shared SHARED ${NGCP_GLOB})
+  target_compile_options(CommProtocol-Shared PUBLIC -fPIC)
+  target_compile_definitions(CommProtocol-Shared  PUBLIC COMMPROTO_DLL)
+  target_link_libraries(CommProtocol-Shared cryptopp-static)
+  target_link_libraries(CommProtocol-Shared libxbee3)
+  std_compiler_options(CommProtocol-Shared)
 endif()
 
 if (static)
-  set(COMMPROTO_FINAL_STATIC "${COMMPROTO_FINAL}-a")
   # Static library (.a for linux or .lib for Windows).
-  add_library(${COMMPROTO_FINAL_STATIC} STATIC ${NGCP_GLOB})
-  target_link_libraries(${COMMPROTO_FINAL_STATIC} cryptopp-static) 
-  target_link_libraries(${COMMPROTO_FINAL_STATIC} libxbee3)  
-  std_compiler_options(${COMMPROTO_FINAL_STATIC})
+  add_library(CommProtocol-Static STATIC ${NGCP_GLOB})
+  target_link_libraries(CommProtocol-Static cryptopp-static) 
+  target_link_libraries(CommProtocol-Static libxbee3)  
+  std_compiler_options(CommProtocol-Static)
 endif()
 
 if (test)
