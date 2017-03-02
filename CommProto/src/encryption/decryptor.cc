@@ -97,12 +97,19 @@ uint8_t CommDecryptor::LoadKeyFromFile(char* filename_key) {
 
 int32_t CommDecryptor::Decrypt(comnet::serialization::ObjectStream* obj) {
   int32_t result = 0;
+  if (!obj) {
+    return -1;
+  }
+  if (obj->GetSize() <= 0) {
+    return -2;
+  }
   if (encryption != nullptr && KeyIsLoaded()) {
     // TODO(Garcia): Will require decryption of header!
     // It really doesn't matter, the length isn't returned.
     result = encryption->Decrypt(obj->GetBuffer() + sizeof(Header), 
                                  obj->GetHeaderPacket().msg_len, 
                                  obj->GetHeaderPacket().iv);
+    return 1;
   }
   return result;
 }

@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Comnet {
 namespace Constate {
+
 Int32 CheckConnectRequestCallback(Header^ header, ABSPacket^ packet, CommNode^ node)
 {
   Comms^ comms = (Comms^)node;

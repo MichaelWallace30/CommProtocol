@@ -77,6 +77,9 @@ error_t PingCallback(const comnet::Header& header, const Ping& packet, comnet::C
 
 int main()
 {
+  //Disables Pinging to make reading output easier
+  comnet::constate::ConnectionStateManager::ConStateEnabled = false;
+
   std::condition_variable cond;
   comnet::Comms comm1(1);
   if (comm1.LoadKey("NGCP Project 2016"))

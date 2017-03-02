@@ -35,6 +35,7 @@ AesEncryption::~AesEncryption(){}
 
 /** input c string as the form of encrytion key*/
 uint8_t AesEncryption::LoadKey(char* key){	
+
 	byte temp_key[KEY_LENGTH] = { 0 };
 	uint16_t length = 0;
 	str_length(key,length);

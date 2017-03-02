@@ -90,6 +90,13 @@ bool CommXBee::RemoveAddress(uint8_t destId)
 /**
 Send data over to the destination node.
 */
+
+/* This function iterates through all xbee connections,
+and checks to if it all packets for that connection was received. i.e.
+(seq/ maxSeq). It supposed to stay at the next iteration if it
+returns true. So connection 5/10 return true it will not start at
+connection 1 but stay at connection 6 for when it returns. If it gets to
+10/10 and no packet was found i.e. pkt == null it should return false. */
 bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
  
  rxLength = 0;
@@ -99,7 +106,7 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
 
  unsigned char buffer[MAX_XBEE_PACKET_SIZE];
 
- while (itXbeesRecv != xbees.end())
+ while (itXbeesRecv != xbees.end())//loop through all connections
  {
   struct xbee_con *con = itXbeesRecv->second;
   xbee_conRx(con, &pkt, NULL);
@@ -125,11 +132,10 @@ bool CommXBee::Recv(uint8_t* rxData, uint32_t& rxLength) {
     }
     if(seq< maxSeq)xbee_conRx(con, &pkt, NULL);
    } while (seq < maxSeq);
+   return true;
   }
-
-  return true;
-  
  }
+
  itXbeesRecv = xbees.begin();//start iterator from begging
  //no error to report just no message recv
  return false;

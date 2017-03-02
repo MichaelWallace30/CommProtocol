@@ -25,6 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace comnet {
 namespace constate {
+
+bool ConnectionStateManager::ConStateEnabled = true;
+
 error_t CheckConnectRequestCallback(const comnet::Header & header, CheckConnectRequest & packet, comnet::Comms & node)
 {
   if (node.GetConStateManager()->ReadyToSendCheckConnectReply(header.source_id))

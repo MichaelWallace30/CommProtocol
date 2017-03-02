@@ -62,5 +62,5 @@ add_library(CommProtoCSharp SHARED
   ${COMMPROTO_WRAPPER_HEADER_DIR}
   ${COMMPROTO_WRAPPER_SOURCE_DIR})
 
-target_link_libraries(CommProtoCSharp ${COMMPROTO_FINAL_STATIC})
+target_link_libraries(CommProtoCSharp CommProtocol-Static)
 target_link_libraries(CommProtoCSharp cryptopp-static)

@@ -64,7 +64,9 @@ void Comms::CommunicationHandlerSend()
 
     //Send data here
     conn_layer->Send(temp->header_packet.dest_id, temp->GetBuffer(), temp->GetSize());
-    conStateManager->ResetSendTime(temp->header_packet.dest_id);
+    if (conStateManager) {
+      conStateManager->ResetSendTime(temp->header_packet.dest_id);
+    }
     free_pointer(temp);
   }
   //		COMMS_DEBUG("IM GOING!!\n");
@@ -82,13 +84,15 @@ void Comms::CommunicationHandlerRecv() {
     ObjectStream temp;
     if ( received ) {
       temp.SetBuffer((char*)stream_buffer, recv_len);
-      
-      if(decrypt.Decrypt(&temp)) {
+      int32_t err = decrypt.Decrypt(&temp);
+      if(err == 1) {
         debug::Log::Message(debug::LOG_NOTE, "Packet was decrypted!");
       }
-      else {
+      else if (err == 0) {
         debug::Log::Message(debug::LOG_WARNING,
           "Packet was not decrypted!\n Either encryption is not set or key was not loaded!");
+      } else {
+        debug::Log::Message(debug::LOG_DEBUG, "Discarding garbage data...");
       }
       /*
       Algorithm should Get the header, Get the message id from header, then
@@ -101,7 +105,9 @@ void Comms::CommunicationHandlerRecv() {
         // Create the packet.
         packet = this->packet_manager.ProduceFromId(header.msg_id);
 
-        conStateManager->UpdatePing(header.source_id, header.GetSourceTime());
+        if (conStateManager) {
+          conStateManager->UpdatePing(header.source_id, header.GetSourceTime());
+        }
 
         if(packet) {
           // Unpack the object stream.
@@ -140,11 +146,14 @@ void Comms::CommunicationHandlerRecv() {
 Comms::Comms(uint8_t platformID)
 : CommNode(platformID)
 , encrypt(encryption::CommEncryptor(encryption::AES))
+,conStateManager(nullptr)
 {
   decrypt = encryption::CommDecryptor(encryption::AES, &encrypt);
   this->recv_queue = new AutoQueue <std::pair<uint8_t, AbstractPacket*>>;
   this->send_queue = new AutoQueue <ObjectStream*>;
-  conStateManager = std::make_shared <ConnectionStateManager>(this);
+  if (ConnectionStateManager::ConStateEnabled) {
+    conStateManager = std::make_shared <ConnectionStateManager>(this);
+  }
   conn_layer = NULL;
 }
 
@@ -225,7 +234,9 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
     }
   }
   if (connectionInitialized) {
-    conStateManager->LinkCallbacks();
+    if (conStateManager) {
+      conStateManager->LinkCallbacks();
+    }
     return true;
   }
   return false;
@@ -237,7 +248,9 @@ bool Comms::AddAddress(uint8_t dest_id, const char* address , uint16_t port)
  if (conn_layer == NULL) return false;
  if (conn_layer->AddAddress(dest_id, address, port))
  {
-   conStateManager->AddConState(dest_id);
+   if (conStateManager) {
+     conStateManager->AddConState(dest_id);
+   }
    return true;
  }
  return false;
@@ -249,7 +262,9 @@ bool Comms::RemoveAddress(uint8_t dest_id)
   if (conn_layer == NULL) return false;
   if (conn_layer->RemoveAddress(dest_id))
   {
-    conStateManager->RemoveConState(dest_id);
+    if (conStateManager) {
+      conStateManager->RemoveConState(dest_id);
+    }
     return true;
   }
   return false;
@@ -318,7 +333,9 @@ void Comms::Run()
   CommNode::Run();
   comm_thread_send = CommThread(&Comms::CommunicationHandlerSend, this);
   comm_thread_recv = CommThread(&Comms::CommunicationHandlerRecv, this);
-  conStateManager->Run();
+  if (conStateManager) {
+    conStateManager->Run();
+  }
 }
 
 
