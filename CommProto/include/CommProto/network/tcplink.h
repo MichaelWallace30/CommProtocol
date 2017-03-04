@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/architecture/connection/socket-config.h>
 #include <unordered_map>
 #include <queue>
+#include <atomic>
 
 namespace comnet {
 		namespace network {
@@ -50,7 +51,13 @@ namespace comnet {
 
 				class COMM_EXPORT TCPLink : public CommsLink {
 				public:
-						static const int ACCEPT_DELAY = 500;
+						static const int ACCEPT_DELAY_MILLIS = 2000;
+						static const int RECV_PORT_ATTEMPTS = 10;
+						static const int RECV_PORT_DELAY_MILLIS = 500;
+						static const int RECV_PORT_REPLY_ATTEMPTS = 20;
+						static const int RECV_PORT_REPLY_DELAY_MILLIS = 500;
+						static const uint8_t PORT_PAYLOAD_SIZE = 2;
+						static const uint8_t PORT_REPLY_SIZE = 1;
 
 						TCPLink()
 								:connectThread(nullptr)
@@ -78,13 +85,12 @@ namespace comnet {
 						bool AddClient(std::pair<uint8_t, TcpPtr>& clientInfo);
 						bool Connect(TcpPtr tcp);
 						uint8_t AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool& success);
-						bool RemoveClient(uint8_t id);
 
 						CommSocket* local;
 						uint16_t localPort;
 						uint8_t commID;
 
-						std::queue<std::pair<uint8_t, TcpPtr>> connectQueue;
+						std::list<std::pair<uint8_t, TcpPtr>> connectQueue;
 						CommMutex connectQueueMutex;
 						CommThread* connectThread;
 						CommConditionVariable connectCondVar;
@@ -93,6 +99,7 @@ namespace comnet {
 						CommMutex clientsMutex;
 						CommThread* acceptThread;
 						CommConditionVariable acceptCondVar;
+						std::atomic<int16_t> connectingClientID;
 				};
 
 		}

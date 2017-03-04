@@ -117,7 +117,7 @@ public:
             int errLen = sizeof(error);
 #ifdef _WIN32
 												timeval timeOut = { 0 };
-												timeOut.tv_sec = 3; 
+												timeOut.tv_sec = MAX_TICK; 
 												timeOut.tv_usec = 0;
 												fd_set fdset; 
 												FD_ZERO(&fdset); 
@@ -140,6 +140,9 @@ public:
               _socket.socket_status = SOCKET_CONNECTED;
               break;
             }
+#ifdef WIN32
+												break;
+#endif
             end_time = time(0);
             printf("Timer: %d\n", (end_time - start_time));
           } while ((std::abs(end_time - start_time)) <= MAX_TICK);
@@ -205,6 +208,7 @@ public:
       //COMMS_DEBUG("Successful packet recieved...\n");
       packetStatus = PACKET_SUCCESSFUL;
     }
+				
 
     return packetStatus;
   }

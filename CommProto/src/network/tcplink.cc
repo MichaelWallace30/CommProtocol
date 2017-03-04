@@ -1,11 +1,14 @@
 #include <CommProto/network/tcplink.h>
-#include <iostream>
+#include <CommProto/debug/comms_debug.h>
 
 namespace comnet {
 
 		namespace network {
 				TCPLink::~TCPLink()
 				{
+						free_pointer(acceptThread);
+						free_pointer(connectThread);
+						free_pointer(local);
 				}
 
 				bool TCPLink::InitConnection(const char * port, const char * address, uint32_t commID)
@@ -20,14 +23,37 @@ namespace comnet {
 				bool TCPLink::AddAddress(uint8_t dest_id, const char * address, uint16_t port)
 				{
 						connectQueueMutex.Lock();
-						connectQueue.push(std::make_pair(dest_id, std::make_shared<TCPHolder>(port, address)));
+						connectQueue.push_back(std::make_pair(dest_id, std::make_shared<TCPHolder>(port, address)));
 						connectQueueMutex.Unlock();
 						connectCondVar.Set();
 						return true;
 				}
 
-				bool TCPLink::RemoveAddress(uint8_t dest_id)
+				bool TCPLink::RemoveAddress(uint8_t id)
 				{
+						{
+								CommLock clientLock(clientsMutex);
+								{
+										auto it = clients.find(id);
+										if (it != clients.end()) {
+												clients.erase(it);
+												return true;
+										}
+								}
+						}
+						{
+								CommLock connectLock(connectQueueMutex);
+								if (connectingClientID == id) {
+										connectingClientID = 0;
+										return true;
+								}
+								for (auto it = connectQueue.begin(); it != connectQueue.end(); it++) {
+										if (it->first == id) {
+												connectQueue.erase(it);
+												return true;
+										}
+								}
+						}
 						return false;
 				}
 
@@ -36,9 +62,17 @@ namespace comnet {
 						clientsMutex.Lock();
 						auto it = clients.find(dest_id);
 						if (it != clients.end()) {
-								if (it->second->socket != nullptr) {
-										it->second->socket->SockSend((const char*)tx_data, tx_length);
+								TcpPtr tcp = it->second;
+								clientsMutex.Unlock();
+								if (tcp->socket != nullptr) {
+										if (tcp->socket->SockSend((const char*)tx_data, tx_length) != 0) {
+												std::string msg = "Delete TcpSocket for client with ID ";
+												msg += std::to_string(dest_id);
+												COMMS_DEBUG(msg.c_str());
+												SetSocket(dest_id, nullptr);
+										}
 								}
+								clientsMutex.Lock();
 						}
 						clientsMutex.Unlock();
 						return false;
@@ -50,13 +84,13 @@ namespace comnet {
 						clientsMutex.Lock();
 						auto it = clients.begin();
 						while (it != clients.end()) {
+								uint8_t id = it->first;
 								auto tcp = it->second;
 								it++;
 								clientsMutex.Unlock();
 								if (tcp->socket != nullptr) {
-										if (tcp->socket->SockReceive((const char*)rx_data, MAX_BUFFER_SIZE, *rx_length) == PACKET_SUCCESSFUL) {
-												
-												std::cout << "RECEIVED" << std::endl; //temp
+										packet_data_status_t recvStatus = tcp->socket->SockReceive((const char*)rx_data, MAX_BUFFER_SIZE, *rx_length);
+										if (recvStatus == PACKET_SUCCESSFUL) {
 												return true;  //TODO: Handle receive errors (should disconnect)
 										}
 								}
@@ -86,8 +120,9 @@ namespace comnet {
 										bool found = false;
 										uint8_t id = AddressToID(connectedAddr.sin_port, connectedAddr.sin_addr, socket, found);
 										if (found) {
+												COMMS_DEBUG("ACCEPTED!!!\n\n");
 												SetSocket(id, socket);
-												connectedAddr = sockaddr_in();  //necessary?
+												connectedAddr = sockaddr_in();
 										}
 										else
 										{
@@ -99,7 +134,7 @@ namespace comnet {
 								uint32_t size = clients.size();
 								clientsMutex.Unlock();
 								if (size > 0) {
-										std::this_thread::sleep_for(std::chrono::milliseconds(ACCEPT_DELAY));
+										std::this_thread::sleep_for(std::chrono::milliseconds(ACCEPT_DELAY_MILLIS));
 								}
 								else {
 										acceptCondVar.Wait();
@@ -113,7 +148,8 @@ namespace comnet {
 								connectQueueMutex.Lock();
 								if (!connectQueue.empty()) {
 										auto clientInfo = connectQueue.front();
-										connectQueue.pop();
+										connectQueue.pop_front();
+										connectingClientID = clientInfo.first;
 										connectQueueMutex.Unlock();
 										if (commID < clientInfo.first) {
 												Connect(clientInfo.second);
@@ -144,7 +180,10 @@ namespace comnet {
 				bool TCPLink::AddClient(std::pair<uint8_t, TcpPtr>& clientInfo)
 				{
 						clientsMutex.Lock();
-						clients.emplace(std::make_pair(clientInfo.first, clientInfo.second));
+						if (connectingClientID != 0) {
+								clients.emplace(std::make_pair(clientInfo.first, clientInfo.second));
+								connectingClientID = 0;
+						}
 						clientsMutex.Unlock();
 						acceptCondVar.Set();
 						return true;
@@ -154,20 +193,39 @@ namespace comnet {
 				{
 						CommSocket* tcpSocket = CreateTcpSocket();
 						if (tcpSocket->SockConnect(tcp->addressInput.c_str(), tcp->portInput) == 0) {
-								tcp->socket = tcpSocket;
-								std::cout << localPort << std::endl;
-								USHORT portInByteOrder = htons(localPort);
-								char buffer[2];
-								buffer[0] = portInByteOrder & 0xff;
-								buffer[1] = (portInByteOrder >> 8) & 0xff;
-								tcp->socket->SockSend(buffer, 2);
-								return true;
+								if (tcp->socket == nullptr) {
+										USHORT portInByteOrder = htons(localPort);
+										char buffer[PORT_PAYLOAD_SIZE];
+										buffer[0] = portInByteOrder & 0xff;
+										buffer[1] = (portInByteOrder >> 8) & 0xff;
+									 tcpSocket->SockSend(buffer, PORT_PAYLOAD_SIZE);
+
+										uint32_t recvSize;
+										char recvBuffer[PORT_REPLY_SIZE];
+										for (int i = 0; i < RECV_PORT_REPLY_ATTEMPTS; i++) {
+												COMMS_DEBUG("looking_for_port_reply");
+												if (tcpSocket->SockReceive(recvBuffer, PORT_REPLY_SIZE, recvSize) == PACKET_SUCCESSFUL) {
+														if (recvSize == PORT_REPLY_SIZE) {
+																if ((uint8_t)recvBuffer[0] > 0) {
+																		tcp->socket = tcpSocket;
+																		COMMS_DEBUG("CONNECTED!!!\n\n");
+																		return true;
+																}
+														}
+														COMMS_DEBUG("Port handshake failed");
+														break;
+												}
+												std::this_thread::sleep_for(std::chrono::milliseconds(RECV_PORT_REPLY_DELAY_MILLIS));
+										}
+								}
+								else
+								{
+										COMMS_DEBUG("Connection socket was ignored : not null");
+								}
 						}
-						else {
-								delete tcpSocket;
-								tcpSocket = nullptr;
-								return false;
-						}
+						delete tcpSocket;
+						tcpSocket = nullptr;
+						return false;
 				}
 
 				uint8_t TCPLink::AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool & success)
@@ -181,22 +239,23 @@ namespace comnet {
 								if (address.s_addr == tcp->address.s_addr)
 								{
 										if (connectedListenPort == 0) {
-												char buffer[2];
+												char buffer[PORT_PAYLOAD_SIZE];
 												uint32_t size = 0;
-												for (int i = 0; i < 10; i++) {
-														if (socket->SockReceive(buffer, 2, size)) {
-																if (size == 2) {
+												for (int i = 0; i < RECV_PORT_ATTEMPTS; i++) {
+														if (socket->SockReceive(buffer, PORT_PAYLOAD_SIZE, size) == PACKET_SUCCESSFUL) {
+																if (size == PORT_PAYLOAD_SIZE) {
 																		connectedListenPort = buffer[0] & 0xff;
 																		connectedListenPort |= buffer[1] << 8;
-
-																		std::cout << "Connected port: " << ntohs(connectedListenPort) << std::endl;
 																}
 																break;
 														}
-														std::this_thread::sleep_for(std::chrono::milliseconds(250));
+														std::this_thread::sleep_for(std::chrono::milliseconds(RECV_PORT_DELAY_MILLIS));
 												}
 										}
 										if (connectedListenPort == tcp->port) {
+												char buffer[PORT_REPLY_SIZE];
+												buffer[0] = 0x01;
+												socket->SockSend(buffer, PORT_REPLY_SIZE);
 												success = true;
 												return id;
 										}
@@ -204,13 +263,11 @@ namespace comnet {
 								clientsMutex.Lock();
 						}
 						clientsMutex.Unlock();
+						char buffer[PORT_REPLY_SIZE];
+						buffer[0] = 0x00;
+						socket->SockSend(buffer, PORT_REPLY_SIZE);
 						success = false;
 						return 0;
-				}
-
-				bool TCPLink::RemoveClient(uint8_t id)
-				{
-						return false;
 				}
 
 				TCPHolder::TCPHolder(TCPHolder & copy, CommSocket * replacement)
