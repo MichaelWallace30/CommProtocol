@@ -22,7 +22,6 @@
 
 #include <CommProto/architecture/os/os_threads.h>
 #include <CommProto/architecture/os/os_mutex.h>
-#include <CommProto/architecture/connection/socket-config.h>
 
 #include <cstdlib>
 #include <ctime>
@@ -46,6 +45,16 @@ namespace network {
 */
 class COMM_EXPORT TcpSocket : public CommSocket {
 public:
+
+		/**
+		Initialize the sockaddr struct with tcp protocol signatures.
+		*/
+		static void InitializeSockAddr(const char* address, PORT port, struct sockaddr_in* s) {
+				s->sin_family = AF_INET;
+				s->sin_port = htons(port);
+				inet_pton(AF_INET, address, &(s->sin_addr));
+		}
+
   /**
     Constructor method for initializing this socket.
    */
@@ -55,7 +64,7 @@ public:
     mutex_init(&mutex);
     _socket.socket_status = SOCKET_CLOSED;
     _socket.socket = INVALID_SOCKET;
-    _socket.port =  -1;
+    _socket.port = -1;
     _socket.id = -1;
 
   }
@@ -65,14 +74,15 @@ public:
   ~TcpSocket() {
     SockClose();
 
-    mutex_destroy(&mutex);
+    //mutex_destroy(&mutex);
   }
 
   /**
     Connection function, from which a socket is created for the purpose of sending data
     to the server and Back. This will Create a client socket syncronously.
   */
-  int32_t SockConnect(const char* address, PORT port) {
+  int32_t SockConnect(const char* address, PORT port) override
+		{
     int32_t error = -1;
     if (_socket.socket != INVALID_SOCKET) {
       return error;
@@ -88,7 +98,7 @@ public:
           _socket.socket_status = SOCKET_FAILED;
         } else {
         struct sockaddr_in host = { 0 };
-        initializeSockAddr(address, port, &host);
+        InitializeSockAddr(address, port, &host);
 
         _socket.socket_status = SOCKET_CONNECTING;
         int32_t connResult = connect(_socket.socket, (struct sockaddr*)&host, sizeof (host));
@@ -104,13 +114,27 @@ public:
           start_time = time(0);
           end_time = start_time;
           do {
-            Sleep(500);
             int errLen = sizeof(error);
-            if (getsockopt(_socket.socket, SOL_SOCKET, SO_ERROR, (char*)&error, (socklen_t*)&errLen) != 0) {
-              comms_debug_log("error in getsockopt");
-              _socket.socket_status = SOCKET_FAILED;
-              break;
-            } 
+#ifdef _WIN32
+												timeval timeOut = { 0 };
+												timeOut.tv_sec = 3; 
+												timeOut.tv_usec = 0;
+												fd_set fdset; 
+												FD_ZERO(&fdset); 
+												FD_SET(_socket.socket, &fdset); 
+												error = select(0, NULL, &fdset, NULL, &timeOut);
+												if (error == SOCKET_ERROR) {
+														comms_debug_log("FAILED");
+														break;
+												}
+#else
+												Sleep(500);
+#endif
+												if (getsockopt(_socket.socket, SOL_SOCKET, SO_ERROR, (char*)&error, (socklen_t*)&errLen) != 0) {
+														comms_debug_log("error in getsockopt");
+														_socket.socket_status = SOCKET_FAILED;
+														break;
+												}
             if (error == 0) {
               comms_debug_log("Successful connection!");
               _socket.socket_status = SOCKET_CONNECTED;
@@ -137,7 +161,7 @@ public:
   int32_t SockSend(const char* buffer,
                     uint32_t len,
                     const char* address,
-                    uint32_t port)
+                    uint32_t port) override
   {
     int32_t error = -1;
     if (_socket.socket == INVALID_SOCKET) {
@@ -161,8 +185,9 @@ public:
    */
   packet_data_status_t SockReceive(const char* buffer,
                                    uint32_t len,
+																																		 uint32_t& size,
                                    const char* address,
-                                   uint32_t port)
+                                   uint32_t port) override
   {
     packet_data_status_t packetStatus = PACKET_NO_DATA;
     if (_socket.socket == INVALID_SOCKET) {
@@ -170,11 +195,14 @@ public:
       return packetStatus;
     }
     
-    if (recv(_socket.socket, (char*)buffer, len, 0) < 0) {
-      COMMS_DEBUG("Unsuccessful packet recieved...\n");
+				int32_t retVal = recv(_socket.socket, (char*)buffer, len, 0);
+				if (retVal <= 0)
+				{
+      //COMMS_DEBUG("Unsuccessful packet recieved...\n");
       packetStatus = PACKET_MORE_DATA;
     } else {
-      COMMS_DEBUG("Successful packet recieved...\n");
+						size = retVal;
+      //COMMS_DEBUG("Successful packet recieved...\n");
       packetStatus = PACKET_SUCCESSFUL;
     }
 
@@ -185,7 +213,8 @@ public:
     Connect to socket asyncronously, without having to wait for the time tick.
     Instead, the connection is handled via a thread.
   */
-  int32_t SockAsyncConnect(const char* address, uint32_t port) {
+  int32_t SockAsyncConnect(const char* address, uint32_t port) override
+		{
     return 0;
   }
 
@@ -193,7 +222,8 @@ public:
     Set the listening server for this connection, in this case, the tcpsocket
     will initialize a server socket. 
   */
-  int32_t SockListen(const char* address, uint32_t port) {
+  int32_t SockListen(const char* address, uint32_t port) override
+		{
     int32_t error = -1;
     if (_socket.socket_status != SOCKET_CLOSED) {
       comms_debug_log("Socket is not closed before listening...");
@@ -205,7 +235,7 @@ public:
       comms_debug_log("Unsuccessful socket creation...");
     } else {
       struct sockaddr_in host;
-      initializeSockAddr(address, port, &host);
+      InitializeSockAddr(address, port, &host);
       if (bind(_socket.socket, (struct sockaddr*)&host, sizeof(host)) < 0) {
         comms_debug_log("Failed to bind socket...");
       } else {
@@ -226,7 +256,8 @@ public:
     return error;
   }
 
-  int32_t SockListen(uint32_t port) {
+  int32_t SockListen(uint32_t port) override
+		{
     return 0;
   }
 
@@ -235,7 +266,8 @@ public:
     A new TcpSocket will be created, along with initializing the client socket that was accepted into 
     the new TcpSocket, and returned. Otherwise, NULL will be returned. 
   */
-  CommSocket* SockAccept() {
+  CommSocket* SockAccept() override
+		{
     if (_socket.socket_status != SOCKET_LISTENING) {
       comms_debug_log("socket is not listening...");
       return NULL;
@@ -253,10 +285,32 @@ public:
     return tcpSock;
   }
 
+		CommSocket* SockAccept(sockaddr_in& connectedAddress) override
+		{
+				if (_socket.socket_status != SOCKET_LISTENING) {
+						comms_debug_log("socket is not listening...");
+						return NULL;
+				}
+
+				CommSocket* tcpSock = NULL;
+				int32_t addrSize = sizeof(connectedAddress);
+				SOCKET s = accept(_socket.socket, (sockaddr*)(&connectedAddress), &addrSize);
+				if (s == INVALID_SOCKET) {
+						comms_debug_log("Failed to accept...");
+				}
+				else {
+						comms_debug_log("Successful accept...");
+						SetTcpNoDelay(s, true);
+						tcpSock = new TcpSocket(s);
+				}
+				return tcpSock;
+		}
+
   /**
     Close the socket.
   */
-  void SockClose() {
+  void SockClose() override
+		{
     closeSocket(_socket.socket);
     _socket.socket = INVALID_SOCKET;
     _socket.socket_status = SOCKET_CLOSED;
@@ -265,14 +319,6 @@ public:
   }
 
 protected:
-  /**
-    Initialize the sockaddr struct with tcp protocol signatures.
-  */
-  void initializeSockAddr(const char* address, PORT port, struct sockaddr_in* s) {
-    s->sin_family = AF_INET;
-    s->sin_port = htons(port);
-    s->sin_addr.s_addr = inet_addr(address);
-  }
   /**
     Set this socket to asyncronous io, that way it does not Stop the thread just to wait for 
     a function to complete its call. 

@@ -20,6 +20,7 @@
 #define __COMMSOCKET_H
 
 #include <CommProto/architecture/os/include_defines.h>
+#include <CommProto/architecture/connection/socket-config.h>
 #include <CommProto/architecture/api.h>
 
 namespace comnet {
@@ -51,7 +52,8 @@ public:
                             uint32_t port = 0) = 0;
 
   virtual packet_data_status_t SockReceive(const char* buffer,
-                                      uint32_t len, 
+                                      uint32_t len,
+																																						uint32_t& size,
                                       const char* address = "", 
                                       uint32_t port = 0) = 0;
   
@@ -63,7 +65,9 @@ public:
 
   virtual int32_t SockListen(uint32_t port) = 0;
 
-  virtual CommSocket* SockAccept() = 0;
+		virtual CommSocket* SockAccept() = 0;
+
+  virtual CommSocket* SockAccept(sockaddr_in& connectedAddress) = 0;
 
   virtual void SockClose() = 0;
 };

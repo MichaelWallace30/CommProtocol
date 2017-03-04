@@ -73,10 +73,12 @@ bool Console::listenConnect(uint16_t port) {
 
 
 bool Console::read(char* buffer, int intBuf) {
+		//TODO: Removed for socket changes
+		/*
   if (socket->SockReceive(buffer, intBuf) == 0) {
     return true;
   }
-
+		*/
   return false; 
 }
 
