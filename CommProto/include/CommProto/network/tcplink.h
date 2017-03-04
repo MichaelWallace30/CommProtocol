@@ -38,13 +38,17 @@ namespace comnet {
 
 				struct TCPHolder {
 						TCPHolder(TCPHolder& copy, CommSocket* replacement);
-						TCPHolder(uint16_t port, const char* addr, CommSocket* socket = nullptr);
+						TCPHolder(uint16_t port, const char* addr, uint8_t destID, CommSocket* socket = nullptr);
 
+						~TCPHolder();
+
+						bool connect;
 						USHORT port;
 						IN_ADDR address;
 						CommSocket* socket;
 						uint16_t portInput;
 						std::string addressInput;
+						uint8_t destID;
 				};
 
 				typedef std::shared_ptr<TCPHolder> TcpPtr;
@@ -56,6 +60,8 @@ namespace comnet {
 						static const int RECV_PORT_DELAY_MILLIS = 500;
 						static const int RECV_PORT_REPLY_ATTEMPTS = 20;
 						static const int RECV_PORT_REPLY_DELAY_MILLIS = 500;
+
+						static const int CON_DELAY_MILLIS = 2000;
 						static const uint8_t PORT_PAYLOAD_SIZE = 2;
 						static const uint8_t PORT_REPLY_SIZE = 1;
 
@@ -83,23 +89,28 @@ namespace comnet {
 						void ConnectHandler();
 						bool SetSocket(uint8_t id, CommSocket* replacement);
 						bool AddClient(std::pair<uint8_t, TcpPtr>& clientInfo);
-						bool Connect(TcpPtr tcp);
+						bool Connect(TcpPtr conInfo);
+						bool ShouldConnect(std::pair<uint8_t, TcpPtr> conInfo);
 						uint8_t AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool& success);
 
 						CommSocket* local;
-						uint16_t localPort;
-						uint8_t commID;
+						IN_ADDR localIP;
+						USHORT localPort;
 
-						std::list<std::pair<uint8_t, TcpPtr>> connectQueue;
-						CommMutex connectQueueMutex;
+						std::list<TcpPtr> connectList;
+						std::queue<std::pair<bool, TcpPtr>> connectModifyQueue;
+						CommMutex connectModifyQueueMutex;
 						CommThread* connectThread;
 						CommConditionVariable connectCondVar;
 
-						std::unordered_map<uint8_t, TcpPtr> clients;
-						CommMutex clientsMutex;
+						std::list <TcpPtr> acceptList;
+						std::queue <std::pair<bool,TcpPtr>> acceptModifyQueue;
+						CommMutex acceptModifyQueueMutex;
 						CommThread* acceptThread;
 						CommConditionVariable acceptCondVar;
-						std::atomic<int16_t> connectingClientID;
+
+						std::unordered_map<uint8_t, TcpPtr> clients;
+						CommMutex clientsMutex;
 				};
 
 		}

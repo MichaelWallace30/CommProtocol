@@ -215,6 +215,7 @@ endif()
 if (test)
   # C++ testing.
   add_subdirectory(tests/classes/cpp/udp/)
+  add_subdirectory(tests/classes/cpp/tcp/)
   add_subdirectory(tests/classes/cpp/xbee/)
   add_subdirectory(tests/classes/cpp/serial/)
   # Vistionary testing toolset.
