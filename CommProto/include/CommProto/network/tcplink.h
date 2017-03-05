@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/architecture/os/comm_condvar.h>
 #include <CommProto/architecture/connection/socket-config.h>
 #include <unordered_map>
+#include <list>
 #include <queue>
 #include <atomic>
 
@@ -55,15 +56,15 @@ namespace comnet {
 
 				class COMM_EXPORT TCPLink : public CommsLink {
 				public:
-						static const int ACCEPT_DELAY_MILLIS = 2000;
-						static const int RECV_PORT_ATTEMPTS = 10;
-						static const int RECV_PORT_DELAY_MILLIS = 500;
-						static const int RECV_PORT_REPLY_ATTEMPTS = 20;
-						static const int RECV_PORT_REPLY_DELAY_MILLIS = 500;
+						static const int ACCEPT_DELAY_MILLIS;
+						static const int RECV_PORT_ATTEMPTS;
+						static const int RECV_PORT_DELAY_MILLIS;
+						static const int RECV_PORT_REPLY_ATTEMPTS;
+						static const int RECV_PORT_REPLY_DELAY_MILLIS;
 
-						static const int CON_DELAY_MILLIS = 2000;
-						static const uint8_t PORT_PAYLOAD_SIZE = 2;
-						static const uint8_t PORT_REPLY_SIZE = 1;
+						static const int CON_DELAY_MILLIS;
+						static const uint8_t PORT_PAYLOAD_SIZE;
+						static const uint8_t PORT_REPLY_SIZE;
 
 						TCPLink()
 								:connectThread(nullptr)

@@ -285,7 +285,6 @@ public:
 		template <typename T>
 		ObjectStream& operator<<(const std::unordered_set<T*>& data)
 		{
-				uint16_t size = data.size();
 				for (auto it = data.rbegin(); it != data.rend(); it++)
 				{
 						*this << **it;

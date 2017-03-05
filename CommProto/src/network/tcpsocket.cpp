@@ -293,7 +293,7 @@ public:
 				}
 
 				CommSocket* tcpSock = NULL;
-				int32_t addrSize = sizeof(connectedAddress);
+				uint32_t addrSize = sizeof(connectedAddress);
 				SOCKET s = accept(_socket.socket, (sockaddr*)(&connectedAddress), &addrSize);
 				if (s == INVALID_SOCKET) {
 						comms_debug_log("Failed to accept...");
@@ -310,7 +310,7 @@ public:
     Close the socket.
   */
   void SockClose() override
-		{
+	{
     closeSocket(_socket.socket);
     _socket.socket = INVALID_SOCKET;
     _socket.socket_status = SOCKET_CLOSED;

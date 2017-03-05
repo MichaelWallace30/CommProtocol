@@ -13,7 +13,7 @@ add_executable(CommProtoTcp
  ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 
 if (CMAKE_VERION VERSION_GREATER 2.8.11)
-  target_compile_options(CommProtoUdp PUBLIC -std=c++11)
+  target_compile_options(CommProtoTcp PUBLIC -std=c++11)
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -pthread")
 else()
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -std=c++11 -pthread")

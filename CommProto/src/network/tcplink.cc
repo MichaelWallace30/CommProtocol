@@ -5,6 +5,15 @@
 namespace comnet {
 
 		namespace network {
+			const int TCPLink::ACCEPT_DELAY_MILLIS = 2000;
+			const int TCPLink::RECV_PORT_ATTEMPTS = 10;
+			const int TCPLink::RECV_PORT_DELAY_MILLIS = 500;
+			const int TCPLink::RECV_PORT_REPLY_ATTEMPTS = 20;
+			const int TCPLink::RECV_PORT_REPLY_DELAY_MILLIS = 500;
+			const int TCPLink::CON_DELAY_MILLIS = 2000;
+			const uint8_t TCPLink::PORT_PAYLOAD_SIZE = 2;
+			const uint8_t TCPLink::PORT_REPLY_SIZE = 1;
+
 				TCPLink::~TCPLink()
 				{
 						free_pointer(acceptThread);
