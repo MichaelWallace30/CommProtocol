@@ -2,6 +2,7 @@
 #include <network/SerialLink.h>
 #include <network/UDPLink.h>
 #include <network/XbeeLink.h>
+#include <network/TCPLink.h>
 #include <tools/data_structures/AutoQueue.h>
 #include <ObjectStream.h>
 #include <pkg/PacketManager.h>
@@ -146,6 +147,13 @@ Boolean Comms::InitConnection(TransportProtocol connType, String^ port, String^ 
       }
       break;
     }
+				case TransportProtocol::TCP_LINK: {
+						if (addr->Length < ADDRESS_LENGTH) {
+								connLayer = gcnew Network::TCPLink();
+								connectionInitialized = connLayer->InitConnection(port, addr, baudrate);
+						}
+						break;
+				}
     default:
       return false;
   }

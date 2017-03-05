@@ -18,24 +18,31 @@ namespace comnet {
 				{
 						free_pointer(acceptThread);
 						free_pointer(connectThread);
-						free_pointer(local);
+						if (local != nullptr) {
+								local->SockClose();
+								delete local;
+								local = nullptr;
+						}
 				}
 
 				bool TCPLink::InitConnection(const char * port, const char * address, uint32_t baud)
 				{
 						local = CreateTcpSocket();
 						uint16_t portNum = std::atoi(port);
-						local->SockListen(address, portNum);
-						this->localPort = htons(portNum);
-						inet_pton(AF_INET, address, &(this->localIP.s_addr));
-						return true;
+						if (local->SockListen(address, portNum) == 0) {
+								this->localPort = htons(portNum);
+								inet_pton(AF_INET, address, &(this->localIP.s_addr));
+								return true;
+						}
+						COMMS_DEBUG("Could not listen on the specified port and address");
+						return false;
 				}
 
 				bool TCPLink::AddAddress(uint8_t dest_id, const char * address, uint16_t port)
 				{
 						clientsMutex.Lock();
 						auto conInfo = std::make_pair(dest_id, std::make_shared<TCPHolder>(port, address, dest_id));
-						conInfo.second->connect = ShouldConnect(conInfo);
+						conInfo.second->connect = ShouldConnect(conInfo.second);
 						
 						clients.emplace(conInfo);
 						clientsMutex.Unlock();
@@ -90,11 +97,15 @@ namespace comnet {
 												msg += std::to_string(dest_id);
 												COMMS_DEBUG(msg.c_str());
 												SetSocket(dest_id, nullptr);
+												return false;
 										}
+										return true;
 								}
-								clientsMutex.Lock();
 						}
-						clientsMutex.Unlock();
+						else
+						{
+								clientsMutex.Unlock();
+						}
 						return false;
 				}
 
@@ -127,8 +138,9 @@ namespace comnet {
 								acceptThread = new CommThread(&TCPLink::AcceptHandler, this);
 								connectThread->Detach();
 								acceptThread->Detach();
+								return true;
 						}
-						return true;
+						return false;
 				}
 
 				void TCPLink::AcceptHandler()
@@ -154,12 +166,22 @@ namespace comnet {
 												bool found = false;
 												uint8_t id = AddressToID(connectedAddr.sin_port, connectedAddr.sin_addr, socket, found);
 												if (found) {
-														std::cout << "\n" << (int)id << " ACCEPTED" << std::endl;
+														std::string msg = std::to_string((int)id);
+														msg += " ACCEPTED";
+														COMMS_DEBUG(msg.c_str());
 														SetSocket(id, socket);
 														connectedAddr = sockaddr_in();
 												}
 												else
 												{
+														char addrChar[50];
+														inet_ntop(AF_INET, &(connectedAddr.sin_addr), addrChar, 50);
+														std::string msg = "Address: ";
+														msg += addrChar;
+														msg += " Port: ";
+														msg += ntohs(connectedAddr.sin_port);
+														msg += " tried to connect but was rejected";
+														COMMS_DEBUG(msg.c_str());
 														delete socket;
 														socket = nullptr;
 												}
@@ -230,8 +252,9 @@ namespace comnet {
 												acceptCondVar.Set();
 										}
 								}
+								return true;
 						}
-						return true;
+						return false;
 				}
 
 				bool TCPLink::AddClient(std::pair<uint8_t, TcpPtr>& clientInfo)
@@ -250,24 +273,30 @@ namespace comnet {
 								char buffer[PORT_PAYLOAD_SIZE];
 								buffer[0] = localPort & 0xff;
 								buffer[1] = (localPort >> 8) & 0xff;
-								tcpSocket->SockSend(buffer, PORT_PAYLOAD_SIZE);
-
-								uint32_t recvSize;
-								char recvBuffer[PORT_REPLY_SIZE];
-								for (int i = 0; i < RECV_PORT_REPLY_ATTEMPTS; i++) {
-										std::cout << "\n" << "looking for port reply" << std::endl;
-										if (tcpSocket->SockReceive(recvBuffer, PORT_REPLY_SIZE, recvSize) == PACKET_SUCCESSFUL) {
-												if (recvSize == PORT_REPLY_SIZE) {
-														if ((uint8_t)recvBuffer[0] > 0) {
-																std::cout << "\n" << "CONNECTED" << std::endl;
-																SetSocket(tcp->destID, tcpSocket);
-																return true;
+								if (tcpSocket->SockSend(buffer, PORT_PAYLOAD_SIZE) != 0) {
+										COMMS_DEBUG("Error sending port handshake");
+								}
+								else
+								{
+										uint32_t recvSize;
+										char recvBuffer[PORT_REPLY_SIZE];
+										for (int i = 0; i < RECV_PORT_REPLY_ATTEMPTS; i++) {
+												std::cout << "\n" << "looking for port reply" << std::endl;
+												if (tcpSocket->SockReceive(recvBuffer, PORT_REPLY_SIZE, recvSize) == PACKET_SUCCESSFUL) {
+														if (recvSize == PORT_REPLY_SIZE) {
+																if ((uint8_t)recvBuffer[0] > 0) {
+																		std::string msg = "CONNECTED TO ";
+																		msg += std::to_string((int)tcp->destID);
+																		COMMS_DEBUG(msg.c_str());
+																		SetSocket(tcp->destID, tcpSocket);
+																		return true;
+																}
 														}
+														COMMS_DEBUG("Connection failed: Handshake fail");
+														break;
 												}
-												COMMS_DEBUG("Port handshake failed");
-												break;
+												std::this_thread::sleep_for(std::chrono::milliseconds(RECV_PORT_REPLY_DELAY_MILLIS));
 										}
-										std::this_thread::sleep_for(std::chrono::milliseconds(RECV_PORT_REPLY_DELAY_MILLIS));
 								}
 						}
 						tcpSocket->SockClose();
@@ -276,24 +305,18 @@ namespace comnet {
 						return false;
 				}
 
-				bool TCPLink::ShouldConnect(std::pair<uint8_t, TcpPtr> conInfo)
+				bool TCPLink::ShouldConnect(TcpPtr tcp)
 				{
-						if (conInfo.second->port < localPort) {
+						if (tcp->port < localPort) {
 								return true;
 						}
-						else if (conInfo.second->port > localPort)
+						else if (tcp->port > localPort)
 						{
 								return false;
 						}
 						else
 						{
-								if (conInfo.second->address.s_addr < localIP.s_addr) {
-										return true;
-								}
-								else
-								{
-										return false;
-								}
+								return (tcp->address.s_addr < localIP.s_addr);
 						}
 				}
 
@@ -308,7 +331,6 @@ namespace comnet {
 												char buffer[PORT_PAYLOAD_SIZE];
 												uint32_t size = 0;
 												for (int i = 0; i < RECV_PORT_ATTEMPTS; i++) {
-														std::cout << "\n" << "looking for port" << std::endl;
 														if (socket->SockReceive(buffer, PORT_PAYLOAD_SIZE, size) == PACKET_SUCCESSFUL) {
 																if (size == PORT_PAYLOAD_SIZE) {
 																		connectedListenPort = buffer[0] & 0xff;
@@ -322,7 +344,12 @@ namespace comnet {
 										if (connectedListenPort == tcp->port) {
 												char buffer[PORT_REPLY_SIZE];
 												buffer[0] = 0x01;
-												socket->SockSend(buffer, PORT_REPLY_SIZE);
+												if (socket->SockSend(buffer, PORT_REPLY_SIZE) != 0)
+												{
+														COMMS_DEBUG("Sending handshake reply failed");
+														success = false;
+														return false;
+												}
 												success = true;
 												acceptList.erase(it);
 												return tcp->destID;
@@ -337,21 +364,17 @@ namespace comnet {
 				}
 
 				TCPHolder::TCPHolder(TCPHolder & copy, CommSocket * replacement)
-						:socket(replacement)
+						:socket(replacement), addressInput(copy.addressInput), 
+						address(copy.address), portInput(copy.portInput),
+						port(copy.port), connect(copy.connect),
+						destID(copy.destID)
 				{
-						this->addressInput = copy.addressInput;
-						this->address = copy.address;
-						this->portInput = copy.portInput;
-						this->port = copy.port;
-						this->connect = copy.connect;
-						this->destID = copy.destID;
+						
 				}
 
 				TCPHolder::TCPHolder(uint16_t port, const char * addr, uint8_t destID, CommSocket * socket)
-						:socket(socket),destID(destID)
+						:socket(socket),destID(destID), portInput(port), addressInput(addr)
 				{
-						addressInput.append(addr);
-						portInput = port;
 						this->port = htons(port);
 						inet_pton(AF_INET, addr, &(address.s_addr));
 				}

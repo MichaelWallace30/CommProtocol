@@ -91,7 +91,7 @@ namespace comnet {
 						bool SetSocket(uint8_t id, CommSocket* replacement);
 						bool AddClient(std::pair<uint8_t, TcpPtr>& clientInfo);
 						bool Connect(TcpPtr conInfo);
-						bool ShouldConnect(std::pair<uint8_t, TcpPtr> conInfo);
+						bool ShouldConnect(TcpPtr conInfo);
 						uint8_t AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool& success);
 
 						CommSocket* local;
