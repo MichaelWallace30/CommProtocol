@@ -105,43 +105,25 @@ public:
           comms_debug_log("Cannot initiate connection");
           _socket.socket_status = SOCKET_FAILED;
         } else {
-          time_t start_time, end_time;
-
-          start_time = time(0);
-          end_time = start_time;
-          do {
-            int errLen = sizeof(error);
-#ifdef _WIN32
-												timeval timeOut = { 0 };
-												timeOut.tv_sec = MAX_TICK; 
-												timeOut.tv_usec = 0;
-												fd_set fdset; 
-												FD_ZERO(&fdset); 
-												FD_SET(_socket.socket, &fdset); 
-												error = select(0, NULL, &fdset, NULL, &timeOut);
-												if (error == SOCKET_ERROR) {
-														comms_debug_log("FAILED");
-														break;
-												}
-#else
-												Sleep(500);
-#endif
-												if (getsockopt(_socket.socket, SOL_SOCKET, SO_ERROR, (char*)&error, (socklen_t*)&errLen) != 0) {
-														comms_debug_log("error in getsockopt");
-														_socket.socket_status = SOCKET_FAILED;
-														break;
-												}
-            if (error == 0) {
-              comms_debug_log("Successful connection!");
-              _socket.socket_status = SOCKET_CONNECTED;
-              break;
-            }
-#ifdef WIN32
-												break;
-#endif
-            end_time = time(0);
-            printf("Timer: %d\n", (end_time - start_time));
-          } while ((std::abs(end_time - start_time)) <= MAX_TICK);
+          int errLen = sizeof(error);
+          timeval timeOut = { 0 };
+          timeOut.tv_sec = MAX_TICK; 
+          timeOut.tv_usec = 0;
+          fd_set fdset; 
+          FD_ZERO(&fdset); 
+          FD_SET(_socket.socket, &fdset); 
+          error = select(0, NULL, &fdset, NULL, &timeOut);
+          if (error == SOCKET_ERROR) {
+              comms_debug_log("FAILED");
+          }
+          if (getsockopt(_socket.socket, SOL_SOCKET, SO_ERROR, (char*)&error, (socklen_t*)&errLen) != 0) {
+              comms_debug_log("error in getsockopt");
+              _socket.socket_status = SOCKET_FAILED;
+          }
+          if (error == 0) {
+            comms_debug_log("Successful connection!");
+            _socket.socket_status = SOCKET_CONNECTED;
+          }
         }
       }
     }

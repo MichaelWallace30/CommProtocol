@@ -36,6 +36,7 @@ namespace comnet {
 						clientsMutex.Lock();
 						auto conInfo = std::make_pair(dest_id, std::make_shared<TCPHolder>(port, address, dest_id));
 						conInfo.second->connect = ShouldConnect(conInfo);
+						
 						clients.emplace(conInfo);
 						clientsMutex.Unlock();
 						if (conInfo.second->connect) {
