@@ -190,11 +190,6 @@ namespace comnet {
 														it++;
 												}
 										}
-										for (auto it = connectList.begin(); it != connectList.end(); it++) {
-												if (Connect(*it)) {
-														it = connectList.erase(it);
-												}
-										}
 										std::this_thread::sleep_for(std::chrono::milliseconds(CON_DELAY_MILLIS));
 								}
 								else
@@ -265,6 +260,7 @@ namespace comnet {
 										std::this_thread::sleep_for(std::chrono::milliseconds(RECV_PORT_REPLY_DELAY_MILLIS));
 								}
 						}
+						tcpSocket->SockClose();
 						delete tcpSocket;
 						tcpSocket = nullptr;
 						return false;
@@ -351,7 +347,13 @@ namespace comnet {
 				}
 
 				TCPHolder::~TCPHolder() {
-						free_pointer(socket);
+						if (socket != nullptr) {
+								if (this->connect) {
+										socket->SockClose();
+								}
+								delete socket;
+								socket = nullptr;
+						}
 				}
 }
 }

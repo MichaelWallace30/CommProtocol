@@ -21,7 +21,6 @@
 #include <CommProto/debug/comms_debug.h>
 
 #include <CommProto/architecture/os/os_threads.h>
-#include <CommProto/architecture/os/os_mutex.h>
 
 #include <cstdlib>
 #include <ctime>
@@ -60,8 +59,7 @@ public:
    */
   TcpSocket() {
     bool du = false;
-    initializeSockAPI(du);
-    mutex_init(&mutex);
+				initializeSockAPI(du);
     _socket.socket_status = SOCKET_CLOSED;
     _socket.socket = INVALID_SOCKET;
     _socket.port = -1;
@@ -72,9 +70,7 @@ public:
     Closes the socket and destroyes the tcp node, along with the mutex.
   */  
   ~TcpSocket() {
-    SockClose();
-
-    //mutex_destroy(&mutex);
+    
   }
 
   /**
@@ -353,10 +349,7 @@ private:
     _socket.socket_status = SOCKET_CONNECTED;
     _socket.socket = socket;
   }
-  /**
-    Mutex used to prevent multiple threads from running into race conditions inside asyncConnect().
-  */
-  mutex_t mutex;
+
   /**
     The connected client socket (if used connect()) or server socket (if used listen()).
   */
