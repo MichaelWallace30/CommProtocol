@@ -275,7 +275,11 @@ public:
 				}
 
 				CommSocket* tcpSock = NULL;
+#ifdef _WIN32
+				int32_t addrSize = sizeof(connectedAddress);
+#else
 				uint32_t addrSize = sizeof(connectedAddress);
+#endif
 				SOCKET s = accept(_socket.socket, (sockaddr*)(&connectedAddress), &addrSize);
 				if (s == INVALID_SOCKET) {
 						comms_debug_log("Failed to accept...");

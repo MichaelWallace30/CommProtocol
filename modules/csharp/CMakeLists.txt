@@ -19,6 +19,7 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/tools/data_structures/AutoQueue.h
   ${CSHARP_DIR}/network/TransportProtocol.h
   ${CSHARP_DIR}/network/CommsLink.h
+  ${CSHARP_DIR}/network/TCPLink.h
   ${CSHARP_DIR}/network/UDPLink.h
   ${CSHARP_DIR}/network/SerialLink.h
   ${CSHARP_DIR}/network/XbeeLink.h
@@ -40,6 +41,7 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/ABSPacket.h)
 
 set(COMMPROTO_WRAPPER_SOURCE_DIR
+  ${CSHARP_DIR}/network/TCPLink.cpp
   ${CSHARP_DIR}/network/UDPLink.cpp
   ${CSHARP_DIR}/network/SerialLink.cpp
   ${CSHARP_DIR}/network/XbeeLink.cpp
