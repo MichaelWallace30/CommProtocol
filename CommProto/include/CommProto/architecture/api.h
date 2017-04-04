@@ -39,9 +39,9 @@
 //  if number is in any version of alpha or beta, set the
 //  last bit to fit the corresponding version. 0xXXXXb1
 ////////////////////////////////////////////////////////////
-#define _COMNET_MINIMUM_API_VERSION_            COMMPROTO_MINIMUM_VERSION
-#define _COMNET_COMPATIBLE_API_VERSION_         COMMPROTO_COMPATIBLE_VERSION
-#define _COMNET_CURRENT_API_VERSION_            COMMPROTO_CURRENT_VERSION
+#define _COMNET_MINIMUM_API_VERSION_            0x100000
+#define _COMNET_COMPATIBLE_API_VERSION_         0x106000
+#define _COMNET_CURRENT_API_VERSION_            0x108000
 
 #define obtain_api_version(_api_version) _api_version
 
