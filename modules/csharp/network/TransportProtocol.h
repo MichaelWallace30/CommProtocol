@@ -31,7 +31,7 @@ public enum class TransportProtocol {
   UDP_LINK,
   SERIAL_LINK,
   ZIGBEE_LINK,
-	TCP_LINK
+  TCP_LINK
 };
 }
 }
