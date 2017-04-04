@@ -64,8 +64,8 @@ namespace comnet {
 			static const uint8_t PORT_PAYLOAD_SIZE;
 			static const uint8_t PORT_REPLY_SIZE;
 
-			static const uint8_t ADD_QUEUE_EVENT = 1;
-			static const uint8_t REMOVE_QUEUE_EVENT = 2;
+			static const uint8_t ADD_QUEUE_EVENT;
+			static const uint8_t REMOVE_QUEUE_EVENT;
 
 			TCPLink()
 				:connectThread(nullptr)
