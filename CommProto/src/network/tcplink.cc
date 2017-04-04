@@ -12,6 +12,8 @@ namespace comnet {
 		const int TCPLink::CON_DELAY_MILLIS = 2000;
 		const uint8_t TCPLink::PORT_PAYLOAD_SIZE = 2;
 		const uint8_t TCPLink::PORT_REPLY_SIZE = 1;
+		const uint8_t TCPLink::ADD_QUEUE_EVENT = 1;
+		const uint8_t TCPLink::REMOVE_QUEUE_EVENT = 2;
 
 		TCPLink::~TCPLink()
 		{
