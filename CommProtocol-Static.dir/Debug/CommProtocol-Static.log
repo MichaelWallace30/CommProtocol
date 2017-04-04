@@ -1,6 +1,0 @@
-﻿  comms.cpp
-  tcplink.cc
-C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\tcplink.cc(194): warning C4244: 'argument': conversion from 'u_short' to 'char', possible loss of data
-  tcpsocket.cpp
-  Generating Code...
-  CommProtocol-Static.vcxproj -> C:\Users\ajcra\Desktop\NGCP\CommProtocol\build\Debug\CommProtocol-Static.lib
