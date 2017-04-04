@@ -24,7 +24,7 @@
 #include <string>
 #include <cstring>
 
-#if COM_TARGET_OS == COM_OS_WINDOWS
+#if COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS
  typedef PHANDLE pipe_t;
 #else
  typedef int pipe_t;

@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <errno.h>
 
 
-#if defined(COM_TARGET_OS)
- #if COM_TARGET_OS == COM_OS_WINDOWS
+#if defined(COMMPROTO_TARGET_OS)
+ #if COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS
   #include <CommProto/architecture/connection/serial-config_win32.h>
  #else
   #include <CommProto/architecture/connection/serial-config_linux.h>

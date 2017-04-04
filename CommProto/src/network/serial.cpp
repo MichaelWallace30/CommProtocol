@@ -29,7 +29,7 @@ namespace network {
 /***********************************************/
 /******************* Private *******************/
 /***********************************************/
-#if COM_TARGET_OS == COM_OS_WINDOWS
+#if COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS
 
 
 // Defines the Serial keyword for the preprocessor, allows us to focus on only one 

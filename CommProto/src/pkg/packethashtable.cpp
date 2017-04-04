@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/callback.h>
 
 
-#if (COM_TARGET_OS != COM_OS_WINDOWS) && (COM_TARGET_OS != COM_OS_APPLE)
+#if (COMMPROTO_TARGET_OS != COMMMPROTO_OS_WINDOWS) && (COMMPROTO_TARGET_OS != COMMPROTO_OS_APPLE)
 #include <tr1/functional>
 #define COMMSTD std::tr1
 #else 

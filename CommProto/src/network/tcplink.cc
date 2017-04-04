@@ -1,5 +1,6 @@
 #include <CommProto/network/tcplink.h>
 #include <CommProto/debug/comms_debug.h>
+#include <memory>
 #include <iostream>
 
 namespace comnet {

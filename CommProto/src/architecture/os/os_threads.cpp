@@ -23,7 +23,7 @@
 /*
   Define the target OS. Windows and Unix like systems use different APIs.
 */
-#if COM_TARGET_OS == COM_OS_WINDOWS
+#if COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS
 
 /**
    Windows definition to Create a thread.

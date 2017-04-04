@@ -1,4 +1,4 @@
-# CommProtocol version 1.0.7b
+# CommProtocol version 1.0.8
 CommProtocol is an adaptable, backend protocol tool for scalable systems. It is intended for abstractly communicating over via TCP/IP, UDP, Serial, and/or wireless network layers, while also giving you the freedom to work with servers and clients seemlessly, high performance. Being a large state machine that handles communications universally, CommProtocol is a fantastic tool to work the backbone of communications with simplicity.
 
 ## Design Goals
@@ -11,14 +11,13 @@ CommProtocol should be able to handle data dynamically, without needing to be ha
 Current Beta Features:
 - Cross-platform library (Linux/POSIX/Windows)
 - Supports Loose Coupling.
-- Allows connections via Serial, UDP, and Zigbee.
+- Allows connections via Serial, UDP, TCP, and Zigbee.
 - C# Wrapper.
 - Encrypted connection with AES.
 - Designed in an Object Oriented manner to make it easier to use the library.  
 - Pinging system/ heartbeat networks.
   
-Features currently implementing:  
-- TCP implementation  
+Features currently implementing:   
 - custom AES Encryption implementation for protocol.  
 - JNI Wrapping for communications use.  
 - Network Automation

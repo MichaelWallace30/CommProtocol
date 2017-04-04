@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/architecture/api.h>
 
 
-#if COM_TARGET_OS == COM_OS_WINDOWS
+#if COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS
  #include <CommProto/architecture/win32_pipes.h>
 #else
  #include <CommProto/architecture/posix_pipes.h>
