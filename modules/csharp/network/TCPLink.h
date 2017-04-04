@@ -25,115 +25,113 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #using <mscorlib.dll>
 #using <System.dll>
 
-
 namespace Comnet {
-
-		namespace Network {
+	namespace Network {
 #pragma managed
 
-				using namespace System::Collections::Generic;
-				using namespace System::Collections::Concurrent;
-				using namespace System::Threading;
+		using namespace System::Collections::Generic;
+		using namespace System::Collections::Concurrent;
+		using namespace System::Threading;
 
-				public ref class TCPHolder {
-				public:
-						TCPHolder(TCPHolder^ copy, comnet::network::CommSocket* replacement);
-						TCPHolder(uint16_t port, String^ address, uint8_t destID, comnet::network::CommSocket* socket);
-						
-						!TCPHolder();
-						~TCPHolder();
+		public ref class TCPHolder {
+		public:
+			TCPHolder(TCPHolder^ copy, comnet::network::CommSocket* replacement);
+			TCPHolder(uint16_t port, String^ address, uint8_t destID, comnet::network::CommSocket* socket);
 
-						Boolean connect;
-						USHORT port;
-						IN_ADDR* address;
-						comnet::network::CommSocket* socket;
-						uint16_t portInput;
-						String^ addressInput;
-						uint8_t destID;
-				};
+			!TCPHolder();
+			~TCPHolder();
 
-				private ref class QueueEntry {
-				public:
-					uint8_t qEvent;
-					TCPHolder^ tcp;
-				};
+			Boolean connect;
+			USHORT port;
+			IN_ADDR* address;
+			comnet::network::CommSocket* socket;
+			uint16_t portInput;
+			String^ addressInput;
+			uint8_t destID;
+		};
 
-				public ref class TCPLink : public CommsLink {
-				public:
-						static const int ACCEPT_DELAY_MILLIS = 2000;
-						static const int RECV_PORT_ATTEMPTS = 10;
-						static const int RECV_PORT_DELAY_MILLIS = 500;
-						static const int RECV_PORT_REPLY_ATTEMPTS = 20;
-						static const int RECV_PORT_REPLY_DELAY_MILLIS = 500;
+		private ref class QueueEntry {
+		public:
+			uint8_t qEvent;
+			TCPHolder^ tcp;
+		};
 
-						static const int CON_DELAY_MILLIS = 2000;
-						static const uint8_t PORT_PAYLOAD_SIZE = 2;
-						static const uint8_t PORT_REPLY_SIZE = 1;
+		public ref class TCPLink : public CommsLink {
+		public:
+			static const int ACCEPT_DELAY_MILLIS = 2000;
+			static const int RECV_PORT_ATTEMPTS = 10;
+			static const int RECV_PORT_DELAY_MILLIS = 500;
+			static const int RECV_PORT_REPLY_ATTEMPTS = 20;
+			static const int RECV_PORT_REPLY_DELAY_MILLIS = 500;
 
-						static const uint8_t ADD_QUEUE_EVENT = 1;
-						static const uint8_t REMOVE_QUEUE_EVENT = 2;
+			static const int CON_DELAY_MILLIS = 2000;
+			static const uint8_t PORT_PAYLOAD_SIZE = 2;
+			static const uint8_t PORT_REPLY_SIZE = 1;
 
-						TCPLink();
-						~TCPLink();
-						!TCPLink();
+			static const uint8_t ADD_QUEUE_EVENT = 1;
+			static const uint8_t REMOVE_QUEUE_EVENT = 2;
 
-						Boolean InitConnection(String^ port, String^ address, uint32_t baudrate) override;
+			TCPLink();
+			~TCPLink();
+			!TCPLink();
 
-						/**
-						Overloaded  initConnection
-						*/
-						Boolean InitConnection(String^ port, String^ address) {
-								return InitConnection(port, address, 0);
-						}
-						/**
-						Adds Address & port to destID value of array of aviable connections
-						@returns false if connection is already connected
-						*/
-						Boolean AddAddress(uint8_t destID, String^ address, uint16_t port) override;
-						/**
-						Sets connection to not available
-						@returns false is no connection is found
-						*/
-						Boolean RemoveAddress(uint8_t destID) override;
-						/**
-						Sends txData using its length of bytes through the destID connection which
-						is establish through add address.
+			Boolean InitConnection(String^ port, String^ address, uint32_t baudrate) override;
 
-						@return false if no proper connection is establish
-						*/
-						Boolean Send(uint8_t destID, uint8_t* txData, uint32_t txLength) override;
-						/**
-						Sets recieved data to rxData and sets the length of the data to rxLength
-						@returns false if not aviable connection or no data is recieved
-						*/
-						Boolean Recv(uint8_t* rxData, UInt32% rxLength) override;
+			/**
+			Overloaded  initConnection
+			*/
+			Boolean InitConnection(String^ port, String^ address) {
+				return InitConnection(port, address, 0);
+			}
+			/**
+			Adds Address & port to destID value of array of aviable connections
+			@returns false if connection is already connected
+			*/
+			Boolean AddAddress(uint8_t destID, String^ address, uint16_t port) override;
+			/**
+			Sets connection to not available
+			@returns false is no connection is found
+			*/
+			Boolean RemoveAddress(uint8_t destID) override;
+			/**
+			Sends txData using its length of bytes through the destID connection which
+			is establish through add address.
 
-				private:
-						Boolean RunHandlers();
-						Void AcceptHandler();
-						Void ConnectHandler();
-						Boolean SetSocket(uint8_t id, comnet::network::CommSocket* socket);
-						Boolean Connect(TCPHolder^ tcp);
-						Boolean ShouldConnect(TCPHolder^ entry);
-						uint8_t AddressToID(USHORT port, IN_ADDR address, comnet::network::CommSocket* socket, bool% success);
+			@return false if no proper connection is establish
+			*/
+			Boolean Send(uint8_t destID, uint8_t* txData, uint32_t txLength) override;
+			/**
+			Sets recieved data to rxData and sets the length of the data to rxLength
+			@returns false if not aviable connection or no data is recieved
+			*/
+			Boolean Recv(uint8_t* rxData, UInt32% rxLength) override;
 
-						comnet::network::CommSocket* local;
-						IN_ADDR* localIP;
-						USHORT localPort;
+		private:
+			Boolean RunHandlers();
+			Void AcceptHandler();
+			Void ConnectHandler();
+			Boolean SetSocket(uint8_t id, comnet::network::CommSocket* socket);
+			Boolean Connect(TCPHolder^ tcp);
+			Boolean ShouldConnect(TCPHolder^ entry);
+			uint8_t AddressToID(USHORT port, IN_ADDR address, comnet::network::CommSocket* socket, bool% success);
 
-						LinkedList<TCPHolder^>^ connectList;
-						ConcurrentQueue<QueueEntry^>^ connectModifyQueue;
-						Thread^ connectThread;
-						AutoResetEvent^ connectRE;
+			comnet::network::CommSocket* local;
+			IN_ADDR* localIP;
+			USHORT localPort;
 
-						LinkedList<TCPHolder^>^ acceptList;
-						ConcurrentQueue<QueueEntry^>^ acceptModifyQueue;
-						Thread^ acceptThread;
-						AutoResetEvent^ acceptRE;
+			LinkedList<TCPHolder^>^ connectList;
+			ConcurrentQueue<QueueEntry^>^ connectModifyQueue;
+			Thread^ connectThread;
+			AutoResetEvent^ connectRE;
 
-						ConcurrentDictionary <uint8_t, TCPHolder^>^ clients;
-				};
-		}
+			LinkedList<TCPHolder^>^ acceptList;
+			ConcurrentQueue<QueueEntry^>^ acceptModifyQueue;
+			Thread^ acceptThread;
+			AutoResetEvent^ acceptRE;
+
+			ConcurrentDictionary <uint8_t, TCPHolder^>^ clients;
+		};
+	}
 }
 
 #endif

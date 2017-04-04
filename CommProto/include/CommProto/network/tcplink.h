@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __TCP_LINK_H
 #define __TCP_LINK_H
 
-
 #include <CommProto/network/commslink.h>
 #include <CommProto/network/commsocket.h>
 #include <CommProto/architecture/os/comm_thread.h>
@@ -33,89 +32,89 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <atomic>
 
 namespace comnet {
-		namespace network {
+	namespace network {
+		using namespace comnet::architecture::os;
 
-				using namespace comnet::architecture::os;
+		struct TCPHolder {
+			TCPHolder(TCPHolder& copy, CommSocket* replacement);
+			TCPHolder(uint16_t port, const char* addr, uint8_t destID, CommSocket* socket = nullptr);
 
-				struct TCPHolder {
-						TCPHolder(TCPHolder& copy, CommSocket* replacement);
-						TCPHolder(uint16_t port, const char* addr, uint8_t destID, CommSocket* socket = nullptr);
+			~TCPHolder();
 
-						~TCPHolder();
+			bool connect;
+			USHORT port;
+			IN_ADDR address;
+			CommSocket* socket;
+			uint16_t portInput;
+			std::string addressInput;
+			uint8_t destID;
+		};
 
-						bool connect;
-						USHORT port;
-						IN_ADDR address;
-						CommSocket* socket;
-						uint16_t portInput;
-						std::string addressInput;
-						uint8_t destID;
-				};
+		typedef std::shared_ptr<TCPHolder> TcpPtr;
 
-				typedef std::shared_ptr<TCPHolder> TcpPtr;
+		class COMM_EXPORT TCPLink : public CommsLink {
+		public:
+			static const int ACCEPT_DELAY_MILLIS;
+			static const int RECV_PORT_ATTEMPTS;
+			static const int RECV_PORT_DELAY_MILLIS;
+			static const int RECV_PORT_REPLY_ATTEMPTS;
+			static const int RECV_PORT_REPLY_DELAY_MILLIS;
 
-				class COMM_EXPORT TCPLink : public CommsLink {
-				public:
-						static const int ACCEPT_DELAY_MILLIS;
-						static const int RECV_PORT_ATTEMPTS;
-						static const int RECV_PORT_DELAY_MILLIS;
-						static const int RECV_PORT_REPLY_ATTEMPTS;
-						static const int RECV_PORT_REPLY_DELAY_MILLIS;
+			static const int CON_DELAY_MILLIS;
+			static const uint8_t PORT_PAYLOAD_SIZE;
+			static const uint8_t PORT_REPLY_SIZE;
 
-						static const int CON_DELAY_MILLIS;
-						static const uint8_t PORT_PAYLOAD_SIZE;
-						static const uint8_t PORT_REPLY_SIZE;
+			static const uint8_t ADD_QUEUE_EVENT = 1;
+			static const uint8_t REMOVE_QUEUE_EVENT = 2;
 
-						static const uint8_t ADD_QUEUE_EVENT = 1;
-						static const uint8_t REMOVE_QUEUE_EVENT = 2;
+			TCPLink()
+				:connectThread(nullptr)
+			{
+				protocol = TCP_LINK;
+			}
 
-						TCPLink()
-								:connectThread(nullptr)
-						{ protocol = TCP_LINK; }
+			~TCPLink();
 
-						~TCPLink();
+			bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0) override;
 
-						bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0) override;
-						
-						bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
-						
-						bool RemoveAddress(uint8_t dest_id) override;
-					
-						bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
-						
-						bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
+			bool AddAddress(uint8_t dest_id, const char* address = NULL, uint16_t port = 0) override;
 
-						void DigestCommand(const char* cmd) override { }
+			bool RemoveAddress(uint8_t dest_id) override;
 
-				protected:
-						bool RunHandlers();
-						void AcceptHandler();
-						void ConnectHandler();
-						bool SetSocket(uint8_t id, CommSocket* replacement);
-						bool Connect(TcpPtr conInfo);
-						bool ShouldConnect(TcpPtr conInfo);
-						uint8_t AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool& success);
+			bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
 
-						CommSocket* local;
-						IN_ADDR localIP;
-						USHORT localPort;
+			bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
 
-						std::list<TcpPtr> connectList;
-						std::queue<std::pair<bool, TcpPtr>> connectModifyQueue;
-						CommMutex connectModifyQueueMutex;
-						CommThread* connectThread;
-						CommConditionVariable connectCondVar;
+			void DigestCommand(const char* cmd) override { }
 
-						std::list <TcpPtr> acceptList;
-						std::queue <std::pair<bool,TcpPtr>> acceptModifyQueue;
-						CommMutex acceptModifyQueueMutex;
-						CommThread* acceptThread;
-						CommConditionVariable acceptCondVar;
+		protected:
+			bool RunHandlers();
+			void AcceptHandler();
+			void ConnectHandler();
+			bool SetSocket(uint8_t id, CommSocket* replacement);
+			bool Connect(TcpPtr conInfo);
+			bool ShouldConnect(TcpPtr conInfo);
+			uint8_t AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool& success);
 
-						std::unordered_map<uint8_t, TcpPtr> clients;
-						CommMutex clientsMutex;
-				};
+			CommSocket* local;
+			IN_ADDR localIP;
+			USHORT localPort;
 
-		}
+			std::list<TcpPtr> connectList;
+			std::queue<std::pair<bool, TcpPtr>> connectModifyQueue;
+			CommMutex connectModifyQueueMutex;
+			CommThread* connectThread;
+			CommConditionVariable connectCondVar;
+
+			std::list <TcpPtr> acceptList;
+			std::queue <std::pair<bool, TcpPtr>> acceptModifyQueue;
+			CommMutex acceptModifyQueueMutex;
+			CommThread* acceptThread;
+			CommConditionVariable acceptCondVar;
+
+			std::unordered_map<uint8_t, TcpPtr> clients;
+			CommMutex clientsMutex;
+		};
+	}
 }
 #endif

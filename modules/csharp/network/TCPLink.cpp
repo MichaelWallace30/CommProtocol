@@ -51,7 +51,7 @@ namespace Comnet
 			if (local->SockListen(addressChar, portNum) == 0) //Tells socket to accept incoming connections at the specified address & port (0 is success)
 			{
 				this->localPort = htons(portNum);  //host to network short
-				inet_pton(AF_INET, addressChar, &(this->localIP->s_addr));  //converts char ip adderess to standardized INET_ADDRESS 
+				inet_pton(AF_INET, addressChar, &(this->localIP->s_addr));  //converts char ip adderess to standardized INET_ADDRESS
 				return true;
 			}
 			COMMS_DEBUG("Could not listen on the specified port and address");
@@ -152,7 +152,7 @@ namespace Comnet
 		}
 
 		//Start running the connectHandler and acceptHandler
-		Boolean TCPLink::RunHandlers() 
+		Boolean TCPLink::RunHandlers()
 		{
 			if (connectThread == nullptr) {
 				connectThread = gcnew Thread(gcnew ThreadStart(this, &TCPLink::ConnectHandler));
@@ -184,7 +184,6 @@ namespace Comnet
 						}
 					}
 				}
-				
 
 				if (acceptList->Count > 0) {
 					comnet::network::CommSocket* socket = local->SockAccept(connectedAddr);  //Checks to see if anyone connected and, if they did, sets the connectAddr to their info
@@ -193,14 +192,13 @@ namespace Comnet
 						bool found = false;
 						//The AddressToID isn't a simple address conversion. It is like a second handshake and can take a few seconds.
 						uint8_t id = AddressToID(connectedAddr.sin_port, connectedAddr.sin_addr, socket, found);
-						if (found) //Indicates if the AddressToID handshake was successful 
+						if (found) //Indicates if the AddressToID handshake was successful
 						{
 							SetSocket(id, socket);
 							String^ msg = gcnew String(System::Convert::ToString((int)id));
 							msg->Concat(" ACCEPTED");
 							char* msgChar = (char*)(void*)Marshal::StringToHGlobalAnsi(msg);
 							COMMS_DEBUG(msgChar);
-
 						}
 						else
 						{
@@ -216,7 +214,7 @@ namespace Comnet
 					}
 					Sleep(ACCEPT_DELAY_MILLIS);
 				}
-				else  
+				else
 				{
 					//if nothing is in the AcceptQueue, there is no one to accept, so the thread sleeps
 					acceptRE->WaitOne();
@@ -240,7 +238,6 @@ namespace Comnet
 						}
 					}
 				}
-
 
 				if (connectList->Count > 0) {
 					auto it = connectList->GetEnumerator();
@@ -303,7 +300,7 @@ namespace Comnet
 				std::vector <char> sendBuffer;  //buffer to store the port
 				sendBuffer.resize(PORT_PAYLOAD_SIZE);
 				//localPort is already in network byte order
-				sendBuffer[0] = localPort & 0xff;  
+				sendBuffer[0] = localPort & 0xff;
 				sendBuffer[1] = (localPort >> 8) & 0xff;
 				if (tcpSocket->SockSend(sendBuffer.data(), PORT_PAYLOAD_SIZE) != 0)
 				{
@@ -406,8 +403,8 @@ namespace Comnet
 						}
 						success = true;
 						/*No longer accept other connections (this is debatable we may want
-						to continue accepting and overwrite current, possibly invalid, 
-						connections, this is really only a problem if you are not sending 
+						to continue accepting and overwrite current, possibly invalid,
+						connections, this is really only a problem if you are not sending
 						data often as that is how you detect if a connection is broken)
 						*/
 						acceptList->Remove(it);
