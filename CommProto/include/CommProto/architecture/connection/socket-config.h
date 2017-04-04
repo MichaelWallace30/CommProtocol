@@ -65,6 +65,8 @@
  #define initializeSockAPI(status) status = true;
  #define INVALID_SOCKET (SOCKET)(~0)
  #define GET_LAST_ERROR errno
+ typedef unsigned short USHORT;
+ typedef in_addr IN_ADDR;
 #endif
 
 typedef uint32_t PORT;

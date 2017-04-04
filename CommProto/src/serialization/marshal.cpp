@@ -46,7 +46,7 @@ namespace serialization {
 	}
 
 
-	uint32_t PackWideString(std::wstring &data, uint8_t len, marshal_t input)
+	uint32_t PackWideString(const std::wstring &data, uint8_t len, marshal_t input)
 	{
 		string_t temp = (string_t)malloc(len);
 		const wchar_t* wtemp = data.c_str();

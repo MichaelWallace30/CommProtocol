@@ -24,6 +24,7 @@
 #include <CommProto/network/udplink.h>
 #include <CommProto/network/seriallink.h>
 #include <CommProto/network/xbeelink.h>
+#include <CommProto/network/tcplink.h>
 
 #include <CommProto/debug/log.h>
 
@@ -135,7 +136,7 @@ void Comms::CommunicationHandlerRecv() {
         }
       }
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));	
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
   }
   debug::Log::Message(debug::LOG_DEBUG, "recv ends!");
 }
@@ -228,6 +229,12 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
    break;
       // TODO(Garcia): Will need to create throw directives instead.
     }
+		case TCP_LINK:
+		{
+			conn_layer = new TCPLink();
+			connectionInitialized = conn_layer->InitConnection(port, address, GetNodeId());
+		break;
+		}
     default:
     {
       debug::Log::Message(debug::LOG_WARNING, "NO CONNECTION ESTABLISHED!");

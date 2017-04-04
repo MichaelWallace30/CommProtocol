@@ -29,6 +29,7 @@ typedef enum transport_protocol_t {
   UDP_LINK,
   SERIAL_LINK,
   ZIGBEE_LINK,
+		TCP_LINK
 } protocol_t;
 
 #endif // __DATALINK_TYPE_H

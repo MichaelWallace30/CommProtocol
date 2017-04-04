@@ -37,7 +37,7 @@ namespace serialization {
 	uint32_t PackString(string_t data, uint8_t len, marshal_t input);
 	uint32_t UnpackString(string_t data, uint8_t len, marshal_t input);
 
-	uint32_t PackWideString(std::wstring  &data, uint8_t len, marshal_t input);
+	uint32_t PackWideString(const std::wstring  &data, uint8_t len, marshal_t input);
 	uint32_t UnpackWideString(std::wstring &data, uint8_t len, marshal_t input);
 
 	uint32_t PackByte(uint8_t data, marshal_t input);
