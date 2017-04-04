@@ -147,13 +147,13 @@ Boolean Comms::InitConnection(TransportProtocol connType, String^ port, String^ 
       }
       break;
     }
-				case TransportProtocol::TCP_LINK: {
-						if (addr->Length < ADDRESS_LENGTH) {
-								connLayer = gcnew Network::TCPLink();
-								connectionInitialized = connLayer->InitConnection(port, addr, baudrate);
-						}
-						break;
-				}
+		case TransportProtocol::TCP_LINK: {
+			if (addr->Length < ADDRESS_LENGTH) {
+					connLayer = gcnew Network::TCPLink();
+					connectionInitialized = connLayer->InitConnection(port, addr, baudrate);
+			}
+			break;
+		}
     default:
       return false;
   }

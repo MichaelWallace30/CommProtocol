@@ -50,7 +50,7 @@ Boolean UDPLink::Send(uint8_t destID, uint8_t* txData, uint32_t txLength){
 Returns false if not aviable connection or no data is recieved*/
 Boolean UDPLink::Recv(uint8_t* rxData, UInt32% rxLength) { 
   uint32_t length = 0;
-		bool success = unmanagedUDPLink->Recv(rxData, &length);//probably wont work
+	bool success = unmanagedUDPLink->Recv(rxData, &length);//probably wont work
   rxLength = length;
   return success;
 }

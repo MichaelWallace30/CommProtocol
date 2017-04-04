@@ -229,12 +229,12 @@ bool Comms::InitConnection(transport_protocol_t conn_type,
    break;
       // TODO(Garcia): Will need to create throw directives instead.
     }
-				case TCP_LINK:
-				{
-						conn_layer = new TCPLink();
-						connectionInitialized = conn_layer->InitConnection(port, address, GetNodeId());
-						break;
-				}
+		case TCP_LINK:
+		{
+			conn_layer = new TCPLink();
+			connectionInitialized = conn_layer->InitConnection(port, address, GetNodeId());
+		break;
+		}
     default:
     {
       debug::Log::Message(debug::LOG_WARNING, "NO CONNECTION ESTABLISHED!");
