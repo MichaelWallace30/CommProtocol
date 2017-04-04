@@ -20,9 +20,7 @@
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/headerpacket.h>
 #include <fstream>
-
-// Private declaration
-#include "aes_encryption.h"
+#include <CommProto/encryption/aes_encryption.h>
 
 namespace comnet {
 namespace encryption {

@@ -20,7 +20,7 @@
 #include <CommProto/encryption/decryptor.h>
 #include <CommProto/encryption/encryptor.h>
 #include <CommProto/debug/comms_debug.h>
-#include "aes_encryption.h"
+#include <CommProto/encryption/aes_encryption.h>
 
 namespace comnet {
 namespace encryption {
