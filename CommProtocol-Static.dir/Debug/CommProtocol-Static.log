@@ -1,0 +1,64 @@
+﻿  Building Custom Rule C:/Users/ajcra/Desktop/NGCP/CommProtocol/CMakeLists.txt
+  CMake does not need to re-run because C:\Users\ajcra\Desktop\NGCP\CommProtocol\build\CMakeFiles\generate.stamp is up-to-date.
+  os_threads.cpp
+  os_mutex.cpp
+  console.cc
+  abstractpacket.cpp
+  headerpacket.cc
+  comms.cpp
+  callback.cpp
+  ngcphash.cpp
+  network_edge.cc
+  network_graph.cc
+  network_node.cc
+  udp.cpp
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\udp.cpp(121): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\um\WinSock2.h(1828): note: see declaration of 'inet_addr'
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\udp.cpp(154): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\um\WinSock2.h(1828): note: see declaration of 'inet_addr'
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\udp.cpp(176): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\um\WinSock2.h(1846): note: see declaration of 'inet_ntoa'
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\udp.cpp(206): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\um\WinSock2.h(1846): note: see declaration of 'inet_ntoa'
+  serial.cpp
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\serial.cpp(50): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\string.h(129): note: see declaration of 'strcpy'
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\serial.cpp(53): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\string.h(90): note: see declaration of 'strcat'
+  seriallink.cc
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\seriallink.cc(49): warning C4018: '<': signed/unsigned mismatch
+  commxbee.cc
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\commxbee.cc(50): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\commxbee.cc(131): warning C4390: ';': empty controlled statement found; is this the intent?
+  xbeelink.cc
+  udplink.cc
+  tcplink.cc
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\tcplink.cc(190): warning C4244: 'argument': conversion from 'u_short' to 'char', possible loss of data
+  network_manager.cc
+  tcpsocket.cpp
+  Generating Code...
+  Compiling...
+  crc32.cpp
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\crc32.cpp(37): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+  parser.cpp
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\network\parser.cpp(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\string.h(129): note: see declaration of 'strcpy'
+  marshal.cpp
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\serialization\marshal.cpp(53): warning C4996: 'wcstombs': This function or variable may be unsafe. Consider using wcstombs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdlib.h(1012): note: see declaration of 'wcstombs'
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\serialization\marshal.cpp(66): warning C4996: 'mbstowcs': This function or variable may be unsafe. Consider using mbstowcs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdlib.h(924): note: see declaration of 'mbstowcs'
+  objectstream.cpp
+  connection_state.cpp
+  connection_state_manager.cpp
+  time_sync_manager.cpp
+  packetmanager.cc
+  packethashtable.cpp
+C:\Users\ajcra\Desktop\NGCP\CommProtocol\CommProto\src\pkg\packethashtable.cpp(69): warning C4018: '<': signed/unsigned mismatch
+  log.cc
+  aes_encryption.cpp
+  encryptor.cc
+  decryptor.cc
+  Generating Code...
+  CommProtocol-Static.vcxproj -> C:\Users\ajcra\Desktop\NGCP\CommProtocol\build\Debug\CommProtocol-Static.lib

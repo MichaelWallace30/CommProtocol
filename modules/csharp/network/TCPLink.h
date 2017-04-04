@@ -54,8 +54,8 @@ namespace Comnet {
 
 				private ref class QueueEntry {
 				public:
-						Boolean add;
-						TCPHolder^ tcp;
+					uint8_t qEvent;
+					TCPHolder^ tcp;
 				};
 
 				public ref class TCPLink : public CommsLink {
@@ -69,6 +69,9 @@ namespace Comnet {
 						static const int CON_DELAY_MILLIS = 2000;
 						static const uint8_t PORT_PAYLOAD_SIZE = 2;
 						static const uint8_t PORT_REPLY_SIZE = 1;
+
+						static const uint8_t ADD_QUEUE_EVENT = 1;
+						static const uint8_t REMOVE_QUEUE_EVENT = 2;
 
 						TCPLink();
 						~TCPLink();

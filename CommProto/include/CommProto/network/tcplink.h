@@ -66,6 +66,9 @@ namespace comnet {
 						static const uint8_t PORT_PAYLOAD_SIZE;
 						static const uint8_t PORT_REPLY_SIZE;
 
+						static const uint8_t ADD_QUEUE_EVENT = 1;
+						static const uint8_t REMOVE_QUEUE_EVENT = 2;
+
 						TCPLink()
 								:connectThread(nullptr)
 						{ protocol = TCP_LINK; }
@@ -89,7 +92,6 @@ namespace comnet {
 						void AcceptHandler();
 						void ConnectHandler();
 						bool SetSocket(uint8_t id, CommSocket* replacement);
-						bool AddClient(std::pair<uint8_t, TcpPtr>& clientInfo);
 						bool Connect(TcpPtr conInfo);
 						bool ShouldConnect(TcpPtr conInfo);
 						uint8_t AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool& success);
