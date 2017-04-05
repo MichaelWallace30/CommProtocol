@@ -133,6 +133,51 @@ namespace Comnet {
 				}
 				Input(size);
 			}
+
+			void InputUniqueKeyVal(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ map) {
+				UInt16 size = (UInt16)map->Count;
+				if (size > 0) {
+					System::Collections::Generic::IEnumerator<System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ iter = map->GetEnumerator();
+					while (iter->MoveNext()) {
+						iter->Current.Value->Input(this);
+						iter->Current.Key->Input(this);
+					}
+				}
+				Input(size);
+			}
+
+			void InputUniqueKey(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ map) {
+				UInt16 size = (UInt16)map->Count;
+				if (size > 0) {
+					System::Collections::Generic::Dictionary<UInt64, IdxPair^>^ valIndexDict = gcnew System::Collections::Generic::Dictionary<UInt64, IdxPair^>();
+					System::Collections::Generic::List<ObjPair^>^ rStack = gcnew System::Collections::Generic::List<ObjPair^>();
+					System::Collections::Generic::IEnumerator<System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ iter = map->GetEnumerator();
+					UInt16 valI = 0;
+					UInt16 i = 0;
+					while (iter->MoveNext()) {
+						if (!valIndexDict->ContainsKey(iter->Current.Value->id)) {
+							valIndexDict->Add(iter->Current.Value->id, gcnew IdxPair(i, valI));
+							valI++;
+						}
+						rStack->Add(gcnew ObjPair(iter->Current.Key, iter->Current.Value));
+						i++;
+					}
+					i--;
+					while (true) {
+						IdxPair^ valIdxPair = valIndexDict[rStack[i]->obj2->id];
+						if (valIdxPair->idx1 == i) {
+							rStack[i]->obj2->Input(this);
+						}
+						Input(valIdxPair->idx2);
+						rStack[i]->obj1->Input(this);
+						if (i == 0) {
+							break;
+						}
+						i--;
+					}
+				}
+				Input(size);
+			}
 			
 			void Input(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ map) {
 				UInt16 size = map->Count;
@@ -177,7 +222,6 @@ namespace Comnet {
 				Input(size);
 			}
 
-
 			//output
 			void Output(String^% data);
 			void Output(Byte% data);
@@ -218,6 +262,40 @@ namespace Comnet {
 						list->Add(data[dataI]);
 						data->Add(data[dataI]);
 					}
+				}
+			}
+
+			void OutputUniqueKeyVal(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp)
+			{
+				UInt16 size = OutputUInt16();
+				for (int i = 0; i < size; i++) {
+					ObjSerializable^ keyObj = keyTemp->Create();
+					keyObj->Output(this);
+					ObjSerializable^ valObj = valTemp->Create();
+					valObj->Output(this);
+					map->Add(System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>(keyObj, valObj));
+				}
+			}
+
+			void OutputUniqueKey(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp)
+			{
+				UInt16 size = OutputUInt16();
+				System::Collections::Generic::List<ObjSerializable^>^ vals = gcnew System::Collections::Generic::List<ObjSerializable^>();
+				for (int i = 0; i < size; i++) {
+					ObjSerializable^ key = keyTemp->Create();
+					key->Output(this);
+					UInt16 valI = OutputUInt16();
+					ObjSerializable^ val = nullptr;
+					if (valI == vals->Count) {
+						val = valTemp->Create();
+						val->Output(this);
+						vals->Add(val);
+					}
+					else
+					{
+						val = vals[valI];
+					}
+					map->Add(System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>(key, val));
 				}
 			}
 
