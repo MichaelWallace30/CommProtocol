@@ -465,6 +465,38 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator <<(const std::multimap<T*, D>& data)
+			{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+					std::unordered_map <T*, std::pair<uint16_t, uint16_t>> keyIndexMap;
+					uint16_t keyI = 0;
+					uint16_t i = 0;
+					for (auto it = data.begin(); it != data.end(); it++) {
+						auto keyMapIter = keyIndexMap.find(it->first);
+						if (keyMapIter == keyIndexMap.end()) {
+							keyIndexMap.emplace(std::make_pair(it->first, std::make_pair(i, keyI)));
+							keyI++;
+						}
+						i++;
+					}
+					i--;
+					for (auto it = data.rbegin(); it != data.rend(); it++) {
+						*this << it->second;
+						auto keyMapIter = keyIndexMap.find(it->first);
+						if (keyMapIter->second.first == i) {
+							*this << *keyMapIter->first;
+						}
+						*this << keyMapIter->second.second;
+						i--;
+					}
+				}
+				*this << size;
+				return *this;
+			}
+
+			template <typename T, typename D>
 			ObjectStream& operator <<(const std::multimap<T*, D*>& data)
 			{
 				uint16_t size = data.size();
@@ -635,6 +667,44 @@ namespace comnet {
 						}
 						*this << elmMapIter->second.second;
 						*this << it->first;
+						if (it == data.begin()) {
+							break;
+						}
+						it--;
+						i--;
+					}
+				}
+				*this << size;
+				return *this;
+			}
+
+			template <typename T, typename D>
+			ObjectStream& operator <<(const std::unordered_multimap<T*, D>& data)
+			{
+				uint16_t size = data.size();
+				if (size > 0)
+				{
+					std::unordered_map <T*, std::pair<uint16_t, uint16_t>> keyIndexMap;
+					uint16_t keyI = 0;
+					uint16_t i = 0;
+					auto it = data.begin();
+					for (; it != data.end(); it++) {
+						auto keyMapIter = keyIndexMap.find(it->first);
+						if (keyMapIter == keyIndexMap.end()) {
+							keyIndexMap.emplace(std::make_pair(it->first, std::make_pair(i, keyI)));
+							keyI++;
+						}
+						i++;
+					}
+					i--;
+					it--;
+					while (true) {
+						*this << it->second;
+						auto keyMapIter = keyIndexMap.find(it->first);
+						if (keyMapIter->second.first == i) {
+							*this << *keyMapIter->first;
+						}
+						*this << keyMapIter->second.second;
 						if (it == data.begin()) {
 							break;
 						}
@@ -1013,6 +1083,33 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator >> (std::multimap<T*, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> keys;
+				for (int i = 0; i < size; i++)
+				{
+					uint16_t keyI;
+					*this >> keyI;
+					T* key = nullptr;
+					if (keyI == keys.size()) {
+						key = new T();
+						*this >> *key;
+						keys.push_back(key);
+					}
+					else
+					{
+						key = keys.at(keyI);
+					}
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+			template <typename T, typename D>
 			ObjectStream& operator >> (std::multimap <T*, D*>& data)
 			{
 				uint16_t size;
@@ -1161,6 +1258,33 @@ namespace comnet {
 					{
 						val = elms.at(elmI);
 					}
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+			template <typename T, typename D>
+			ObjectStream& operator >> (std::unordered_multimap<T*, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> keys;
+				for (int i = 0; i < size; i++)
+				{
+					uint16_t keyI;
+					*this >> keyI;
+					T* key = nullptr;
+					if (keyI == keys.size()) {
+						key = new T();
+						*this >> *key;
+						keys.push_back(key);
+					}
+					else
+					{
+						key = keys.at(keyI);
+					}
+					D val;
+					*this >> val;
 					data.emplace(std::make_pair(key, val));
 				}
 				return *this;
