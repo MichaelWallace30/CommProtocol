@@ -86,7 +86,6 @@ Header^ ObjectStream::DeserializeHeader()
  return header;
 }
 
-//intput
 void ObjectStream::Input(String^ data)
  {
  std::string value = msclr::interop::marshal_as<std::string>(data);
@@ -103,27 +102,44 @@ void ObjectStream::Input(UInt64 data){ unmangedObjectStream->Get() << data; }
 void ObjectStream::Input(Single data){ unmangedObjectStream->Get() << data; }
 void ObjectStream::Input(Double data){ unmangedObjectStream->Get() << data; }
 
-//Ooutput
-String^ ObjectStream::OutputString()
+void ObjectStream::Output(String^% data)
 {
  std::string value;
   comnet::serialization::ObjectStream& obj = unmangedObjectStream->Get();
  obj >> value;
- return gcnew String(value.c_str());	
+ data = gcnew String(value.c_str());	
 }
-Byte ObjectStream::OutputByte()    { uint8_t data; unmangedObjectStream->Get() >> data; return data; }
-SByte ObjectStream::OutputSByte()  { int8_t data; unmangedObjectStream->Get() >> data; return data; }
-UInt16 ObjectStream::OutputUInt16(){ UInt16 data; unmangedObjectStream->Get() >> data; return data; }
-Int16 ObjectStream::OutputInt16()  { Int16 data;  unmangedObjectStream->Get() >> data; return data; }
-UInt32 ObjectStream::OutputUInt32(){ UInt32 data; unmangedObjectStream->Get() >> data; return data; }
-Int32 ObjectStream::OutputInt32()  { 
-    Int32 data;  
-    unmangedObjectStream->Get() >> data;
-    return data; 
-}
-UInt64 ObjectStream::OutputUInt64(){ UInt64 data; unmangedObjectStream->Get() >> data; return data; }
-Int64 ObjectStream::OutputInt64()  { Int64 data;  unmangedObjectStream->Get() >> data; return data; }
-Single ObjectStream::OutputSingle(){ Single data; unmangedObjectStream->Get() >> data; return data; }
-Double ObjectStream::OutputDouble(){ Double data; unmangedObjectStream->Get() >> data; return data; }
+void ObjectStream::Output(Byte% data) { uint8_t temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(SByte% data) { int8_t temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(UInt16% data){ uint16_t temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(Int16% data)  { int16_t temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(UInt32% data){ uint32_t temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(Int32% data) { int32_t temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(UInt64% data) { uint64_t temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(Int64% data) { int64_t temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(Single% data) { float temp; unmangedObjectStream->Get() >> temp; data = temp; }
+void ObjectStream::Output(Double% data) { double temp; unmangedObjectStream->Get() >> temp; data = temp; }
 
+//Output
+String^ ObjectStream::OutputString()
+{
+	std::string value;
+	comnet::serialization::ObjectStream& obj = unmangedObjectStream->Get();
+	obj >> value;
+	return gcnew String(value.c_str());
+}
+Byte ObjectStream::OutputByte() { uint8_t data; unmangedObjectStream->Get() >> data; return data; }
+SByte ObjectStream::OutputSByte() { int8_t data; unmangedObjectStream->Get() >> data; return data; }
+UInt16 ObjectStream::OutputUInt16() { UInt16 data; unmangedObjectStream->Get() >> data; return data; }
+Int16 ObjectStream::OutputInt16() { Int16 data;  unmangedObjectStream->Get() >> data; return data; }
+UInt32 ObjectStream::OutputUInt32() { UInt32 data; unmangedObjectStream->Get() >> data; return data; }
+Int32 ObjectStream::OutputInt32() {
+	Int32 data;
+	unmangedObjectStream->Get() >> data;
+	return data;
+}
+UInt64 ObjectStream::OutputUInt64() { UInt64 data; unmangedObjectStream->Get() >> data; return data; }
+Int64 ObjectStream::OutputInt64() { Int64 data;  unmangedObjectStream->Get() >> data; return data; }
+Single ObjectStream::OutputSingle() { Single data; unmangedObjectStream->Get() >> data; return data; }
+Double ObjectStream::OutputDouble() { Double data; unmangedObjectStream->Get() >> data; return data; }
 

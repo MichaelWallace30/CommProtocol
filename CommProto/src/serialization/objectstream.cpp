@@ -73,7 +73,7 @@ Header ObjectStream::DeserializeHeader()
 /*******************************************************/
 /*******************************************************/
 
-ObjectStream& ObjectStream::operator<<(string_t& data)
+ObjectStream& ObjectStream::operator<<(const string_t& data)
 {
  uint8_t strLen = 0;
  str_length(data, strLen);
@@ -92,7 +92,7 @@ ObjectStream& ObjectStream::operator<<(string_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(std::wstring& data)
+ObjectStream& ObjectStream::operator<<(const std::wstring& data)
 {
 
  //needs string leng
@@ -112,7 +112,7 @@ ObjectStream& ObjectStream::operator<<(std::wstring& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(std::string& data) 
+ObjectStream& ObjectStream::operator<<(const std::string& data) 
 {
   uint32_t strLen = data.size();
   if (curr_pos + strLen + 2 < MAX_PACKET_SIZE) {
@@ -125,7 +125,7 @@ ObjectStream& ObjectStream::operator<<(std::string& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(uint8_t& data)
+ObjectStream& ObjectStream::operator<<(const uint8_t& data)
 {
  if (curr_pos + sizeof(uint8_t) < MAX_PACKET_SIZE)
  {
@@ -139,7 +139,7 @@ ObjectStream& ObjectStream::operator<<(uint8_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(int8_t& data)
+ObjectStream& ObjectStream::operator<<(const int8_t& data)
 {
  if (curr_pos + sizeof(int8_t) < MAX_PACKET_SIZE)
  {
@@ -153,7 +153,7 @@ ObjectStream& ObjectStream::operator<<(int8_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(uint16_t& data)
+ObjectStream& ObjectStream::operator<<(const uint16_t& data)
 {
  if (curr_pos + sizeof(uint16_t) < MAX_PACKET_SIZE)
  {
@@ -167,7 +167,7 @@ ObjectStream& ObjectStream::operator<<(uint16_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(int16_t& data)
+ObjectStream& ObjectStream::operator<<(const int16_t& data)
 {
  if (curr_pos + sizeof(int16_t) < MAX_PACKET_SIZE)
  {
@@ -181,7 +181,7 @@ ObjectStream& ObjectStream::operator<<(int16_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(int32_t& data)
+ObjectStream& ObjectStream::operator<<(const int32_t& data)
 {
  if (curr_pos + sizeof(int32_t) < MAX_PACKET_SIZE)
  {
@@ -195,7 +195,7 @@ ObjectStream& ObjectStream::operator<<(int32_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(uint32_t& data)
+ObjectStream& ObjectStream::operator<<(const uint32_t& data)
 {
  if (curr_pos + sizeof(uint32_t) < MAX_PACKET_SIZE)
  {
@@ -209,7 +209,7 @@ ObjectStream& ObjectStream::operator<<(uint32_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(int64_t& data)
+ObjectStream& ObjectStream::operator<<(const int64_t& data)
 {
  if (curr_pos + sizeof(int64_t) < MAX_PACKET_SIZE)
  {
@@ -223,7 +223,7 @@ ObjectStream& ObjectStream::operator<<(int64_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(uint64_t& data)
+ObjectStream& ObjectStream::operator<<(const uint64_t& data)
 {
  if (curr_pos + sizeof(uint64_t) < MAX_PACKET_SIZE)
  {
@@ -237,7 +237,7 @@ ObjectStream& ObjectStream::operator<<(uint64_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(real32_t& data)
+ObjectStream& ObjectStream::operator<<(const real32_t& data)
 {
  if (curr_pos + sizeof(real32_t) < MAX_PACKET_SIZE)
  {
@@ -251,7 +251,7 @@ ObjectStream& ObjectStream::operator<<(real32_t& data)
 }
 
 
-ObjectStream& ObjectStream::operator<<(real64_t& data)
+ObjectStream& ObjectStream::operator<<(const real64_t& data)
 {
  if (curr_pos + sizeof(real64_t) < MAX_PACKET_SIZE)
  {
