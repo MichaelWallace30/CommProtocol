@@ -174,8 +174,8 @@ void ObjectStream::Input(System::Collections::Generic::ICollection<ObjSerializab
 			rStack->Add(iter->Current);
 			i++;
 		}
-		i--;
-		while (true) {
+		do {
+			i--;
 			ObjSerializable^ obj = rStack[i];
 			UInt16 idx;
 			if (elmIndexDict->TryGetValue(obj->id, idx)) {
@@ -184,11 +184,7 @@ void ObjectStream::Input(System::Collections::Generic::ICollection<ObjSerializab
 				}
 				Input(idx);
 			}
-			if (i == 0) {
-				break;
-			}
-			i--;
-		}
+		} while (i > 0);
 	}
 	Input(size);
 }
@@ -221,19 +217,15 @@ void ObjectStream::InputUniqueKey(System::Collections::Generic::ICollection<Coll
 			rStack->Add(gcnew ObjPair(iter->Current.Key, iter->Current.Value));
 			i++;
 		}
-		i--;
-		while (true) {
+		do {
+			i--;
 			IdxPair^ valIdxPair = valIndexDict[rStack[i]->obj2->id];
 			if (valIdxPair->idx1 == i) {
 				rStack[i]->obj2->Input(this);
 			}
 			Input(valIdxPair->idx2);
 			rStack[i]->obj1->Input(this);
-			if (i == 0) {
-				break;
-			}
-			i--;
-		}
+		} while (i > 0);
 	}
 	Input(size);
 }
@@ -255,19 +247,15 @@ void ObjectStream::InputUniqueVal(System::Collections::Generic::ICollection<Coll
 			rStack->Add(gcnew ObjPair(iter->Current.Key, iter->Current.Value));
 			i++;
 		}
-		i--;
-		while (true) {
+		do {
+			i--;
 			rStack[i]->obj2->Input(this);
 			IdxPair^ keyIdxPair = keyIndexDict[rStack[i]->obj1->id];
 			if (keyIdxPair->idx1 == i) {
 				rStack[i]->obj1->Input(this);
 			}
 			Input(keyIdxPair->idx2);
-			if (i == 0) {
-				break;
-			}
-			i--;
-		}
+		} while (i > 0);
 	}
 	Input(size);
 }
@@ -294,8 +282,7 @@ void ObjectStream::Input(System::Collections::Generic::ICollection<Collections::
 			rStack->Add(gcnew ObjPair(iter->Current.Key, iter->Current.Value));
 			i++;
 		}
-		i--;
-		while (true) {
+		do {
 			IdxPair^ valIdxPair = valIndexDict[rStack[i]->obj2->id];
 			if (valIdxPair->idx1 == i) {
 				rStack[i]->obj2->Input(this);
@@ -306,11 +293,7 @@ void ObjectStream::Input(System::Collections::Generic::ICollection<Collections::
 				rStack[i]->obj1->Input(this);
 			}
 			Input(keyIdxPair->idx2);
-			if (i == 0) {
-				break;
-			}
-			i--;
-		}
+		} while (i > 0);
 	}
 	Input(size);
 }

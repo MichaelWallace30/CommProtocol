@@ -326,20 +326,15 @@ namespace comnet {
 						}
 						i++;
 					}
-					i--;
-					it--;
-					while (true) {
+					do {
+						i--;
+						it--;
 						auto mapIter = elmIndexMap.find(*it);
 						if (mapIter->second.first == i) {
 							*this << *mapIter->first;
 						}
 						*this << mapIter->second.second;
-						if (it == data.begin()) {
-							break;
-						}
-						it--;
-						i--;
-					}
+					} while (it != data.begin());
 				}
 				*this << size;
 				return *this;
@@ -571,21 +566,16 @@ namespace comnet {
 						}
 						i++;
 					}
-					i--;
-					it--;
-					while (true) {
+					do {
+						i--;
+						it--;
 						auto elmMapIter = elmIndexMap.find(it->second);
 						if (elmMapIter->second.first == i) {
 							*this << *elmMapIter->first;
 						}
 						*this << elmMapIter->second.second;
 						*this << it->first;
-						if (it == data.begin()) {
-							break;
-						}
-						it--;
-						i--;
-					}
+					} while (it != data.begin());
 				}
 				*this << size;
 				return *this;
@@ -609,21 +599,16 @@ namespace comnet {
 						}
 						i++;
 					}
-					i--;
-					it--;
-					while (true) {
+					do {
+						i--;
+						it--;
 						auto elmMapIter = elmIndexMap.find(it->second);
 						if (elmMapIter->second.first == i) {
 							*this << *elmMapIter->first;
 						}
 						*this << elmMapIter->second.second;
 						*this << *it->first;
-						i--;
-						if (it == data.begin()) {
-							break;
-						}
-						it--;
-					}
+					} while (it == data.begin());
 				}
 				*this << size;
 				return *this;
@@ -659,21 +644,16 @@ namespace comnet {
 						}
 						i++;
 					}
-					i--;
-					it--;
-					while (true) {
+					do {
+						i--;
+						it--;
 						auto elmMapIter = elmIndexMap.find(it->second);
 						if (elmMapIter->second.first == i) {
 							*this << *elmMapIter->first;
 						}
 						*this << elmMapIter->second.second;
 						*this << it->first;
-						if (it == data.begin()) {
-							break;
-						}
-						it--;
-						i--;
-					}
+					} while (it != data.begin());
 				}
 				*this << size;
 				return *this;
@@ -697,21 +677,16 @@ namespace comnet {
 						}
 						i++;
 					}
-					i--;
-					it--;
-					while (true) {
+					do {
+						i--;
+						it--;
 						*this << it->second;
 						auto keyMapIter = keyIndexMap.find(it->first);
 						if (keyMapIter->second.first == i) {
 							*this << *keyMapIter->first;
 						}
 						*this << keyMapIter->second.second;
-						if (it == data.begin()) {
-							break;
-						}
-						it--;
-						i--;
-					}
+					} while (it != data.begin());
 				}
 				*this << size;
 				return *this;
@@ -743,9 +718,9 @@ namespace comnet {
 						}
 						i++;
 					}
-					i--;
-					it--;
-					while (true) {
+					do {
+						i--;
+						it--;
 						auto valMapIter = valIndexMap.find(it->second);
 						if (valMapIter->second.first == i) {
 							*this << *valMapIter->first;
@@ -756,12 +731,7 @@ namespace comnet {
 							*this << *keyMapIter->first;
 						}
 						*this << (uint16_t)keyMapIter->second.second;
-						if (it == data.begin()) {
-							break;
-						}
-						i--;
-						it--;
-					}
+					} while (it != data.begin());
 				}
 				*this << size;
 				return *this;
