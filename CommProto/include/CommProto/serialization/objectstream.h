@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __OBJECT_STREAM_H
 #include <CommProto/architecture/api.h>
 #include <CommProto/serialization/marshal.h>
+#include <CommProto/serialization/objserializable.h>
 #include <CommProto/debug/comms_debug.h>
 #include <CommProto/headerpacket.h>
 #include <unordered_map>
