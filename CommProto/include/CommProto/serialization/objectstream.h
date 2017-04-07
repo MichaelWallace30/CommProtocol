@@ -1,7 +1,7 @@
 /*
 Serial configurations.
 
-Copyright (C) 2016  Michael Wallace, Mario Garcia.
+Copyright (C) 2016  Michael Wallace, Mario Garcia, Alex Craig.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -115,6 +115,44 @@ namespace comnet {
 			ObjectStream& operator<<(const real32_t& data);
 			ObjectStream& operator<<(const real64_t& data);
 
+			/** OVerloaded output stream operators to output variables to a variable from the object stream
+				string_t (char*) must use malloc when inputing data into new c-string variable*/
+			ObjectStream& operator>>(string_t& data);
+			ObjectStream& operator>>(std::wstring& data);
+			ObjectStream& operator>>(std::string& data);
+			ObjectStream& operator>>(uint8_t& data);
+			ObjectStream& operator>>(int8_t& data);
+			ObjectStream& operator>>(uint16_t& data);
+			ObjectStream& operator>>(int16_t& data);
+			ObjectStream& operator>>(uint32_t& data);
+			ObjectStream& operator>>(int32_t& data);
+			ObjectStream& operator>>(uint64_t& data);
+			ObjectStream& operator>>(int64_t& data);
+			ObjectStream& operator>>(real32_t& data);
+			ObjectStream& operator>>(real64_t& data);
+
+
+
+			/*
+			p means pointer compatible.  If it is there that means that it is compatible
+			when containing pointers.
+
+			(io) If there is an i then it is only input compatible. If there is an o then it is only
+			output compatible.
+			Example:
+			VECTOR:
+			std::set (i)  Vector can be made from set but a set cannot be made from a vector
+			*/
+
+			/*
+			VECTOR: Compatible with
+			std::list (io) p
+			std::set (i) [If no duplicate, is o compatible]
+			std::unordered_set (i) [If no duplicates, is o compatible]
+			std::multiset (io) p
+			std::unordered_multiset (io) p
+			*/
+
 			template <typename T>
 			ObjectStream& operator<<(const std::vector<T>& data)
 			{
@@ -127,35 +165,81 @@ namespace comnet {
 				return *this;
 			}
 
-			//list, multiset, unordered_multiset compatible
+			template <typename T>
+			ObjectStream& operator>>(std::vector<T>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				data.reserve(size);
+				for (int i = 0; i < size; i++) {
+					T elm;
+					*this >> elm;
+					data.push_back(std::move(elm));
+				}
+				return *this;
+			}
+
+
+
 			template <typename T>
 			ObjectStream& operator<<(const std::vector<T*>& data)
 			{
 				uint16_t size = data.size();
-				if (size > 0) {
-					std::unordered_map<T*, uint16_t> elmIndexMap;
+				if (size > 0)
+				{
+					std::unordered_map<T*, std::pair<uint16_t, uint16_t>> elmIndexMap;
 					uint16_t i = 0;
-					for (; i < size; i++) {
-						auto mapIter = elmIndexMap.find(data.at(i));
+					uint16_t elmI = 0;
+					for (auto it = data.begin(); it != data.end(); it++) {
+						auto mapIter = elmIndexMap.find(*it);
 						if (mapIter == elmIndexMap.end()) {
-							elmIndexMap.emplace(std::make_pair(data.at(i), i));
+							elmIndexMap.emplace(std::make_pair(*it, std::make_pair(i, elmI)));
+							elmI++;
 						}
+						i++;
 					}
 					i--;
-					for (; i >= 0; i--) {
-						auto mapIter = elmIndexMap.find(data.at(i));
-						if (mapIter->second == i) {
+					for (auto it = data.rbegin(); it != data.rend(); it++) {
+						auto mapIter = elmIndexMap.find(*it);
+						if (mapIter->second.first == i) {
 							*this << *mapIter->first;
 						}
-						*this << mapIter->second;
-						if (i == 0) {
-							break;
-						}
+						*this << mapIter->second.second;
+						i--;
 					}
 				}
 				*this << size;
 				return *this;
 			}
+
+			template <typename T>
+			ObjectStream& operator >> (std::vector<T*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> elms;
+				for (int i = 0; i < size; i++) {
+					uint16_t elmI;
+					*this >> elmI;
+					if (elmI == elms.size())
+					{
+						T* elm = new T();
+						*this >> *elm;
+						elms.push_back(elm);
+					}
+					data.push_back(elms.at(elmI));
+				}
+				return *this;
+			}
+
+			/*
+			LIST: Compatible with
+			std::vector (io) p
+			std::set (i) [If no duplicate, is o compatible]
+			std::unordered_set (i) [If no duplicates, is o compatible]
+			std::multiset (io) p
+			std::unordered_multiset (io) p
+			*/
 
 			template <typename T>
 			ObjectStream& operator<<(const std::list<T>& data)
@@ -169,7 +253,21 @@ namespace comnet {
 				return *this;
 			}
 
-			//Vector, multiset, multiunordered_set compatible
+			template <typename T>
+			ObjectStream& operator>>(std::list<T>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T elm;
+					*this >> elm;
+					data.push_back(std::move(elm));
+				}
+				return *this;
+			}
+
+
+
 			template <typename T>
 			ObjectStream& operator<<(const std::list<T*>& data)
 			{
@@ -202,6 +300,35 @@ namespace comnet {
 			}
 
 			template <typename T>
+			ObjectStream& operator >> (std::list<T*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> elms;
+				for (int i = 0; i < size; i++) {
+					uint16_t elmI;
+					*this >> elmI;
+					if (elmI == elms.size())
+					{
+						T* elm = new T();
+						*this >> *elm;
+						elms.push_back(elm);
+					}
+					data.push_back(elms.at(elmI));
+				}
+				return *this;
+			}
+
+			/*
+			SET: Compatible with
+			std::vector (o) [Is i compatible if no duplicates]
+			std::list (o) [Is i compatible if no duplicates]
+			std::unordered_set (o) p
+			std::multiset (o) [Is i compatible if no duplicates]
+			std::unordered_multiset (o) [Is i compatible if no duplicates]
+			*/
+
+			template <typename T>
 			ObjectStream& operator<<(const std::set<T>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++)
@@ -213,7 +340,21 @@ namespace comnet {
 				return *this;
 			}
 
-			//unordered_set compatible
+			template <typename T>
+			ObjectStream& operator >> (std::set<T>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T elm;
+					*this >> elm;
+					data.push_back(std::move(elm));
+				}
+				return *this;
+			}
+
+
+
 			template <typename T>
 			ObjectStream& operator<<(const std::set<T*>& data)
 			{
@@ -227,6 +368,28 @@ namespace comnet {
 			}
 
 			template <typename T>
+			ObjectStream& operator >> (std::set<T*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T* elm = new T();
+					*this >> *elm;
+					data.push_back(elm);
+				}
+				return *this;
+			}
+
+			/*
+			MultiSet: Compatible with
+			std::vector (io) p
+			std::list (io) p
+			std::set (i) [If no duplicate, is o compatible]
+			std::unordered_set (i) [If no duplicates, is o compatible]
+			std::unordered_multiset (io) p
+			*/
+
+			template <typename T>
 			ObjectStream& operator<<(const std::multiset<T>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++)
@@ -238,7 +401,21 @@ namespace comnet {
 				return *this;
 			}
 
-			//vector,list,unordered_multiset compatible
+			template <typename T>
+			ObjectStream& operator >> (std::multiset<T>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T elm;
+					*this >> elm;
+					data.push_back(std::move(elm));
+				}
+				return *this;
+			}
+
+
+
 			template <typename T>
 			ObjectStream& operator<<(const std::multiset<T*>& data)
 			{
@@ -271,6 +448,35 @@ namespace comnet {
 			}
 
 			template <typename T>
+			ObjectStream& operator >> (std::multiset<T*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> elms;
+				for (int i = 0; i < size; i++) {
+					uint16_t elmI;
+					*this >> elmI;
+					if (elmI == elms.size())
+					{
+						T* elm = new T();
+						*this >> *elm;
+						elms.push_back(elm);
+					}
+					data.push_back(elms.at(elmI));
+				}
+				return *this;
+			}
+
+			/*
+			UnorderedSet: Compatible with
+			std::vector (o)  [Is i compatible if no duplicates]
+			std::list (o)  [Is i compatible if no duplicates]
+			std::set (io) p
+			std::multiset (o) [Is i compatible if no duplicates]
+			std::unordered_multiset (o)  [Is i compatible if no duplicates]
+			*/
+
+			template <typename T>
 			ObjectStream& operator<<(const std::unordered_set<T>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++)
@@ -282,7 +488,21 @@ namespace comnet {
 				return *this;
 			}
 
-			//set compatible
+			template <typename T>
+			ObjectStream& operator >> (std::unordered_set<T>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T elm;
+					*this >> elm;
+					data.push_back(std::move(elm));
+				}
+				return *this;
+			}
+
+
+
 			template <typename T>
 			ObjectStream& operator<<(const std::unordered_set<T*>& data)
 			{
@@ -296,6 +516,28 @@ namespace comnet {
 			}
 
 			template <typename T>
+			ObjectStream& operator >> (std::unordered_set<T*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T* elm = new T();
+					*this >> *elm;
+					data.push_back(elm);
+				}
+				return *this;
+			}
+
+			/*
+			UnorderedMultiSet: Compatible with
+			std::vector (io) p
+			std::list (io) p
+			std::set (i) [If no duplicate, is o compatible]
+			std::unordered_set (i) [If no duplicates, is o compatible]
+			std::multiset (io) p
+			*/
+
+			template <typename T>
 			ObjectStream& operator<<(const std::unordered_multiset<T>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++)
@@ -307,7 +549,21 @@ namespace comnet {
 				return *this;
 			}
 
-			//vector, list, multiset compatible
+			template <typename T>
+			ObjectStream& operator >> (std::unordered_multiset<T>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T elm;
+					*this >> elm;
+					data.push_back(std::move(elm));
+				}
+				return *this;
+			}
+
+
+
 			template <typename T>
 			ObjectStream& operator<<(const std::unordered_multiset<T*>& data)
 			{
@@ -340,6 +596,33 @@ namespace comnet {
 				return *this;
 			}
 
+			template <typename T>
+			ObjectStream& operator >> (std::unordered_multiset<T*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> elms;
+				for (int i = 0; i < size; i++) {
+					uint16_t elmI;
+					*this >> elmI;
+					if (elmI == elms.size())
+					{
+						T* elm = new T();
+						*this >> *elm;
+						elms.push_back(elm);
+					}
+					data.push_back(elms.at(elmI));
+				}
+				return *this;
+			}
+
+			/*
+			Map: Compatible with
+			std::multimap (io)  vp
+			std::unordered_map (io)  kp vp kvp
+			std::unordered_multimap (io)  vp
+			*/
+
 			template <typename T, typename D>
 			ObjectStream& operator<<(const std::map<T, D>& data)
 			{
@@ -351,6 +634,23 @@ namespace comnet {
 				*this << size;
 				return *this;
 			}
+
+			template <typename T, typename D>
+			ObjectStream& operator>>(std::map<T, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T key;
+					*this >> key;
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+			}
+
+
 
 			template <typename T, typename D>
 			ObjectStream& operator <<(const std::map<T, D*>& data)
@@ -385,6 +685,36 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator >> (std::map<T, D*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+					T key;
+					*this >> key;
+					uint16_t elmI;
+					*this >> elmI;
+					D* val = nullptr;
+					if (elmI == elms.size())
+					{
+						val = new D();
+						*this >> *val;
+						elms.push_back(val);
+					}
+					else
+					{
+						val = elms.at(elmI);
+					}
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+
+
+			template <typename T, typename D>
 			ObjectStream& operator <<(const std::map<T*, D*>& data)
 			{
 				uint16_t size = data.size();
@@ -417,6 +747,41 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator >> (std::map<T*, D*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+					T* key = new T();
+					*this >> *key;
+					uint16_t elmI;
+					*this >> elmI;
+					D* val = nullptr;
+					if (elmI == elms.size())
+					{
+						val = new D();
+						*this >> *val;
+						elms.push_back(val);
+					}
+					else
+					{
+						val = elms.at(elmI);
+					}
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+			/*
+			Multimap: Compatible with
+			std::map (io)  vp
+			std::unordered_map (io)  vp
+			std::unordered_multimap (io)  kp vp kvp
+			*/
+
+			template <typename T, typename D>
 			ObjectStream& operator<<(const std::multimap<T, D>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++) {
@@ -427,6 +792,23 @@ namespace comnet {
 				*this << size;
 				return *this;
 			}
+
+			template <typename T, typename D>
+			ObjectStream& operator >> (std::multimap<T, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T key;
+					*this >> key;
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+			}
+
+
 
 			template <typename T, typename D>
 			ObjectStream& operator <<(const std::multimap<T, D*>& data)
@@ -461,6 +843,36 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator >> (std::multimap<T, D*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+					T key;
+					*this >> key;
+					uint16_t elmI;
+					*this >> elmI;
+					D* val = nullptr;
+					if (elmI == elms.size())
+					{
+						val = new D();
+						*this >> *val;
+						elms.push_back(val);
+					}
+					else
+					{
+						val = elms.at(elmI);
+					}
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+
+
+			template <typename T, typename D>
 			ObjectStream& operator <<(const std::multimap<T*, D>& data)
 			{
 				uint16_t size = data.size();
@@ -491,6 +903,35 @@ namespace comnet {
 				*this << size;
 				return *this;
 			}
+
+			template <typename T, typename D>
+			ObjectStream& operator >> (std::multimap<T*, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> keys;
+				for (int i = 0; i < size; i++)
+				{
+					uint16_t keyI;
+					*this >> keyI;
+					T* key = nullptr;
+					if (keyI == keys.size()) {
+						key = new T();
+						*this >> *key;
+						keys.push_back(key);
+					}
+					else
+					{
+						key = keys.at(keyI);
+					}
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+
 
 			template <typename T, typename D>
 			ObjectStream& operator <<(const std::multimap<T*, D*>& data)
@@ -537,6 +978,53 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator >> (std::multimap <T*, D*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> keys;
+				std::vector <D*> vals;
+				for (int i = 0; i < size; i++)
+				{
+					uint16_t keyI;
+					*this >> keyI;
+					T* key = nullptr;
+					if (keyI == keys.size())
+					{
+						key = new T();
+						*this >> *key;
+						keys.push_back(key);
+					}
+					else
+					{
+						key = keys.at(keyI);
+					}
+					uint16_t valI;
+					*this >> valI;
+					D* val = nullptr;
+					if (valI == vals.size())
+					{
+						val = new D();
+						*this >> *val;
+						vals.push_back(val);
+					}
+					else
+					{
+						val = vals.at(valI);
+					}
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+			/*
+			UnorderedMap: Compatible with
+			std::map (io)  kp vp kvp
+			std::multimap (io)  vp
+			std::unordered_multimap (io)  vp
+			*/
+
+			template <typename T, typename D>
 			ObjectStream& operator<<(const std::unordered_map<T, D>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
@@ -547,6 +1035,23 @@ namespace comnet {
 				*this << size;
 				return *this;
 			}
+
+			template <typename T, typename D>
+			ObjectStream& operator >> (std::unordered_map<T, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T key;
+					*this >> key;
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+			}
+
+
 
 			template <typename T, typename D>
 			ObjectStream& operator <<(const std::unordered_map<T, D*>& data)
@@ -582,6 +1087,36 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator >> (std::unordered_map<T, D*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+					T key;
+					*this >> key;
+					uint16_t elmI;
+					*this >> elmI;
+					D* val = nullptr;
+					if (elmI == elms.size())
+					{
+						val = new D();
+						*this >> *val;
+						elms.push_back(val);
+					}
+					else
+					{
+						val = elms.at(elmI);
+					}
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+
+
+			template <typename T, typename D>
 			ObjectStream& operator <<(const std::unordered_map<T*, D*>& data)
 			{
 				uint16_t size = data.size();
@@ -615,6 +1150,41 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator >> (std::unordered_map<T*, D*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+					T* key = new T();
+					*this >> *key;
+					uint16_t elmI;
+					*this >> elmI;
+					D* val = nullptr;
+					if (elmI == elms.size())
+					{
+						val = new D();
+						*this >> *val;
+						elms.push_back(val);
+					}
+					else
+					{
+						val = elms.at(elmI);
+					}
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+			/*
+			UnorderedMultiMap: Compatible with
+			std::map (io)  vp
+			std::multimap (io)  kp vp kvp
+			std::unordered_map (io)  vp
+			*/
+
+			template <typename T, typename D>
 			ObjectStream& operator<<(const std::unordered_multimap<T, D>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
@@ -625,6 +1195,23 @@ namespace comnet {
 				*this << size;
 				return *this;
 			}
+
+			template <typename T, typename D>
+			ObjectStream& operator >> (std::unordered_multimap<T, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T key;
+					*this >> key;
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+			}
+
+
 
 			template <typename T, typename D>
 			ObjectStream& operator <<(const std::unordered_multimap<T, D*>& data)
@@ -660,6 +1247,36 @@ namespace comnet {
 			}
 
 			template <typename T, typename D>
+			ObjectStream& operator >> (std::unordered_multimap<T, D*>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <D*> elms;
+				for (int i = 0; i < size; i++)
+				{
+					T key;
+					*this >> key;
+					uint16_t elmI;
+					*this >> elmI;
+					D* val = nullptr;
+					if (elmI == elms.size())
+					{
+						val = new D();
+						*this >> *val;
+						elms.push_back(val);
+					}
+					else
+					{
+						val = elms.at(elmI);
+					}
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+
+
+			template <typename T, typename D>
 			ObjectStream& operator <<(const std::unordered_multimap<T*, D>& data)
 			{
 				uint16_t size = data.size();
@@ -691,6 +1308,35 @@ namespace comnet {
 				*this << size;
 				return *this;
 			}
+
+			template <typename T, typename D>
+			ObjectStream& operator >> (std::unordered_multimap<T*, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				std::vector <T*> keys;
+				for (int i = 0; i < size; i++)
+				{
+					uint16_t keyI;
+					*this >> keyI;
+					T* key = nullptr;
+					if (keyI == keys.size()) {
+						key = new T();
+						*this >> *key;
+						keys.push_back(key);
+					}
+					else
+					{
+						key = keys.at(keyI);
+					}
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(key, val));
+				}
+				return *this;
+			}
+
+
 
 			template <typename T, typename D>
 			ObjectStream& operator <<(const std::unordered_multimap<T*, D*>& data)
@@ -737,530 +1383,6 @@ namespace comnet {
 				return *this;
 			}
 
-			/** OVerloaded output stream operators to output variables to a variable from the object stream
-				string_t (char*) must use malloc when inputing data into new c-string variable*/
-			ObjectStream& operator>>(string_t& data);
-			ObjectStream& operator>>(std::wstring& data);
-			ObjectStream& operator>>(std::string& data);
-			ObjectStream& operator>>(uint8_t& data);
-			ObjectStream& operator>>(int8_t& data);
-			ObjectStream& operator>>(uint16_t& data);
-			ObjectStream& operator>>(int16_t& data);
-			ObjectStream& operator>>(uint32_t& data);
-			ObjectStream& operator>>(int32_t& data);
-			ObjectStream& operator>>(uint64_t& data);
-			ObjectStream& operator>>(int64_t& data);
-			ObjectStream& operator>>(real32_t& data);
-			ObjectStream& operator>>(real64_t& data);
-			template <typename T>
-			ObjectStream& operator>>(std::vector<T>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				data.reserve(size);
-				for (int i = 0; i < size; i++) {
-					T elm;
-					*this >> elm;
-					data.push_back(std::move(elm));
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::vector<T*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				data.resize(size);
-				for (int i = 0; i < size; i++) {
-					uint16_t dataI;
-					*this >> dataI;
-					if (dataI == i) {
-						T* elm = new T();
-						*this >> *elm;
-						data.at(i) = elm;
-					}
-					else
-					{
-						data.at(i) = data.at(dataI);
-					}
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator>>(std::list<T>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T elm;
-					*this >> elm;
-					data.push_back(std::move(elm));
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::list<T*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <T*> elms;
-				for (int i = 0; i < size; i++) {
-					uint16_t elmI;
-					*this >> elmI;
-					if (elmI == elms.size())
-					{
-						T* elm = new T();
-						*this >> *elm;
-						elms.push_back(elm);
-					}
-					data.push_back(elms.at(elmI));
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::set<T>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T elm;
-					*this >> elm;
-					data.push_back(std::move(elm));
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::set<T*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T* elm = new T();
-					*this >> *elm;
-					data.push_back(elm);
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::multiset<T>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T elm;
-					*this >> elm;
-					data.push_back(std::move(elm));
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::multiset<T*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <T*> elms;
-				for (int i = 0; i < size; i++) {
-					uint16_t elmI;
-					*this >> elmI;
-					if (elmI == elms.size())
-					{
-						T* elm = new T();
-						*this >> *elm;
-						elms.push_back(elm);
-					}
-					data.push_back(elms.at(elmI));
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::unordered_set<T>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T elm;
-					*this >> elm;
-					data.push_back(std::move(elm));
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::unordered_set<T*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T* elm = new T();
-					*this >> *elm;
-					data.push_back(elm);
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::unordered_multiset<T>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T elm;
-					*this >> elm;
-					data.push_back(std::move(elm));
-				}
-				return *this;
-			}
-
-			template <typename T>
-			ObjectStream& operator >> (std::unordered_multiset<T*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <T*> elms;
-				for (int i = 0; i < size; i++) {
-					uint16_t elmI;
-					*this >> elmI;
-					if (elmI == elms.size())
-					{
-						T* elm = new T();
-						*this >> *elm;
-						elms.push_back(elm);
-					}
-					data.push_back(elms.at(elmI));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator>>(std::map<T, D>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T key;
-					*this >> key;
-					D val;
-					*this >> val;
-					data.emplace(std::make_pair(std::move(key), std::move(val)));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::map<T, D*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <D*> elms;
-				for (int i = 0; i < size; i++)
-				{
-					T key;
-					*this >> key;
-					uint16_t elmI;
-					*this >> elmI;
-					D* val = nullptr;
-					if (elmI == elms.size())
-					{
-						val = new D();
-						*this >> *val;
-						elms.push_back(val);
-					}
-					else
-					{
-						val = elms.at(elmI);
-					}
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::map<T*, D*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <D*> elms;
-				for (int i = 0; i < size; i++)
-				{
-					T* key = new T();
-					*this >> *key;
-					uint16_t elmI;
-					*this >> elmI;
-					D* val = nullptr;
-					if (elmI == elms.size())
-					{
-						val = new D();
-						*this >> *val;
-						elms.push_back(val);
-					}
-					else
-					{
-						val = elms.at(elmI);
-					}
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::multimap<T, D>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T key;
-					*this >> key;
-					D val;
-					*this >> val;
-					data.emplace(std::make_pair(std::move(key), std::move(val)));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::multimap<T, D*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <D*> elms;
-				for (int i = 0; i < size; i++)
-				{
-					T key;
-					*this >> key;
-					uint16_t elmI;
-					*this >> elmI;
-					D* val = nullptr;
-					if (elmI == elms.size())
-					{
-						val = new D();
-						*this >> *val;
-						elms.push_back(val);
-					}
-					else
-					{
-						val = elms.at(elmI);
-					}
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::multimap<T*, D>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <T*> keys;
-				for (int i = 0; i < size; i++)
-				{
-					uint16_t keyI;
-					*this >> keyI;
-					T* key = nullptr;
-					if (keyI == keys.size()) {
-						key = new T();
-						*this >> *key;
-						keys.push_back(key);
-					}
-					else
-					{
-						key = keys.at(keyI);
-					}
-					D val;
-					*this >> val;
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::multimap <T*, D*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <T*> keys;
-				std::vector <D*> vals;
-				for (int i = 0; i < size; i++)
-				{
-					uint16_t keyI;
-					*this >> keyI;
-					T* key = nullptr;
-					if (keyI == keys.size())
-					{
-						key = new T();
-						*this >> *key;
-						keys.push_back(key);
-					}
-					else
-					{
-						key = keys.at(keyI);
-					}
-					uint16_t valI;
-					*this >> valI;
-					D* val = nullptr;
-					if (valI == vals.size())
-					{
-						val = new D();
-						*this >> *val;
-						vals.push_back(val);
-					}
-					else
-					{
-						val = vals.at(valI);
-					}
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::unordered_map<T, D>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T key;
-					*this >> key;
-					D val;
-					*this >> val;
-					data.emplace(std::make_pair(std::move(key), std::move(val)));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::unordered_map<T, D*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <D*> elms;
-				for (int i = 0; i < size; i++)
-				{
-					T key;
-					*this >> key;
-					uint16_t elmI;
-					*this >> elmI;
-					D* val = nullptr;
-					if (elmI == elms.size())
-					{
-						val = new D();
-						*this >> *val;
-						elms.push_back(val);
-					}
-					else
-					{
-						val = elms.at(elmI);
-					}
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::unordered_map<T*, D*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <D*> elms;
-				for (int i = 0; i < size; i++)
-				{
-					T* key = new T();
-					*this >> *key;
-					uint16_t elmI;
-					*this >> elmI;
-					D* val = nullptr;
-					if (elmI == elms.size())
-					{
-						val = new D();
-						*this >> *val;
-						elms.push_back(val);
-					}
-					else
-					{
-						val = elms.at(elmI);
-					}
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::unordered_multimap<T, D>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				for (int i = 0; i < size; i++) {
-					T key;
-					*this >> key;
-					D val;
-					*this >> val;
-					data.emplace(std::make_pair(std::move(key), std::move(val)));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::unordered_multimap<T, D*>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <D*> elms;
-				for (int i = 0; i < size; i++)
-				{
-					T key;
-					*this >> key;
-					uint16_t elmI;
-					*this >> elmI;
-					D* val = nullptr;
-					if (elmI == elms.size())
-					{
-						val = new D();
-						*this >> *val;
-						elms.push_back(val);
-					}
-					else
-					{
-						val = elms.at(elmI);
-					}
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
-			template <typename T, typename D>
-			ObjectStream& operator >> (std::unordered_multimap<T*, D>& data)
-			{
-				uint16_t size;
-				*this >> size;
-				std::vector <T*> keys;
-				for (int i = 0; i < size; i++)
-				{
-					uint16_t keyI;
-					*this >> keyI;
-					T* key = nullptr;
-					if (keyI == keys.size()) {
-						key = new T();
-						*this >> *key;
-						keys.push_back(key);
-					}
-					else
-					{
-						key = keys.at(keyI);
-					}
-					D val;
-					*this >> val;
-					data.emplace(std::make_pair(key, val));
-				}
-				return *this;
-			}
-
 			template <typename T, typename D>
 			ObjectStream& operator >> (std::unordered_multimap<T*, D*>& data)
 			{
@@ -1301,7 +1423,6 @@ namespace comnet {
 				return *this;
 			}
 		};
-
 		// Defines simplicity for calling objectstream.
 #define OBJECTSTREAM comnet::serialization::ObjectStream
 #define REF_OBJECTSTREAM comnet::serialization::ObjectStream&

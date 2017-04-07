@@ -1,3 +1,20 @@
+/*
+Copyright (C) 2016  Michael Wallace, Mario Garcia, Alex Craig.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #pragma once
 #include <CommProto/serialization/objectstream.h>
 #include <CommProto/tools/allocator/commpointer.h>
@@ -9,18 +26,49 @@ using namespace comnet::tools::allocator;
 
 namespace Comnet {
 	namespace Serialization {
+		/**
+		Class that can be serialized by ObjectStream
+		*/
 		public ref class ObjSerializable {
 		public:
 			static UInt64 ObjIDCounter = 0;
+			//Sets the id of this
 			ObjSerializable() {
 				id = ObjIDCounter++;
 			}
+
+			//Used to serialize objects to stream (equivalent to ABSPacket::Pack)
 			virtual void Input(ObjectStream^ obj) = 0;
+			
+			//Used to parse objects from stream (equivalent to ABSPacket::Unpack)
 			virtual void Output(ObjectStream^ obj) = 0;
+
+			//Return a new instance of a derived class
 			virtual ObjSerializable^ Create() = 0;
+
+			//Uniquely identifies each object since pointer values cannot be used
 			UInt64 id;
 		};
 
+		/*
+		Below are:
+			Int16Ser
+			Int32Ser
+			Int64Ser
+
+			ByteSer
+			SByteSer
+
+			StringSer
+
+			UInt16Ser
+			UInt32Ser
+			UInt64Ser
+
+			They are used when storing primitives inside of containers due to 
+			C++/CLI not supporting templates. Each can be implicitly casted from
+			the data type preceding "Ser"
+		*/
 		public ref class Int16Ser : public ObjSerializable
 		{
 		public:

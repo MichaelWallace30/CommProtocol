@@ -159,17 +159,27 @@ void ObjectStream::InputUnique(System::Collections::Generic::ICollection<ObjSeri
 	Input(size);
 }
 
+void ObjectStream::OutputUnique(System::Collections::Generic::ICollection<ObjSerializable^>^% list, ObjSerializable^ temp) {
+	UInt16 size = OutputUInt16();
+	for (int i = 0; i < size; i++) {
+		ObjSerializable^ obj = temp->Create();
+		obj->Output(this);
+		list->Add(obj);
+	}
+}
+
 void ObjectStream::Input(System::Collections::Generic::ICollection<ObjSerializable^>^ list) {
 	UInt16 size = list->Count;
 	if (size > 0) {
-		System::Collections::Generic::Dictionary<UInt64, UInt16>^ elmIndexDict = gcnew System::Collections::Generic::Dictionary<UInt64, uint16_t>();
+		System::Collections::Generic::Dictionary<UInt64, IdxPair^>^ elmIndexDict = gcnew System::Collections::Generic::Dictionary<UInt64, IdxPair^>();
 		System::Collections::Generic::IEnumerator<ObjSerializable^>^ iter = list->GetEnumerator();
 		System::Collections::Generic::List<ObjSerializable^>^ rStack = gcnew System::Collections::Generic::List<ObjSerializable^>();
 		UInt16 i = 0;
+		UInt16 elmI = 0;
 		while (iter->MoveNext()) {
-			UInt16 idx;
 			if (!elmIndexDict->ContainsKey(iter->Current->id)) {
-				elmIndexDict->Add(iter->Current->id, i);
+				elmIndexDict->Add(iter->Current->id, gcnew IdxPair(i, elmI));
+				elmI++;
 			}
 			rStack->Add(iter->Current);
 			i++;
@@ -177,16 +187,32 @@ void ObjectStream::Input(System::Collections::Generic::ICollection<ObjSerializab
 		do {
 			i--;
 			ObjSerializable^ obj = rStack[i];
-			UInt16 idx;
-			if (elmIndexDict->TryGetValue(obj->id, idx)) {
-				if (idx == i) {
+			IdxPair^ idxPair;
+			if (elmIndexDict->TryGetValue(obj->id, idxPair)) {
+				if (idxPair->idx1 == i) {
 					obj->Input(this);
 				}
-				Input(idx);
+				Input(idxPair->idx2);
 			}
 		} while (i > 0);
 	}
 	Input(size);
+}
+
+void ObjectStream::Output(System::Collections::Generic::ICollection<ObjSerializable^>^% list, ObjSerializable^ temp) {
+	System::Collections::Generic::List<ObjSerializable^>^ data = gcnew System::Collections::Generic::List<ObjSerializable^>();
+	UInt16 size;
+	size = OutputUInt16();
+	for (int i = 0; i < size; i++) {
+		UInt16 dataI;
+		dataI = OutputUInt16();
+		if (dataI == data->Count) {
+			ObjSerializable^ obj = temp->Create();
+			obj->Output(this);
+			data->Add(obj);
+		}
+		list->Add((*data)[dataI]);
+	}
 }
 
 void ObjectStream::InputUniqueKeyVal(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ map) {
@@ -199,6 +225,18 @@ void ObjectStream::InputUniqueKeyVal(System::Collections::Generic::ICollection<C
 		}
 	}
 	Input(size);
+}
+
+void ObjectStream::OutputUniqueKeyVal(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp)
+{
+	UInt16 size = OutputUInt16();
+	for (int i = 0; i < size; i++) {
+		ObjSerializable^ keyObj = keyTemp->Create();
+		keyObj->Output(this);
+		ObjSerializable^ valObj = valTemp->Create();
+		valObj->Output(this);
+		map->Add(System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>(keyObj, valObj));
+	}
 }
 
 void ObjectStream::InputUniqueKey(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ map) {
@@ -230,6 +268,28 @@ void ObjectStream::InputUniqueKey(System::Collections::Generic::ICollection<Coll
 	Input(size);
 }
 
+void ObjectStream::OutputUniqueKey(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp)
+{
+	UInt16 size = OutputUInt16();
+	System::Collections::Generic::List<ObjSerializable^>^ vals = gcnew System::Collections::Generic::List<ObjSerializable^>();
+	for (int i = 0; i < size; i++) {
+		ObjSerializable^ key = keyTemp->Create();
+		key->Output(this);
+		UInt16 valI = OutputUInt16();
+		ObjSerializable^ val = nullptr;
+		if (valI == vals->Count) {
+			val = valTemp->Create();
+			val->Output(this);
+			vals->Add(val);
+		}
+		else
+		{
+			val = vals[valI];
+		}
+		map->Add(System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>(key, val));
+	}
+}
+
 void ObjectStream::InputUniqueVal(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ map)
 {
 	UInt16 size = (UInt16)map->Count;
@@ -258,6 +318,29 @@ void ObjectStream::InputUniqueVal(System::Collections::Generic::ICollection<Coll
 		} while (i > 0);
 	}
 	Input(size);
+}
+
+
+void ObjectStream::OutputUniqueVal(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp)
+{
+	UInt16 size = OutputUInt16();
+	System::Collections::Generic::List<ObjSerializable^>^ keys = gcnew System::Collections::Generic::List<ObjSerializable^>();
+	for (int i = 0; i < size; i++) {
+		UInt16 keyI = OutputUInt16();
+		ObjSerializable^ key = nullptr;
+		if (keyI == keys->Count) {
+			key = keyTemp->Create();
+			key->Output(this);
+			keys->Add(key);
+		}
+		else
+		{
+			key = keys[keyI];
+		}
+		ObjSerializable^ val = valTemp->Create();
+		val->Output(this);
+		map->Add(System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>(key, val));
+	}
 }
 
 void ObjectStream::Input(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^ map) {
@@ -296,92 +379,6 @@ void ObjectStream::Input(System::Collections::Generic::ICollection<Collections::
 		} while (i > 0);
 	}
 	Input(size);
-}
-
-void ObjectStream::OutputUnique(System::Collections::Generic::ICollection<ObjSerializable^>^% list, ObjSerializable^ temp) {
-	UInt16 size = OutputUInt16();
-	for (int i = 0; i < size; i++) {
-		ObjSerializable^ obj = temp->Create();
-		obj->Output(this);
-		list->Add(obj);
-	}
-}
-
-void ObjectStream::Output(System::Collections::Generic::ICollection<ObjSerializable^>^% list, ObjSerializable^ temp) {
-	System::Collections::Generic::List<ObjSerializable^>^ data = gcnew System::Collections::Generic::List<ObjSerializable^>();
-	UInt16 size;
-	size = OutputUInt16();
-	for (int i = 0; i < size; i++) {
-		UInt16 dataI;
-		dataI = OutputUInt16();
-		if (dataI == i) {
-			ObjSerializable^ obj = temp->Create();
-			obj->Output(this);
-			list->Add(obj);
-			data->Add(obj);
-		}
-		else
-		{
-			list->Add(data[dataI]);
-			data->Add(data[dataI]);
-		}
-	}
-}
-
-void ObjectStream::OutputUniqueKeyVal(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp)
-{
-	UInt16 size = OutputUInt16();
-	for (int i = 0; i < size; i++) {
-		ObjSerializable^ keyObj = keyTemp->Create();
-		keyObj->Output(this);
-		ObjSerializable^ valObj = valTemp->Create();
-		valObj->Output(this);
-		map->Add(System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>(keyObj, valObj));
-	}
-}
-
-void ObjectStream::OutputUniqueKey(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp)
-{
-	UInt16 size = OutputUInt16();
-	System::Collections::Generic::List<ObjSerializable^>^ vals = gcnew System::Collections::Generic::List<ObjSerializable^>();
-	for (int i = 0; i < size; i++) {
-		ObjSerializable^ key = keyTemp->Create();
-		key->Output(this);
-		UInt16 valI = OutputUInt16();
-		ObjSerializable^ val = nullptr;
-		if (valI == vals->Count) {
-			val = valTemp->Create();
-			val->Output(this);
-			vals->Add(val);
-		}
-		else
-		{
-			val = vals[valI];
-		}
-		map->Add(System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>(key, val));
-	}
-}
-
-void ObjectStream::OutputUniqueVal(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp)
-{
-	UInt16 size = OutputUInt16();
-	System::Collections::Generic::List<ObjSerializable^>^ keys = gcnew System::Collections::Generic::List<ObjSerializable^>();
-	for (int i = 0; i < size; i++) {
-		UInt16 keyI = OutputUInt16();
-		ObjSerializable^ key = nullptr;
-		if (keyI == keys->Count) {
-			key = keyTemp->Create();
-			key->Output(this);
-			keys->Add(key);
-		}
-		else
-		{
-			key = keys[keyI];
-		}
-		ObjSerializable^ val = valTemp->Create();
-		val->Output(this);
-		map->Add(System::Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>(key, val));
-	}
 }
 
 void ObjectStream::Output(System::Collections::Generic::ICollection<Collections::Generic::KeyValuePair<ObjSerializable^, ObjSerializable^>>^% map, ObjSerializable^ keyTemp, ObjSerializable^ valTemp) {

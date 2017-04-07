@@ -1,7 +1,7 @@
 /*
-Serial configurations.
+Abstract class that can be serialized by an ObjectStream
 
-Copyright (C) 2016  Michael Wallace, Mario Garcia.
+Copyright (C) 2016  Michael Wallace, Mario Garcia, Alex Craig.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,21 +30,29 @@ namespace comnet {
 
 		class ObjectStream;
 
+		/**
+		Class that can be serialized by ObjectStream
+		*/
 		class COMM_EXPORT ObjSerializable {
 		public:
+			//Used to serialize objects to stream (equivalent to ABSPacket::Pack)
 			virtual void Input(ObjectStream& obj) = 0;
 
+			//Used to parse objects from stream (equivalent to ABSPacket::Unpack)
 			virtual void Output(ObjectStream& obj) = 0;
 
+			//Return a new instance of a derived class
 			virtual ObjSerializable* Create() = 0;
 		};
 
+		//Output operator for ObjSerializables
 		inline ObjectStream& operator<<(ObjectStream& os, ObjSerializable& objSerializable)
 		{
 			objSerializable.Input(os);
 			return os;
 		}
 
+		//Input operator for ObjSerializables
 		inline ObjectStream& operator>>(ObjectStream& os, ObjSerializable& objSerializable)
 		{
 			objSerializable.Output(os);
