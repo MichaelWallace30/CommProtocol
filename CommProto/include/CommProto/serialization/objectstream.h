@@ -154,7 +154,7 @@ namespace comnet {
 			*/
 
 			template <typename T>
-			ObjectStream& operator<<(const std::vector<T>& data)
+			ObjectStream& operator<<(std::vector<T>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++)
 				{
@@ -182,7 +182,7 @@ namespace comnet {
 
 
 			template <typename T>
-			ObjectStream& operator<<(const std::vector<T*>& data)
+			ObjectStream& operator<<(std::vector<T*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -242,7 +242,7 @@ namespace comnet {
 			*/
 
 			template <typename T>
-			ObjectStream& operator<<(const std::list<T>& data)
+			ObjectStream& operator<<(std::list<T>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++)
 				{
@@ -269,7 +269,7 @@ namespace comnet {
 
 
 			template <typename T>
-			ObjectStream& operator<<(const std::list<T*>& data)
+			ObjectStream& operator<<(std::list<T*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -329,7 +329,7 @@ namespace comnet {
 			*/
 
 			template <typename T>
-			ObjectStream& operator<<(const std::set<T>& data)
+			ObjectStream& operator<<(std::set<T>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++)
 				{
@@ -348,7 +348,7 @@ namespace comnet {
 				for (int i = 0; i < size; i++) {
 					T elm;
 					*this >> elm;
-					data.push_back(std::move(elm));
+					data.emplace(std::move(elm));
 				}
 				return *this;
 			}
@@ -356,7 +356,7 @@ namespace comnet {
 
 
 			template <typename T>
-			ObjectStream& operator<<(const std::set<T*>& data)
+			ObjectStream& operator<<(std::set<T*>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++)
 				{
@@ -375,7 +375,7 @@ namespace comnet {
 				for (int i = 0; i < size; i++) {
 					T* elm = new T();
 					*this >> *elm;
-					data.push_back(elm);
+					data.emplace(elm);
 				}
 				return *this;
 			}
@@ -390,7 +390,7 @@ namespace comnet {
 			*/
 
 			template <typename T>
-			ObjectStream& operator<<(const std::multiset<T>& data)
+			ObjectStream& operator<<(std::multiset<T>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++)
 				{
@@ -417,7 +417,7 @@ namespace comnet {
 
 
 			template <typename T>
-			ObjectStream& operator<<(const std::multiset<T*>& data)
+			ObjectStream& operator<<(std::multiset<T*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -477,7 +477,7 @@ namespace comnet {
 			*/
 
 			template <typename T>
-			ObjectStream& operator<<(const std::unordered_set<T>& data)
+			ObjectStream& operator<<(std::unordered_set<T>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++)
 				{
@@ -496,7 +496,7 @@ namespace comnet {
 				for (int i = 0; i < size; i++) {
 					T elm;
 					*this >> elm;
-					data.push_back(std::move(elm));
+					data.emplace(std::move(elm));
 				}
 				return *this;
 			}
@@ -504,7 +504,7 @@ namespace comnet {
 
 
 			template <typename T>
-			ObjectStream& operator<<(const std::unordered_set<T*>& data)
+			ObjectStream& operator<<(std::unordered_set<T*>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++)
 				{
@@ -523,7 +523,7 @@ namespace comnet {
 				for (int i = 0; i < size; i++) {
 					T* elm = new T();
 					*this >> *elm;
-					data.push_back(elm);
+					data.emplace(elm);
 				}
 				return *this;
 			}
@@ -538,7 +538,7 @@ namespace comnet {
 			*/
 
 			template <typename T>
-			ObjectStream& operator<<(const std::unordered_multiset<T>& data)
+			ObjectStream& operator<<(std::unordered_multiset<T>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++)
 				{
@@ -565,7 +565,7 @@ namespace comnet {
 
 
 			template <typename T>
-			ObjectStream& operator<<(const std::unordered_multiset<T*>& data)
+			ObjectStream& operator<<(std::unordered_multiset<T*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -624,7 +624,7 @@ namespace comnet {
 			*/
 
 			template <typename T, typename D>
-			ObjectStream& operator<<(const std::map<T, D>& data)
+			ObjectStream& operator<<(std::map<T, D>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
 					*this << it->second;
@@ -650,10 +650,35 @@ namespace comnet {
 				return *this;
 			}
 
-
+			template <typename T, typename D>
+			ObjectStream& operator<<(std::map<T*, D>& data)
+			{
+				for (auto it = data.begin(); it != data.end(); it++) {
+					*this << it->second;
+					*this << *it->first;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+			}
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::map<T, D*>& data)
+			ObjectStream& operator>>(std::map<T*, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T* key = new T();
+					*this >> *key;
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+			}
+
+			template <typename T, typename D>
+			ObjectStream& operator <<(std::map<T, D*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -714,8 +739,9 @@ namespace comnet {
 
 
 
+
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::map<T*, D*>& data)
+			ObjectStream& operator <<(std::map<T*, D*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -782,7 +808,7 @@ namespace comnet {
 			*/
 
 			template <typename T, typename D>
-			ObjectStream& operator<<(const std::multimap<T, D>& data)
+			ObjectStream& operator<<(std::multimap<T, D>& data)
 			{
 				for (auto it = data.rbegin(); it != data.rend(); it++) {
 					*this << it->second;
@@ -811,7 +837,7 @@ namespace comnet {
 
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::multimap<T, D*>& data)
+			ObjectStream& operator <<(std::multimap<T, D*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -873,7 +899,7 @@ namespace comnet {
 
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::multimap<T*, D>& data)
+			ObjectStream& operator <<(std::multimap<T*, D>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -934,7 +960,7 @@ namespace comnet {
 
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::multimap<T*, D*>& data)
+			ObjectStream& operator <<(std::multimap<T*, D*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -1025,7 +1051,7 @@ namespace comnet {
 			*/
 
 			template <typename T, typename D>
-			ObjectStream& operator<<(const std::unordered_map<T, D>& data)
+			ObjectStream& operator<<(std::unordered_map<T, D>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
 					*this << it->second;
@@ -1052,9 +1078,36 @@ namespace comnet {
 			}
 
 
+			template <typename T, typename D>
+			ObjectStream& operator<<(std::unordered_map<T*, D>& data)
+			{
+				for (auto it = data.begin(); it != data.end(); it++) {
+					*this << it->second;
+					*this << *it->first;
+				}
+				uint16_t size = data.size();
+				*this << size;
+				return *this;
+			}
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::unordered_map<T, D*>& data)
+			ObjectStream& operator>>(std::unordered_map<T*, D>& data)
+			{
+				uint16_t size;
+				*this >> size;
+				for (int i = 0; i < size; i++) {
+					T* key = new T();
+					*this >> *key;
+					D val;
+					*this >> val;
+					data.emplace(std::make_pair(std::move(key), std::move(val)));
+				}
+				return *this;
+			}
+
+
+			template <typename T, typename D>
+			ObjectStream& operator <<(std::unordered_map<T, D*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -1117,7 +1170,7 @@ namespace comnet {
 
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::unordered_map<T*, D*>& data)
+			ObjectStream& operator <<(std::unordered_map<T*, D*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -1185,7 +1238,7 @@ namespace comnet {
 			*/
 
 			template <typename T, typename D>
-			ObjectStream& operator<<(const std::unordered_multimap<T, D>& data)
+			ObjectStream& operator<<(std::unordered_multimap<T, D>& data)
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
 					*this << it->second;
@@ -1214,7 +1267,7 @@ namespace comnet {
 
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::unordered_multimap<T, D*>& data)
+			ObjectStream& operator <<(std::unordered_multimap<T, D*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -1277,7 +1330,7 @@ namespace comnet {
 
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::unordered_multimap<T*, D>& data)
+			ObjectStream& operator <<(std::unordered_multimap<T*, D>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)
@@ -1339,7 +1392,7 @@ namespace comnet {
 
 
 			template <typename T, typename D>
-			ObjectStream& operator <<(const std::unordered_multimap<T*, D*>& data)
+			ObjectStream& operator <<(std::unordered_multimap<T*, D*>& data)
 			{
 				uint16_t size = data.size();
 				if (size > 0)

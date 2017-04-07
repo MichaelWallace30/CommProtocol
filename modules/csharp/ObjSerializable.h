@@ -29,7 +29,8 @@ namespace Comnet {
 		/**
 		Class that can be serialized by ObjectStream
 		*/
-		public ref class ObjSerializable {
+		public ref class ObjSerializable : public IComparable<ObjSerializable^>
+		{
 		public:
 			static UInt64 ObjIDCounter = 0;
 			//Sets the id of this
@@ -45,6 +46,10 @@ namespace Comnet {
 
 			//Return a new instance of a derived class
 			virtual ObjSerializable^ Create() = 0;
+
+			virtual int CompareTo(ObjSerializable^ obj) {
+				return id - obj->id;
+			}
 
 			//Uniquely identifies each object since pointer values cannot be used
 			UInt64 id;
@@ -103,6 +108,14 @@ namespace Comnet {
 				return gcnew Int16Ser();
 			}
 
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((Int16Ser^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
+			}
+
 			Int16 val;
 		};
 
@@ -138,6 +151,14 @@ namespace Comnet {
 
 			virtual ObjSerializable^ Create() override {
 				return gcnew Int32Ser();
+			}
+
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((Int32Ser^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
 			}
 
 			Int32 val;
@@ -177,6 +198,14 @@ namespace Comnet {
 				return gcnew Int64Ser();
 			}
 
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((Int64Ser^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
+			}
+
 			Int64 val;
 		};
 
@@ -212,6 +241,14 @@ namespace Comnet {
 
 			virtual ObjSerializable^ Create() override {
 				return gcnew SingleSer();
+			}
+
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((SingleSer^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
 			}
 
 			Single val;
@@ -251,6 +288,14 @@ namespace Comnet {
 				return gcnew DoubleSer();
 			}
 
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((DoubleSer^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
+			}
+
 			Double val;
 		};
 
@@ -286,6 +331,14 @@ namespace Comnet {
 
 			virtual ObjSerializable^ Create() override {
 				return gcnew ByteSer();
+			}
+
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((ByteSer^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
 			}
 
 			Byte val;
@@ -325,6 +378,14 @@ namespace Comnet {
 				return gcnew SByteSer();
 			}
 
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((SByteSer^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
+			}
+
 			SByte val;
 		};
 
@@ -360,6 +421,14 @@ namespace Comnet {
 
 			virtual ObjSerializable^ Create() override {
 				return gcnew UInt16Ser();
+			}
+
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((UInt16Ser^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
 			}
 
 			UInt16 val;
@@ -399,6 +468,14 @@ namespace Comnet {
 				return gcnew UInt32Ser();
 			}
 
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((UInt32Ser^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
+			}
+
 			UInt32 val;
 		};
 
@@ -436,6 +513,14 @@ namespace Comnet {
 				return gcnew UInt64Ser();
 			}
 
+			int CompareTo(ObjSerializable^ other) override {
+				return val.CompareTo(((UInt64Ser^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val.ToString();
+			}
+
 			UInt64 val;
 		};
 
@@ -471,6 +556,14 @@ namespace Comnet {
 
 			virtual ObjSerializable^ Create() override {
 				return gcnew StringSer();
+			}
+
+			int CompareTo(ObjSerializable^ other) override {
+				return val->CompareTo(((StringSer^)other)->val);
+			}
+
+			String^ ToString() override {
+				return val->ToString();
 			}
 
 			String^ val;
