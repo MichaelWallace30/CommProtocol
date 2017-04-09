@@ -23,7 +23,7 @@
 #include <errno.h>
 
 // Declare our libraries.
-#if (COM_TARGET_OS == COM_OS_WINDOWS)  
+#if (COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS)  
  #include <WinSock2.h>
  #include <WS2tcpip.h>
  #include <iphlpapi.h> 

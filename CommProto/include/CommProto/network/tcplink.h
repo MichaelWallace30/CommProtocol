@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/architecture/os/comm_mutex.h>
 #include <CommProto/architecture/os/comm_condvar.h>
 #include <CommProto/architecture/connection/socket-config.h>
+#include <memory>
 #include <unordered_map>
 #include <list>
 #include <queue>

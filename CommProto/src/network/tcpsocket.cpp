@@ -25,7 +25,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#if COM_TARGET_OS != COM_OS_WINDOWS
+#if COMMPROTO_TARGET_OS != COMMMPROTO_OS_WINDOWS
 #include <netinet/tcp.h>
 #endif
 

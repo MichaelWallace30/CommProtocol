@@ -21,7 +21,7 @@
 
 #include <CommProto/architecture/os/arch.h>
 
-#if (COM_TARGET_OS == COM_OS_LINUX)
+#if (COMMPROTO_TARGET_OS == COMMPROTO_OS_LINUX)
 
 #include <assert.h>
 

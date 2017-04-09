@@ -34,7 +34,7 @@ typedef double real64_t;
 #define COMM_PROGRAM_START_TIME __TIME__
 #define COMM_PROGRAM_START_DATE __DATE__
 
-#if COM_TARGET_OS == COM_OS_WINDOWS 
+#if COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS 
  #include <CommProto/architecture/os/windows-config/win32-config.h>
 #elif COM_TARGET_OS == COM_OS_LINUX
  #include <CommProto/architecture/os/linux-config/linux-config.h>
@@ -63,7 +63,7 @@ typedef double real64_t;
  /*
  TODO(): This will need to be defined with windows.
  */
-#if COM_TARGET_OS == COM_OS_WINDOWS
+#if COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS
  #define FORCE_INLINE __forceinline 
  #if defined(_MSC_VER) && defined(NOEXCEPT)
   #if _MSC_VER <= 1800

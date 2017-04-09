@@ -59,8 +59,13 @@ else()
   add_definitions(-DCOMMPROTO_DEBUG)
 endif()
 
-
-
+# Adding definitions externally.
+# works essentially the same. 
+add_definitions(
+  -DCOMMPROTO_CURRENT_VERSION=0x108000
+  -DCOMMPROTO_COMPATIBLE_VERSION=0x106000
+  -DCOMMPROTO_MINIMUM_VERSION=0x100000
+)
 
 # Setting up crypto++
 add_subdirectory(Encryption/cryptopp563)

@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////
 //                 Versions for the API
 //  Set the API number to correspond to the version number.
-//  For example:    API verion: 1.5.3
+//  For example:    API version: 1.5.3
 //                  Version set to:    0x153000
 //                                       
 //
@@ -41,7 +41,7 @@
 ////////////////////////////////////////////////////////////
 #define _COMNET_MINIMUM_API_VERSION_            0x100000
 #define _COMNET_COMPATIBLE_API_VERSION_         0x106000
-#define _COMNET_CURRENT_API_VERSION_            0x1070b0
+#define _COMNET_CURRENT_API_VERSION_            0x108000
 
 #define obtain_api_version(_api_version) _api_version
 

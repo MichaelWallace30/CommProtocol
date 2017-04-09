@@ -46,7 +46,7 @@ CommXBee::~CommXBee()
 bool CommXBee::Initialize(const char* port, speed_t baudrate) {
 
  char port_name[55];
- #if (COM_TARGET_OS == COM_OS_WINDOWS)
+ #if (COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS)
   sprintf(port_name, "\\\\.\\%s", port);//change to com
  #else
   sprintf(port_name, "%s", port);

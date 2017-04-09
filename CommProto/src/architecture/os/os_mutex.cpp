@@ -18,7 +18,7 @@
 */
 #include <CommProto/architecture/os/os_mutex.h>
 
-#if COM_TARGET_OS == COM_OS_WINDOWS
+#if COMMPROTO_TARGET_OS == COMMMPROTO_OS_WINDOWS
 /**
    TODO(): Need to implement Windows mutex functions. 
 */
