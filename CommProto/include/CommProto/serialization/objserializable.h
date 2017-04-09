@@ -36,7 +36,7 @@ namespace comnet {
 		class COMM_EXPORT ObjSerializable {
 		public:
 			//Used to serialize objects to stream (equivalent to ABSPacket::Pack)
-			virtual void Input(ObjectStream& obj) = 0;
+			virtual void Input(ObjectStream& obj) const = 0;
 
 			//Used to parse objects from stream (equivalent to ABSPacket::Unpack)
 			virtual void Output(ObjectStream& obj) = 0;
@@ -46,7 +46,7 @@ namespace comnet {
 		};
 
 		//Output operator for ObjSerializables
-		inline ObjectStream& operator<<(ObjectStream& os, ObjSerializable& objSerializable)
+		inline ObjectStream& operator<<(ObjectStream& os, const ObjSerializable& objSerializable)
 		{
 			objSerializable.Input(os);
 			return os;
