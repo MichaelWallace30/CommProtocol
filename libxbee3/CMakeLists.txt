@@ -79,6 +79,7 @@ if (test)
 	    COMMAND cd \"${DYNLIB_DIR}\"
 	    COMMAND ${COPY_CMD} \"${DYNLIB_NAME}\" \"${CMAKE_CURRENT_BINARY_DIR}/../tests/classes/cpp/udp/${DYNLIB_NAME}\" ${COPY_OPTION}
 	    COMMAND ${COPY_CMD} \"${DYNLIB_NAME}\" \"${CMAKE_CURRENT_BINARY_DIR}/../tests/classes/cpp/xbee/${DYNLIB_NAME}\" ${COPY_OPTION}
-	    COMMAND ${COPY_CMD} \"${DYNLIB_NAME}\" \"${CMAKE_CURRENT_BINARY_DIR}/../tests/classes/cpp/serial/${DYNLIB_NAME}\" ${COPY_OPTION})
+	    COMMAND ${COPY_CMD} \"${DYNLIB_NAME}\" \"${CMAKE_CURRENT_BINARY_DIR}/../tests/classes/cpp/serial/${DYNLIB_NAME}\" ${COPY_OPTION}
+		COMMAND ${COPY_CMD} \"${DYNLIB_NAME}\" \"${CMAKE_CURRENT_BINARY_DIR}/../tests/classes/cpp/tcp/${DYNLIB_NAME}\" ${COPY_OPTION})
 	endif()
 endif()

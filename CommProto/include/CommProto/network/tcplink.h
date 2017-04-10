@@ -68,6 +68,10 @@ namespace comnet {
 			static const uint8_t ADD_QUEUE_EVENT;
 			static const uint8_t REMOVE_QUEUE_EVENT;
 
+			static const uint8_t PACKET_SIZE_NUM_BYTES;
+
+			typedef uint32_t PacketSizeInt;
+
 			TCPLink()
 				:connectThread(nullptr)
 			{

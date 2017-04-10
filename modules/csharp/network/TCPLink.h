@@ -70,6 +70,10 @@ namespace Comnet {
 
 			static const uint8_t ADD_QUEUE_EVENT = 1;
 			static const uint8_t REMOVE_QUEUE_EVENT = 2;
+			
+			static const uint8_t PACKET_SIZE_NUM_BYTES = 4;
+
+			typedef uint32_t PacketSizeInt;
 
 			TCPLink();
 			~TCPLink();

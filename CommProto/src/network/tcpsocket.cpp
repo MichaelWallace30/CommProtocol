@@ -64,7 +64,7 @@ namespace comnet {
 				_socket.id = -1;
 			}
 			/**
-				Closes the socket and destroyes the tcp node, along with the mutex.
+				Default destructor
 			*/
 			~TcpSocket() {
 			}

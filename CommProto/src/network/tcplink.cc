@@ -15,6 +15,7 @@ namespace comnet {
 		const uint8_t TCPLink::PORT_REPLY_SIZE = 1;
 		const uint8_t TCPLink::ADD_QUEUE_EVENT = 1;
 		const uint8_t TCPLink::REMOVE_QUEUE_EVENT = 2;
+		const uint8_t TCPLink::PACKET_SIZE_NUM_BYTES = 4;
 
 		TCPLink::~TCPLink()
 		{
@@ -98,8 +99,16 @@ namespace comnet {
 			if (it != clients.end()) {
 				TcpPtr tcp = it->second;
 				clientsMutex.Unlock();
+
 				if (tcp->socket != nullptr) {
-					if (tcp->socket->SockSend((const char*)tx_data, tx_length) != 0) //if SockSend returns a nonzero, there was an error
+					std::vector <uint8_t> tx_data_extended;
+					PacketSizeInt networkLength = htonl((PacketSizeInt)tx_length);
+					tx_data_extended.resize(PACKET_SIZE_NUM_BYTES);
+					for (int i = 0; i < PACKET_SIZE_NUM_BYTES; i++) {
+						tx_data_extended.at(i) = (networkLength >> (8 * i)) & 0xff;
+					}
+					tx_data_extended.insert(tx_data_extended.end(), &tx_data[0], &tx_data[tx_length]);
+					if (tcp->socket->SockSend((const char*)tx_data_extended.data(), tx_data_extended.size()) != 0) //if SockSend returns a nonzero, there was an error
 					{
 						std::string msg = "Delete TcpSocket for client with ID ";
 						msg += std::to_string(dest_id);
@@ -129,9 +138,18 @@ namespace comnet {
 				it++;
 				clientsMutex.Unlock();
 				if (tcp->socket != nullptr) {
-					packet_data_status_t recvStatus = tcp->socket->SockReceive((const char*)rx_data, MAX_BUFFER_SIZE, *rx_length);
+					uint8_t packet_size_data[PACKET_SIZE_NUM_BYTES];
+					packet_data_status_t recvStatus = tcp->socket->SockReceive((const char*)packet_size_data, PACKET_SIZE_NUM_BYTES, *rx_length);
 					if (recvStatus == PACKET_SUCCESSFUL) {
-						return true;
+						PacketSizeInt packSize = 0;
+						for (int i = 0; i < PACKET_SIZE_NUM_BYTES; i++) {
+							packSize |= (packet_size_data[i] & 0xff) << (8 * i);
+						}
+						packSize = ntohl(packSize);
+						recvStatus = tcp->socket->SockReceive((const char*)rx_data, packSize, *rx_length);
+						if (recvStatus == PACKET_SUCCESSFUL) {
+							return true;
+						}
 					}
 				}
 				clientsMutex.Lock();

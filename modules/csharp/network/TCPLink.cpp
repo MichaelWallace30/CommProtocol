@@ -115,7 +115,14 @@ namespace Comnet
 			TCPHolder^ tcp;
 			if (clients->TryGetValue(destID, tcp)) {
 				if (tcp->socket != nullptr) {
-					if (tcp->socket->SockSend((const char*)txData, txLength) != 0) //if SockSend returns a nonzero, there was an error
+					std::vector <uint8_t> tx_data_extended;
+					PacketSizeInt networkLength = htonl((PacketSizeInt)txLength);
+					tx_data_extended.resize(PACKET_SIZE_NUM_BYTES);
+					for (int i = 0; i < PACKET_SIZE_NUM_BYTES; i++) {
+						tx_data_extended.at(i) = (networkLength >> (8 * i)) & 0xff;
+					}
+					tx_data_extended.insert(tx_data_extended.end(), &txData[0], &txData[txLength]);
+					if (tcp->socket->SockSend((const char*)tx_data_extended.data(), tx_data_extended.size()) != 0) //if SockSend returns a nonzero, there was an error
 					{
 						String^ msg = gcnew String("Delete TcpSocket for client with ID ");
 						msg->Concat(System::Convert::ToString((int)destID));
@@ -141,10 +148,20 @@ namespace Comnet
 				if (tcp->socket != nullptr) //Check if a socket is open
 				{
 					uint32_t recvSize = 0;
-					comnet::network::packet_data_status_t recvStatus = tcp->socket->SockReceive((const char*)rxData, MAX_BUFFER_SIZE, recvSize);
+
+					uint8_t packet_size_data[PACKET_SIZE_NUM_BYTES];
+					comnet::network::packet_data_status_t recvStatus = tcp->socket->SockReceive((const char*)packet_size_data, PACKET_SIZE_NUM_BYTES, recvSize);
 					if (recvStatus == comnet::network::PACKET_SUCCESSFUL) {
-						rxLength = recvSize;
-						return true;
+						PacketSizeInt packSize = 0;
+						for (int i = 0; i < PACKET_SIZE_NUM_BYTES; i++) {
+							packSize |= (packet_size_data[i] & 0xff) << (8 * i);
+						}
+						packSize = ntohl(packSize);
+						recvStatus = tcp->socket->SockReceive((const char*)rxData, packSize, recvSize);
+						if (recvStatus == comnet::network::PACKET_SUCCESSFUL) {
+							rxLength = recvSize;
+							return true;
+						}
 					}
 				}
 			}
