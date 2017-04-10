@@ -114,6 +114,7 @@ namespace comnet {
 			ObjectStream& operator<<(const uint64_t& data);
 			ObjectStream& operator<<(const real32_t& data);
 			ObjectStream& operator<<(const real64_t& data);
+			ObjectStream& operator<<(const ObjSerializable& data);
 
 			/** OVerloaded output stream operators to output variables to a variable from the object stream
 				string_t (char*) must use malloc when inputing data into new c-string variable*/
@@ -130,8 +131,7 @@ namespace comnet {
 			ObjectStream& operator>>(int64_t& data);
 			ObjectStream& operator>>(real32_t& data);
 			ObjectStream& operator>>(real64_t& data);
-
-
+			ObjectStream& operator>>(ObjSerializable& data);
 
 			/*
 			p means pointer compatible.  If it is there that means that it is compatible
