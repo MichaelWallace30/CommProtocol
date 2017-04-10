@@ -40,24 +40,7 @@ namespace comnet {
 
 			//Used to parse objects from stream (equivalent to ABSPacket::Unpack)
 			virtual void Output(ObjectStream& obj) = 0;
-
-			//Return a new instance of a derived class
-			virtual ObjSerializable* Create() = 0;
 		};
-
-		//Output operator for ObjSerializables
-		inline ObjectStream& operator<<(ObjectStream& os, const ObjSerializable& objSerializable)
-		{
-			objSerializable.Input(os);
-			return os;
-		}
-
-		//Input operator for ObjSerializables
-		inline ObjectStream& operator>>(ObjectStream& os, ObjSerializable& objSerializable)
-		{
-			objSerializable.Output(os);
-			return os;
-		}
 	}
 }
 #endif

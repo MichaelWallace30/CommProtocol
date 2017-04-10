@@ -264,6 +264,12 @@ ObjectStream& ObjectStream::operator<<(const real64_t& data)
  return *this;
 }
 
+ObjectStream & comnet::serialization::ObjectStream::operator<<(const ObjSerializable & data)
+{
+	data.Input(*this);
+	return *this;
+}
+
 
 /*******************************************************/
 /*******************************************************/
@@ -462,6 +468,13 @@ ObjectStream& ObjectStream::operator>>(real64_t& data)
   PrintErrorUnderFlow();
  }
  return *this;
+}
+
+
+ObjectStream & comnet::serialization::ObjectStream::operator>>(ObjSerializable & data)
+{
+	data.Output(*this);
+	return *this;
 }
 } // serialization.
 } // comnet.
