@@ -170,6 +170,10 @@ public:
   */
   void SyncTime(uint8_t nodeID, int32_t timeOff);
 
+	/**
+	Called by {@link TimeSyncReply} and {@link TimeSyncRequest} to call 
+	{@link SyncManager#checkResync}
+	*/
   void CheckResync(uint8_t nodeID, int64_t unixHighResTimeDif);
 
   /**

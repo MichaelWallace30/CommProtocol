@@ -38,7 +38,8 @@ set(COMMPROTO_WRAPPER_HEADER_DIR
   ${CSHARP_DIR}/Header.h
   ${CSHARP_DIR}/ObjectStream.h
   ${CSHARP_DIR}/CallBack.h
-  ${CSHARP_DIR}/ABSPacket.h)
+  ${CSHARP_DIR}/ABSPacket.h
+  ${CSHARP_DIR}/ObjSerializable.h)
 
 set(COMMPROTO_WRAPPER_SOURCE_DIR
   ${CSHARP_DIR}/network/TCPLink.cpp
