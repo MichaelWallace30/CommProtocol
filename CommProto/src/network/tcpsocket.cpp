@@ -17,9 +17,8 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/commsocket.h>
-
+#include <CommProto/architecture/connection/socket-config.h>
 #include <CommProto/debug/comms_debug.h>
-
 #include <CommProto/architecture/os/os_threads.h>
 
 #include <cstdlib>

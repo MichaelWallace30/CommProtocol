@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __CSHARP_TCP_LINK_H
 #include <network/CommsLink.h>
 #include <CommProto/network/commsocket.h>
+#include <CommProto/architecture/connection/socket-config.h>
 #include <vcclr.h>
 #using <mscorlib.dll>
 #using <System.dll>

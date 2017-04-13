@@ -20,8 +20,9 @@
 #define __COMMSOCKET_H
 
 #include <CommProto/architecture/os/include_defines.h>
-#include <CommProto/architecture/connection/socket-config.h>
 #include <CommProto/architecture/api.h>
+
+class sockaddr_in;
 
 namespace comnet {
 namespace network {
