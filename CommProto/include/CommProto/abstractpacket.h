@@ -78,8 +78,7 @@ public:
       return dynamic_cast< Type& >( packet );
     } catch ( std::bad_cast e ) {
       // TODO(Garcia): Will require Using a Logger instead of COMMS_DEBUG.
-      COMMS_DEBUG("Bad casting for packet, which is of type %s\n", 
-                  typeid(packet).name());
+      LOG_PRINTF(debug::LOG_ERROR, "Bad casting for packet, which is of type %s\n", typeid(packet).name());
     }
   }
 

@@ -38,7 +38,7 @@ std::vector<std::pair<LogStatus, std::string>> Log::history;
 char Log::suppressed = 0xe;
 
 
-void Log::Message(LogStatus status, std::string message) {
+void Log::Message(LogStatus status, const std::string& message) {
   switch (status) {
     LOG_MESSAGE_CHECK(LOG_DEFAULT, message);
     LOG_MESSAGE_CHECK(LOG_DEBUG, message);
@@ -59,7 +59,7 @@ void Log::ClearHistory() {
 }
 
 
-void Log::StoreMessage(LogStatus status, std::string message) {
+void Log::StoreMessage(LogStatus status, const std::string& message) {
   history.push_back(std::make_pair(status, message));
 }
 

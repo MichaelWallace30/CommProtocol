@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/serialization/objectstream.h>
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 
 #include <string.h>
 
@@ -80,9 +80,9 @@ ObjectStream& ObjectStream::operator<<(const string_t& data)
  // + 1 for null termination + 1 for storing length of string as byte
  if (curr_pos + strLen + 2 < MAX_PACKET_SIZE)
  {
-         //COMMS_DEBUG("STRING BEFORE: %d\n", currentPostion);
+  //LOG_PRINTF(debug::LOG_DEBUG, "STRING BEFORE: %d\n", curr_pos);
   curr_pos += PackString(data, strLen, stream_buffer + curr_pos);
-  //COMMS_DEBUG("STRING AFTER: %d\n", currentPostion);
+  //LOG_PRINTF(debug::LOG_DEBUG, "STRING AFTER: %d\n", curr_pos);
  }
  else
  {
@@ -100,9 +100,9 @@ ObjectStream& ObjectStream::operator<<(const std::wstring& data)
  // + 2 for null termination + 1 for storing length of string as byte
  if (curr_pos + strLen + 2 < MAX_PACKET_SIZE)
  {
-   COMMS_DEBUG("SIZE BEFORE: %d\n", curr_pos);
+   //LOG_PRINTF(debug::LOG_DEBUG, "SIZE BEFORE: %d\n", curr_pos);
    curr_pos += PackWideString(data,strLen, stream_buffer + curr_pos);
-   COMMS_DEBUG("SIZE AFTER: %d\n", curr_pos);
+	 //LOG_PRINTF(debug::LOG_DEBUG, "SIZE AFTER: %d\n", curr_pos);
  }
  else
  {

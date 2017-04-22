@@ -19,7 +19,7 @@
 #include <CommProto/network/serial.h>
 #include <CommProto/network/crc32.h>
 
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 
 
 namespace comnet {
@@ -80,16 +80,16 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
     if (GetLastError() == ERROR_FILE_NOT_FOUND)
     {
       //serial port does not exist.
-      COMMS_DEBUG( "comport not found\n");
+      debug::Log::Message(debug::LOG_ERROR, "comport not found\n");
       return false;
     }
     // some other error occured.
-    COMMS_DEBUG( "Unknown error\n");
+    debug::Log::Message(debug::LOG_ERROR, "Unknown error\n");
     return false;
   }
   else
   {
-    COMMS_DEBUG( "Serial port created\n");
+		debug::Log::Message(debug::LOG_NOTIFY, "Serial port created\n");
   }
   
   
@@ -102,7 +102,7 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!GetCommState(h_serial.h_serial, &dcbSerialParams))
   {
     //error getting state
-    COMMS_DEBUG( "Error getting state\n");
+		debug::Log::Message(debug::LOG_ERROR, "Error getting state\n");
     return false;
   }
   
@@ -114,12 +114,12 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!SetCommState(h_serial.h_serial, &dcbSerialParams))
   {
     //error setting serial port state
-    COMMS_DEBUG( "Error setting serial port state\n");
+    debug::Log::Message(debug::LOG_ERROR, "Error setting serial port state\n");
     return false;
   }
   
   
-  COMMS_DEBUG( "Completed setting serial port state\n");
+	debug::Log::Message(debug::LOG_NOTIFY, "Completed setting serial port state\n");
   
 
   //time out code not needed?
@@ -135,11 +135,11 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
   if (!SetCommTimeouts(h_serial.h_serial, &timeouts))
   {
     //error occureeed
-    COMMS_DEBUG( "Setting up times outs failed\n");
+		debug::Log::Message(debug::LOG_ERROR, "Setting up times outs failed\n");
     return false;
   }
   
-  COMMS_DEBUG( "Completed setting up time outs\n");
+	debug::Log::Message(debug::LOG_NOTIFY, "Completed setting up time outs\n");
   h_serial.serial_s = SERIAL_CONNECTED;
   return true;
 }
@@ -148,17 +148,17 @@ bool InitWindows(Serial& serial, const char* comPort, uint32_t baudrate)
 inline bool
 WindowsSend(Serial& serial, uint8_t dest_id, uint8_t* txData, int32_t txLength) {
   unsigned long sent_data = 0;//windows want LPDWORD == unsignled long != uint32_t || uint16_t
-  COMMS_DEBUG("Sending packet\n.");
+	debug::Log::Message(debug::LOG_NOTIFY, "Sending packet\n.");
   serial_t& h_serial = serial.GetSerialPort();
   
   if (!WriteFile(h_serial.h_serial, txData, txLength, &sent_data, NULL)) {
     //error reading file
-    COMMS_DEBUG("Failed to write serial\n");
+    debug::Log::Message(debug::LOG_ERROR, "Failed to write serial\n");
     return false;
   }
   else {
-    COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sent_data, dest_id);
-    return true;
+		LOG_PRINTF(debug::LOG_NOTIFY, "**  Sent\t Length: %d, Sent: %d, destID: %d **\n", txLength, sent_data, dest_id);
+		return true;
   }		
 
   return false;
@@ -172,12 +172,12 @@ WindowsRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   if (!ReadFile(hSerial.h_serial, rx_data, MAX_BUFFER_SIZE, &recv_data, NULL)) {
     //error reading file
 
-    COMMS_DEBUG("Failed to read serial.\n"); // This may print too much data might need to change. 
+    debug::Log::Message(debug::LOG_ERROR, "Failed to read serial.\n"); // This may print too much data might need to change. 
                                        // Im not sure if time out will return false for ReadFile
     return false;
   } else {
     if (recv_data > 0) {
-      COMMS_DEBUG("**  Recieved\t Length: %d  **\n", recv_data);
+			LOG_PRINTF(debug::LOG_ERROR, "**  Recieved\t Length: %d  **\n", recv_data);
       *rx_len = recv_data;
       return true;
     }
@@ -207,11 +207,11 @@ InitUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
   bool result = false;
   serial_t& h_serial = serial.GetSerialPort();
 
-  COMMS_DEBUG("port: %s\n connecting...\n", port);
+  LOG_PRINTF(debug::LOG_NOTIFY, "port: %s\n connecting...\n", port);
   h_serial.fd = open(port, (O_RDWR | O_NOCTTY));
 
   if (h_serial.fd == -1) {
-    COMMS_DEBUG("port failed to open: err number %d\n", errno);
+		LOG_PRINTF(debug::LOG_ERROR, "port failed to open: err number %d\n", errno);
   } else {
     struct termios options;
     fcntl(h_serial.fd, F_SETFL, 0);
@@ -252,7 +252,7 @@ InitUnixSerial(Serial& serial, const char* port, uint32_t baudrate) {
     tcsetattr(h_serial.fd, TCSANOW, &options);
 
     result = true;
-    COMMS_DEBUG("Connected\n");
+    debug::Log::Message(debug::LOG_NOTIFY, "Connected\n");
     h_serial.serial_s = SERIAL_CONNECTED;
   }
 
@@ -267,9 +267,9 @@ UnixSend(Serial& serial, uint8_t dest_id, uint8_t* tx_data, int32_t tx_length) {
 
   int32_t bytes_written = write(h_serial.fd, tx_data, tx_length);
   if (bytes_written < 0) {
-    COMMS_DEBUG("write() has failed to send!\n");
+		debug::Log::Message(debug::LOG_ERROR, "write() has failed to send!\n");
   } else {
-      COMMS_DEBUG("**  Sent\t Length: %d, Sent: %d, destID: %d **\n", tx_length, bytes_written, dest_id);
+    LOG_PRINTF(debug::LOG_NOTIFY, "**  Sent\t Length: %d, Sent: %d, destID: %d **\n", tx_length, bytes_written, dest_id);
     result = true;
   }
   
@@ -281,13 +281,13 @@ inline bool
 UnixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
   bool result = false;
   serial_t& h_serial = serial.GetSerialPort();
-  COMMS_DEBUG("\n\nReading serial\n\n");
+	debug::Log::Message(debug::LOG_NOTIFY, "\n\nReading serial\n\n");
   int32_t bytes_read = read(h_serial.fd, rx_data, 256);
   if (bytes_read < 0) {
-    COMMS_DEBUG("Failed to read from package. erro number %d\n", errno);
+    debug::Log::Message(debug::LOG_ERROR, "Failed to read from package. erro number %d\n", errno);
   } else {
     *rx_len = bytes_read;
-    COMMS_DEBUG("**  Recieved\t Length: %d  **\n", bytes_read);
+    LOG_PRINTF(debug::LOG_NOTIFY, "**  Recieved\t Length: %d  **\n", bytes_read);
     result = true;
   }
 
@@ -385,7 +385,7 @@ bool Serial::OpenConnection(const char* port, const char* address, uint32_t baud
 { 
   //check os here
   connection_established = OpenPort(*this, port, baudrate);
-  COMMS_DEBUG("Port is now: %d\n", h_serial.fd);
+  LOG_PRINTF(debug::LOG_NOTIFY, "Port is now: %d\n", h_serial.fd);
   return connection_established;
 }
 
@@ -403,8 +403,6 @@ bool Serial::Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length)
 bool Serial::Recv(uint8_t* rx_data, uint32_t* rx_len) {
  
  bool valid = true;
-//	COMMS_DEBUG("Parser Postion %d\n", parserPosition);
- //COMMS_DEBUG("Last recieved Length %d\n", lastRecievedLength);
  //Get new message if parser is done
  if (parser.ParseReceiveDone()){					
   valid = ReadFromPort(*this, buffer_recv, rx_len);

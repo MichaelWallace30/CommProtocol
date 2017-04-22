@@ -18,7 +18,7 @@
 */
 #include <CommProto/network/commsocket.h>
 #include <CommProto/architecture/connection/socket-config.h>
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 #include <CommProto/architecture/os/os_threads.h>
 
 #include <cstdlib>
@@ -82,11 +82,11 @@ namespace comnet {
 				_socket.socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 				if (_socket.socket == INVALID_SOCKET) {
-					comms_debug_log("Invalid socket...");
+					debug::Log::Message(debug::LOG_ERROR, "Invalid socket...");
 				}
 				else {
 					if (!SetNonBlocking(_socket.socket, true)) {
-						comms_debug_log("Failed to set socket to non blocking mode...");
+						debug::Log::Message(debug::LOG_ERROR, "Failed to set socket to non blocking mode...");
 						_socket.socket_status = SOCKET_FAILED;
 					}
 					else {
@@ -99,7 +99,7 @@ namespace comnet {
 							(GET_LAST_ERROR != EWOULDBLOCK &&
 								GET_LAST_ERROR != EINPROGRESS))
 						{
-							comms_debug_log("Cannot initiate connection");
+							debug::Log::Message(debug::LOG_ERROR, "Cannot initiate connection");
 							_socket.socket_status = SOCKET_FAILED;
 						}
 						else {
@@ -112,14 +112,14 @@ namespace comnet {
 							FD_SET(_socket.socket, &fdset);
 							error = select(0, NULL, &fdset, NULL, &timeOut);
 							if (error == SOCKET_ERROR) {
-								comms_debug_log("FAILED");
+								debug::Log::Message(debug::LOG_ERROR, "FAILED");
 							}
 							if (getsockopt(_socket.socket, SOL_SOCKET, SO_ERROR, (char*)&error, (socklen_t*)&errLen) != 0) {
-								comms_debug_log("error in getsockopt");
+								debug::Log::Message(debug::LOG_ERROR, "error in getsockopt");
 								_socket.socket_status = SOCKET_FAILED;
 							}
 							if (error == 0) {
-								comms_debug_log("Successful connection!");
+								debug::Log::Message(debug::LOG_NOTIFY, "Successful connection!");
 								_socket.socket_status = SOCKET_CONNECTED;
 							}
 						}
@@ -144,16 +144,16 @@ namespace comnet {
 			{
 				int32_t error = -1;
 				if (_socket.socket == INVALID_SOCKET) {
-					COMMS_DEBUG("socket is not connected...\n");
+					debug::Log::Message(debug::LOG_ERROR, "socket is not connected...\n");
 					return error;
 				}
 
 				if (send(_socket.socket, buffer, len, 0) < 0) {
-					COMMS_DEBUG("Socket failed to send with error: %d\n", GET_LAST_ERROR);
+					LOG_PRINTF(debug::LOG_ERROR, "Socket failed to send with error: %d\n", GET_LAST_ERROR);
 					error = -1;
 				}
 				else {
-					COMMS_DEBUG("Socket succeeded in sending data.");
+					debug::Log::Message(debug::LOG_NOTIFY, "Socket succeeded in sending data.");
 					error = 0;
 				}
 				return error;
@@ -171,19 +171,19 @@ namespace comnet {
 			{
 				packet_data_status_t packetStatus = PACKET_NO_DATA;
 				if (_socket.socket == INVALID_SOCKET) {
-					COMMS_DEBUG("Socket is not connected...\n");
+					debug::Log::Message(debug::LOG_ERROR, "Socket is not connected...\n");
 					return packetStatus;
 				}
 
 				int32_t retVal = recv(_socket.socket, (char*)buffer, len, 0);
 				if (retVal <= 0)
 				{
-					//COMMS_DEBUG("Unsuccessful packet recieved...\n");
+					//debug::Log::Message(debug::LOG_DEBUG, "Unsuccessful packet recieved...\n");
 					packetStatus = PACKET_MORE_DATA;
 				}
 				else {
 					size = retVal;
-					//COMMS_DEBUG("Successful packet recieved...\n");
+					//debug::Log::Message(debug::LOG_DEBUG, "Successful packet recieved...\n");
 					packetStatus = PACKET_SUCCESSFUL;
 				}
 
@@ -207,30 +207,30 @@ namespace comnet {
 			{
 				int32_t error = -1;
 				if (_socket.socket_status != SOCKET_CLOSED) {
-					comms_debug_log("Socket is not closed before listening...");
+					debug::Log::Message(debug::LOG_ERROR, "Socket is not closed before listening...");
 					return error;
 				}
 
 				_socket.socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 				if (_socket.socket == INVALID_SOCKET) {
-					comms_debug_log("Unsuccessful socket creation...");
+					debug::Log::Message(debug::LOG_ERROR, "Unsuccessful socket creation...");
 				}
 				else {
 					struct sockaddr_in host;
 					InitializeSockAddr(address, port, &host);
 					if (bind(_socket.socket, (struct sockaddr*)&host, sizeof(host)) < 0) {
-						comms_debug_log("Failed to bind socket...");
+						debug::Log::Message(debug::LOG_ERROR, "Failed to bind socket...");
 					}
 					else {
 						if (listen(_socket.socket, SOMAXCONN) < 0) {
-							comms_debug_log("Failed in listen function...");
+							debug::Log::Message(debug::LOG_ERROR, "Failed in listen function...");
 						}
 						else {
 							if (!SetNonBlocking(_socket.socket, true)) {
-								comms_debug_log("Failed to set non blocking socket...");
+								debug::Log::Message(debug::LOG_ERROR, "Failed to set non blocking socket...");
 							}
 							else {
-								comms_debug_log("Socket is successfully listening...");
+								debug::Log::Message(debug::LOG_NOTIFY, "Socket is successfully listening...");
 								error = 0;
 								_socket.socket_status = SOCKET_LISTENING;
 								_socket.port = port;
@@ -254,17 +254,17 @@ namespace comnet {
 			CommSocket* SockAccept() override
 			{
 				if (_socket.socket_status != SOCKET_LISTENING) {
-					comms_debug_log("socket is not listening...");
+					debug::Log::Message(debug::LOG_WARNING, "socket is not listening...");
 					return NULL;
 				}
 
 				CommSocket* tcpSock = NULL;
 				SOCKET s = accept(_socket.socket, NULL, NULL);
 				if (s == INVALID_SOCKET) {
-					comms_debug_log("Failed to accept...");
+					debug::Log::Message(debug::LOG_NOTE, "Failed to accept...");
 				}
 				else {
-					comms_debug_log("Successful accept...");
+					debug::Log::Message(debug::LOG_NOTIFY, "Successful accept...");
 					SetTcpNoDelay(s, true);
 					tcpSock = new TcpSocket(s);
 				}
@@ -274,7 +274,7 @@ namespace comnet {
 			CommSocket* SockAccept(sockaddr_in& connectedAddress) override
 			{
 				if (_socket.socket_status != SOCKET_LISTENING) {
-					comms_debug_log("socket is not listening...");
+					debug::Log::Message(debug::LOG_ERROR, "socket is not listening...");
 					return NULL;
 				}
 
@@ -286,10 +286,10 @@ namespace comnet {
 #endif
 				SOCKET s = accept(_socket.socket, (sockaddr*)(&connectedAddress), &addrSize);
 				if (s == INVALID_SOCKET) {
-					comms_debug_log("Failed to accept...");
+					debug::Log::Message(debug::LOG_NOTE, "Failed to accept...");
 				}
 				else {
-					comms_debug_log("Successful accept...");
+					debug::Log::Message(debug::LOG_NOTIFY, "Successful accept...");
 					SetTcpNoDelay(s, true);
 					tcpSock = new TcpSocket(s);
 				}
@@ -305,7 +305,7 @@ namespace comnet {
 				_socket.socket = INVALID_SOCKET;
 				_socket.socket_status = SOCKET_CLOSED;
 
-				comms_debug_log("Socket has closed.");
+				debug::Log::Message(debug::LOG_NOTIFY, "Socket has closed.");
 			}
 
 		protected:

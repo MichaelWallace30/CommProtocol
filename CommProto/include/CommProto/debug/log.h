@@ -39,6 +39,15 @@ enum LogStatus {
   LOG_FATAL     = 0x20,
   LOG_UNKNOWN   = 0x40
 };
+
+#define MAX_LOG_PRINTF_BUFFER_SIZE 100
+
+#define LOG_PRINTF(status, msg, ...) \
+{ \
+	char buffer[MAX_LOG_PRINTF_BUFFER_SIZE];\
+	snprintf(buffer, MAX_LOG_PRINTF_BUFFER_SIZE, msg, ##__VA_ARGS__);\
+	debug::Log::Message(status, std::string(buffer));\
+}
 /**
    Log is a notifier. It provides notifications and determines what should or shouldn't be
    displayed.
@@ -48,16 +57,16 @@ public:
   /**
     Display message to the client.
   */
-  static void Message(LogStatus status, std::string message);
+  static void Message(LogStatus status, const std::string& message);
   /**
     Store message in history.
   */
-  static void StoreMessage(LogStatus status, std::string message);
+  static void StoreMessage(LogStatus status, const std::string& message);
   /**
     Dump all messages currently in history, this will display all messages that 
     were previously stored!
   */
-  static void Dump();
+	static void Dump();
   /** 
     Clear all of the history!
   */

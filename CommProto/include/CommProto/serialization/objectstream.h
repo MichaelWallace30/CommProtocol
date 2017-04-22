@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/architecture/api.h>
 #include <CommProto/serialization/marshal.h>
 #include <CommProto/serialization/objserializable.h>
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 #include <CommProto/headerpacket.h>
 #include <unordered_map>
 #include <unordered_set>
@@ -54,9 +54,9 @@ namespace comnet {
 			/** Current postion of streamBuffer and also size of streamBuffer*/
 			int32_t curr_pos;
 			/** Error Handingling methods*/
-			void PrintErrorUnderFlow() { COMMS_DEBUG("\nERROR:\t Source: ObjectStream\t Message: Buffer too small\n"); }
+			void PrintErrorUnderFlow() { debug::Log::Message(debug::LOG_ERROR, "\nERROR:\t Source: ObjectStream\t Message: Buffer too small\n"); }
 			/** Error Handingling methods*/
-			void PrintErrorOverFlow() { COMMS_DEBUG("\nERROR:\t Source: ObjectStream\t Message: Buffer full\n"); }
+			void PrintErrorOverFlow() { debug::Log::Message(debug::LOG_ERROR, "\nERROR:\t Source: ObjectStream\t Message: Buffer full\n"); }
 
 		public:
 

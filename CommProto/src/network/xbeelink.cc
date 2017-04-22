@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CommProto/network/xbeelink.h>
 #include <CommProto/network/commxbee.h>
 //#include <CommProto/network/znodetable.h>
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 #include <CommProto/tools/data_structures/auto_vector.h>
 
 
@@ -44,7 +44,7 @@ XBeeLink::~XBeeLink()
 bool XBeeLink::InitConnection(const char* port, const char* address, uint32_t baudrate) {
   bool success = home->Initialize(port, baudrate);
   if (!success) {
-    COMMS_DEBUG("Home xbee failed to initialize!\n");
+		debug::Log::Message(debug::LOG_NOTIFY, "Home xbee failed to initialize!\n");
   }
   return true;
 }

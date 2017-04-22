@@ -70,7 +70,6 @@ void Comms::CommunicationHandlerSend()
     }
     free_pointer(temp);
   }
-  //		COMMS_DEBUG("IM GOING!!\n");
  }
  debug::Log::Message(debug::LOG_DEBUG, "Send Ends!");
 }
