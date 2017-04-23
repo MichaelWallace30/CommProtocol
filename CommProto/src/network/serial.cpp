@@ -284,7 +284,7 @@ UnixRead(Serial& serial, uint8_t* rx_data, uint32_t* rx_len) {
 	debug::Log::Message(debug::LOG_NOTIFY, "\n\nReading serial\n\n");
   int32_t bytes_read = read(h_serial.fd, rx_data, 256);
   if (bytes_read < 0) {
-    debug::Log::Message(debug::LOG_ERROR, "Failed to read from package. erro number %d\n", errno);
+    LOG_PRINTF(debug::LOG_ERROR, "Failed to read from package. erro number %d\n", errno);
   } else {
     *rx_len = bytes_read;
     LOG_PRINTF(debug::LOG_NOTIFY, "**  Recieved\t Length: %d  **\n", bytes_read);

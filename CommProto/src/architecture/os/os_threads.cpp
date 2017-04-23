@@ -48,7 +48,7 @@ thread_t thread_get_self_id()
 */
 void thread_create(thread_t* thread, void* (*start_routine)(void*), void* arg) 
 {
-  CommProto::debug::Log::Message(debug::"Starting pthread...\n");
+  comnet::debug::Log::Message(comnet::debug::LOG_DEBUG, "Starting pthread...\n");
   pthread_create(thread, NULL, start_routine, arg);
 }
 
@@ -65,13 +65,17 @@ thread_t thread_get_self_id()
 */
 unsigned Sleep(unsigned milliseconds) 
 {
-#if _POSIX_C_SOURCE >= 199309L
-  struct timespec ts;
-  ts.tv_sec = milliseconds / 1000;
-  ts.tv_nsec = (milliseconds * 1000) % 1000000;
-  nanosleep(&ts, NULL);
-#else
-  usleep(milliseconds * 1000);
+#ifdef _POSIX_C_SOURCE
+  if(_POSIX_C_SOURCE >= 199309L) {
+    struct timespec ts;
+    ts.tv_sec = milliseconds / 1000;
+    ts.tv_nsec = (milliseconds * 1000) % 1000000;
+    nanosleep(&ts, NULL);
+  }
+  else
+  {
+    usleep(milliseconds * 1000);
+  }
 #endif // _POSIX_C_SOURCE >= 199309L
 }
 
