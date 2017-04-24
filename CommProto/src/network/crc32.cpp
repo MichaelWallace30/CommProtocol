@@ -18,7 +18,7 @@
 */
 #include <CommProto/network/crc32.h>
 
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 
 namespace comnet {
 namespace network {
@@ -110,7 +110,7 @@ unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length){
  if (*length < 4) {
    return -1;
  }
-  COMMS_DEBUG("Truncating CRC.\n");
+ debug::Log::Message(debug::LOG_DEBUG, "Truncating CRC.\n");
  unsigned char a = buffer[--(*length)];
  unsigned char b = buffer[--(*length)];
  unsigned char c = buffer[--(*length)];
@@ -124,7 +124,7 @@ unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length){
  e = b;
  b = c;
  c = e;
- COMMS_DEBUG("Finished swapping abcd.\n");
+ debug::Log::Message(debug::LOG_DEBUG, "Finished swapping abcd.\n");
 #endif
 
  //store bytes into crc_recv
@@ -133,7 +133,7 @@ unsigned int TruncateCrc32(uint8_t* buffer, uint32_t *length){
  ((char*)&crc_recv)[1] = b;
  ((char*)&crc_recv)[2] = c;
  ((char*)&crc_recv)[3] = d;
- COMMS_DEBUG("truncated CRC...\n");
+ debug::Log::Message(debug::LOG_DEBUG, "truncated CRC...\n");
  //return results
  return crc_recv;
  

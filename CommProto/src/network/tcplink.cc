@@ -1,7 +1,7 @@
 #include <CommProto/network/tcplink.h>
 #include <CommProto/debug/comms_debug.h>
 #include <memory>
-#include <iostream>
+#include <CommProto/debug/log.h>
 
 namespace comnet {
 	namespace network {
@@ -38,7 +38,7 @@ namespace comnet {
 				inet_pton(AF_INET, address, &(this->localIP.s_addr));  //converts char ip adderess to standardized INET_ADDRESS
 				return true;
 			}
-			COMMS_DEBUG("Could not listen on the specified port and address");
+			debug::Log::Message(debug::LOG_NOTE, "Could not listen on the specified port and address");
 			return false;
 		}
 
@@ -112,7 +112,7 @@ namespace comnet {
 					{
 						std::string msg = "Delete TcpSocket for client with ID ";
 						msg += std::to_string(dest_id);
-						COMMS_DEBUG(msg.c_str());
+						(msg.c_str());
 						SetSocket(dest_id, nullptr);
 						return false;
 					}
@@ -199,9 +199,7 @@ namespace comnet {
 						uint8_t id = AddressToID(connectedAddr.sin_port, connectedAddr.sin_addr, socket, found);
 						if (found) //Indicates if the AddressToID handshake was successful
 						{
-							std::string msg = std::to_string((int)id);
-							msg += " ACCEPTED";
-							COMMS_DEBUG(msg.c_str());
+							LOG_PRINTF(debug::LOG_NOTIFY, "%d accepted!", id);
 							SetSocket(id, socket);
 							connectedAddr = sockaddr_in();
 						}
@@ -209,12 +207,7 @@ namespace comnet {
 						{
 							char addrChar[50];
 							inet_ntop(AF_INET, &(connectedAddr.sin_addr), addrChar, 50);
-							std::string msg = "Address: ";
-							msg += addrChar;
-							msg += " Port: ";
-							msg += ntohs(connectedAddr.sin_port);
-							msg += " tried to connect but was rejected";
-							COMMS_DEBUG(msg.c_str());
+							LOG_PRINTF(debug::LOG_NOTIFY, "Address: %s  Port: %d tried to connect but was rejected", addrChar, ntohs(connectedAddr.sin_port));
 							delete socket;
 							socket = nullptr;
 						}
@@ -311,7 +304,7 @@ namespace comnet {
 				buffer[0] = localPort & 0xff;
 				buffer[1] = (localPort >> 8) & 0xff;
 				if (tcpSocket->SockSend(buffer, PORT_PAYLOAD_SIZE) != 0) {
-					COMMS_DEBUG("Error sending port handshake");
+					debug::Log::Message(debug::LOG_WARNING, "Error sending port handshake");
 				}
 				else
 				{
@@ -320,19 +313,19 @@ namespace comnet {
 					char recvBuffer[PORT_REPLY_SIZE];
 					//Attempt to receive a certain number of times
 					for (int i = 0; i < RECV_PORT_REPLY_ATTEMPTS; i++) {
-						std::cout << "\n" << "looking for port reply" << std::endl;
+						debug::Log::Message(debug::LOG_NOTE, "looking for port reply");
 						if (tcpSocket->SockReceive(recvBuffer, PORT_REPLY_SIZE, recvSize) == PACKET_SUCCESSFUL) {
 							if (recvSize == PORT_REPLY_SIZE) {
 								//If the number received is greater than 0, the connection was successful
 								if ((uint8_t)recvBuffer[0] > 0) {
 									std::string msg = "CONNECTED TO ";
 									msg += std::to_string((int)tcp->destID);
-									COMMS_DEBUG(msg.c_str());
+									LOG_PRINTF(debug::LOG_NOTIFY, "Connected to %d", (int)tcp->destID);
 									SetSocket(tcp->destID, tcpSocket);
 									return true;
 								}
 							}
-							COMMS_DEBUG("Connection failed: Handshake fail");
+							debug::Log::Message(debug::LOG_WARNING, "Connection failed: Handshake fail");
 							break;
 						}
 						std::this_thread::sleep_for(std::chrono::milliseconds(RECV_PORT_REPLY_DELAY_MILLIS));
@@ -395,7 +388,7 @@ namespace comnet {
 						buffer[0] = 0x01;
 						if (socket->SockSend(buffer, PORT_REPLY_SIZE) != 0)
 						{
-							COMMS_DEBUG("Sending handshake reply failed");
+							debug::Log::Message(debug::LOG_WARNING, "Sending handshake reply failed");
 							success = false;
 							return false;
 						}

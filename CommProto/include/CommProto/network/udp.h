@@ -26,7 +26,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <memory>
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 
 #define ADDRESS_LENGTH 16
 #define MAX_CONNECTIONS 32

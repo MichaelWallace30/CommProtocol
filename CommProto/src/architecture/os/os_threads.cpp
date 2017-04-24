@@ -16,9 +16,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#define _DEBUG 1
 #include <CommProto/architecture/os/os_threads.h>
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 
 /*
   Define the target OS. Windows and Unix like systems use different APIs.
@@ -49,7 +48,7 @@ thread_t thread_get_self_id()
 */
 void thread_create(thread_t* thread, void* (*start_routine)(void*), void* arg) 
 {
-  COMMS_DEBUG("Starting pthread...\n");
+  comnet::debug::Log::Message(comnet::debug::LOG_DEBUG, "Starting pthread...\n");
   pthread_create(thread, NULL, start_routine, arg);
 }
 
@@ -66,13 +65,17 @@ thread_t thread_get_self_id()
 */
 unsigned Sleep(unsigned milliseconds) 
 {
-#if _POSIX_C_SOURCE >= 199309L
-  struct timespec ts;
-  ts.tv_sec = milliseconds / 1000;
-  ts.tv_nsec = (milliseconds * 1000) % 1000000;
-  nanosleep(&ts, NULL);
-#else
-  usleep(milliseconds * 1000);
+#ifdef _POSIX_C_SOURCE
+  if(_POSIX_C_SOURCE >= 199309L) {
+    struct timespec ts;
+    ts.tv_sec = milliseconds / 1000;
+    ts.tv_nsec = (milliseconds * 1000) % 1000000;
+    nanosleep(&ts, NULL);
+  }
+  else
+  {
+    usleep(milliseconds * 1000);
+  }
 #endif // _POSIX_C_SOURCE >= 199309L
 }
 

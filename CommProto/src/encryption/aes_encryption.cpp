@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/architecture/macros.h>
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 #include <CommProto/headerpacket.h>
 #include <fstream>
 #include <CommProto/encryption/aes_encryption.h>
@@ -41,8 +41,8 @@ uint8_t AesEncryption::LoadKey(char* key){
 		memcpy(&temp_key, key, KEY_LENGTH);//copy key method want byte or constant *byte not char*
 		sec_key = CryptoPP::SecByteBlock(temp_key, KEY_LENGTH);
 	}else{//key lenth too small
-		COMMS_DEBUG("Encryption Key length is too small. AesEncryption::LoadKey(char* key)\n");
-		COMMS_DEBUG("Wanted key size %d read key size of %d\n", KEY_LENGTH, length);
+		debug::Log::Message(debug::LOG_ERROR, "Encryption Key length is too small. AesEncryption::LoadKey(char* key)\n");
+		LOG_PRINTF(debug::LOG_ERROR, "Wanted key size %d read key size of %d\n", KEY_LENGTH, length);
 		return 0;
 	}
 	return 1;//success
@@ -64,12 +64,12 @@ uint8_t AesEncryption::LoadKeyFromFile(char*keyFileName){
 			}
 		}
 		else{//key length is too small
-			COMMS_DEBUG("key.txt characters mismatch.\nCharacters found: %d\nCharacters needed: %d\n", inputString.length(), KEY_LENGTH);
+			LOG_PRINTF(debug::LOG_ERROR, "key.txt characters mismatch.\nCharacters found: %d\nCharacters needed: %d\n", inputString.length(), KEY_LENGTH);
 			return 0;
 		}
 	}
 	else{//file not open	
-		COMMS_DEBUG("%s not found. \n", temp_key);
+		LOG_PRINTF(debug::LOG_ERROR, "%s not found. \n", temp_key);
 		return 0;
 	}
 	keyFileInput.close();

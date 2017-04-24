@@ -35,17 +35,17 @@ bool UDP::UdpOpen(int* fd)
   /** attempts to open socket 
       returns false if fails*/
   if ((*fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
-      COMMS_DEBUG("socket() failed\n");
-      result = false;
+		debug::Log::Message(debug::LOG_ERROR, "socket() failed\n");
+    result = false;
   }
   struct timeval tv;
   // 1 s timeout.
   tv.tv_sec = 1;
   tv.tv_usec = 0;
   if (result && setsockopt(*fd, SOL_SOCKET, SO_RCVTIMEO, (const char *)&tv, sizeof(tv)) == 0) {
-    COMMS_DEBUG("Successful socket option.\n");
+		debug::Log::Message(debug::LOG_NOTIFY, "Successful socket option.\n");
   } else {
-    COMMS_DEBUG("Timeout not set!\nerrno=%d", GET_LAST_ERROR);
+		LOG_PRINTF(debug::LOG_ERROR, "Timeout not set!\nerrno=%d", GET_LAST_ERROR);
     result = false;
   }
   
@@ -106,7 +106,7 @@ bool UDP::InitConnection(const char* port, const char* address)
     // check if port in number
     for (int x = 0; x < length; x++) {
       if (!isdigit(port[x])) {
-        COMMS_DEBUG("initConnection 'port' argument is not a numerical digit for udp connection\n");  
+				debug::Log::Message(debug::LOG_NOTIFY, "initConnection 'port' argument is not a numerical digit for udp connection\n");
         return false;
       }
     }
@@ -122,7 +122,7 @@ bool UDP::InitConnection(const char* port, const char* address)
       
     //bind socket
     if (bind(fd, (struct sockaddr *)&sockaddr.socket_address, sizeof(sockaddr.socket_address)) < 0) {
-      COMMS_DEBUG("bind failed");
+			debug::Log::Message(debug::LOG_ERROR, "bind failed");
 
       return false;
     }
@@ -135,7 +135,7 @@ bool UDP::InitConnection(const char* port, const char* address)
     return true;
   }
 
-  COMMS_DEBUG("Connection failed, error %d\n", GET_LAST_ERROR);
+	LOG_PRINTF(debug::LOG_ERROR, "Connection failed, error %d\n", GET_LAST_ERROR);
   //already connected or failed to open socket
   return false;
 }
@@ -170,10 +170,10 @@ bool UDP::Send(uint8_t* tx_data, uint32_t tx_length)
     int slenSend = sizeof(sockaddr.socket_address);
     if (sendto(fd, (char *) tx_data, tx_length, 0, (struct sockaddr *) &sockaddr.socket_address, slen) < 0)
     {
-      COMMS_DEBUG("sendto() failed. error=%d\n", GET_LAST_ERROR);
+      LOG_PRINTF(debug::LOG_NOTIFY, "sendto() failed. error=%d\n", GET_LAST_ERROR);
       return false;
     } else {	  						
-      COMMS_DEBUG("\n**  Sent\t Length: %d, Port: %d, IP: %s **\n", 
+			LOG_PRINTF(debug::LOG_NOTIFY, "\n**  Sent\t Length: %d, Port: %d, IP: %s **\n",
       tx_length, ntohs(sockaddr.socket_address.sin_port),
       inet_ntoa(sockaddr.socket_address.sin_addr));		  
     }
@@ -197,13 +197,13 @@ bool UDP::Recv(uint8_t* rx_data, uint32_t* rx_length)
                       (struct sockaddr *) &sockaddr.socket_address, 
                       (socklen_t *) &slen);
   } else {
-    COMMS_DEBUG("UDP not connected can't receive\n");
+		debug::Log::Message(debug::LOG_ERROR, "UDP not connected can't receive\n");
     return false;//not connected
   }
   
   if (length < 0) return false;
     
-  COMMS_DEBUG("\n**  Recieved\t Length: %d, Port: %d, IP: %s **\n", 
+	LOG_PRINTF(debug::LOG_NOTIFY, "\n**  Recieved\t Length: %d, Port: %d, IP: %s **\n",
       length, ntohs(sockaddr.socket_address.sin_port), inet_ntoa(sockaddr.socket_address.sin_addr));    
   *rx_length = (uint32_t)length;
 

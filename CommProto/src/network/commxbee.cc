@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <CommProto/network/commxbee.h>
 //#include <CommProto/network/znodetable.h>
-#include <CommProto/debug/comms_debug.h>
+#include <CommProto/debug/log.h>
 #include <CommProto/architecture/macros.h>
 #include <CommProto/headerpacket.h>
 
@@ -71,7 +71,7 @@ bool CommXBee::AddAddress(uint8_t destId, const char* address64Hex , uint16_t po
  //xbee_conAlloc((con));
 
  if ((ret = xbee_conNew(xbee, &con, "Data", &conAddress)) != XBEE_ENONE) {
-  COMMS_DEBUG("xbee_conNew() node_id: %d  returned: %d", destId, ret);		
+  LOG_PRINTF(debug::LOG_WARNING, "xbee_conNew() node_id: %d  returned: %d", destId, ret);		
   return false;
  }
 
@@ -174,13 +174,13 @@ bool CommXBee::Send(uint8_t destId, uint8_t* txData, uint32_t txLength) {
    offset += size;
 
    xbee_connTx(it->second, NULL, buffer, size + 2);
-   COMMS_DEBUG("Xbee sent data to DestID: %d!\n", destId);
+   LOG_PRINTF(debug::LOG_NOTE, "Xbee sent data to DestID: %d!\n", destId);
    seq++;
   }
   return true;
  }
  
- COMMS_DEBUG("DestID: %d on xbee not found!\n", destId);
+ LOG_PRINTF(debug::LOG_ERROR, "DestID: %d on xbee not found!\n", destId);
  return false;
 }
 
@@ -228,7 +228,7 @@ void CommXBee::stringToAddress(const char* str, uint8_t length, xbee_conAddress 
  }
  else
  {
-  COMMS_DEBUG("Invalid hex to string conversion.\n");
+	 debug::Log::Message(debug::LOG_ERROR, "Invalid hex to string conversion.\n");
   return;
  }
 }
